@@ -2,6 +2,10 @@
 
 CineLyon recense les différentes sorties de films dans plusieurs cinémas à Lyon.
 
+## 📝 Crédit
+
+Ce projet est un fork de [grainParisArt-Public](https://github.com/solene-drnx/grainParisArt-Public).
+
 ### 🍿 Liste des 7 cinémas choisis
 
 - Pathé Carré de Soie
@@ -155,10 +159,6 @@ Les contributions sont les bienvenues ! N'hésitez pas à :
 3. Commiter vos changements (`git commit -m 'Add some AmazingFeature'`)
 4. Pousser vers la branche (`git push origin feature/AmazingFeature`)
 5. Ouvrir une Pull Request
-
-## 📝 Crédit
-
-Ce projet est un fork de [grainParisArt-Public](https://github.com/solene-drnx/grainParisArt-Public).
 
 ## 🐛 Problèmes connus
 
