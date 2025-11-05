@@ -5,17 +5,6 @@
 
 <br>
 
-<p>
-  <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/abdu-63/cinelyon?style=for-the-badge&color=blue&label=last%20commit">
-  <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/abdu-63/cinelyon?style=for-the-badge&color=blue">
-  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/abdu-63/cinelyon?style=for-the-badge&color=grey&label=languages">
-</p>
-
-</div>
-
----
-
-### Construit avec les outils et technologies:
 <p align="center">
   <a href="https://www.python.org/">
     <img alt="Python" src="https://img.shields.io/badge/Python-3.10-blue?logo=python">
