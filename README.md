@@ -40,10 +40,10 @@ Ce projet est un fork de [grainParisArt-Public](https://github.com/solene-drnx/g
 - Pathé Carré de Soie
 - Pathé Bellecour
 - UGC Part-Dieu
-- Ciné Meyzieu
-- Ciné Toboggan
 - UGC Confluence
 - UGC Internationale
+- Ciné Meyzieu
+- Ciné Toboggan
 
 ## Fonctionnalités
 
