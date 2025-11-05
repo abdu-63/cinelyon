@@ -3,8 +3,6 @@
 # CinéLyon
 <i>Découvrez la scène cinématographique de Lyon instantanément et sans effort</i>
 
-<br>
-
 <p align="center">
   <a href="https://www.python.org/">
     <img alt="Python" src="https://img.shields.io/badge/Python-3.10-blue?logo=python">
