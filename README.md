@@ -31,7 +31,7 @@
     <img alt="Mapbox" src="https://img.shields.io/badge/Mapbox-API-007afc?logo=mapbox">
   </a>
 </p>
-<div/>
+</div>
 
 ## Crédit
 
