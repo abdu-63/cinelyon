@@ -16,17 +16,15 @@
 ---
 
 ### Built with the tools and technologies:
-
 <p align="center">
-  <img alt="Flask" src="(https://img.shields.io/badge/Flask-2.0+-lightgrey?logo=flask)](https://flask.palletsprojects.com/)">
-  <img alt="TMDB" src="(https://flask.palletsprojects.com/)
-[![TMDB](https://img.shields.io/badge/TMDB-API-01d277?logo=themoviedb)](https://www.themoviedb.org/)">
-  <img alt="Gunicorn" src="(https://img.shields.io/badge/Gunicorn-Server-499848?logo=gunicorn)](https://gunicorn.org/)">
-  <img alt="Python" src="(https://img.shields.io/badge/Python-3.10-blue?logo=python)](https://www.python.org/)">
-  <img alt="Mapbox" src="https://img.shields.io/badge/Mapbox-API-007afc?logo=mapbox)]((https://www.mapbox.com)/">
-  <img alt="HTML5" src="(https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)](https://html.spec.whatwg.org/)">
-  <img alt="CSS3" src="(https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)](https://www.w3.org/Style/CSS/)">
-  <img alt="JavaScript" src="(https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)">
+  <img alt="Flask" src="(https://img.shields.io/badge/Flask-2.0+-lightgrey?logo=flask)(https://flask.palletsprojects.com/)">
+  <img alt="TMDB" src="(https://img.shields.io/badge/TMDB-API-01d277?logo=themoviedb)(https://www.themoviedb.org/)">
+  <img alt="Gunicorn" src="(https://img.shields.io/badge/Gunicorn-Server-499848?logo=gunicorn)(https://gunicorn.org/)">
+  <img alt="Python" src="(https://img.shields.io/badge/Python-3.10-blue?logo=python)(https://www.python.org/)">
+  <img alt="Mapbox" src="https://img.shields.io/badge/Mapbox-API-007afc?logo=mapbox)((https://www.mapbox.com)/">
+  <img alt="HTML5" src="(https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)(https://html.spec.whatwg.org/)">
+  <img alt="CSS3" src="(https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)(https://www.w3.org/Style/CSS/)">
+  <img alt="JavaScript" src="(https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)(https://developer.mozilla.org/en-US/docs/Web/JavaScript)">
 </p>
 
 ## 📝 Crédit
