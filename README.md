@@ -1,16 +1,33 @@
-# 🎬 CinéLyon
+<div align="center">
 
-CineLyon recense les différentes sorties de films dans plusieurs cinémas à Lyon.
+# CinéLyon
+<i>Discover Lyon's Cinema Scene Instantly and Effortlessly</i>
 
-[![Python](https://img.shields.io/badge/Python-3.10-blue?logo=python)](https://www.python.org/)
-[![Flask](https://img.shields.io/badge/Flask-2.0+-lightgrey?logo=flask)](https://flask.palletsprojects.com/)
-[![TMDB](https://img.shields.io/badge/TMDB-API-01d277?logo=themoviedb)](https://www.themoviedb.org/)
-[![Mapbox](https://img.shields.io/badge/Mapbox-API-007afc?logo=mapbox)](https://www.mapbox.com/)
-[![Docker](https://img.shields.io/badge/Docker-Ready-2496ed?logo=docker)](https://www.docker.com/)
-[![Gunicorn](https://img.shields.io/badge/Gunicorn-Server-499848?logo=gunicorn)](https://gunicorn.org/)
-[![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)](https://html.spec.whatwg.org/)
-[![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)](https://www.w3.org/Style/CSS/)
-[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+<br>
+
+<p>
+  <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/abdu-63/cinelyon?style=for-the-badge&color=blue&label=last%20commit">
+  <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/abdu-63/cinelyon?style=for-the-badge&color=blue">
+  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/abdu-63/cinelyon?style=for-the-badge&color=grey&label=languages">
+</p>
+
+</div>
+
+---
+
+### Built with the tools and technologies:
+
+<p align="center">
+  <img alt="Flask" src="(https://img.shields.io/badge/Flask-2.0+-lightgrey?logo=flask)](https://flask.palletsprojects.com/)">
+  <img alt="TMDB" src="(https://flask.palletsprojects.com/)
+[![TMDB](https://img.shields.io/badge/TMDB-API-01d277?logo=themoviedb)](https://www.themoviedb.org/)">
+  <img alt="Gunicorn" src="(https://img.shields.io/badge/Gunicorn-Server-499848?logo=gunicorn)](https://gunicorn.org/)">
+  <img alt="Python" src="(https://img.shields.io/badge/Python-3.10-blue?logo=python)](https://www.python.org/)">
+  <img alt="Mapbox" src="https://img.shields.io/badge/Mapbox-API-007afc?logo=mapbox)]([https://www.python.org](https://www.mapbox.com)/">
+  <img alt="HTML5" src="(https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)](https://html.spec.whatwg.org/)">
+  <img alt="CSS3" src="(https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)](https://www.w3.org/Style/CSS/)">
+  <img alt="JavaScript" src="(https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)">
+</p>
 
 ## 📝 Crédit
 
