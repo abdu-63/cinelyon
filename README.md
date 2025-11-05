@@ -1,7 +1,7 @@
 <div align="center">
 
 # CinéLyon
-<i>Discover Lyon's Cinema Scene Instantly and Effortlessly</i>
+<i>Découvrez la scène cinématographique de Lyon instantanément et sans effort</i>
 
 <br>
 
@@ -15,22 +15,10 @@
 
 ---
 
-### Built with the tools and technologies:
+### Construit avec les outils et technologies:
 <p align="center">
-  <a href="https://flask.palletsprojects.com/">
-    <img alt="Flask" src="https://img.shields.io/badge/Flask-2.0+-lightgrey?logo=flask">
-  </a>
-  <a href="https://www.themoviedb.org/">
-    <img alt="TMDB" src="https://img.shields.io/badge/TMDB-API-01d277?logo=themoviedb">
-  </a>
-  <a href="https://gunicorn.org/">
-    <img alt="Gunicorn" src="https://img.shields.io/badge/Gunicorn-Server-499848?logo=gunicorn">
-  </a>
   <a href="https://www.python.org/">
     <img alt="Python" src="https://img.shields.io/badge/Python-3.10-blue?logo=python">
-  </a>
-  <a href="https://www.mapbox.com/">
-    <img alt="Mapbox" src="https://img.shields.io/badge/Mapbox-API-007afc?logo=mapbox">
   </a>
   <a href="https://html.spec.whatwg.org/">
     <img alt="HTML5" src="https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white">
@@ -41,13 +29,25 @@
   <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript">
     <img alt="JavaScript" src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black">
   </a>
+  <a href="https://flask.palletsprojects.com/">
+    <img alt="Flask" src="https://img.shields.io/badge/Flask-2.0+-lightgrey?logo=flask">
+  </a>
+  <a href="https://gunicorn.org/">
+    <img alt="Gunicorn" src="https://img.shields.io/badge/Gunicorn-Server-499848?logo=gunicorn">
+  </a>
+  <a href="https://www.themoviedb.org/">
+    <img alt="TMDB" src="https://img.shields.io/badge/TMDB-API-01d277?logo=themoviedb">
+  </a>
+  <a href="https://www.mapbox.com/">
+    <img alt="Mapbox" src="https://img.shields.io/badge/Mapbox-API-007afc?logo=mapbox">
+  </a>
 </p>
 
-## 📝 Crédit
+## Crédit
 
 Ce projet est un fork de [grainParisArt-Public](https://github.com/solene-drnx/grainParisArt-Public).
 
-### 🍿 Liste des 7 cinémas choisis
+### Liste des 7 cinémas choisis
 
 - Pathé Carré de Soie
 - Pathé Bellecour
@@ -57,16 +57,16 @@ Ce projet est un fork de [grainParisArt-Public](https://github.com/solene-drnx/g
 - UGC Confluence
 - UGC Internationale
 
-## ✨ Fonctionnalités
+## Fonctionnalités
 
-- 📅 **Calendrier interactif** : Visualisez les horaires sur 7 jours
-- 🎭 **Informations détaillées** : Synopsis, réalisateur, genres, durée, notes
-- 🗺️ **Carte interactive** : Localisation de tous les cinémas de Lyon
-- 🎯 **Interface moderne** : Design responsive et élégant
-- 🔄 **Données en temps réel** : Horaires mis à jour depuis Allociné
-- ⭐ **Notes et critiques** : Intégration avec TMDB pour les évaluations
+- **Calendrier interactif** : Visualisez les horaires sur 7 jours
+- **Informations détaillées** : Synopsis, réalisateur, genres, durée, notes
+- **Carte interactive** : Localisation de tous les cinémas de Lyon
+- **Interface moderne** : Design responsive et élégant
+- **Données en temps réel** : Horaires mis à jour depuis Allociné
+- **Notes et critiques** : Intégration avec TMDB pour les évaluations
 
-## 🚀 Installation
+## Installation
 
 ### Prérequis
 
@@ -112,7 +112,7 @@ Ce projet est un fork de [grainParisArt-Public](https://github.com/solene-drnx/g
 
    L'application sera accessible sur `http://localhost:5000`
 
-## 🏗️ Architecture
+## Architecture
 
 ### Structure du projet
 
@@ -140,7 +140,7 @@ cinelyon/
 - **APIs** : Allociné, TMDB, Mapbox
 - **Déploiement** : Gunicorn
 
-## 🔧 Configuration avancée
+## Configuration avancée
 
 ### Ajouter de nouveaux cinémas (plus y'en a, plus le chargement sera long)
 
@@ -160,7 +160,7 @@ id = P8507
 - **Styles** : Éditez `static/css/main.css`
 - **Couleurs** : Personnalisez les variables CSS dans le fichier de style
 
-## 🚀 Déploiement
+## Déploiement
 
 ### Heroku
 
@@ -191,7 +191,7 @@ EXPOSE 5000
 CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
 ```
 
-## 🤝 Contribution
+## Contribution
 
 Les contributions sont les bienvenues ! N'hésitez pas à :
 
@@ -201,7 +201,7 @@ Les contributions sont les bienvenues ! N'hésitez pas à :
 4. Pousser vers la branche (`git push origin feature/AmazingFeature`)
 5. Ouvrir une Pull Request
 
-## 🐛 Problèmes connus
+## Problèmes connus
 
 - Les données Allociné peuvent parfois être temporairement indisponibles
 - Certains films peuvent ne pas avoir de synopsis si non trouvés sur TMDB
@@ -209,4 +209,4 @@ Les contributions sont les bienvenues ! N'hésitez pas à :
 
 ---
 
-**CinéLyon** - Parce que le cinéma lyonnais mérite plus d'attention ! 🍿
+**CinéLyon** - Parce que le cinéma lyonnais mérite plus d'attention !
