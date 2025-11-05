@@ -2,6 +2,16 @@
 
 CineLyon recense les différentes sorties de films dans plusieurs cinémas à Lyon.
 
+[![Python](https://img.shields.io/badge/Python-3.10-blue?logo=python)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-2.0+-lightgrey?logo=flask)](https://flask.palletsprojects.com/)
+[![TMDB](https://img.shields.io/badge/TMDB-API-01d277?logo=themoviedb)](https://www.themoviedb.org/)
+[![Mapbox](https://img.shields.io/badge/Mapbox-API-007afc?logo=mapbox)](https://www.mapbox.com/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ed?logo=docker)](https://www.docker.com/)
+[![Gunicorn](https://img.shields.io/badge/Gunicorn-Server-499848?logo=gunicorn)](https://gunicorn.org/)
+[![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)](https://html.spec.whatwg.org/)
+[![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)](https://www.w3.org/Style/CSS/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+
 ## 📝 Crédit
 
 Ce projet est un fork de [grainParisArt-Public](https://github.com/solene-drnx/grainParisArt-Public).
