@@ -28,6 +28,9 @@
   <a href="https://www.mapbox.com/">
     <img alt="Mapbox" src="https://img.shields.io/badge/Mapbox-API-007afc?logo=mapbox">
   </a>
+  <a href="https://www.allocine.fr/">
+    <img alt="Allociné" src="https://img.shields.io/badge/Allocin%C3%A9-Data-FECC00">
+  </a>
 </p>
 </div>
 
