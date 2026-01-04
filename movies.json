@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-01-04T21:00:38.204673",
+  "generated_at": "2026-01-04T21:03:56.263308",
   "days": [
     {
       "date": "2026-01-04",
@@ -163,6 +163,13 @@
                 "format": "3D"
               }
             ],
+            "Pathé Vaise": [
+              {
+                "time": "21:20",
+                "lang": "VO",
+                "format": "3D"
+              }
+            ],
             "UGC Internationale": [
               {
                 "time": "10:30",
@@ -224,6 +231,40 @@
                 "lang": "VF",
                 "format": null
               }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "21:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "21:45",
+                "lang": "VF",
+                "format": "3D"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Une bataille après l'autre",
+          "release_year": "inconnue",
+          "duree": "2h 42min",
+          "rating": "Note inconnue",
+          "genres": "Action, Drame, Comédie",
+          "realisateur": "Paul Thomas Anderson",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img2.acsta.net/img/61/0d/610dc2fcd83afe3717f771b889b979c2.jpg",
+          "director": "Paul Thomas Anderson",
+          "wantToSee": 5593,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=311364.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "17:00",
+                "lang": "VO",
+                "format": null
+              }
             ]
           }
         },
@@ -237,9 +278,21 @@
           "synopsis": "Synopsis non disponible",
           "affiche": "https://fr.web.img3.acsta.net/img/f2/64/f2640084cabb11cf1457d43888f43084.jpg",
           "director": "Dominik Moll",
-          "wantToSee": 3758,
+          "wantToSee": 3754,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000008860.html",
           "seances": {
+            "Lumière Bellecour": [
+              {
+                "time": "13:50",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "18:20",
+                "lang": "VF",
+                "format": null
+              }
+            ],
             "UGC Confluence": [
               {
                 "time": "20:30",
@@ -431,6 +484,13 @@
                 "format": null
               }
             ],
+            "Pathé Vaise": [
+              {
+                "time": "21:00",
+                "lang": "VF",
+                "format": null
+              }
+            ],
             "UGC Internationale": [
               {
                 "time": "22:10",
@@ -482,6 +542,57 @@
                 "lang": "VF",
                 "format": null
               }
+            ],
+            "UGC Astoria": [
+              {
+                "time": "11:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "14:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "16:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "18:20",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "22:15",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "L’Étranger",
+          "release_year": "inconnue",
+          "duree": "2h 03min",
+          "rating": "Note inconnue",
+          "genres": "Drame",
+          "realisateur": "François Ozon",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img3.acsta.net/img/b9/cc/b9cc22a9378857355a4efae5f6c76707.jpg",
+          "director": "François Ozon",
+          "wantToSee": 3216,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000019380.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "14:55",
+                "lang": "VF",
+                "format": null
+              }
             ]
           }
         },
@@ -513,6 +624,20 @@
               },
               {
                 "time": "22:00",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "22:00",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "22:30",
                 "lang": "VF",
                 "format": null
               }
@@ -662,6 +787,13 @@
                 "format": null
               }
             ],
+            "Pathé Vaise": [
+              {
+                "time": "22:00",
+                "lang": "VF",
+                "format": null
+              }
+            ],
             "UGC Internationale": [
               {
                 "time": "11:00",
@@ -713,6 +845,18 @@
                 "lang": "VF",
                 "format": null
               }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "21:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "22:15",
+                "lang": "VF",
+                "format": null
+              }
             ]
           }
         },
@@ -748,6 +892,55 @@
               {
                 "time": "20:30",
                 "lang": "VO",
+                "format": null
+              }
+            ],
+            "Lumière Terreaux": [
+              {
+                "time": "10:15",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "12:50",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "14:35",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "17:35",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "20:35",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "La Femme la plus riche du Monde",
+          "release_year": "inconnue",
+          "duree": "2h 03min",
+          "rating": "Note inconnue",
+          "genres": "Comédie dramatique",
+          "realisateur": "Thierry Klifa",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img2.acsta.net/img/e1/6e/e16e8e1896a723183dca39a874939073.jpg",
+          "director": "Thierry Klifa",
+          "wantToSee": 2640,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000006191.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "12:50",
+                "lang": "VF",
                 "format": null
               }
             ]
@@ -800,6 +993,18 @@
                 "format": null
               }
             ],
+            "Lumière Bellecour": [
+              {
+                "time": "15:50",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "18:00",
+                "lang": "VF",
+                "format": null
+              }
+            ],
             "UGC Internationale": [
               {
                 "time": "16:00",
@@ -813,6 +1018,13 @@
               },
               {
                 "time": "20:50",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "UGC Astoria": [
+              {
+                "time": "20:30",
                 "lang": "VF",
                 "format": null
               }
@@ -839,6 +1051,18 @@
                 "format": null
               }
             ],
+            "Lumière Bellecour": [
+              {
+                "time": "16:10",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "20:40",
+                "lang": "VF",
+                "format": null
+              }
+            ],
             "UGC Internationale": [
               {
                 "time": "10:50",
@@ -857,6 +1081,28 @@
               },
               {
                 "time": "20:45",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "L'Etrange Noël de M. Jack",
+          "release_year": "inconnue",
+          "duree": "1h 15min",
+          "rating": "Note inconnue",
+          "genres": "Fantastique, Animation, Comédie musicale",
+          "realisateur": "Henry Selick",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/medias/nmedia/18/62/89/46/18923316.jpg",
+          "director": "Henry Selick",
+          "wantToSee": 2170,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=27633.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "14:50",
                 "lang": "VF",
                 "format": null
               }
@@ -887,6 +1133,116 @@
               {
                 "time": "22:00",
                 "lang": "VO",
+                "format": null
+              }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "21:50",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "22:30",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Les Hommes du Président",
+          "release_year": "inconnue",
+          "duree": "2h 18min",
+          "rating": "Note inconnue",
+          "genres": "Drame, Policier",
+          "realisateur": "Alan J. Pakula",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/medias/nmedia/18/36/25/32/18465546.jpg",
+          "director": "Alan J. Pakula",
+          "wantToSee": 1868,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=3690.html",
+          "seances": {
+            "Institut Lumière": [
+              {
+                "time": "18:45",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Le Chant des forêts",
+          "release_year": "inconnue",
+          "duree": "1h 33min",
+          "rating": "Note inconnue",
+          "genres": "Documentaire",
+          "realisateur": "Vincent Munier",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img4.acsta.net/img/f5/52/f5523e15c97af96169bdc93479553602.jpg",
+          "director": "Vincent Munier",
+          "wantToSee": 1851,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=321789.html",
+          "seances": {
+            "Lumière Terreaux": [
+              {
+                "time": "10:20",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "13:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "15:10",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "17:05",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "19:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "20:55",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "UGC Astoria": [
+              {
+                "time": "10:50",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "13:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "15:50",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "18:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "20:20",
+                "lang": "VF",
                 "format": null
               }
             ]
@@ -931,6 +1287,20 @@
               {
                 "time": "22:15",
                 "lang": "VO",
+                "format": null
+              }
+            ],
+            "Lumière La Fourmi": [
+              {
+                "time": "17:20",
+                "lang": "VO",
+                "format": null
+              }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "22:15",
+                "lang": "VF",
                 "format": null
               }
             ]
@@ -989,6 +1359,13 @@
                 "lang": "VF",
                 "format": null
               }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "22:15",
+                "lang": "VF",
+                "format": null
+              }
             ]
           }
         },
@@ -1008,6 +1385,160 @@
             "UGC Part-Dieu": [
               {
                 "time": "20:20",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Resurrection",
+          "release_year": "inconnue",
+          "duree": "2h 40min",
+          "rating": "Note inconnue",
+          "genres": "Science Fiction, Policier, Drame",
+          "realisateur": "Bi Gan",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/4d/19/4d1934427121e700f4f4fe0d57d84cb8.jpg",
+          "director": "Bi Gan",
+          "wantToSee": 1136,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=319858.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "20:15",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Dites-lui que je l’aime",
+          "release_year": "inconnue",
+          "duree": "1h 32min",
+          "rating": "Note inconnue",
+          "genres": "Comédie dramatique",
+          "realisateur": "Romane Bohringer",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img4.acsta.net/img/9f/42/9f42386f496ca05ea56dda6291423407.jpg",
+          "director": "Romane Bohringer",
+          "wantToSee": 1078,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=318222.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "19:00",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Le Quai des brumes",
+          "release_year": "inconnue",
+          "duree": "1h 31min",
+          "rating": "Note inconnue",
+          "genres": "Drame",
+          "realisateur": "Marcel Carné",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/img/54/5f/545f55305b0e728df6df61980e66855c.jpg",
+          "director": "Marcel Carné",
+          "wantToSee": 1018,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=2594.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "15:15",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "La Condition",
+          "release_year": "inconnue",
+          "duree": "1h 43min",
+          "rating": "Note inconnue",
+          "genres": "Comédie dramatique, Historique",
+          "realisateur": "Jérôme Bonnell",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img4.acsta.net/img/65/9f/659f5b54ac267e57f6183011bcfb99aa.jpg",
+          "director": "Jérôme Bonnell",
+          "wantToSee": 951,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=317099.html",
+          "seances": {
+            "Lumière Bellecour": [
+              {
+                "time": "16:50",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "UGC Astoria": [
+              {
+                "time": "18:15",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Magellan",
+          "release_year": "inconnue",
+          "duree": "2h 43min",
+          "rating": "Note inconnue",
+          "genres": "Biopic, Drame, Romance",
+          "realisateur": "Lav Diaz",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/img/5b/c3/5bc38e41de3e658a750fc158815799cf.jpg",
+          "director": "Lav Diaz",
+          "wantToSee": 900,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000022573.html",
+          "seances": {
+            "Lumière Bellecour": [
+              {
+                "time": "13:45",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "20:15",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Le Maître du Kabuki",
+          "release_year": "inconnue",
+          "duree": "2h 54min",
+          "rating": "Note inconnue",
+          "genres": "Drame",
+          "realisateur": "Sang-il Lee",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img2.acsta.net/img/86/c3/86c3bc332654205f70fc0c25498ccdf5.jpg",
+          "director": "Sang-il Lee",
+          "wantToSee": 872,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000018284.html",
+          "seances": {
+            "UGC Astoria": [
+              {
+                "time": "10:35",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "16:00",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "19:30",
                 "lang": "VO",
                 "format": null
               }
@@ -1062,6 +1593,20 @@
                 "lang": "VF",
                 "format": null
               }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "21:30",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "22:30",
+                "lang": "VF",
+                "format": null
+              }
             ]
           }
         },
@@ -1082,6 +1627,79 @@
               {
                 "time": "21:50",
                 "lang": "VF",
+                "format": null
+              }
+            ],
+            "UGC Astoria": [
+              {
+                "time": "11:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "13:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "16:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "20:30",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Rebuilding",
+          "release_year": "inconnue",
+          "duree": "1h 35min",
+          "rating": "Note inconnue",
+          "genres": "Drame",
+          "realisateur": "Max Walker-Silverman",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/af/85/af85907b34353df979244b32c075ac01.jpg",
+          "director": "Max Walker-Silverman",
+          "wantToSee": 776,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000017719.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "21:00",
+                "lang": "VO",
+                "format": null
+              }
+            ],
+            "UGC Astoria": [
+              {
+                "time": "13:50",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Father Mother Sister Brother",
+          "release_year": "inconnue",
+          "duree": "1h 51min",
+          "rating": "Note inconnue",
+          "genres": "Comédie, Drame",
+          "realisateur": "Jim Jarmusch",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img2.acsta.net/img/18/de/18decda3afef9ae047694aac0d89c169.jpg",
+          "director": "Jim Jarmusch",
+          "wantToSee": 700,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=326117.html",
+          "seances": {
+            "UGC Astoria": [
+              {
+                "time": "18:00",
+                "lang": "VO",
                 "format": null
               }
             ]
@@ -1249,6 +1867,13 @@
                 "format": null
               }
             ],
+            "Pathé Vaise": [
+              {
+                "time": "21:00",
+                "lang": "VO",
+                "format": null
+              }
+            ],
             "UGC Internationale": [
               {
                 "time": "17:50",
@@ -1277,6 +1902,13 @@
               },
               {
                 "time": "20:00",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "22:30",
                 "lang": "VF",
                 "format": null
               }
@@ -1322,6 +1954,82 @@
                 "lang": "VO",
                 "format": null
               }
+            ],
+            "Lumière Terreaux": [
+              {
+                "time": "10:15",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "12:25",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "14:35",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "18:40",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "20:50",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Une enfance allemande - Île d'Amrum, 1945",
+          "release_year": "inconnue",
+          "duree": "1h 33min",
+          "rating": "Note inconnue",
+          "genres": "Drame, Guerre",
+          "realisateur": "Fatih Akın",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/29/54/2954a33501785f46c122a9ef80f937c6.jpg",
+          "director": "Fatih Akın",
+          "wantToSee": 535,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=309535.html",
+          "seances": {
+            "Lumière Terreaux": [
+              {
+                "time": "12:40",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "16:45",
+                "lang": "VO",
+                "format": null
+              }
+            ],
+            "UGC Astoria": [
+              {
+                "time": "10:50",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "13:55",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "16:15",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "20:40",
+                "lang": "VO",
+                "format": null
+              }
             ]
           }
         },
@@ -1341,6 +2049,43 @@
             "UGC Internationale": [
               {
                 "time": "22:00",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Le Temps des moissons",
+          "release_year": "inconnue",
+          "duree": "2h 15min",
+          "rating": "Note inconnue",
+          "genres": "Drame",
+          "realisateur": "Huo Meng",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img2.acsta.net/img/74/0e/740e757ee905b05882b204567f5ea1b9.jpg",
+          "director": "Huo Meng",
+          "wantToSee": 499,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000018564.html",
+          "seances": {
+            "Lumière Terreaux": [
+              {
+                "time": "10:15",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "15:50",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "18:25",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "21:00",
                 "lang": "VO",
                 "format": null
               }
@@ -1417,6 +2162,13 @@
               },
               {
                 "time": "19:15",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "22:15",
                 "lang": "VF",
                 "format": null
               }
@@ -1497,6 +2249,13 @@
                 "format": null
               }
             ],
+            "Pathé Vaise": [
+              {
+                "time": "22:15",
+                "lang": "VF",
+                "format": null
+              }
+            ],
             "UGC Internationale": [
               {
                 "time": "10:45",
@@ -1523,6 +2282,13 @@
                 "lang": "VF",
                 "format": null
               }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "22:30",
+                "lang": "VF",
+                "format": null
+              }
             ]
           }
         },
@@ -1543,6 +2309,50 @@
               {
                 "time": "18:05",
                 "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "L'Amour qu'il nous reste",
+          "release_year": "inconnue",
+          "duree": "1h 49min",
+          "rating": "Note inconnue",
+          "genres": "Drame",
+          "realisateur": "Hlynur Pálmason",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/img/2b/44/2b4474682c43cb14d071b90cfb0af3a6.jpg",
+          "director": "Hlynur Pálmason",
+          "wantToSee": 332,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000019924.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "20:55",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Gatsby le magnifique",
+          "release_year": "inconnue",
+          "duree": "2h 18min",
+          "rating": "Note inconnue",
+          "genres": "Drame, Romance",
+          "realisateur": "Jack Clayton",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img4.acsta.net/img/cf/17/cf172edaf4fe71ff73db949899390f9c.jpg",
+          "director": "Jack Clayton",
+          "wantToSee": 330,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=33355.html",
+          "seances": {
+            "Institut Lumière": [
+              {
+                "time": "16:00",
+                "lang": "VO",
                 "format": null
               }
             ]
@@ -1576,6 +2386,33 @@
               },
               {
                 "time": "15:20",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Bardot",
+          "release_year": "inconnue",
+          "duree": "1h 30min",
+          "rating": "Note inconnue",
+          "genres": "Documentaire",
+          "realisateur": "Alain Berliner",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/img/18/89/188956009aaf66c5f715713a92dd670a.jpg",
+          "director": "Alain Berliner",
+          "wantToSee": 301,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=304625.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "12:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "19:10",
                 "lang": "VF",
                 "format": null
               }
@@ -1628,9 +2465,26 @@
           "synopsis": "Synopsis non disponible",
           "affiche": "https://fr.web.img2.acsta.net/img/f7/38/f738c353019cfe13d0d338999dd2cc4b.jpg",
           "director": "Tamara Stepanyan",
-          "wantToSee": 252,
+          "wantToSee": 249,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=325261.html",
           "seances": {
+            "Lumière Bellecour": [
+              {
+                "time": "13:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "18:55",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "21:00",
+                "lang": "VF",
+                "format": null
+              }
+            ],
             "UGC Internationale": [
               {
                 "time": "11:00",
@@ -1758,6 +2612,50 @@
           }
         },
         {
+          "title": "La Panthère Rose",
+          "release_year": "inconnue",
+          "duree": "1h 55min",
+          "rating": "Note inconnue",
+          "genres": "Comédie, Policier",
+          "realisateur": "Blake Edwards",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/img/e5/87/e587c0ff66450c86956ffd861c145fb7.jpg",
+          "director": "Blake Edwards",
+          "wantToSee": 162,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=15189.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "12:40",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Vade Retro",
+          "release_year": "inconnue",
+          "duree": "1h 35min",
+          "rating": "Note inconnue",
+          "genres": "Comédie, Epouvante-horreur",
+          "realisateur": "Antonin Peretjatko",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img2.acsta.net/img/e3/7d/e37daab987b133220403cbbc46c47d16.jpg",
+          "director": "Antonin Peretjatko",
+          "wantToSee": 142,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=328493.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "17:05",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
           "title": "Mission Père Noël",
           "release_year": "inconnue",
           "duree": "1h 36min",
@@ -1781,6 +2679,50 @@
               {
                 "time": "14:00",
                 "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Pingu",
+          "release_year": "inconnue",
+          "duree": "0h 40min",
+          "rating": "Note inconnue",
+          "genres": "Animation, Famille",
+          "realisateur": "Inconnu",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/pictures/21/06/14/13/33/1804288.jpg",
+          "director": "Inconnu",
+          "wantToSee": 101,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=293568.html",
+          "seances": {
+            "Institut Lumière": [
+              {
+                "time": "10:30",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "L'Extravagant Mr Ruggles",
+          "release_year": "inconnue",
+          "duree": "1h 30min",
+          "rating": "Note inconnue",
+          "genres": "Comédie, Romance",
+          "realisateur": "Leo McCarey",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img4.acsta.net/pictures/22/03/11/16/19/1690789.jpg",
+          "director": "Leo McCarey",
+          "wantToSee": 81,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=369.html",
+          "seances": {
+            "Institut Lumière": [
+              {
+                "time": "16:15",
+                "lang": "VO",
                 "format": null
               }
             ]
@@ -2059,6 +3001,43 @@
                 "format": "3D"
               }
             ],
+            "Pathé Vaise": [
+              {
+                "time": "20:30",
+                "lang": "VO",
+                "format": "3D"
+              },
+              {
+                "time": "14:15",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "15:30",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "16:15",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "18:30",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "19:30",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "20:20",
+                "lang": "VF",
+                "format": "3D"
+              }
+            ],
             "UGC Internationale": [
               {
                 "time": "14:30",
@@ -2099,6 +3078,110 @@
                 "time": "19:30",
                 "lang": "VF",
                 "format": "3D"
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "19:30",
+                "lang": "VO",
+                "format": "3D"
+              },
+              {
+                "time": "10:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "10:30",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "13:30",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "13:45",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "14:30",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "15:30",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "15:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "16:30",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "17:30",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "17:45",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "18:30",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "19:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "20:30",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "21:15",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "21:45",
+                "lang": "VF",
+                "format": "3D"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Une bataille après l'autre",
+          "release_year": "inconnue",
+          "duree": "2h 42min",
+          "rating": "Note inconnue",
+          "genres": "Action, Drame, Comédie",
+          "realisateur": "Paul Thomas Anderson",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img2.acsta.net/img/61/0d/610dc2fcd83afe3717f771b889b979c2.jpg",
+          "director": "Paul Thomas Anderson",
+          "wantToSee": 5593,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=311364.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "20:15",
+                "lang": "VO",
+                "format": null
               }
             ]
           }
@@ -2145,9 +3228,28 @@
                 "format": null
               }
             ],
+            "Lumière Bellecour": [
+              {
+                "time": "16:10",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "20:40",
+                "lang": "VF",
+                "format": null
+              }
+            ],
             "UGC Confluence": [
               {
                 "time": "20:30",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "16:05",
                 "lang": "VF",
                 "format": null
               }
@@ -2382,6 +3484,28 @@
                 "format": null
               }
             ],
+            "Pathé Vaise": [
+              {
+                "time": "13:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "16:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "18:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "21:00",
+                "lang": "VF",
+                "format": null
+              }
+            ],
             "UGC Internationale": [
               {
                 "time": "13:30",
@@ -2415,6 +3539,87 @@
               },
               {
                 "time": "21:00",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "UGC Astoria": [
+              {
+                "time": "14:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "16:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "18:20",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "10:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "11:00",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "13:00",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "13:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "15:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "18:00",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "20:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "22:15",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "L’Étranger",
+          "release_year": "inconnue",
+          "duree": "2h 03min",
+          "rating": "Note inconnue",
+          "genres": "Drame",
+          "realisateur": "François Ozon",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img3.acsta.net/img/b9/cc/b9cc22a9378857355a4efae5f6c76707.jpg",
+          "director": "François Ozon",
+          "wantToSee": 3216,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000019380.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "20:35",
                 "lang": "VF",
                 "format": null
               }
@@ -2461,6 +3666,40 @@
               },
               {
                 "time": "21:55",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "15:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "21:30",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "14:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "17:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "20:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "22:30",
                 "lang": "VF",
                 "format": null
               }
@@ -2665,6 +3904,38 @@
                 "format": null
               }
             ],
+            "Pathé Vaise": [
+              {
+                "time": "20:30",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "13:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "14:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "18:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "21:40",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "17:30",
+                "lang": "VF",
+                "format": null
+              }
+            ],
             "UGC Internationale": [
               {
                 "time": "13:50",
@@ -2693,6 +3964,43 @@
               },
               {
                 "time": "19:15",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "18:00",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "10:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "13:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "16:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "19:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "21:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "22:15",
                 "lang": "VF",
                 "format": null
               }
@@ -2748,6 +4056,50 @@
               {
                 "time": "20:30",
                 "lang": "VO",
+                "format": null
+              }
+            ],
+            "Lumière Terreaux": [
+              {
+                "time": "12:50",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "14:35",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "17:35",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "20:35",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "La Femme la plus riche du Monde",
+          "release_year": "inconnue",
+          "duree": "2h 03min",
+          "rating": "Note inconnue",
+          "genres": "Comédie dramatique",
+          "realisateur": "Thierry Klifa",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img2.acsta.net/img/e1/6e/e16e8e1896a723183dca39a874939073.jpg",
+          "director": "Thierry Klifa",
+          "wantToSee": 2640,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000006191.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "17:50",
+                "lang": "VF",
                 "format": null
               }
             ]
@@ -2844,6 +4196,25 @@
                 "format": null
               }
             ],
+            "Lumière Bellecour": [
+              {
+                "time": "15:50",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "18:00",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "14:15",
+                "lang": "VF",
+                "format": null
+              }
+            ],
             "UGC Internationale": [
               {
                 "time": "16:00",
@@ -2857,6 +4228,13 @@
               },
               {
                 "time": "20:50",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "UGC Astoria": [
+              {
+                "time": "20:30",
                 "lang": "VF",
                 "format": null
               }
@@ -2883,6 +4261,18 @@
                 "format": null
               }
             ],
+            "Lumière Bellecour": [
+              {
+                "time": "18:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "13:50",
+                "lang": "VF",
+                "format": null
+              }
+            ],
             "UGC Internationale": [
               {
                 "time": "13:45",
@@ -2896,6 +4286,18 @@
               },
               {
                 "time": "20:45",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "10:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "13:30",
                 "lang": "VF",
                 "format": null
               }
@@ -2926,6 +4328,101 @@
               {
                 "time": "22:00",
                 "lang": "VO",
+                "format": null
+              }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "21:45",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "22:30",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Le Chant des forêts",
+          "release_year": "inconnue",
+          "duree": "1h 33min",
+          "rating": "Note inconnue",
+          "genres": "Documentaire",
+          "realisateur": "Vincent Munier",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img4.acsta.net/img/f5/52/f5523e15c97af96169bdc93479553602.jpg",
+          "director": "Vincent Munier",
+          "wantToSee": 1847,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=321789.html",
+          "seances": {
+            "Lumière Terreaux": [
+              {
+                "time": "10:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "12:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "14:25",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "16:20",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "18:15",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "13:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "15:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "17:40",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "UGC Astoria": [
+              {
+                "time": "13:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "15:50",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "18:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "20:15",
+                "lang": "VF",
                 "format": null
               }
             ]
@@ -2975,6 +4472,30 @@
               {
                 "time": "22:15",
                 "lang": "VO",
+                "format": null
+              }
+            ],
+            "Lumière La Fourmi": [
+              {
+                "time": "20:30",
+                "lang": "VO",
+                "format": null
+              }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "13:45",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "16:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "22:15",
+                "lang": "VF",
                 "format": null
               }
             ]
@@ -3065,6 +4586,40 @@
                 "lang": "VF",
                 "format": null
               }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "13:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "15:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "17:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "20:00",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "17:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "22:15",
+                "lang": "VF",
+                "format": null
+              }
             ]
           }
         },
@@ -3103,6 +4658,184 @@
             "UGC Part-Dieu": [
               {
                 "time": "20:20",
+                "lang": "VO",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "10:15",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Resurrection",
+          "release_year": "inconnue",
+          "duree": "2h 40min",
+          "rating": "Note inconnue",
+          "genres": "Science Fiction, Policier, Drame",
+          "realisateur": "Bi Gan",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/4d/19/4d1934427121e700f4f4fe0d57d84cb8.jpg",
+          "director": "Bi Gan",
+          "wantToSee": 1136,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=319858.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "17:30",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Dites-lui que je l’aime",
+          "release_year": "inconnue",
+          "duree": "1h 32min",
+          "rating": "Note inconnue",
+          "genres": "Comédie dramatique",
+          "realisateur": "Romane Bohringer",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img4.acsta.net/img/9f/42/9f42386f496ca05ea56dda6291423407.jpg",
+          "director": "Romane Bohringer",
+          "wantToSee": 1078,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=318222.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "16:25",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Le Quai des brumes",
+          "release_year": "inconnue",
+          "duree": "1h 31min",
+          "rating": "Note inconnue",
+          "genres": "Drame",
+          "realisateur": "Marcel Carné",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/img/54/5f/545f55305b0e728df6df61980e66855c.jpg",
+          "director": "Marcel Carné",
+          "wantToSee": 1018,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=2594.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "16:00",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "La Condition",
+          "release_year": "inconnue",
+          "duree": "1h 43min",
+          "rating": "Note inconnue",
+          "genres": "Comédie dramatique, Historique",
+          "realisateur": "Jérôme Bonnell",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img4.acsta.net/img/65/9f/659f5b54ac267e57f6183011bcfb99aa.jpg",
+          "director": "Jérôme Bonnell",
+          "wantToSee": 951,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=317099.html",
+          "seances": {
+            "Lumière Bellecour": [
+              {
+                "time": "18:55",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "UGC Astoria": [
+              {
+                "time": "18:00",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Magellan",
+          "release_year": "inconnue",
+          "duree": "2h 43min",
+          "rating": "Note inconnue",
+          "genres": "Biopic, Drame, Romance",
+          "realisateur": "Lav Diaz",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/img/5b/c3/5bc38e41de3e658a750fc158815799cf.jpg",
+          "director": "Lav Diaz",
+          "wantToSee": 900,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000022573.html",
+          "seances": {
+            "Lumière Bellecour": [
+              {
+                "time": "13:45",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "20:15",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Mektoub my Love : Canto Due",
+          "release_year": "inconnue",
+          "duree": "2h 14min",
+          "rating": "Note inconnue",
+          "genres": "Drame, Romance",
+          "realisateur": "Abdellatif Kechiche",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img3.acsta.net/img/c1/0a/c10a87e47650432370a6030d595fac06.jpg",
+          "director": "Abdellatif Kechiche",
+          "wantToSee": 900,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=293107.html",
+          "seances": {
+            "Pathé Vaise": [
+              {
+                "time": "18:45",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Le Maître du Kabuki",
+          "release_year": "inconnue",
+          "duree": "2h 54min",
+          "rating": "Note inconnue",
+          "genres": "Drame",
+          "realisateur": "Sang-il Lee",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img2.acsta.net/img/86/c3/86c3bc332654205f70fc0c25498ccdf5.jpg",
+          "director": "Sang-il Lee",
+          "wantToSee": 872,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000018284.html",
+          "seances": {
+            "UGC Astoria": [
+              {
+                "time": "16:00",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "19:30",
                 "lang": "VO",
                 "format": null
               }
@@ -3162,6 +4895,30 @@
                 "lang": "VF",
                 "format": null
               }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "16:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "21:45",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "13:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "22:30",
+                "lang": "VF",
+                "format": null
+              }
             ]
           }
         },
@@ -3202,6 +4959,84 @@
               {
                 "time": "22:00",
                 "lang": "VF",
+                "format": null
+              }
+            ],
+            "UGC Astoria": [
+              {
+                "time": "13:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "16:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "20:30",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "10:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "15:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "17:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "20:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "13:30",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Rebuilding",
+          "release_year": "inconnue",
+          "duree": "1h 35min",
+          "rating": "Note inconnue",
+          "genres": "Drame",
+          "realisateur": "Max Walker-Silverman",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/af/85/af85907b34353df979244b32c075ac01.jpg",
+          "director": "Max Walker-Silverman",
+          "wantToSee": 776,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000017719.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "13:45",
+                "lang": "VO",
+                "format": null
+              }
+            ],
+            "UGC Astoria": [
+              {
+                "time": "13:50",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "18:20",
+                "lang": "VO",
                 "format": null
               }
             ]
@@ -3302,6 +5137,18 @@
                 "format": null
               }
             ],
+            "Pathé Vaise": [
+              {
+                "time": "13:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "17:30",
+                "lang": "VF",
+                "format": null
+              }
+            ],
             "UGC Internationale": [
               {
                 "time": "14:00",
@@ -3315,6 +5162,28 @@
               },
               {
                 "time": "18:30",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "10:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "13:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "16:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "20:15",
                 "lang": "VF",
                 "format": null
               }
@@ -3469,6 +5338,28 @@
                 "format": null
               }
             ],
+            "Pathé Vaise": [
+              {
+                "time": "19:00",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "14:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "16:40",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "21:20",
+                "lang": "VF",
+                "format": null
+              }
+            ],
             "UGC Internationale": [
               {
                 "time": "17:50",
@@ -3487,6 +5378,38 @@
               },
               {
                 "time": "20:00",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "22:30",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "10:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "13:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "15:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "18:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "20:15",
                 "lang": "VF",
                 "format": null
               }
@@ -3532,6 +5455,82 @@
                 "lang": "VO",
                 "format": null
               }
+            ],
+            "Lumière Terreaux": [
+              {
+                "time": "10:15",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "12:25",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "14:35",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "18:40",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "20:50",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Une enfance allemande - Île d'Amrum, 1945",
+          "release_year": "inconnue",
+          "duree": "1h 33min",
+          "rating": "Note inconnue",
+          "genres": "Drame, Guerre",
+          "realisateur": "Fatih Akın",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/29/54/2954a33501785f46c122a9ef80f937c6.jpg",
+          "director": "Fatih Akın",
+          "wantToSee": 535,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=309535.html",
+          "seances": {
+            "Lumière Terreaux": [
+              {
+                "time": "10:20",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "12:40",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "16:45",
+                "lang": "VO",
+                "format": null
+              }
+            ],
+            "UGC Astoria": [
+              {
+                "time": "13:55",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "16:15",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "20:40",
+                "lang": "VO",
+                "format": null
+              }
             ]
           }
         },
@@ -3549,6 +5548,43 @@
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=44305.html",
           "seances": {
             "UGC Internationale": [
+              {
+                "time": "21:00",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Le Temps des moissons",
+          "release_year": "inconnue",
+          "duree": "2h 15min",
+          "rating": "Note inconnue",
+          "genres": "Drame",
+          "realisateur": "Huo Meng",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img2.acsta.net/img/74/0e/740e757ee905b05882b204567f5ea1b9.jpg",
+          "director": "Huo Meng",
+          "wantToSee": 499,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000018564.html",
+          "seances": {
+            "Lumière Terreaux": [
+              {
+                "time": "10:15",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "15:50",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "18:25",
+                "lang": "VO",
+                "format": null
+              },
               {
                 "time": "21:00",
                 "lang": "VO",
@@ -3640,6 +5676,104 @@
                 "lang": "VF",
                 "format": null
               }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "21:15",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "13:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "16:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "18:40",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "14:00",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "10:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "16:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "19:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "22:15",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "La Pire mère au monde",
+          "release_year": "inconnue",
+          "duree": "1h 25min",
+          "rating": "Note inconnue",
+          "genres": "Comédie",
+          "realisateur": "Pierre Mazingarbe",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/ea/fd/eafdfac8bc40d63ec84a32063363565a.jpg",
+          "director": "Pierre Mazingarbe",
+          "wantToSee": 374,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=279638.html",
+          "seances": {
+            "Pathé Vaise": [
+              {
+                "time": "14:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "16:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "19:45",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "11:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "14:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "16:00",
+                "lang": "VF",
+                "format": null
+              }
             ]
           }
         },
@@ -3727,6 +5861,18 @@
                 "format": null
               }
             ],
+            "Pathé Vaise": [
+              {
+                "time": "13:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "18:15",
+                "lang": "VF",
+                "format": null
+              }
+            ],
             "UGC Internationale": [
               {
                 "time": "13:45",
@@ -3746,6 +5892,60 @@
               {
                 "time": "20:00",
                 "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "10:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "13:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "15:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "18:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "20:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "22:30",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "L'Amour qu'il nous reste",
+          "release_year": "inconnue",
+          "duree": "1h 49min",
+          "rating": "Note inconnue",
+          "genres": "Drame",
+          "realisateur": "Hlynur Pálmason",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/img/2b/44/2b4474682c43cb14d071b90cfb0af3a6.jpg",
+          "director": "Hlynur Pálmason",
+          "wantToSee": 332,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000019924.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "13:50",
+                "lang": "VO",
                 "format": null
               }
             ]
@@ -3774,6 +5974,35 @@
           }
         },
         {
+          "title": "Bardot",
+          "release_year": "inconnue",
+          "duree": "1h 30min",
+          "rating": "Note inconnue",
+          "genres": "Documentaire",
+          "realisateur": "Alain Berliner",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/img/18/89/188956009aaf66c5f715713a92dd670a.jpg",
+          "director": "Alain Berliner",
+          "wantToSee": 301,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=304625.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "15:40",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "19:00",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
           "title": "Le Pays d’Arto",
           "release_year": "inconnue",
           "duree": "1h 44min",
@@ -3786,6 +6015,23 @@
           "wantToSee": 249,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=325261.html",
           "seances": {
+            "Lumière Bellecour": [
+              {
+                "time": "13:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "16:50",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "21:00",
+                "lang": "VF",
+                "format": null
+              }
+            ],
             "UGC Internationale": [
               {
                 "time": "13:50",
@@ -3831,6 +6077,13 @@
                 "lang": "VF",
                 "format": null
               }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "11:15",
+                "lang": "VF",
+                "format": null
+              }
             ]
           }
         },
@@ -3850,6 +6103,101 @@
             "UGC Confluence": [
               {
                 "time": "10:50",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "11:15",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "La Panthère Rose",
+          "release_year": "inconnue",
+          "duree": "1h 55min",
+          "rating": "Note inconnue",
+          "genres": "Comédie, Policier",
+          "realisateur": "Blake Edwards",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/img/e5/87/e587c0ff66450c86956ffd861c145fb7.jpg",
+          "director": "Blake Edwards",
+          "wantToSee": 162,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=15189.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "14:00",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Vade Retro",
+          "release_year": "inconnue",
+          "duree": "1h 35min",
+          "rating": "Note inconnue",
+          "genres": "Comédie, Epouvante-horreur",
+          "realisateur": "Antonin Peretjatko",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img2.acsta.net/img/e3/7d/e37daab987b133220403cbbc46c47d16.jpg",
+          "director": "Antonin Peretjatko",
+          "wantToSee": 142,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=328493.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "18:30",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Palestine 36",
+          "release_year": "inconnue",
+          "duree": "1h 59min",
+          "rating": "Note inconnue",
+          "genres": "Drame",
+          "realisateur": "Annemarie Jacir",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img2.acsta.net/img/37/0c/370c9b5f7f8502fb80051e5e9920fe9b.jpg",
+          "director": "Annemarie Jacir",
+          "wantToSee": 101,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000022541.html",
+          "seances": {
+            "Lumière Terreaux": [
+              {
+                "time": "20:30",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Jack et Nancy - les plus belles histoires de Quentin Blake",
+          "release_year": "inconnue",
+          "duree": "0h 52min",
+          "rating": "Note inconnue",
+          "genres": "Animation, Famille",
+          "realisateur": "Gerrit Bekers",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/3d/76/3d76384dc9a14c36165ea3b2df314ceb.jpg",
+          "director": "Gerrit Bekers",
+          "wantToSee": 43,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000024997.html",
+          "seances": {
+            "CGR Brignais": [
+              {
+                "time": "10:00",
                 "lang": "VF",
                 "format": null
               }
@@ -3873,6 +6221,57 @@
               {
                 "time": "13:30",
                 "lang": "VF",
+                "format": null
+              }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "13:15",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Premières neiges",
+          "release_year": "inconnue",
+          "duree": "0h 37min",
+          "rating": "Note inconnue",
+          "genres": "Animation, Famille",
+          "realisateur": "Inconnu",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img4.acsta.net/img/ab/8f/ab8f576f5f505c371872ddc6fd7ffea7.jpg",
+          "director": "Inconnu",
+          "wantToSee": 20,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000031491.html",
+          "seances": {
+            "CGR Brignais": [
+              {
+                "time": "10:00",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Sarvam Maya",
+          "release_year": "inconnue",
+          "duree": "2h 27min",
+          "rating": "Note inconnue",
+          "genres": "Comédie, Epouvante-horreur, Fantastique",
+          "realisateur": "Akhil Sathyan",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img3.acsta.net/img/4d/a2/4da2b36299cfbd62b1fcf341014a3493.jpeg",
+          "director": "Akhil Sathyan",
+          "wantToSee": 6,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000031428.html",
+          "seances": {
+            "Pathé Vaise": [
+              {
+                "time": "20:00",
+                "lang": "VO",
                 "format": null
               }
             ]
@@ -4156,6 +6555,43 @@
                 "format": "3D"
               }
             ],
+            "Pathé Vaise": [
+              {
+                "time": "19:30",
+                "lang": "VO",
+                "format": "3D"
+              },
+              {
+                "time": "20:20",
+                "lang": "VO",
+                "format": "3D"
+              },
+              {
+                "time": "14:15",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "15:30",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "16:15",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "18:30",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "20:30",
+                "lang": "VF",
+                "format": "3D"
+              }
+            ],
             "UGC Internationale": [
               {
                 "time": "14:30",
@@ -4197,6 +6633,110 @@
                 "lang": "VF",
                 "format": "3D"
               }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "10:00",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "10:30",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "13:30",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "13:45",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "14:30",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "15:30",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "15:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "16:30",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "17:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "17:45",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "18:30",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "19:30",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "19:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "20:30",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "21:15",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "21:45",
+                "lang": "VF",
+                "format": "3D"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Une bataille après l'autre",
+          "release_year": "inconnue",
+          "duree": "2h 42min",
+          "rating": "Note inconnue",
+          "genres": "Action, Drame, Comédie",
+          "realisateur": "Paul Thomas Anderson",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img2.acsta.net/img/61/0d/610dc2fcd83afe3717f771b889b979c2.jpg",
+          "director": "Paul Thomas Anderson",
+          "wantToSee": 5593,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=311364.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "20:15",
+                "lang": "VO",
+                "format": null
+              }
             ]
           }
         },
@@ -4225,9 +6765,28 @@
                 "format": null
               }
             ],
+            "Lumière Bellecour": [
+              {
+                "time": "16:10",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "21:00",
+                "lang": "VF",
+                "format": null
+              }
+            ],
             "UGC Confluence": [
               {
                 "time": "20:30",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "16:05",
                 "lang": "VF",
                 "format": null
               }
@@ -4457,6 +7016,28 @@
                 "format": null
               }
             ],
+            "Pathé Vaise": [
+              {
+                "time": "13:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "16:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "18:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "21:00",
+                "lang": "VF",
+                "format": null
+              }
+            ],
             "UGC Internationale": [
               {
                 "time": "13:30",
@@ -4490,6 +7071,87 @@
               },
               {
                 "time": "17:15",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "UGC Astoria": [
+              {
+                "time": "14:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "16:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "18:20",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "10:15",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "11:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "13:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "13:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "15:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "18:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "20:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "22:15",
+                "lang": "VF",
+                "format": "3D"
+              }
+            ]
+          }
+        },
+        {
+          "title": "L’Étranger",
+          "release_year": "inconnue",
+          "duree": "2h 03min",
+          "rating": "Note inconnue",
+          "genres": "Drame",
+          "realisateur": "François Ozon",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img3.acsta.net/img/b9/cc/b9cc22a9378857355a4efae5f6c76707.jpg",
+          "director": "François Ozon",
+          "wantToSee": 3216,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000019380.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "20:35",
                 "lang": "VF",
                 "format": null
               }
@@ -4536,6 +7198,40 @@
               },
               {
                 "time": "21:55",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "13:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "21:30",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "14:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "17:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "20:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "22:30",
                 "lang": "VF",
                 "format": null
               }
@@ -4735,6 +7431,38 @@
                 "format": null
               }
             ],
+            "Pathé Vaise": [
+              {
+                "time": "18:45",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "13:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "14:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "17:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "20:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "21:40",
+                "lang": "VF",
+                "format": null
+              }
+            ],
             "UGC Internationale": [
               {
                 "time": "13:50",
@@ -4763,6 +7491,43 @@
               },
               {
                 "time": "19:15",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "10:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "13:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "16:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "18:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "19:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "21:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "22:15",
                 "lang": "VF",
                 "format": null
               }
@@ -4818,6 +7583,50 @@
               {
                 "time": "20:30",
                 "lang": "VO",
+                "format": null
+              }
+            ],
+            "Lumière Terreaux": [
+              {
+                "time": "12:50",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "14:35",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "17:35",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "20:35",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "La Femme la plus riche du Monde",
+          "release_year": "inconnue",
+          "duree": "2h 03min",
+          "rating": "Note inconnue",
+          "genres": "Comédie dramatique",
+          "realisateur": "Thierry Klifa",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img2.acsta.net/img/e1/6e/e16e8e1896a723183dca39a874939073.jpg",
+          "director": "Thierry Klifa",
+          "wantToSee": 2640,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000006191.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "13:50",
+                "lang": "VF",
                 "format": null
               }
             ]
@@ -4909,6 +7718,20 @@
                 "format": null
               }
             ],
+            "Lumière Bellecour": [
+              {
+                "time": "15:50",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "18:45",
+                "lang": "VF",
+                "format": null
+              }
+            ],
             "UGC Internationale": [
               {
                 "time": "16:00",
@@ -4922,6 +7745,13 @@
               },
               {
                 "time": "20:50",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "UGC Astoria": [
+              {
+                "time": "20:30",
                 "lang": "VF",
                 "format": null
               }
@@ -4948,6 +7778,13 @@
                 "format": null
               }
             ],
+            "Lumière Bellecour": [
+              {
+                "time": "13:50",
+                "lang": "VF",
+                "format": null
+              }
+            ],
             "UGC Internationale": [
               {
                 "time": "13:45",
@@ -4961,6 +7798,18 @@
               },
               {
                 "time": "20:50",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "10:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "13:30",
                 "lang": "VF",
                 "format": null
               }
@@ -4991,6 +7840,20 @@
               {
                 "time": "22:00",
                 "lang": "VO",
+                "format": null
+              }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "20:45",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "22:30",
+                "lang": "VF",
                 "format": null
               }
             ]
@@ -5029,6 +7892,13 @@
                 "lang": "VF",
                 "format": null
               }
+            ],
+            "UGC Astoria": [
+              {
+                "time": "20:15",
+                "lang": "VF",
+                "format": null
+              }
             ]
           }
         },
@@ -5048,6 +7918,82 @@
             "Ciné Toboggan": [
               {
                 "time": "20:30",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "Lumière Terreaux": [
+              {
+                "time": "10:20",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "13:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "15:10",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "17:05",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "19:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "20:55",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "13:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "15:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "17:40",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "19:50",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "UGC Astoria": [
+              {
+                "time": "13:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "15:50",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "18:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "20:40",
                 "lang": "VF",
                 "format": null
               }
@@ -5103,6 +8049,30 @@
               {
                 "time": "22:15",
                 "lang": "VO",
+                "format": null
+              }
+            ],
+            "Lumière La Fourmi": [
+              {
+                "time": "20:30",
+                "lang": "VO",
+                "format": null
+              }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "13:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "16:10",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "22:15",
+                "lang": "VF",
                 "format": null
               }
             ]
@@ -5186,6 +8156,40 @@
                 "lang": "VF",
                 "format": null
               }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "13:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "15:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "17:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "20:00",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "17:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "22:15",
+                "lang": "VF",
+                "format": null
+              }
             ]
           }
         },
@@ -5217,6 +8221,206 @@
               },
               {
                 "time": "16:15",
+                "lang": "VO",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "10:15",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Les Trois jours du Condor",
+          "release_year": "inconnue",
+          "duree": "1h 57min",
+          "rating": "Note inconnue",
+          "genres": "Thriller, Espionnage",
+          "realisateur": "Sydney Pollack",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/pictures/20/09/08/15/24/5596614.jpg",
+          "director": "Sydney Pollack",
+          "wantToSee": 1229,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=33360.html",
+          "seances": {
+            "Institut Lumière": [
+              {
+                "time": "18:30",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Resurrection",
+          "release_year": "inconnue",
+          "duree": "2h 40min",
+          "rating": "Note inconnue",
+          "genres": "Science Fiction, Policier, Drame",
+          "realisateur": "Bi Gan",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/4d/19/4d1934427121e700f4f4fe0d57d84cb8.jpg",
+          "director": "Bi Gan",
+          "wantToSee": 1136,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=319858.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "13:45",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Dites-lui que je l’aime",
+          "release_year": "inconnue",
+          "duree": "1h 32min",
+          "rating": "Note inconnue",
+          "genres": "Comédie dramatique",
+          "realisateur": "Romane Bohringer",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img4.acsta.net/img/9f/42/9f42386f496ca05ea56dda6291423407.jpg",
+          "director": "Romane Bohringer",
+          "wantToSee": 1078,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=318222.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "14:00",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Le Quai des brumes",
+          "release_year": "inconnue",
+          "duree": "1h 31min",
+          "rating": "Note inconnue",
+          "genres": "Drame",
+          "realisateur": "Marcel Carné",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/img/54/5f/545f55305b0e728df6df61980e66855c.jpg",
+          "director": "Marcel Carné",
+          "wantToSee": 1018,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=2594.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "16:15",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "La Condition",
+          "release_year": "inconnue",
+          "duree": "1h 43min",
+          "rating": "Note inconnue",
+          "genres": "Comédie dramatique, Historique",
+          "realisateur": "Jérôme Bonnell",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img4.acsta.net/img/65/9f/659f5b54ac267e57f6183011bcfb99aa.jpg",
+          "director": "Jérôme Bonnell",
+          "wantToSee": 951,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=317099.html",
+          "seances": {
+            "Lumière Bellecour": [
+              {
+                "time": "18:55",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "UGC Astoria": [
+              {
+                "time": "18:00",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Magellan",
+          "release_year": "inconnue",
+          "duree": "2h 43min",
+          "rating": "Note inconnue",
+          "genres": "Biopic, Drame, Romance",
+          "realisateur": "Lav Diaz",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/img/5b/c3/5bc38e41de3e658a750fc158815799cf.jpg",
+          "director": "Lav Diaz",
+          "wantToSee": 900,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000022573.html",
+          "seances": {
+            "Lumière Bellecour": [
+              {
+                "time": "13:45",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "20:15",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Mektoub my Love : Canto Due",
+          "release_year": "inconnue",
+          "duree": "2h 14min",
+          "rating": "Note inconnue",
+          "genres": "Drame, Romance",
+          "realisateur": "Abdellatif Kechiche",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img3.acsta.net/img/c1/0a/c10a87e47650432370a6030d595fac06.jpg",
+          "director": "Abdellatif Kechiche",
+          "wantToSee": 900,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=293107.html",
+          "seances": {
+            "Pathé Vaise": [
+              {
+                "time": "15:45",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Le Maître du Kabuki",
+          "release_year": "inconnue",
+          "duree": "2h 54min",
+          "rating": "Note inconnue",
+          "genres": "Drame",
+          "realisateur": "Sang-il Lee",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img2.acsta.net/img/86/c3/86c3bc332654205f70fc0c25498ccdf5.jpg",
+          "director": "Sang-il Lee",
+          "wantToSee": 872,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000018284.html",
+          "seances": {
+            "UGC Astoria": [
+              {
+                "time": "16:00",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "19:30",
                 "lang": "VO",
                 "format": null
               }
@@ -5281,6 +8485,30 @@
                 "lang": "VF",
                 "format": null
               }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "18:20",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "22:00",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "13:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "22:30",
+                "lang": "VF",
+                "format": null
+              }
             ]
           }
         },
@@ -5321,6 +8549,84 @@
               {
                 "time": "21:50",
                 "lang": "VF",
+                "format": null
+              }
+            ],
+            "UGC Astoria": [
+              {
+                "time": "13:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "16:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "20:30",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "10:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "13:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "15:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "17:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "20:00",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Rebuilding",
+          "release_year": "inconnue",
+          "duree": "1h 35min",
+          "rating": "Note inconnue",
+          "genres": "Drame",
+          "realisateur": "Max Walker-Silverman",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/af/85/af85907b34353df979244b32c075ac01.jpg",
+          "director": "Max Walker-Silverman",
+          "wantToSee": 776,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000017719.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "16:45",
+                "lang": "VO",
+                "format": null
+              }
+            ],
+            "UGC Astoria": [
+              {
+                "time": "13:50",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "18:20",
+                "lang": "VO",
                 "format": null
               }
             ]
@@ -5399,6 +8705,18 @@
                 "format": null
               }
             ],
+            "Pathé Vaise": [
+              {
+                "time": "13:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "16:15",
+                "lang": "VF",
+                "format": null
+              }
+            ],
             "UGC Internationale": [
               {
                 "time": "13:55",
@@ -5412,6 +8730,28 @@
               },
               {
                 "time": "18:15",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "10:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "13:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "16:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "20:15",
                 "lang": "VF",
                 "format": null
               }
@@ -5571,6 +8911,28 @@
                 "format": null
               }
             ],
+            "Pathé Vaise": [
+              {
+                "time": "21:20",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "14:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "16:40",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "19:00",
+                "lang": "VF",
+                "format": null
+              }
+            ],
             "UGC Internationale": [
               {
                 "time": "17:50",
@@ -5590,6 +8952,82 @@
               {
                 "time": "20:00",
                 "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "10:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "13:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "15:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "18:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "20:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "22:30",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Une enfance allemande - Île d'Amrum, 1945",
+          "release_year": "inconnue",
+          "duree": "1h 33min",
+          "rating": "Note inconnue",
+          "genres": "Drame, Guerre",
+          "realisateur": "Fatih Akın",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/29/54/2954a33501785f46c122a9ef80f937c6.jpg",
+          "director": "Fatih Akın",
+          "wantToSee": 535,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=309535.html",
+          "seances": {
+            "Lumière Terreaux": [
+              {
+                "time": "10:15",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "12:40",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "18:55",
+                "lang": "VO",
+                "format": null
+              }
+            ],
+            "UGC Astoria": [
+              {
+                "time": "13:55",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "16:15",
+                "lang": "VO",
                 "format": null
               }
             ]
@@ -5634,6 +9072,33 @@
                 "lang": "VO",
                 "format": null
               }
+            ],
+            "Lumière Terreaux": [
+              {
+                "time": "10:15",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "12:25",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "14:35",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "16:45",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "20:50",
+                "lang": "VO",
+                "format": null
+              }
             ]
           }
         },
@@ -5651,6 +9116,38 @@
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=44305.html",
           "seances": {
             "UGC Internationale": [
+              {
+                "time": "21:00",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Le Temps des moissons",
+          "release_year": "inconnue",
+          "duree": "2h 15min",
+          "rating": "Note inconnue",
+          "genres": "Drame",
+          "realisateur": "Huo Meng",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img2.acsta.net/img/74/0e/740e757ee905b05882b204567f5ea1b9.jpg",
+          "director": "Huo Meng",
+          "wantToSee": 499,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000018564.html",
+          "seances": {
+            "Lumière Terreaux": [
+              {
+                "time": "15:50",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "18:25",
+                "lang": "VO",
+                "format": null
+              },
               {
                 "time": "21:00",
                 "lang": "VO",
@@ -5742,6 +9239,109 @@
                 "lang": "VF",
                 "format": null
               }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "18:40",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "13:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "16:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "21:15",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "10:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "14:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "16:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "19:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "22:15",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "La Pire mère au monde",
+          "release_year": "inconnue",
+          "duree": "1h 25min",
+          "rating": "Note inconnue",
+          "genres": "Comédie",
+          "realisateur": "Pierre Mazingarbe",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/ea/fd/eafdfac8bc40d63ec84a32063363565a.jpg",
+          "director": "Pierre Mazingarbe",
+          "wantToSee": 374,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=279638.html",
+          "seances": {
+            "Pathé Vaise": [
+              {
+                "time": "14:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "16:20",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "19:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "21:15",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "11:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "14:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "16:00",
+                "lang": "VF",
+                "format": null
+              }
             ]
           }
         },
@@ -5829,6 +9429,18 @@
                 "format": null
               }
             ],
+            "Pathé Vaise": [
+              {
+                "time": "13:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "18:20",
+                "lang": "VF",
+                "format": null
+              }
+            ],
             "UGC Internationale": [
               {
                 "time": "13:45",
@@ -5848,6 +9460,60 @@
               {
                 "time": "20:00",
                 "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "10:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "13:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "15:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "18:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "20:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "22:30",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "L'Amour qu'il nous reste",
+          "release_year": "inconnue",
+          "duree": "1h 49min",
+          "rating": "Note inconnue",
+          "genres": "Drame",
+          "realisateur": "Hlynur Pálmason",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/img/2b/44/2b4474682c43cb14d071b90cfb0af3a6.jpg",
+          "director": "Hlynur Pálmason",
+          "wantToSee": 332,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000019924.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "18:05",
+                "lang": "VO",
                 "format": null
               }
             ]
@@ -5876,6 +9542,35 @@
           }
         },
         {
+          "title": "Bardot",
+          "release_year": "inconnue",
+          "duree": "1h 30min",
+          "rating": "Note inconnue",
+          "genres": "Documentaire",
+          "realisateur": "Alain Berliner",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/img/18/89/188956009aaf66c5f715713a92dd670a.jpg",
+          "director": "Alain Berliner",
+          "wantToSee": 301,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=304625.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "18:40",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "14:00",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
           "title": "Le Pays d’Arto",
           "release_year": "inconnue",
           "duree": "1h 44min",
@@ -5888,6 +9583,28 @@
           "wantToSee": 249,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=325261.html",
           "seances": {
+            "Lumière Bellecour": [
+              {
+                "time": "13:45",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "16:50",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "18:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "21:20",
+                "lang": "VF",
+                "format": null
+              }
+            ],
             "UGC Internationale": [
               {
                 "time": "13:50",
@@ -5902,6 +9619,28 @@
               {
                 "time": "20:45",
                 "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Lions et agneaux",
+          "release_year": "inconnue",
+          "duree": "1h 30min",
+          "rating": "Note inconnue",
+          "genres": "Drame",
+          "realisateur": "Robert Redford",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/medias/nmedia/18/64/79/11/18829927.jpg",
+          "director": "Robert Redford",
+          "wantToSee": 217,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=122877.html",
+          "seances": {
+            "Institut Lumière": [
+              {
+                "time": "16:30",
+                "lang": "VO",
                 "format": null
               }
             ]
@@ -5933,6 +9672,13 @@
                 "lang": "VF",
                 "format": null
               }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "11:15",
+                "lang": "VF",
+                "format": null
+              }
             ]
           }
         },
@@ -5952,6 +9698,101 @@
             "UGC Confluence": [
               {
                 "time": "10:50",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "11:15",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "La Panthère Rose",
+          "release_year": "inconnue",
+          "duree": "1h 55min",
+          "rating": "Note inconnue",
+          "genres": "Comédie, Policier",
+          "realisateur": "Blake Edwards",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/img/e5/87/e587c0ff66450c86956ffd861c145fb7.jpg",
+          "director": "Blake Edwards",
+          "wantToSee": 162,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=15189.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "16:05",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Vade Retro",
+          "release_year": "inconnue",
+          "duree": "1h 35min",
+          "rating": "Note inconnue",
+          "genres": "Comédie, Epouvante-horreur",
+          "realisateur": "Antonin Peretjatko",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img2.acsta.net/img/e3/7d/e37daab987b133220403cbbc46c47d16.jpg",
+          "director": "Antonin Peretjatko",
+          "wantToSee": 142,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=328493.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "18:30",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Le Cinquième plan de La Jetée",
+          "release_year": "inconnue",
+          "duree": "1h 44min",
+          "rating": "Note inconnue",
+          "genres": "Documentaire",
+          "realisateur": "Dominique Cabrera",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/14/b1/14b1f55e412bbe6e305dbda3948a4570.jpg",
+          "director": "Dominique Cabrera",
+          "wantToSee": 114,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000014662.html",
+          "seances": {
+            "Lumière Bellecour": [
+              {
+                "time": "18:45",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Jack et Nancy - les plus belles histoires de Quentin Blake",
+          "release_year": "inconnue",
+          "duree": "0h 52min",
+          "rating": "Note inconnue",
+          "genres": "Animation, Famille",
+          "realisateur": "Gerrit Bekers",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/3d/76/3d76384dc9a14c36165ea3b2df314ceb.jpg",
+          "director": "Gerrit Bekers",
+          "wantToSee": 43,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000024997.html",
+          "seances": {
+            "CGR Brignais": [
+              {
+                "time": "10:00",
                 "lang": "VF",
                 "format": null
               }
@@ -5977,6 +9818,35 @@
                 "lang": "VF",
                 "format": null
               }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "13:15",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Premières neiges",
+          "release_year": "inconnue",
+          "duree": "0h 37min",
+          "rating": "Note inconnue",
+          "genres": "Animation, Famille",
+          "realisateur": "Inconnu",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img4.acsta.net/img/ab/8f/ab8f576f5f505c371872ddc6fd7ffea7.jpg",
+          "director": "Inconnu",
+          "wantToSee": 20,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000031491.html",
+          "seances": {
+            "CGR Brignais": [
+              {
+                "time": "10:00",
+                "lang": "VF",
+                "format": null
+              }
             ]
           }
         },
@@ -5997,6 +9867,50 @@
               {
                 "time": "18:30",
                 "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Haut les mains !",
+          "release_year": "inconnue",
+          "duree": "1h 16min",
+          "rating": "Note inconnue",
+          "genres": "Drame",
+          "realisateur": "Jerzy Skolimowski",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img4.acsta.net/medias/nmedia/18/90/31/46/20091066.jpg",
+          "director": "Jerzy Skolimowski",
+          "wantToSee": 11,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=40669.html",
+          "seances": {
+            "Institut Lumière": [
+              {
+                "time": "21:00",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Miracle au village",
+          "release_year": "inconnue",
+          "duree": "1h 38min",
+          "rating": "Note inconnue",
+          "genres": "Comédie, Romance, Guerre",
+          "realisateur": "Preston Sturges",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img2.acsta.net/pictures/14/06/27/17/16/266096.jpg",
+          "director": "Preston Sturges",
+          "wantToSee": 5,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=60582.html",
+          "seances": {
+            "Institut Lumière": [
+              {
+                "time": "16:00",
+                "lang": "VO",
                 "format": null
               }
             ]
@@ -6162,6 +10076,28 @@
           }
         },
         {
+          "title": "To Be or not to Be",
+          "release_year": "inconnue",
+          "duree": "1h 39min",
+          "rating": "Note inconnue",
+          "genres": "Comédie, Guerre",
+          "realisateur": "Ernst Lubitsch",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img4.acsta.net/pictures/23/02/21/15/56/4548864.jpg",
+          "director": "Ernst Lubitsch",
+          "wantToSee": 890,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=317.html",
+          "seances": {
+            "Institut Lumière": [
+              {
+                "time": "16:00",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
           "title": "La Pire mère au monde",
           "release_year": "inconnue",
           "duree": "1h 25min",
@@ -6238,6 +10174,50 @@
               }
             ]
           }
+        },
+        {
+          "title": "Le Cavalier électrique",
+          "release_year": "inconnue",
+          "duree": "2h 02min",
+          "rating": "Note inconnue",
+          "genres": "Comédie, Western, Drame",
+          "realisateur": "Sydney Pollack",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/pictures/17/08/08/17/25/125532.jpg",
+          "director": "Sydney Pollack",
+          "wantToSee": 94,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=33361.html",
+          "seances": {
+            "Institut Lumière": [
+              {
+                "time": "18:30",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Trzecia czesc nocy",
+          "release_year": "inconnue",
+          "duree": "1h 46min",
+          "rating": "Note inconnue",
+          "genres": "Drame, Epouvante-horreur, Guerre",
+          "realisateur": "Andrzej Zulawski",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "/static/images/nocontent.png",
+          "director": "Andrzej Zulawski",
+          "wantToSee": 6,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=36773.html",
+          "seances": {
+            "Institut Lumière": [
+              {
+                "time": "16:30",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
         }
       ]
     },
@@ -6306,6 +10286,35 @@
             "UGC Internationale": [
               {
                 "time": "19:45",
+                "lang": "VO",
+                "format": null
+              }
+            ],
+            "UGC Astoria": [
+              {
+                "time": "19:20",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Moi, Daniel Blake",
+          "release_year": "inconnue",
+          "duree": "1h 41min",
+          "rating": "Note inconnue",
+          "genres": "Drame",
+          "realisateur": "Ken Loach",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/pictures/16/06/13/15/58/248495.jpg",
+          "director": "Ken Loach",
+          "wantToSee": 4392,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=241697.html",
+          "seances": {
+            "CGR Brignais": [
+              {
+                "time": "20:00",
                 "lang": "VO",
                 "format": null
               }
@@ -6484,6 +10493,28 @@
           }
         },
         {
+          "title": "Indiscrétions",
+          "release_year": "inconnue",
+          "duree": "1h 55min",
+          "rating": "Note inconnue",
+          "genres": "Comédie, Romance",
+          "realisateur": "George Cukor",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img4.acsta.net/medias/nmedia/18/36/19/67/18460671.jpg",
+          "director": "George Cukor",
+          "wantToSee": 274,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=746.html",
+          "seances": {
+            "Institut Lumière": [
+              {
+                "time": "16:00",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
           "title": "Le Pays d’Arto",
           "release_year": "inconnue",
           "duree": "1h 44min",
@@ -6500,6 +10531,72 @@
               {
                 "time": "18:00",
                 "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Propriété interdite",
+          "release_year": "inconnue",
+          "duree": "1h 50min",
+          "rating": "Note inconnue",
+          "genres": "Drame, Romance",
+          "realisateur": "Sydney Pollack",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/medias/nmedia/18/36/11/73/20394788.jpg",
+          "director": "Sydney Pollack",
+          "wantToSee": 239,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=6911.html",
+          "seances": {
+            "Institut Lumière": [
+              {
+                "time": "16:15",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "La Trilogie d'Apu : La Complainte du sentier",
+          "release_year": "inconnue",
+          "duree": "2h 05min",
+          "rating": "Note inconnue",
+          "genres": "Drame, Bollywood",
+          "realisateur": "Satyajit Ray",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img4.acsta.net/pictures/23/11/07/10/26/2764402.jpg",
+          "director": "Satyajit Ray",
+          "wantToSee": 192,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=569.html",
+          "seances": {
+            "Lumière La Fourmi": [
+              {
+                "time": "18:30",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "La Passagère",
+          "release_year": "inconnue",
+          "duree": "1h 02min",
+          "rating": "Note inconnue",
+          "genres": "Drame",
+          "realisateur": "Andrzej Munk",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img2.acsta.net/pictures/22/11/23/10/54/1103620.jpg",
+          "director": "Andrzej Munk",
+          "wantToSee": 179,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=2314.html",
+          "seances": {
+            "Institut Lumière": [
+              {
+                "time": "20:15",
+                "lang": "VO",
                 "format": null
               }
             ]
@@ -6538,6 +10635,42 @@
                 "lang": "VF",
                 "format": null
               }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "20:00",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "20:00",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Casse-Noisette (The Royal Ballet)",
+          "release_year": "inconnue",
+          "duree": "2h 42min",
+          "rating": "Note inconnue",
+          "genres": "Opéra",
+          "realisateur": "Peter Wright",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/74/d4/74d4f3859768d16f2238b72b81d3a8d2.jpg",
+          "director": "Peter Wright",
+          "wantToSee": 5,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000022517.html",
+          "seances": {
+            "UGC Astoria": [
+              {
+                "time": "16:30",
+                "lang": "VO",
+                "format": null
+              }
             ]
           }
         },
@@ -6558,6 +10691,13 @@
               {
                 "time": "19:00",
                 "lang": "VF",
+                "format": null
+              }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "19:30",
+                "lang": "VO",
                 "format": null
               }
             ]
@@ -6750,6 +10890,13 @@
                 "lang": "VF",
                 "format": null
               }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "20:00",
+                "lang": "VF",
+                "format": null
+              }
             ]
           }
         },
@@ -6770,6 +10917,28 @@
               {
                 "time": "15:00",
                 "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Jeremiah Johnson",
+          "release_year": "inconnue",
+          "duree": "1h 56min",
+          "rating": "Note inconnue",
+          "genres": "Western, Aventure, Drame",
+          "realisateur": "Sydney Pollack",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/medias/nmedia/18/36/07/84/18866691.jpg",
+          "director": "Sydney Pollack",
+          "wantToSee": 922,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=217.html",
+          "seances": {
+            "Institut Lumière": [
+              {
+                "time": "18:30",
+                "lang": "VO",
                 "format": null
               }
             ]
@@ -6849,6 +11018,116 @@
             "UGC Internationale": [
               {
                 "time": "20:30",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Tout va bien",
+          "release_year": "inconnue",
+          "duree": "1h 26min",
+          "rating": "Note inconnue",
+          "genres": "Documentaire",
+          "realisateur": "Thomas Ellis",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img4.acsta.net/img/a2/8e/a28ef8844e6996babaf95dbcd4539c37.jpeg",
+          "director": "Thomas Ellis",
+          "wantToSee": 89,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000026775.html",
+          "seances": {
+            "Lumière Terreaux": [
+              {
+                "time": "18:30",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "L'Extravagant Mr Ruggles",
+          "release_year": "inconnue",
+          "duree": "1h 30min",
+          "rating": "Note inconnue",
+          "genres": "Comédie, Romance",
+          "realisateur": "Leo McCarey",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img4.acsta.net/pictures/22/03/11/16/19/1690789.jpg",
+          "director": "Leo McCarey",
+          "wantToSee": 81,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=369.html",
+          "seances": {
+            "Institut Lumière": [
+              {
+                "time": "16:00",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Milagro",
+          "release_year": "inconnue",
+          "duree": "1h 58min",
+          "rating": "Note inconnue",
+          "genres": "Comédie dramatique",
+          "realisateur": "Robert Redford",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/medias/nmedia/images/affiches/008538.jpg",
+          "director": "Robert Redford",
+          "wantToSee": 71,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=3676.html",
+          "seances": {
+            "Institut Lumière": [
+              {
+                "time": "20:30",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Jana Nayagan",
+          "release_year": "inconnue",
+          "duree": "3h 06min",
+          "rating": "Note inconnue",
+          "genres": "Action, Thriller, Drame",
+          "realisateur": "H. Vinoth",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/5c/cc/5ccc78f32e9647a668217475403b8a74.jpeg",
+          "director": "H. Vinoth",
+          "wantToSee": 28,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000019038.html",
+          "seances": {
+            "Pathé Vaise": [
+              {
+                "time": "20:00",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Loving you",
+          "release_year": "inconnue",
+          "duree": "1h 24min",
+          "rating": "Note inconnue",
+          "genres": "Drame, Policier, Thriller, Action",
+          "realisateur": "Johnnie To",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "/static/images/nocontent.png",
+          "director": "Johnnie To",
+          "wantToSee": 0,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=49296.html",
+          "seances": {
+            "Pathé Vaise": [
+              {
+                "time": "21:30",
                 "lang": "VO",
                 "format": null
               }
@@ -6993,6 +11272,28 @@
           }
         },
         {
+          "title": "La Légende de Bagger Vance",
+          "release_year": "inconnue",
+          "duree": "2h 06min",
+          "rating": "Note inconnue",
+          "genres": "Comédie dramatique, Fantastique, Évènement Sportif",
+          "realisateur": "Robert Redford",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img3.acsta.net/medias/nmedia/00/00/00/49/69197916_af.jpg",
+          "director": "Robert Redford",
+          "wantToSee": 484,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=27444.html",
+          "seances": {
+            "Institut Lumière": [
+              {
+                "time": "14:30",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
           "title": "La Pire mère au monde",
           "release_year": "inconnue",
           "duree": "1h 25min",
@@ -7071,6 +11372,50 @@
           }
         },
         {
+          "title": "Jana Nayagan",
+          "release_year": "inconnue",
+          "duree": "3h 06min",
+          "rating": "Note inconnue",
+          "genres": "Action, Thriller, Drame",
+          "realisateur": "H. Vinoth",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/5c/cc/5ccc78f32e9647a668217475403b8a74.jpeg",
+          "director": "H. Vinoth",
+          "wantToSee": 28,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000019038.html",
+          "seances": {
+            "Pathé Vaise": [
+              {
+                "time": "14:00",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Miracle au village",
+          "release_year": "inconnue",
+          "duree": "1h 38min",
+          "rating": "Note inconnue",
+          "genres": "Comédie, Romance, Guerre",
+          "realisateur": "Preston Sturges",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img2.acsta.net/pictures/14/06/27/17/16/266096.jpg",
+          "director": "Preston Sturges",
+          "wantToSee": 5,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=60582.html",
+          "seances": {
+            "Institut Lumière": [
+              {
+                "time": "16:00",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
           "title": "Les Puritains (Metropolitan Opera)",
           "release_year": "inconnue",
           "duree": "3h 47min",
@@ -7087,6 +11432,35 @@
               {
                 "time": "18:55",
                 "lang": "VO",
+                "format": null
+              }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "18:55",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Loving you",
+          "release_year": "inconnue",
+          "duree": "1h 24min",
+          "rating": "Note inconnue",
+          "genres": "Drame, Policier, Thriller, Action",
+          "realisateur": "Johnnie To",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "/static/images/nocontent.png",
+          "director": "Johnnie To",
+          "wantToSee": 0,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=49296.html",
+          "seances": {
+            "Pathé Vaise": [
+              {
+                "time": "11:00",
+                "lang": "VF",
                 "format": null
               }
             ]
