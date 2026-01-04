@@ -192,8 +192,8 @@ class Theater:
                         if experience:
                             if "E_4DX" in experience:
                                 formats.append("4DX")
-                            if "PLF" in experience:
-                                formats.append("PLF")
+                            """if "PLF" in experience:
+                                formats.append("PLF")"""
                         
                         format_str = ", ".join(formats) if formats else None
                         showtimes.append(Showtime(showtime_data, self, inst, language, format_str))

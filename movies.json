@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-01-04T20:50:12.348998",
+  "generated_at": "2026-01-04T21:00:04.260801",
   "days": [
     {
       "date": "2026-01-04",
@@ -26,7 +26,7 @@
               {
                 "time": "21:15",
                 "lang": "VF",
-                "format": "3D, 4DX, PLF"
+                "format": "3D, 4DX"
               },
               {
                 "time": "21:30",
@@ -48,7 +48,7 @@
               {
                 "time": "19:45",
                 "lang": "VF",
-                "format": "3D, 4DX, PLF"
+                "format": "3D, 4DX"
               }
             ],
             "UGC Part-Dieu": [
@@ -1888,7 +1888,7 @@
               {
                 "time": "13:05",
                 "lang": "VF",
-                "format": "3D, 4DX, PLF"
+                "format": "3D, 4DX"
               },
               {
                 "time": "13:20",
@@ -1913,7 +1913,7 @@
               {
                 "time": "17:10",
                 "lang": "VF",
-                "format": "3D, 4DX, PLF"
+                "format": "3D, 4DX"
               },
               {
                 "time": "17:25",
@@ -1933,7 +1933,7 @@
               {
                 "time": "21:15",
                 "lang": "VF",
-                "format": "3D, 4DX, PLF"
+                "format": "3D, 4DX"
               },
               {
                 "time": "21:30",
@@ -1965,7 +1965,7 @@
               {
                 "time": "16:25",
                 "lang": "VO",
-                "format": "3D, 4DX, PLF"
+                "format": "3D, 4DX"
               },
               {
                 "time": "18:40",
@@ -1975,7 +1975,7 @@
               {
                 "time": "20:20",
                 "lang": "VO",
-                "format": "3D, 4DX, PLF"
+                "format": "3D, 4DX"
               },
               {
                 "time": "10:40",
@@ -1985,7 +1985,7 @@
               {
                 "time": "12:30",
                 "lang": "VF",
-                "format": "3D, 4DX, PLF"
+                "format": "3D, 4DX"
               },
               {
                 "time": "14:40",
@@ -3985,7 +3985,7 @@
               {
                 "time": "13:05",
                 "lang": "VF",
-                "format": "3D, 4DX, PLF"
+                "format": "3D, 4DX"
               },
               {
                 "time": "13:40",
@@ -4005,7 +4005,7 @@
               {
                 "time": "17:10",
                 "lang": "VF",
-                "format": "3D, 4DX, PLF"
+                "format": "3D, 4DX"
               },
               {
                 "time": "17:25",
@@ -4030,7 +4030,7 @@
               {
                 "time": "21:15",
                 "lang": "VF",
-                "format": "3D, 4DX, PLF"
+                "format": "3D, 4DX"
               },
               {
                 "time": "21:30",
@@ -4052,7 +4052,7 @@
               {
                 "time": "16:25",
                 "lang": "VO",
-                "format": "3D, 4DX, PLF"
+                "format": "3D, 4DX"
               },
               {
                 "time": "18:45",
@@ -4067,7 +4067,7 @@
               {
                 "time": "12:30",
                 "lang": "VF",
-                "format": "3D, 4DX, PLF"
+                "format": "3D, 4DX"
               },
               {
                 "time": "13:50",
@@ -4087,7 +4087,7 @@
               {
                 "time": "20:20",
                 "lang": "VF",
-                "format": "3D, 4DX, PLF"
+                "format": "3D, 4DX"
               }
             ],
             "UGC Part-Dieu": [
@@ -6109,17 +6109,17 @@
               {
                 "time": "11:15",
                 "lang": "VF",
-                "format": "3D, 4DX, PLF"
+                "format": "3D, 4DX"
               },
               {
                 "time": "15:35",
                 "lang": "VF",
-                "format": "3D, 4DX, PLF"
+                "format": "3D, 4DX"
               },
               {
                 "time": "19:35",
                 "lang": "VF",
-                "format": "3D, 4DX, PLF"
+                "format": "3D, 4DX"
               }
             ],
             "Ciné Meyzieu": [
@@ -6336,17 +6336,17 @@
               {
                 "time": "19:30",
                 "lang": "VO",
-                "format": "3D, 4DX, PLF"
+                "format": "3D, 4DX"
               },
               {
                 "time": "11:15",
                 "lang": "VF",
-                "format": "3D, 4DX, PLF"
+                "format": "3D, 4DX"
               },
               {
                 "time": "15:30",
                 "lang": "VF",
-                "format": "3D, 4DX, PLF"
+                "format": "3D, 4DX"
               }
             ],
             "Ciné Meyzieu": [
@@ -6660,22 +6660,22 @@
               {
                 "time": "21:10",
                 "lang": "VO",
-                "format": "3D, 4DX, PLF"
+                "format": "3D, 4DX"
               },
               {
                 "time": "09:40",
                 "lang": "VF",
-                "format": "3D, 4DX, PLF"
+                "format": "3D, 4DX"
               },
               {
                 "time": "13:30",
                 "lang": "VF",
-                "format": "3D, 4DX, PLF"
+                "format": "3D, 4DX"
               },
               {
                 "time": "17:20",
                 "lang": "VF",
-                "format": "3D, 4DX, PLF"
+                "format": "3D, 4DX"
               }
             ],
             "Ciné Meyzieu": [
@@ -6952,22 +6952,22 @@
               {
                 "time": "13:30",
                 "lang": "VO",
-                "format": "3D, 4DX, PLF"
+                "format": "3D, 4DX"
               },
               {
                 "time": "09:40",
                 "lang": "VF",
-                "format": "3D, 4DX, PLF"
+                "format": "3D, 4DX"
               },
               {
                 "time": "17:20",
                 "lang": "VF",
-                "format": "3D, 4DX, PLF"
+                "format": "3D, 4DX"
               },
               {
                 "time": "21:10",
                 "lang": "VF",
-                "format": "3D, 4DX, PLF"
+                "format": "3D, 4DX"
               }
             ],
             "Ciné Meyzieu": [
