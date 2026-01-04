@@ -143,7 +143,7 @@ GitHub Actions (4h UTC)
    - `MAPBOX_TOKEN`
    - `WEBSITE_TITLE`
    - `THEATERS`
-3. **Déployer** ✅
+3. **Déployer**
 
 Le scraping GitHub Actions met à jour `movies.json` → Vercel redéploie automatiquement.
 
@@ -175,7 +175,7 @@ Dans `.env` ou les secrets GitHub :
 
 **Trouver l'ID** : Dans l'URL Allociné `salle_gen_csalle=P8507.html` → ID = `P8507`
 
-## 🔗 Liens utiles
+## Liens utiles
 
 - [TMDB API](https://www.themoviedb.org/settings/api) - Clé API pour les données films
 - [Mapbox](https://console.mapbox.com/) - Token pour la carte
