@@ -1,0 +1,969 @@
+{
+  "generated_at": "2026-01-04T16:49:57.445549",
+  "days": [
+    {
+      "date": "2026-01-04",
+      "movies": [
+        {
+          "title": "Avatar : de Feu et de Cendres",
+          "release_year": "inconnue",
+          "duree": "3h 17min",
+          "rating": "Note inconnue",
+          "genres": "Science Fiction, Aventure, Action, Fantastique",
+          "realisateur": "James Cameron",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/52/fb/52fb8f0345af2b0940557aa049ca19fd.jpg",
+          "director": "James Cameron",
+          "wantToSee": 9389,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=187247.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "10:00",
+              "15:15",
+              "17:00",
+              "20:00",
+              "21:00"
+            ],
+            "UGC Confluence": [
+              "17:00",
+              "20:30"
+            ],
+            "UGC Internationale": [
+              "10:30",
+              "15:00",
+              "19:30"
+            ]
+          }
+        },
+        {
+          "title": "Thelma et Louise",
+          "release_year": "inconnue",
+          "duree": "2h 09min",
+          "rating": "Note inconnue",
+          "genres": "Comédie dramatique",
+          "realisateur": "Ridley Scott",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/pictures/18/07/30/10/17/5492139.jpg",
+          "director": "Ridley Scott",
+          "wantToSee": 3545,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=6787.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "18:10"
+            ],
+            "UGC Internationale": [
+              "18:00"
+            ]
+          }
+        },
+        {
+          "title": "Zootopie 2",
+          "release_year": "inconnue",
+          "duree": "1h 48min",
+          "rating": "Note inconnue",
+          "genres": "Animation, Aventure, Famille, Comédie",
+          "realisateur": "Byron Howard",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img2.acsta.net/img/45/ac/45ac77474bfae505033a30909e4eda41.jpg",
+          "director": "Byron Howard",
+          "wantToSee": 3522,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=277428.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "11:00",
+              "20:35"
+            ],
+            "UGC Confluence": [
+              "11:00"
+            ],
+            "UGC Internationale": [
+              "22:10"
+            ]
+          }
+        },
+        {
+          "title": "Insaisissables 3",
+          "release_year": "inconnue",
+          "duree": "1h 53min",
+          "rating": "Note inconnue",
+          "genres": "Thriller, Aventure, Comédie",
+          "realisateur": "Ruben Fleischer",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/img/ca/83/ca8338e0ec3de262228111a215b567f8.jpg",
+          "director": "Ruben Fleischer",
+          "wantToSee": 2857,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=238073.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "22:00"
+            ]
+          }
+        },
+        {
+          "title": "La Femme de ménage",
+          "release_year": "inconnue",
+          "duree": "2h 11min",
+          "rating": "Note inconnue",
+          "genres": "Thriller",
+          "realisateur": "Paul Feig",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/img/ed/a3/eda3bba832e22c79ea22117b058f84e5.jpg",
+          "director": "Paul Feig",
+          "wantToSee": 2805,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=317403.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "10:50",
+              "13:55",
+              "16:40",
+              "19:25",
+              "22:10"
+            ],
+            "Ciné Meyzieu": [
+              "20:30"
+            ],
+            "UGC Confluence": [
+              "10:45",
+              "14:00",
+              "16:45",
+              "19:30",
+              "21:50"
+            ],
+            "UGC Internationale": [
+              "11:00",
+              "13:50",
+              "16:40",
+              "19:25",
+              "22:10"
+            ]
+          }
+        },
+        {
+          "title": "L'Agent secret",
+          "release_year": "inconnue",
+          "duree": "2h 40min",
+          "rating": "Note inconnue",
+          "genres": "Policier, Drame",
+          "realisateur": "Kleber Mendonça Filho",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/d5/da/d5dae089c320b75bf1903cc249165073.jpg",
+          "director": "Kleber Mendonça Filho",
+          "wantToSee": 2654,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000009761.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "10:45",
+              "14:00",
+              "17:15",
+              "20:30"
+            ]
+          }
+        },
+        {
+          "title": "Running Man",
+          "release_year": "inconnue",
+          "duree": "2h 14min",
+          "rating": "Note inconnue",
+          "genres": "Science Fiction, Thriller, Action",
+          "realisateur": "Edgar Wright",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/57/c6/57c6d1dbb88a0120b9262489a81cb180.jpg",
+          "director": "Edgar Wright",
+          "wantToSee": 2040,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=290564.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "22:00"
+            ]
+          }
+        },
+        {
+          "title": "La Voix de Hind Rajab",
+          "release_year": "inconnue",
+          "duree": "1h 29min",
+          "rating": "Note inconnue",
+          "genres": "Drame",
+          "realisateur": "Kaouther Ben Hania",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/img/66/eb/66eb9392595c24a3ca9975d5cd6b9565.jpg",
+          "director": "Kaouther Ben Hania",
+          "wantToSee": 1624,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000027854.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "13:10",
+              "18:00",
+              "20:10",
+              "22:15"
+            ]
+          }
+        },
+        {
+          "title": "Wicked : partie II",
+          "release_year": "inconnue",
+          "duree": "2h 18min",
+          "rating": "Note inconnue",
+          "genres": "Fantastique, Aventure, Comédie musicale, Romance",
+          "realisateur": "Jon M. Chu",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/65/11/65117c07f97a3721caff88c9abec8bd6.jpg",
+          "director": "Jon M. Chu",
+          "wantToSee": 1275,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=303957.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "20:20"
+            ]
+          }
+        },
+        {
+          "title": "Five Nights At Freddy's 2",
+          "release_year": "inconnue",
+          "duree": "1h 44min",
+          "rating": "Note inconnue",
+          "genres": "Epouvante-horreur",
+          "realisateur": "Emma Tammi",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img4.acsta.net/img/83/b5/83b5868d9264242be16ab460eb7c80ce.jpg",
+          "director": "Emma Tammi",
+          "wantToSee": 819,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=325430.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "16:15",
+              "22:05"
+            ]
+          }
+        },
+        {
+          "title": "Anaconda",
+          "release_year": "inconnue",
+          "duree": "1h 40min",
+          "rating": "Note inconnue",
+          "genres": "Comédie, Aventure",
+          "realisateur": "Tom Gormican",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/20/af/20afc1b148d574dca07ec228be9ac869.jpg",
+          "director": "Tom Gormican",
+          "wantToSee": 542,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=280693.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "10:45",
+              "15:30",
+              "20:00",
+              "22:15"
+            ],
+            "UGC Confluence": [
+              "22:15"
+            ],
+            "UGC Internationale": [
+              "17:50",
+              "22:15"
+            ]
+          }
+        },
+        {
+          "title": "Los Tigres",
+          "release_year": "inconnue",
+          "duree": "1h 49min",
+          "rating": "Note inconnue",
+          "genres": "Policier",
+          "realisateur": "Alberto Rodriguez",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/img/e6/07/e6072a30a6045a3cdc545da6bbafe62a.jpg",
+          "director": "Alberto Rodriguez",
+          "wantToSee": 525,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=325967.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "11:00",
+              "14:00",
+              "16:30",
+              "19:30",
+              "22:00"
+            ]
+          }
+        },
+        {
+          "title": "L'Oeuf de l'ange",
+          "release_year": "inconnue",
+          "duree": "1h 11min",
+          "rating": "Note inconnue",
+          "genres": "Animation, Drame, Fantastique",
+          "realisateur": "Mamoru Oshii",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/21/dc/21dcf80d9412be190207f2968e4e004f.jpg",
+          "director": "Mamoru Oshii",
+          "wantToSee": 504,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=44305.html",
+          "seances": {
+            "UGC Internationale": [
+              "22:00"
+            ]
+          }
+        },
+        {
+          "title": "Sur un air de blues",
+          "release_year": "inconnue",
+          "duree": "2h 13min",
+          "rating": "Note inconnue",
+          "genres": "Drame, Comédie musicale",
+          "realisateur": "Craig Brewer",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/img/46/12/46121ba1562a16d04bd209bbb952cbc9.jpg",
+          "director": "Craig Brewer",
+          "wantToSee": 420,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000013390.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "10:40",
+              "16:10",
+              "19:15",
+              "22:05"
+            ],
+            "UGC Confluence": [
+              "22:00"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "date": "2026-01-05",
+      "movies": [
+        {
+          "title": "Avatar : de Feu et de Cendres",
+          "release_year": "inconnue",
+          "duree": "3h 17min",
+          "rating": "Note inconnue",
+          "genres": "Science Fiction, Aventure, Action, Fantastique",
+          "realisateur": "James Cameron",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/52/fb/52fb8f0345af2b0940557aa049ca19fd.jpg",
+          "director": "James Cameron",
+          "wantToSee": 9389,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=187247.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "10:00",
+              "15:15",
+              "17:00",
+              "20:00",
+              "21:00"
+            ],
+            "UGC Confluence": [
+              "17:00",
+              "20:30"
+            ],
+            "UGC Internationale": [
+              "14:30",
+              "19:00"
+            ]
+          }
+        },
+        {
+          "title": "Zootopie 2",
+          "release_year": "inconnue",
+          "duree": "1h 48min",
+          "rating": "Note inconnue",
+          "genres": "Animation, Aventure, Famille, Comédie",
+          "realisateur": "Byron Howard",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img2.acsta.net/img/45/ac/45ac77474bfae505033a30909e4eda41.jpg",
+          "director": "Byron Howard",
+          "wantToSee": 3522,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=277428.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "11:00",
+              "20:35"
+            ],
+            "UGC Confluence": [
+              "11:00"
+            ]
+          }
+        },
+        {
+          "title": "Insaisissables 3",
+          "release_year": "inconnue",
+          "duree": "1h 53min",
+          "rating": "Note inconnue",
+          "genres": "Thriller, Aventure, Comédie",
+          "realisateur": "Ruben Fleischer",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/img/ca/83/ca8338e0ec3de262228111a215b567f8.jpg",
+          "director": "Ruben Fleischer",
+          "wantToSee": 2857,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=238073.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "22:00"
+            ]
+          }
+        },
+        {
+          "title": "La Femme de ménage",
+          "release_year": "inconnue",
+          "duree": "2h 11min",
+          "rating": "Note inconnue",
+          "genres": "Thriller",
+          "realisateur": "Paul Feig",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/img/ed/a3/eda3bba832e22c79ea22117b058f84e5.jpg",
+          "director": "Paul Feig",
+          "wantToSee": 2805,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=317403.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "10:50",
+              "13:55",
+              "16:40",
+              "19:25",
+              "22:10"
+            ],
+            "Ciné Meyzieu": [
+              "18:00"
+            ],
+            "UGC Confluence": [
+              "10:45",
+              "13:45",
+              "16:30",
+              "19:15",
+              "21:30"
+            ],
+            "UGC Internationale": [
+              "13:50",
+              "16:40",
+              "19:25"
+            ]
+          }
+        },
+        {
+          "title": "L'Agent secret",
+          "release_year": "inconnue",
+          "duree": "2h 40min",
+          "rating": "Note inconnue",
+          "genres": "Policier, Drame",
+          "realisateur": "Kleber Mendonça Filho",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/d5/da/d5dae089c320b75bf1903cc249165073.jpg",
+          "director": "Kleber Mendonça Filho",
+          "wantToSee": 2654,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000009761.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "10:45",
+              "14:00",
+              "17:15",
+              "20:30"
+            ]
+          }
+        },
+        {
+          "title": "Running Man",
+          "release_year": "inconnue",
+          "duree": "2h 14min",
+          "rating": "Note inconnue",
+          "genres": "Science Fiction, Thriller, Action",
+          "realisateur": "Edgar Wright",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/57/c6/57c6d1dbb88a0120b9262489a81cb180.jpg",
+          "director": "Edgar Wright",
+          "wantToSee": 2040,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=290564.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "22:00"
+            ]
+          }
+        },
+        {
+          "title": "La Voix de Hind Rajab",
+          "release_year": "inconnue",
+          "duree": "1h 29min",
+          "rating": "Note inconnue",
+          "genres": "Drame",
+          "realisateur": "Kaouther Ben Hania",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/img/66/eb/66eb9392595c24a3ca9975d5cd6b9565.jpg",
+          "director": "Kaouther Ben Hania",
+          "wantToSee": 1624,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000027854.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "13:10",
+              "18:00",
+              "20:10",
+              "22:15"
+            ]
+          }
+        },
+        {
+          "title": "Wicked : partie II",
+          "release_year": "inconnue",
+          "duree": "2h 18min",
+          "rating": "Note inconnue",
+          "genres": "Fantastique, Aventure, Comédie musicale, Romance",
+          "realisateur": "Jon M. Chu",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/65/11/65117c07f97a3721caff88c9abec8bd6.jpg",
+          "director": "Jon M. Chu",
+          "wantToSee": 1275,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=303957.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "20:20"
+            ]
+          }
+        },
+        {
+          "title": "Five Nights At Freddy's 2",
+          "release_year": "inconnue",
+          "duree": "1h 44min",
+          "rating": "Note inconnue",
+          "genres": "Epouvante-horreur",
+          "realisateur": "Emma Tammi",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img4.acsta.net/img/83/b5/83b5868d9264242be16ab460eb7c80ce.jpg",
+          "director": "Emma Tammi",
+          "wantToSee": 819,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=325430.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "16:15",
+              "22:05"
+            ]
+          }
+        },
+        {
+          "title": "Anaconda",
+          "release_year": "inconnue",
+          "duree": "1h 40min",
+          "rating": "Note inconnue",
+          "genres": "Comédie, Aventure",
+          "realisateur": "Tom Gormican",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/20/af/20afc1b148d574dca07ec228be9ac869.jpg",
+          "director": "Tom Gormican",
+          "wantToSee": 542,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=280693.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "10:45",
+              "15:30",
+              "20:00",
+              "22:15"
+            ],
+            "UGC Confluence": [
+              "22:00"
+            ],
+            "UGC Internationale": [
+              "17:50"
+            ]
+          }
+        },
+        {
+          "title": "Los Tigres",
+          "release_year": "inconnue",
+          "duree": "1h 49min",
+          "rating": "Note inconnue",
+          "genres": "Policier",
+          "realisateur": "Alberto Rodriguez",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/img/e6/07/e6072a30a6045a3cdc545da6bbafe62a.jpg",
+          "director": "Alberto Rodriguez",
+          "wantToSee": 525,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=325967.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "11:00",
+              "14:00",
+              "16:30",
+              "19:30",
+              "22:00"
+            ]
+          }
+        },
+        {
+          "title": "L'Oeuf de l'ange",
+          "release_year": "inconnue",
+          "duree": "1h 11min",
+          "rating": "Note inconnue",
+          "genres": "Animation, Drame, Fantastique",
+          "realisateur": "Mamoru Oshii",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/21/dc/21dcf80d9412be190207f2968e4e004f.jpg",
+          "director": "Mamoru Oshii",
+          "wantToSee": 504,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=44305.html",
+          "seances": {
+            "UGC Internationale": [
+              "21:00"
+            ]
+          }
+        },
+        {
+          "title": "Sur un air de blues",
+          "release_year": "inconnue",
+          "duree": "2h 13min",
+          "rating": "Note inconnue",
+          "genres": "Drame, Comédie musicale",
+          "realisateur": "Craig Brewer",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/img/46/12/46121ba1562a16d04bd209bbb952cbc9.jpg",
+          "director": "Craig Brewer",
+          "wantToSee": 420,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000013390.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "10:40",
+              "16:10",
+              "18:55",
+              "21:40"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "date": "2026-01-06",
+      "movies": [
+        {
+          "title": "Avatar : de Feu et de Cendres",
+          "release_year": "inconnue",
+          "duree": "3h 17min",
+          "rating": "Note inconnue",
+          "genres": "Science Fiction, Aventure, Action, Fantastique",
+          "realisateur": "James Cameron",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/52/fb/52fb8f0345af2b0940557aa049ca19fd.jpg",
+          "director": "James Cameron",
+          "wantToSee": 9389,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=187247.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "10:00",
+              "15:15",
+              "17:00",
+              "20:00",
+              "21:00"
+            ],
+            "UGC Confluence": [
+              "17:00",
+              "20:30"
+            ],
+            "UGC Internationale": [
+              "14:30",
+              "19:00"
+            ]
+          }
+        },
+        {
+          "title": "Zootopie 2",
+          "release_year": "inconnue",
+          "duree": "1h 48min",
+          "rating": "Note inconnue",
+          "genres": "Animation, Aventure, Famille, Comédie",
+          "realisateur": "Byron Howard",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img2.acsta.net/img/45/ac/45ac77474bfae505033a30909e4eda41.jpg",
+          "director": "Byron Howard",
+          "wantToSee": 3522,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=277428.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "11:00",
+              "20:35"
+            ],
+            "UGC Confluence": [
+              "11:00"
+            ]
+          }
+        },
+        {
+          "title": "Insaisissables 3",
+          "release_year": "inconnue",
+          "duree": "1h 53min",
+          "rating": "Note inconnue",
+          "genres": "Thriller, Aventure, Comédie",
+          "realisateur": "Ruben Fleischer",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/img/ca/83/ca8338e0ec3de262228111a215b567f8.jpg",
+          "director": "Ruben Fleischer",
+          "wantToSee": 2857,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=238073.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "22:00"
+            ]
+          }
+        },
+        {
+          "title": "La Femme de ménage",
+          "release_year": "inconnue",
+          "duree": "2h 11min",
+          "rating": "Note inconnue",
+          "genres": "Thriller",
+          "realisateur": "Paul Feig",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/img/ed/a3/eda3bba832e22c79ea22117b058f84e5.jpg",
+          "director": "Paul Feig",
+          "wantToSee": 2805,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=317403.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "10:50",
+              "13:55",
+              "16:40",
+              "19:25",
+              "22:10"
+            ],
+            "UGC Confluence": [
+              "10:45",
+              "13:45",
+              "16:30",
+              "19:15",
+              "21:30"
+            ],
+            "UGC Internationale": [
+              "13:50",
+              "16:40",
+              "19:25"
+            ]
+          }
+        },
+        {
+          "title": "L'Agent secret",
+          "release_year": "inconnue",
+          "duree": "2h 40min",
+          "rating": "Note inconnue",
+          "genres": "Policier, Drame",
+          "realisateur": "Kleber Mendonça Filho",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/d5/da/d5dae089c320b75bf1903cc249165073.jpg",
+          "director": "Kleber Mendonça Filho",
+          "wantToSee": 2654,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000009761.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "10:45",
+              "14:00",
+              "17:15",
+              "20:30"
+            ]
+          }
+        },
+        {
+          "title": "Running Man",
+          "release_year": "inconnue",
+          "duree": "2h 14min",
+          "rating": "Note inconnue",
+          "genres": "Science Fiction, Thriller, Action",
+          "realisateur": "Edgar Wright",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/57/c6/57c6d1dbb88a0120b9262489a81cb180.jpg",
+          "director": "Edgar Wright",
+          "wantToSee": 2040,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=290564.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "22:00"
+            ]
+          }
+        },
+        {
+          "title": "La Voix de Hind Rajab",
+          "release_year": "inconnue",
+          "duree": "1h 29min",
+          "rating": "Note inconnue",
+          "genres": "Drame",
+          "realisateur": "Kaouther Ben Hania",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/img/66/eb/66eb9392595c24a3ca9975d5cd6b9565.jpg",
+          "director": "Kaouther Ben Hania",
+          "wantToSee": 1624,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000027854.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "13:10",
+              "18:00",
+              "20:10",
+              "22:15"
+            ]
+          }
+        },
+        {
+          "title": "Five Nights At Freddy's 2",
+          "release_year": "inconnue",
+          "duree": "1h 44min",
+          "rating": "Note inconnue",
+          "genres": "Epouvante-horreur",
+          "realisateur": "Emma Tammi",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img4.acsta.net/img/83/b5/83b5868d9264242be16ab460eb7c80ce.jpg",
+          "director": "Emma Tammi",
+          "wantToSee": 819,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=325430.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "16:15",
+              "22:05"
+            ]
+          }
+        },
+        {
+          "title": "Anaconda",
+          "release_year": "inconnue",
+          "duree": "1h 40min",
+          "rating": "Note inconnue",
+          "genres": "Comédie, Aventure",
+          "realisateur": "Tom Gormican",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/20/af/20afc1b148d574dca07ec228be9ac869.jpg",
+          "director": "Tom Gormican",
+          "wantToSee": 542,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=280693.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "10:45",
+              "15:30",
+              "20:00",
+              "22:15"
+            ],
+            "UGC Confluence": [
+              "22:00"
+            ],
+            "UGC Internationale": [
+              "17:50"
+            ]
+          }
+        },
+        {
+          "title": "Los Tigres",
+          "release_year": "inconnue",
+          "duree": "1h 49min",
+          "rating": "Note inconnue",
+          "genres": "Policier",
+          "realisateur": "Alberto Rodriguez",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/img/e6/07/e6072a30a6045a3cdc545da6bbafe62a.jpg",
+          "director": "Alberto Rodriguez",
+          "wantToSee": 525,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=325967.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "11:00",
+              "14:00",
+              "16:30",
+              "19:30",
+              "22:00"
+            ]
+          }
+        },
+        {
+          "title": "L'Oeuf de l'ange",
+          "release_year": "inconnue",
+          "duree": "1h 11min",
+          "rating": "Note inconnue",
+          "genres": "Animation, Drame, Fantastique",
+          "realisateur": "Mamoru Oshii",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/img/21/dc/21dcf80d9412be190207f2968e4e004f.jpg",
+          "director": "Mamoru Oshii",
+          "wantToSee": 504,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=44305.html",
+          "seances": {
+            "UGC Internationale": [
+              "21:00"
+            ]
+          }
+        },
+        {
+          "title": "Sur un air de blues",
+          "release_year": "inconnue",
+          "duree": "2h 13min",
+          "rating": "Note inconnue",
+          "genres": "Drame, Comédie musicale",
+          "realisateur": "Craig Brewer",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img5.acsta.net/img/46/12/46121ba1562a16d04bd209bbb952cbc9.jpg",
+          "director": "Craig Brewer",
+          "wantToSee": 420,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000013390.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "10:40",
+              "16:10",
+              "18:55",
+              "21:40"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "date": "2026-01-07",
+      "movies": []
+    },
+    {
+      "date": "2026-01-08",
+      "movies": [
+        {
+          "title": "Babylon",
+          "release_year": "inconnue",
+          "duree": "3h 09min",
+          "rating": "Note inconnue",
+          "genres": "Historique, Drame",
+          "realisateur": "Damien Chazelle",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img6.acsta.net/pictures/22/12/02/16/03/2536613.jpg",
+          "director": "Damien Chazelle",
+          "wantToSee": 6185,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=275675.html",
+          "seances": {
+            "UGC Confluence": [
+              "20:00"
+            ],
+            "UGC Internationale": [
+              "19:45"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "date": "2026-01-09",
+      "movies": [
+        {
+          "title": "Le Loup-garou de Londres",
+          "release_year": "inconnue",
+          "duree": "1h 37min",
+          "rating": "Note inconnue",
+          "genres": "Epouvante-horreur, Fantastique",
+          "realisateur": "John Landis",
+          "synopsis": "Synopsis non disponible",
+          "affiche": "https://fr.web.img4.acsta.net/pictures/21/06/16/17/58/3431882.jpg",
+          "director": "John Landis",
+          "wantToSee": 242,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1082.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              "20:00"
+            ],
+            "UGC Confluence": [
+              "19:45"
+            ],
+            "UGC Internationale": [
+              "20:30"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "date": "2026-01-10",
+      "movies": []
+    }
+  ]
+}
