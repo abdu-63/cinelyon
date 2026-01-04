@@ -28,18 +28,39 @@
 </p>
 </div>
 
-## ✨ Fonctionnalités
+## Crédit
 
-- 📅 **Calendrier interactif** : Visualisez les horaires sur 7 jours
-- 🎥 **Informations détaillées** : Synopsis, réalisateur, genres, durée, notes TMDB
-- 🗺️ **Carte interactive** : Localisation de tous les cinémas avec Mapbox
-- 🔍 **Barre de recherche** : Filtrez par titre, genre, réalisateur, cinéma ou note
-- 🎬 **Badges VO/VF** : Langue de chaque séance clairement affichée
-- 🎭 **Formats spéciaux** : Badges IMAX, 4DX, 3D pour les séances premium
-- ⚡ **Scraping automatique** : Données mises à jour quotidiennement via GitHub Actions
-- 📱 **Design responsive** : Interface moderne adaptée à tous les écrans
+Fork de [grainParisArt-Public](https://github.com/solene-drnx/grainParisArt-Public)
 
-## 🏗️ Architecture
+## Liste des cinémas choisis
+
+- Pathé Carré de Soie
+- Pathé Bellecour
+- Pathé Vaise
+- UGC Ciné Cité Part-Dieu
+- UGC Ciné Cité Confluence
+- UGC Ciné Cité Internationale
+- UGC Astoria
+- Lumière Bellecour
+- Lumière La Fourmi
+- Lumière Terreaux
+- Institut Lumière
+- CGR Brignais
+- Ciné Meyzieu
+- Ciné Toboggan
+
+## Fonctionnalités
+
+- **Calendrier interactif** : Visualisez les horaires sur 7 jours
+- **Informations détaillées** : Synopsis, réalisateur, genres, durée, notes TMDB
+- **Carte interactive** : Localisation de tous les cinémas avec Mapbox
+- **Barre de recherche** : Filtrez par titre, genre, réalisateur, cinéma ou note
+- **Badges VO/VF** : Langue de chaque séance clairement affichée
+- **Formats spéciaux** : Badges IMAX, 4DX, 3D pour les séances premium
+- **Scraping automatique** : Données mises à jour quotidiennement via GitHub Actions
+- **Design responsive** : Interface moderne adaptée à tous les écrans
+
+## Architecture
 
 ```
 cinelyon/
@@ -55,12 +76,12 @@ cinelyon/
 ├── modules/
 │   └── Classes.py         # Classes: Movie, Theater, Showtime
 ├── templates/
-│   ├── base.html
-│   └── index.html
+│   ├── base.html          # Template de base
+│   └── index.html         # Page d'accueil
 └── static/
-    ├── css/main.css
-    ├── font/
-    └── images/
+    ├── css/main.css       # Styles CSS
+    ├── font/              # Police
+    └── images/            # Images et icônes
 ```
 
 ### Flux de données
@@ -77,7 +98,7 @@ GitHub Actions (4h UTC)
    Vercel / Navigateur
 ```
 
-## 🚀 Installation locale
+## Installation locale
 
 ### Prérequis
 
@@ -113,11 +134,11 @@ GitHub Actions (4h UTC)
    ```bash
    python app.py
    ```
-   → Ouvrir `http://localhost:5000`
+   → Ouvrir `http://127.0.0.1:5000/` ou `http://localhost:5000`
 
-## ☁️ Déploiement Vercel
+## Déploiement Vercel
 
-1. **Importer sur [vercel.com/new](https://vercel.com/new)**
+1. **Importer sur [vercel.com/new](https://vercel.com/new)** (Conseil : GitHub)
 2. **Configurer les variables d'environnement** :
    - `MAPBOX_TOKEN`
    - `WEBSITE_TITLE`
@@ -126,7 +147,7 @@ GitHub Actions (4h UTC)
 
 Le scraping GitHub Actions met à jour `movies.json` → Vercel redéploie automatiquement.
 
-## ⚙️ GitHub Actions
+## GitHub Actions
 
 Le workflow s'exécute :
 - **Automatiquement** : tous les jours à 4h UTC
@@ -138,8 +159,10 @@ Le workflow s'exécute :
 |--------|-------------|
 | `TMDB_API_KEY` | Clé API TMDB (v3 auth) |
 | `THEATERS` | JSON des cinémas |
+| `MAPBOX_TOKEN` | Token Mapbox |
+| `WEBSITE_TITLE` | Titre du site |
 
-## 🎭 Ajouter des cinémas
+## Ajouter des cinémas
 
 Dans `.env` ou les secrets GitHub :
 
@@ -157,10 +180,6 @@ Dans `.env` ou les secrets GitHub :
 - [TMDB API](https://www.themoviedb.org/settings/api) - Clé API pour les données films
 - [Mapbox](https://console.mapbox.com/) - Token pour la carte
 - [Allociné](https://www.allocine.fr/) - Source des séances
-
-## 📄 Crédit
-
-Fork de [grainParisArt-Public](https://github.com/solene-drnx/grainParisArt-Public)
 
 ---
 
