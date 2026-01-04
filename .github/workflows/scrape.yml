@@ -1,9 +1,9 @@
 name: Scrape Movies
 
 on:
-  # Exécution quotidienne à 6h00 UTC (7h00 ou 8h00 heure française selon l'heure d'été)
+  # Exécution quotidienne à 4h00 UTC (5h00 heure française)
   schedule:
-    - cron: '0 6 * * *'
+    - cron: '0 4 * * *'
   
   # Permet de lancer manuellement le workflow
   workflow_dispatch:
@@ -36,5 +36,5 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add movies.json
-          git diff --quiet --cached || git commit -m "🎬 Update movies.json - $(date +'%Y-%m-%d %H:%M')"
+          git diff --quiet --cached || git commit -m "Update movies.json - $(date +'%Y-%m-%d %H:%M')"
           git push
