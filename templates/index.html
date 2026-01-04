@@ -22,7 +22,7 @@
         <div class="contenu_edt">
             <h2 class="txt_edt">Calendrier</h2>
             <div class="calendrier">
-            {% for date in dates %}
+                {% for date in dates %}
                 {% if date.choisi %}
                 <div class="date-selectionne">
                     <p class="jour">{{date.jour}}</p>
@@ -38,7 +38,7 @@
                     </div>
                 </a>
                 {% endif %}
-            {% endfor %}
+                {% endfor %}
             </div>
         </div>
         <div class="line"></div>
@@ -49,7 +49,8 @@
         <div class="infoFilm">
             <div class="blur-background"></div>
             <div>
-                <h3 class="titreFilm"><a href="{{ film.url }}">{{film.title}}</a> <span class="release_year">({{ film.release_year }})</span></h3> 
+                <h3 class="titreFilm"><a href="{{ film.url }}">{{film.title}}</a> <span class="release_year">({{
+                        film.release_year }})</span></h3>
                 <div class="info-content">
                     <p class="realisateur">Réalisateur : {{film.director}}</p>
                     <p class="genre">Genre : {{ film.genres }}</p>
@@ -90,7 +91,7 @@
 
 
 <script>
-    mapboxgl.accessToken = 'pk.eyJ1IjoiYWJkdTUxMiIsImEiOiJjbTdzdjhjdWEwdHh1MnJzZTA0OHl6dDdkIn0.7ZjtATh9732xC9tUX7N8MA';
+    mapboxgl.accessToken = '{{ mapbox_token }}';
 
     var map = new mapboxgl.Map({
         container: 'map',
@@ -102,13 +103,13 @@
     map.addControl(new mapboxgl.NavigationControl());
 
     var locations = [
-    { coordinates: [4.9212527, 45.7641958], description: "Pathé Carré de Soie" },
-    { coordinates: [4.8348411, 45.7587566], description: "Pathé Bellecour" },
-    { coordinates: [4.8544994, 45.7620499], description: "UGC Ciné Cité Part-Dieu" },
-    { coordinates: [5.0028814, 45.7649601], description: "Ciné Meyzieu" },
-    { coordinates: [4.955623, 45.7687615], description: "Ciné Toboggan" },
-    { coordinates: [4.8181753, 45.7407344], description: "UGC Ciné Cité Confluence" },
-    { coordinates: [4.8520202, 45.7845498], description: "UGC Ciné Cité Internationale" }
+        { coordinates: [4.9212527, 45.7641958], description: "Pathé Carré de Soie" },
+        { coordinates: [4.8348411, 45.7587566], description: "Pathé Bellecour" },
+        { coordinates: [4.8544994, 45.7620499], description: "UGC Ciné Cité Part-Dieu" },
+        { coordinates: [5.0028814, 45.7649601], description: "Ciné Meyzieu" },
+        { coordinates: [4.955623, 45.7687615], description: "Ciné Toboggan" },
+        { coordinates: [4.8181753, 45.7407344], description: "UGC Ciné Cité Confluence" },
+        { coordinates: [4.8520202, 45.7845498], description: "UGC Ciné Cité Internationale" }
     ];
 
     locations.forEach(function (location) {
