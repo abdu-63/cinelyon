@@ -160,11 +160,15 @@ class Theater:
         
         for movie in data['results']:
             inst = Movie(movie["movie"])
-            movie_showtimes = movie["showtimes"].get("dubbed", []) + \
-                            movie["showtimes"].get("original", []) + \
-                            movie["showtimes"].get("local", [])
+            
+            # Récupérer toutes les séances de toutes les catégories
+            all_showtimes_data = []
+            showtimes_dict = movie.get("showtimes", {})
+            for key, value in showtimes_dict.items():
+                if isinstance(value, list):
+                    all_showtimes_data.extend(value)
 
-            for showtime_data in movie_showtimes:
+            for showtime_data in all_showtimes_data:
                 showtimes.append(Showtime(showtime_data, self, inst))
         
         if int(data['pagination']['page']) < int(data['pagination']["totalPages"]):
