@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-01-04T21:29:42.208345",
+  "generated_at": "2026-01-04T21:37:50.070255",
   "days": [
     {
       "date": "2026-01-04",
@@ -163,6 +163,13 @@
                 "format": "3D"
               }
             ],
+            "Pathé Vaise": [
+              {
+                "time": "21:20",
+                "lang": "VO",
+                "format": "3D"
+              }
+            ],
             "UGC Internationale": [
               {
                 "time": "10:30",
@@ -224,6 +231,18 @@
                 "lang": "VF",
                 "format": null
               }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "21:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "21:45",
+                "lang": "VF",
+                "format": "3D"
+              }
             ]
           }
         },
@@ -237,7 +256,7 @@
           "synopsis": "Bob Ferguson est un ancien révolutionnaire paranoïaque et désabusé, qui a jadis œuvré avec son ex, Perfidia, au sein du French 75, un groupe militant voué au renversement du gouvernement américain. Seize ans plus tard, Bob vit seul avec sa fille, Willa, quand celle-ci disparaît soudainement. Bob soupçonne son vieil ennemi d’antan, le Colonel Steven J. Lockjaw, d’être responsable de sa disparition. Il décide alors de renouer avec ses anciens frères d’armes pour retrouver sa fille, quitte à confronter les fantômes de son passé.",
           "affiche": "https://fr.web.img2.acsta.net/img/61/0d/610dc2fcd83afe3717f771b889b979c2.jpg",
           "director": "Paul Thomas Anderson",
-          "wantToSee": 5592,
+          "wantToSee": 5593,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=311364.html",
           "seances": {
             "Lumière La Fourmi": [
@@ -259,7 +278,7 @@
           "synopsis": "Le dossier 137 est en apparence une affaire de plus pour Stéphanie, enquêtrice à l’IGPN, la police des polices. Une manifestation tendue, un jeune homme blessé par un tir de LBD, des circonstances à éclaircir pour établir une responsabilité. Mais un élément inattendu va troubler Stéphanie, pour qui le dossier 137 devient autre chose qu’un simple numéro.",
           "affiche": "https://fr.web.img3.acsta.net/img/f2/64/f2640084cabb11cf1457d43888f43084.jpg",
           "director": "Dominik Moll",
-          "wantToSee": 3758,
+          "wantToSee": 3754,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000008860.html",
           "seances": {
             "Lumière Bellecour": [
@@ -465,6 +484,13 @@
                 "format": null
               }
             ],
+            "Pathé Vaise": [
+              {
+                "time": "21:00",
+                "lang": "VF",
+                "format": null
+              }
+            ],
             "UGC Internationale": [
               {
                 "time": "22:10",
@@ -558,7 +584,7 @@
           "synopsis": "Alger, 1938. Meursault, un jeune homme d’une trentaine d’années, modeste employé, enterre sa mère sans manifester la moindre émotion. Le lendemain, il entame une liaison avec Marie, une collègue de bureau. Puis il reprend sa vie de tous les jours. Mais son voisin, Raymond Sintès vient perturber son quotidien en l’entraînant dans des histoires louches jusqu’à un drame sur une plage, sous un soleil de plomb…",
           "affiche": "https://fr.web.img3.acsta.net/img/b9/cc/b9cc22a9378857355a4efae5f6c76707.jpg",
           "director": "François Ozon",
-          "wantToSee": 3217,
+          "wantToSee": 3216,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000019380.html",
           "seances": {
             "Lumière La Fourmi": [
@@ -822,6 +848,11 @@
             ],
             "CGR Brignais": [
               {
+                "time": "21:00",
+                "lang": "VF",
+                "format": null
+              },
+              {
                 "time": "22:15",
                 "lang": "VF",
                 "format": null
@@ -903,7 +934,7 @@
           "synopsis": "La femme la plus riche du monde : sa beauté, son intelligence, son pouvoir. Un écrivain photographe : son ambition, son insolence, sa folie. Le coup de foudre qui les emporte. Une héritière méfiante qui se bat pour être aimée. Un majordome aux aguets qui en sait plus qu’il ne dit. Des secrets de famille. Des donations astronomiques. Une guerre où tous les coups sont permis. Une histoire trop connue pour qu’on ne la raconte pas autrement.",
           "affiche": "https://fr.web.img2.acsta.net/img/e1/6e/e16e8e1896a723183dca39a874939073.jpg",
           "director": "Thierry Klifa",
-          "wantToSee": 2641,
+          "wantToSee": 2640,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000006191.html",
           "seances": {
             "Lumière La Fourmi": [
@@ -1436,7 +1467,7 @@
           "synopsis": "C’est l’histoire de Céleste, jeune bonne employée chez Victoire et André, en 1908. C’est l’histoire de Victoire, de l’épouse modèle qu’elle ne sait pas être. Deux femmes que tout sépare mais qui vivent sous le même toit, défiant les conventions et les non-dits.",
           "affiche": "https://fr.web.img4.acsta.net/img/65/9f/659f5b54ac267e57f6183011bcfb99aa.jpg",
           "director": "Jérôme Bonnell",
-          "wantToSee": 952,
+          "wantToSee": 951,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=317099.html",
           "seances": {
             "Lumière Bellecour": [
@@ -1465,7 +1496,7 @@
           "synopsis": "",
           "affiche": "https://fr.web.img5.acsta.net/img/5b/c3/5bc38e41de3e658a750fc158815799cf.jpg",
           "director": "Lav Diaz",
-          "wantToSee": 903,
+          "wantToSee": 900,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000022573.html",
           "seances": {
             "Lumière Bellecour": [
@@ -1492,7 +1523,7 @@
           "synopsis": "Nagasaki, 1964 - A la mort de son père, chef d’un gang de yakuzas, Kikuo, 14 ans, est confié à un célèbre acteur de kabuki. Aux côtés de Shunsuke, le fils unique de ce dernier, il décide de se consacrer à ce théâtre traditionnel. Durant des décennies, les deux jeunes hommes évoluent côte à côte, de l’école du jeu aux plus belles salles de spectacle, entre scandales et gloire, fraternité et trahisons... L'un des deux deviendra le plus grand maître japonais de l'art du kabuki.",
           "affiche": "https://fr.web.img2.acsta.net/img/86/c3/86c3bc332654205f70fc0c25498ccdf5.jpg",
           "director": "Sang-il Lee",
-          "wantToSee": 873,
+          "wantToSee": 872,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000018284.html",
           "seances": {
             "UGC Astoria": [
@@ -1559,6 +1590,13 @@
             "UGC Confluence": [
               {
                 "time": "22:00",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "21:30",
                 "lang": "VF",
                 "format": null
               }
@@ -1655,7 +1693,7 @@
           "synopsis": "Des frères et sœurs séparés se retrouvent après des années de séparation, obligés de faire face à des tensions non résolues et de réévaluer leurs relations tendues avec leurs parents émotionnellement éloignés.",
           "affiche": "https://fr.web.img2.acsta.net/img/18/de/18decda3afef9ae047694aac0d89c169.jpg",
           "director": "Jim Jarmusch",
-          "wantToSee": 706,
+          "wantToSee": 700,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=326117.html",
           "seances": {
             "UGC Astoria": [
@@ -1829,6 +1867,13 @@
                 "format": null
               }
             ],
+            "Pathé Vaise": [
+              {
+                "time": "21:00",
+                "lang": "VO",
+                "format": null
+              }
+            ],
             "UGC Internationale": [
               {
                 "time": "17:50",
@@ -1949,7 +1994,7 @@
           "synopsis": "Printemps 1945, sur l’île d’Amrum, au large de l'Allemagne. Dans les derniers jours de la guerre, Nanning, 12 ans, brave une mer dangereuse pour chasser les phoques, pêche de nuit et travaille à la ferme voisine pour aider sa mère à nourrir la famille. Lorsque la paix arrive enfin, de nouveaux conflits surgissent, et Nanning doit apprendre à tracer son propre chemin dans un monde bouleversé.",
           "affiche": "https://fr.web.img6.acsta.net/img/29/54/2954a33501785f46c122a9ef80f937c6.jpg",
           "director": "Fatih Akın",
-          "wantToSee": 534,
+          "wantToSee": 535,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=309535.html",
           "seances": {
             "Lumière Terreaux": [
@@ -2020,7 +2065,7 @@
           "synopsis": "Chine, au début des années 1990, Chuang, 10 ans, est élevé par sa famille dans son village tandis que ses parents travaillent en ville.",
           "affiche": "https://fr.web.img2.acsta.net/img/74/0e/740e757ee905b05882b204567f5ea1b9.jpg",
           "director": "Huo Meng",
-          "wantToSee": 501,
+          "wantToSee": 499,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000018564.html",
           "seances": {
             "Lumière Terreaux": [
@@ -2301,7 +2346,7 @@
           "synopsis": "Printemps 1922. L'époque est propice au relâchement des mœurs, à l'essor du jazz et à l’enrichissement des contrebandiers d’alcool… Apprenti écrivain, Nick Carraway quitte la région du Middle‐West pour s'installer à New York. Voulant sa part du rêve américain, il vit désormais entouré d'un mystérieux millionnaire, Jay Gatsby, qui s'étourdit en fêtes mondaines, et de sa cousine Daisy et de son mari volage, Tom Buchanan, issu de sang noble. C’est ainsi que Nick se retrouve au cœur du monde fascinant des milliardaires, de leurs illusions, de leurs amours et de leurs mensonges. Témoin privilégié de son temps, il se met à écrire une histoire où se mêlent des amours impossibles, des rêves d’absolu et des tragédies ravageuses et, chemin faisant, nous tend un miroir où se reflètent notre époque moderne et ses combats.",
           "affiche": "https://fr.web.img4.acsta.net/img/cf/17/cf172edaf4fe71ff73db949899390f9c.jpg",
           "director": "Jack Clayton",
-          "wantToSee": 329,
+          "wantToSee": 330,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=33355.html",
           "seances": {
             "Institut Lumière": [
@@ -2420,7 +2465,7 @@
           "synopsis": "Céline arrive pour la première fois en Arménie afin de régulariser la mort d’Arto, son mari. Elle découvre qu’il lui a menti, qu’il a fait la guerre, usurpé son identité, et que ses anciens amis le tiennent pour un déserteur. Commence pour elle un nouveau voyage, à la rencontre du passé d'Arto : invalides des combats de 2020, vétérans des batailles victorieuses des années 90, hantises d’une guerre qui n’en finit jamais. Une femme court après un fantôme. Comment faire pour l’enterrer ? Peut-on sauver les morts ?",
           "affiche": "https://fr.web.img2.acsta.net/img/f7/38/f738c353019cfe13d0d338999dd2cc4b.jpg",
           "director": "Tamara Stepanyan",
-          "wantToSee": 252,
+          "wantToSee": 249,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=325261.html",
           "seances": {
             "Lumière Bellecour": [
@@ -2598,7 +2643,7 @@
           "synopsis": "Pour entrer dans l’âge adulte, un vampire doit mordre. Pour conjurer cette virginité, il lui faut du sang \"pur\". Autrement, il sait qu’une malédiction s’abattrait sur sa famille : ils retourneraient en poussière, leur château avec. Norbert a déjà 350 ans, il est temps pour lui de devenir cet adulte. Il a trouvé sa proie, mais qui s’avère être une chasseuse de vampire. Il en sort traumatisé, et une dent en moins. Sa famille décide de l’envoyer à l’autre bout du monde pour vaincre sa soudaine phobie, mordre et sauver leur château. Norbert débarque par erreur sur l’île de Boulet Rouge, régie par le cartésianisme français. L’arrivée de Norbert déclenche bien sûr une chasse au vampire…",
           "affiche": "https://fr.web.img2.acsta.net/img/e3/7d/e37daab987b133220403cbbc46c47d16.jpg",
           "director": "Antonin Peretjatko",
-          "wantToSee": 141,
+          "wantToSee": 142,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=328493.html",
           "seances": {
             "Lumière La Fourmi": [
@@ -3129,7 +3174,7 @@
           "synopsis": "Bob Ferguson est un ancien révolutionnaire paranoïaque et désabusé, qui a jadis œuvré avec son ex, Perfidia, au sein du French 75, un groupe militant voué au renversement du gouvernement américain. Seize ans plus tard, Bob vit seul avec sa fille, Willa, quand celle-ci disparaît soudainement. Bob soupçonne son vieil ennemi d’antan, le Colonel Steven J. Lockjaw, d’être responsable de sa disparition. Il décide alors de renouer avec ses anciens frères d’armes pour retrouver sa fille, quitte à confronter les fantômes de son passé.",
           "affiche": "https://fr.web.img2.acsta.net/img/61/0d/610dc2fcd83afe3717f771b889b979c2.jpg",
           "director": "Paul Thomas Anderson",
-          "wantToSee": 5592,
+          "wantToSee": 5593,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=311364.html",
           "seances": {
             "Lumière La Fourmi": [
@@ -3569,7 +3614,7 @@
           "synopsis": "Alger, 1938. Meursault, un jeune homme d’une trentaine d’années, modeste employé, enterre sa mère sans manifester la moindre émotion. Le lendemain, il entame une liaison avec Marie, une collègue de bureau. Puis il reprend sa vie de tous les jours. Mais son voisin, Raymond Sintès vient perturber son quotidien en l’entraînant dans des histoires louches jusqu’à un drame sur une plage, sous un soleil de plomb…",
           "affiche": "https://fr.web.img3.acsta.net/img/b9/cc/b9cc22a9378857355a4efae5f6c76707.jpg",
           "director": "François Ozon",
-          "wantToSee": 3217,
+          "wantToSee": 3216,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000019380.html",
           "seances": {
             "Lumière La Fourmi": [
@@ -4048,7 +4093,7 @@
           "synopsis": "La femme la plus riche du monde : sa beauté, son intelligence, son pouvoir. Un écrivain photographe : son ambition, son insolence, sa folie. Le coup de foudre qui les emporte. Une héritière méfiante qui se bat pour être aimée. Un majordome aux aguets qui en sait plus qu’il ne dit. Des secrets de famille. Des donations astronomiques. Une guerre où tous les coups sont permis. Une histoire trop connue pour qu’on ne la raconte pas autrement.",
           "affiche": "https://fr.web.img2.acsta.net/img/e1/6e/e16e8e1896a723183dca39a874939073.jpg",
           "director": "Thierry Klifa",
-          "wantToSee": 2641,
+          "wantToSee": 2640,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000006191.html",
           "seances": {
             "Lumière La Fourmi": [
@@ -4312,7 +4357,7 @@
           "synopsis": "Un homme marche, sac au dos, bâton à la main, veste lourde et chaude sur les épaules, vers les profondeurs d’une vieille forêt moussue. Ni le vent, ni la brume, ni même la neige ne l’arrêteront dans son élan pour rejoindre son affût, sa planque : un sapin. En se glissant sous ses branches basses, l’homme s’efface et un monde s’éveille. Celui des bêtes. Le vieux sage nous invite à partager des émotions puissantes à ses côtés, celles qu’il a ressenties au cours de milliers d’affuts. Le moment est venu pour lui d’ouvrir son savoir, ses souvenirs de ses plus belles rencontres sauvages. Au cours d’un voyage dans nos forêts proches, il nous éveillera au \"sensible\", où plus précisément à la poésie du monde sauvage, celle qu’il a transmise à son fils dès l’âge de 12 ans et qu’il transmettra peut-être à son petit-fils.",
           "affiche": "https://fr.web.img4.acsta.net/img/f5/52/f5523e15c97af96169bdc93479553602.jpg",
           "director": "Vincent Munier",
-          "wantToSee": 1851,
+          "wantToSee": 1847,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=321789.html",
           "seances": {
             "Lumière Terreaux": [
@@ -4702,7 +4747,7 @@
           "synopsis": "C’est l’histoire de Céleste, jeune bonne employée chez Victoire et André, en 1908. C’est l’histoire de Victoire, de l’épouse modèle qu’elle ne sait pas être. Deux femmes que tout sépare mais qui vivent sous le même toit, défiant les conventions et les non-dits.",
           "affiche": "https://fr.web.img4.acsta.net/img/65/9f/659f5b54ac267e57f6183011bcfb99aa.jpg",
           "director": "Jérôme Bonnell",
-          "wantToSee": 952,
+          "wantToSee": 951,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=317099.html",
           "seances": {
             "Lumière Bellecour": [
@@ -4731,7 +4776,7 @@
           "synopsis": "",
           "affiche": "https://fr.web.img5.acsta.net/img/5b/c3/5bc38e41de3e658a750fc158815799cf.jpg",
           "director": "Lav Diaz",
-          "wantToSee": 903,
+          "wantToSee": 900,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000022573.html",
           "seances": {
             "Lumière Bellecour": [
@@ -4780,7 +4825,7 @@
           "synopsis": "Nagasaki, 1964 - A la mort de son père, chef d’un gang de yakuzas, Kikuo, 14 ans, est confié à un célèbre acteur de kabuki. Aux côtés de Shunsuke, le fils unique de ce dernier, il décide de se consacrer à ce théâtre traditionnel. Durant des décennies, les deux jeunes hommes évoluent côte à côte, de l’école du jeu aux plus belles salles de spectacle, entre scandales et gloire, fraternité et trahisons... L'un des deux deviendra le plus grand maître japonais de l'art du kabuki.",
           "affiche": "https://fr.web.img2.acsta.net/img/86/c3/86c3bc332654205f70fc0c25498ccdf5.jpg",
           "director": "Sang-il Lee",
-          "wantToSee": 873,
+          "wantToSee": 872,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000018284.html",
           "seances": {
             "UGC Astoria": [
@@ -5023,7 +5068,7 @@
           "title": "Chasse gardée 2",
           "release_year": "2025",
           "duree": "1h 40min",
-          "rating": "5.9",
+          "rating": "5.8",
           "genres": "Comédie",
           "realisateur": "Antonin Fourlon",
           "synopsis": "Deux ans se sont écoulés à Saint Hubert. La vie y est paisible, peut-être trop pour Adélaïde et Simon qui souffrent du manque d’amis de leur âge. C’est sans compter sur l’arrivée de Stanislas, le fils de Bernard (l'ancien président des chasseurs du village), qui revient vivre à la campagne avec sa femme et ses deux enfants. Ils sont beaux, jeunes, et sympas. Leur seul défaut : ils pratiquent la chasse à courre ! La paix du village va être mise à mal : nouveaux voisins, nouveaux problèmes…",
@@ -5450,7 +5495,7 @@
           "synopsis": "Printemps 1945, sur l’île d’Amrum, au large de l'Allemagne. Dans les derniers jours de la guerre, Nanning, 12 ans, brave une mer dangereuse pour chasser les phoques, pêche de nuit et travaille à la ferme voisine pour aider sa mère à nourrir la famille. Lorsque la paix arrive enfin, de nouveaux conflits surgissent, et Nanning doit apprendre à tracer son propre chemin dans un monde bouleversé.",
           "affiche": "https://fr.web.img6.acsta.net/img/29/54/2954a33501785f46c122a9ef80f937c6.jpg",
           "director": "Fatih Akın",
-          "wantToSee": 534,
+          "wantToSee": 535,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=309535.html",
           "seances": {
             "Lumière Terreaux": [
@@ -5521,7 +5566,7 @@
           "synopsis": "Chine, au début des années 1990, Chuang, 10 ans, est élevé par sa famille dans son village tandis que ses parents travaillent en ville.",
           "affiche": "https://fr.web.img2.acsta.net/img/74/0e/740e757ee905b05882b204567f5ea1b9.jpg",
           "director": "Huo Meng",
-          "wantToSee": 501,
+          "wantToSee": 499,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000018564.html",
           "seances": {
             "Lumière Terreaux": [
@@ -5693,7 +5738,7 @@
           "synopsis": "Louise de Pileggi, brillante substitut du procureur, a toujours eu des relations compliquées avec sa mère Judith qu’elle n’a pas vue depuis 15 ans. Quand elle se retrouve mutée au petit tribunal où Judith est greffière, Louise devient la cheffe de sa mère. Et pire encore : elles vont devoir collaborer dans une affaire à première vue banale, mais qui va mettre leurs nerfs à vif.",
           "affiche": "https://fr.web.img6.acsta.net/img/ea/fd/eafdfac8bc40d63ec84a32063363565a.jpg",
           "director": "Pierre Mazingarbe",
-          "wantToSee": 375,
+          "wantToSee": 374,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=279638.html",
           "seances": {
             "Pathé Vaise": [
@@ -5967,7 +6012,7 @@
           "synopsis": "Céline arrive pour la première fois en Arménie afin de régulariser la mort d’Arto, son mari. Elle découvre qu’il lui a menti, qu’il a fait la guerre, usurpé son identité, et que ses anciens amis le tiennent pour un déserteur. Commence pour elle un nouveau voyage, à la rencontre du passé d'Arto : invalides des combats de 2020, vétérans des batailles victorieuses des années 90, hantises d’une guerre qui n’en finit jamais. Une femme court après un fantôme. Comment faire pour l’enterrer ? Peut-on sauver les morts ?",
           "affiche": "https://fr.web.img2.acsta.net/img/f7/38/f738c353019cfe13d0d338999dd2cc4b.jpg",
           "director": "Tamara Stepanyan",
-          "wantToSee": 252,
+          "wantToSee": 249,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=325261.html",
           "seances": {
             "Lumière Bellecour": [
@@ -6103,7 +6148,7 @@
           "synopsis": "Pour entrer dans l’âge adulte, un vampire doit mordre. Pour conjurer cette virginité, il lui faut du sang \"pur\". Autrement, il sait qu’une malédiction s’abattrait sur sa famille : ils retourneraient en poussière, leur château avec. Norbert a déjà 350 ans, il est temps pour lui de devenir cet adulte. Il a trouvé sa proie, mais qui s’avère être une chasseuse de vampire. Il en sort traumatisé, et une dent en moins. Sa famille décide de l’envoyer à l’autre bout du monde pour vaincre sa soudaine phobie, mordre et sauver leur château. Norbert débarque par erreur sur l’île de Boulet Rouge, régie par le cartésianisme français. L’arrivée de Norbert déclenche bien sûr une chasse au vampire…",
           "affiche": "https://fr.web.img2.acsta.net/img/e3/7d/e37daab987b133220403cbbc46c47d16.jpg",
           "director": "Antonin Peretjatko",
-          "wantToSee": 141,
+          "wantToSee": 142,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=328493.html",
           "seances": {
             "Lumière La Fourmi": [
@@ -6125,7 +6170,7 @@
           "synopsis": "Palestine, 1936. La grande révolte arabe, destinée à faire émerger un État indépendant, se prépare alors que le territoire est sous mandat britannique.",
           "affiche": "https://fr.web.img2.acsta.net/img/37/0c/370c9b5f7f8502fb80051e5e9920fe9b.jpg",
           "director": "Annemarie Jacir",
-          "wantToSee": 102,
+          "wantToSee": 101,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000022541.html",
           "seances": {
             "Lumière Terreaux": [
@@ -6683,7 +6728,7 @@
           "synopsis": "Bob Ferguson est un ancien révolutionnaire paranoïaque et désabusé, qui a jadis œuvré avec son ex, Perfidia, au sein du French 75, un groupe militant voué au renversement du gouvernement américain. Seize ans plus tard, Bob vit seul avec sa fille, Willa, quand celle-ci disparaît soudainement. Bob soupçonne son vieil ennemi d’antan, le Colonel Steven J. Lockjaw, d’être responsable de sa disparition. Il décide alors de renouer avec ses anciens frères d’armes pour retrouver sa fille, quitte à confronter les fantômes de son passé.",
           "affiche": "https://fr.web.img2.acsta.net/img/61/0d/610dc2fcd83afe3717f771b889b979c2.jpg",
           "director": "Paul Thomas Anderson",
-          "wantToSee": 5592,
+          "wantToSee": 5593,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=311364.html",
           "seances": {
             "Lumière La Fourmi": [
@@ -7101,7 +7146,7 @@
           "synopsis": "Alger, 1938. Meursault, un jeune homme d’une trentaine d’années, modeste employé, enterre sa mère sans manifester la moindre émotion. Le lendemain, il entame une liaison avec Marie, une collègue de bureau. Puis il reprend sa vie de tous les jours. Mais son voisin, Raymond Sintès vient perturber son quotidien en l’entraînant dans des histoires louches jusqu’à un drame sur une plage, sous un soleil de plomb…",
           "affiche": "https://fr.web.img3.acsta.net/img/b9/cc/b9cc22a9378857355a4efae5f6c76707.jpg",
           "director": "François Ozon",
-          "wantToSee": 3217,
+          "wantToSee": 3216,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000019380.html",
           "seances": {
             "Lumière La Fourmi": [
@@ -7575,7 +7620,7 @@
           "synopsis": "La femme la plus riche du monde : sa beauté, son intelligence, son pouvoir. Un écrivain photographe : son ambition, son insolence, sa folie. Le coup de foudre qui les emporte. Une héritière méfiante qui se bat pour être aimée. Un majordome aux aguets qui en sait plus qu’il ne dit. Des secrets de famille. Des donations astronomiques. Une guerre où tous les coups sont permis. Une histoire trop connue pour qu’on ne la raconte pas autrement.",
           "affiche": "https://fr.web.img2.acsta.net/img/e1/6e/e16e8e1896a723183dca39a874939073.jpg",
           "director": "Thierry Klifa",
-          "wantToSee": 2641,
+          "wantToSee": 2640,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000006191.html",
           "seances": {
             "Lumière La Fourmi": [
@@ -8287,7 +8332,7 @@
           "synopsis": "C’est l’histoire de Céleste, jeune bonne employée chez Victoire et André, en 1908. C’est l’histoire de Victoire, de l’épouse modèle qu’elle ne sait pas être. Deux femmes que tout sépare mais qui vivent sous le même toit, défiant les conventions et les non-dits.",
           "affiche": "https://fr.web.img4.acsta.net/img/65/9f/659f5b54ac267e57f6183011bcfb99aa.jpg",
           "director": "Jérôme Bonnell",
-          "wantToSee": 952,
+          "wantToSee": 951,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=317099.html",
           "seances": {
             "Lumière Bellecour": [
@@ -8316,7 +8361,7 @@
           "synopsis": "",
           "affiche": "https://fr.web.img5.acsta.net/img/5b/c3/5bc38e41de3e658a750fc158815799cf.jpg",
           "director": "Lav Diaz",
-          "wantToSee": 903,
+          "wantToSee": 900,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000022573.html",
           "seances": {
             "Lumière Bellecour": [
@@ -8365,7 +8410,7 @@
           "synopsis": "Nagasaki, 1964 - A la mort de son père, chef d’un gang de yakuzas, Kikuo, 14 ans, est confié à un célèbre acteur de kabuki. Aux côtés de Shunsuke, le fils unique de ce dernier, il décide de se consacrer à ce théâtre traditionnel. Durant des décennies, les deux jeunes hommes évoluent côte à côte, de l’école du jeu aux plus belles salles de spectacle, entre scandales et gloire, fraternité et trahisons... L'un des deux deviendra le plus grand maître japonais de l'art du kabuki.",
           "affiche": "https://fr.web.img2.acsta.net/img/86/c3/86c3bc332654205f70fc0c25498ccdf5.jpg",
           "director": "Sang-il Lee",
-          "wantToSee": 873,
+          "wantToSee": 872,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000018284.html",
           "seances": {
             "UGC Astoria": [
@@ -8591,7 +8636,7 @@
           "title": "Chasse gardée 2",
           "release_year": "2025",
           "duree": "1h 40min",
-          "rating": "5.9",
+          "rating": "5.8",
           "genres": "Comédie",
           "realisateur": "Antonin Fourlon",
           "synopsis": "Deux ans se sont écoulés à Saint Hubert. La vie y est paisible, peut-être trop pour Adélaïde et Simon qui souffrent du manque d’amis de leur âge. C’est sans compter sur l’arrivée de Stanislas, le fils de Bernard (l'ancien président des chasseurs du village), qui revient vivre à la campagne avec sa femme et ses deux enfants. Ils sont beaux, jeunes, et sympas. Leur seul défaut : ils pratiquent la chasse à courre ! La paix du village va être mise à mal : nouveaux voisins, nouveaux problèmes…",
@@ -8954,7 +8999,7 @@
           "synopsis": "Printemps 1945, sur l’île d’Amrum, au large de l'Allemagne. Dans les derniers jours de la guerre, Nanning, 12 ans, brave une mer dangereuse pour chasser les phoques, pêche de nuit et travaille à la ferme voisine pour aider sa mère à nourrir la famille. Lorsque la paix arrive enfin, de nouveaux conflits surgissent, et Nanning doit apprendre à tracer son propre chemin dans un monde bouleversé.",
           "affiche": "https://fr.web.img6.acsta.net/img/29/54/2954a33501785f46c122a9ef80f937c6.jpg",
           "director": "Fatih Akın",
-          "wantToSee": 534,
+          "wantToSee": 535,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=309535.html",
           "seances": {
             "Lumière Terreaux": [
@@ -9089,7 +9134,7 @@
           "synopsis": "Chine, au début des années 1990, Chuang, 10 ans, est élevé par sa famille dans son village tandis que ses parents travaillent en ville.",
           "affiche": "https://fr.web.img2.acsta.net/img/74/0e/740e757ee905b05882b204567f5ea1b9.jpg",
           "director": "Huo Meng",
-          "wantToSee": 501,
+          "wantToSee": 499,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000018564.html",
           "seances": {
             "Lumière Terreaux": [
@@ -9256,7 +9301,7 @@
           "synopsis": "Louise de Pileggi, brillante substitut du procureur, a toujours eu des relations compliquées avec sa mère Judith qu’elle n’a pas vue depuis 15 ans. Quand elle se retrouve mutée au petit tribunal où Judith est greffière, Louise devient la cheffe de sa mère. Et pire encore : elles vont devoir collaborer dans une affaire à première vue banale, mais qui va mettre leurs nerfs à vif.",
           "affiche": "https://fr.web.img6.acsta.net/img/ea/fd/eafdfac8bc40d63ec84a32063363565a.jpg",
           "director": "Pierre Mazingarbe",
-          "wantToSee": 375,
+          "wantToSee": 374,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=279638.html",
           "seances": {
             "Pathé Vaise": [
@@ -9535,7 +9580,7 @@
           "synopsis": "Céline arrive pour la première fois en Arménie afin de régulariser la mort d’Arto, son mari. Elle découvre qu’il lui a menti, qu’il a fait la guerre, usurpé son identité, et que ses anciens amis le tiennent pour un déserteur. Commence pour elle un nouveau voyage, à la rencontre du passé d'Arto : invalides des combats de 2020, vétérans des batailles victorieuses des années 90, hantises d’une guerre qui n’en finit jamais. Une femme court après un fantôme. Comment faire pour l’enterrer ? Peut-on sauver les morts ?",
           "affiche": "https://fr.web.img2.acsta.net/img/f7/38/f738c353019cfe13d0d338999dd2cc4b.jpg",
           "director": "Tamara Stepanyan",
-          "wantToSee": 252,
+          "wantToSee": 249,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=325261.html",
           "seances": {
             "Lumière Bellecour": [
@@ -9698,7 +9743,7 @@
           "synopsis": "Pour entrer dans l’âge adulte, un vampire doit mordre. Pour conjurer cette virginité, il lui faut du sang \"pur\". Autrement, il sait qu’une malédiction s’abattrait sur sa famille : ils retourneraient en poussière, leur château avec. Norbert a déjà 350 ans, il est temps pour lui de devenir cet adulte. Il a trouvé sa proie, mais qui s’avère être une chasseuse de vampire. Il en sort traumatisé, et une dent en moins. Sa famille décide de l’envoyer à l’autre bout du monde pour vaincre sa soudaine phobie, mordre et sauver leur château. Norbert débarque par erreur sur l’île de Boulet Rouge, régie par le cartésianisme français. L’arrivée de Norbert déclenche bien sûr une chasse au vampire…",
           "affiche": "https://fr.web.img2.acsta.net/img/e3/7d/e37daab987b133220403cbbc46c47d16.jpg",
           "director": "Antonin Peretjatko",
-          "wantToSee": 141,
+          "wantToSee": 142,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=328493.html",
           "seances": {
             "Lumière La Fourmi": [
@@ -11055,7 +11100,7 @@
           "synopsis": "",
           "affiche": "https://fr.web.img6.acsta.net/img/5c/cc/5ccc78f32e9647a668217475403b8a74.jpeg",
           "director": "H. Vinoth",
-          "wantToSee": 30,
+          "wantToSee": 28,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000019038.html",
           "seances": {
             "Pathé Vaise": [
@@ -11336,7 +11381,7 @@
           "synopsis": "",
           "affiche": "https://fr.web.img6.acsta.net/img/5c/cc/5ccc78f32e9647a668217475403b8a74.jpeg",
           "director": "H. Vinoth",
-          "wantToSee": 30,
+          "wantToSee": 28,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000019038.html",
           "seances": {
             "Pathé Vaise": [
