@@ -4,9 +4,6 @@ import os
 from flask import Flask, render_template, request
 from datetime import datetime, timedelta
 
-# IMPORT DES MODULES
-from modules.Classes import *
-
 # On charge les variables d'environnement...
 dotenv.load_dotenv(".env")
 # et celles par défaut pour avoir la liste des cinémas
@@ -15,70 +12,43 @@ dotenv.load_dotenv(".env.sample")
 WEBSITE_TITLE = os.environ.get("WEBSITE_TITLE", "CinéLyon")
 MAPBOX_TOKEN = os.environ.get("MAPBOX_TOKEN", "")
 
+# Charger les emplacements des cinémas pour la carte
 theaters_json = json.loads(os.environ.get("THEATERS", "[]"))
-
-theaters: list[Theater] = []
-for theater in theaters_json:
-    theaters.append(Theater({
-        "name": theater["name"],
-        "internalId": theater["id"],
-        "latitude": theater["latitude"],
-        "longitude": theater["longitude"],
-        "location": None
-    }))
-
 theater_locations = []
-for theater in theaters:
+for theater in theaters_json:
     theater_locations.append({
-        "coordinates": [theater.longitude, theater.latitude],
-        "description": theater.name,
+        "coordinates": [theater["longitude"], theater["latitude"]],
+        "description": theater["name"],
     })
 
-def getShowtimes(date):
-    showtimes:list[Showtime] = []
 
-    for theater in theaters:
-        showtimes.extend(theater.getShowtimes(date))
-
-    data = {}
-
-    for showtime in showtimes:
-        movie = showtime.movie
-        theater = showtime.theater
-
-        if showtime.movie.title not in data.keys():
-            data[movie.title] = {
-                "title": movie.title,
-                "release_year": movie.release_year,
-                "duree": movie.runtime,
-                "rating": movie.rating,
-                "genres": ", ".join(movie.genres),
-                "realisateur": movie.director,
-                "synopsis": movie.synopsis,
-                "affiche": movie.affiche,
-                "director": movie.director,
-                "wantToSee": movie.wantToSee,
-                "url": f"https://www.allocine.fr/film/fichefilm_gen_cfilm={movie.id}.html",
-                "seances": {}
-            }
+def load_movies_data():
+    """Charge les données des films depuis movies.json"""
+    movies_file = os.path.join(os.path.dirname(__file__), "movies.json")
+    
+    if not os.path.exists(movies_file):
+        print("⚠️ movies.json non trouvé, retour de données vides")
+        return [[] for _ in range(7)]
+    
+    with open(movies_file, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    
+    print(f"✅ Données chargées depuis movies.json (généré le {data.get('generated_at', 'inconnu')})")
+    
+    # Extraire les films pour chaque jour
+    showtimes = []
+    for day in data.get("days", []):
+        showtimes.append(day.get("movies", []))
+    
+    # Compléter avec des listes vides si moins de 7 jours
+    while len(showtimes) < 7:
+        showtimes.append([])
+    
+    return showtimes
 
 
-        if theater.name not in data[movie.title]["seances"].keys():
-            data[movie.title]["seances"][theater.name] = []
-
-        data[movie.title]["seances"][theater.name].append(showtime.startsAt.strftime("%H:%M"))
-
-    data = data.values()
-
-    data = sorted(data, key=lambda x: x["wantToSee"], reverse=True)
-
-    return data
-
-showtimes = []
-for i in range(0, 7):
-    day_showtimes = getShowtimes(datetime.today()+timedelta(days=i))
-    showtimes.append(day_showtimes)
-    print(f"{len(day_showtimes)} séances récupéré {i+1}/7!")
+# Charger les données depuis movies.json (pas de scraping)
+showtimes = load_movies_data()
 
 app = Flask(__name__)
 
