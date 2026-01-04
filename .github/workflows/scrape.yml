@@ -1,0 +1,40 @@
+name: Scrape Movies
+
+on:
+  # Exécution quotidienne à 6h00 UTC (7h00 ou 8h00 heure française selon l'heure d'été)
+  schedule:
+    - cron: '0 6 * * *'
+  
+  # Permet de lancer manuellement le workflow
+  workflow_dispatch:
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      
+      - name: Run scraping script
+        env:
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+          THEATERS: ${{ secrets.THEATERS }}
+        run: python scrape.py
+      
+      - name: Commit and push movies.json
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add movies.json
+          git diff --quiet --cached || git commit -m "🎬 Update movies.json - $(date +'%Y-%m-%d %H:%M')"
+          git push
