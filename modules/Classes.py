@@ -161,6 +161,10 @@ class Theater:
             raise Exception(f"API Error: {data}")
         
         for movie in data['results']:
+            # Ignorer les films avec données manquantes
+            if movie.get("movie") is None:
+                continue
+            
             inst = Movie(movie["movie"])
             
             # Récupérer toutes les séances avec leur langue
