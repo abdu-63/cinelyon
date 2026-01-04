@@ -113,15 +113,17 @@ class Movie:
         }
 
 class Showtime:
-    def __init__(self, data, theather, movie:Movie) -> None:
+    def __init__(self, data, theather, movie:Movie, language:str = "VF", format:str = None) -> None:
         self.startsAt = datetime.fromisoformat(data['startsAt'])
         self.diffusionVersion = data['diffusionVersion']
         self.services = data["service"]
         self.theater:Theater = theather
         self.movie = movie
+        self.language = language  # VO ou VF
+        self.format = format  # IMAX, 4DX, 3D, etc.
 
     def __repr__(self) -> str:
-        return f"<{self.__class__.__name__} name={self.movie.title} startsAt={self.startsAt}>"
+        return f"<{self.__class__.__name__} name={self.movie.title} startsAt={self.startsAt} lang={self.language} format={self.format}>"
 
 class Theater:
     def __init__(self, data) -> None:
@@ -161,15 +163,40 @@ class Theater:
         for movie in data['results']:
             inst = Movie(movie["movie"])
             
-            # Récupérer toutes les séances de toutes les catégories
-            all_showtimes_data = []
+            # Récupérer toutes les séances avec leur langue
             showtimes_dict = movie.get("showtimes", {})
             for key, value in showtimes_dict.items():
-                if isinstance(value, list):
-                    all_showtimes_data.extend(value)
-
-            for showtime_data in all_showtimes_data:
-                showtimes.append(Showtime(showtime_data, self, inst))
+                if isinstance(value, list) and value:
+                    # Déterminer la langue selon la clé
+                    if key.startswith("original"):
+                        language = "VO"
+                    elif key in ["dubbed", "local"]:
+                        language = "VF"
+                    else:
+                        language = "VF"  # Par défaut (multiple, etc.)
+                    
+                    for showtime_data in value:
+                        # Extraire le format (IMAX, 4DX, 3D)
+                        formats = []
+                        
+                        # Vérifier les projections
+                        projections = showtime_data.get("projection", [])
+                        if projections:
+                            if "IMAX" in projections:
+                                formats.append("IMAX")
+                            if "F_3D" in projections:
+                                formats.append("3D")
+                        
+                        # Vérifier les expériences
+                        experience = showtime_data.get("experience", [])
+                        if experience:
+                            if "E_4DX" in experience:
+                                formats.append("4DX")
+                            if "PLF" in experience:
+                                formats.append("PLF")
+                        
+                        format_str = ", ".join(formats) if formats else None
+                        showtimes.append(Showtime(showtime_data, self, inst, language, format_str))
         
         if int(data['pagination']['page']) < int(data['pagination']["totalPages"]):
             return self.getShowtimes(date, page + 1, showtimes)

@@ -43,48 +43,86 @@
         </div>
         <div class="line"></div>
     </div>
-    {% for film in films %}
-    <div class="container_infoFilm">
-        <img src={{film.affiche}} class="affiche" />
-        <div class="infoFilm">
-            <div class="blur-background"></div>
-            <div>
-                <h3 class="titreFilm"><a href="{{ film.url }}">{{film.title}}</a> <span class="release_year">({{
-                        film.release_year }})</span></h3>
-                <div class="info-content">
-                    <p class="realisateur">Réalisateur : {{film.director}}</p>
-                    <p class="genre">Genre : {{ film.genres }}</p>
-                    <p class="duree">Durée : {{film.duree}}</p>
-                    <p class="rating">Note : {{ film.rating }}</p>
-                </div>
-                <div style="height: 30px;"></div>
-                <div class="synopsis_container">
-                    <p class="synopsis">
-                        {{film.synopsis}}
-                    </p>
-                </div>
-            </div>
+
+    <!-- Barre de recherche -->
+    <div class="search-container">
+        <div class="search-row">
+            <input type="text" id="search-title" placeholder="🔍 Rechercher par titre..."
+                class="search-input search-main">
+        </div>
+        <div class="search-row search-filters">
+            <select id="filter-genre" class="search-input">
+                <option value="">Tous les genres</option>
+            </select>
+            <select id="filter-director" class="search-input">
+                <option value="">Tous les réalisateurs</option>
+            </select>
+            <select id="filter-cinema" class="search-input">
+                <option value="">Tous les cinémas</option>
+            </select>
+            <select id="filter-rating" class="search-input">
+                <option value="">Toutes les notes</option>
+                <option value="9">9+ ⭐</option>
+                <option value="8">8+ ⭐</option>
+                <option value="7">7+ ⭐</option>
+                <option value="6">6+ ⭐</option>
+                <option value="5">5+ ⭐</option>
+            </select>
+            <button id="reset-filters" class="reset-btn">Réinitialiser</button>
         </div>
     </div>
 
-    <div style="height: 10px;"></div>
-    {% for cinename, seances in film.seances.items() %}
-    <div class="seance_container">
-        <div class="cinema">
-            <p>{{cinename}}</p>
-        </div>
-        <div class="horaires_container">
-            {% for seance in seances %}
-            <div class="horaire">
-                <p>{{seance}}</p>
+    <div id="films-container">
+        {% for film in films %}
+        <div class="container_infoFilm film-card" data-title="{{ film.title|lower }}"
+            data-genres="{{ film.genres|lower }}" data-director="{{ film.director|lower }}"
+            data-rating="{{ film.rating }}" data-year="{{ film.release_year }}"
+            data-cinemas="{% for cinema in film.seances.keys() %}{{ cinema|lower }},{% endfor %}">
+            <img src={{film.affiche}} class="affiche" />
+            <div class="infoFilm">
+                <div class="blur-background"></div>
+                <div>
+                    <h3 class="titreFilm"><a href="{{ film.url }}">{{film.title}}</a> <span class="release_year">({{
+                            film.release_year }})</span></h3>
+                    <div class="info-content">
+                        <p class="realisateur">Réalisateur : {{film.director}}</p>
+                        <p class="genre">Genre : {{ film.genres }}</p>
+                        <p class="duree">Durée : {{film.duree}}</p>
+                        <p class="rating">Note : {{ film.rating }}</p>
+                    </div>
+                    <div style="height: 30px;"></div>
+                    <div class="synopsis_container">
+                        <p class="synopsis">
+                            {{film.synopsis}}
+                        </p>
+                    </div>
+                </div>
             </div>
-            {% endfor %}
         </div>
+
+        <div style="height: 10px;"></div>
+        {% for cinename, seances in film.seances.items() %}
+        <div class="seance_container">
+            <div class="cinema">
+                <p>{{cinename}}</p>
+            </div>
+            <div class="horaires_container">
+                {% for seance in seances %}
+                <div class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}">
+                    <span class="lang-badge">{{ seance.lang }}</span>
+                    {% if seance.format %}
+                    <span class="format-badge">{{ seance.format }}</span>
+                    {% endif %}
+                    <p>{{ seance.time }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="responsive-petite-div"></div>
+        {% endfor %}
+        <div class="responsive-div"></div>
+        {% endfor %}
     </div>
-    <div class="responsive-petite-div"></div>
-    {% endfor %}
-    <div class="responsive-div"></div>
-    {% endfor %}
 
 </div>
 
@@ -122,6 +160,105 @@
             .setLngLat(location.coordinates)
             .setPopup(popup)
             .addTo(map);
+    });
+
+    // Filtres de recherche
+    document.addEventListener('DOMContentLoaded', function () {
+        const films = document.querySelectorAll('.film-card');
+        const searchTitle = document.getElementById('search-title');
+        const filterGenre = document.getElementById('filter-genre');
+        const filterDirector = document.getElementById('filter-director');
+        const filterCinema = document.getElementById('filter-cinema');
+        const filterRating = document.getElementById('filter-rating');
+        const resetBtn = document.getElementById('reset-filters');
+
+        // Remplir les options des filtres
+        const genres = new Set();
+        const directors = new Set();
+        const cinemas = new Set();
+
+        films.forEach(film => {
+            film.dataset.genres.split(',').forEach(g => {
+                g = g.trim();
+                if (g) genres.add(g);
+            });
+            if (film.dataset.director) directors.add(film.dataset.director);
+            film.dataset.cinemas.split(',').forEach(c => {
+                c = c.trim();
+                if (c) cinemas.add(c);
+            });
+        });
+
+        [...genres].sort().forEach(g => {
+            const opt = document.createElement('option');
+            opt.value = g;
+            opt.textContent = g.charAt(0).toUpperCase() + g.slice(1);
+            filterGenre.appendChild(opt);
+        });
+
+        [...directors].sort().forEach(d => {
+            const opt = document.createElement('option');
+            opt.value = d;
+            opt.textContent = d.charAt(0).toUpperCase() + d.slice(1);
+            filterDirector.appendChild(opt);
+        });
+
+        [...cinemas].sort().forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c;
+            opt.textContent = c.charAt(0).toUpperCase() + c.slice(1);
+            filterCinema.appendChild(opt);
+        });
+
+        function filterFilms() {
+            const titleQuery = searchTitle.value.toLowerCase();
+            const genreQuery = filterGenre.value.toLowerCase();
+            const directorQuery = filterDirector.value.toLowerCase();
+            const cinemaQuery = filterCinema.value.toLowerCase();
+            const ratingQuery = parseFloat(filterRating.value) || 0;
+
+            films.forEach(film => {
+                const title = film.dataset.title;
+                const genres = film.dataset.genres;
+                const director = film.dataset.director;
+                const cinemas = film.dataset.cinemas;
+                const rating = parseFloat(film.dataset.rating) || 0;
+
+                // Trouver les séances associées à ce film
+                let sibling = film.nextElementSibling;
+                const relatedElements = [];
+                while (sibling && !sibling.classList.contains('film-card')) {
+                    relatedElements.push(sibling);
+                    sibling = sibling.nextElementSibling;
+                }
+
+                const matchTitle = title.includes(titleQuery);
+                const matchGenre = !genreQuery || genres.includes(genreQuery);
+                const matchDirector = !directorQuery || director.includes(directorQuery);
+                const matchCinema = !cinemaQuery || cinemas.includes(cinemaQuery);
+                const matchRating = rating >= ratingQuery;
+
+                const show = matchTitle && matchGenre && matchDirector && matchCinema && matchRating;
+
+                film.style.display = show ? '' : 'none';
+                relatedElements.forEach(el => el.style.display = show ? '' : 'none');
+            });
+        }
+
+        searchTitle.addEventListener('input', filterFilms);
+        filterGenre.addEventListener('change', filterFilms);
+        filterDirector.addEventListener('change', filterFilms);
+        filterCinema.addEventListener('change', filterFilms);
+        filterRating.addEventListener('change', filterFilms);
+
+        resetBtn.addEventListener('click', function () {
+            searchTitle.value = '';
+            filterGenre.value = '';
+            filterDirector.value = '';
+            filterCinema.value = '';
+            filterRating.value = '';
+            filterFilms();
+        });
     });
 </script>
 

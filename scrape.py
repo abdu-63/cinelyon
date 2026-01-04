@@ -51,9 +51,11 @@ def get_showtimes(theaters: list[Theater], date: datetime) -> list[dict]:
         if theater.name not in data[movie.title]["seances"].keys():
             data[movie.title]["seances"][theater.name] = []
         
-        data[movie.title]["seances"][theater.name].append(
-            showtime.startsAt.strftime("%H:%M")
-        )
+        data[movie.title]["seances"][theater.name].append({
+            "time": showtime.startsAt.strftime("%H:%M"),
+            "lang": showtime.language,
+            "format": showtime.format
+        })
     
     movies = list(data.values())
     movies = sorted(movies, key=lambda x: x["wantToSee"], reverse=True)

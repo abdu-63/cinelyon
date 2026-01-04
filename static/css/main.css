@@ -208,11 +208,12 @@ p {
     overflow-x: auto;
 }
 
+
 .horaire {
     background-color: white;
     border-radius: 5px;
     height: 40px;
-    width: 100px;
+    min-width: 100px;
     color: #444cf7;
     box-sizing: border-box;
     align-items: center;
@@ -223,6 +224,101 @@ p {
     filter: drop-shadow(2mm 6mm 6mm rgba(2, 2, 2, 0.2));
     flex-shrink: 0;
     flex-grow: 0;
+    gap: 8px;
+    padding: 0 12px;
+}
+
+.lang-badge {
+    font-size: 13px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: grey;
+}
+
+.format-badge {
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px 5px;
+    border-radius: 3px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-transform: uppercase;
+}
+
+.horaire-special {
+    border: 2px solid #667eea;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+}
+
+/*
+.horaire-vo .lang-badge {
+    background-color: #484848;
+}
+
+.horaire-vf .lang-badge {
+    background-color: #484848;
+}
+*/
+
+/* Barre de recherche */
+.search-container {
+    margin: 20px 10%;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    filter: drop-shadow(2mm 4mm 4mm rgba(2, 2, 2, 0.1));
+}
+
+.search-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.search-input {
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-family: 'healTheWebA', sans-serif;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #444cf7;
+}
+
+.search-main {
+    flex: 1;
+    min-width: 200px;
+}
+
+.search-filters {
+    margin-top: 10px;
+}
+
+.search-filters .search-input {
+    flex: 1;
+    min-width: 150px;
+}
+
+.reset-btn {
+    padding: 12px 20px;
+    background-color: #444cf7;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'healTheWebA', sans-serif;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.reset-btn:hover {
+    background-color: #3339c4;
 }
 
 footer {
@@ -354,76 +450,88 @@ html {
 @media (max-width: 576px) {
     .contenu_edt {
         display: flex;
-        flex-direction: column;    
+        flex-direction: column;
     }
+
     #map {
         max-width: 100vw;
         height: 400px;
         /* width: 350px; */
         border-radius: 5px;
     }
+
     body {
         margin: 0;
         padding: 0;
         overflow-y: auto;
     }
+
     .divHeader {
         flex-direction: column;
         max-width: 80vw;
     }
+
     h1 {
         margin-block-start: 15px;
         margin-block-end: 0;
     }
-    p{
+
+    p {
         font-size: 12px;
         margin-block-start: -5px;
     }
+
     .date {
         width: 40px;
         height: 50px;
     }
-    
+
     .date-selectionne {
         width: 50px;
         height: 50px;
     }
-    
+
     .mois {
         margin-bottom: 20px;
         font-size: 10px;
     }
-    
+
     .calendrier {
         max-width: 80vw;
         width: 350px;
     }
-    
+
     .chiffre {
         font-size: 20px;
         margin-top: 15px;
         margin-bottom: 0;
     }
+
     .jour {
         display: none;
     }
+
     .txt_edt {
         display: none;
     }
+
     .line {
         max-width: 80vw;
         width: 350px;
     }
+
     .affiche {
         width: 100px;
         height: 144px;
         padding-right: 10px;
     }
-    .titreFilm{
+
+    .titreFilm {
         font-size: 18px;
         margin-block-start: 5px;
         margin-block-end: 5px;
     }
+
     .realisateur,
     .duree,
     .rating,
@@ -433,41 +541,49 @@ html {
         font-size: 10px;
         margin-right: 5px;
     }
-    .synopsis{
+
+    .synopsis {
         display: none;
     }
+
     .cinema {
         height: 30px;
         width: 100px;
         color: white;
         padding-right: 5px;
     }
+
     .horaires_container {
         max-width: 250px;
     }
-    
+
     .horaire {
         height: 30px;
         width: 45px;
         border-radius: 5px;
         margin-left: 5px;
     }
+
     .cinema p,
-    .horaire p{
+    .horaire p {
         font-size: 10px;
         margin-block-start: 1em;
     }
+
     .container_titrePlanning,
     .container_infoFilm {
         max-width: 80vw;
         width: 350px;
     }
+
     .responsive-div {
         height: 30px;
     }
+
     .responsive-petite-div {
         height: 5px;
     }
+
     .goTop {
         z-index: 2;
         bottom: 10px;
@@ -477,19 +593,22 @@ html {
         background-color: #444cf7;
         border: #fff solid 4px;
     }
-    .goTop p{
+
+    .goTop p {
         font-size: 20px;
         margin-block-start: 1em;
         margin-block-end: 1em;
     }
+
     .background_svg {
         position: fixed;
         bottom: 0;
         top: auto;
         right: 0;
         z-index: -2;
-        transform: scale(2); 
+        transform: scale(2);
     }
+
     .blur-background {
         background: rgba(255, 255, 255, 0.3);
         backdrop-filter: blur(20px);
@@ -498,20 +617,24 @@ html {
         filter: drop-shadow(0 -6mm 4mm rgba(2, 2, 2, 0.2));
         filter: drop-shadow(2mm 6mm 6mm rgba(2, 2, 2, 0.4));
     }
+
     footer {
         background-color: white;
         padding-top: 10px;
     }
-    
+
     .container_footer {
         max-width: 80vw;
     }
-    .container_footer p{
+
+    .container_footer p {
         font-size: 10px;
     }
+
     *:not(.affiche) {
         box-sizing: border-box;
     }
+
     .date:hover {
         width: 40px;
         height: 50px;
