@@ -1,7 +1,7 @@
 <div align="center">
 
-# CinéLyon
-<i>Découvrez la scène cinématographique de Lyon instantanément et sans effort</i>
+# 🎬 CinéLyon
+*Découvrez la scène cinématographique de Lyon instantanément et sans effort*
 
 <p align="center">
   <a href="https://www.python.org/">
@@ -9,6 +9,9 @@
   </a>
   <a href="https://flask.palletsprojects.com/">
     <img alt="Flask" src="https://img.shields.io/badge/Flask-2.0+-lightgrey?logo=flask">
+  </a>
+  <a href="https://vercel.com/">
+    <img alt="Vercel" src="https://img.shields.io/badge/Vercel-Deployed-black?logo=vercel">
   </a>
   <a href="https://github.com/features/actions">
     <img alt="GitHub Actions" src="https://img.shields.io/badge/GitHub%20Actions-Scraping-2088FF?logo=github-actions">
@@ -25,71 +28,64 @@
 </p>
 </div>
 
-## Crédit
+## ✨ Fonctionnalités
 
-Ce projet est un fork de [grainParisArt-Public](https://github.com/solene-drnx/grainParisArt-Public).
+- 📅 **Calendrier interactif** : Visualisez les horaires sur 7 jours
+- 🎥 **Informations détaillées** : Synopsis, réalisateur, genres, durée, notes TMDB
+- 🗺️ **Carte interactive** : Localisation de tous les cinémas avec Mapbox
+- 🔍 **Barre de recherche** : Filtrez par titre, genre, réalisateur, cinéma ou note
+- 🎬 **Badges VO/VF** : Langue de chaque séance clairement affichée
+- 🎭 **Formats spéciaux** : Badges IMAX, 4DX, 3D pour les séances premium
+- ⚡ **Scraping automatique** : Données mises à jour quotidiennement via GitHub Actions
+- 📱 **Design responsive** : Interface moderne adaptée à tous les écrans
 
-### Liste des 7 cinémas choisis
-
-- Pathé Carré de Soie
-- Pathé Bellecour
-- UGC Part-Dieu
-- UGC Confluence
-- UGC Internationale
-- Ciné Meyzieu
-- Ciné Toboggan
-
-## Fonctionnalités
-
-- **Calendrier interactif** : Visualisez les horaires sur 7 jours
-- **Informations détaillées** : Synopsis, réalisateur, genres, durée, notes
-- **Carte interactive** : Localisation de tous les cinémas de Lyon
-- **Interface moderne** : Design responsive et élégant
-- **Scraping automatique** : Données mises à jour quotidiennement via GitHub Actions
-- **Notes et critiques** : Intégration avec TMDB pour les évaluations
-
-## Architecture
+## 🏗️ Architecture
 
 ```
 cinelyon/
-├── app.py                 # Application Flask (lecture seule de movies.json)
-├── scrape.py              # Script de scraping (exécuté par GitHub Actions)
+├── app.py                 # Application Flask
+├── scrape.py              # Script de scraping (GitHub Actions)
 ├── movies.json            # Données des films (généré automatiquement)
+├── vercel.json            # Configuration Vercel
 ├── requirements.txt       # Dépendances Python
 ├── .env.sample            # Template des variables d'environnement
 ├── .github/
 │   └── workflows/
-│       └── scrape.yml     # Workflow GitHub Actions (scraping quotidien)
+│       └── scrape.yml     # Workflow quotidien (4h UTC)
 ├── modules/
-│   └── Classes.py         # Classes métier (Movie, Theater, Showtime)
+│   └── Classes.py         # Classes: Movie, Theater, Showtime
 ├── templates/
-│   ├── base.html          # Template de base
-│   └── index.html         # Page principale
+│   ├── base.html
+│   └── index.html
 └── static/
-    ├── css/
-    │   └── main.css       # Styles CSS
-    ├── font/              # Polices personnalisées
-    └── images/            # Images et icônes
+    ├── css/main.css
+    ├── font/
+    └── images/
 ```
 
 ### Flux de données
 
-```mermaid
-graph LR
-    A[GitHub Actions] -->|quotidien| B[scrape.py]
-    B -->|Allociné + TMDB| C[movies.json]
-    C -->|lecture| D[app.py Flask]
-    D -->|affichage| E[Navigateur]
+```
+GitHub Actions (4h UTC)
+       ↓
+   scrape.py
+       ↓
+  Allociné API → movies.json ← TMDB API
+       ↓
+   app.py (Flask)
+       ↓
+   Vercel / Navigateur
 ```
 
-## Installation
+## 🚀 Installation locale
 
 ### Prérequis
 
 - Python 3.10+
-- Un compte GitHub (pour le scraping automatique)
+- Compte [TMDB](https://www.themoviedb.org/settings/api) (gratuit)
+- Compte [Mapbox](https://console.mapbox.com/) (gratuit)
 
-### Configuration locale
+### Configuration
 
 1. **Cloner le repository**
    ```bash
@@ -103,15 +99,12 @@ graph LR
    ```
 
 3. **Configurer les variables d'environnement**
-
-   Créez un fichier `.env` basé sur `.env.sample` :
-   ```env
-   TMDB_API_KEY=votre_clé_tmdb_ici
-   MAPBOX_TOKEN=votre_clé_mapbox_ici
-   THEATERS=[{"id":"P0017","name":"Pathé Bellecour","latitude":45.7578,"longitude":4.8320}]
+   ```bash
+   cp .env.sample .env
+   # Éditer .env avec vos clés API
    ```
 
-4. **Générer les données** (première fois)
+4. **Générer les données**
    ```bash
    python scrape.py
    ```
@@ -120,68 +113,59 @@ graph LR
    ```bash
    python app.py
    ```
+   → Ouvrir `http://localhost:5000`
 
-   L'application sera accessible sur `http://localhost:5000`
+## ☁️ Déploiement Vercel
 
-### Configuration GitHub Actions
+1. **Importer sur [vercel.com/new](https://vercel.com/new)**
+2. **Configurer les variables d'environnement** :
+   - `MAPBOX_TOKEN`
+   - `WEBSITE_TITLE`
+   - `THEATERS`
+3. **Déployer** ✅
 
-Pour activer le scraping automatique quotidien :
+Le scraping GitHub Actions met à jour `movies.json` → Vercel redéploie automatiquement.
 
-1. **Push le projet sur GitHub**
+## ⚙️ GitHub Actions
 
-2. **Configurer les secrets** (Settings → Secrets → Actions) :
-   - `TMDB_API_KEY` : Clé API TMDB
-   - `THEATERS` : Configuration JSON des cinémas
+Le workflow s'exécute :
+- **Automatiquement** : tous les jours à 4h UTC
+- **Manuellement** : Actions → "Scrape Movies" → "Run workflow"
 
-3. **Le workflow s'exécute** :
-   - Automatiquement chaque jour à 6h00 UTC
-   - Manuellement via Actions → "Scrape Movies" → "Run workflow"
+### Secrets requis
 
-## Obtenir les clés API
+| Secret | Description |
+|--------|-------------|
+| `TMDB_API_KEY` | Clé API TMDB (v3 auth) |
+| `THEATERS` | JSON des cinémas |
 
-- **TMDB** : [themoviedb.org/settings/api](https://www.themoviedb.org/settings/api)
-- **Mapbox** : [console.mapbox.com](https://console.mapbox.com/account/access-tokens/)
+## 🎭 Ajouter des cinémas
 
-## Ajouter de nouveaux cinémas
-
-Modifiez la variable `THEATERS` dans votre `.env` :
+Dans `.env` ou les secrets GitHub :
 
 ```json
 [
-  {"id":"P8507","name":"Pathé Carré de Soie","latitude":45.7641958,"longitude":4.9212527},
-  {"id":"NOUVEAU_ID","name":"Nouveau Cinéma","latitude":XX.XXXXX,"longitude":X.XXXXX}
+  {"id":"P8507","name":"Pathé Carré de Soie","latitude":45.7641,"longitude":4.9212},
+  {"id":"P0017","name":"Pathé Bellecour","latitude":45.7578,"longitude":4.8320}
 ]
 ```
 
-**Trouver l'ID d'un cinéma :**
-- URL : `https://www.allocine.fr/seance/salle_gen_csalle=P8507.html`
-- ID : `P8507`
+**Trouver l'ID** : Dans l'URL Allociné `salle_gen_csalle=P8507.html` → ID = `P8507`
 
-## Déploiement
+## 🔗 Liens utiles
 
-### Heroku
+- [TMDB API](https://www.themoviedb.org/settings/api) - Clé API pour les données films
+- [Mapbox](https://console.mapbox.com/) - Token pour la carte
+- [Allociné](https://www.allocine.fr/) - Source des séances
 
-```bash
-# Procfile
-web: gunicorn app:app
-```
+## 📄 Crédit
 
-### Docker
-
-```dockerfile
-FROM python:3.10-slim
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-COPY . .
-EXPOSE 5000
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
-```
-
-## Contribution
-
-Les contributions sont les bienvenues ! N'hésitez pas à ouvrir une Pull Request.
+Fork de [grainParisArt-Public](https://github.com/solene-drnx/grainParisArt-Public)
 
 ---
 
-**CinéLyon** - Parce que le cinéma lyonnais mérite plus d'attention !
+<div align="center">
+
+**CinéLyon** 🎬 *Quand ça va pas, y aura toujours le cinéma*
+
+</div>
