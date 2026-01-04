@@ -5,6 +5,7 @@ env/
 
 # Variables d'environnement
 .env
+.env.sample
 
 # Cache Python
 __pycache__/
