@@ -185,6 +185,6 @@ Dans `.env` ou les secrets GitHub :
 
 <div align="center">
 
-**CinéLyon** 🎬 *Quand ça va pas, y'aura toujours le cinéma*
+**CinéLyon** - Parce que le cinéma lyonnais mérite plus d'attention !
 
 </div>
