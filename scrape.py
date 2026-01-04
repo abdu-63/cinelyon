@@ -17,6 +17,7 @@ from modules.Classes import Theater
 load_dotenv(".env")
 
 THEATERS_JSON = os.environ.get("THEATERS", "[]")
+TMDB_API_KEY = os.environ.get("TMDB_API_KEY", "")
 
 def get_showtimes(theaters: list[Theater], date: datetime) -> list[dict]:
     """Récupère les séances pour une date donnée."""
@@ -69,6 +70,9 @@ def main():
     if not theaters_config:
         print("❌ Aucun cinéma configuré. Vérifiez la variable THEATERS.")
         return
+    
+    if not TMDB_API_KEY:
+        print("⚠️ TMDB_API_KEY non configurée ! Les données TMDB seront manquantes.")
     
     theaters = []
     for theater_data in theaters_config:
