@@ -3,7 +3,7 @@ name: Scrape Movies
 on:
   # Exécution quotidienne à 4h00 UTC (5h00 heure française)
   schedule:
-    - cron: '0 4 * * *'
+    - cron: '30 19 * * *'
   
   # Permet de lancer manuellement le workflow
   workflow_dispatch:
