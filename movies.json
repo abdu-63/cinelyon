@@ -1,2735 +1,6 @@
 {
-  "generated_at": "2026-01-04T21:37:50.070255",
+  "generated_at": "2026-01-05T04:58:27.181747",
   "days": [
-    {
-      "date": "2026-01-04",
-      "movies": [
-        {
-          "title": "Avatar : de Feu et de Cendres",
-          "release_year": "2025",
-          "duree": "3h 17min",
-          "rating": "7.4",
-          "genres": "Science Fiction, Aventure, Action, Fantastique",
-          "realisateur": "James Cameron",
-          "synopsis": "Après la mort de Neteyam, Jake et Neytiri affrontent leur chagrin tout en faisant face au Peuple des Cendres, une tribu Na’vi redoutable menée par le fougueux Varang, alors que le conflit sur Pandora s’intensifie et qu’une nouvelle quê morale s’amorce.",
-          "affiche": "https://fr.web.img6.acsta.net/img/52/fb/52fb8f0345af2b0940557aa049ca19fd.jpg",
-          "director": "James Cameron",
-          "wantToSee": 9382,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=187247.html",
-          "seances": {
-            "Pathé Carré de Soie": [
-              {
-                "time": "21:15",
-                "lang": "VF",
-                "format": "3D, 4DX"
-              },
-              {
-                "time": "21:30",
-                "lang": "VF",
-                "format": "IMAX, 3D"
-              },
-              {
-                "time": "22:00",
-                "lang": "VF",
-                "format": "3D"
-              }
-            ],
-            "UGC Part-Dieu": [
-              {
-                "time": "10:00",
-                "lang": "VO",
-                "format": "3D"
-              },
-              {
-                "time": "15:15",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "17:00",
-                "lang": "VO",
-                "format": "3D"
-              },
-              {
-                "time": "20:00",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "21:00",
-                "lang": "VO",
-                "format": "3D"
-              },
-              {
-                "time": "10:30",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "11:00",
-                "lang": "VF",
-                "format": "3D"
-              },
-              {
-                "time": "13:00",
-                "lang": "VF",
-                "format": "3D"
-              },
-              {
-                "time": "13:30",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "14:00",
-                "lang": "VF",
-                "format": "3D"
-              },
-              {
-                "time": "16:00",
-                "lang": "VF",
-                "format": "3D"
-              },
-              {
-                "time": "18:00",
-                "lang": "VF",
-                "format": "3D"
-              },
-              {
-                "time": "19:00",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "20:30",
-                "lang": "VF",
-                "format": "3D"
-              }
-            ],
-            "UGC Confluence": [
-              {
-                "time": "17:00",
-                "lang": "VO",
-                "format": "3D"
-              },
-              {
-                "time": "20:30",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "10:30",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "11:30",
-                "lang": "VF",
-                "format": "3D"
-              },
-              {
-                "time": "13:00",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "14:00",
-                "lang": "VF",
-                "format": "3D"
-              },
-              {
-                "time": "15:00",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "16:00",
-                "lang": "VF",
-                "format": "3D"
-              },
-              {
-                "time": "18:00",
-                "lang": "VF",
-                "format": "3D"
-              },
-              {
-                "time": "20:00",
-                "lang": "VF",
-                "format": "3D"
-              },
-              {
-                "time": "21:00",
-                "lang": "VF",
-                "format": "3D"
-              }
-            ],
-            "Pathé Vaise": [
-              {
-                "time": "21:20",
-                "lang": "VO",
-                "format": "3D"
-              }
-            ],
-            "UGC Internationale": [
-              {
-                "time": "10:30",
-                "lang": "VO",
-                "format": "3D"
-              },
-              {
-                "time": "15:00",
-                "lang": "VO",
-                "format": "3D"
-              },
-              {
-                "time": "19:30",
-                "lang": "VO",
-                "format": "3D"
-              },
-              {
-                "time": "10:00",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "11:00",
-                "lang": "VF",
-                "format": "3D"
-              },
-              {
-                "time": "13:00",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "14:00",
-                "lang": "VF",
-                "format": "3D"
-              },
-              {
-                "time": "16:00",
-                "lang": "VF",
-                "format": "3D"
-              },
-              {
-                "time": "17:00",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "18:00",
-                "lang": "VF",
-                "format": "3D"
-              },
-              {
-                "time": "20:00",
-                "lang": "VF",
-                "format": "3D"
-              },
-              {
-                "time": "21:00",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "CGR Brignais": [
-              {
-                "time": "21:15",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "21:45",
-                "lang": "VF",
-                "format": "3D"
-              }
-            ]
-          }
-        },
-        {
-          "title": "Une bataille après l'autre",
-          "release_year": "2025",
-          "duree": "2h 42min",
-          "rating": "7.5",
-          "genres": "Action, Drame, Comédie",
-          "realisateur": "Paul Thomas Anderson",
-          "synopsis": "Bob Ferguson est un ancien révolutionnaire paranoïaque et désabusé, qui a jadis œuvré avec son ex, Perfidia, au sein du French 75, un groupe militant voué au renversement du gouvernement américain. Seize ans plus tard, Bob vit seul avec sa fille, Willa, quand celle-ci disparaît soudainement. Bob soupçonne son vieil ennemi d’antan, le Colonel Steven J. Lockjaw, d’être responsable de sa disparition. Il décide alors de renouer avec ses anciens frères d’armes pour retrouver sa fille, quitte à confronter les fantômes de son passé.",
-          "affiche": "https://fr.web.img2.acsta.net/img/61/0d/610dc2fcd83afe3717f771b889b979c2.jpg",
-          "director": "Paul Thomas Anderson",
-          "wantToSee": 5593,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=311364.html",
-          "seances": {
-            "Lumière La Fourmi": [
-              {
-                "time": "17:00",
-                "lang": "VO",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Dossier 137",
-          "release_year": "2025",
-          "duree": "1h 55min",
-          "rating": "7.0",
-          "genres": "Policier",
-          "realisateur": "Dominik Moll",
-          "synopsis": "Le dossier 137 est en apparence une affaire de plus pour Stéphanie, enquêtrice à l’IGPN, la police des polices. Une manifestation tendue, un jeune homme blessé par un tir de LBD, des circonstances à éclaircir pour établir une responsabilité. Mais un élément inattendu va troubler Stéphanie, pour qui le dossier 137 devient autre chose qu’un simple numéro.",
-          "affiche": "https://fr.web.img3.acsta.net/img/f2/64/f2640084cabb11cf1457d43888f43084.jpg",
-          "director": "Dominik Moll",
-          "wantToSee": 3754,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000008860.html",
-          "seances": {
-            "Lumière Bellecour": [
-              {
-                "time": "13:50",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "18:20",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Confluence": [
-              {
-                "time": "20:30",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Internationale": [
-              {
-                "time": "20:50",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Thelma et Louise",
-          "release_year": "2010",
-          "duree": "2h 09min",
-          "rating": "5.6",
-          "genres": "Comédie dramatique",
-          "realisateur": "Ridley Scott",
-          "synopsis": "Chantal, Gabrielle et Nelly se rendent au mariage d'un ex à la Rochelle. Elles décident de faire le trajet ensemble. Au cours de cette virée pleine de péripéties, les trois femmes partageront coups de cœur, coups de gueule et coups de blues de la cinquantaine, tour à tour drôles, fragiles et émouvants.",
-          "affiche": "https://fr.web.img5.acsta.net/pictures/18/07/30/10/17/5492139.jpg",
-          "director": "Ridley Scott",
-          "wantToSee": 3546,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=6787.html",
-          "seances": {
-            "UGC Part-Dieu": [
-              {
-                "time": "18:10",
-                "lang": "VO",
-                "format": null
-              }
-            ],
-            "UGC Internationale": [
-              {
-                "time": "18:00",
-                "lang": "VO",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Zootopie 2",
-          "release_year": "2025",
-          "duree": "1h 48min",
-          "rating": "7.6",
-          "genres": "Animation, Aventure, Famille, Comédie",
-          "realisateur": "Byron Howard",
-          "synopsis": "Judy Hopps et Nick Wilde explorent à nouveau Zootopie, entre mystères, rires et rencontres inattendues. À travers chaque rue et chaque instant, ils découvrent que l’amitié et la curiosité transforment le quotidien en moments magiques.",
-          "affiche": "https://fr.web.img2.acsta.net/img/45/ac/45ac77474bfae505033a30909e4eda41.jpg",
-          "director": "Byron Howard",
-          "wantToSee": 3525,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=277428.html",
-          "seances": {
-            "Pathé Carré de Soie": [
-              {
-                "time": "20:45",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "21:45",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "Pathé Bellecour": [
-              {
-                "time": "21:50",
-                "lang": "VO",
-                "format": null
-              }
-            ],
-            "UGC Part-Dieu": [
-              {
-                "time": "11:00",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "20:35",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "10:40",
-                "lang": "VF",
-                "format": "3D"
-              },
-              {
-                "time": "10:45",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "13:20",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "14:30",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "15:45",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "17:00",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "18:10",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "19:30",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "22:00",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Confluence": [
-              {
-                "time": "11:00",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "10:35",
-                "lang": "VF",
-                "format": "3D"
-              },
-              {
-                "time": "10:40",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "13:05",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "14:15",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "15:30",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "16:45",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "18:00",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "19:15",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "20:30",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "22:15",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "Pathé Vaise": [
-              {
-                "time": "21:00",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Internationale": [
-              {
-                "time": "22:10",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "11:00",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "11:15",
-                "lang": "VF",
-                "format": "3D"
-              },
-              {
-                "time": "13:30",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "14:45",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "16:00",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "17:15",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "18:30",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "19:40",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "21:00",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Astoria": [
-              {
-                "time": "11:00",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "14:00",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "16:00",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "18:20",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "CGR Brignais": [
-              {
-                "time": "22:15",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "L’Étranger",
-          "release_year": "2025",
-          "duree": "2h 03min",
-          "rating": "6.8",
-          "genres": "Drame",
-          "realisateur": "François Ozon",
-          "synopsis": "Alger, 1938. Meursault, un jeune homme d’une trentaine d’années, modeste employé, enterre sa mère sans manifester la moindre émotion. Le lendemain, il entame une liaison avec Marie, une collègue de bureau. Puis il reprend sa vie de tous les jours. Mais son voisin, Raymond Sintès vient perturber son quotidien en l’entraînant dans des histoires louches jusqu’à un drame sur une plage, sous un soleil de plomb…",
-          "affiche": "https://fr.web.img3.acsta.net/img/b9/cc/b9cc22a9378857355a4efae5f6c76707.jpg",
-          "director": "François Ozon",
-          "wantToSee": 3216,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000019380.html",
-          "seances": {
-            "Lumière La Fourmi": [
-              {
-                "time": "14:55",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Insaisissables 3",
-          "release_year": "2025",
-          "duree": "1h 53min",
-          "rating": "6.6",
-          "genres": "Thriller, Aventure, Comédie",
-          "realisateur": "Ruben Fleischer",
-          "synopsis": "Les Cavaliers sont de retour pour le braquage le plus impressionnant jamais imaginé ! Accompagnés d'un groupe de jeunes magiciens qui espèrent suivre leur trace, ils vont devoir repousser les limites de l'illusion pour orchestrer leur tour le plus spectaculaire : dérober le joyau le plus précieux du monde des mains d'une redoutable organisation criminelle…",
-          "affiche": "https://fr.web.img5.acsta.net/img/ca/83/ca8338e0ec3de262228111a215b567f8.jpg",
-          "director": "Ruben Fleischer",
-          "wantToSee": 2858,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=238073.html",
-          "seances": {
-            "UGC Part-Dieu": [
-              {
-                "time": "22:00",
-                "lang": "VO",
-                "format": null
-              }
-            ],
-            "UGC Confluence": [
-              {
-                "time": "19:30",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "22:00",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "Pathé Vaise": [
-              {
-                "time": "22:00",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "CGR Brignais": [
-              {
-                "time": "22:30",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "La Femme de ménage",
-          "release_year": "2025",
-          "duree": "2h 11min",
-          "rating": "7.5",
-          "genres": "Thriller",
-          "realisateur": "Paul Feig",
-          "synopsis": "À sa sortie de prison, Millie Calloway décroche un emploi de femme de ménage en résidence chez la riche famille Winchester, composée de Nina, son mari Andrew et leur fille Cecelia. Mais ce qui ressemblait à un nouveau départ, pour la jeune femme qui souhaite se reconstruire, se transforme vite en cauchemar. Millie découvre en effet que rien dans cette maison parfaite n’est ce qu’il paraît. Entre manipulations psychologiques, secrets de famille et désirs interdits, Millie navigue à vue sur un océan de mensonges, de trahisons et de jeux de pouvoir.",
-          "affiche": "https://fr.web.img5.acsta.net/img/ed/a3/eda3bba832e22c79ea22117b058f84e5.jpg",
-          "director": "Paul Feig",
-          "wantToSee": 2810,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=317403.html",
-          "seances": {
-            "Pathé Carré de Soie": [
-              {
-                "time": "20:45",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "22:20",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "Pathé Bellecour": [
-              {
-                "time": "21:10",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Part-Dieu": [
-              {
-                "time": "10:50",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "13:55",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "16:40",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "19:25",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "22:10",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "10:40",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "13:30",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "16:20",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "19:10",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "22:00",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "Ciné Meyzieu": [
-              {
-                "time": "20:30",
-                "lang": "VO",
-                "format": null
-              }
-            ],
-            "UGC Confluence": [
-              {
-                "time": "10:45",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "14:00",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "16:45",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "19:30",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "21:50",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "11:00",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "13:45",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "16:30",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "19:15",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "22:00",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "Pathé Vaise": [
-              {
-                "time": "22:00",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Internationale": [
-              {
-                "time": "11:00",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "13:50",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "16:40",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "19:25",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "22:10",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "10:50",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "13:40",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "16:30",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "19:15",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "22:00",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "CGR Brignais": [
-              {
-                "time": "21:00",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "22:15",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "L'Agent secret",
-          "release_year": "2025",
-          "duree": "2h 40min",
-          "rating": "7.9",
-          "genres": "Policier, Drame",
-          "realisateur": "Kleber Mendonça Filho",
-          "synopsis": "1977, Brésil. Marcelo, un homme d’une quarantaine d’années fuyant un passé trouble, arrive dans la ville de Recife où il espère construire une nouvelle vie et renouer avec sa famille. C’est sans compter sur les menaces de mort qui rôdent et planent au-dessus de sa tête…",
-          "affiche": "https://fr.web.img6.acsta.net/img/d5/da/d5dae089c320b75bf1903cc249165073.jpg",
-          "director": "Kleber Mendonça Filho",
-          "wantToSee": 2659,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000009761.html",
-          "seances": {
-            "UGC Part-Dieu": [
-              {
-                "time": "10:45",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "14:00",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "17:15",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "20:30",
-                "lang": "VO",
-                "format": null
-              }
-            ],
-            "Lumière Terreaux": [
-              {
-                "time": "10:15",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "12:50",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "14:35",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "17:35",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "20:35",
-                "lang": "VO",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "La Femme la plus riche du Monde",
-          "release_year": "2025",
-          "duree": "2h 03min",
-          "rating": "5.9",
-          "genres": "Comédie dramatique",
-          "realisateur": "Thierry Klifa",
-          "synopsis": "La femme la plus riche du monde : sa beauté, son intelligence, son pouvoir. Un écrivain photographe : son ambition, son insolence, sa folie. Le coup de foudre qui les emporte. Une héritière méfiante qui se bat pour être aimée. Un majordome aux aguets qui en sait plus qu’il ne dit. Des secrets de famille. Des donations astronomiques. Une guerre où tous les coups sont permis. Une histoire trop connue pour qu’on ne la raconte pas autrement.",
-          "affiche": "https://fr.web.img2.acsta.net/img/e1/6e/e16e8e1896a723183dca39a874939073.jpg",
-          "director": "Thierry Klifa",
-          "wantToSee": 2640,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000006191.html",
-          "seances": {
-            "Lumière La Fourmi": [
-              {
-                "time": "12:50",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Bugonia",
-          "release_year": "2025",
-          "duree": "1h 59min",
-          "rating": "7.4",
-          "genres": "Science Fiction, Comédie, Thriller",
-          "realisateur": "Yorgos Lanthimos",
-          "synopsis": "Deux jeunes hommes obsédés par les théories du complot kidnappent la PDG d’une grande entreprise, convaincus qu’elle est une extraterrestre déterminée à détruire la planète Terre.",
-          "affiche": "https://fr.web.img4.acsta.net/img/79/01/790107e027402b0b8eb7f426fd9102d8.jpg",
-          "director": "Yorgos Lanthimos",
-          "wantToSee": 2363,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=282613.html",
-          "seances": {
-            "Pathé Bellecour": [
-              {
-                "time": "21:20",
-                "lang": "VO",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Les Enfants vont bien",
-          "release_year": "2025",
-          "duree": "1h 51min",
-          "rating": "7.3",
-          "genres": "Drame",
-          "realisateur": "Nathan Ambrosioni",
-          "synopsis": "Un soir d’été, Suzanne, accompagnée de ses deux jeunes enfants Gaspard et Margaux, rend une visite impromptue à sa sœur Jeanne. Celle-ci est prise au dépourvu, car elles ne sont pas revues depuis longtemps. Au réveil, Jeanne découvre le mot laissé par sa sœur : “Elle ne reviendra pas”. Après la sidération, vient la colère lorsqu’à la gendarmerie Jeanne comprend qu’aucune procédure de recherche ne pourra être engagée : Suzanne a fait le choix insensé de disparaître…",
-          "affiche": "https://fr.web.img2.acsta.net/img/31/7c/317c4fbeed34f4d92456f42388fd7279.jpg",
-          "director": "Nathan Ambrosioni",
-          "wantToSee": 2348,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000001481.html",
-          "seances": {
-            "UGC Part-Dieu": [
-              {
-                "time": "15:45",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "21:00",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "Lumière Bellecour": [
-              {
-                "time": "15:50",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "18:00",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Internationale": [
-              {
-                "time": "16:00",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "18:25",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "20:50",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Astoria": [
-              {
-                "time": "20:30",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Vie Privée",
-          "release_year": "2025",
-          "duree": "1h 45min",
-          "rating": "6.0",
-          "genres": "Policier, Thriller, Drame",
-          "realisateur": "Rebecca Zlotowski",
-          "synopsis": "Lilian Steiner est une psychiatre reconnue. Un jour, elle apprend la mort de l’une de ses patientes. Troublée, Lilian se persuade qu’il s’agit d’un assassinat, elle décide alors de mener son enquête...",
-          "affiche": "https://fr.web.img5.acsta.net/img/3a/9d/3a9d3503d9ccc1fec7fbdc4bf2934da7.jpg",
-          "director": "Rebecca Zlotowski",
-          "wantToSee": 2311,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000000193.html",
-          "seances": {
-            "UGC Part-Dieu": [
-              {
-                "time": "11:00",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "Lumière Bellecour": [
-              {
-                "time": "16:10",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "20:40",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Internationale": [
-              {
-                "time": "10:50",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "13:45",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "18:30",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "20:45",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "L'Etrange Noël de M. Jack",
-          "release_year": "1993",
-          "duree": "1h 15min",
-          "rating": "7.8",
-          "genres": "Fantastique, Animation, Comédie musicale",
-          "realisateur": "Henry Selick",
-          "synopsis": "Jack Skellington, un épouvantail squelettique surnommé « le Roi des citrouilles », vit dans la ville d'Halloween. En tant que maître de l'épouvante, Jack occupe ses journées à préparer la prochaine fête d'Halloween. Mais le terrible épouvantail, lassé de cette vie répétitive et monotone, décide de partir. C'est alors qu'il découvre la ville de Noël. Après cette aventure, il revient chez lui, avec une idée originale en tête : et si cette année, c'étaient les habitants de la ville d'Halloween qui allaient fêter Noël ?",
-          "affiche": "https://fr.web.img6.acsta.net/medias/nmedia/18/62/89/46/18923316.jpg",
-          "director": "Henry Selick",
-          "wantToSee": 2170,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=27633.html",
-          "seances": {
-            "Lumière La Fourmi": [
-              {
-                "time": "14:50",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Running Man",
-          "release_year": "2025",
-          "duree": "2h 14min",
-          "rating": "6.8",
-          "genres": "Science Fiction, Thriller, Action",
-          "realisateur": "Edgar Wright",
-          "synopsis": "Dans un futur proche, les participants du jeu télévisé Running Man sont traqués en direct par des chasseurs professionnels. Ils doivent survivre 30 jours sous les yeux d’un public avide de violence. Ben Richards, prêt à tout pour sauver sa fille malade, est forcé de participer par un producteur impitoyable. Mais son courage et sa révolte feront de lui le favori du public… et la pire menace du système.",
-          "affiche": "https://fr.web.img6.acsta.net/img/57/c6/57c6d1dbb88a0120b9262489a81cb180.jpg",
-          "director": "Edgar Wright",
-          "wantToSee": 2040,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=290564.html",
-          "seances": {
-            "Pathé Carré de Soie": [
-              {
-                "time": "22:20",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Part-Dieu": [
-              {
-                "time": "22:00",
-                "lang": "VO",
-                "format": null
-              }
-            ],
-            "Pathé Vaise": [
-              {
-                "time": "21:50",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "CGR Brignais": [
-              {
-                "time": "22:30",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Les Hommes du Président",
-          "release_year": "1976",
-          "duree": "2h 18min",
-          "rating": "7.7",
-          "genres": "Drame, Policier",
-          "realisateur": "Alan J. Pakula",
-          "synopsis": "Les journalistes Woodward et Bernstein découvrent certains éléments à l’origine du plus grand scandale politique de l’après‐guerre que fut l’affaire du Watergate qui n'avait d'autres manœuvres que de faire démissionner le président Nixon…",
-          "affiche": "https://fr.web.img5.acsta.net/medias/nmedia/18/36/25/32/18465546.jpg",
-          "director": "Alan J. Pakula",
-          "wantToSee": 1868,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=3690.html",
-          "seances": {
-            "Institut Lumière": [
-              {
-                "time": "18:45",
-                "lang": "VO",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Le Chant des forêts",
-          "release_year": "2025",
-          "duree": "1h 33min",
-          "rating": "8.0",
-          "genres": "Documentaire",
-          "realisateur": "Vincent Munier",
-          "synopsis": "Un homme marche, sac au dos, bâton à la main, veste lourde et chaude sur les épaules, vers les profondeurs d’une vieille forêt moussue. Ni le vent, ni la brume, ni même la neige ne l’arrêteront dans son élan pour rejoindre son affût, sa planque : un sapin. En se glissant sous ses branches basses, l’homme s’efface et un monde s’éveille. Celui des bêtes. Le vieux sage nous invite à partager des émotions puissantes à ses côtés, celles qu’il a ressenties au cours de milliers d’affuts. Le moment est venu pour lui d’ouvrir son savoir, ses souvenirs de ses plus belles rencontres sauvages. Au cours d’un voyage dans nos forêts proches, il nous éveillera au \"sensible\", où plus précisément à la poésie du monde sauvage, celle qu’il a transmise à son fils dès l’âge de 12 ans et qu’il transmettra peut-être à son petit-fils.",
-          "affiche": "https://fr.web.img4.acsta.net/img/f5/52/f5523e15c97af96169bdc93479553602.jpg",
-          "director": "Vincent Munier",
-          "wantToSee": 1851,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=321789.html",
-          "seances": {
-            "Lumière Terreaux": [
-              {
-                "time": "10:20",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "13:15",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "15:10",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "17:05",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "19:00",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "20:55",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Astoria": [
-              {
-                "time": "10:50",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "13:45",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "15:50",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "18:15",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "20:20",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "La Voix de Hind Rajab",
-          "release_year": "2025",
-          "duree": "1h 29min",
-          "rating": "8.1",
-          "genres": "Drame",
-          "realisateur": "Kaouther Ben Hania",
-          "synopsis": "29 janvier 2024. Les bénévoles du Croissant-Rouge reçoivent un appel d'urgence. Une fillette de six ans est piégée dans une voiture sous les tirs à Gaza et implore qu'on vienne la secourir. Tout en essayant de la garder en ligne, ils font tout leur possible pour lui envoyer une ambulance. Elle s'appelait Hind Rajab.",
-          "affiche": "https://fr.web.img5.acsta.net/img/66/eb/66eb9392595c24a3ca9975d5cd6b9565.jpg",
-          "director": "Kaouther Ben Hania",
-          "wantToSee": 1629,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000027854.html",
-          "seances": {
-            "Pathé Carré de Soie": [
-              {
-                "time": "22:20",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Part-Dieu": [
-              {
-                "time": "13:10",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "18:00",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "20:10",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "22:15",
-                "lang": "VO",
-                "format": null
-              }
-            ],
-            "Lumière La Fourmi": [
-              {
-                "time": "17:20",
-                "lang": "VO",
-                "format": null
-              }
-            ],
-            "Pathé Vaise": [
-              {
-                "time": "22:15",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "L’Âme Idéale",
-          "release_year": "2025",
-          "duree": "1h 38min",
-          "rating": "7.0",
-          "genres": "Comédie, Romance, Fantastique",
-          "realisateur": "Alice Vial",
-          "synopsis": "Elsa, médecin, cache au reste du monde qu’elle voit les morts et les aide à \"passer de l’autre côté\". Convaincue que son don provoque le rejet, elle a renoncé aux histoires d'amour et s'est enfermée dans la solitude et le travail. Jusqu’au jour où elle fait la rencontre d’Oscar, un mort qui ne sait pas qu’il est mort...",
-          "affiche": "https://fr.web.img4.acsta.net/img/57/bb/57bb30ccc7161797311e827e54ef261b.jpg",
-          "director": "Alice Vial",
-          "wantToSee": 1573,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=300387.html",
-          "seances": {
-            "UGC Part-Dieu": [
-              {
-                "time": "13:30",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "18:00",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "Ciné Meyzieu": [
-              {
-                "time": "20:30",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Confluence": [
-              {
-                "time": "13:30",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "17:45",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "20:00",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "22:20",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "CGR Brignais": [
-              {
-                "time": "22:15",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Wicked : partie II",
-          "release_year": "2025",
-          "duree": "2h 18min",
-          "rating": "6.7",
-          "genres": "Fantastique, Aventure, Comédie musicale, Romance",
-          "realisateur": "Jon M. Chu",
-          "synopsis": "Depuis qu'elle s'est opposée au Magicien d'Oz, Elphaba est surnommée la Méchante sorcière de l'Ouest par la population du Pays d'Oz qui pense qu'elle est maléfique. De son côté, Glinda est devenu la figure populaire du régime du Magicien et est surnommée la Bonne Glinda, tandis que Fiyero devient le capitaine de la garde du Magicien, bien qu'il doute encore de la culpabilité d'Elphaba.",
-          "affiche": "https://fr.web.img6.acsta.net/img/65/11/65117c07f97a3721caff88c9abec8bd6.jpg",
-          "director": "Jon M. Chu",
-          "wantToSee": 1274,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=303957.html",
-          "seances": {
-            "UGC Part-Dieu": [
-              {
-                "time": "20:20",
-                "lang": "VO",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Resurrection",
-          "release_year": "1999",
-          "duree": "2h 40min",
-          "rating": "6.1",
-          "genres": "Science Fiction, Policier, Drame",
-          "realisateur": "Bi Gan",
-          "synopsis": "Quand l'inspecteur John Prudhomme et son coéquipier découvrent, gisant dans un bain de sang, amputé d'un bras, le cadavre d'un homme sur lequel on a grave un message et des chiffres romains, ils pensent immédiatement que la victime est la première d'une longue liste. Dans les jours qui suivent, le tueur en série parsème Chicago de cadavres consciencieusement mutilés. Prudhomme comprend bientôt qu'il ne lui reste que trois semaines pour empêcher ce maniaque de mener à bien son projet: reconstituer le corps du Christ pour le jour de Pâques, le jour de la Résurrection.",
-          "affiche": "https://fr.web.img6.acsta.net/img/4d/19/4d1934427121e700f4f4fe0d57d84cb8.jpg",
-          "director": "Bi Gan",
-          "wantToSee": 1136,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=319858.html",
-          "seances": {
-            "Lumière La Fourmi": [
-              {
-                "time": "20:15",
-                "lang": "VO",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Dites-lui que je l’aime",
-          "release_year": "2025",
-          "duree": "1h 32min",
-          "rating": "8.1",
-          "genres": "Comédie dramatique",
-          "realisateur": "Romane Bohringer",
-          "synopsis": "Romane décide d’adapter pour le cinéma le livre de Clémentine Autain consacré à sa mère. Ce projet va l’obliger à se confronter à son passé et à sa propre mère qui l’a abandonnée quand elle avait neuf mois…",
-          "affiche": "https://fr.web.img4.acsta.net/img/9f/42/9f42386f496ca05ea56dda6291423407.jpg",
-          "director": "Romane Bohringer",
-          "wantToSee": 1078,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=318222.html",
-          "seances": {
-            "Lumière La Fourmi": [
-              {
-                "time": "19:00",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Le Quai des brumes",
-          "release_year": "1938",
-          "duree": "1h 31min",
-          "rating": "7.4",
-          "genres": "Drame",
-          "realisateur": "Marcel Carné",
-          "synopsis": "À la veille de la Seconde Guerre mondiale, Jean, un soldat déserteur de l’armée coloniale, se rend au Havre dans l’espoir de quitter le pays.",
-          "affiche": "https://fr.web.img5.acsta.net/img/54/5f/545f55305b0e728df6df61980e66855c.jpg",
-          "director": "Marcel Carné",
-          "wantToSee": 1018,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=2594.html",
-          "seances": {
-            "Lumière La Fourmi": [
-              {
-                "time": "15:15",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "La Condition",
-          "release_year": "2025",
-          "duree": "1h 43min",
-          "rating": "5.9",
-          "genres": "Comédie dramatique, Historique",
-          "realisateur": "Jérôme Bonnell",
-          "synopsis": "C’est l’histoire de Céleste, jeune bonne employée chez Victoire et André, en 1908. C’est l’histoire de Victoire, de l’épouse modèle qu’elle ne sait pas être. Deux femmes que tout sépare mais qui vivent sous le même toit, défiant les conventions et les non-dits.",
-          "affiche": "https://fr.web.img4.acsta.net/img/65/9f/659f5b54ac267e57f6183011bcfb99aa.jpg",
-          "director": "Jérôme Bonnell",
-          "wantToSee": 951,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=317099.html",
-          "seances": {
-            "Lumière Bellecour": [
-              {
-                "time": "16:50",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Astoria": [
-              {
-                "time": "18:15",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Magellan",
-          "release_year": "2017",
-          "duree": "2h 43min",
-          "rating": "5.1",
-          "genres": "Biopic, Drame, Romance",
-          "realisateur": "Lav Diaz",
-          "synopsis": "",
-          "affiche": "https://fr.web.img5.acsta.net/img/5b/c3/5bc38e41de3e658a750fc158815799cf.jpg",
-          "director": "Lav Diaz",
-          "wantToSee": 900,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000022573.html",
-          "seances": {
-            "Lumière Bellecour": [
-              {
-                "time": "13:45",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "20:15",
-                "lang": "VO",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Le Maître du Kabuki",
-          "release_year": "2025",
-          "duree": "2h 54min",
-          "rating": "8.2",
-          "genres": "Drame",
-          "realisateur": "Sang-il Lee",
-          "synopsis": "Nagasaki, 1964 - A la mort de son père, chef d’un gang de yakuzas, Kikuo, 14 ans, est confié à un célèbre acteur de kabuki. Aux côtés de Shunsuke, le fils unique de ce dernier, il décide de se consacrer à ce théâtre traditionnel. Durant des décennies, les deux jeunes hommes évoluent côte à côte, de l’école du jeu aux plus belles salles de spectacle, entre scandales et gloire, fraternité et trahisons... L'un des deux deviendra le plus grand maître japonais de l'art du kabuki.",
-          "affiche": "https://fr.web.img2.acsta.net/img/86/c3/86c3bc332654205f70fc0c25498ccdf5.jpg",
-          "director": "Sang-il Lee",
-          "wantToSee": 872,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000018284.html",
-          "seances": {
-            "UGC Astoria": [
-              {
-                "time": "10:35",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "16:00",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "19:30",
-                "lang": "VO",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Five Nights At Freddy's 2",
-          "release_year": "2025",
-          "duree": "1h 44min",
-          "rating": "6.8",
-          "genres": "Epouvante-horreur",
-          "realisateur": "Emma Tammi",
-          "synopsis": "Un an s’est écoulé depuis le cauchemar surnaturel survenu chez Freddy Fazbear's Pizza. Un effroyable nouveau chapitre d'horreur s'ouvre lorsqu’Abby, la sœur de Mike, ancien agent de sécurité, s'échappe à la recherche de ses amis animatroniques : Freddy, Bonnie, Chica et Foxy. Alors que de terrifiants événements se déclenchent, de sombres secrets sur les véritables origines de Freddy sont révélés, libérant une horreur oubliée depuis des décennies.",
-          "affiche": "https://fr.web.img4.acsta.net/img/83/b5/83b5868d9264242be16ab460eb7c80ce.jpg",
-          "director": "Emma Tammi",
-          "wantToSee": 818,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=325430.html",
-          "seances": {
-            "Pathé Carré de Soie": [
-              {
-                "time": "22:00",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Part-Dieu": [
-              {
-                "time": "16:15",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "22:05",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "13:45",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "19:45",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Confluence": [
-              {
-                "time": "22:00",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "Pathé Vaise": [
-              {
-                "time": "21:30",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "CGR Brignais": [
-              {
-                "time": "22:30",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Qui brille au combat",
-          "release_year": "2025",
-          "duree": "1h 40min",
-          "rating": "Note inconnue",
-          "genres": "Drame",
-          "realisateur": "Joséphine Japy",
-          "synopsis": "Qui Brille au Combat est le sens étymologique du prénom Bertille, la plus jeune des deux sœurs de la famille Roussier, atteinte d’un handicap lourd au diagnostic incertain. La famille vit dans un équilibre fragile autour de cet enfant qui accapare les efforts et pensées de chacun, et qui pourrait perdre la vie à tout moment. Chacun se construit, vit comme il peut avec les exigences de ce rythme et les incertitudes qui l’accompagnent. Les parents, Madeleine et Gilles, la sœur aînée, Marion. Quel quotidien et quels avenirs pour une mère, un père, un couple, une adolescente que la responsabilité ​ de sa cadette a rendu trop vite adulte ? Lorsqu’un nouveau diagnostic est posé, les cartes sont rebattues et un nouvel horizon se dessine...",
-          "affiche": "https://fr.web.img3.acsta.net/img/a3/e8/a3e859018636c366010d60f860a255a3.jpg",
-          "director": "Joséphine Japy",
-          "wantToSee": 806,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000012015.html",
-          "seances": {
-            "Pathé Bellecour": [
-              {
-                "time": "21:50",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Astoria": [
-              {
-                "time": "11:00",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "13:45",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "16:00",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "20:30",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Rebuilding",
-          "release_year": "2025",
-          "duree": "1h 35min",
-          "rating": "6.7",
-          "genres": "Drame",
-          "realisateur": "Max Walker-Silverman",
-          "synopsis": "Dans l’Ouest américain, dévasté par des incendies ravageurs, Dusty voit son ranch anéanti par les flammes. Il trouve refuge dans un camp de fortune et commence lentement à redonner du sens à sa vie. Entouré de personnes qui, comme lui, ont tout perdu, des liens inattendus se tissent. Porté par l’espoir de renouer avec sa fille et son ex-femme, il retrouve peu à peu la volonté de tout reconstruire.",
-          "affiche": "https://fr.web.img6.acsta.net/img/af/85/af85907b34353df979244b32c075ac01.jpg",
-          "director": "Max Walker-Silverman",
-          "wantToSee": 776,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000017719.html",
-          "seances": {
-            "Lumière La Fourmi": [
-              {
-                "time": "21:00",
-                "lang": "VO",
-                "format": null
-              }
-            ],
-            "UGC Astoria": [
-              {
-                "time": "13:50",
-                "lang": "VO",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Father Mother Sister Brother",
-          "release_year": "2025",
-          "duree": "1h 51min",
-          "rating": "6.9",
-          "genres": "Comédie, Drame",
-          "realisateur": "Jim Jarmusch",
-          "synopsis": "Des frères et sœurs séparés se retrouvent après des années de séparation, obligés de faire face à des tensions non résolues et de réévaluer leurs relations tendues avec leurs parents émotionnellement éloignés.",
-          "affiche": "https://fr.web.img2.acsta.net/img/18/de/18decda3afef9ae047694aac0d89c169.jpg",
-          "director": "Jim Jarmusch",
-          "wantToSee": 700,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=326117.html",
-          "seances": {
-            "UGC Astoria": [
-              {
-                "time": "18:00",
-                "lang": "VO",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Chasse gardée 2",
-          "release_year": "2025",
-          "duree": "1h 40min",
-          "rating": "5.9",
-          "genres": "Comédie",
-          "realisateur": "Antonin Fourlon",
-          "synopsis": "Deux ans se sont écoulés à Saint Hubert. La vie y est paisible, peut-être trop pour Adélaïde et Simon qui souffrent du manque d’amis de leur âge. C’est sans compter sur l’arrivée de Stanislas, le fils de Bernard (l'ancien président des chasseurs du village), qui revient vivre à la campagne avec sa femme et ses deux enfants. Ils sont beaux, jeunes, et sympas. Leur seul défaut : ils pratiquent la chasse à courre ! La paix du village va être mise à mal : nouveaux voisins, nouveaux problèmes…",
-          "affiche": "https://fr.web.img4.acsta.net/img/57/a8/57a8c1e690e543eb1f3db1a21fa5884b.jpg",
-          "director": "Antonin Fourlon",
-          "wantToSee": 621,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000020329.html",
-          "seances": {
-            "UGC Part-Dieu": [
-              {
-                "time": "13:30",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Confluence": [
-              {
-                "time": "11:00",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "15:50",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Internationale": [
-              {
-                "time": "16:15",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "18:30",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "22:00",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "La Petite cuisine de Mehdi",
-          "release_year": "2025",
-          "duree": "1h 44min",
-          "rating": "7.2",
-          "genres": "Comédie",
-          "realisateur": "Amine Adjina",
-          "synopsis": "Mehdi est sur un fil. Il joue le rôle du fils algérien parfait devant sa mère Fatima, tout en lui cachant sa relation avec Léa ainsi que sa passion pour la gastronomie française. Il est chef dans un bistrot qu’il s’apprête à racheter avec Léa. Mais celle-ci n’en peut plus de ses cachoteries et exige de rencontrer Fatima. Au pied du mur, Mehdi va trouver la pire des solutions.",
-          "affiche": "https://fr.web.img4.acsta.net/img/b1/f3/b1f3ff9d44ec565d42e1b1ac5cd2a170.jpg",
-          "director": "Amine Adjina",
-          "wantToSee": 589,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000012569.html",
-          "seances": {
-            "UGC Confluence": [
-              {
-                "time": "17:15",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "22:00",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Anaconda",
-          "release_year": "2025",
-          "duree": "1h 40min",
-          "rating": "6.2",
-          "genres": "Comédie, Aventure",
-          "realisateur": "Tom Gormican",
-          "synopsis": "Doug et Griff sont amis d'enfance et partagent depuis toujours un rêve un peu fou : réaliser leur propre remake de leur film préféré, le cultissime Anaconda. En pleine crise de la quarantaine, ils décident enfin de se lancer, et se retrouvent à tourner en plein cœur de l'Amazonie. Mais le rêve vire rapidement au cauchemar lorsqu'un véritable anaconda géant fait son apparition et transforme leur plateau déjà chaotique en un véritable piège mortel. Le film qu'ils meurent d'envie de faire ? Va être vraiment mortel...",
-          "affiche": "https://fr.web.img6.acsta.net/img/20/af/20afc1b148d574dca07ec228be9ac869.jpg",
-          "director": "Tom Gormican",
-          "wantToSee": 547,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=280693.html",
-          "seances": {
-            "Pathé Carré de Soie": [
-              {
-                "time": "22:20",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Part-Dieu": [
-              {
-                "time": "10:45",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "15:30",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "20:00",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "22:15",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "13:10",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "17:45",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Confluence": [
-              {
-                "time": "22:15",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "10:50",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "13:15",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "15:30",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "17:45",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "20:00",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "Pathé Vaise": [
-              {
-                "time": "21:00",
-                "lang": "VO",
-                "format": null
-              }
-            ],
-            "UGC Internationale": [
-              {
-                "time": "17:50",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "22:15",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "11:00",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "13:30",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "15:40",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "20:00",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "CGR Brignais": [
-              {
-                "time": "22:30",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Los Tigres",
-          "release_year": "2025",
-          "duree": "1h 49min",
-          "rating": "6.4",
-          "genres": "Policier",
-          "realisateur": "Alberto Rodriguez",
-          "synopsis": "Antonio et Estrella sont un frère et une soeur dont le destin est uni à la mer : il est scaphandrier, elle étudie les fonds marins et aide son frère sur le navire où il travaille. Bien qu'il risque sa vie tous les jours, sa situation financière est tendue, mais cela pourrait changer quand il trouve une cargaison de cocaïne cachée dans la coque d'un cargo coulé dans le port de Huelva.",
-          "affiche": "https://fr.web.img5.acsta.net/img/e6/07/e6072a30a6045a3cdc545da6bbafe62a.jpg",
-          "director": "Alberto Rodriguez",
-          "wantToSee": 536,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=325967.html",
-          "seances": {
-            "UGC Part-Dieu": [
-              {
-                "time": "11:00",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "14:00",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "16:30",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "19:30",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "22:00",
-                "lang": "VO",
-                "format": null
-              }
-            ],
-            "Lumière Terreaux": [
-              {
-                "time": "10:15",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "12:25",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "14:35",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "18:40",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "20:50",
-                "lang": "VO",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Une enfance allemande - Île d'Amrum, 1945",
-          "release_year": "2025",
-          "duree": "1h 33min",
-          "rating": "7.4",
-          "genres": "Drame, Guerre",
-          "realisateur": "Fatih Akın",
-          "synopsis": "Printemps 1945, sur l’île d’Amrum, au large de l'Allemagne. Dans les derniers jours de la guerre, Nanning, 12 ans, brave une mer dangereuse pour chasser les phoques, pêche de nuit et travaille à la ferme voisine pour aider sa mère à nourrir la famille. Lorsque la paix arrive enfin, de nouveaux conflits surgissent, et Nanning doit apprendre à tracer son propre chemin dans un monde bouleversé.",
-          "affiche": "https://fr.web.img6.acsta.net/img/29/54/2954a33501785f46c122a9ef80f937c6.jpg",
-          "director": "Fatih Akın",
-          "wantToSee": 535,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=309535.html",
-          "seances": {
-            "Lumière Terreaux": [
-              {
-                "time": "12:40",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "16:45",
-                "lang": "VO",
-                "format": null
-              }
-            ],
-            "UGC Astoria": [
-              {
-                "time": "10:50",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "13:55",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "16:15",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "20:40",
-                "lang": "VO",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "L'Oeuf de l'ange",
-          "release_year": "1985",
-          "duree": "1h 11min",
-          "rating": "7.7",
-          "genres": "Animation, Drame, Fantastique",
-          "realisateur": "Mamoru Oshii",
-          "synopsis": "Une petite fille fait un rêve éveillé. Perdue dans un monde dévasté par un événement inconnu, elle se rattache à un œuf qu'elle a trouvé dans une ruine. Projetant sur l'œuf toute sa fibre maternelle, elle lui apporte son affection et sa protection. Jusqu'au jour où un jeune homme ressemblant à un chevalier croise son chemin. Effrayée, elle prend la fuite, mais ne parvient pas à se séparer de cet inconnu bien intrigué par l'œuf…",
-          "affiche": "https://fr.web.img6.acsta.net/img/21/dc/21dcf80d9412be190207f2968e4e004f.jpg",
-          "director": "Mamoru Oshii",
-          "wantToSee": 505,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=44305.html",
-          "seances": {
-            "UGC Internationale": [
-              {
-                "time": "22:00",
-                "lang": "VO",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Le Temps des moissons",
-          "release_year": "2025",
-          "duree": "2h 15min",
-          "rating": "7.5",
-          "genres": "Drame",
-          "realisateur": "Huo Meng",
-          "synopsis": "Chine, au début des années 1990, Chuang, 10 ans, est élevé par sa famille dans son village tandis que ses parents travaillent en ville.",
-          "affiche": "https://fr.web.img2.acsta.net/img/74/0e/740e757ee905b05882b204567f5ea1b9.jpg",
-          "director": "Huo Meng",
-          "wantToSee": 499,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000018564.html",
-          "seances": {
-            "Lumière Terreaux": [
-              {
-                "time": "10:15",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "15:50",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "18:25",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "21:00",
-                "lang": "VO",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Sur un air de blues",
-          "release_year": "2025",
-          "duree": "2h 13min",
-          "rating": "7.5",
-          "genres": "Drame, Comédie musicale",
-          "realisateur": "Craig Brewer",
-          "synopsis": "Deux musiciens fauchés redonnent vie à la musique de Neil Diamond en formant un groupe lui rendant hommage. Ensemble, ils prouvent qu’il n’est jamais trop tard pour suivre son cœur et accomplir ses rêves.",
-          "affiche": "https://fr.web.img5.acsta.net/img/46/12/46121ba1562a16d04bd209bbb952cbc9.jpg",
-          "director": "Craig Brewer",
-          "wantToSee": 427,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000013390.html",
-          "seances": {
-            "Pathé Carré de Soie": [
-              {
-                "time": "21:45",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Part-Dieu": [
-              {
-                "time": "10:40",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "16:10",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "19:15",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "22:05",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "13:25",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Confluence": [
-              {
-                "time": "22:00",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "11:00",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "13:45",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "16:30",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "19:15",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "CGR Brignais": [
-              {
-                "time": "22:15",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Bob l'éponge - Le film : un pour tous, tous pirates !",
-          "release_year": "2025",
-          "duree": "1h 28min",
-          "rating": "6.8",
-          "genres": "Comédie, Famille, Animation, Aventure",
-          "realisateur": "Derek Drymon",
-          "synopsis": "Bob l’Éponge et ses amis quittent Bikini Bottom pour leur plus grande aventure ! Voulant prouver qu’il est un grand garçon, Bob invoque par erreur le terrifiant Hollandais Volant, un pirate fantôme légendaire. Propulsés dans une quête délirante, Bob et Patrick devront relever des défis titanesques, suivis de près par une équipe de sauvetage. Au fil des épreuves, Bob découvre que le véritable courage réside dans l’amitié : ensemble, ils peuvent affronter l’inconnu et briller plus fort que jamais.",
-          "affiche": "https://fr.web.img2.acsta.net/img/73/d4/73d440795e61353ca56b8b061af7c5d5.jpg",
-          "director": "Derek Drymon",
-          "wantToSee": 344,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=293331.html",
-          "seances": {
-            "Pathé Carré de Soie": [
-              {
-                "time": "21:30",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Part-Dieu": [
-              {
-                "time": "10:50",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "13:40",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "15:45",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "17:50",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "20:00",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Confluence": [
-              {
-                "time": "11:00",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "13:40",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "15:45",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "17:50",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "19:55",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "Pathé Vaise": [
-              {
-                "time": "22:15",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Internationale": [
-              {
-                "time": "10:45",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "13:45",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "15:50",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "17:55",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "20:00",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "CGR Brignais": [
-              {
-                "time": "22:30",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Ma frère",
-          "release_year": "2026",
-          "duree": "1h 52min",
-          "rating": "Note inconnue",
-          "genres": "Comédie",
-          "realisateur": "Lise Akoka",
-          "synopsis": "Shaï et Djeneba ont 20 ans et sont amies depuis l’enfance. Cet été là, elles sont animatrices dans une colonie de vacances. Elles accompagnent dans la Drôme une bande d’enfants qui comme elles ont grandi entre les tours de la Place des Fêtes à Paris. À l’aube de l’âge adulte, elles devront faire des choix pour dessiner leur avenir et réinventer leur amitié.",
-          "affiche": "https://fr.web.img6.acsta.net/img/35/23/35233aa3767ab31d242ec1c3ff34497c.jpg",
-          "director": "Lise Akoka",
-          "wantToSee": 344,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000007387.html",
-          "seances": {
-            "UGC Confluence": [
-              {
-                "time": "18:05",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "L'Amour qu'il nous reste",
-          "release_year": "2025",
-          "duree": "1h 49min",
-          "rating": "6.6",
-          "genres": "Drame",
-          "realisateur": "Hlynur Pálmason",
-          "synopsis": "La trajectoire intime d’une famille dont les parents se séparent. En l’espace d’une année, entre légèreté de l’instant et profondeur des sentiments, se tisse un portrait doux-amer de l’amour, traversé de fragments tendres, joyeux, parfois mélancoliques. Un regard sensible sur la beauté discrète du quotidien et le flot des souvenirs qui s’égrènent au rythme des saisons.",
-          "affiche": "https://fr.web.img5.acsta.net/img/2b/44/2b4474682c43cb14d071b90cfb0af3a6.jpg",
-          "director": "Hlynur Pálmason",
-          "wantToSee": 332,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000019924.html",
-          "seances": {
-            "Lumière La Fourmi": [
-              {
-                "time": "20:55",
-                "lang": "VO",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Gatsby le magnifique",
-          "release_year": "2013",
-          "duree": "2h 18min",
-          "rating": "7.4",
-          "genres": "Drame, Romance",
-          "realisateur": "Jack Clayton",
-          "synopsis": "Printemps 1922. L'époque est propice au relâchement des mœurs, à l'essor du jazz et à l’enrichissement des contrebandiers d’alcool… Apprenti écrivain, Nick Carraway quitte la région du Middle‐West pour s'installer à New York. Voulant sa part du rêve américain, il vit désormais entouré d'un mystérieux millionnaire, Jay Gatsby, qui s'étourdit en fêtes mondaines, et de sa cousine Daisy et de son mari volage, Tom Buchanan, issu de sang noble. C’est ainsi que Nick se retrouve au cœur du monde fascinant des milliardaires, de leurs illusions, de leurs amours et de leurs mensonges. Témoin privilégié de son temps, il se met à écrire une histoire où se mêlent des amours impossibles, des rêves d’absolu et des tragédies ravageuses et, chemin faisant, nous tend un miroir où se reflètent notre époque moderne et ses combats.",
-          "affiche": "https://fr.web.img4.acsta.net/img/cf/17/cf172edaf4fe71ff73db949899390f9c.jpg",
-          "director": "Jack Clayton",
-          "wantToSee": 330,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=33355.html",
-          "seances": {
-            "Institut Lumière": [
-              {
-                "time": "16:00",
-                "lang": "VO",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Panique à Noël ",
-          "release_year": "2025",
-          "duree": "1h 20min",
-          "rating": "6.7",
-          "genres": "Famille, Comédie, Animation",
-          "realisateur": "Henrik Martin Dahlsbakken",
-          "synopsis": "Une adorable famille de souris se prépare à célébrer Noël dans leur chaleureuse maison. Tout est prêt pour des fêtes parfaites… jusqu’à l’irruption d’intrus qui débarquent soudain. Des humains ! Pire : une famille d’humains, qui souhaitent eux aussi profiter d’un Noël à la campagne. Mais pas question pour les souris de se laisser déloger ! Elles décident de faire fuir coûte que coûte les trouble-fêtes. La guerre est déclarée, et, dans cette bataille de Noël, personne ne se fera de cadeaux…",
-          "affiche": "https://fr.web.img2.acsta.net/img/9f/19/9f191a2130afb6c28922c480202c7d41.jpg",
-          "director": "Henrik Martin Dahlsbakken",
-          "wantToSee": 316,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000018369.html",
-          "seances": {
-            "UGC Part-Dieu": [
-              {
-                "time": "16:00",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Confluence": [
-              {
-                "time": "13:25",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "15:20",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Bardot",
-          "release_year": "2025",
-          "duree": "1h 30min",
-          "rating": "7.5",
-          "genres": "Documentaire",
-          "realisateur": "Alain Berliner",
-          "synopsis": "Jamais vraiment dans une case, muse de cinéastes finissant par sacrifier tout à la cause animale, Brigitte Bardot est une femme libre mais sans doute incomprise. BARDOT revient sur les aspects si contradictoires de sa vie, de sa carrière artistique légendaire à sa célèbre fondation. Elle qui bouscula l’image des femmes et fut en avance sur la conscience écologique et le bien-être animal qui semblent, enfin, pour tous une évidence.",
-          "affiche": "https://fr.web.img5.acsta.net/img/18/89/188956009aaf66c5f715713a92dd670a.jpg",
-          "director": "Alain Berliner",
-          "wantToSee": 301,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=304625.html",
-          "seances": {
-            "Lumière La Fourmi": [
-              {
-                "time": "12:45",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "19:10",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Ernest et Célestine en hiver",
-          "release_year": "2017",
-          "duree": "0h 45min",
-          "rating": "8.0",
-          "genres": "Animation",
-          "realisateur": "Julien Chheng",
-          "synopsis": "Ernest est un gros ours de Charabie. Il aime jouer de la musique et manger de la confiture. Il vit avec Célestine, une petite souris orpheline, et ils partagent sa maison. Nos deux amis ne s'ennuient jamais ! Lorsque les premiers flocons de neige commencent à tomber, ils doivent préparer l'hibernation d'Ernest : ils doivent s'occuper de Bibi, leur oie sauvage, qui s'envolera avant le grand hiver, préparer des gâteaux pour Ernest et se rendre au bal des souris pour fêter le premier jour de l'hiver.",
-          "affiche": "https://fr.web.img6.acsta.net/pictures/17/08/22/12/46/136419.jpg",
-          "director": "Julien Chheng",
-          "wantToSee": 260,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=257584.html",
-          "seances": {
-            "UGC Part-Dieu": [
-              {
-                "time": "11:00",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Confluence": [
-              {
-                "time": "11:00",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Internationale": [
-              {
-                "time": "11:00",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Le Pays d’Arto",
-          "release_year": "2025",
-          "duree": "1h 44min",
-          "rating": "Note inconnue",
-          "genres": "Drame",
-          "realisateur": "Tamara Stepanyan",
-          "synopsis": "Céline arrive pour la première fois en Arménie afin de régulariser la mort d’Arto, son mari. Elle découvre qu’il lui a menti, qu’il a fait la guerre, usurpé son identité, et que ses anciens amis le tiennent pour un déserteur. Commence pour elle un nouveau voyage, à la rencontre du passé d'Arto : invalides des combats de 2020, vétérans des batailles victorieuses des années 90, hantises d’une guerre qui n’en finit jamais. Une femme court après un fantôme. Comment faire pour l’enterrer ? Peut-on sauver les morts ?",
-          "affiche": "https://fr.web.img2.acsta.net/img/f7/38/f738c353019cfe13d0d338999dd2cc4b.jpg",
-          "director": "Tamara Stepanyan",
-          "wantToSee": 249,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=325261.html",
-          "seances": {
-            "Lumière Bellecour": [
-              {
-                "time": "13:45",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "18:55",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "21:00",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Internationale": [
-              {
-                "time": "11:00",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "13:50",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "16:10",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "20:45",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Heidi et le lynx des montagnes",
-          "release_year": "2025",
-          "duree": "1h 19min",
-          "rating": "7.4",
-          "genres": "Animation, Famille, Aventure",
-          "realisateur": "Tobias Schwarz",
-          "synopsis": "",
-          "affiche": "https://fr.web.img2.acsta.net/img/5c/6f/5c6ff17e2295ffa123d81a565bfdca43.jpg",
-          "director": "Tobias Schwarz",
-          "wantToSee": 190,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=309533.html",
-          "seances": {
-            "UGC Part-Dieu": [
-              {
-                "time": "11:00",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "16:00",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Confluence": [
-              {
-                "time": "11:00",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "15:50",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Internationale": [
-              {
-                "time": "11:00",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "14:00",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "16:00",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "À la poursuite du Père Noël !",
-          "release_year": "2025",
-          "duree": "1h 37min",
-          "rating": "5.3",
-          "genres": "Comédie",
-          "realisateur": "James Huth",
-          "synopsis": "Zoé, 7 ans, en a assez que Timothée lui mène la vie dure. Pour se venger, elle demande au Père Noël une sarbacane à air comprimé, parfaite pour détruire le jouet préféré de Timothée. Sauf que le cadeau qu’elle reçoit à Noël n’est pas celui qu’elle attendait. Hors de question d’en rester là ! Zoé doit retrouver le Père Noël pour qu’il répare son erreur, quoi qu’il en coûte !",
-          "affiche": "https://fr.web.img5.acsta.net/img/80/b0/80b0a134c0e07bfe730021342ddae005.jpg",
-          "director": "James Huth",
-          "wantToSee": 177,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000019666.html",
-          "seances": {
-            "UGC Part-Dieu": [
-              {
-                "time": "10:45",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "13:30",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Confluence": [
-              {
-                "time": "10:50",
-                "lang": "VF",
-                "format": null
-              },
-              {
-                "time": "13:40",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Internationale": [
-              {
-                "time": "10:30",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "La Panthère Rose",
-          "release_year": "2006",
-          "duree": "1h 55min",
-          "rating": "5.8",
-          "genres": "Comédie, Policier",
-          "realisateur": "Blake Edwards",
-          "synopsis": "Un célèbre entraîneur de football est assassiné et une bague, ornée du fameux diamant La Panthère Rose, lui a été dérobée. Le gouvernement français a besoin d'un détective de génie pour résoudre le mystère mais personne n'est libre. L'inspecteur Jacques Clouseau arrive alors à la rescousse. Une pop star, un joueur de foot, un assassin chinois... tous sont suspects mais qui est le coupable ? Clouseau et son acolyte Ponton vont devoir résoudre ce cas épineux et empêcher leur chef Dreyfus de récolter les lauriers de l'enquête.",
-          "affiche": "https://fr.web.img5.acsta.net/img/e5/87/e587c0ff66450c86956ffd861c145fb7.jpg",
-          "director": "Blake Edwards",
-          "wantToSee": 162,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=15189.html",
-          "seances": {
-            "Lumière La Fourmi": [
-              {
-                "time": "12:40",
-                "lang": "VO",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Vade Retro",
-          "release_year": "2025",
-          "duree": "1h 35min",
-          "rating": "4.5",
-          "genres": "Comédie, Epouvante-horreur",
-          "realisateur": "Antonin Peretjatko",
-          "synopsis": "Pour entrer dans l’âge adulte, un vampire doit mordre. Pour conjurer cette virginité, il lui faut du sang \"pur\". Autrement, il sait qu’une malédiction s’abattrait sur sa famille : ils retourneraient en poussière, leur château avec. Norbert a déjà 350 ans, il est temps pour lui de devenir cet adulte. Il a trouvé sa proie, mais qui s’avère être une chasseuse de vampire. Il en sort traumatisé, et une dent en moins. Sa famille décide de l’envoyer à l’autre bout du monde pour vaincre sa soudaine phobie, mordre et sauver leur château. Norbert débarque par erreur sur l’île de Boulet Rouge, régie par le cartésianisme français. L’arrivée de Norbert déclenche bien sûr une chasse au vampire…",
-          "affiche": "https://fr.web.img2.acsta.net/img/e3/7d/e37daab987b133220403cbbc46c47d16.jpg",
-          "director": "Antonin Peretjatko",
-          "wantToSee": 142,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=328493.html",
-          "seances": {
-            "Lumière La Fourmi": [
-              {
-                "time": "17:05",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Mission Père Noël",
-          "release_year": "2024",
-          "duree": "1h 36min",
-          "rating": "7.4",
-          "genres": "Animation, Famille, Aventure",
-          "realisateur": "Ricard Cussó",
-          "synopsis": "Les tribulations d'un jeune renne vivant avec sa mère et sa tribu dans la Vallée des rennes, dont le père est membre de la brigade du Père Noël.",
-          "affiche": "https://fr.web.img4.acsta.net/img/76/31/76311306ac5020224b5d787666dcaa04.jpg",
-          "director": "Ricard Cussó",
-          "wantToSee": 112,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000025576.html",
-          "seances": {
-            "UGC Part-Dieu": [
-              {
-                "time": "11:00",
-                "lang": "VF",
-                "format": null
-              }
-            ],
-            "UGC Internationale": [
-              {
-                "time": "14:00",
-                "lang": "VF",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "Pingu",
-          "release_year": "2009",
-          "duree": "0h 40min",
-          "rating": "8.0",
-          "genres": "Animation, Famille",
-          "realisateur": "Inconnu",
-          "synopsis": "Pingu est un enfant manchot dont les petites aventures se déroulent essentiellement et évidemment en Antarctique. Il vit avec sa famille – son père est facteur et sa mère s'occupe du foyer – dans une maison dont les caractéristiques sont très proches de l'igloo, voire semblable à l'habitat traditionnel des eskimos de l'Arctique, celle-ci bénéficiant du confort moderne comme l'électricité, un poêle, le téléphone et divers autres ameublements et aménagements telles les fameuses toilettes qui occupent tout un épisode.",
-          "affiche": "https://fr.web.img5.acsta.net/pictures/21/06/14/13/33/1804288.jpg",
-          "director": "Inconnu",
-          "wantToSee": 101,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=293568.html",
-          "seances": {
-            "Institut Lumière": [
-              {
-                "time": "10:30",
-                "lang": "VO",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
-          "title": "L'Extravagant Mr Ruggles",
-          "release_year": "1935",
-          "duree": "1h 30min",
-          "rating": "7.1",
-          "genres": "Comédie, Romance",
-          "realisateur": "Leo McCarey",
-          "synopsis": "Marmaduke Ruggles est un majordome tres sélect. Son maître serait un parfait gentleman s'il n'avait le vilain défaut de jouer au poker et de parier son majordome. Cette fois, c'est un couple de bourgeois américains qui l'emporte. Ruggles fait une entrée remarquée dans la petite ville de Red Gap.",
-          "affiche": "https://fr.web.img4.acsta.net/pictures/22/03/11/16/19/1690789.jpg",
-          "director": "Leo McCarey",
-          "wantToSee": 81,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=369.html",
-          "seances": {
-            "Institut Lumière": [
-              {
-                "time": "16:15",
-                "lang": "VO",
-                "format": null
-              }
-            ]
-          }
-        }
-      ]
-    },
     {
       "date": "2026-01-05",
       "movies": [
@@ -2743,7 +14,7 @@
           "synopsis": "Après la mort de Neteyam, Jake et Neytiri affrontent leur chagrin tout en faisant face au Peuple des Cendres, une tribu Na’vi redoutable menée par le fougueux Varang, alors que le conflit sur Pandora s’intensifie et qu’une nouvelle quê morale s’amorce.",
           "affiche": "https://fr.web.img6.acsta.net/img/52/fb/52fb8f0345af2b0940557aa049ca19fd.jpg",
           "director": "James Cameron",
-          "wantToSee": 9382,
+          "wantToSee": 9372,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=187247.html",
           "seances": {
             "Pathé Carré de Soie": [
@@ -3174,7 +445,7 @@
           "synopsis": "Bob Ferguson est un ancien révolutionnaire paranoïaque et désabusé, qui a jadis œuvré avec son ex, Perfidia, au sein du French 75, un groupe militant voué au renversement du gouvernement américain. Seize ans plus tard, Bob vit seul avec sa fille, Willa, quand celle-ci disparaît soudainement. Bob soupçonne son vieil ennemi d’antan, le Colonel Steven J. Lockjaw, d’être responsable de sa disparition. Il décide alors de renouer avec ses anciens frères d’armes pour retrouver sa fille, quitte à confronter les fantômes de son passé.",
           "affiche": "https://fr.web.img2.acsta.net/img/61/0d/610dc2fcd83afe3717f771b889b979c2.jpg",
           "director": "Paul Thomas Anderson",
-          "wantToSee": 5593,
+          "wantToSee": 5592,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=311364.html",
           "seances": {
             "Lumière La Fourmi": [
@@ -3614,7 +885,7 @@
           "synopsis": "Alger, 1938. Meursault, un jeune homme d’une trentaine d’années, modeste employé, enterre sa mère sans manifester la moindre émotion. Le lendemain, il entame une liaison avec Marie, une collègue de bureau. Puis il reprend sa vie de tous les jours. Mais son voisin, Raymond Sintès vient perturber son quotidien en l’entraînant dans des histoires louches jusqu’à un drame sur une plage, sous un soleil de plomb…",
           "affiche": "https://fr.web.img3.acsta.net/img/b9/cc/b9cc22a9378857355a4efae5f6c76707.jpg",
           "director": "François Ozon",
-          "wantToSee": 3216,
+          "wantToSee": 3217,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000019380.html",
           "seances": {
             "Lumière La Fourmi": [
@@ -3710,7 +981,7 @@
           "title": "La Femme de ménage",
           "release_year": "2025",
           "duree": "2h 11min",
-          "rating": "7.5",
+          "rating": "7.4",
           "genres": "Thriller",
           "realisateur": "Paul Feig",
           "synopsis": "À sa sortie de prison, Millie Calloway décroche un emploi de femme de ménage en résidence chez la riche famille Winchester, composée de Nina, son mari Andrew et leur fille Cecelia. Mais ce qui ressemblait à un nouveau départ, pour la jeune femme qui souhaite se reconstruire, se transforme vite en cauchemar. Millie découvre en effet que rien dans cette maison parfaite n’est ce qu’il paraît. Entre manipulations psychologiques, secrets de famille et désirs interdits, Millie navigue à vue sur un océan de mensonges, de trahisons et de jeux de pouvoir.",
@@ -4017,7 +1288,7 @@
           "synopsis": "1977, Brésil. Marcelo, un homme d’une quarantaine d’années fuyant un passé trouble, arrive dans la ville de Recife où il espère construire une nouvelle vie et renouer avec sa famille. C’est sans compter sur les menaces de mort qui rôdent et planent au-dessus de sa tête…",
           "affiche": "https://fr.web.img6.acsta.net/img/d5/da/d5dae089c320b75bf1903cc249165073.jpg",
           "director": "Kleber Mendonça Filho",
-          "wantToSee": 2659,
+          "wantToSee": 2661,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000009761.html",
           "seances": {
             "Pathé Bellecour": [
@@ -4093,7 +1364,7 @@
           "synopsis": "La femme la plus riche du monde : sa beauté, son intelligence, son pouvoir. Un écrivain photographe : son ambition, son insolence, sa folie. Le coup de foudre qui les emporte. Une héritière méfiante qui se bat pour être aimée. Un majordome aux aguets qui en sait plus qu’il ne dit. Des secrets de famille. Des donations astronomiques. Une guerre où tous les coups sont permis. Une histoire trop connue pour qu’on ne la raconte pas autrement.",
           "affiche": "https://fr.web.img2.acsta.net/img/e1/6e/e16e8e1896a723183dca39a874939073.jpg",
           "director": "Thierry Klifa",
-          "wantToSee": 2640,
+          "wantToSee": 2641,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000006191.html",
           "seances": {
             "Lumière La Fourmi": [
@@ -4251,7 +1522,7 @@
           "synopsis": "Lilian Steiner est une psychiatre reconnue. Un jour, elle apprend la mort de l’une de ses patientes. Troublée, Lilian se persuade qu’il s’agit d’un assassinat, elle décide alors de mener son enquête...",
           "affiche": "https://fr.web.img5.acsta.net/img/3a/9d/3a9d3503d9ccc1fec7fbdc4bf2934da7.jpg",
           "director": "Rebecca Zlotowski",
-          "wantToSee": 2311,
+          "wantToSee": 2313,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000000193.html",
           "seances": {
             "UGC Part-Dieu": [
@@ -4357,7 +1628,7 @@
           "synopsis": "Un homme marche, sac au dos, bâton à la main, veste lourde et chaude sur les épaules, vers les profondeurs d’une vieille forêt moussue. Ni le vent, ni la brume, ni même la neige ne l’arrêteront dans son élan pour rejoindre son affût, sa planque : un sapin. En se glissant sous ses branches basses, l’homme s’efface et un monde s’éveille. Celui des bêtes. Le vieux sage nous invite à partager des émotions puissantes à ses côtés, celles qu’il a ressenties au cours de milliers d’affuts. Le moment est venu pour lui d’ouvrir son savoir, ses souvenirs de ses plus belles rencontres sauvages. Au cours d’un voyage dans nos forêts proches, il nous éveillera au \"sensible\", où plus précisément à la poésie du monde sauvage, celle qu’il a transmise à son fils dès l’âge de 12 ans et qu’il transmettra peut-être à son petit-fils.",
           "affiche": "https://fr.web.img4.acsta.net/img/f5/52/f5523e15c97af96169bdc93479553602.jpg",
           "director": "Vincent Munier",
-          "wantToSee": 1847,
+          "wantToSee": 1851,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=321789.html",
           "seances": {
             "Lumière Terreaux": [
@@ -4747,7 +2018,7 @@
           "synopsis": "C’est l’histoire de Céleste, jeune bonne employée chez Victoire et André, en 1908. C’est l’histoire de Victoire, de l’épouse modèle qu’elle ne sait pas être. Deux femmes que tout sépare mais qui vivent sous le même toit, défiant les conventions et les non-dits.",
           "affiche": "https://fr.web.img4.acsta.net/img/65/9f/659f5b54ac267e57f6183011bcfb99aa.jpg",
           "director": "Jérôme Bonnell",
-          "wantToSee": 951,
+          "wantToSee": 952,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=317099.html",
           "seances": {
             "Lumière Bellecour": [
@@ -4776,7 +2047,7 @@
           "synopsis": "",
           "affiche": "https://fr.web.img5.acsta.net/img/5b/c3/5bc38e41de3e658a750fc158815799cf.jpg",
           "director": "Lav Diaz",
-          "wantToSee": 900,
+          "wantToSee": 903,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000022573.html",
           "seances": {
             "Lumière Bellecour": [
@@ -4825,7 +2096,7 @@
           "synopsis": "Nagasaki, 1964 - A la mort de son père, chef d’un gang de yakuzas, Kikuo, 14 ans, est confié à un célèbre acteur de kabuki. Aux côtés de Shunsuke, le fils unique de ce dernier, il décide de se consacrer à ce théâtre traditionnel. Durant des décennies, les deux jeunes hommes évoluent côte à côte, de l’école du jeu aux plus belles salles de spectacle, entre scandales et gloire, fraternité et trahisons... L'un des deux deviendra le plus grand maître japonais de l'art du kabuki.",
           "affiche": "https://fr.web.img2.acsta.net/img/86/c3/86c3bc332654205f70fc0c25498ccdf5.jpg",
           "director": "Sang-il Lee",
-          "wantToSee": 872,
+          "wantToSee": 873,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000018284.html",
           "seances": {
             "UGC Astoria": [
@@ -4932,7 +2203,7 @@
           "synopsis": "Qui Brille au Combat est le sens étymologique du prénom Bertille, la plus jeune des deux sœurs de la famille Roussier, atteinte d’un handicap lourd au diagnostic incertain. La famille vit dans un équilibre fragile autour de cet enfant qui accapare les efforts et pensées de chacun, et qui pourrait perdre la vie à tout moment. Chacun se construit, vit comme il peut avec les exigences de ce rythme et les incertitudes qui l’accompagnent. Les parents, Madeleine et Gilles, la sœur aînée, Marion. Quel quotidien et quels avenirs pour une mère, un père, un couple, une adolescente que la responsabilité ​ de sa cadette a rendu trop vite adulte ? Lorsqu’un nouveau diagnostic est posé, les cartes sont rebattues et un nouvel horizon se dessine...",
           "affiche": "https://fr.web.img3.acsta.net/img/a3/e8/a3e859018636c366010d60f860a255a3.jpg",
           "director": "Joséphine Japy",
-          "wantToSee": 806,
+          "wantToSee": 807,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000012015.html",
           "seances": {
             "Pathé Bellecour": [
@@ -5012,7 +2283,7 @@
           "title": "Rebuilding",
           "release_year": "2025",
           "duree": "1h 35min",
-          "rating": "6.7",
+          "rating": "6.6",
           "genres": "Drame",
           "realisateur": "Max Walker-Silverman",
           "synopsis": "Dans l’Ouest américain, dévasté par des incendies ravageurs, Dusty voit son ranch anéanti par les flammes. Il trouve refuge dans un camp de fortune et commence lentement à redonner du sens à sa vie. Entouré de personnes qui, comme lui, ont tout perdu, des liens inattendus se tissent. Porté par l’espoir de renouer avec sa fille et son ex-femme, il retrouve peu à peu la volonté de tout reconstruire.",
@@ -5244,7 +2515,7 @@
           "synopsis": "Doug et Griff sont amis d'enfance et partagent depuis toujours un rêve un peu fou : réaliser leur propre remake de leur film préféré, le cultissime Anaconda. En pleine crise de la quarantaine, ils décident enfin de se lancer, et se retrouvent à tourner en plein cœur de l'Amazonie. Mais le rêve vire rapidement au cauchemar lorsqu'un véritable anaconda géant fait son apparition et transforme leur plateau déjà chaotique en un véritable piège mortel. Le film qu'ils meurent d'envie de faire ? Va être vraiment mortel...",
           "affiche": "https://fr.web.img6.acsta.net/img/20/af/20afc1b148d574dca07ec228be9ac869.jpg",
           "director": "Tom Gormican",
-          "wantToSee": 547,
+          "wantToSee": 545,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=280693.html",
           "seances": {
             "Pathé Carré de Soie": [
@@ -5495,7 +2766,7 @@
           "synopsis": "Printemps 1945, sur l’île d’Amrum, au large de l'Allemagne. Dans les derniers jours de la guerre, Nanning, 12 ans, brave une mer dangereuse pour chasser les phoques, pêche de nuit et travaille à la ferme voisine pour aider sa mère à nourrir la famille. Lorsque la paix arrive enfin, de nouveaux conflits surgissent, et Nanning doit apprendre à tracer son propre chemin dans un monde bouleversé.",
           "affiche": "https://fr.web.img6.acsta.net/img/29/54/2954a33501785f46c122a9ef80f937c6.jpg",
           "director": "Fatih Akın",
-          "wantToSee": 535,
+          "wantToSee": 534,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=309535.html",
           "seances": {
             "Lumière Terreaux": [
@@ -5566,7 +2837,7 @@
           "synopsis": "Chine, au début des années 1990, Chuang, 10 ans, est élevé par sa famille dans son village tandis que ses parents travaillent en ville.",
           "affiche": "https://fr.web.img2.acsta.net/img/74/0e/740e757ee905b05882b204567f5ea1b9.jpg",
           "director": "Huo Meng",
-          "wantToSee": 499,
+          "wantToSee": 501,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000018564.html",
           "seances": {
             "Lumière Terreaux": [
@@ -5597,13 +2868,13 @@
           "title": "Sur un air de blues",
           "release_year": "2025",
           "duree": "2h 13min",
-          "rating": "7.5",
+          "rating": "7.2",
           "genres": "Drame, Comédie musicale",
           "realisateur": "Craig Brewer",
           "synopsis": "Deux musiciens fauchés redonnent vie à la musique de Neil Diamond en formant un groupe lui rendant hommage. Ensemble, ils prouvent qu’il n’est jamais trop tard pour suivre son cœur et accomplir ses rêves.",
           "affiche": "https://fr.web.img5.acsta.net/img/46/12/46121ba1562a16d04bd209bbb952cbc9.jpg",
           "director": "Craig Brewer",
-          "wantToSee": 427,
+          "wantToSee": 429,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000013390.html",
           "seances": {
             "Pathé Carré de Soie": [
@@ -5738,7 +3009,7 @@
           "synopsis": "Louise de Pileggi, brillante substitut du procureur, a toujours eu des relations compliquées avec sa mère Judith qu’elle n’a pas vue depuis 15 ans. Quand elle se retrouve mutée au petit tribunal où Judith est greffière, Louise devient la cheffe de sa mère. Et pire encore : elles vont devoir collaborer dans une affaire à première vue banale, mais qui va mettre leurs nerfs à vif.",
           "affiche": "https://fr.web.img6.acsta.net/img/ea/fd/eafdfac8bc40d63ec84a32063363565a.jpg",
           "director": "Pierre Mazingarbe",
-          "wantToSee": 374,
+          "wantToSee": 375,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=279638.html",
           "seances": {
             "Pathé Vaise": [
@@ -6012,7 +3283,7 @@
           "synopsis": "Céline arrive pour la première fois en Arménie afin de régulariser la mort d’Arto, son mari. Elle découvre qu’il lui a menti, qu’il a fait la guerre, usurpé son identité, et que ses anciens amis le tiennent pour un déserteur. Commence pour elle un nouveau voyage, à la rencontre du passé d'Arto : invalides des combats de 2020, vétérans des batailles victorieuses des années 90, hantises d’une guerre qui n’en finit jamais. Une femme court après un fantôme. Comment faire pour l’enterrer ? Peut-on sauver les morts ?",
           "affiche": "https://fr.web.img2.acsta.net/img/f7/38/f738c353019cfe13d0d338999dd2cc4b.jpg",
           "director": "Tamara Stepanyan",
-          "wantToSee": 249,
+          "wantToSee": 252,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=325261.html",
           "seances": {
             "Lumière Bellecour": [
@@ -6148,7 +3419,7 @@
           "synopsis": "Pour entrer dans l’âge adulte, un vampire doit mordre. Pour conjurer cette virginité, il lui faut du sang \"pur\". Autrement, il sait qu’une malédiction s’abattrait sur sa famille : ils retourneraient en poussière, leur château avec. Norbert a déjà 350 ans, il est temps pour lui de devenir cet adulte. Il a trouvé sa proie, mais qui s’avère être une chasseuse de vampire. Il en sort traumatisé, et une dent en moins. Sa famille décide de l’envoyer à l’autre bout du monde pour vaincre sa soudaine phobie, mordre et sauver leur château. Norbert débarque par erreur sur l’île de Boulet Rouge, régie par le cartésianisme français. L’arrivée de Norbert déclenche bien sûr une chasse au vampire…",
           "affiche": "https://fr.web.img2.acsta.net/img/e3/7d/e37daab987b133220403cbbc46c47d16.jpg",
           "director": "Antonin Peretjatko",
-          "wantToSee": 142,
+          "wantToSee": 141,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=328493.html",
           "seances": {
             "Lumière La Fourmi": [
@@ -6170,7 +3441,7 @@
           "synopsis": "Palestine, 1936. La grande révolte arabe, destinée à faire émerger un État indépendant, se prépare alors que le territoire est sous mandat britannique.",
           "affiche": "https://fr.web.img2.acsta.net/img/37/0c/370c9b5f7f8502fb80051e5e9920fe9b.jpg",
           "director": "Annemarie Jacir",
-          "wantToSee": 101,
+          "wantToSee": 102,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000022541.html",
           "seances": {
             "Lumière Terreaux": [
@@ -6292,7 +3563,7 @@
           "synopsis": "Après la mort de Neteyam, Jake et Neytiri affrontent leur chagrin tout en faisant face au Peuple des Cendres, une tribu Na’vi redoutable menée par le fougueux Varang, alors que le conflit sur Pandora s’intensifie et qu’une nouvelle quê morale s’amorce.",
           "affiche": "https://fr.web.img6.acsta.net/img/52/fb/52fb8f0345af2b0940557aa049ca19fd.jpg",
           "director": "James Cameron",
-          "wantToSee": 9382,
+          "wantToSee": 9372,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=187247.html",
           "seances": {
             "Pathé Carré de Soie": [
@@ -6728,7 +3999,7 @@
           "synopsis": "Bob Ferguson est un ancien révolutionnaire paranoïaque et désabusé, qui a jadis œuvré avec son ex, Perfidia, au sein du French 75, un groupe militant voué au renversement du gouvernement américain. Seize ans plus tard, Bob vit seul avec sa fille, Willa, quand celle-ci disparaît soudainement. Bob soupçonne son vieil ennemi d’antan, le Colonel Steven J. Lockjaw, d’être responsable de sa disparition. Il décide alors de renouer avec ses anciens frères d’armes pour retrouver sa fille, quitte à confronter les fantômes de son passé.",
           "affiche": "https://fr.web.img2.acsta.net/img/61/0d/610dc2fcd83afe3717f771b889b979c2.jpg",
           "director": "Paul Thomas Anderson",
-          "wantToSee": 5593,
+          "wantToSee": 5592,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=311364.html",
           "seances": {
             "Lumière La Fourmi": [
@@ -7146,7 +4417,7 @@
           "synopsis": "Alger, 1938. Meursault, un jeune homme d’une trentaine d’années, modeste employé, enterre sa mère sans manifester la moindre émotion. Le lendemain, il entame une liaison avec Marie, une collègue de bureau. Puis il reprend sa vie de tous les jours. Mais son voisin, Raymond Sintès vient perturber son quotidien en l’entraînant dans des histoires louches jusqu’à un drame sur une plage, sous un soleil de plomb…",
           "affiche": "https://fr.web.img3.acsta.net/img/b9/cc/b9cc22a9378857355a4efae5f6c76707.jpg",
           "director": "François Ozon",
-          "wantToSee": 3216,
+          "wantToSee": 3217,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000019380.html",
           "seances": {
             "Lumière La Fourmi": [
@@ -7242,7 +4513,7 @@
           "title": "La Femme de ménage",
           "release_year": "2025",
           "duree": "2h 11min",
-          "rating": "7.5",
+          "rating": "7.4",
           "genres": "Thriller",
           "realisateur": "Paul Feig",
           "synopsis": "À sa sortie de prison, Millie Calloway décroche un emploi de femme de ménage en résidence chez la riche famille Winchester, composée de Nina, son mari Andrew et leur fille Cecelia. Mais ce qui ressemblait à un nouveau départ, pour la jeune femme qui souhaite se reconstruire, se transforme vite en cauchemar. Millie découvre en effet que rien dans cette maison parfaite n’est ce qu’il paraît. Entre manipulations psychologiques, secrets de famille et désirs interdits, Millie navigue à vue sur un océan de mensonges, de trahisons et de jeux de pouvoir.",
@@ -7544,7 +4815,7 @@
           "synopsis": "1977, Brésil. Marcelo, un homme d’une quarantaine d’années fuyant un passé trouble, arrive dans la ville de Recife où il espère construire une nouvelle vie et renouer avec sa famille. C’est sans compter sur les menaces de mort qui rôdent et planent au-dessus de sa tête…",
           "affiche": "https://fr.web.img6.acsta.net/img/d5/da/d5dae089c320b75bf1903cc249165073.jpg",
           "director": "Kleber Mendonça Filho",
-          "wantToSee": 2659,
+          "wantToSee": 2661,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000009761.html",
           "seances": {
             "Pathé Bellecour": [
@@ -7620,7 +4891,7 @@
           "synopsis": "La femme la plus riche du monde : sa beauté, son intelligence, son pouvoir. Un écrivain photographe : son ambition, son insolence, sa folie. Le coup de foudre qui les emporte. Une héritière méfiante qui se bat pour être aimée. Un majordome aux aguets qui en sait plus qu’il ne dit. Des secrets de famille. Des donations astronomiques. Une guerre où tous les coups sont permis. Une histoire trop connue pour qu’on ne la raconte pas autrement.",
           "affiche": "https://fr.web.img2.acsta.net/img/e1/6e/e16e8e1896a723183dca39a874939073.jpg",
           "director": "Thierry Klifa",
-          "wantToSee": 2640,
+          "wantToSee": 2641,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000006191.html",
           "seances": {
             "Lumière La Fourmi": [
@@ -7642,7 +4913,7 @@
           "synopsis": "Deux jeunes hommes obsédés par les théories du complot kidnappent la PDG d’une grande entreprise, convaincus qu’elle est une extraterrestre déterminée à détruire la planète Terre.",
           "affiche": "https://fr.web.img4.acsta.net/img/79/01/790107e027402b0b8eb7f426fd9102d8.jpg",
           "director": "Yorgos Lanthimos",
-          "wantToSee": 2361,
+          "wantToSee": 2363,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=282613.html",
           "seances": {
             "Pathé Bellecour": [
@@ -7768,7 +5039,7 @@
           "synopsis": "Lilian Steiner est une psychiatre reconnue. Un jour, elle apprend la mort de l’une de ses patientes. Troublée, Lilian se persuade qu’il s’agit d’un assassinat, elle décide alors de mener son enquête...",
           "affiche": "https://fr.web.img5.acsta.net/img/3a/9d/3a9d3503d9ccc1fec7fbdc4bf2934da7.jpg",
           "director": "Rebecca Zlotowski",
-          "wantToSee": 2311,
+          "wantToSee": 2313,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000000193.html",
           "seances": {
             "UGC Part-Dieu": [
@@ -7869,7 +5140,7 @@
           "synopsis": "Le scénariste Paul Javal mène une vie heureuse avec sa femme Camille. Un jour, le célèbre producteur américain Jeremy Prokosch lui propose de travailler à une adaptation de l’Odyssée, réalisée par Fritz Lang à Cinecittà. Le couple se rend alors sur les lieux du tournage et rencontre l’équipe. Prokosch fait bientôt des avances à Camille sous les yeux de Paul. Cette tentative de séduction va sonner le glas de leur couple…",
           "affiche": "https://fr.web.img6.acsta.net/pictures/23/05/11/10/31/0127773.jpg",
           "director": "Jean-Luc Godard",
-          "wantToSee": 1928,
+          "wantToSee": 1932,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=239.html",
           "seances": {
             "UGC Part-Dieu": [
@@ -8332,7 +5603,7 @@
           "synopsis": "C’est l’histoire de Céleste, jeune bonne employée chez Victoire et André, en 1908. C’est l’histoire de Victoire, de l’épouse modèle qu’elle ne sait pas être. Deux femmes que tout sépare mais qui vivent sous le même toit, défiant les conventions et les non-dits.",
           "affiche": "https://fr.web.img4.acsta.net/img/65/9f/659f5b54ac267e57f6183011bcfb99aa.jpg",
           "director": "Jérôme Bonnell",
-          "wantToSee": 951,
+          "wantToSee": 952,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=317099.html",
           "seances": {
             "Lumière Bellecour": [
@@ -8361,7 +5632,7 @@
           "synopsis": "",
           "affiche": "https://fr.web.img5.acsta.net/img/5b/c3/5bc38e41de3e658a750fc158815799cf.jpg",
           "director": "Lav Diaz",
-          "wantToSee": 900,
+          "wantToSee": 903,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000022573.html",
           "seances": {
             "Lumière Bellecour": [
@@ -8410,7 +5681,7 @@
           "synopsis": "Nagasaki, 1964 - A la mort de son père, chef d’un gang de yakuzas, Kikuo, 14 ans, est confié à un célèbre acteur de kabuki. Aux côtés de Shunsuke, le fils unique de ce dernier, il décide de se consacrer à ce théâtre traditionnel. Durant des décennies, les deux jeunes hommes évoluent côte à côte, de l’école du jeu aux plus belles salles de spectacle, entre scandales et gloire, fraternité et trahisons... L'un des deux deviendra le plus grand maître japonais de l'art du kabuki.",
           "affiche": "https://fr.web.img2.acsta.net/img/86/c3/86c3bc332654205f70fc0c25498ccdf5.jpg",
           "director": "Sang-il Lee",
-          "wantToSee": 872,
+          "wantToSee": 873,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000018284.html",
           "seances": {
             "UGC Astoria": [
@@ -8522,7 +5793,7 @@
           "synopsis": "Qui Brille au Combat est le sens étymologique du prénom Bertille, la plus jeune des deux sœurs de la famille Roussier, atteinte d’un handicap lourd au diagnostic incertain. La famille vit dans un équilibre fragile autour de cet enfant qui accapare les efforts et pensées de chacun, et qui pourrait perdre la vie à tout moment. Chacun se construit, vit comme il peut avec les exigences de ce rythme et les incertitudes qui l’accompagnent. Les parents, Madeleine et Gilles, la sœur aînée, Marion. Quel quotidien et quels avenirs pour une mère, un père, un couple, une adolescente que la responsabilité ​ de sa cadette a rendu trop vite adulte ? Lorsqu’un nouveau diagnostic est posé, les cartes sont rebattues et un nouvel horizon se dessine...",
           "affiche": "https://fr.web.img3.acsta.net/img/a3/e8/a3e859018636c366010d60f860a255a3.jpg",
           "director": "Joséphine Japy",
-          "wantToSee": 806,
+          "wantToSee": 807,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000012015.html",
           "seances": {
             "Pathé Bellecour": [
@@ -8602,7 +5873,7 @@
           "title": "Rebuilding",
           "release_year": "2025",
           "duree": "1h 35min",
-          "rating": "6.7",
+          "rating": "6.6",
           "genres": "Drame",
           "realisateur": "Max Walker-Silverman",
           "synopsis": "Dans l’Ouest américain, dévasté par des incendies ravageurs, Dusty voit son ranch anéanti par les flammes. Il trouve refuge dans un camp de fortune et commence lentement à redonner du sens à sa vie. Entouré de personnes qui, comme lui, ont tout perdu, des liens inattendus se tissent. Porté par l’espoir de renouer avec sa fille et son ex-femme, il retrouve peu à peu la volonté de tout reconstruire.",
@@ -8817,7 +6088,7 @@
           "synopsis": "Doug et Griff sont amis d'enfance et partagent depuis toujours un rêve un peu fou : réaliser leur propre remake de leur film préféré, le cultissime Anaconda. En pleine crise de la quarantaine, ils décident enfin de se lancer, et se retrouvent à tourner en plein cœur de l'Amazonie. Mais le rêve vire rapidement au cauchemar lorsqu'un véritable anaconda géant fait son apparition et transforme leur plateau déjà chaotique en un véritable piège mortel. Le film qu'ils meurent d'envie de faire ? Va être vraiment mortel...",
           "affiche": "https://fr.web.img6.acsta.net/img/20/af/20afc1b148d574dca07ec228be9ac869.jpg",
           "director": "Tom Gormican",
-          "wantToSee": 547,
+          "wantToSee": 545,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=280693.html",
           "seances": {
             "Pathé Carré de Soie": [
@@ -8990,50 +6261,6 @@
           }
         },
         {
-          "title": "Une enfance allemande - Île d'Amrum, 1945",
-          "release_year": "2025",
-          "duree": "1h 33min",
-          "rating": "7.4",
-          "genres": "Drame, Guerre",
-          "realisateur": "Fatih Akın",
-          "synopsis": "Printemps 1945, sur l’île d’Amrum, au large de l'Allemagne. Dans les derniers jours de la guerre, Nanning, 12 ans, brave une mer dangereuse pour chasser les phoques, pêche de nuit et travaille à la ferme voisine pour aider sa mère à nourrir la famille. Lorsque la paix arrive enfin, de nouveaux conflits surgissent, et Nanning doit apprendre à tracer son propre chemin dans un monde bouleversé.",
-          "affiche": "https://fr.web.img6.acsta.net/img/29/54/2954a33501785f46c122a9ef80f937c6.jpg",
-          "director": "Fatih Akın",
-          "wantToSee": 535,
-          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=309535.html",
-          "seances": {
-            "Lumière Terreaux": [
-              {
-                "time": "10:15",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "12:40",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "18:55",
-                "lang": "VO",
-                "format": null
-              }
-            ],
-            "UGC Astoria": [
-              {
-                "time": "13:55",
-                "lang": "VO",
-                "format": null
-              },
-              {
-                "time": "16:15",
-                "lang": "VO",
-                "format": null
-              }
-            ]
-          }
-        },
-        {
           "title": "Los Tigres",
           "release_year": "2025",
           "duree": "1h 49min",
@@ -9043,7 +6270,7 @@
           "synopsis": "Antonio et Estrella sont un frère et une soeur dont le destin est uni à la mer : il est scaphandrier, elle étudie les fonds marins et aide son frère sur le navire où il travaille. Bien qu'il risque sa vie tous les jours, sa situation financière est tendue, mais cela pourrait changer quand il trouve une cargaison de cocaïne cachée dans la coque d'un cargo coulé dans le port de Huelva.",
           "affiche": "https://fr.web.img5.acsta.net/img/e6/07/e6072a30a6045a3cdc545da6bbafe62a.jpg",
           "director": "Alberto Rodriguez",
-          "wantToSee": 531,
+          "wantToSee": 536,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=325967.html",
           "seances": {
             "UGC Part-Dieu": [
@@ -9103,6 +6330,50 @@
           }
         },
         {
+          "title": "Une enfance allemande - Île d'Amrum, 1945",
+          "release_year": "2025",
+          "duree": "1h 33min",
+          "rating": "7.4",
+          "genres": "Drame, Guerre",
+          "realisateur": "Fatih Akın",
+          "synopsis": "Printemps 1945, sur l’île d’Amrum, au large de l'Allemagne. Dans les derniers jours de la guerre, Nanning, 12 ans, brave une mer dangereuse pour chasser les phoques, pêche de nuit et travaille à la ferme voisine pour aider sa mère à nourrir la famille. Lorsque la paix arrive enfin, de nouveaux conflits surgissent, et Nanning doit apprendre à tracer son propre chemin dans un monde bouleversé.",
+          "affiche": "https://fr.web.img6.acsta.net/img/29/54/2954a33501785f46c122a9ef80f937c6.jpg",
+          "director": "Fatih Akın",
+          "wantToSee": 534,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=309535.html",
+          "seances": {
+            "Lumière Terreaux": [
+              {
+                "time": "10:15",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "12:40",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "18:55",
+                "lang": "VO",
+                "format": null
+              }
+            ],
+            "UGC Astoria": [
+              {
+                "time": "13:55",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "16:15",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
           "title": "L'Oeuf de l'ange",
           "release_year": "1985",
           "duree": "1h 11min",
@@ -9134,7 +6405,7 @@
           "synopsis": "Chine, au début des années 1990, Chuang, 10 ans, est élevé par sa famille dans son village tandis que ses parents travaillent en ville.",
           "affiche": "https://fr.web.img2.acsta.net/img/74/0e/740e757ee905b05882b204567f5ea1b9.jpg",
           "director": "Huo Meng",
-          "wantToSee": 499,
+          "wantToSee": 501,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000018564.html",
           "seances": {
             "Lumière Terreaux": [
@@ -9160,13 +6431,13 @@
           "title": "Sur un air de blues",
           "release_year": "2025",
           "duree": "2h 13min",
-          "rating": "7.5",
+          "rating": "7.2",
           "genres": "Drame, Comédie musicale",
           "realisateur": "Craig Brewer",
           "synopsis": "Deux musiciens fauchés redonnent vie à la musique de Neil Diamond en formant un groupe lui rendant hommage. Ensemble, ils prouvent qu’il n’est jamais trop tard pour suivre son cœur et accomplir ses rêves.",
           "affiche": "https://fr.web.img5.acsta.net/img/46/12/46121ba1562a16d04bd209bbb952cbc9.jpg",
           "director": "Craig Brewer",
-          "wantToSee": 427,
+          "wantToSee": 429,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000013390.html",
           "seances": {
             "Pathé Carré de Soie": [
@@ -9301,7 +6572,7 @@
           "synopsis": "Louise de Pileggi, brillante substitut du procureur, a toujours eu des relations compliquées avec sa mère Judith qu’elle n’a pas vue depuis 15 ans. Quand elle se retrouve mutée au petit tribunal où Judith est greffière, Louise devient la cheffe de sa mère. Et pire encore : elles vont devoir collaborer dans une affaire à première vue banale, mais qui va mettre leurs nerfs à vif.",
           "affiche": "https://fr.web.img6.acsta.net/img/ea/fd/eafdfac8bc40d63ec84a32063363565a.jpg",
           "director": "Pierre Mazingarbe",
-          "wantToSee": 374,
+          "wantToSee": 375,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=279638.html",
           "seances": {
             "Pathé Vaise": [
@@ -9580,7 +6851,7 @@
           "synopsis": "Céline arrive pour la première fois en Arménie afin de régulariser la mort d’Arto, son mari. Elle découvre qu’il lui a menti, qu’il a fait la guerre, usurpé son identité, et que ses anciens amis le tiennent pour un déserteur. Commence pour elle un nouveau voyage, à la rencontre du passé d'Arto : invalides des combats de 2020, vétérans des batailles victorieuses des années 90, hantises d’une guerre qui n’en finit jamais. Une femme court après un fantôme. Comment faire pour l’enterrer ? Peut-on sauver les morts ?",
           "affiche": "https://fr.web.img2.acsta.net/img/f7/38/f738c353019cfe13d0d338999dd2cc4b.jpg",
           "director": "Tamara Stepanyan",
-          "wantToSee": 249,
+          "wantToSee": 252,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=325261.html",
           "seances": {
             "Lumière Bellecour": [
@@ -9743,7 +7014,7 @@
           "synopsis": "Pour entrer dans l’âge adulte, un vampire doit mordre. Pour conjurer cette virginité, il lui faut du sang \"pur\". Autrement, il sait qu’une malédiction s’abattrait sur sa famille : ils retourneraient en poussière, leur château avec. Norbert a déjà 350 ans, il est temps pour lui de devenir cet adulte. Il a trouvé sa proie, mais qui s’avère être une chasseuse de vampire. Il en sort traumatisé, et une dent en moins. Sa famille décide de l’envoyer à l’autre bout du monde pour vaincre sa soudaine phobie, mordre et sauver leur château. Norbert débarque par erreur sur l’île de Boulet Rouge, régie par le cartésianisme français. L’arrivée de Norbert déclenche bien sûr une chasse au vampire…",
           "affiche": "https://fr.web.img2.acsta.net/img/e3/7d/e37daab987b133220403cbbc46c47d16.jpg",
           "director": "Antonin Peretjatko",
-          "wantToSee": 142,
+          "wantToSee": 141,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=328493.html",
           "seances": {
             "Lumière La Fourmi": [
@@ -9931,7 +7202,7 @@
           "synopsis": "Après la mort de Neteyam, Jake et Neytiri affrontent leur chagrin tout en faisant face au Peuple des Cendres, une tribu Na’vi redoutable menée par le fougueux Varang, alors que le conflit sur Pandora s’intensifie et qu’une nouvelle quê morale s’amorce.",
           "affiche": "https://fr.web.img6.acsta.net/img/52/fb/52fb8f0345af2b0940557aa049ca19fd.jpg",
           "director": "James Cameron",
-          "wantToSee": 9382,
+          "wantToSee": 9372,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=187247.html",
           "seances": {
             "Pathé Bellecour": [
@@ -10013,7 +7284,7 @@
           "title": "La Femme de ménage",
           "release_year": "2025",
           "duree": "2h 11min",
-          "rating": "7.5",
+          "rating": "7.4",
           "genres": "Thriller",
           "realisateur": "Paul Feig",
           "synopsis": "À sa sortie de prison, Millie Calloway décroche un emploi de femme de ménage en résidence chez la riche famille Winchester, composée de Nina, son mari Andrew et leur fille Cecelia. Mais ce qui ressemblait à un nouveau départ, pour la jeune femme qui souhaite se reconstruire, se transforme vite en cauchemar. Millie découvre en effet que rien dans cette maison parfaite n’est ce qu’il paraît. Entre manipulations psychologiques, secrets de famille et désirs interdits, Millie navigue à vue sur un océan de mensonges, de trahisons et de jeux de pouvoir.",
@@ -10107,7 +7378,7 @@
           "synopsis": "Louise de Pileggi, brillante substitut du procureur, a toujours eu des relations compliquées avec sa mère Judith qu’elle n’a pas vue depuis 15 ans. Quand elle se retrouve mutée au petit tribunal où Judith est greffière, Louise devient la cheffe de sa mère. Et pire encore : elles vont devoir collaborer dans une affaire à première vue banale, mais qui va mettre leurs nerfs à vif.",
           "affiche": "https://fr.web.img6.acsta.net/img/ea/fd/eafdfac8bc40d63ec84a32063363565a.jpg",
           "director": "Pierre Mazingarbe",
-          "wantToSee": 374,
+          "wantToSee": 375,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=279638.html",
           "seances": {
             "Ciné Meyzieu": [
@@ -10163,7 +7434,7 @@
           "synopsis": "Céline arrive pour la première fois en Arménie afin de régulariser la mort d’Arto, son mari. Elle découvre qu’il lui a menti, qu’il a fait la guerre, usurpé son identité, et que ses anciens amis le tiennent pour un déserteur. Commence pour elle un nouveau voyage, à la rencontre du passé d'Arto : invalides des combats de 2020, vétérans des batailles victorieuses des années 90, hantises d’une guerre qui n’en finit jamais. Une femme court après un fantôme. Comment faire pour l’enterrer ? Peut-on sauver les morts ?",
           "affiche": "https://fr.web.img2.acsta.net/img/f7/38/f738c353019cfe13d0d338999dd2cc4b.jpg",
           "director": "Tamara Stepanyan",
-          "wantToSee": 249,
+          "wantToSee": 252,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=325261.html",
           "seances": {
             "Ciné Toboggan": [
@@ -10234,7 +7505,7 @@
           "synopsis": "Après la mort de Neteyam, Jake et Neytiri affrontent leur chagrin tout en faisant face au Peuple des Cendres, une tribu Na’vi redoutable menée par le fougueux Varang, alors que le conflit sur Pandora s’intensifie et qu’une nouvelle quê morale s’amorce.",
           "affiche": "https://fr.web.img6.acsta.net/img/52/fb/52fb8f0345af2b0940557aa049ca19fd.jpg",
           "director": "James Cameron",
-          "wantToSee": 9382,
+          "wantToSee": 9372,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=187247.html",
           "seances": {
             "Pathé Bellecour": [
@@ -10325,7 +7596,7 @@
           "title": "La Femme de ménage",
           "release_year": "2025",
           "duree": "2h 11min",
-          "rating": "7.5",
+          "rating": "7.4",
           "genres": "Thriller",
           "realisateur": "Paul Feig",
           "synopsis": "À sa sortie de prison, Millie Calloway décroche un emploi de femme de ménage en résidence chez la riche famille Winchester, composée de Nina, son mari Andrew et leur fille Cecelia. Mais ce qui ressemblait à un nouveau départ, pour la jeune femme qui souhaite se reconstruire, se transforme vite en cauchemar. Millie découvre en effet que rien dans cette maison parfaite n’est ce qu’il paraît. Entre manipulations psychologiques, secrets de famille et désirs interdits, Millie navigue à vue sur un océan de mensonges, de trahisons et de jeux de pouvoir.",
@@ -10353,7 +7624,7 @@
           "synopsis": "1977, Brésil. Marcelo, un homme d’une quarantaine d’années fuyant un passé trouble, arrive dans la ville de Recife où il espère construire une nouvelle vie et renouer avec sa famille. C’est sans compter sur les menaces de mort qui rôdent et planent au-dessus de sa tête…",
           "affiche": "https://fr.web.img6.acsta.net/img/d5/da/d5dae089c320b75bf1903cc249165073.jpg",
           "director": "Kleber Mendonça Filho",
-          "wantToSee": 2659,
+          "wantToSee": 2661,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000009761.html",
           "seances": {
             "Ciné Meyzieu": [
@@ -10475,7 +7746,7 @@
           "synopsis": "Louise de Pileggi, brillante substitut du procureur, a toujours eu des relations compliquées avec sa mère Judith qu’elle n’a pas vue depuis 15 ans. Quand elle se retrouve mutée au petit tribunal où Judith est greffière, Louise devient la cheffe de sa mère. Et pire encore : elles vont devoir collaborer dans une affaire à première vue banale, mais qui va mettre leurs nerfs à vif.",
           "affiche": "https://fr.web.img6.acsta.net/img/ea/fd/eafdfac8bc40d63ec84a32063363565a.jpg",
           "director": "Pierre Mazingarbe",
-          "wantToSee": 374,
+          "wantToSee": 375,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=279638.html",
           "seances": {
             "Ciné Meyzieu": [
@@ -10524,7 +7795,7 @@
           "synopsis": "Céline arrive pour la première fois en Arménie afin de régulariser la mort d’Arto, son mari. Elle découvre qu’il lui a menti, qu’il a fait la guerre, usurpé son identité, et que ses anciens amis le tiennent pour un déserteur. Commence pour elle un nouveau voyage, à la rencontre du passé d'Arto : invalides des combats de 2020, vétérans des batailles victorieuses des années 90, hantises d’une guerre qui n’en finit jamais. Une femme court après un fantôme. Comment faire pour l’enterrer ? Peut-on sauver les morts ?",
           "affiche": "https://fr.web.img2.acsta.net/img/f7/38/f738c353019cfe13d0d338999dd2cc4b.jpg",
           "director": "Tamara Stepanyan",
-          "wantToSee": 249,
+          "wantToSee": 252,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=325261.html",
           "seances": {
             "Ciné Toboggan": [
@@ -10612,7 +7883,7 @@
           "synopsis": "Maxime rêvait de devenir agent infiltré… Lupita va réaliser son rêve !",
           "affiche": "https://fr.web.img3.acsta.net/img/be/4a/be4a8ef10e384267c29528dca1005031.jpg",
           "director": "Ahmed Sylla",
-          "wantToSee": 138,
+          "wantToSee": 139,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000021765.html",
           "seances": {
             "Pathé Carré de Soie": [
@@ -10718,7 +7989,7 @@
           "synopsis": "Après la mort de Neteyam, Jake et Neytiri affrontent leur chagrin tout en faisant face au Peuple des Cendres, une tribu Na’vi redoutable menée par le fougueux Varang, alors que le conflit sur Pandora s’intensifie et qu’une nouvelle quê morale s’amorce.",
           "affiche": "https://fr.web.img6.acsta.net/img/52/fb/52fb8f0345af2b0940557aa049ca19fd.jpg",
           "director": "James Cameron",
-          "wantToSee": 9382,
+          "wantToSee": 9372,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=187247.html",
           "seances": {
             "Pathé Bellecour": [
@@ -10768,7 +8039,7 @@
           "title": "La Femme de ménage",
           "release_year": "2025",
           "duree": "2h 11min",
-          "rating": "7.5",
+          "rating": "7.4",
           "genres": "Thriller",
           "realisateur": "Paul Feig",
           "synopsis": "À sa sortie de prison, Millie Calloway décroche un emploi de femme de ménage en résidence chez la riche famille Winchester, composée de Nina, son mari Andrew et leur fille Cecelia. Mais ce qui ressemblait à un nouveau départ, pour la jeune femme qui souhaite se reconstruire, se transforme vite en cauchemar. Millie découvre en effet que rien dans cette maison parfaite n’est ce qu’il paraît. Entre manipulations psychologiques, secrets de famille et désirs interdits, Millie navigue à vue sur un océan de mensonges, de trahisons et de jeux de pouvoir.",
@@ -10796,7 +8067,7 @@
           "synopsis": "1977, Brésil. Marcelo, un homme d’une quarantaine d’années fuyant un passé trouble, arrive dans la ville de Recife où il espère construire une nouvelle vie et renouer avec sa famille. C’est sans compter sur les menaces de mort qui rôdent et planent au-dessus de sa tête…",
           "affiche": "https://fr.web.img6.acsta.net/img/d5/da/d5dae089c320b75bf1903cc249165073.jpg",
           "director": "Kleber Mendonça Filho",
-          "wantToSee": 2659,
+          "wantToSee": 2661,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000009761.html",
           "seances": {
             "Ciné Meyzieu": [
@@ -10874,7 +8145,7 @@
           "synopsis": "Matt est le coach en développement personnel le plus suivi de France. Dans une société en quête de sens où la réussite individuelle est devenue sacrée, il propose à ses adeptes une catharsis qui électrise les foules autant qu'elle inquiète les autorités. Sous le feu des critiques, Matt va s'engager dans une fuite en avant qui le mènera aux frontières de la folie et peut-être de la gloire...",
           "affiche": "https://fr.web.img5.acsta.net/img/70/e9/70e9dfd918886ca3ea4e1088f06f659c.jpg",
           "director": "Yann Gozlan",
-          "wantToSee": 1275,
+          "wantToSee": 1277,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=328179.html",
           "seances": {
             "Pathé Carré de Soie": [
@@ -10954,7 +8225,7 @@
           "synopsis": "Louise de Pileggi, brillante substitut du procureur, a toujours eu des relations compliquées avec sa mère Judith qu’elle n’a pas vue depuis 15 ans. Quand elle se retrouve mutée au petit tribunal où Judith est greffière, Louise devient la cheffe de sa mère. Et pire encore : elles vont devoir collaborer dans une affaire à première vue banale, mais qui va mettre leurs nerfs à vif.",
           "affiche": "https://fr.web.img6.acsta.net/img/ea/fd/eafdfac8bc40d63ec84a32063363565a.jpg",
           "director": "Pierre Mazingarbe",
-          "wantToSee": 374,
+          "wantToSee": 375,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=279638.html",
           "seances": {
             "Ciné Meyzieu": [
@@ -10976,7 +8247,7 @@
           "synopsis": "Céline arrive pour la première fois en Arménie afin de régulariser la mort d’Arto, son mari. Elle découvre qu’il lui a menti, qu’il a fait la guerre, usurpé son identité, et que ses anciens amis le tiennent pour un déserteur. Commence pour elle un nouveau voyage, à la rencontre du passé d'Arto : invalides des combats de 2020, vétérans des batailles victorieuses des années 90, hantises d’une guerre qui n’en finit jamais. Une femme court après un fantôme. Comment faire pour l’enterrer ? Peut-on sauver les morts ?",
           "affiche": "https://fr.web.img2.acsta.net/img/f7/38/f738c353019cfe13d0d338999dd2cc4b.jpg",
           "director": "Tamara Stepanyan",
-          "wantToSee": 249,
+          "wantToSee": 252,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=325261.html",
           "seances": {
             "Ciné Toboggan": [
@@ -11100,7 +8371,7 @@
           "synopsis": "",
           "affiche": "https://fr.web.img6.acsta.net/img/5c/cc/5ccc78f32e9647a668217475403b8a74.jpeg",
           "director": "H. Vinoth",
-          "wantToSee": 28,
+          "wantToSee": 30,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000019038.html",
           "seances": {
             "Pathé Vaise": [
@@ -11149,7 +8420,7 @@
           "synopsis": "Après la mort de Neteyam, Jake et Neytiri affrontent leur chagrin tout en faisant face au Peuple des Cendres, une tribu Na’vi redoutable menée par le fougueux Varang, alors que le conflit sur Pandora s’intensifie et qu’une nouvelle quê morale s’amorce.",
           "affiche": "https://fr.web.img6.acsta.net/img/52/fb/52fb8f0345af2b0940557aa049ca19fd.jpg",
           "director": "James Cameron",
-          "wantToSee": 9382,
+          "wantToSee": 9372,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=187247.html",
           "seances": {
             "Pathé Bellecour": [
@@ -11226,7 +8497,7 @@
           "title": "La Femme de ménage",
           "release_year": "2025",
           "duree": "2h 11min",
-          "rating": "7.5",
+          "rating": "7.4",
           "genres": "Thriller",
           "realisateur": "Paul Feig",
           "synopsis": "À sa sortie de prison, Millie Calloway décroche un emploi de femme de ménage en résidence chez la riche famille Winchester, composée de Nina, son mari Andrew et leur fille Cecelia. Mais ce qui ressemblait à un nouveau départ, pour la jeune femme qui souhaite se reconstruire, se transforme vite en cauchemar. Millie découvre en effet que rien dans cette maison parfaite n’est ce qu’il paraît. Entre manipulations psychologiques, secrets de famille et désirs interdits, Millie navigue à vue sur un océan de mensonges, de trahisons et de jeux de pouvoir.",
@@ -11303,7 +8574,7 @@
           "synopsis": "Louise de Pileggi, brillante substitut du procureur, a toujours eu des relations compliquées avec sa mère Judith qu’elle n’a pas vue depuis 15 ans. Quand elle se retrouve mutée au petit tribunal où Judith est greffière, Louise devient la cheffe de sa mère. Et pire encore : elles vont devoir collaborer dans une affaire à première vue banale, mais qui va mettre leurs nerfs à vif.",
           "affiche": "https://fr.web.img6.acsta.net/img/ea/fd/eafdfac8bc40d63ec84a32063363565a.jpg",
           "director": "Pierre Mazingarbe",
-          "wantToSee": 374,
+          "wantToSee": 375,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=279638.html",
           "seances": {
             "Ciné Meyzieu": [
@@ -11359,7 +8630,7 @@
           "synopsis": "Céline arrive pour la première fois en Arménie afin de régulariser la mort d’Arto, son mari. Elle découvre qu’il lui a menti, qu’il a fait la guerre, usurpé son identité, et que ses anciens amis le tiennent pour un déserteur. Commence pour elle un nouveau voyage, à la rencontre du passé d'Arto : invalides des combats de 2020, vétérans des batailles victorieuses des années 90, hantises d’une guerre qui n’en finit jamais. Une femme court après un fantôme. Comment faire pour l’enterrer ? Peut-on sauver les morts ?",
           "affiche": "https://fr.web.img2.acsta.net/img/f7/38/f738c353019cfe13d0d338999dd2cc4b.jpg",
           "director": "Tamara Stepanyan",
-          "wantToSee": 249,
+          "wantToSee": 252,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=325261.html",
           "seances": {
             "Ciné Toboggan": [
@@ -11381,7 +8652,7 @@
           "synopsis": "",
           "affiche": "https://fr.web.img6.acsta.net/img/5c/cc/5ccc78f32e9647a668217475403b8a74.jpeg",
           "director": "H. Vinoth",
-          "wantToSee": 28,
+          "wantToSee": 30,
           "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000019038.html",
           "seances": {
             "Pathé Vaise": [
@@ -11461,6 +8732,505 @@
               {
                 "time": "11:00",
                 "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "date": "2026-01-11",
+      "movies": [
+        {
+          "title": "Avatar : de Feu et de Cendres",
+          "release_year": "2025",
+          "duree": "3h 17min",
+          "rating": "7.4",
+          "genres": "Science Fiction, Aventure, Action, Fantastique",
+          "realisateur": "James Cameron",
+          "synopsis": "Après la mort de Neteyam, Jake et Neytiri affrontent leur chagrin tout en faisant face au Peuple des Cendres, une tribu Na’vi redoutable menée par le fougueux Varang, alors que le conflit sur Pandora s’intensifie et qu’une nouvelle quê morale s’amorce.",
+          "affiche": "https://fr.web.img6.acsta.net/img/52/fb/52fb8f0345af2b0940557aa049ca19fd.jpg",
+          "director": "James Cameron",
+          "wantToSee": 9372,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=187247.html",
+          "seances": {
+            "Pathé Bellecour": [
+              {
+                "time": "11:15",
+                "lang": "VO",
+                "format": "3D, 4DX"
+              },
+              {
+                "time": "15:30",
+                "lang": "VF",
+                "format": "3D, 4DX"
+              },
+              {
+                "time": "19:30",
+                "lang": "VF",
+                "format": "3D, 4DX"
+              }
+            ],
+            "Ciné Meyzieu": [
+              {
+                "time": "10:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "14:00",
+                "lang": "VF",
+                "format": "3D"
+              },
+              {
+                "time": "19:45",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "Ciné Toboggan": [
+              {
+                "time": "18:00",
+                "lang": "VF",
+                "format": "3D"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Inglourious Basterds",
+          "release_year": "2009",
+          "duree": "2h 33min",
+          "rating": "8.2",
+          "genres": "Guerre, Action",
+          "realisateur": "Quentin Tarantino",
+          "synopsis": "Dans la France occupée de 1940, un groupe de soldats juifs américains, les bâtards, mène des actions punitives particulièrement sanglantes contre les nazis du Troisième Reich. Leur chemin rencontre celui de Shosanna Dreyfus, une jeune juive réfugiée à Paris exploitante d'une salle de cinéma qui entend elle aussi assouvir sa propre vengeance envers les nazis.",
+          "affiche": "https://fr.web.img2.acsta.net/medias/nmedia/18/70/45/22/19123474.jpg",
+          "director": "Quentin Tarantino",
+          "wantToSee": 4011,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=60208.html",
+          "seances": {
+            "Pathé Bellecour": [
+              {
+                "time": "10:40",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Zootopie 2",
+          "release_year": "2025",
+          "duree": "1h 48min",
+          "rating": "7.6",
+          "genres": "Animation, Aventure, Famille, Comédie",
+          "realisateur": "Byron Howard",
+          "synopsis": "Judy Hopps et Nick Wilde explorent à nouveau Zootopie, entre mystères, rires et rencontres inattendues. À travers chaque rue et chaque instant, ils découvrent que l’amitié et la curiosité transforment le quotidien en moments magiques.",
+          "affiche": "https://fr.web.img2.acsta.net/img/45/ac/45ac77474bfae505033a30909e4eda41.jpg",
+          "director": "Byron Howard",
+          "wantToSee": 3525,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=277428.html",
+          "seances": {
+            "Ciné Meyzieu": [
+              {
+                "time": "14:15",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "15:45",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "Lumière La Fourmi": [
+              {
+                "time": "14:50",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "La Reine des neiges",
+          "release_year": "2013",
+          "duree": "1h 42min",
+          "rating": "7.2",
+          "genres": "Animation, Aventure, Fantastique, Comédie musicale",
+          "realisateur": "Chris Buck",
+          "synopsis": "Anna, une jeune fille aussi audacieuse qu’optimiste, se lance dans un incroyable voyage en compagnie de Kristoff, un montagnard expérimenté, et de son fidèle renne, Sven à la recherche de sa sœur, Elsa, la Reine des Neiges qui a plongé le royaume d’Arendelle dans un hiver éternel…  En chemin, ils vont rencontrer de mystérieux trolls et un drôle de bonhomme de neige nommé Olaf, braver les conditions extrêmes des sommets escarpés et glacés, et affronter la magie qui les guette à chaque pas.",
+          "affiche": "https://fr.web.img5.acsta.net/pictures/210/521/21052146_20131023144339759.jpg",
+          "director": "Chris Buck",
+          "wantToSee": 3122,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=203691.html",
+          "seances": {
+            "UGC Part-Dieu": [
+              {
+                "time": "11:00",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "UGC Confluence": [
+              {
+                "time": "11:00",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "UGC Internationale": [
+              {
+                "time": "11:00",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "La Femme de ménage",
+          "release_year": "2025",
+          "duree": "2h 11min",
+          "rating": "7.4",
+          "genres": "Thriller",
+          "realisateur": "Paul Feig",
+          "synopsis": "À sa sortie de prison, Millie Calloway décroche un emploi de femme de ménage en résidence chez la riche famille Winchester, composée de Nina, son mari Andrew et leur fille Cecelia. Mais ce qui ressemblait à un nouveau départ, pour la jeune femme qui souhaite se reconstruire, se transforme vite en cauchemar. Millie découvre en effet que rien dans cette maison parfaite n’est ce qu’il paraît. Entre manipulations psychologiques, secrets de famille et désirs interdits, Millie navigue à vue sur un océan de mensonges, de trahisons et de jeux de pouvoir.",
+          "affiche": "https://fr.web.img5.acsta.net/img/ed/a3/eda3bba832e22c79ea22117b058f84e5.jpg",
+          "director": "Paul Feig",
+          "wantToSee": 2810,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=317403.html",
+          "seances": {
+            "Ciné Meyzieu": [
+              {
+                "time": "17:00",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "L'Agent secret",
+          "release_year": "2025",
+          "duree": "2h 40min",
+          "rating": "7.9",
+          "genres": "Policier, Drame",
+          "realisateur": "Kleber Mendonça Filho",
+          "synopsis": "1977, Brésil. Marcelo, un homme d’une quarantaine d’années fuyant un passé trouble, arrive dans la ville de Recife où il espère construire une nouvelle vie et renouer avec sa famille. C’est sans compter sur les menaces de mort qui rôdent et planent au-dessus de sa tête…",
+          "affiche": "https://fr.web.img6.acsta.net/img/d5/da/d5dae089c320b75bf1903cc249165073.jpg",
+          "director": "Kleber Mendonça Filho",
+          "wantToSee": 2661,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000009761.html",
+          "seances": {
+            "Ciné Meyzieu": [
+              {
+                "time": "20:15",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "La Cité de la peur",
+          "release_year": "1994",
+          "duree": "1h 40min",
+          "rating": "7.5",
+          "genres": "Comédie",
+          "realisateur": "Alain Berbérian",
+          "synopsis": "Lors du festival de Cannes 1993, Odile Deray, petite attachée de presse de cinéma, rencontre bien des difficultés à intéresser les professionnels à son film « Red is Dead », un film d’horreur d'une nullité qui n'a d’égal que les budget ridicule et acteurs improbables. Pourtant un évènement sert les attentes d'Odile : un tueur commet des meurtres identique au modus operandi du film. L'opportunité est à saisir : de vrais meurtres identiques à son film, en plein festival ! Odile met en avant Simon Jeremi, l'acteur principal, un enfant simplet de trente ans. Pour assurer sa protection, elle engage un garde du corps, Serge Karamazov, plus animé par les femmes que par sa mission. Dans la fièvre de Cannes, avec un tueur en liberté, un politicien véreux et un commissaire principal obsédé par son égo médiatique, Odile, Simon et Kara devront jouer des coudes pour traverser le festival vivants. D'ici là, ils ne seront pas au bout de leurs péripéties...",
+          "affiche": "https://fr.web.img2.acsta.net/pictures/19/05/03/14/30/1132544.jpg",
+          "director": "Alain Berbérian",
+          "wantToSee": 1867,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=9400.html",
+          "seances": {
+            "UGC Internationale": [
+              {
+                "time": "18:00",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Le Chant des forêts",
+          "release_year": "2025",
+          "duree": "1h 33min",
+          "rating": "8.0",
+          "genres": "Documentaire",
+          "realisateur": "Vincent Munier",
+          "synopsis": "Un homme marche, sac au dos, bâton à la main, veste lourde et chaude sur les épaules, vers les profondeurs d’une vieille forêt moussue. Ni le vent, ni la brume, ni même la neige ne l’arrêteront dans son élan pour rejoindre son affût, sa planque : un sapin. En se glissant sous ses branches basses, l’homme s’efface et un monde s’éveille. Celui des bêtes. Le vieux sage nous invite à partager des émotions puissantes à ses côtés, celles qu’il a ressenties au cours de milliers d’affuts. Le moment est venu pour lui d’ouvrir son savoir, ses souvenirs de ses plus belles rencontres sauvages. Au cours d’un voyage dans nos forêts proches, il nous éveillera au \"sensible\", où plus précisément à la poésie du monde sauvage, celle qu’il a transmise à son fils dès l’âge de 12 ans et qu’il transmettra peut-être à son petit-fils.",
+          "affiche": "https://fr.web.img4.acsta.net/img/f5/52/f5523e15c97af96169bdc93479553602.jpg",
+          "director": "Vincent Munier",
+          "wantToSee": 1851,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=321789.html",
+          "seances": {
+            "Ciné Meyzieu": [
+              {
+                "time": "18:00",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "All Is Lost",
+          "release_year": "2013",
+          "duree": "1h 46min",
+          "rating": "6.6",
+          "genres": "Drame, Aventure",
+          "realisateur": "J.C. Chandor",
+          "synopsis": "Au cours d'un voyage en solitaire à travers l'Océan Indien, un homme découvre à son réveil que la coque de son voilier de 12 mètres a été percée lors d'une collision avec un container flottant à la dérive. Privé de sa radio et de son matériel de navigation, l'homme se laisse prendre dans une violente tempête. Malgré ses réparations, son génie marin et une force physique défiant les années, il y survit de justesse. Avec un simple sextant et quelques cartes marines pour établir sa position, il doit s'en remettre aux courants pour espérer se rapprocher d'une voie de navigation et héler un navire de passage. Mais le soleil implacable, la menace des requins et l'épuisement de ses maigres réserves forcent ce marin forcené à regarder la mort en face.",
+          "affiche": "https://fr.web.img2.acsta.net/pictures/205/419/20541978_20131010174200124.jpg",
+          "director": "J.C. Chandor",
+          "wantToSee": 1699,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=200956.html",
+          "seances": {
+            "Institut Lumière": [
+              {
+                "time": "19:00",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "La Voix de Hind Rajab",
+          "release_year": "2025",
+          "duree": "1h 29min",
+          "rating": "8.1",
+          "genres": "Drame",
+          "realisateur": "Kaouther Ben Hania",
+          "synopsis": "29 janvier 2024. Les bénévoles du Croissant-Rouge reçoivent un appel d'urgence. Une fillette de six ans est piégée dans une voiture sous les tirs à Gaza et implore qu'on vienne la secourir. Tout en essayant de la garder en ligne, ils font tout leur possible pour lui envoyer une ambulance. Elle s'appelait Hind Rajab.",
+          "affiche": "https://fr.web.img5.acsta.net/img/66/eb/66eb9392595c24a3ca9975d5cd6b9565.jpg",
+          "director": "Kaouther Ben Hania",
+          "wantToSee": 1629,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000027854.html",
+          "seances": {
+            "Ciné Meyzieu": [
+              {
+                "time": "18:00",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "La Condition",
+          "release_year": "2025",
+          "duree": "1h 43min",
+          "rating": "5.9",
+          "genres": "Comédie dramatique, Historique",
+          "realisateur": "Jérôme Bonnell",
+          "synopsis": "C’est l’histoire de Céleste, jeune bonne employée chez Victoire et André, en 1908. C’est l’histoire de Victoire, de l’épouse modèle qu’elle ne sait pas être. Deux femmes que tout sépare mais qui vivent sous le même toit, défiant les conventions et les non-dits.",
+          "affiche": "https://fr.web.img4.acsta.net/img/65/9f/659f5b54ac267e57f6183011bcfb99aa.jpg",
+          "director": "Jérôme Bonnell",
+          "wantToSee": 952,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=317099.html",
+          "seances": {
+            "Ciné Meyzieu": [
+              {
+                "time": "10:30",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "La Pire mère au monde",
+          "release_year": "2025",
+          "duree": "1h 25min",
+          "rating": "4.0",
+          "genres": "Comédie",
+          "realisateur": "Pierre Mazingarbe",
+          "synopsis": "Louise de Pileggi, brillante substitut du procureur, a toujours eu des relations compliquées avec sa mère Judith qu’elle n’a pas vue depuis 15 ans. Quand elle se retrouve mutée au petit tribunal où Judith est greffière, Louise devient la cheffe de sa mère. Et pire encore : elles vont devoir collaborer dans une affaire à première vue banale, mais qui va mettre leurs nerfs à vif.",
+          "affiche": "https://fr.web.img6.acsta.net/img/ea/fd/eafdfac8bc40d63ec84a32063363565a.jpg",
+          "director": "Pierre Mazingarbe",
+          "wantToSee": 375,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=279638.html",
+          "seances": {
+            "Ciné Meyzieu": [
+              {
+                "time": "20:30",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Bob l'éponge - Le film : un pour tous, tous pirates !",
+          "release_year": "2025",
+          "duree": "1h 28min",
+          "rating": "6.8",
+          "genres": "Comédie, Famille, Animation, Aventure",
+          "realisateur": "Derek Drymon",
+          "synopsis": "Bob l’Éponge et ses amis quittent Bikini Bottom pour leur plus grande aventure ! Voulant prouver qu’il est un grand garçon, Bob invoque par erreur le terrifiant Hollandais Volant, un pirate fantôme légendaire. Propulsés dans une quête délirante, Bob et Patrick devront relever des défis titanesques, suivis de près par une équipe de sauvetage. Au fil des épreuves, Bob découvre que le véritable courage réside dans l’amitié : ensemble, ils peuvent affronter l’inconnu et briller plus fort que jamais.",
+          "affiche": "https://fr.web.img2.acsta.net/img/73/d4/73d440795e61353ca56b8b061af7c5d5.jpg",
+          "director": "Derek Drymon",
+          "wantToSee": 344,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=293331.html",
+          "seances": {
+            "Ciné Meyzieu": [
+              {
+                "time": "10:30",
+                "lang": "VF",
+                "format": null
+              },
+              {
+                "time": "14:00",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "Ciné Toboggan": [
+              {
+                "time": "14:00",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Rendez-vous",
+          "release_year": "1985",
+          "duree": "1h 37min",
+          "rating": "5.6",
+          "genres": "Comédie, Romance",
+          "realisateur": "Ernst Lubitsch",
+          "synopsis": "Une jeune comédienne, Nina, monte à Paris, et trouve à se loger chez deux jeunes gens, Paulot et Quentin. Elle s'éprend de Quentin, un homme ténébreux et ambigu, avec des manies suicidaires, qui joue dans des spectacles érotiques, tandis que Paulot l'aime en secret. Alors qu'elle se lance dans le projet de monter Roméo et Juliette au théâtre avec Quentin, celui-ci meurt brutalement.",
+          "affiche": "https://fr.web.img6.acsta.net/medias/nmedia/18/36/21/31/19501486.jpg",
+          "director": "Ernst Lubitsch",
+          "wantToSee": 308,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=679.html",
+          "seances": {
+            "Institut Lumière": [
+              {
+                "time": "16:00",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "La Poursuite impitoyable",
+          "release_year": "1966",
+          "duree": "2h 15min",
+          "rating": "7.1",
+          "genres": "Drame, Policier, Thriller",
+          "realisateur": "Arthur Penn",
+          "synopsis": "Echappé de prison, Bobby retourne dans sa ville natale au sud des Etats-Unis pour régler quelques comptes. Certaines personnes à la conscience peu tranquille vont le traquer.",
+          "affiche": "https://fr.web.img2.acsta.net/pictures/18/09/21/09/37/1404915.jpg",
+          "director": "Arthur Penn",
+          "wantToSee": 307,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=407.html",
+          "seances": {
+            "Institut Lumière": [
+              {
+                "time": "16:30",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Le Pays d’Arto",
+          "release_year": "2025",
+          "duree": "1h 44min",
+          "rating": "Note inconnue",
+          "genres": "Drame",
+          "realisateur": "Tamara Stepanyan",
+          "synopsis": "Céline arrive pour la première fois en Arménie afin de régulariser la mort d’Arto, son mari. Elle découvre qu’il lui a menti, qu’il a fait la guerre, usurpé son identité, et que ses anciens amis le tiennent pour un déserteur. Commence pour elle un nouveau voyage, à la rencontre du passé d'Arto : invalides des combats de 2020, vétérans des batailles victorieuses des années 90, hantises d’une guerre qui n’en finit jamais. Une femme court après un fantôme. Comment faire pour l’enterrer ? Peut-on sauver les morts ?",
+          "affiche": "https://fr.web.img2.acsta.net/img/f7/38/f738c353019cfe13d0d338999dd2cc4b.jpg",
+          "director": "Tamara Stepanyan",
+          "wantToSee": 252,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=325261.html",
+          "seances": {
+            "Ciné Toboggan": [
+              {
+                "time": "15:45",
+                "lang": "VF",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Alice au pays des merveilles : Dive in Wonderland",
+          "release_year": "2025",
+          "duree": "1h 35min",
+          "rating": "Note inconnue",
+          "genres": "Animation, Fantastique",
+          "realisateur": "Toshiya Shinohara",
+          "synopsis": "",
+          "affiche": "https://fr.web.img2.acsta.net/img/2f/03/2f03e57f21e957f7a398e715482a5168.jpg",
+          "director": "Toshiya Shinohara",
+          "wantToSee": 33,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000026192.html",
+          "seances": {
+            "Pathé Carré de Soie": [
+              {
+                "time": "17:45",
+                "lang": "VO",
+                "format": null
+              }
+            ],
+            "Pathé Bellecour": [
+              {
+                "time": "18:00",
+                "lang": "VO",
+                "format": null
+              }
+            ],
+            "Pathé Vaise": [
+              {
+                "time": "18:00",
+                "lang": "VO",
+                "format": null
+              },
+              {
+                "time": "11:00",
+                "lang": "VF",
+                "format": null
+              }
+            ],
+            "CGR Brignais": [
+              {
+                "time": "18:00",
+                "lang": "VO",
+                "format": null
+              }
+            ]
+          }
+        },
+        {
+          "title": "Train de nuit",
+          "release_year": "2013",
+          "duree": "1h 42min",
+          "rating": "6.5",
+          "genres": "Comédie dramatique",
+          "realisateur": "Jerzy Kawalerowicz",
+          "synopsis": "Adaptation du Train de nuit pour Lisbonne de Pascal Mercier: Raimund Gregorius est professeur de latin à Berne, en Suisse. Quand il tombe sur un livre du poète et docteur portugais Amadeu de Prado, il décide de tout laisser tomber et de prendre le train de nuit pour Lisbonne, désireux d’en apprendre plus sur l’auteur, qui semble avoir été obsédé par les mêmes questions fondamentales que lui...",
+          "affiche": "/static/images/nocontent.png",
+          "director": "Jerzy Kawalerowicz",
+          "wantToSee": 10,
+          "url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=3177.html",
+          "seances": {
+            "Institut Lumière": [
+              {
+                "time": "14:30",
+                "lang": "VO",
                 "format": null
               }
             ]
