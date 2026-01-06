@@ -630,8 +630,17 @@ html {
     }
 
     .date-selectionne {
-        width: 50px;
+        width: 40px;
         height: 50px;
+    }
+
+    .date-tous {
+        width: 40px;
+        height: 50px;
+    }
+
+    .tous-label {
+        font-size: 12px;
     }
 
     .mois {
@@ -640,8 +649,11 @@ html {
     }
 
     .calendrier {
-        max-width: 80vw;
-        width: 350px;
+        max-width: 90vw;
+        width: auto;
+        gap: 5px;
+        flex-wrap: wrap;
+        justify-content: center;
     }
 
     .chiffre {
@@ -659,8 +671,59 @@ html {
     }
 
     .line {
-        max-width: 80vw;
-        width: 350px;
+        max-width: 90vw;
+        width: 100%;
+    }
+
+    /* Mini calendrier mobile */
+    .mini-calendar {
+        gap: 5px;
+    }
+
+    .mini-cal-btn {
+        padding: 4px 8px;
+        font-size: 11px;
+    }
+
+    .seances-wrapper {
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+
+    .synopsis-toggle {
+        display: none;
+    }
+
+    /* Recherche et filtres mobile */
+    .search-container {
+        margin: 10px 5%;
+        padding: 10px;
+    }
+
+    .search-row {
+        gap: 5px;
+    }
+
+    .search-input {
+        padding: 8px 10px;
+        font-size: 11px;
+        min-width: 100%;
+    }
+
+    .search-main {
+        min-width: 100%;
+    }
+
+    .search-filters .search-input {
+        min-width: calc(50% - 3px);
+        flex: none;
+        padding: 6px 8px;
+    }
+
+    .reset-btn {
+        width: 100%;
+        padding: 8px 15px;
+        font-size: 12px;
     }
 
     .affiche {
