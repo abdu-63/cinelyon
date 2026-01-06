@@ -147,6 +147,32 @@ class Showtime:
         self.movie = movie
         self.language = language  # VO ou VF
         self.format = format  # IMAX, 4DX, 3D, etc.
+        # URL de réservation (dans data.ticketing)
+        self.ticketing_url = self._extract_ticketing_url(data)
+
+    def _extract_ticketing_url(self, data):
+        """Extrait l'URL de réservation depuis les données de la séance."""
+        try:
+            ticketing_list = data.get("data", {}).get("ticketing", [])
+            if not ticketing_list:
+                return None
+            
+            # Chercher d'abord le provider "default" (URL du cinéma), sinon "allocine"
+            for provider_pref in ["default", "allocine", "relay"]:
+                for ticketing in ticketing_list:
+                    if ticketing.get("provider") == provider_pref:
+                        urls = ticketing.get("urls", [])
+                        if urls:
+                            return urls[0]
+            
+            # Si aucun provider préféré, prendre la première URL disponible
+            for ticketing in ticketing_list:
+                urls = ticketing.get("urls", [])
+                if urls:
+                    return urls[0]
+        except Exception:
+            pass
+        return None
 
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__} name={self.movie.title} startsAt={self.startsAt} lang={self.language} format={self.format}>"

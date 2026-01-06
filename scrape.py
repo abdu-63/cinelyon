@@ -54,7 +54,8 @@ def get_showtimes(theaters: list[Theater], date: datetime) -> list[dict]:
         data[movie.title]["seances"][theater.name].append({
             "time": showtime.startsAt.strftime("%H:%M"),
             "lang": showtime.language,
-            "format": showtime.format
+            "format": showtime.format,
+            "ticketing_url": showtime.ticketing_url
         })
     
     movies = list(data.values())

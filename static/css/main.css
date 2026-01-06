@@ -210,6 +210,15 @@ p {
     flex-direction: row;
     max-width: 80% - 200px;
     overflow-x: auto;
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE/Edge */
+}
+
+.horaires_container::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, Opera */
 }
 
 
@@ -264,6 +273,24 @@ p {
     background-color: #666efe;
 }
 */
+
+
+.horaire-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+.horaire-link .horaire {
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+
+.horaire-link:hover .horaire {
+    box-shadow: 0 4px 12px rgba(68, 76, 247, 0.3);
+    border: 2px solid #444cf7;
+}
 
 /* Barre de recherche */
 .search-container {

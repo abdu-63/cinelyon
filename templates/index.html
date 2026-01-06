@@ -110,6 +110,18 @@
             </div>
             <div class="horaires_container">
                 {% for seance in seances %}
+                {% if seance.ticketing_url %}
+                <a href="{{ seance.ticketing_url }}" target="_blank" rel="noopener" class="horaire-link">
+                    <div
+                        class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}">
+                        <span class="lang-badge">{{ seance.lang }}</span>
+                        {% if seance.format %}
+                        <span class="format-badge">{{ seance.format }}</span>
+                        {% endif %}
+                        <p>{{ seance.time }}</p>
+                    </div>
+                </a>
+                {% else %}
                 <div class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}">
                     <span class="lang-badge">{{ seance.lang }}</span>
                     {% if seance.format %}
@@ -117,6 +129,7 @@
                     {% endif %}
                     <p>{{ seance.time }}</p>
                 </div>
+                {% endif %}
                 {% endfor %}
             </div>
         </div>
