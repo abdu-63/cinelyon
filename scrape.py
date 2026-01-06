@@ -44,7 +44,7 @@ def get_showtimes(theaters: list[Theater], date: datetime) -> list[dict]:
                 "affiche": movie.affiche,
                 "director": movie.director,
                 "wantToSee": movie.wantToSee,
-                "url": f"https://www.allocine.fr/film/fichefilm_gen_cfilm={movie.id}.html",
+                "url": movie.letterboxd_url,
                 "seances": {}
             }
         

@@ -104,7 +104,9 @@
         {% for cinename, seances in film.seances.items() %}
         <div class="seance_container">
             <div class="cinema">
-                <p>{{cinename}}</p>
+                <a href="#" class="cinema-link" data-cinema="{{cinename}}" target="_blank" rel="noopener">
+                    <p>{{cinename}}</p>
+                </a>
             </div>
             <div class="horaires_container">
                 {% for seance in seances %}
@@ -266,6 +268,36 @@
             filterRating.value = '';
             filterFilms();
         });
+    });
+
+    // Mapping des URLs des cinémas
+    const cinemaUrls = {
+        "Pathé Carré de Soie": "https://www.pathe.fr/cinemas/cinema-pathe-carre-de-soie",
+        "Pathé Bellecour": "https://www.pathe.fr/cinemas/cinema-pathe-bellecour",
+        "Pathé Vaise": "https://www.pathe.fr/cinemas/cinema-pathe-vaise",
+        "UGC Part-Dieu": "https://www.ugc.fr/cinema-ugc-cine-cite-part-dieu.html",
+        "UGC Confluence": "https://www.ugc.fr/cinema-ugc-cine-cite-confluence.html",
+        "UGC Internationale": "https://www.ugc.fr/cinema-ugc-cine-cite-internationale-lyon.html",
+        "UGC Astoria": "https://www.ugc.fr/cinema-ugc-astoria.html",
+        "CGR Brignais": "https://www.cgrcinemas.fr/films-a-l-affiche/",
+        "Ciné Meyzieu": "https://cinemeyzieu.fr/",
+        "Ciné Toboggan": "https://www.letoboggan.com/cinema/",
+        "Lumière Bellecour": "https://www.cinemas-lumiere.com/programmation/bellecour.html",
+        "Lumière La Fourmi": "https://www.cinemas-lumiere.com/programmation/fourmi.html",
+        "Lumière Terreaux": "https://www.cinemas-lumiere.com/programmation/terreaux.html",
+        "Institut Lumière": "https://www.institut-lumiere.org/"
+    };
+
+    // Rendre les noms de cinémas cliquables
+    document.querySelectorAll('.cinema-link').forEach(link => {
+        const cinemaName = link.dataset.cinema;
+        const url = cinemaUrls[cinemaName];
+        if (url) {
+            link.href = url;
+        } else {
+            // Si pas d'URL connue, recherche Google
+            link.href = `https://www.google.com/search?q=${encodeURIComponent(cinemaName + ' Lyon')}`;
+        }
     });
 </script>
 

@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from datetime import datetime
 import requests
+import re
+import unicodedata
 from dotenv import load_dotenv
 import os
 
@@ -30,6 +32,8 @@ class Movie:
         self.release_year = tmdb_data["year"]
         self.rating = tmdb_data["rating"]
         self.synopsis = tmdb_data["synopsis"]  # Utiliser le synopsis de TMDB
+        self.original_title = tmdb_data["original_title"]  # Titre original anglais
+        self.letterboxd_url = self._generate_letterboxd_url()
         self.genres = [genre['translate'] for genre in data["genres"]]
         self.wantToSee = data['stats']["wantToSeeCount"]
         try:
@@ -52,6 +56,26 @@ class Movie:
 
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__} name={self.title}>"
+
+    def _slugify(self, text):
+        """Convertit un titre en slug pour Letterboxd."""
+        # Normaliser les accents (é -> e, etc.)
+        text = unicodedata.normalize('NFD', text)
+        text = text.encode('ascii', 'ignore').decode('utf-8')
+        # Convertir en minuscules
+        text = text.lower()
+        # Remplacer les espaces et caractères spéciaux par des tirets
+        text = re.sub(r'[^a-z0-9]+', '-', text)
+        # Supprimer les tirets en début et fin
+        text = text.strip('-')
+        return text
+
+    def _generate_letterboxd_url(self):
+        """Génère l'URL de recherche Letterboxd à partir du titre original anglais."""
+        from urllib.parse import quote
+        # Utiliser une recherche Letterboxd avec le titre original + année pour plus de précision
+        search_query = f"{self.original_title} {self.release_year}"
+        return f"https://letterboxd.com/search/{quote(search_query)}/"
 
     def _get_data_from_tmdb(self):
         """Récupère l'année de sortie, la note et le synopsis du film depuis TMDB"""
@@ -100,7 +124,8 @@ class Movie:
                 return {
                     "year": movie.get("release_date", "").split("-")[0] or "inconnue",
                     "rating": str(round(movie.get("vote_average", 0), 1)) if movie.get("vote_average") else "Note inconnue",
-                    "synopsis": details_data.get("overview", "Synopsis non disponible")
+                    "synopsis": details_data.get("overview", "Synopsis non disponible"),
+                    "original_title": movie.get("original_title", self.title)
                 }
             
         except Exception as e:
@@ -109,7 +134,8 @@ class Movie:
         return {
             "year": "inconnue", 
             "rating": "Note inconnue",
-            "synopsis": "Synopsis non disponible"
+            "synopsis": "Synopsis non disponible",
+            "original_title": self.title
         }
 
 class Showtime:
