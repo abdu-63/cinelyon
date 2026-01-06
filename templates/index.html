@@ -237,7 +237,16 @@
         var el = document.createElement('div');
         el.className = 'custom-marker';
 
-        var popup = new mapboxgl.Popup({ offset: 25 }).setText(location.description);
+        var googleMapsUrl = "https://www.google.com/maps/search/?api=1&query=" + location.coordinates[1] + "," + location.coordinates[0];
+        var appleMapsUrl = "https://maps.apple.com/?q=" + encodeURIComponent(location.description) + "&ll=" + location.coordinates[1] + "," + location.coordinates[0];
+
+        var popupHtml = '<div style="text-align:center;"><strong>' + location.description + '</strong><br>' +
+            '<div style="margin-top:5px; font-size:12px;">' +
+            '<a href="' + googleMapsUrl + '" target="_blank" style="color:#444cf7; text-decoration:none;">Google</a> | ' +
+            '<a href="' + appleMapsUrl + '" target="_blank" style="color:#444cf7; text-decoration:none;">Apple</a>' +
+            '</div></div>';
+
+        var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(popupHtml);
 
         new mapboxgl.Marker(el)
             .setLngLat(location.coordinates)
