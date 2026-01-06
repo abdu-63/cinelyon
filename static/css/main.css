@@ -89,6 +89,60 @@ p {
     margin-top: 50px;
 }
 
+/* Accordéon pour les jours (affichage tous les jours) */
+.seances-wrapper {
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+/* Mini calendrier horizontal */
+.mini-calendar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.mini-cal-btn {
+    padding: 6px 12px;
+    background-color: transparent;
+    color: #666;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'healTheWebA', sans-serif;
+    font-size: 13px;
+    text-transform: capitalize;
+    transition: all 0.2s;
+}
+
+.mini-cal-btn:hover {
+    border-color: #444cf7;
+    color: #444cf7;
+}
+
+.mini-cal-btn.active {
+    background-color: #444cf7;
+    color: white;
+    border-color: #444cf7;
+}
+
+/* Séances par jour */
+.day-seances {
+    display: none;
+}
+
+.day-seances.show {
+    display: block;
+}
+
+/* Réajuster les séances */
+.day-seances .seance_container,
+.seances-wrapper>.seance_container {
+    margin-left: 0;
+    margin-right: 0;
+}
+
 .affiche {
     width: 200px;
     height: 288px;
@@ -151,16 +205,46 @@ p {
     filter: drop-shadow(2mm 6mm 6mm rgba(2, 2, 2, 0.2));
 }
 
+/* Bouton Tous */
+.date-tous {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    width: 80px;
+    height: 100px;
+    transition: all 0.2s ease-in-out;
+}
+
+.date-tous:hover {
+    background-color: #444cf7;
+    color: white;
+    filter: drop-shadow(2mm 6mm 6mm rgba(2, 2, 2, 0.2));
+}
+
+.date-tous-active {
+    background-color: #444cf7;
+    color: white;
+    filter: drop-shadow(2mm 6mm 6mm rgba(2, 2, 2, 0.2));
+}
+
+.tous-label {
+    font-family: 'Montserrat-ExtraBold', sans-serif;
+    font-size: 22px;
+    margin: 0;
+}
+
 .mois {
     margin-bottom: 20px;
 }
 
 .calendrier {
-    width: 600px;
+    width: 720px;
     position: relative;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    gap: 10px;
 }
 
 .chiffre {
@@ -470,8 +554,13 @@ html {
     scroll-behavior: smooth;
 }
 
+
 .responsive-div {
-    height: 90px;
+    height: 60px;
+}
+
+.responsive-div-compact {
+    height: 20px;
 }
 
 .responsive-petite-div {

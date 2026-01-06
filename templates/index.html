@@ -22,6 +22,11 @@
         <div class="contenu_edt">
             <h2 class="txt_edt">Calendrier</h2>
             <div class="calendrier">
+                <a href="{{ url_for('home') }}">
+                    <div class="date-tous{% if show_all %} date-tous-active{% endif %}">
+                        <p class="tous-label">Tous</p>
+                    </div>
+                </a>
                 {% for date in dates %}
                 {% if date.choisi %}
                 <div class="date-selectionne">
@@ -77,13 +82,13 @@
         <div class="container_infoFilm film-card" data-title="{{ film.title|lower }}"
             data-genres="{{ film.genres|lower }}" data-director="{{ film.director|lower }}"
             data-rating="{{ film.rating }}" data-year="{{ film.release_year }}"
-            data-cinemas="{% for cinema in film.seances.keys() %}{{ cinema|lower }},{% endfor %}">
+            data-cinemas="{% for day_data in film.seances_by_day.values() %}{% for cinema in day_data.keys() %}{{ cinema|lower }},{% endfor %}{% endfor %}">
             <img src={{film.affiche}} class="affiche" />
             <div class="infoFilm">
                 <div class="blur-background"></div>
                 <div>
-                    <h3 class="titreFilm"><a href="{{ film.url }}">{{film.title}}</a> <span class="release_year">({{
-                            film.release_year }})</span></h3>
+                    <h3 class="titreFilm"><a href="{{ film.url }}" target="_blank">{{film.title}}</a> <span
+                            class="release_year">({{ film.release_year }})</span></h3>
                     <div class="info-content">
                         <p class="realisateur">Réalisateur : {{film.director}}</p>
                         <p class="genre">Genre : {{ film.genres }}</p>
@@ -101,17 +106,83 @@
         </div>
 
         <div style="height: 10px;"></div>
-        {% for cinename, seances in film.seances.items() %}
-        <div class="seance_container">
-            <div class="cinema">
-                <a href="#" class="cinema-link" data-cinema="{{cinename}}" target="_blank" rel="noopener">
-                    <p>{{cinename}}</p>
-                </a>
+
+        <!-- Conteneur des séances -->
+        <div class="seances-wrapper">
+            {% if show_all %}
+            <!-- Mini calendrier horizontal -->
+            <div class="mini-calendar">
+                {% for day_label, cinemas in film.seances_by_day.items() %}
+                <button class="mini-cal-btn" type="button" data-day="{{ loop.index0 }}">
+                    {{ day_label }}
+                </button>
+                {% endfor %}
             </div>
-            <div class="horaires_container">
-                {% for seance in seances %}
-                {% if seance.ticketing_url %}
-                <a href="{{ seance.ticketing_url }}" target="_blank" rel="noopener" class="horaire-link">
+
+            <!-- Séances par jour -->
+            {% for day_label, cinemas in film.seances_by_day.items() %}
+            <div class="day-seances" data-day="{{ loop.index0 }}">
+                {% for cinename, seances in cinemas.items() %}
+                <div class="seance_container">
+                    <div class="cinema">
+                        <a href="#" class="cinema-link" data-cinema="{{cinename}}" target="_blank" rel="noopener">
+                            <p>{{cinename}}</p>
+                        </a>
+                    </div>
+                    <div class="horaires_container">
+                        {% for seance in seances %}
+                        {% if seance.ticketing_url %}
+                        <a href="{{ seance.ticketing_url }}" target="_blank" rel="noopener" class="horaire-link">
+                            <div
+                                class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}">
+                                <span class="lang-badge">{{ seance.lang }}</span>
+                                {% if seance.format %}
+                                <span class="format-badge">{{ seance.format }}</span>
+                                {% endif %}
+                                <p>{{ seance.time }}</p>
+                            </div>
+                        </a>
+                        {% else %}
+                        <div
+                            class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}">
+                            <span class="lang-badge">{{ seance.lang }}</span>
+                            {% if seance.format %}
+                            <span class="format-badge">{{ seance.format }}</span>
+                            {% endif %}
+                            <p>{{ seance.time }}</p>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="responsive-petite-div"></div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+            {% else %}
+            <!-- Mode normal (un seul jour) -->
+            {% for day_label, cinemas in film.seances_by_day.items() %}
+            {% for cinename, seances in cinemas.items() %}
+            <div class="seance_container">
+                <div class="cinema">
+                    <a href="#" class="cinema-link" data-cinema="{{cinename}}" target="_blank" rel="noopener">
+                        <p>{{cinename}}</p>
+                    </a>
+                </div>
+                <div class="horaires_container">
+                    {% for seance in seances %}
+                    {% if seance.ticketing_url %}
+                    <a href="{{ seance.ticketing_url }}" target="_blank" rel="noopener" class="horaire-link">
+                        <div
+                            class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}">
+                            <span class="lang-badge">{{ seance.lang }}</span>
+                            {% if seance.format %}
+                            <span class="format-badge">{{ seance.format }}</span>
+                            {% endif %}
+                            <p>{{ seance.time }}</p>
+                        </div>
+                    </a>
+                    {% else %}
                     <div
                         class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}">
                         <span class="lang-badge">{{ seance.lang }}</span>
@@ -120,22 +191,16 @@
                         {% endif %}
                         <p>{{ seance.time }}</p>
                     </div>
-                </a>
-                {% else %}
-                <div class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}">
-                    <span class="lang-badge">{{ seance.lang }}</span>
-                    {% if seance.format %}
-                    <span class="format-badge">{{ seance.format }}</span>
                     {% endif %}
-                    <p>{{ seance.time }}</p>
+                    {% endfor %}
                 </div>
-                {% endif %}
-                {% endfor %}
             </div>
+            <div class="responsive-petite-div"></div>
+            {% endfor %}
+            {% endfor %}
+            {% endif %}
         </div>
-        <div class="responsive-petite-div"></div>
-        {% endfor %}
-        <div class="responsive-div"></div>
+        <div class="responsive-div{% if show_all %} responsive-div-compact{% endif %}"></div>
         {% endfor %}
     </div>
 
@@ -182,6 +247,29 @@
             .setLngLat(location.coordinates)
             .setPopup(popup)
             .addTo(map);
+    });
+
+    // Mini calendrier - gestion des onglets de jours
+    document.querySelectorAll('.seances-wrapper').forEach(wrapper => {
+        const buttons = wrapper.querySelectorAll('.mini-cal-btn');
+        const daySeances = wrapper.querySelectorAll('.day-seances');
+
+        buttons.forEach(btn => {
+            btn.addEventListener('click', function () {
+                const dayIndex = this.dataset.day;
+
+                // Désactiver tous les boutons et cacher toutes les séances
+                buttons.forEach(b => b.classList.remove('active'));
+                daySeances.forEach(d => d.classList.remove('show'));
+
+                // Activer le bouton cliqué et afficher ses séances
+                this.classList.add('active');
+                const targetSeances = wrapper.querySelector(`.day-seances[data-day="${dayIndex}"]`);
+                if (targetSeances) {
+                    targetSeances.classList.add('show');
+                }
+            });
+        });
     });
 
     // Filtres de recherche

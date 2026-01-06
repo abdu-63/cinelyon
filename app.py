@@ -85,28 +85,67 @@ def health():
 
 @app.route('/')
 def home():
-    delta = request.args.get("delta", default=0, type=int)
+    delta = request.args.get("delta", default=None, type=int)
 
-    if delta > 6: delta = 6
-    if delta < 0: delta = 0
+    # Si un jour spécifique est demandé, limiter à ce jour
+    if delta is not None:
+        if delta > 6: delta = 6
+        if delta < 0: delta = 0
 
     dates = []
-
-    for i in range(0,7):
-        day = datetime.today()+timedelta(i)
+    for i in range(0, 7):
+        day = datetime.today() + timedelta(i)
         dates.append({
             "jour": translateDay(day.weekday()),
             "chiffre": day.day,
             "mois": translateMonth(day.month),
-            "choisi": i==delta,
-            "index": i
+            "choisi": delta == i,  # Sélectionné uniquement si delta correspond
+            "index": i,
+            "full_date": day.strftime("%d/%m")
         })
+
+    # Regrouper tous les films sans doublons
+    all_films = {}
+    days_to_show = [delta] if delta is not None else range(7)
+    
+    for day_index in days_to_show:
+        day_label = f"{dates[day_index]['jour']} {dates[day_index]['chiffre']} {dates[day_index]['mois']}"
+        for film in showtimes[day_index]:
+            title = film["title"]
+            if title not in all_films:
+                all_films[title] = {
+                    "title": film["title"],
+                    "release_year": film["release_year"],
+                    "duree": film["duree"],
+                    "rating": film["rating"],
+                    "genres": film["genres"],
+                    "realisateur": film["realisateur"],
+                    "synopsis": film["synopsis"],
+                    "affiche": film["affiche"],
+                    "director": film["director"],
+                    "wantToSee": film["wantToSee"],
+                    "url": film["url"],
+                    "seances_by_day": {}
+                }
+            
+            # Ajouter les séances pour ce jour
+            if day_label not in all_films[title]["seances_by_day"]:
+                all_films[title]["seances_by_day"][day_label] = {}
+            
+            for cinema, seances in film["seances"].items():
+                if cinema not in all_films[title]["seances_by_day"][day_label]:
+                    all_films[title]["seances_by_day"][day_label][cinema] = []
+                all_films[title]["seances_by_day"][day_label][cinema].extend(seances)
+    
+    # Trier par popularité
+    films_list = sorted(all_films.values(), key=lambda x: x["wantToSee"], reverse=True)
 
     return render_template(
         'index.html',
         page_actuelle='home',
-        films=showtimes[delta],
+        films=films_list,
         dates=dates,
+        show_all=(delta is None),
         theater_locations=theater_locations,
         website_title=WEBSITE_TITLE,
         mapbox_token=MAPBOX_TOKEN,
