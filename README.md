@@ -30,7 +30,7 @@
 
 ## Crédit
 
-Fork de [grainParisArt-Public](https://github.com/solene-drnx/grainParisArt-Public)
+Fork de [grainParisArt-Public](https://github.com/solene-drnx/grainParisArt-Public) réalisé par [Solène](https://github.com/solene-drnx)
 
 ## Liste des cinémas choisis
 
