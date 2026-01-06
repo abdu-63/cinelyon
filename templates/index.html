@@ -100,6 +100,7 @@
                         <p class="synopsis">
                             {{film.synopsis}}
                         </p>
+                        <button class="synopsis-toggle" type="button">Lire plus</button>
                     </div>
                 </div>
             </div>
@@ -269,6 +270,15 @@
                     targetSeances.classList.add('show');
                 }
             });
+        });
+    });
+
+    // Bouton Lire plus pour les synopsis
+    document.querySelectorAll('.synopsis-toggle').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const synopsis = this.previousElementSibling;
+            synopsis.classList.toggle('expanded');
+            this.textContent = synopsis.classList.contains('expanded') ? 'Lire moins' : 'Lire plus';
         });
     });
 

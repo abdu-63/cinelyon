@@ -462,10 +462,33 @@ footer {
 .synopsis_container {
     max-width: 800px;
     margin-right: 10%;
+    position: relative;
 }
 
 .synopsis {
     opacity: 0.8;
+    max-height: 60px;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.synopsis.expanded {
+    max-height: 500px;
+}
+
+.synopsis-toggle {
+    background: none;
+    border: none;
+    color: #444cf7;
+    cursor: pointer;
+    font-family: 'healTheWebA', sans-serif;
+    font-size: 14px;
+    padding: 5px 0;
+    margin-top: 5px;
+}
+
+.synopsis-toggle:hover {
+    text-decoration: underline;
 }
 
 .date:hover {
