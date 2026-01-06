@@ -4,15 +4,12 @@ import os
 from flask import Flask, render_template, request
 from datetime import datetime, timedelta
 
-# On charge les variables d'environnement...
 dotenv.load_dotenv(".env")
-# et celles par défaut pour avoir la liste des cinémas
 dotenv.load_dotenv(".env.sample")
 
 WEBSITE_TITLE = os.environ.get("WEBSITE_TITLE", "CinéLyon")
 MAPBOX_TOKEN = os.environ.get("MAPBOX_TOKEN", "")
 
-# Charger les emplacements des cinémas pour la carte
 theaters_json = json.loads(os.environ.get("THEATERS", "[]"))
 theater_locations = []
 for theater in theaters_json:
@@ -35,19 +32,15 @@ def load_movies_data():
     
     print(f"✅ Données chargées depuis movies.json (généré le {data.get('generated_at', 'inconnu')})")
     
-    # Extraire les films pour chaque jour
     showtimes = []
     for day in data.get("days", []):
         showtimes.append(day.get("movies", []))
     
-    # Compléter avec des listes vides si moins de 7 jours
     while len(showtimes) < 7:
         showtimes.append([])
     
     return showtimes
 
-
-# Charger les données depuis movies.json (pas de scraping)
 showtimes = load_movies_data()
 
 app = Flask(__name__)
@@ -87,7 +80,6 @@ def health():
 def home():
     delta = request.args.get("delta", default=None, type=int)
 
-    # Si un jour spécifique est demandé, limiter à ce jour
     if delta is not None:
         if delta > 6: delta = 6
         if delta < 0: delta = 0
@@ -99,12 +91,11 @@ def home():
             "jour": translateDay(day.weekday()),
             "chiffre": day.day,
             "mois": translateMonth(day.month),
-            "choisi": delta == i,  # Sélectionné uniquement si delta correspond
+            "choisi": delta == i,
             "index": i,
             "full_date": day.strftime("%d/%m")
         })
 
-    # Regrouper tous les films sans doublons
     all_films = {}
     days_to_show = [delta] if delta is not None else range(7)
     
@@ -128,7 +119,6 @@ def home():
                     "seances_by_day": {}
                 }
             
-            # Ajouter les séances pour ce jour
             if day_label not in all_films[title]["seances_by_day"]:
                 all_films[title]["seances_by_day"][day_label] = {}
             
@@ -137,7 +127,6 @@ def home():
                     all_films[title]["seances_by_day"][day_label][cinema] = []
                 all_films[title]["seances_by_day"][day_label][cinema].extend(seances)
     
-    # Trier par popularité
     films_list = sorted(all_films.values(), key=lambda x: x["wantToSee"], reverse=True)
 
     return render_template(
@@ -151,6 +140,5 @@ def home():
         mapbox_token=MAPBOX_TOKEN,
     )
 
-# Pour exécution locale uniquement (Vercel importe 'app' directement)
 if __name__ == '__main__':
     app.run(debug=True)

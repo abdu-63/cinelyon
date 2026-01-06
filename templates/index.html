@@ -49,7 +49,6 @@
         <div class="line"></div>
     </div>
 
-    <!-- Barre de recherche -->
     <div class="search-container">
         <div class="search-row">
             <input type="text" id="search-title" placeholder="🔍 Rechercher par titre..."
@@ -108,10 +107,8 @@
 
         <div style="height: 10px;"></div>
 
-        <!-- Conteneur des séances -->
         <div class="seances-wrapper">
             {% if show_all %}
-            <!-- Mini calendrier horizontal -->
             <div class="mini-calendar">
                 {% for day_label, cinemas in film.seances_by_day.items() %}
                 <button class="mini-cal-btn" type="button" data-day="{{ loop.index0 }}">
@@ -120,7 +117,6 @@
                 {% endfor %}
             </div>
 
-            <!-- Séances par jour -->
             {% for day_label, cinemas in film.seances_by_day.items() %}
             <div class="day-seances" data-day="{{ loop.index0 }}">
                 {% for cinename, seances in cinemas.items() %}
@@ -161,7 +157,6 @@
             </div>
             {% endfor %}
             {% else %}
-            <!-- Mode normal (un seul jour) -->
             {% for day_label, cinemas in film.seances_by_day.items() %}
             {% for cinename, seances in cinemas.items() %}
             <div class="seance_container">
@@ -250,7 +245,6 @@
             .addTo(map);
     });
 
-    // Mini calendrier - gestion des onglets de jours
     document.querySelectorAll('.seances-wrapper').forEach(wrapper => {
         const buttons = wrapper.querySelectorAll('.mini-cal-btn');
         const daySeances = wrapper.querySelectorAll('.day-seances');
@@ -273,7 +267,6 @@
         });
     });
 
-    // Bouton Lire plus pour les synopsis
     document.querySelectorAll('.synopsis-toggle').forEach(btn => {
         btn.addEventListener('click', function () {
             const synopsis = this.previousElementSibling;
@@ -282,7 +275,6 @@
         });
     });
 
-    // Filtres de recherche
     document.addEventListener('DOMContentLoaded', function () {
         const films = document.querySelectorAll('.film-card');
         const searchTitle = document.getElementById('search-title');
@@ -292,7 +284,6 @@
         const filterRating = document.getElementById('filter-rating');
         const resetBtn = document.getElementById('reset-filters');
 
-        // Remplir les options des filtres
         const genres = new Set();
         const directors = new Set();
         const cinemas = new Set();
@@ -381,7 +372,6 @@
         });
     });
 
-    // Mapping des URLs des cinémas
     const cinemaUrls = {
         "Pathé Carré de Soie": "https://www.pathe.fr/cinemas/cinema-pathe-carre-de-soie",
         "Pathé Bellecour": "https://www.pathe.fr/cinemas/cinema-pathe-bellecour",
@@ -399,7 +389,6 @@
         "Institut Lumière": "https://www.institut-lumiere.org/"
     };
 
-    // Rendre les noms de cinémas cliquables
     document.querySelectorAll('.cinema-link').forEach(link => {
         const cinemaName = link.dataset.cinema;
         const url = cinemaUrls[cinemaName];

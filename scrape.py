@@ -10,10 +10,8 @@ import os
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 
-# IMPORT DES MODULES
 from modules.Classes import Theater
 
-# Charger les variables d'environnement
 load_dotenv(".env")
 
 THEATERS_JSON = os.environ.get("THEATERS", "[]")
@@ -67,7 +65,6 @@ def get_showtimes(theaters: list[Theater], date: datetime) -> list[dict]:
 def main():
     print("🎬 Démarrage du scraping des séances de cinéma...")
     
-    # Charger les cinémas depuis les variables d'environnement
     theaters_config = json.loads(THEATERS_JSON)
     
     if not theaters_config:
