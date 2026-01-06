@@ -18,36 +18,7 @@
 <div id="map"></div>
 
 <div class="planning">
-    <div class="container_titrePlanning">
-        <div class="contenu_edt">
-            <h2 class="txt_edt">Calendrier</h2>
-            <div class="calendrier">
-                <a href="{{ url_for('home') }}">
-                    <div class="date-tous{% if show_all %} date-tous-active{% endif %}">
-                        <p class="tous-label">Tous</p>
-                    </div>
-                </a>
-                {% for date in dates %}
-                {% if date.choisi %}
-                <div class="date-selectionne">
-                    <p class="jour">{{date.jour}}</p>
-                    <p class="chiffre">{{date.chiffre}}</p>
-                    <p class="mois">{{date.mois}}</p>
-                </div>
-                {% else %}
-                <a href="{{ url_for('home', delta=date.index) }}">
-                    <div class="date">
-                        <p class="jour">{{date.jour}}</p>
-                        <p class="chiffre">{{date.chiffre}}</p>
-                        <p class="mois">{{date.mois}}</p>
-                    </div>
-                </a>
-                {% endif %}
-                {% endfor %}
-            </div>
-        </div>
-        <div class="line"></div>
-    </div>
+
 
     <div class="search-container">
         <div class="search-row">
