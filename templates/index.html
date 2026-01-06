@@ -245,8 +245,14 @@
     });
 
     document.querySelectorAll('.synopsis-toggle').forEach(btn => {
+        const synopsis = btn.previousElementSibling;
+
+        // Cacher le bouton si le texte est court
+        if (synopsis.scrollHeight <= synopsis.clientHeight) {
+            btn.style.display = 'none';
+        }
+
         btn.addEventListener('click', function () {
-            const synopsis = this.previousElementSibling;
             synopsis.classList.toggle('expanded');
             this.textContent = synopsis.classList.contains('expanded') ? 'Lire moins' : 'Lire plus';
         });
