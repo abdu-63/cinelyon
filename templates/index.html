@@ -14,11 +14,9 @@
 
 <img src="../static/images/background.svg" class="background_svg">
 
-
 <div id="map"></div>
 
 <div class="planning">
-
 
     <div class="search-container">
         <div class="search-row">
@@ -173,8 +171,6 @@
 
 </div>
 
-
-
 <script>
     mapboxgl.accessToken = '{{ mapbox_token }}';
 
@@ -232,16 +228,17 @@
         buttons.forEach(btn => {
             btn.addEventListener('click', function () {
                 const dayIndex = this.dataset.day;
+                const isActive = this.classList.contains('active');
 
-                // Désactiver tous les boutons et cacher toutes les séances
                 buttons.forEach(b => b.classList.remove('active'));
                 daySeances.forEach(d => d.classList.remove('show'));
 
-                // Activer le bouton cliqué et afficher ses séances
-                this.classList.add('active');
-                const targetSeances = wrapper.querySelector(`.day-seances[data-day="${dayIndex}"]`);
-                if (targetSeances) {
-                    targetSeances.classList.add('show');
+                if (!isActive) {
+                    this.classList.add('active');
+                    const targetSeances = wrapper.querySelector(`.day-seances[data-day="${dayIndex}"]`);
+                    if (targetSeances) {
+                        targetSeances.classList.add('show');
+                    }
                 }
             });
         });
@@ -380,6 +377,5 @@
         }
     });
 </script>
-
 
 {% endblock %}
