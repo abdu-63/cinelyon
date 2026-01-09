@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-01-09T15:35:37.448966",
+  "generated_at": "2026-01-09T15:47:28.146551",
   "days": [
     {
       "date": "2026-01-09",
@@ -15,7 +15,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/52/fb/52fb8f0345af2b0940557aa049ca19fd.jpg",
           "director": "James Cameron",
           "wantToSee": 9369,
-          "url": "https://letterboxd.com/search/Avatar%3A%20Fire%20and%20Ash%202025/",
+          "url": "letterboxd://search/Avatar%3A%20Fire%20and%20Ash%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -450,7 +450,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/61/0d/610dc2fcd83afe3717f771b889b979c2.jpg",
           "director": "Paul Thomas Anderson",
           "wantToSee": 5622,
-          "url": "https://letterboxd.com/search/One%20Battle%20After%20Another%202025/",
+          "url": "letterboxd://search/One%20Battle%20After%20Another%202025/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -473,7 +473,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/f2/64/f2640084cabb11cf1457d43888f43084.jpg",
           "director": "Dominik Moll",
           "wantToSee": 3791,
-          "url": "https://letterboxd.com/search/Dossier%20137%202025/",
+          "url": "letterboxd://search/Dossier%20137%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -552,7 +552,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/45/ac/45ac77474bfae505033a30909e4eda41.jpg",
           "director": "Byron Howard",
           "wantToSee": 3566,
-          "url": "https://letterboxd.com/search/Zootopia%202%202025/",
+          "url": "letterboxd://search/Zootopia%202%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -869,7 +869,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/b9/cc/b9cc22a9378857355a4efae5f6c76707.jpg",
           "director": "François Ozon",
           "wantToSee": 3225,
-          "url": "https://letterboxd.com/search/L%27%C3%89tranger%202025/",
+          "url": "letterboxd://search/L%27%C3%89tranger%202025/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -892,7 +892,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/ed/a3/eda3bba832e22c79ea22117b058f84e5.jpg",
           "director": "Paul Feig",
           "wantToSee": 2892,
-          "url": "https://letterboxd.com/search/The%20Housemaid%202025/",
+          "url": "letterboxd://search/The%20Housemaid%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -1205,7 +1205,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/ca/83/ca8338e0ec3de262228111a215b567f8.jpg",
           "director": "Ruben Fleischer",
           "wantToSee": 2847,
-          "url": "https://letterboxd.com/search/Now%20You%20See%20Me%3A%20Now%20You%20Don%27t%202025/",
+          "url": "letterboxd://search/Now%20You%20See%20Me%3A%20Now%20You%20Don%27t%202025/",
           "seances": {
             "UGC Part-Dieu": [
               {
@@ -1276,7 +1276,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/d5/da/d5dae089c320b75bf1903cc249165073.jpg",
           "director": "Kleber Mendonça Filho",
           "wantToSee": 2794,
-          "url": "https://letterboxd.com/search/O%20Agente%20Secreto%202025/",
+          "url": "letterboxd://search/O%20Agente%20Secreto%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -1373,7 +1373,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/e1/6e/e16e8e1896a723183dca39a874939073.jpg",
           "director": "Thierry Klifa",
           "wantToSee": 2644,
-          "url": "https://letterboxd.com/search/La%20Femme%20la%20plus%20riche%20du%20monde%202025/",
+          "url": "letterboxd://search/La%20Femme%20la%20plus%20riche%20du%20monde%202025/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -1396,7 +1396,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/31/7c/317c4fbeed34f4d92456f42388fd7279.jpg",
           "director": "Nathan Ambrosioni",
           "wantToSee": 2424,
-          "url": "https://letterboxd.com/search/Les%20enfants%20vont%20bien%202025/",
+          "url": "letterboxd://search/Les%20enfants%20vont%20bien%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -1475,7 +1475,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/79/01/790107e027402b0b8eb7f426fd9102d8.jpg",
           "director": "Yorgos Lanthimos",
           "wantToSee": 2383,
-          "url": "https://letterboxd.com/search/The%20Birth%20and%20the%20Bees%3A%20The%20Making%20of%20Bugonia%202025/",
+          "url": "letterboxd://search/The%20Birth%20and%20the%20Bees%3A%20The%20Making%20of%20Bugonia%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -1498,7 +1498,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/3a/9d/3a9d3503d9ccc1fec7fbdc4bf2934da7.jpg",
           "director": "Rebecca Zlotowski",
           "wantToSee": 2326,
-          "url": "https://letterboxd.com/search/Vie%20priv%C3%A9e%202025/",
+          "url": "letterboxd://search/Vie%20priv%C3%A9e%202025/",
           "seances": {
             "UGC Part-Dieu": [
               {
@@ -1549,7 +1549,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/57/c6/57c6d1dbb88a0120b9262489a81cb180.jpg",
           "director": "Edgar Wright",
           "wantToSee": 2026,
-          "url": "https://letterboxd.com/search/The%20Running%20Man%202025/",
+          "url": "letterboxd://search/The%20Running%20Man%202025/",
           "seances": {
             "Pathé Vaise": [
               {
@@ -1580,7 +1580,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/f5/52/f5523e15c97af96169bdc93479553602.jpg",
           "director": "Vincent Munier",
           "wantToSee": 1982,
-          "url": "https://letterboxd.com/search/Le%20chant%20des%20for%C3%AAts%202025/",
+          "url": "letterboxd://search/Le%20chant%20des%20for%C3%AAts%202025/",
           "seances": {
             "Ciné Meyzieu": [
               {
@@ -1695,7 +1695,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/57/bb/57bb30ccc7161797311e827e54ef261b.jpg",
           "director": "Alice Vial",
           "wantToSee": 1689,
-          "url": "https://letterboxd.com/search/L%E2%80%99%C3%82me%20Id%C3%A9ale%202025/",
+          "url": "letterboxd://search/L%E2%80%99%C3%82me%20Id%C3%A9ale%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -1810,7 +1810,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/66/eb/66eb9392595c24a3ca9975d5cd6b9565.jpg",
           "director": "Kaouther Ben Hania",
           "wantToSee": 1677,
-          "url": "https://letterboxd.com/search/%D8%B5%D9%88%D8%AA%20%D9%87%D9%86%D8%AF%20%D8%B1%D8%AC%D8%A8%202025/",
+          "url": "letterboxd://search/%D8%B5%D9%88%D8%AA%20%D9%87%D9%86%D8%AF%20%D8%B1%D8%AC%D8%A8%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -1905,7 +1905,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/70/e9/70e9dfd918886ca3ea4e1088f06f659c.jpg",
           "director": "Yann Gozlan",
           "wantToSee": 1416,
-          "url": "https://letterboxd.com/search/Gourou%202026/",
+          "url": "letterboxd://search/Gourou%202026/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -1944,7 +1944,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/18/de/18decda3afef9ae047694aac0d89c169.jpg",
           "director": "Jim Jarmusch",
           "wantToSee": 1336,
-          "url": "https://letterboxd.com/search/Father%20Mother%20Sister%20Brother%202025/",
+          "url": "letterboxd://search/Father%20Mother%20Sister%20Brother%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -2063,7 +2063,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/65/11/65117c07f97a3721caff88c9abec8bd6.jpg",
           "director": "Jon M. Chu",
           "wantToSee": 1267,
-          "url": "https://letterboxd.com/search/Wicked%3A%20For%20Good%202025/",
+          "url": "letterboxd://search/Wicked%3A%20For%20Good%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -2094,7 +2094,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/4d/19/4d1934427121e700f4f4fe0d57d84cb8.jpg",
           "director": "Bi Gan",
           "wantToSee": 1146,
-          "url": "https://letterboxd.com/search/Resurrection%202026/",
+          "url": "letterboxd://search/Resurrection%202026/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -2117,7 +2117,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/65/9f/659f5b54ac267e57f6183011bcfb99aa.jpg",
           "director": "Jérôme Bonnell",
           "wantToSee": 1000,
-          "url": "https://letterboxd.com/search/La%20Condition%202025/",
+          "url": "letterboxd://search/La%20Condition%202025/",
           "seances": {
             "Ciné Meyzieu": [
               {
@@ -2148,7 +2148,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/5b/c3/5bc38e41de3e658a750fc158815799cf.jpg",
           "director": "Lav Diaz",
           "wantToSee": 966,
-          "url": "https://letterboxd.com/search/Magalh%C3%A3es%202025/",
+          "url": "letterboxd://search/Magalh%C3%A3es%202025/",
           "seances": {
             "Lumière Bellecour": [
               {
@@ -2171,7 +2171,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/86/c3/86c3bc332654205f70fc0c25498ccdf5.jpg",
           "director": "Sang-il Lee",
           "wantToSee": 965,
-          "url": "https://letterboxd.com/search/%E5%9B%BD%E5%AE%9D%202025/",
+          "url": "letterboxd://search/%E5%9B%BD%E5%AE%9D%202025/",
           "seances": {
             "UGC Astoria": [
               {
@@ -2200,7 +2200,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/a3/e8/a3e859018636c366010d60f860a255a3.jpg",
           "director": "Joséphine Japy",
           "wantToSee": 931,
-          "url": "https://letterboxd.com/search/Qui%20brille%20au%20combat%202025/",
+          "url": "letterboxd://search/Qui%20brille%20au%20combat%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -2275,7 +2275,7 @@
           "affiche": "https://fr.web.img6.acsta.net/medias/nmedia/18/36/07/84/18866691.jpg",
           "director": "Sydney Pollack",
           "wantToSee": 924,
-          "url": "https://letterboxd.com/search/Sons%20of%20Jeremiah%20Johnson%202014/",
+          "url": "letterboxd://search/Sons%20of%20Jeremiah%20Johnson%202014/",
           "seances": {
             "Institut Lumière": [
               {
@@ -2298,7 +2298,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/83/b5/83b5868d9264242be16ab460eb7c80ce.jpg",
           "director": "Emma Tammi",
           "wantToSee": 825,
-          "url": "https://letterboxd.com/search/Five%20Nights%20at%20Freddy%27s%202%202025/",
+          "url": "letterboxd://search/Five%20Nights%20at%20Freddy%27s%202%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -2369,7 +2369,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/af/85/af85907b34353df979244b32c075ac01.jpg",
           "director": "Max Walker-Silverman",
           "wantToSee": 810,
-          "url": "https://letterboxd.com/search/Rebuilding%202025/",
+          "url": "letterboxd://search/Rebuilding%202025/",
           "seances": {
             "UGC Astoria": [
               {
@@ -2398,7 +2398,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/16/07/1607b1aa4e7516d75f83006f89c4cb20.jpg",
           "director": "Mascha Schilinski",
           "wantToSee": 770,
-          "url": "https://letterboxd.com/search/In%20die%20Sonne%20schauen%202025/",
+          "url": "letterboxd://search/In%20die%20Sonne%20schauen%202025/",
           "seances": {
             "Lumière Bellecour": [
               {
@@ -2453,7 +2453,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/35/23/35233aa3767ab31d242ec1c3ff34497c.jpg",
           "director": "Lise Akoka",
           "wantToSee": 727,
-          "url": "https://letterboxd.com/search/Ma%20fr%C3%A8re%202026/",
+          "url": "letterboxd://search/Ma%20fr%C3%A8re%202026/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -2630,7 +2630,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/57/a8/57a8c1e690e543eb1f3db1a21fa5884b.jpg",
           "director": "Antonin Fourlon",
           "wantToSee": 630,
-          "url": "https://letterboxd.com/search/Chasse%20gard%C3%A9e%202%202025/",
+          "url": "letterboxd://search/Chasse%20gard%C3%A9e%202%202025/",
           "seances": {
             "UGC Part-Dieu": [
               {
@@ -2707,7 +2707,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/b1/f3/b1f3ff9d44ec565d42e1b1ac5cd2a170.jpg",
           "director": "Amine Adjina",
           "wantToSee": 614,
-          "url": "https://letterboxd.com/search/La%20Petite%20cuisine%20de%20Mehdi%202025/",
+          "url": "letterboxd://search/La%20Petite%20cuisine%20de%20Mehdi%202025/",
           "seances": {
             "UGC Confluence": [
               {
@@ -2748,7 +2748,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/e6/07/e6072a30a6045a3cdc545da6bbafe62a.jpg",
           "director": "Alberto Rodriguez",
           "wantToSee": 613,
-          "url": "https://letterboxd.com/search/Los%20Tigres%202025/",
+          "url": "letterboxd://search/Los%20Tigres%202025/",
           "seances": {
             "UGC Part-Dieu": [
               {
@@ -2803,7 +2803,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/29/54/2954a33501785f46c122a9ef80f937c6.jpg",
           "director": "Fatih Akın",
           "wantToSee": 600,
-          "url": "https://letterboxd.com/search/Amrum%202025/",
+          "url": "letterboxd://search/Amrum%202025/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -2834,7 +2834,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/74/0e/740e757ee905b05882b204567f5ea1b9.jpg",
           "director": "Huo Meng",
           "wantToSee": 564,
-          "url": "https://letterboxd.com/search/%E7%94%9F%E6%81%AF%E4%B9%8B%E5%9C%B0%202025/",
+          "url": "letterboxd://search/%E7%94%9F%E6%81%AF%E4%B9%8B%E5%9C%B0%202025/",
           "seances": {
             "Lumière Bellecour": [
               {
@@ -2863,7 +2863,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/20/af/20afc1b148d574dca07ec228be9ac869.jpg",
           "director": "Tom Gormican",
           "wantToSee": 548,
-          "url": "https://letterboxd.com/search/Anaconda%202025/",
+          "url": "letterboxd://search/Anaconda%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -3034,7 +3034,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/bf/23/bf238684c15647fe1420a11916a9b63f.jpg",
           "director": "Craig Brewer",
           "wantToSee": 488,
-          "url": "https://letterboxd.com/search/Song%20Sung%20Blue%202025/",
+          "url": "letterboxd://search/Song%20Sung%20Blue%202025/",
           "seances": {
             "UGC Part-Dieu": [
               {
@@ -3099,7 +3099,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/ea/fd/eafdfac8bc40d63ec84a32063363565a.jpg",
           "director": "Pierre Mazingarbe",
           "wantToSee": 385,
-          "url": "https://letterboxd.com/search/La%20pire%20m%C3%A8re%20au%20monde%202025/",
+          "url": "letterboxd://search/La%20pire%20m%C3%A8re%20au%20monde%202025/",
           "seances": {
             "Ciné Meyzieu": [
               {
@@ -3150,7 +3150,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/73/d4/73d440795e61353ca56b8b061af7c5d5.jpg",
           "director": "Derek Drymon",
           "wantToSee": 349,
-          "url": "https://letterboxd.com/search/The%20SpongeBob%20Movie%3A%20Search%20for%20SquarePants%202025/",
+          "url": "letterboxd://search/The%20SpongeBob%20Movie%3A%20Search%20for%20SquarePants%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -3211,7 +3211,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/9f/19/9f191a2130afb6c28922c480202c7d41.jpg",
           "director": "Henrik Martin Dahlsbakken",
           "wantToSee": 315,
-          "url": "https://letterboxd.com/search/Hvis%20ingen%20g%C3%A5r%20i%20fella%202025/",
+          "url": "letterboxd://search/Hvis%20ingen%20g%C3%A5r%20i%20fella%202025/",
           "seances": {
             "UGC Part-Dieu": [
               {
@@ -3234,7 +3234,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/18/89/188956009aaf66c5f715713a92dd670a.jpg",
           "director": "Alain Berliner",
           "wantToSee": 312,
-          "url": "https://letterboxd.com/search/Bardot%202025/",
+          "url": "letterboxd://search/Bardot%202025/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -3257,7 +3257,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/f7/38/f738c353019cfe13d0d338999dd2cc4b.jpg",
           "director": "Tamara Stepanyan",
           "wantToSee": 286,
-          "url": "https://letterboxd.com/search/Le%20Pays%20d%E2%80%99Arto%202025/",
+          "url": "letterboxd://search/Le%20Pays%20d%E2%80%99Arto%202025/",
           "seances": {
             "Ciné Toboggan": [
               {
@@ -3314,7 +3314,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/a2/8e/a28ef8844e6996babaf95dbcd4539c37.jpeg",
           "director": "Thomas Ellis",
           "wantToSee": 271,
-          "url": "https://letterboxd.com/search/Tout%20va%20bien%202026/",
+          "url": "letterboxd://search/Tout%20va%20bien%202026/",
           "seances": {
             "Lumière Terreaux": [
               {
@@ -3351,7 +3351,7 @@
           "affiche": "https://fr.web.img4.acsta.net/pictures/21/06/16/17/58/3431882.jpg",
           "director": "John Landis",
           "wantToSee": 246,
-          "url": "https://letterboxd.com/search/An%20American%20Werewolf%20in%20London%201981/",
+          "url": "letterboxd://search/An%20American%20Werewolf%20in%20London%201981/",
           "seances": {
             "UGC Part-Dieu": [
               {
@@ -3390,7 +3390,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/f9/d0/f9d0195a5012725e621d74dd5bc4ae51.jpg",
           "director": "Lloyd Lee Choi",
           "wantToSee": 208,
-          "url": "https://letterboxd.com/search/Lucky%20Lu%202026/",
+          "url": "letterboxd://search/Lucky%20Lu%202026/",
           "seances": {
             "UGC Confluence": [
               {
@@ -3437,7 +3437,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/5c/6f/5c6ff17e2295ffa123d81a565bfdca43.jpg",
           "director": "Tobias Schwarz",
           "wantToSee": 198,
-          "url": "https://letterboxd.com/search/Heidi%20-%20Die%20Legende%20vom%20Luchs%202025/",
+          "url": "letterboxd://search/Heidi%20-%20Die%20Legende%20vom%20Luchs%202025/",
           "seances": {
             "UGC Confluence": [
               {
@@ -3460,7 +3460,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/dc/12/dc1209c514eae9fa2e5cb8fd60cd98af.jpg",
           "director": "Ao Shen",
           "wantToSee": 167,
-          "url": "https://letterboxd.com/search/%E5%8D%97%E4%BA%AC%E7%85%A7%E7%9B%B8%E9%A6%86%202025/",
+          "url": "letterboxd://search/%E5%8D%97%E4%BA%AC%E7%85%A7%E7%9B%B8%E9%A6%86%202025/",
           "seances": {
             "Pathé Vaise": [
               {
@@ -3495,7 +3495,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/5d/a1/5da1d06b4622ca2abf2c2f4928097c1e.jpg",
           "director": "Alessio Rigo de Righi",
           "wantToSee": 147,
-          "url": "https://letterboxd.com/search/Testa%20o%20croce%3F%202025/",
+          "url": "letterboxd://search/Testa%20o%20croce%3F%202025/",
           "seances": {
             "Lumière Bellecour": [
               {
@@ -3524,7 +3524,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/fc/6d/fc6d49f3011e61a0b9a5b43971d725e9.jpg",
           "director": "Victor Erice",
           "wantToSee": 99,
-          "url": "https://letterboxd.com/search/Inde%20du%20Sud%2C%20le%20charme%20Tamoul%202023/",
+          "url": "letterboxd://search/Inde%20du%20Sud%2C%20le%20charme%20Tamoul%202023/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -3547,7 +3547,7 @@
           "affiche": "https://fr.web.img4.acsta.net/pictures/22/03/11/16/19/1690789.jpg",
           "director": "Leo McCarey",
           "wantToSee": 81,
-          "url": "https://letterboxd.com/search/Ruggles%20of%20Red%20Gap%201935/",
+          "url": "letterboxd://search/Ruggles%20of%20Red%20Gap%201935/",
           "seances": {
             "Institut Lumière": [
               {
@@ -3570,7 +3570,7 @@
           "affiche": "https://fr.web.img6.acsta.net/medias/nmedia/images/affiches/008538.jpg",
           "director": "Robert Redford",
           "wantToSee": 72,
-          "url": "https://letterboxd.com/search/Milagro%202024/",
+          "url": "letterboxd://search/Milagro%202024/",
           "seances": {
             "Institut Lumière": [
               {
@@ -3593,7 +3593,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/91/bc/91bce294eb5a02c533136a37fb61d502.jpg",
           "director": "Alexandre Laugier",
           "wantToSee": 19,
-          "url": "https://letterboxd.com/search/Red%20Bird%202026/",
+          "url": "letterboxd://search/Red%20Bird%202026/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -3628,7 +3628,7 @@
           "affiche": "/static/images/nocontent.png",
           "director": "Johnnie To",
           "wantToSee": 0,
-          "url": "https://letterboxd.com/search/Your%20Loving%20Mother%202024/",
+          "url": "letterboxd://search/Your%20Loving%20Mother%202024/",
           "seances": {
             "Pathé Vaise": [
               {
@@ -3656,7 +3656,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/52/fb/52fb8f0345af2b0940557aa049ca19fd.jpg",
           "director": "James Cameron",
           "wantToSee": 9369,
-          "url": "https://letterboxd.com/search/Avatar%3A%20Fire%20and%20Ash%202025/",
+          "url": "letterboxd://search/Avatar%3A%20Fire%20and%20Ash%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -4241,7 +4241,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/61/0d/610dc2fcd83afe3717f771b889b979c2.jpg",
           "director": "Paul Thomas Anderson",
           "wantToSee": 5622,
-          "url": "https://letterboxd.com/search/One%20Battle%20After%20Another%202025/",
+          "url": "letterboxd://search/One%20Battle%20After%20Another%202025/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -4264,7 +4264,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/f2/64/f2640084cabb11cf1457d43888f43084.jpg",
           "director": "Dominik Moll",
           "wantToSee": 3791,
-          "url": "https://letterboxd.com/search/Dossier%20137%202025/",
+          "url": "letterboxd://search/Dossier%20137%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -4323,7 +4323,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/45/ac/45ac77474bfae505033a30909e4eda41.jpg",
           "director": "Byron Howard",
           "wantToSee": 3566,
-          "url": "https://letterboxd.com/search/Zootopia%202%202025/",
+          "url": "letterboxd://search/Zootopia%202%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -4796,7 +4796,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/b9/cc/b9cc22a9378857355a4efae5f6c76707.jpg",
           "director": "François Ozon",
           "wantToSee": 3225,
-          "url": "https://letterboxd.com/search/L%27%C3%89tranger%202025/",
+          "url": "letterboxd://search/L%27%C3%89tranger%202025/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -4819,7 +4819,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/ed/a3/eda3bba832e22c79ea22117b058f84e5.jpg",
           "director": "Paul Feig",
           "wantToSee": 2892,
-          "url": "https://letterboxd.com/search/The%20Housemaid%202025/",
+          "url": "letterboxd://search/The%20Housemaid%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -5216,7 +5216,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/ca/83/ca8338e0ec3de262228111a215b567f8.jpg",
           "director": "Ruben Fleischer",
           "wantToSee": 2847,
-          "url": "https://letterboxd.com/search/Now%20You%20See%20Me%3A%20Now%20You%20Don%27t%202025/",
+          "url": "letterboxd://search/Now%20You%20See%20Me%3A%20Now%20You%20Don%27t%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -5295,7 +5295,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/d5/da/d5dae089c320b75bf1903cc249165073.jpg",
           "director": "Kleber Mendonça Filho",
           "wantToSee": 2794,
-          "url": "https://letterboxd.com/search/O%20Agente%20Secreto%202025/",
+          "url": "letterboxd://search/O%20Agente%20Secreto%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -5382,7 +5382,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/e1/6e/e16e8e1896a723183dca39a874939073.jpg",
           "director": "Thierry Klifa",
           "wantToSee": 2644,
-          "url": "https://letterboxd.com/search/La%20Femme%20la%20plus%20riche%20du%20monde%202025/",
+          "url": "letterboxd://search/La%20Femme%20la%20plus%20riche%20du%20monde%202025/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -5405,7 +5405,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/31/7c/317c4fbeed34f4d92456f42388fd7279.jpg",
           "director": "Nathan Ambrosioni",
           "wantToSee": 2424,
-          "url": "https://letterboxd.com/search/Les%20enfants%20vont%20bien%202025/",
+          "url": "letterboxd://search/Les%20enfants%20vont%20bien%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -5480,7 +5480,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/79/01/790107e027402b0b8eb7f426fd9102d8.jpg",
           "director": "Yorgos Lanthimos",
           "wantToSee": 2383,
-          "url": "https://letterboxd.com/search/The%20Birth%20and%20the%20Bees%3A%20The%20Making%20of%20Bugonia%202025/",
+          "url": "letterboxd://search/The%20Birth%20and%20the%20Bees%3A%20The%20Making%20of%20Bugonia%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -5503,7 +5503,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/3a/9d/3a9d3503d9ccc1fec7fbdc4bf2934da7.jpg",
           "director": "Rebecca Zlotowski",
           "wantToSee": 2326,
-          "url": "https://letterboxd.com/search/Vie%20priv%C3%A9e%202025/",
+          "url": "letterboxd://search/Vie%20priv%C3%A9e%202025/",
           "seances": {
             "UGC Part-Dieu": [
               {
@@ -5548,7 +5548,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/d9/8c/d98cf2f82174e030b461d6a7103c58ec.jpg",
           "director": "Alexandre Astier",
           "wantToSee": 2058,
-          "url": "https://letterboxd.com/search/Kaamelott%20-%20Deuxi%C3%A8me%20volet%2C%20partie%201%202025/",
+          "url": "letterboxd://search/Kaamelott%20-%20Deuxi%C3%A8me%20volet%2C%20partie%201%202025/",
           "seances": {
             "Pathé Vaise": [
               {
@@ -5571,7 +5571,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/57/c6/57c6d1dbb88a0120b9262489a81cb180.jpg",
           "director": "Edgar Wright",
           "wantToSee": 2026,
-          "url": "https://letterboxd.com/search/The%20Running%20Man%202025/",
+          "url": "letterboxd://search/The%20Running%20Man%202025/",
           "seances": {
             "Pathé Vaise": [
               {
@@ -5602,7 +5602,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/f5/52/f5523e15c97af96169bdc93479553602.jpg",
           "director": "Vincent Munier",
           "wantToSee": 1982,
-          "url": "https://letterboxd.com/search/Le%20chant%20des%20for%C3%AAts%202025/",
+          "url": "letterboxd://search/Le%20chant%20des%20for%C3%AAts%202025/",
           "seances": {
             "Ciné Meyzieu": [
               {
@@ -5735,7 +5735,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/57/bb/57bb30ccc7161797311e827e54ef261b.jpg",
           "director": "Alice Vial",
           "wantToSee": 1689,
-          "url": "https://letterboxd.com/search/L%E2%80%99%C3%82me%20Id%C3%A9ale%202025/",
+          "url": "letterboxd://search/L%E2%80%99%C3%82me%20Id%C3%A9ale%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -5844,7 +5844,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/66/eb/66eb9392595c24a3ca9975d5cd6b9565.jpg",
           "director": "Kaouther Ben Hania",
           "wantToSee": 1677,
-          "url": "https://letterboxd.com/search/%D8%B5%D9%88%D8%AA%20%D9%87%D9%86%D8%AF%20%D8%B1%D8%AC%D8%A8%202025/",
+          "url": "letterboxd://search/%D8%B5%D9%88%D8%AA%20%D9%87%D9%86%D8%AF%20%D8%B1%D8%AC%D8%A8%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -5907,7 +5907,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/18/de/18decda3afef9ae047694aac0d89c169.jpg",
           "director": "Jim Jarmusch",
           "wantToSee": 1336,
-          "url": "https://letterboxd.com/search/Father%20Mother%20Sister%20Brother%202025/",
+          "url": "letterboxd://search/Father%20Mother%20Sister%20Brother%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -6044,7 +6044,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/65/11/65117c07f97a3721caff88c9abec8bd6.jpg",
           "director": "Jon M. Chu",
           "wantToSee": 1267,
-          "url": "https://letterboxd.com/search/Wicked%3A%20For%20Good%202025/",
+          "url": "letterboxd://search/Wicked%3A%20For%20Good%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -6083,7 +6083,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/4d/19/4d1934427121e700f4f4fe0d57d84cb8.jpg",
           "director": "Bi Gan",
           "wantToSee": 1146,
-          "url": "https://letterboxd.com/search/Resurrection%202026/",
+          "url": "letterboxd://search/Resurrection%202026/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -6106,7 +6106,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/65/9f/659f5b54ac267e57f6183011bcfb99aa.jpg",
           "director": "Jérôme Bonnell",
           "wantToSee": 1000,
-          "url": "https://letterboxd.com/search/La%20Condition%202025/",
+          "url": "letterboxd://search/La%20Condition%202025/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -6145,7 +6145,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/5b/c3/5bc38e41de3e658a750fc158815799cf.jpg",
           "director": "Lav Diaz",
           "wantToSee": 966,
-          "url": "https://letterboxd.com/search/Magalh%C3%A3es%202025/",
+          "url": "letterboxd://search/Magalh%C3%A3es%202025/",
           "seances": {
             "Lumière Bellecour": [
               {
@@ -6174,7 +6174,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/86/c3/86c3bc332654205f70fc0c25498ccdf5.jpg",
           "director": "Sang-il Lee",
           "wantToSee": 965,
-          "url": "https://letterboxd.com/search/%E5%9B%BD%E5%AE%9D%202025/",
+          "url": "letterboxd://search/%E5%9B%BD%E5%AE%9D%202025/",
           "seances": {
             "UGC Astoria": [
               {
@@ -6203,7 +6203,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/a3/e8/a3e859018636c366010d60f860a255a3.jpg",
           "director": "Joséphine Japy",
           "wantToSee": 931,
-          "url": "https://letterboxd.com/search/Qui%20brille%20au%20combat%202025/",
+          "url": "letterboxd://search/Qui%20brille%20au%20combat%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -6278,7 +6278,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/83/b5/83b5868d9264242be16ab460eb7c80ce.jpg",
           "director": "Emma Tammi",
           "wantToSee": 825,
-          "url": "https://letterboxd.com/search/Five%20Nights%20at%20Freddy%27s%202%202025/",
+          "url": "letterboxd://search/Five%20Nights%20at%20Freddy%27s%202%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -6343,7 +6343,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/af/85/af85907b34353df979244b32c075ac01.jpg",
           "director": "Max Walker-Silverman",
           "wantToSee": 810,
-          "url": "https://letterboxd.com/search/Rebuilding%202025/",
+          "url": "letterboxd://search/Rebuilding%202025/",
           "seances": {
             "UGC Astoria": [
               {
@@ -6366,7 +6366,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/16/07/1607b1aa4e7516d75f83006f89c4cb20.jpg",
           "director": "Mascha Schilinski",
           "wantToSee": 770,
-          "url": "https://letterboxd.com/search/In%20die%20Sonne%20schauen%202025/",
+          "url": "letterboxd://search/In%20die%20Sonne%20schauen%202025/",
           "seances": {
             "Lumière Bellecour": [
               {
@@ -6427,7 +6427,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/35/23/35233aa3767ab31d242ec1c3ff34497c.jpg",
           "director": "Lise Akoka",
           "wantToSee": 727,
-          "url": "https://letterboxd.com/search/Ma%20fr%C3%A8re%202026/",
+          "url": "letterboxd://search/Ma%20fr%C3%A8re%202026/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -6640,7 +6640,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/57/a8/57a8c1e690e543eb1f3db1a21fa5884b.jpg",
           "director": "Antonin Fourlon",
           "wantToSee": 630,
-          "url": "https://letterboxd.com/search/Chasse%20gard%C3%A9e%202%202025/",
+          "url": "letterboxd://search/Chasse%20gard%C3%A9e%202%202025/",
           "seances": {
             "UGC Part-Dieu": [
               {
@@ -6725,7 +6725,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/b1/f3/b1f3ff9d44ec565d42e1b1ac5cd2a170.jpg",
           "director": "Amine Adjina",
           "wantToSee": 614,
-          "url": "https://letterboxd.com/search/La%20Petite%20cuisine%20de%20Mehdi%202025/",
+          "url": "letterboxd://search/La%20Petite%20cuisine%20de%20Mehdi%202025/",
           "seances": {
             "UGC Confluence": [
               {
@@ -6754,7 +6754,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/e6/07/e6072a30a6045a3cdc545da6bbafe62a.jpg",
           "director": "Alberto Rodriguez",
           "wantToSee": 613,
-          "url": "https://letterboxd.com/search/Los%20Tigres%202025/",
+          "url": "letterboxd://search/Los%20Tigres%202025/",
           "seances": {
             "UGC Part-Dieu": [
               {
@@ -6815,7 +6815,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/29/54/2954a33501785f46c122a9ef80f937c6.jpg",
           "director": "Fatih Akın",
           "wantToSee": 600,
-          "url": "https://letterboxd.com/search/Amrum%202025/",
+          "url": "letterboxd://search/Amrum%202025/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -6846,7 +6846,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/74/0e/740e757ee905b05882b204567f5ea1b9.jpg",
           "director": "Huo Meng",
           "wantToSee": 564,
-          "url": "https://letterboxd.com/search/%E7%94%9F%E6%81%AF%E4%B9%8B%E5%9C%B0%202025/",
+          "url": "letterboxd://search/%E7%94%9F%E6%81%AF%E4%B9%8B%E5%9C%B0%202025/",
           "seances": {
             "Lumière Bellecour": [
               {
@@ -6869,7 +6869,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/20/af/20afc1b148d574dca07ec228be9ac869.jpg",
           "director": "Tom Gormican",
           "wantToSee": 548,
-          "url": "https://letterboxd.com/search/Anaconda%202025/",
+          "url": "letterboxd://search/Anaconda%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -7088,7 +7088,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/bf/23/bf238684c15647fe1420a11916a9b63f.jpg",
           "director": "Craig Brewer",
           "wantToSee": 488,
-          "url": "https://letterboxd.com/search/Song%20Sung%20Blue%202025/",
+          "url": "letterboxd://search/Song%20Sung%20Blue%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -7161,7 +7161,7 @@
           "affiche": "https://fr.web.img3.acsta.net/medias/nmedia/00/00/00/49/69197916_af.jpg",
           "director": "Robert Redford",
           "wantToSee": 484,
-          "url": "https://letterboxd.com/search/The%20Legend%20of%20Bagger%20Vance%202000/",
+          "url": "letterboxd://search/The%20Legend%20of%20Bagger%20Vance%202000/",
           "seances": {
             "Institut Lumière": [
               {
@@ -7184,7 +7184,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/93/af/93af3b2790e95ca8af24610b99c694b5.jpg",
           "director": "Seong-ho Jang",
           "wantToSee": 418,
-          "url": "https://letterboxd.com/search/The%20King%20of%20Kings%202025/",
+          "url": "letterboxd://search/The%20King%20of%20Kings%202025/",
           "seances": {
             "Pathé Vaise": [
               {
@@ -7207,7 +7207,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/ea/fd/eafdfac8bc40d63ec84a32063363565a.jpg",
           "director": "Pierre Mazingarbe",
           "wantToSee": 385,
-          "url": "https://letterboxd.com/search/La%20pire%20m%C3%A8re%20au%20monde%202025/",
+          "url": "letterboxd://search/La%20pire%20m%C3%A8re%20au%20monde%202025/",
           "seances": {
             "Ciné Meyzieu": [
               {
@@ -7258,7 +7258,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/73/d4/73d440795e61353ca56b8b061af7c5d5.jpg",
           "director": "Derek Drymon",
           "wantToSee": 349,
-          "url": "https://letterboxd.com/search/The%20SpongeBob%20Movie%3A%20Search%20for%20SquarePants%202025/",
+          "url": "letterboxd://search/The%20SpongeBob%20Movie%3A%20Search%20for%20SquarePants%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -7465,7 +7465,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/9f/19/9f191a2130afb6c28922c480202c7d41.jpg",
           "director": "Henrik Martin Dahlsbakken",
           "wantToSee": 315,
-          "url": "https://letterboxd.com/search/Hvis%20ingen%20g%C3%A5r%20i%20fella%202025/",
+          "url": "letterboxd://search/Hvis%20ingen%20g%C3%A5r%20i%20fella%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -7544,7 +7544,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/18/89/188956009aaf66c5f715713a92dd670a.jpg",
           "director": "Alain Berliner",
           "wantToSee": 312,
-          "url": "https://letterboxd.com/search/Bardot%202025/",
+          "url": "letterboxd://search/Bardot%202025/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -7567,7 +7567,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/f7/38/f738c353019cfe13d0d338999dd2cc4b.jpg",
           "director": "Tamara Stepanyan",
           "wantToSee": 286,
-          "url": "https://letterboxd.com/search/Le%20Pays%20d%E2%80%99Arto%202025/",
+          "url": "letterboxd://search/Le%20Pays%20d%E2%80%99Arto%202025/",
           "seances": {
             "Ciné Toboggan": [
               {
@@ -7624,7 +7624,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/a2/8e/a28ef8844e6996babaf95dbcd4539c37.jpeg",
           "director": "Thomas Ellis",
           "wantToSee": 271,
-          "url": "https://letterboxd.com/search/Tout%20va%20bien%202026/",
+          "url": "letterboxd://search/Tout%20va%20bien%202026/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -7661,7 +7661,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/f9/d0/f9d0195a5012725e621d74dd5bc4ae51.jpg",
           "director": "Lloyd Lee Choi",
           "wantToSee": 208,
-          "url": "https://letterboxd.com/search/Lucky%20Lu%202026/",
+          "url": "letterboxd://search/Lucky%20Lu%202026/",
           "seances": {
             "UGC Confluence": [
               {
@@ -7708,7 +7708,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/5c/6f/5c6ff17e2295ffa123d81a565bfdca43.jpg",
           "director": "Tobias Schwarz",
           "wantToSee": 198,
-          "url": "https://letterboxd.com/search/Heidi%20-%20Die%20Legende%20vom%20Luchs%202025/",
+          "url": "letterboxd://search/Heidi%20-%20Die%20Legende%20vom%20Luchs%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -7801,7 +7801,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/80/b0/80b0a134c0e07bfe730021342ddae005.jpg",
           "director": "James Huth",
           "wantToSee": 178,
-          "url": "https://letterboxd.com/search/%C3%80%20la%20poursuite%20du%20P%C3%A8re%20No%C3%ABl%20%21%202025/",
+          "url": "letterboxd://search/%C3%80%20la%20poursuite%20du%20P%C3%A8re%20No%C3%ABl%20%21%202025/",
           "seances": {
             "Pathé Vaise": [
               {
@@ -7832,7 +7832,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/dc/12/dc1209c514eae9fa2e5cb8fd60cd98af.jpg",
           "director": "Ao Shen",
           "wantToSee": 167,
-          "url": "https://letterboxd.com/search/%E5%8D%97%E4%BA%AC%E7%85%A7%E7%9B%B8%E9%A6%86%202025/",
+          "url": "letterboxd://search/%E5%8D%97%E4%BA%AC%E7%85%A7%E7%9B%B8%E9%A6%86%202025/",
           "seances": {
             "Pathé Vaise": [
               {
@@ -7867,7 +7867,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/5d/a1/5da1d06b4622ca2abf2c2f4928097c1e.jpg",
           "director": "Alessio Rigo de Righi",
           "wantToSee": 147,
-          "url": "https://letterboxd.com/search/Testa%20o%20croce%3F%202025/",
+          "url": "letterboxd://search/Testa%20o%20croce%3F%202025/",
           "seances": {
             "Lumière Bellecour": [
               {
@@ -7896,7 +7896,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/76/31/76311306ac5020224b5d787666dcaa04.jpg",
           "director": "Ricard Cussó",
           "wantToSee": 111,
-          "url": "https://letterboxd.com/search/Mission%20Santa%20%E2%80%93%20Ein%20Elf%20rettet%20Weihnachten%202025/",
+          "url": "letterboxd://search/Mission%20Santa%20%E2%80%93%20Ein%20Elf%20rettet%20Weihnachten%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -7933,7 +7933,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/fc/6d/fc6d49f3011e61a0b9a5b43971d725e9.jpg",
           "director": "Victor Erice",
           "wantToSee": 99,
-          "url": "https://letterboxd.com/search/Inde%20du%20Sud%2C%20le%20charme%20Tamoul%202023/",
+          "url": "letterboxd://search/Inde%20du%20Sud%2C%20le%20charme%20Tamoul%202023/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -7956,7 +7956,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/54/a6/54a6769d8c7f85c019d1b553662355b5.jpg",
           "director": "Steve Hudson",
           "wantToSee": 94,
-          "url": "https://letterboxd.com/search/Stitch%20Head%202025/",
+          "url": "letterboxd://search/Stitch%20Head%202025/",
           "seances": {
             "Pathé Vaise": [
               {
@@ -7979,7 +7979,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/3d/76/3d76384dc9a14c36165ea3b2df314ceb.jpg",
           "director": "Gerrit Bekers",
           "wantToSee": 43,
-          "url": "https://letterboxd.com/search/Jack%20et%20Nancy%20-%20Les%20plus%20belles%20histoires%20de%20Quentin%20Blake%202025/",
+          "url": "letterboxd://search/Jack%20et%20Nancy%20-%20Les%20plus%20belles%20histoires%20de%20Quentin%20Blake%202025/",
           "seances": {
             "CGR Brignais": [
               {
@@ -8008,7 +8008,7 @@
           "affiche": "https://fr.web.img6.acsta.net/pictures/19/12/16/12/33/2554014.jpg",
           "director": "Janis Cimermanis",
           "wantToSee": 34,
-          "url": "https://letterboxd.com/search/L%27%C3%A9quipe%20de%20secours%20en%20route%20pour%20l%27aventure%21%202020/",
+          "url": "letterboxd://search/L%27%C3%A9quipe%20de%20secours%20en%20route%20pour%20l%27aventure%21%202020/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -8031,7 +8031,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/ab/8f/ab8f576f5f505c371872ddc6fd7ffea7.jpg",
           "director": "Inconnu",
           "wantToSee": 21,
-          "url": "https://letterboxd.com/search/The%20First%20Snow%20of%20Fraggle%20Rock%202025/",
+          "url": "letterboxd://search/The%20First%20Snow%20of%20Fraggle%20Rock%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -8080,7 +8080,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/91/bc/91bce294eb5a02c533136a37fb61d502.jpg",
           "director": "Alexandre Laugier",
           "wantToSee": 19,
-          "url": "https://letterboxd.com/search/Red%20Bird%202026/",
+          "url": "letterboxd://search/Red%20Bird%202026/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -8127,7 +8127,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/81/82/8182127f15752a171d1b5b07d64b6c32.jpeg",
           "director": "Sudha Kongara",
           "wantToSee": 9,
-          "url": "https://letterboxd.com/search/%E0%AE%AA%E0%AE%B0%E0%AE%BE%E0%AE%9A%E0%AE%95%E0%AF%8D%E0%AE%A4%E0%AE%BF%202026/",
+          "url": "letterboxd://search/%E0%AE%AA%E0%AE%B0%E0%AE%BE%E0%AE%9A%E0%AE%95%E0%AF%8D%E0%AE%A4%E0%AE%BF%202026/",
           "seances": {
             "UGC Internationale": [
               {
@@ -8170,7 +8170,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/1f/47/1f47953ea5826573c05e9953cd260485.jpg",
           "director": "Charles Edwards (IV)",
           "wantToSee": 7,
-          "url": "https://letterboxd.com/search/Les%20Puritains%20%28Metropolitan%20Opera%29%20inconnue/",
+          "url": "letterboxd://search/Les%20Puritains%20%28Metropolitan%20Opera%29%20inconnue/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -8201,7 +8201,7 @@
           "affiche": "https://fr.web.img2.acsta.net/pictures/14/06/27/17/16/266096.jpg",
           "director": "Preston Sturges",
           "wantToSee": 5,
-          "url": "https://letterboxd.com/search/The%20Miracle%20of%20Morgan%E2%80%99s%20Creek%201944/",
+          "url": "letterboxd://search/The%20Miracle%20of%20Morgan%E2%80%99s%20Creek%201944/",
           "seances": {
             "Institut Lumière": [
               {
@@ -8224,7 +8224,7 @@
           "affiche": "/static/images/nocontent.png",
           "director": "Johnnie To",
           "wantToSee": 0,
-          "url": "https://letterboxd.com/search/Your%20Loving%20Mother%202024/",
+          "url": "letterboxd://search/Your%20Loving%20Mother%202024/",
           "seances": {
             "Pathé Vaise": [
               {
@@ -8252,7 +8252,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/52/fb/52fb8f0345af2b0940557aa049ca19fd.jpg",
           "director": "James Cameron",
           "wantToSee": 9369,
-          "url": "https://letterboxd.com/search/Avatar%3A%20Fire%20and%20Ash%202025/",
+          "url": "letterboxd://search/Avatar%3A%20Fire%20and%20Ash%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -8837,7 +8837,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/61/0d/610dc2fcd83afe3717f771b889b979c2.jpg",
           "director": "Paul Thomas Anderson",
           "wantToSee": 5622,
-          "url": "https://letterboxd.com/search/One%20Battle%20After%20Another%202025/",
+          "url": "letterboxd://search/One%20Battle%20After%20Another%202025/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -8860,7 +8860,7 @@
           "affiche": "https://fr.web.img2.acsta.net/medias/nmedia/18/70/45/22/19123474.jpg",
           "director": "Quentin Tarantino",
           "wantToSee": 4015,
-          "url": "https://letterboxd.com/search/Inglourious%20Basterds%202009/",
+          "url": "letterboxd://search/Inglourious%20Basterds%202009/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -8883,7 +8883,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/f2/64/f2640084cabb11cf1457d43888f43084.jpg",
           "director": "Dominik Moll",
           "wantToSee": 3791,
-          "url": "https://letterboxd.com/search/Dossier%20137%202025/",
+          "url": "letterboxd://search/Dossier%20137%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -8930,7 +8930,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/45/ac/45ac77474bfae505033a30909e4eda41.jpg",
           "director": "Byron Howard",
           "wantToSee": 3566,
-          "url": "https://letterboxd.com/search/Zootopia%202%202025/",
+          "url": "letterboxd://search/Zootopia%202%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -9397,7 +9397,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/b9/cc/b9cc22a9378857355a4efae5f6c76707.jpg",
           "director": "François Ozon",
           "wantToSee": 3225,
-          "url": "https://letterboxd.com/search/L%27%C3%89tranger%202025/",
+          "url": "letterboxd://search/L%27%C3%89tranger%202025/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -9420,7 +9420,7 @@
           "affiche": "https://fr.web.img5.acsta.net/pictures/210/521/21052146_20131023144339759.jpg",
           "director": "Chris Buck",
           "wantToSee": 3124,
-          "url": "https://letterboxd.com/search/Frozen%20III%202027/",
+          "url": "letterboxd://search/Frozen%20III%202027/",
           "seances": {
             "UGC Part-Dieu": [
               {
@@ -9459,7 +9459,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/ed/a3/eda3bba832e22c79ea22117b058f84e5.jpg",
           "director": "Paul Feig",
           "wantToSee": 2892,
-          "url": "https://letterboxd.com/search/The%20Housemaid%202025/",
+          "url": "letterboxd://search/The%20Housemaid%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -9844,7 +9844,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/ca/83/ca8338e0ec3de262228111a215b567f8.jpg",
           "director": "Ruben Fleischer",
           "wantToSee": 2847,
-          "url": "https://letterboxd.com/search/Now%20You%20See%20Me%3A%20Now%20You%20Don%27t%202025/",
+          "url": "letterboxd://search/Now%20You%20See%20Me%3A%20Now%20You%20Don%27t%202025/",
           "seances": {
             "UGC Part-Dieu": [
               {
@@ -9921,7 +9921,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/d5/da/d5dae089c320b75bf1903cc249165073.jpg",
           "director": "Kleber Mendonça Filho",
           "wantToSee": 2794,
-          "url": "https://letterboxd.com/search/O%20Agente%20Secreto%202025/",
+          "url": "letterboxd://search/O%20Agente%20Secreto%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -10016,7 +10016,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/31/7c/317c4fbeed34f4d92456f42388fd7279.jpg",
           "director": "Nathan Ambrosioni",
           "wantToSee": 2424,
-          "url": "https://letterboxd.com/search/Les%20enfants%20vont%20bien%202025/",
+          "url": "letterboxd://search/Les%20enfants%20vont%20bien%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -10083,7 +10083,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/79/01/790107e027402b0b8eb7f426fd9102d8.jpg",
           "director": "Yorgos Lanthimos",
           "wantToSee": 2383,
-          "url": "https://letterboxd.com/search/The%20Birth%20and%20the%20Bees%3A%20The%20Making%20of%20Bugonia%202025/",
+          "url": "letterboxd://search/The%20Birth%20and%20the%20Bees%3A%20The%20Making%20of%20Bugonia%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -10106,7 +10106,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/3a/9d/3a9d3503d9ccc1fec7fbdc4bf2934da7.jpg",
           "director": "Rebecca Zlotowski",
           "wantToSee": 2326,
-          "url": "https://letterboxd.com/search/Vie%20priv%C3%A9e%202025/",
+          "url": "letterboxd://search/Vie%20priv%C3%A9e%202025/",
           "seances": {
             "UGC Part-Dieu": [
               {
@@ -10151,7 +10151,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/d9/8c/d98cf2f82174e030b461d6a7103c58ec.jpg",
           "director": "Alexandre Astier",
           "wantToSee": 2058,
-          "url": "https://letterboxd.com/search/Kaamelott%20-%20Deuxi%C3%A8me%20volet%2C%20partie%201%202025/",
+          "url": "letterboxd://search/Kaamelott%20-%20Deuxi%C3%A8me%20volet%2C%20partie%201%202025/",
           "seances": {
             "Pathé Vaise": [
               {
@@ -10174,7 +10174,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/57/c6/57c6d1dbb88a0120b9262489a81cb180.jpg",
           "director": "Edgar Wright",
           "wantToSee": 2026,
-          "url": "https://letterboxd.com/search/The%20Running%20Man%202025/",
+          "url": "letterboxd://search/The%20Running%20Man%202025/",
           "seances": {
             "Pathé Vaise": [
               {
@@ -10205,7 +10205,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/f5/52/f5523e15c97af96169bdc93479553602.jpg",
           "director": "Vincent Munier",
           "wantToSee": 1982,
-          "url": "https://letterboxd.com/search/Le%20chant%20des%20for%C3%AAts%202025/",
+          "url": "letterboxd://search/Le%20chant%20des%20for%C3%AAts%202025/",
           "seances": {
             "Ciné Meyzieu": [
               {
@@ -10326,7 +10326,7 @@
           "affiche": "https://fr.web.img2.acsta.net/pictures/19/05/03/14/30/1132544.jpg",
           "director": "Alain Berbérian",
           "wantToSee": 1868,
-          "url": "https://letterboxd.com/search/La%20Cit%C3%A9%20de%20la%20peur%201994/",
+          "url": "letterboxd://search/La%20Cit%C3%A9%20de%20la%20peur%201994/",
           "seances": {
             "UGC Part-Dieu": [
               {
@@ -10357,7 +10357,7 @@
           "affiche": "https://fr.web.img2.acsta.net/pictures/205/419/20541978_20131010174200124.jpg",
           "director": "J.C. Chandor",
           "wantToSee": 1700,
-          "url": "https://letterboxd.com/search/All%20is%20Not%20Lost%202023/",
+          "url": "letterboxd://search/All%20is%20Not%20Lost%202023/",
           "seances": {
             "Institut Lumière": [
               {
@@ -10380,7 +10380,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/57/bb/57bb30ccc7161797311e827e54ef261b.jpg",
           "director": "Alice Vial",
           "wantToSee": 1689,
-          "url": "https://letterboxd.com/search/L%E2%80%99%C3%82me%20Id%C3%A9ale%202025/",
+          "url": "letterboxd://search/L%E2%80%99%C3%82me%20Id%C3%A9ale%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -10483,7 +10483,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/66/eb/66eb9392595c24a3ca9975d5cd6b9565.jpg",
           "director": "Kaouther Ben Hania",
           "wantToSee": 1677,
-          "url": "https://letterboxd.com/search/%D8%B5%D9%88%D8%AA%20%D9%87%D9%86%D8%AF%20%D8%B1%D8%AC%D8%A8%202025/",
+          "url": "letterboxd://search/%D8%B5%D9%88%D8%AA%20%D9%87%D9%86%D8%AF%20%D8%B1%D8%AC%D8%A8%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -10554,7 +10554,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/18/de/18decda3afef9ae047694aac0d89c169.jpg",
           "director": "Jim Jarmusch",
           "wantToSee": 1336,
-          "url": "https://letterboxd.com/search/Father%20Mother%20Sister%20Brother%202025/",
+          "url": "letterboxd://search/Father%20Mother%20Sister%20Brother%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -10691,7 +10691,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/65/11/65117c07f97a3721caff88c9abec8bd6.jpg",
           "director": "Jon M. Chu",
           "wantToSee": 1267,
-          "url": "https://letterboxd.com/search/Wicked%3A%20For%20Good%202025/",
+          "url": "letterboxd://search/Wicked%3A%20For%20Good%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -10738,7 +10738,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/4d/19/4d1934427121e700f4f4fe0d57d84cb8.jpg",
           "director": "Bi Gan",
           "wantToSee": 1146,
-          "url": "https://letterboxd.com/search/Resurrection%202026/",
+          "url": "letterboxd://search/Resurrection%202026/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -10761,7 +10761,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/65/9f/659f5b54ac267e57f6183011bcfb99aa.jpg",
           "director": "Jérôme Bonnell",
           "wantToSee": 1000,
-          "url": "https://letterboxd.com/search/La%20Condition%202025/",
+          "url": "letterboxd://search/La%20Condition%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -10816,7 +10816,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/5b/c3/5bc38e41de3e658a750fc158815799cf.jpg",
           "director": "Lav Diaz",
           "wantToSee": 966,
-          "url": "https://letterboxd.com/search/Magalh%C3%A3es%202025/",
+          "url": "letterboxd://search/Magalh%C3%A3es%202025/",
           "seances": {
             "Lumière Bellecour": [
               {
@@ -10839,7 +10839,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/86/c3/86c3bc332654205f70fc0c25498ccdf5.jpg",
           "director": "Sang-il Lee",
           "wantToSee": 965,
-          "url": "https://letterboxd.com/search/%E5%9B%BD%E5%AE%9D%202025/",
+          "url": "letterboxd://search/%E5%9B%BD%E5%AE%9D%202025/",
           "seances": {
             "UGC Astoria": [
               {
@@ -10868,7 +10868,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/a3/e8/a3e859018636c366010d60f860a255a3.jpg",
           "director": "Joséphine Japy",
           "wantToSee": 931,
-          "url": "https://letterboxd.com/search/Qui%20brille%20au%20combat%202025/",
+          "url": "letterboxd://search/Qui%20brille%20au%20combat%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -10949,7 +10949,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/83/b5/83b5868d9264242be16ab460eb7c80ce.jpg",
           "director": "Emma Tammi",
           "wantToSee": 825,
-          "url": "https://letterboxd.com/search/Five%20Nights%20at%20Freddy%27s%202%202025/",
+          "url": "letterboxd://search/Five%20Nights%20at%20Freddy%27s%202%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -11014,7 +11014,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/16/07/1607b1aa4e7516d75f83006f89c4cb20.jpg",
           "director": "Mascha Schilinski",
           "wantToSee": 770,
-          "url": "https://letterboxd.com/search/In%20die%20Sonne%20schauen%202025/",
+          "url": "letterboxd://search/In%20die%20Sonne%20schauen%202025/",
           "seances": {
             "Lumière Bellecour": [
               {
@@ -11075,7 +11075,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/35/23/35233aa3767ab31d242ec1c3ff34497c.jpg",
           "director": "Lise Akoka",
           "wantToSee": 727,
-          "url": "https://letterboxd.com/search/Ma%20fr%C3%A8re%202026/",
+          "url": "letterboxd://search/Ma%20fr%C3%A8re%202026/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -11288,7 +11288,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/57/a8/57a8c1e690e543eb1f3db1a21fa5884b.jpg",
           "director": "Antonin Fourlon",
           "wantToSee": 630,
-          "url": "https://letterboxd.com/search/Chasse%20gard%C3%A9e%202%202025/",
+          "url": "letterboxd://search/Chasse%20gard%C3%A9e%202%202025/",
           "seances": {
             "UGC Part-Dieu": [
               {
@@ -11373,7 +11373,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/b1/f3/b1f3ff9d44ec565d42e1b1ac5cd2a170.jpg",
           "director": "Amine Adjina",
           "wantToSee": 614,
-          "url": "https://letterboxd.com/search/La%20Petite%20cuisine%20de%20Mehdi%202025/",
+          "url": "letterboxd://search/La%20Petite%20cuisine%20de%20Mehdi%202025/",
           "seances": {
             "UGC Confluence": [
               {
@@ -11402,7 +11402,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/e6/07/e6072a30a6045a3cdc545da6bbafe62a.jpg",
           "director": "Alberto Rodriguez",
           "wantToSee": 613,
-          "url": "https://letterboxd.com/search/Los%20Tigres%202025/",
+          "url": "letterboxd://search/Los%20Tigres%202025/",
           "seances": {
             "UGC Part-Dieu": [
               {
@@ -11463,7 +11463,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/29/54/2954a33501785f46c122a9ef80f937c6.jpg",
           "director": "Fatih Akın",
           "wantToSee": 600,
-          "url": "https://letterboxd.com/search/Amrum%202025/",
+          "url": "letterboxd://search/Amrum%202025/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -11494,7 +11494,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/74/0e/740e757ee905b05882b204567f5ea1b9.jpg",
           "director": "Huo Meng",
           "wantToSee": 564,
-          "url": "https://letterboxd.com/search/%E7%94%9F%E6%81%AF%E4%B9%8B%E5%9C%B0%202025/",
+          "url": "letterboxd://search/%E7%94%9F%E6%81%AF%E4%B9%8B%E5%9C%B0%202025/",
           "seances": {
             "Lumière Bellecour": [
               {
@@ -11523,7 +11523,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/18/05/18059e8dd9bca2e516d41023cc08d9d1.jpg",
           "director": "Jean-Paul Salomé",
           "wantToSee": 562,
-          "url": "https://letterboxd.com/search/L%E2%80%99affaire%20Bojarski%202026/",
+          "url": "letterboxd://search/L%E2%80%99affaire%20Bojarski%202026/",
           "seances": {
             "UGC Confluence": [
               {
@@ -11554,7 +11554,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/20/af/20afc1b148d574dca07ec228be9ac869.jpg",
           "director": "Tom Gormican",
           "wantToSee": 548,
-          "url": "https://letterboxd.com/search/Anaconda%202025/",
+          "url": "letterboxd://search/Anaconda%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -11755,7 +11755,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/bf/23/bf238684c15647fe1420a11916a9b63f.jpg",
           "director": "Craig Brewer",
           "wantToSee": 488,
-          "url": "https://letterboxd.com/search/Song%20Sung%20Blue%202025/",
+          "url": "letterboxd://search/Song%20Sung%20Blue%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -11828,7 +11828,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/93/af/93af3b2790e95ca8af24610b99c694b5.jpg",
           "director": "Seong-ho Jang",
           "wantToSee": 418,
-          "url": "https://letterboxd.com/search/The%20King%20of%20Kings%202025/",
+          "url": "letterboxd://search/The%20King%20of%20Kings%202025/",
           "seances": {
             "Pathé Vaise": [
               {
@@ -11851,7 +11851,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/ea/fd/eafdfac8bc40d63ec84a32063363565a.jpg",
           "director": "Pierre Mazingarbe",
           "wantToSee": 385,
-          "url": "https://letterboxd.com/search/La%20pire%20m%C3%A8re%20au%20monde%202025/",
+          "url": "letterboxd://search/La%20pire%20m%C3%A8re%20au%20monde%202025/",
           "seances": {
             "Ciné Meyzieu": [
               {
@@ -11896,7 +11896,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/73/d4/73d440795e61353ca56b8b061af7c5d5.jpg",
           "director": "Derek Drymon",
           "wantToSee": 349,
-          "url": "https://letterboxd.com/search/The%20SpongeBob%20Movie%3A%20Search%20for%20SquarePants%202025/",
+          "url": "letterboxd://search/The%20SpongeBob%20Movie%3A%20Search%20for%20SquarePants%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -12097,7 +12097,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/9f/19/9f191a2130afb6c28922c480202c7d41.jpg",
           "director": "Henrik Martin Dahlsbakken",
           "wantToSee": 315,
-          "url": "https://letterboxd.com/search/Hvis%20ingen%20g%C3%A5r%20i%20fella%202025/",
+          "url": "letterboxd://search/Hvis%20ingen%20g%C3%A5r%20i%20fella%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -12164,7 +12164,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/18/89/188956009aaf66c5f715713a92dd670a.jpg",
           "director": "Alain Berliner",
           "wantToSee": 312,
-          "url": "https://letterboxd.com/search/Bardot%202025/",
+          "url": "letterboxd://search/Bardot%202025/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -12187,7 +12187,7 @@
           "affiche": "https://fr.web.img6.acsta.net/medias/nmedia/18/36/21/31/19501486.jpg",
           "director": "Ernst Lubitsch",
           "wantToSee": 308,
-          "url": "https://letterboxd.com/search/Le%20Rendez-vous%20de%20l%27%C3%A9t%C3%A9%202025/",
+          "url": "letterboxd://search/Le%20Rendez-vous%20de%20l%27%C3%A9t%C3%A9%202025/",
           "seances": {
             "Institut Lumière": [
               {
@@ -12210,7 +12210,7 @@
           "affiche": "https://fr.web.img2.acsta.net/pictures/18/09/21/09/37/1404915.jpg",
           "director": "Arthur Penn",
           "wantToSee": 308,
-          "url": "https://letterboxd.com/search/La%20Poursuite%20impitoyable%201969/",
+          "url": "letterboxd://search/La%20Poursuite%20impitoyable%201969/",
           "seances": {
             "Institut Lumière": [
               {
@@ -12233,7 +12233,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/f7/38/f738c353019cfe13d0d338999dd2cc4b.jpg",
           "director": "Tamara Stepanyan",
           "wantToSee": 286,
-          "url": "https://letterboxd.com/search/Le%20Pays%20d%E2%80%99Arto%202025/",
+          "url": "letterboxd://search/Le%20Pays%20d%E2%80%99Arto%202025/",
           "seances": {
             "Ciné Toboggan": [
               {
@@ -12290,7 +12290,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/a2/8e/a28ef8844e6996babaf95dbcd4539c37.jpeg",
           "director": "Thomas Ellis",
           "wantToSee": 271,
-          "url": "https://letterboxd.com/search/Tout%20va%20bien%202026/",
+          "url": "letterboxd://search/Tout%20va%20bien%202026/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -12321,7 +12321,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/f9/d0/f9d0195a5012725e621d74dd5bc4ae51.jpg",
           "director": "Lloyd Lee Choi",
           "wantToSee": 208,
-          "url": "https://letterboxd.com/search/Lucky%20Lu%202026/",
+          "url": "letterboxd://search/Lucky%20Lu%202026/",
           "seances": {
             "UGC Confluence": [
               {
@@ -12368,7 +12368,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/5c/6f/5c6ff17e2295ffa123d81a565bfdca43.jpg",
           "director": "Tobias Schwarz",
           "wantToSee": 198,
-          "url": "https://letterboxd.com/search/Heidi%20-%20Die%20Legende%20vom%20Luchs%202025/",
+          "url": "letterboxd://search/Heidi%20-%20Die%20Legende%20vom%20Luchs%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -12461,7 +12461,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/80/b0/80b0a134c0e07bfe730021342ddae005.jpg",
           "director": "James Huth",
           "wantToSee": 178,
-          "url": "https://letterboxd.com/search/%C3%80%20la%20poursuite%20du%20P%C3%A8re%20No%C3%ABl%20%21%202025/",
+          "url": "letterboxd://search/%C3%80%20la%20poursuite%20du%20P%C3%A8re%20No%C3%ABl%20%21%202025/",
           "seances": {
             "Pathé Vaise": [
               {
@@ -12492,7 +12492,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/dc/12/dc1209c514eae9fa2e5cb8fd60cd98af.jpg",
           "director": "Ao Shen",
           "wantToSee": 167,
-          "url": "https://letterboxd.com/search/%E5%8D%97%E4%BA%AC%E7%85%A7%E7%9B%B8%E9%A6%86%202025/",
+          "url": "letterboxd://search/%E5%8D%97%E4%BA%AC%E7%85%A7%E7%9B%B8%E9%A6%86%202025/",
           "seances": {
             "Pathé Vaise": [
               {
@@ -12527,7 +12527,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/5d/a1/5da1d06b4622ca2abf2c2f4928097c1e.jpg",
           "director": "Alessio Rigo de Righi",
           "wantToSee": 147,
-          "url": "https://letterboxd.com/search/Testa%20o%20croce%3F%202025/",
+          "url": "letterboxd://search/Testa%20o%20croce%3F%202025/",
           "seances": {
             "Lumière Bellecour": [
               {
@@ -12556,7 +12556,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/76/31/76311306ac5020224b5d787666dcaa04.jpg",
           "director": "Ricard Cussó",
           "wantToSee": 111,
-          "url": "https://letterboxd.com/search/Mission%20Santa%20%E2%80%93%20Ein%20Elf%20rettet%20Weihnachten%202025/",
+          "url": "letterboxd://search/Mission%20Santa%20%E2%80%93%20Ein%20Elf%20rettet%20Weihnachten%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -12587,7 +12587,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/fc/6d/fc6d49f3011e61a0b9a5b43971d725e9.jpg",
           "director": "Victor Erice",
           "wantToSee": 99,
-          "url": "https://letterboxd.com/search/Inde%20du%20Sud%2C%20le%20charme%20Tamoul%202023/",
+          "url": "letterboxd://search/Inde%20du%20Sud%2C%20le%20charme%20Tamoul%202023/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -12610,7 +12610,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/54/a6/54a6769d8c7f85c019d1b553662355b5.jpg",
           "director": "Steve Hudson",
           "wantToSee": 94,
-          "url": "https://letterboxd.com/search/Stitch%20Head%202025/",
+          "url": "letterboxd://search/Stitch%20Head%202025/",
           "seances": {
             "Pathé Vaise": [
               {
@@ -12633,7 +12633,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/3d/76/3d76384dc9a14c36165ea3b2df314ceb.jpg",
           "director": "Gerrit Bekers",
           "wantToSee": 43,
-          "url": "https://letterboxd.com/search/Jack%20et%20Nancy%20-%20Les%20plus%20belles%20histoires%20de%20Quentin%20Blake%202025/",
+          "url": "letterboxd://search/Jack%20et%20Nancy%20-%20Les%20plus%20belles%20histoires%20de%20Quentin%20Blake%202025/",
           "seances": {
             "CGR Brignais": [
               {
@@ -12662,7 +12662,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/2f/03/2f03e57f21e957f7a398e715482a5168.jpg",
           "director": "Toshiya Shinohara",
           "wantToSee": 42,
-          "url": "https://letterboxd.com/search/%E4%B8%8D%E6%80%9D%E8%AD%B0%E3%81%AE%E5%9B%BD%E3%81%A7%E3%82%A2%E3%83%AA%E3%82%B9%E3%81%A8%20%E2%80%93Dive%20in%20Wonderland%E2%80%93%202025/",
+          "url": "letterboxd://search/%E4%B8%8D%E6%80%9D%E8%AD%B0%E3%81%AE%E5%9B%BD%E3%81%A7%E3%82%A2%E3%83%AA%E3%82%B9%E3%81%A8%20%E2%80%93Dive%20in%20Wonderland%E2%80%93%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -12739,7 +12739,7 @@
           "affiche": "https://fr.web.img6.acsta.net/pictures/19/12/16/12/33/2554014.jpg",
           "director": "Janis Cimermanis",
           "wantToSee": 34,
-          "url": "https://letterboxd.com/search/L%27%C3%A9quipe%20de%20secours%20en%20route%20pour%20l%27aventure%21%202020/",
+          "url": "letterboxd://search/L%27%C3%A9quipe%20de%20secours%20en%20route%20pour%20l%27aventure%21%202020/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -12762,7 +12762,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/ab/8f/ab8f576f5f505c371872ddc6fd7ffea7.jpg",
           "director": "Inconnu",
           "wantToSee": 21,
-          "url": "https://letterboxd.com/search/The%20First%20Snow%20of%20Fraggle%20Rock%202025/",
+          "url": "letterboxd://search/The%20First%20Snow%20of%20Fraggle%20Rock%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -12805,7 +12805,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/91/bc/91bce294eb5a02c533136a37fb61d502.jpg",
           "director": "Alexandre Laugier",
           "wantToSee": 19,
-          "url": "https://letterboxd.com/search/Red%20Bird%202026/",
+          "url": "letterboxd://search/Red%20Bird%202026/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -12852,7 +12852,7 @@
           "affiche": "/static/images/nocontent.png",
           "director": "Jerzy Kawalerowicz",
           "wantToSee": 10,
-          "url": "https://letterboxd.com/search/Natt%C3%A5get%202020/",
+          "url": "letterboxd://search/Natt%C3%A5get%202020/",
           "seances": {
             "Institut Lumière": [
               {
@@ -12875,7 +12875,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/81/82/8182127f15752a171d1b5b07d64b6c32.jpeg",
           "director": "Sudha Kongara",
           "wantToSee": 9,
-          "url": "https://letterboxd.com/search/%E0%AE%AA%E0%AE%B0%E0%AE%BE%E0%AE%9A%E0%AE%95%E0%AF%8D%E0%AE%A4%E0%AE%BF%202026/",
+          "url": "letterboxd://search/%E0%AE%AA%E0%AE%B0%E0%AE%BE%E0%AE%9A%E0%AE%95%E0%AF%8D%E0%AE%A4%E0%AE%BF%202026/",
           "seances": {
             "UGC Internationale": [
               {
@@ -12923,7 +12923,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/52/fb/52fb8f0345af2b0940557aa049ca19fd.jpg",
           "director": "James Cameron",
           "wantToSee": 9369,
-          "url": "https://letterboxd.com/search/Avatar%3A%20Fire%20and%20Ash%202025/",
+          "url": "letterboxd://search/Avatar%3A%20Fire%20and%20Ash%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -13402,7 +13402,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/61/0d/610dc2fcd83afe3717f771b889b979c2.jpg",
           "director": "Paul Thomas Anderson",
           "wantToSee": 5622,
-          "url": "https://letterboxd.com/search/One%20Battle%20After%20Another%202025/",
+          "url": "letterboxd://search/One%20Battle%20After%20Another%202025/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -13425,7 +13425,7 @@
           "affiche": "https://fr.web.img6.acsta.net/medias/nmedia/18/90/08/59/20366454.jpg",
           "director": "Quentin Tarantino",
           "wantToSee": 5402,
-          "url": "https://letterboxd.com/search/Django%20%26%20Django%3A%20Sergio%20Corbucci%20Unchained%202021/",
+          "url": "letterboxd://search/Django%20%26%20Django%3A%20Sergio%20Corbucci%20Unchained%202021/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -13448,7 +13448,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/f2/64/f2640084cabb11cf1457d43888f43084.jpg",
           "director": "Dominik Moll",
           "wantToSee": 3791,
-          "url": "https://letterboxd.com/search/Dossier%20137%202025/",
+          "url": "letterboxd://search/Dossier%20137%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -13533,7 +13533,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/45/ac/45ac77474bfae505033a30909e4eda41.jpg",
           "director": "Byron Howard",
           "wantToSee": 3566,
-          "url": "https://letterboxd.com/search/Zootopia%202%202025/",
+          "url": "letterboxd://search/Zootopia%202%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -13886,7 +13886,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/b9/cc/b9cc22a9378857355a4efae5f6c76707.jpg",
           "director": "François Ozon",
           "wantToSee": 3225,
-          "url": "https://letterboxd.com/search/L%27%C3%89tranger%202025/",
+          "url": "letterboxd://search/L%27%C3%89tranger%202025/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -13909,7 +13909,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/ed/a3/eda3bba832e22c79ea22117b058f84e5.jpg",
           "director": "Paul Feig",
           "wantToSee": 2892,
-          "url": "https://letterboxd.com/search/The%20Housemaid%202025/",
+          "url": "letterboxd://search/The%20Housemaid%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -14256,7 +14256,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/ca/83/ca8338e0ec3de262228111a215b567f8.jpg",
           "director": "Ruben Fleischer",
           "wantToSee": 2847,
-          "url": "https://letterboxd.com/search/Now%20You%20See%20Me%3A%20Now%20You%20Don%27t%202025/",
+          "url": "letterboxd://search/Now%20You%20See%20Me%3A%20Now%20You%20Don%27t%202025/",
           "seances": {
             "UGC Part-Dieu": [
               {
@@ -14333,7 +14333,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/d5/da/d5dae089c320b75bf1903cc249165073.jpg",
           "director": "Kleber Mendonça Filho",
           "wantToSee": 2794,
-          "url": "https://letterboxd.com/search/O%20Agente%20Secreto%202025/",
+          "url": "letterboxd://search/O%20Agente%20Secreto%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -14422,7 +14422,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/e1/6e/e16e8e1896a723183dca39a874939073.jpg",
           "director": "Thierry Klifa",
           "wantToSee": 2644,
-          "url": "https://letterboxd.com/search/La%20Femme%20la%20plus%20riche%20du%20monde%202025/",
+          "url": "letterboxd://search/La%20Femme%20la%20plus%20riche%20du%20monde%202025/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -14445,7 +14445,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/31/7c/317c4fbeed34f4d92456f42388fd7279.jpg",
           "director": "Nathan Ambrosioni",
           "wantToSee": 2424,
-          "url": "https://letterboxd.com/search/Les%20enfants%20vont%20bien%202025/",
+          "url": "letterboxd://search/Les%20enfants%20vont%20bien%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -14518,7 +14518,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/79/01/790107e027402b0b8eb7f426fd9102d8.jpg",
           "director": "Yorgos Lanthimos",
           "wantToSee": 2383,
-          "url": "https://letterboxd.com/search/The%20Birth%20and%20the%20Bees%3A%20The%20Making%20of%20Bugonia%202025/",
+          "url": "letterboxd://search/The%20Birth%20and%20the%20Bees%3A%20The%20Making%20of%20Bugonia%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -14541,7 +14541,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/3a/9d/3a9d3503d9ccc1fec7fbdc4bf2934da7.jpg",
           "director": "Rebecca Zlotowski",
           "wantToSee": 2326,
-          "url": "https://letterboxd.com/search/Vie%20priv%C3%A9e%202025/",
+          "url": "letterboxd://search/Vie%20priv%C3%A9e%202025/",
           "seances": {
             "UGC Part-Dieu": [
               {
@@ -14592,7 +14592,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/57/c6/57c6d1dbb88a0120b9262489a81cb180.jpg",
           "director": "Edgar Wright",
           "wantToSee": 2026,
-          "url": "https://letterboxd.com/search/The%20Running%20Man%202025/",
+          "url": "letterboxd://search/The%20Running%20Man%202025/",
           "seances": {
             "Pathé Vaise": [
               {
@@ -14623,7 +14623,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/f5/52/f5523e15c97af96169bdc93479553602.jpg",
           "director": "Vincent Munier",
           "wantToSee": 1982,
-          "url": "https://letterboxd.com/search/Le%20chant%20des%20for%C3%AAts%202025/",
+          "url": "letterboxd://search/Le%20chant%20des%20for%C3%AAts%202025/",
           "seances": {
             "Lumière Terreaux": [
               {
@@ -14730,7 +14730,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/57/bb/57bb30ccc7161797311e827e54ef261b.jpg",
           "director": "Alice Vial",
           "wantToSee": 1689,
-          "url": "https://letterboxd.com/search/L%E2%80%99%C3%82me%20Id%C3%A9ale%202025/",
+          "url": "letterboxd://search/L%E2%80%99%C3%82me%20Id%C3%A9ale%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -14875,7 +14875,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/66/eb/66eb9392595c24a3ca9975d5cd6b9565.jpg",
           "director": "Kaouther Ben Hania",
           "wantToSee": 1677,
-          "url": "https://letterboxd.com/search/%D8%B5%D9%88%D8%AA%20%D9%87%D9%86%D8%AF%20%D8%B1%D8%AC%D8%A8%202025/",
+          "url": "letterboxd://search/%D8%B5%D9%88%D8%AA%20%D9%87%D9%86%D8%AF%20%D8%B1%D8%AC%D8%A8%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -14968,7 +14968,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/18/de/18decda3afef9ae047694aac0d89c169.jpg",
           "director": "Jim Jarmusch",
           "wantToSee": 1336,
-          "url": "https://letterboxd.com/search/Father%20Mother%20Sister%20Brother%202025/",
+          "url": "letterboxd://search/Father%20Mother%20Sister%20Brother%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -15099,7 +15099,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/65/11/65117c07f97a3721caff88c9abec8bd6.jpg",
           "director": "Jon M. Chu",
           "wantToSee": 1267,
-          "url": "https://letterboxd.com/search/Wicked%3A%20For%20Good%202025/",
+          "url": "letterboxd://search/Wicked%3A%20For%20Good%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -15144,7 +15144,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/4d/19/4d1934427121e700f4f4fe0d57d84cb8.jpg",
           "director": "Bi Gan",
           "wantToSee": 1146,
-          "url": "https://letterboxd.com/search/Resurrection%202026/",
+          "url": "letterboxd://search/Resurrection%202026/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -15167,7 +15167,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/65/9f/659f5b54ac267e57f6183011bcfb99aa.jpg",
           "director": "Jérôme Bonnell",
           "wantToSee": 1000,
-          "url": "https://letterboxd.com/search/La%20Condition%202025/",
+          "url": "letterboxd://search/La%20Condition%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -15206,7 +15206,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/5b/c3/5bc38e41de3e658a750fc158815799cf.jpg",
           "director": "Lav Diaz",
           "wantToSee": 966,
-          "url": "https://letterboxd.com/search/Magalh%C3%A3es%202025/",
+          "url": "letterboxd://search/Magalh%C3%A3es%202025/",
           "seances": {
             "Lumière Bellecour": [
               {
@@ -15235,7 +15235,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/86/c3/86c3bc332654205f70fc0c25498ccdf5.jpg",
           "director": "Sang-il Lee",
           "wantToSee": 965,
-          "url": "https://letterboxd.com/search/%E5%9B%BD%E5%AE%9D%202025/",
+          "url": "letterboxd://search/%E5%9B%BD%E5%AE%9D%202025/",
           "seances": {
             "UGC Astoria": [
               {
@@ -15264,7 +15264,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/a3/e8/a3e859018636c366010d60f860a255a3.jpg",
           "director": "Joséphine Japy",
           "wantToSee": 931,
-          "url": "https://letterboxd.com/search/Qui%20brille%20au%20combat%202025/",
+          "url": "letterboxd://search/Qui%20brille%20au%20combat%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -15357,7 +15357,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/83/b5/83b5868d9264242be16ab460eb7c80ce.jpg",
           "director": "Emma Tammi",
           "wantToSee": 825,
-          "url": "https://letterboxd.com/search/Five%20Nights%20at%20Freddy%27s%202%202025/",
+          "url": "letterboxd://search/Five%20Nights%20at%20Freddy%27s%202%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -15440,7 +15440,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/af/85/af85907b34353df979244b32c075ac01.jpg",
           "director": "Max Walker-Silverman",
           "wantToSee": 810,
-          "url": "https://letterboxd.com/search/Rebuilding%202025/",
+          "url": "letterboxd://search/Rebuilding%202025/",
           "seances": {
             "UGC Astoria": [
               {
@@ -15469,7 +15469,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/16/07/1607b1aa4e7516d75f83006f89c4cb20.jpg",
           "director": "Mascha Schilinski",
           "wantToSee": 770,
-          "url": "https://letterboxd.com/search/In%20die%20Sonne%20schauen%202025/",
+          "url": "letterboxd://search/In%20die%20Sonne%20schauen%202025/",
           "seances": {
             "Lumière Bellecour": [
               {
@@ -15524,7 +15524,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/35/23/35233aa3767ab31d242ec1c3ff34497c.jpg",
           "director": "Lise Akoka",
           "wantToSee": 727,
-          "url": "https://letterboxd.com/search/Ma%20fr%C3%A8re%202026/",
+          "url": "letterboxd://search/Ma%20fr%C3%A8re%202026/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -15725,7 +15725,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/57/a8/57a8c1e690e543eb1f3db1a21fa5884b.jpg",
           "director": "Antonin Fourlon",
           "wantToSee": 630,
-          "url": "https://letterboxd.com/search/Chasse%20gard%C3%A9e%202%202025/",
+          "url": "letterboxd://search/Chasse%20gard%C3%A9e%202%202025/",
           "seances": {
             "UGC Part-Dieu": [
               {
@@ -15828,7 +15828,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/b1/f3/b1f3ff9d44ec565d42e1b1ac5cd2a170.jpg",
           "director": "Amine Adjina",
           "wantToSee": 614,
-          "url": "https://letterboxd.com/search/La%20Petite%20cuisine%20de%20Mehdi%202025/",
+          "url": "letterboxd://search/La%20Petite%20cuisine%20de%20Mehdi%202025/",
           "seances": {
             "UGC Confluence": [
               {
@@ -15863,7 +15863,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/e6/07/e6072a30a6045a3cdc545da6bbafe62a.jpg",
           "director": "Alberto Rodriguez",
           "wantToSee": 613,
-          "url": "https://letterboxd.com/search/Los%20Tigres%202025/",
+          "url": "letterboxd://search/Los%20Tigres%202025/",
           "seances": {
             "UGC Part-Dieu": [
               {
@@ -15924,7 +15924,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/29/54/2954a33501785f46c122a9ef80f937c6.jpg",
           "director": "Fatih Akın",
           "wantToSee": 600,
-          "url": "https://letterboxd.com/search/Amrum%202025/",
+          "url": "letterboxd://search/Amrum%202025/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -15955,7 +15955,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/74/0e/740e757ee905b05882b204567f5ea1b9.jpg",
           "director": "Huo Meng",
           "wantToSee": 564,
-          "url": "https://letterboxd.com/search/%E7%94%9F%E6%81%AF%E4%B9%8B%E5%9C%B0%202025/",
+          "url": "letterboxd://search/%E7%94%9F%E6%81%AF%E4%B9%8B%E5%9C%B0%202025/",
           "seances": {
             "Lumière Bellecour": [
               {
@@ -15978,7 +15978,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/20/af/20afc1b148d574dca07ec228be9ac869.jpg",
           "director": "Tom Gormican",
           "wantToSee": 548,
-          "url": "https://letterboxd.com/search/Anaconda%202025/",
+          "url": "letterboxd://search/Anaconda%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -16179,7 +16179,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/bf/23/bf238684c15647fe1420a11916a9b63f.jpg",
           "director": "Craig Brewer",
           "wantToSee": 488,
-          "url": "https://letterboxd.com/search/Song%20Sung%20Blue%202025/",
+          "url": "letterboxd://search/Song%20Sung%20Blue%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -16270,7 +16270,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/ea/fd/eafdfac8bc40d63ec84a32063363565a.jpg",
           "director": "Pierre Mazingarbe",
           "wantToSee": 385,
-          "url": "https://letterboxd.com/search/La%20pire%20m%C3%A8re%20au%20monde%202025/",
+          "url": "letterboxd://search/La%20pire%20m%C3%A8re%20au%20monde%202025/",
           "seances": {
             "Pathé Vaise": [
               {
@@ -16331,7 +16331,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/73/d4/73d440795e61353ca56b8b061af7c5d5.jpg",
           "director": "Derek Drymon",
           "wantToSee": 349,
-          "url": "https://letterboxd.com/search/The%20SpongeBob%20Movie%3A%20Search%20for%20SquarePants%202025/",
+          "url": "letterboxd://search/The%20SpongeBob%20Movie%3A%20Search%20for%20SquarePants%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -16398,7 +16398,7 @@
           "affiche": "https://fr.web.img3.acsta.net/pictures/18/04/10/15/20/4510957.jpg",
           "director": "Sidney Lumet",
           "wantToSee": 345,
-          "url": "https://letterboxd.com/search/Murder%20on%20the%20Orient%20Express%202017/",
+          "url": "letterboxd://search/Murder%20on%20the%20Orient%20Express%202017/",
           "seances": {
             "UGC Astoria": [
               {
@@ -16421,7 +16421,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/9f/19/9f191a2130afb6c28922c480202c7d41.jpg",
           "director": "Henrik Martin Dahlsbakken",
           "wantToSee": 315,
-          "url": "https://letterboxd.com/search/Hvis%20ingen%20g%C3%A5r%20i%20fella%202025/",
+          "url": "letterboxd://search/Hvis%20ingen%20g%C3%A5r%20i%20fella%202025/",
           "seances": {
             "UGC Part-Dieu": [
               {
@@ -16444,7 +16444,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/18/89/188956009aaf66c5f715713a92dd670a.jpg",
           "director": "Alain Berliner",
           "wantToSee": 312,
-          "url": "https://letterboxd.com/search/Bardot%202025/",
+          "url": "letterboxd://search/Bardot%202025/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -16467,7 +16467,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/f7/38/f738c353019cfe13d0d338999dd2cc4b.jpg",
           "director": "Tamara Stepanyan",
           "wantToSee": 286,
-          "url": "https://letterboxd.com/search/Le%20Pays%20d%E2%80%99Arto%202025/",
+          "url": "letterboxd://search/Le%20Pays%20d%E2%80%99Arto%202025/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -16510,7 +16510,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/a2/8e/a28ef8844e6996babaf95dbcd4539c37.jpeg",
           "director": "Thomas Ellis",
           "wantToSee": 271,
-          "url": "https://letterboxd.com/search/Tout%20va%20bien%202026/",
+          "url": "letterboxd://search/Tout%20va%20bien%202026/",
           "seances": {
             "CGR Brignais": [
               {
@@ -16545,7 +16545,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/f9/d0/f9d0195a5012725e621d74dd5bc4ae51.jpg",
           "director": "Lloyd Lee Choi",
           "wantToSee": 208,
-          "url": "https://letterboxd.com/search/Lucky%20Lu%202026/",
+          "url": "letterboxd://search/Lucky%20Lu%202026/",
           "seances": {
             "UGC Confluence": [
               {
@@ -16592,7 +16592,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/5c/6f/5c6ff17e2295ffa123d81a565bfdca43.jpg",
           "director": "Tobias Schwarz",
           "wantToSee": 198,
-          "url": "https://letterboxd.com/search/Heidi%20-%20Die%20Legende%20vom%20Luchs%202025/",
+          "url": "letterboxd://search/Heidi%20-%20Die%20Legende%20vom%20Luchs%202025/",
           "seances": {
             "UGC Confluence": [
               {
@@ -16615,7 +16615,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/dc/12/dc1209c514eae9fa2e5cb8fd60cd98af.jpg",
           "director": "Ao Shen",
           "wantToSee": 167,
-          "url": "https://letterboxd.com/search/%E5%8D%97%E4%BA%AC%E7%85%A7%E7%9B%B8%E9%A6%86%202025/",
+          "url": "letterboxd://search/%E5%8D%97%E4%BA%AC%E7%85%A7%E7%9B%B8%E9%A6%86%202025/",
           "seances": {
             "Pathé Vaise": [
               {
@@ -16650,7 +16650,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/5d/a1/5da1d06b4622ca2abf2c2f4928097c1e.jpg",
           "director": "Alessio Rigo de Righi",
           "wantToSee": 147,
-          "url": "https://letterboxd.com/search/Testa%20o%20croce%3F%202025/",
+          "url": "letterboxd://search/Testa%20o%20croce%3F%202025/",
           "seances": {
             "Lumière Bellecour": [
               {
@@ -16679,7 +16679,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/fc/6d/fc6d49f3011e61a0b9a5b43971d725e9.jpg",
           "director": "Victor Erice",
           "wantToSee": 99,
-          "url": "https://letterboxd.com/search/Inde%20du%20Sud%2C%20le%20charme%20Tamoul%202023/",
+          "url": "letterboxd://search/Inde%20du%20Sud%2C%20le%20charme%20Tamoul%202023/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -16702,7 +16702,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/43/1d/431ddc36a3a36dec712c121930382369.jpg",
           "director": "Julien Hosmalin",
           "wantToSee": 95,
-          "url": "https://letterboxd.com/search/Sans%20piti%C3%A9%202026/",
+          "url": "letterboxd://search/Sans%20piti%C3%A9%202026/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -16725,7 +16725,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/3d/76/3d76384dc9a14c36165ea3b2df314ceb.jpg",
           "director": "Gerrit Bekers",
           "wantToSee": 43,
-          "url": "https://letterboxd.com/search/Jack%20et%20Nancy%20-%20Les%20plus%20belles%20histoires%20de%20Quentin%20Blake%202025/",
+          "url": "letterboxd://search/Jack%20et%20Nancy%20-%20Les%20plus%20belles%20histoires%20de%20Quentin%20Blake%202025/",
           "seances": {
             "CGR Brignais": [
               {
@@ -16748,7 +16748,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/ab/8f/ab8f576f5f505c371872ddc6fd7ffea7.jpg",
           "director": "Inconnu",
           "wantToSee": 21,
-          "url": "https://letterboxd.com/search/The%20First%20Snow%20of%20Fraggle%20Rock%202025/",
+          "url": "letterboxd://search/The%20First%20Snow%20of%20Fraggle%20Rock%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -16779,7 +16779,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/91/bc/91bce294eb5a02c533136a37fb61d502.jpg",
           "director": "Alexandre Laugier",
           "wantToSee": 19,
-          "url": "https://letterboxd.com/search/Red%20Bird%202026/",
+          "url": "letterboxd://search/Red%20Bird%202026/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -16820,7 +16820,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/c5/84/c58486ed1c09e460d5ceca27cfffba48.jpg",
           "director": "Naomi Kawase",
           "wantToSee": 14,
-          "url": "https://letterboxd.com/search/L%27Illusion%20de%20Yakushima%202025/",
+          "url": "letterboxd://search/L%27Illusion%20de%20Yakushima%202025/",
           "seances": {
             "Lumière Terreaux": [
               {
@@ -16843,7 +16843,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/81/82/8182127f15752a171d1b5b07d64b6c32.jpeg",
           "director": "Sudha Kongara",
           "wantToSee": 9,
-          "url": "https://letterboxd.com/search/%E0%AE%AA%E0%AE%B0%E0%AE%BE%E0%AE%9A%E0%AE%95%E0%AF%8D%E0%AE%A4%E0%AE%BF%202026/",
+          "url": "letterboxd://search/%E0%AE%AA%E0%AE%B0%E0%AE%BE%E0%AE%9A%E0%AE%95%E0%AF%8D%E0%AE%A4%E0%AE%BF%202026/",
           "seances": {
             "UGC Internationale": [
               {
@@ -16872,7 +16872,7 @@
           "affiche": "/static/images/nocontent.png",
           "director": "Johnnie To",
           "wantToSee": 0,
-          "url": "https://letterboxd.com/search/Your%20Loving%20Mother%202024/",
+          "url": "letterboxd://search/Your%20Loving%20Mother%202024/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -16900,7 +16900,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/52/fb/52fb8f0345af2b0940557aa049ca19fd.jpg",
           "director": "James Cameron",
           "wantToSee": 9369,
-          "url": "https://letterboxd.com/search/Avatar%3A%20Fire%20and%20Ash%202025/",
+          "url": "letterboxd://search/Avatar%3A%20Fire%20and%20Ash%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -17387,7 +17387,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/61/0d/610dc2fcd83afe3717f771b889b979c2.jpg",
           "director": "Paul Thomas Anderson",
           "wantToSee": 5622,
-          "url": "https://letterboxd.com/search/One%20Battle%20After%20Another%202025/",
+          "url": "letterboxd://search/One%20Battle%20After%20Another%202025/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -17410,7 +17410,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/f2/64/f2640084cabb11cf1457d43888f43084.jpg",
           "director": "Dominik Moll",
           "wantToSee": 3791,
-          "url": "https://letterboxd.com/search/Dossier%20137%202025/",
+          "url": "letterboxd://search/Dossier%20137%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -17489,7 +17489,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/45/ac/45ac77474bfae505033a30909e4eda41.jpg",
           "director": "Byron Howard",
           "wantToSee": 3566,
-          "url": "https://letterboxd.com/search/Zootopia%202%202025/",
+          "url": "letterboxd://search/Zootopia%202%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -17848,7 +17848,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/b9/cc/b9cc22a9378857355a4efae5f6c76707.jpg",
           "director": "François Ozon",
           "wantToSee": 3225,
-          "url": "https://letterboxd.com/search/L%27%C3%89tranger%202025/",
+          "url": "letterboxd://search/L%27%C3%89tranger%202025/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -17871,7 +17871,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/ed/a3/eda3bba832e22c79ea22117b058f84e5.jpg",
           "director": "Paul Feig",
           "wantToSee": 2892,
-          "url": "https://letterboxd.com/search/The%20Housemaid%202025/",
+          "url": "letterboxd://search/The%20Housemaid%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -18220,7 +18220,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/ca/83/ca8338e0ec3de262228111a215b567f8.jpg",
           "director": "Ruben Fleischer",
           "wantToSee": 2847,
-          "url": "https://letterboxd.com/search/Now%20You%20See%20Me%3A%20Now%20You%20Don%27t%202025/",
+          "url": "letterboxd://search/Now%20You%20See%20Me%3A%20Now%20You%20Don%27t%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -18311,7 +18311,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/d5/da/d5dae089c320b75bf1903cc249165073.jpg",
           "director": "Kleber Mendonça Filho",
           "wantToSee": 2794,
-          "url": "https://letterboxd.com/search/O%20Agente%20Secreto%202025/",
+          "url": "letterboxd://search/O%20Agente%20Secreto%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -18420,7 +18420,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/e1/6e/e16e8e1896a723183dca39a874939073.jpg",
           "director": "Thierry Klifa",
           "wantToSee": 2644,
-          "url": "https://letterboxd.com/search/La%20Femme%20la%20plus%20riche%20du%20monde%202025/",
+          "url": "letterboxd://search/La%20Femme%20la%20plus%20riche%20du%20monde%202025/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -18443,7 +18443,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/31/7c/317c4fbeed34f4d92456f42388fd7279.jpg",
           "director": "Nathan Ambrosioni",
           "wantToSee": 2424,
-          "url": "https://letterboxd.com/search/Les%20enfants%20vont%20bien%202025/",
+          "url": "letterboxd://search/Les%20enfants%20vont%20bien%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -18524,7 +18524,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/79/01/790107e027402b0b8eb7f426fd9102d8.jpg",
           "director": "Yorgos Lanthimos",
           "wantToSee": 2383,
-          "url": "https://letterboxd.com/search/The%20Birth%20and%20the%20Bees%3A%20The%20Making%20of%20Bugonia%202025/",
+          "url": "letterboxd://search/The%20Birth%20and%20the%20Bees%3A%20The%20Making%20of%20Bugonia%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -18547,7 +18547,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/3a/9d/3a9d3503d9ccc1fec7fbdc4bf2934da7.jpg",
           "director": "Rebecca Zlotowski",
           "wantToSee": 2326,
-          "url": "https://letterboxd.com/search/Vie%20priv%C3%A9e%202025/",
+          "url": "letterboxd://search/Vie%20priv%C3%A9e%202025/",
           "seances": {
             "UGC Part-Dieu": [
               {
@@ -18598,7 +18598,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/57/c6/57c6d1dbb88a0120b9262489a81cb180.jpg",
           "director": "Edgar Wright",
           "wantToSee": 2026,
-          "url": "https://letterboxd.com/search/The%20Running%20Man%202025/",
+          "url": "letterboxd://search/The%20Running%20Man%202025/",
           "seances": {
             "Pathé Vaise": [
               {
@@ -18635,7 +18635,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/f5/52/f5523e15c97af96169bdc93479553602.jpg",
           "director": "Vincent Munier",
           "wantToSee": 1982,
-          "url": "https://letterboxd.com/search/Le%20chant%20des%20for%C3%AAts%202025/",
+          "url": "letterboxd://search/Le%20chant%20des%20for%C3%AAts%202025/",
           "seances": {
             "Ciné Meyzieu": [
               {
@@ -18768,7 +18768,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/57/bb/57bb30ccc7161797311e827e54ef261b.jpg",
           "director": "Alice Vial",
           "wantToSee": 1689,
-          "url": "https://letterboxd.com/search/L%E2%80%99%C3%82me%20Id%C3%A9ale%202025/",
+          "url": "letterboxd://search/L%E2%80%99%C3%82me%20Id%C3%A9ale%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -18907,7 +18907,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/66/eb/66eb9392595c24a3ca9975d5cd6b9565.jpg",
           "director": "Kaouther Ben Hania",
           "wantToSee": 1677,
-          "url": "https://letterboxd.com/search/%D8%B5%D9%88%D8%AA%20%D9%87%D9%86%D8%AF%20%D8%B1%D8%AC%D8%A8%202025/",
+          "url": "letterboxd://search/%D8%B5%D9%88%D8%AA%20%D9%87%D9%86%D8%AF%20%D8%B1%D8%AC%D8%A8%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -19014,7 +19014,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/18/de/18decda3afef9ae047694aac0d89c169.jpg",
           "director": "Jim Jarmusch",
           "wantToSee": 1336,
-          "url": "https://letterboxd.com/search/Father%20Mother%20Sister%20Brother%202025/",
+          "url": "letterboxd://search/Father%20Mother%20Sister%20Brother%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -19145,7 +19145,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/65/11/65117c07f97a3721caff88c9abec8bd6.jpg",
           "director": "Jon M. Chu",
           "wantToSee": 1267,
-          "url": "https://letterboxd.com/search/Wicked%3A%20For%20Good%202025/",
+          "url": "letterboxd://search/Wicked%3A%20For%20Good%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -19190,7 +19190,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/4d/19/4d1934427121e700f4f4fe0d57d84cb8.jpg",
           "director": "Bi Gan",
           "wantToSee": 1146,
-          "url": "https://letterboxd.com/search/Resurrection%202026/",
+          "url": "letterboxd://search/Resurrection%202026/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -19213,7 +19213,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/65/9f/659f5b54ac267e57f6183011bcfb99aa.jpg",
           "director": "Jérôme Bonnell",
           "wantToSee": 1000,
-          "url": "https://letterboxd.com/search/La%20Condition%202025/",
+          "url": "letterboxd://search/La%20Condition%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -19260,7 +19260,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/5b/c3/5bc38e41de3e658a750fc158815799cf.jpg",
           "director": "Lav Diaz",
           "wantToSee": 966,
-          "url": "https://letterboxd.com/search/Magalh%C3%A3es%202025/",
+          "url": "letterboxd://search/Magalh%C3%A3es%202025/",
           "seances": {
             "Lumière Bellecour": [
               {
@@ -19283,7 +19283,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/86/c3/86c3bc332654205f70fc0c25498ccdf5.jpg",
           "director": "Sang-il Lee",
           "wantToSee": 965,
-          "url": "https://letterboxd.com/search/%E5%9B%BD%E5%AE%9D%202025/",
+          "url": "letterboxd://search/%E5%9B%BD%E5%AE%9D%202025/",
           "seances": {
             "UGC Astoria": [
               {
@@ -19312,7 +19312,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/a3/e8/a3e859018636c366010d60f860a255a3.jpg",
           "director": "Joséphine Japy",
           "wantToSee": 931,
-          "url": "https://letterboxd.com/search/Qui%20brille%20au%20combat%202025/",
+          "url": "letterboxd://search/Qui%20brille%20au%20combat%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -19405,7 +19405,7 @@
           "affiche": "https://fr.web.img4.acsta.net/pictures/23/02/21/15/56/4548864.jpg",
           "director": "Ernst Lubitsch",
           "wantToSee": 890,
-          "url": "https://letterboxd.com/search/%E2%80%9CTo%20Be%2C%20or%20Not%20To%20Be%E2%80%9D%202025/",
+          "url": "letterboxd://search/%E2%80%9CTo%20Be%2C%20or%20Not%20To%20Be%E2%80%9D%202025/",
           "seances": {
             "Institut Lumière": [
               {
@@ -19428,7 +19428,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/83/b5/83b5868d9264242be16ab460eb7c80ce.jpg",
           "director": "Emma Tammi",
           "wantToSee": 825,
-          "url": "https://letterboxd.com/search/Five%20Nights%20at%20Freddy%27s%202%202025/",
+          "url": "letterboxd://search/Five%20Nights%20at%20Freddy%27s%202%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -19505,7 +19505,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/af/85/af85907b34353df979244b32c075ac01.jpg",
           "director": "Max Walker-Silverman",
           "wantToSee": 810,
-          "url": "https://letterboxd.com/search/Rebuilding%202025/",
+          "url": "letterboxd://search/Rebuilding%202025/",
           "seances": {
             "UGC Astoria": [
               {
@@ -19534,7 +19534,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/16/07/1607b1aa4e7516d75f83006f89c4cb20.jpg",
           "director": "Mascha Schilinski",
           "wantToSee": 770,
-          "url": "https://letterboxd.com/search/In%20die%20Sonne%20schauen%202025/",
+          "url": "letterboxd://search/In%20die%20Sonne%20schauen%202025/",
           "seances": {
             "Lumière Bellecour": [
               {
@@ -19589,7 +19589,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/35/23/35233aa3767ab31d242ec1c3ff34497c.jpg",
           "director": "Lise Akoka",
           "wantToSee": 727,
-          "url": "https://letterboxd.com/search/Ma%20fr%C3%A8re%202026/",
+          "url": "letterboxd://search/Ma%20fr%C3%A8re%202026/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -19790,7 +19790,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/57/a8/57a8c1e690e543eb1f3db1a21fa5884b.jpg",
           "director": "Antonin Fourlon",
           "wantToSee": 630,
-          "url": "https://letterboxd.com/search/Chasse%20gard%C3%A9e%202%202025/",
+          "url": "letterboxd://search/Chasse%20gard%C3%A9e%202%202025/",
           "seances": {
             "UGC Part-Dieu": [
               {
@@ -19893,7 +19893,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/b1/f3/b1f3ff9d44ec565d42e1b1ac5cd2a170.jpg",
           "director": "Amine Adjina",
           "wantToSee": 614,
-          "url": "https://letterboxd.com/search/La%20Petite%20cuisine%20de%20Mehdi%202025/",
+          "url": "letterboxd://search/La%20Petite%20cuisine%20de%20Mehdi%202025/",
           "seances": {
             "UGC Confluence": [
               {
@@ -19928,7 +19928,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/e6/07/e6072a30a6045a3cdc545da6bbafe62a.jpg",
           "director": "Alberto Rodriguez",
           "wantToSee": 613,
-          "url": "https://letterboxd.com/search/Los%20Tigres%202025/",
+          "url": "letterboxd://search/Los%20Tigres%202025/",
           "seances": {
             "UGC Part-Dieu": [
               {
@@ -19989,7 +19989,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/29/54/2954a33501785f46c122a9ef80f937c6.jpg",
           "director": "Fatih Akın",
           "wantToSee": 600,
-          "url": "https://letterboxd.com/search/Amrum%202025/",
+          "url": "letterboxd://search/Amrum%202025/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -20020,7 +20020,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/74/0e/740e757ee905b05882b204567f5ea1b9.jpg",
           "director": "Huo Meng",
           "wantToSee": 564,
-          "url": "https://letterboxd.com/search/%E7%94%9F%E6%81%AF%E4%B9%8B%E5%9C%B0%202025/",
+          "url": "letterboxd://search/%E7%94%9F%E6%81%AF%E4%B9%8B%E5%9C%B0%202025/",
           "seances": {
             "Lumière Bellecour": [
               {
@@ -20043,7 +20043,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/20/af/20afc1b148d574dca07ec228be9ac869.jpg",
           "director": "Tom Gormican",
           "wantToSee": 548,
-          "url": "https://letterboxd.com/search/Anaconda%202025/",
+          "url": "letterboxd://search/Anaconda%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -20244,7 +20244,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/bf/23/bf238684c15647fe1420a11916a9b63f.jpg",
           "director": "Craig Brewer",
           "wantToSee": 488,
-          "url": "https://letterboxd.com/search/Song%20Sung%20Blue%202025/",
+          "url": "letterboxd://search/Song%20Sung%20Blue%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -20335,7 +20335,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/ea/fd/eafdfac8bc40d63ec84a32063363565a.jpg",
           "director": "Pierre Mazingarbe",
           "wantToSee": 385,
-          "url": "https://letterboxd.com/search/La%20pire%20m%C3%A8re%20au%20monde%202025/",
+          "url": "letterboxd://search/La%20pire%20m%C3%A8re%20au%20monde%202025/",
           "seances": {
             "Ciné Meyzieu": [
               {
@@ -20404,7 +20404,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/73/d4/73d440795e61353ca56b8b061af7c5d5.jpg",
           "director": "Derek Drymon",
           "wantToSee": 349,
-          "url": "https://letterboxd.com/search/The%20SpongeBob%20Movie%3A%20Search%20for%20SquarePants%202025/",
+          "url": "letterboxd://search/The%20SpongeBob%20Movie%3A%20Search%20for%20SquarePants%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -20471,7 +20471,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/9f/19/9f191a2130afb6c28922c480202c7d41.jpg",
           "director": "Henrik Martin Dahlsbakken",
           "wantToSee": 315,
-          "url": "https://letterboxd.com/search/Hvis%20ingen%20g%C3%A5r%20i%20fella%202025/",
+          "url": "letterboxd://search/Hvis%20ingen%20g%C3%A5r%20i%20fella%202025/",
           "seances": {
             "UGC Part-Dieu": [
               {
@@ -20494,7 +20494,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/18/89/188956009aaf66c5f715713a92dd670a.jpg",
           "director": "Alain Berliner",
           "wantToSee": 312,
-          "url": "https://letterboxd.com/search/Bardot%202025/",
+          "url": "letterboxd://search/Bardot%202025/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -20517,7 +20517,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/51/04/5104c913367b4e8dc4d89d55c7c965ae.jpg",
           "director": "Abd Al Malik",
           "wantToSee": 305,
-          "url": "https://letterboxd.com/search/Furcy%2C%20n%C3%A9%20libre%202026/",
+          "url": "letterboxd://search/Furcy%2C%20n%C3%A9%20libre%202026/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -20556,7 +20556,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/f7/38/f738c353019cfe13d0d338999dd2cc4b.jpg",
           "director": "Tamara Stepanyan",
           "wantToSee": 286,
-          "url": "https://letterboxd.com/search/Le%20Pays%20d%E2%80%99Arto%202025/",
+          "url": "letterboxd://search/Le%20Pays%20d%E2%80%99Arto%202025/",
           "seances": {
             "Ciné Toboggan": [
               {
@@ -20607,7 +20607,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/a2/8e/a28ef8844e6996babaf95dbcd4539c37.jpeg",
           "director": "Thomas Ellis",
           "wantToSee": 271,
-          "url": "https://letterboxd.com/search/Tout%20va%20bien%202026/",
+          "url": "letterboxd://search/Tout%20va%20bien%202026/",
           "seances": {
             "CGR Brignais": [
               {
@@ -20642,7 +20642,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/f9/d0/f9d0195a5012725e621d74dd5bc4ae51.jpg",
           "director": "Lloyd Lee Choi",
           "wantToSee": 208,
-          "url": "https://letterboxd.com/search/Lucky%20Lu%202026/",
+          "url": "letterboxd://search/Lucky%20Lu%202026/",
           "seances": {
             "UGC Confluence": [
               {
@@ -20689,7 +20689,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/5c/6f/5c6ff17e2295ffa123d81a565bfdca43.jpg",
           "director": "Tobias Schwarz",
           "wantToSee": 198,
-          "url": "https://letterboxd.com/search/Heidi%20-%20Die%20Legende%20vom%20Luchs%202025/",
+          "url": "letterboxd://search/Heidi%20-%20Die%20Legende%20vom%20Luchs%202025/",
           "seances": {
             "UGC Confluence": [
               {
@@ -20712,7 +20712,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/dc/12/dc1209c514eae9fa2e5cb8fd60cd98af.jpg",
           "director": "Ao Shen",
           "wantToSee": 167,
-          "url": "https://letterboxd.com/search/%E5%8D%97%E4%BA%AC%E7%85%A7%E7%9B%B8%E9%A6%86%202025/",
+          "url": "letterboxd://search/%E5%8D%97%E4%BA%AC%E7%85%A7%E7%9B%B8%E9%A6%86%202025/",
           "seances": {
             "Pathé Vaise": [
               {
@@ -20747,7 +20747,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/5d/a1/5da1d06b4622ca2abf2c2f4928097c1e.jpg",
           "director": "Alessio Rigo de Righi",
           "wantToSee": 147,
-          "url": "https://letterboxd.com/search/Testa%20o%20croce%3F%202025/",
+          "url": "letterboxd://search/Testa%20o%20croce%3F%202025/",
           "seances": {
             "Lumière Bellecour": [
               {
@@ -20776,7 +20776,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/fc/6d/fc6d49f3011e61a0b9a5b43971d725e9.jpg",
           "director": "Victor Erice",
           "wantToSee": 99,
-          "url": "https://letterboxd.com/search/Inde%20du%20Sud%2C%20le%20charme%20Tamoul%202023/",
+          "url": "letterboxd://search/Inde%20du%20Sud%2C%20le%20charme%20Tamoul%202023/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -20799,7 +20799,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/dc/d8/dcd8f17c97a367642bdf90d0fe022d7b.jpg",
           "director": "Ferzan Özpetek",
           "wantToSee": 77,
-          "url": "https://letterboxd.com/search/Diamanti%202024/",
+          "url": "letterboxd://search/Diamanti%202024/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -20822,7 +20822,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/3d/76/3d76384dc9a14c36165ea3b2df314ceb.jpg",
           "director": "Gerrit Bekers",
           "wantToSee": 43,
-          "url": "https://letterboxd.com/search/Jack%20et%20Nancy%20-%20Les%20plus%20belles%20histoires%20de%20Quentin%20Blake%202025/",
+          "url": "letterboxd://search/Jack%20et%20Nancy%20-%20Les%20plus%20belles%20histoires%20de%20Quentin%20Blake%202025/",
           "seances": {
             "CGR Brignais": [
               {
@@ -20845,7 +20845,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/ab/8f/ab8f576f5f505c371872ddc6fd7ffea7.jpg",
           "director": "Inconnu",
           "wantToSee": 21,
-          "url": "https://letterboxd.com/search/The%20First%20Snow%20of%20Fraggle%20Rock%202025/",
+          "url": "letterboxd://search/The%20First%20Snow%20of%20Fraggle%20Rock%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -20876,7 +20876,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/91/bc/91bce294eb5a02c533136a37fb61d502.jpg",
           "director": "Alexandre Laugier",
           "wantToSee": 19,
-          "url": "https://letterboxd.com/search/Red%20Bird%202026/",
+          "url": "letterboxd://search/Red%20Bird%202026/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -20917,7 +20917,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/81/82/8182127f15752a171d1b5b07d64b6c32.jpeg",
           "director": "Sudha Kongara",
           "wantToSee": 9,
-          "url": "https://letterboxd.com/search/%E0%AE%AA%E0%AE%B0%E0%AE%BE%E0%AE%9A%E0%AE%95%E0%AF%8D%E0%AE%A4%E0%AE%BF%202026/",
+          "url": "letterboxd://search/%E0%AE%AA%E0%AE%B0%E0%AE%BE%E0%AE%9A%E0%AE%95%E0%AF%8D%E0%AE%A4%E0%AE%BF%202026/",
           "seances": {
             "UGC Internationale": [
               {
@@ -20946,7 +20946,7 @@
           "affiche": "/static/images/nocontent.png",
           "director": "Krzysztof Zanussi",
           "wantToSee": 4,
-          "url": "https://letterboxd.com/search/Constantine%3A%20City%20of%20Demons%20-%20The%20Movie%202018/",
+          "url": "letterboxd://search/Constantine%3A%20City%20of%20Demons%20-%20The%20Movie%202018/",
           "seances": {
             "Institut Lumière": [
               {
@@ -20969,7 +20969,7 @@
           "affiche": "/static/images/nocontent.png",
           "director": "Agnieszka Holland",
           "wantToSee": 1,
-          "url": "https://letterboxd.com/search/Aktorzy%20prowincjonalni%201979/",
+          "url": "letterboxd://search/Aktorzy%20prowincjonalni%201979/",
           "seances": {
             "Institut Lumière": [
               {
@@ -20997,7 +20997,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/52/fb/52fb8f0345af2b0940557aa049ca19fd.jpg",
           "director": "James Cameron",
           "wantToSee": 9369,
-          "url": "https://letterboxd.com/search/Avatar%3A%20Fire%20and%20Ash%202025/",
+          "url": "letterboxd://search/Avatar%3A%20Fire%20and%20Ash%202025/",
           "seances": {
             "Ciné Meyzieu": [
               {
@@ -21026,7 +21026,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/61/0d/610dc2fcd83afe3717f771b889b979c2.jpg",
           "director": "Paul Thomas Anderson",
           "wantToSee": 5622,
-          "url": "https://letterboxd.com/search/One%20Battle%20After%20Another%202025/",
+          "url": "letterboxd://search/One%20Battle%20After%20Another%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -21049,7 +21049,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/23/af/23afa3f5a87a13139d051786a37ee661.jpg",
           "director": "Joseph Kosinski",
           "wantToSee": 4065,
-          "url": "https://letterboxd.com/search/F1%202025/",
+          "url": "letterboxd://search/F1%202025/",
           "seances": {
             "Pathé Vaise": [
               {
@@ -21072,7 +21072,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/f2/64/f2640084cabb11cf1457d43888f43084.jpg",
           "director": "Dominik Moll",
           "wantToSee": 3791,
-          "url": "https://letterboxd.com/search/Dossier%20137%202025/",
+          "url": "letterboxd://search/Dossier%20137%202025/",
           "seances": {
             "UGC Part-Dieu": [
               {
@@ -21119,7 +21119,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/1b/d9/1bd90040e500db4e76661dcc27d0f593.jpg",
           "director": "Oliver Laxe",
           "wantToSee": 3621,
-          "url": "https://letterboxd.com/search/Sir%C4%81t%202025/",
+          "url": "letterboxd://search/Sir%C4%81t%202025/",
           "seances": {
             "UGC Internationale": [
               {
@@ -21166,7 +21166,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/45/ac/45ac77474bfae505033a30909e4eda41.jpg",
           "director": "Byron Howard",
           "wantToSee": 3566,
-          "url": "https://letterboxd.com/search/Zootopia%202%202025/",
+          "url": "letterboxd://search/Zootopia%202%202025/",
           "seances": {
             "Ciné Meyzieu": [
               {
@@ -21195,7 +21195,7 @@
           "affiche": "https://fr.web.img6.acsta.net/pictures/18/06/01/14/20/3937174.jpg",
           "director": "Hirokazu Kore-eda",
           "wantToSee": 3520,
-          "url": "https://letterboxd.com/search/Selena%20y%20Los%20Dinos%3A%20A%20Family%27s%20Legacy%202025/",
+          "url": "letterboxd://search/Selena%20y%20Los%20Dinos%3A%20A%20Family%27s%20Legacy%202025/",
           "seances": {
             "Lumière Bellecour": [
               {
@@ -21218,7 +21218,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/e8/20/e820c5f3bfaf56d2eee911834bf46955.jpg",
           "director": "Dean DeBlois",
           "wantToSee": 3414,
-          "url": "https://letterboxd.com/search/How%20to%20Train%20Your%20Dragon%202025/",
+          "url": "letterboxd://search/How%20to%20Train%20Your%20Dragon%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -21271,7 +21271,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/67/96/679692192682dfa81dc8296e92a4cbf5.jpg",
           "director": "Ken Scott",
           "wantToSee": 3056,
-          "url": "https://letterboxd.com/search/Ma%20m%C3%A8re%2C%20Dieu%20et%20Sylvie%20Vartan%202025/",
+          "url": "letterboxd://search/Ma%20m%C3%A8re%2C%20Dieu%20et%20Sylvie%20Vartan%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -21294,7 +21294,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/84/91/8491f12c4004d64991421a12e1201afc.jpg",
           "director": "Dean Fleischer Camp",
           "wantToSee": 2646,
-          "url": "https://letterboxd.com/search/Lilo%20%26%20Stitch%202025/",
+          "url": "letterboxd://search/Lilo%20%26%20Stitch%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -21339,7 +21339,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/9c/f8/9cf8cf27a2706be4849760190dddd37b.jpg",
           "director": "Mathias Mlekuz",
           "wantToSee": 2532,
-          "url": "https://letterboxd.com/search/Ensemble%20%C3%A0%20bicyclette%202025/",
+          "url": "letterboxd://search/Ensemble%20%C3%A0%20bicyclette%202025/",
           "seances": {
             "UGC Internationale": [
               {
@@ -21368,7 +21368,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/92/be/92becd382d51ea2183925a41c514180f.jpg",
           "director": "Ryan Coogler",
           "wantToSee": 2347,
-          "url": "https://letterboxd.com/search/Sinners%202025/",
+          "url": "letterboxd://search/Sinners%202025/",
           "seances": {
             "UGC Confluence": [
               {
@@ -21397,7 +21397,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/89/c6/89c680f5bea2366eb87c7e39b47ee2ea.jpg",
           "director": "Amélie Bonnin",
           "wantToSee": 2324,
-          "url": "https://letterboxd.com/search/Partir%20un%20jour%202025/",
+          "url": "letterboxd://search/Partir%20un%20jour%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -21428,7 +21428,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/55/73/5573625688291eab179bae35c5b1560b.jpg",
           "director": "Martin Bourboulon",
           "wantToSee": 2296,
-          "url": "https://letterboxd.com/search/13%20jours%2C%2013%20nuits%202025/",
+          "url": "letterboxd://search/13%20jours%2C%2013%20nuits%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -21451,7 +21451,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/4b/b4/4bb40b414c1d86022f4031676a309432.jpg",
           "director": "Ugo Bienvenu",
           "wantToSee": 2254,
-          "url": "https://letterboxd.com/search/Arco%202025/",
+          "url": "letterboxd://search/Arco%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -21520,7 +21520,7 @@
           "affiche": "https://fr.web.img3.acsta.net/pictures/17/04/06/17/39/465882.jpg",
           "director": "Hayao Miyazaki",
           "wantToSee": 1997,
-          "url": "https://letterboxd.com/search/%E5%B4%96%E3%81%AE%E4%B8%8A%E3%81%AE%E3%83%9D%E3%83%8B%E3%83%A7%202008/",
+          "url": "letterboxd://search/%E5%B4%96%E3%81%AE%E4%B8%8A%E3%81%AE%E3%83%9D%E3%83%8B%E3%83%A7%202008/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -21543,7 +21543,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/f5/52/f5523e15c97af96169bdc93479553602.jpg",
           "director": "Vincent Munier",
           "wantToSee": 1982,
-          "url": "https://letterboxd.com/search/Le%20chant%20des%20for%C3%AAts%202025/",
+          "url": "letterboxd://search/Le%20chant%20des%20for%C3%AAts%202025/",
           "seances": {
             "Ciné Meyzieu": [
               {
@@ -21566,7 +21566,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/59/d7/59d78bb5da8488688593fc3814cddce4.jpg",
           "director": "Adam Elliot",
           "wantToSee": 1417,
-          "url": "https://letterboxd.com/search/Memoir%20of%20a%20Snail%202024/",
+          "url": "letterboxd://search/Memoir%20of%20a%20Snail%202024/",
           "seances": {
             "UGC Confluence": [
               {
@@ -21589,7 +21589,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/f6/47/f647a957739ed7ed593ec845be7c1186.jpg",
           "director": "Mailys Vallade",
           "wantToSee": 1316,
-          "url": "https://letterboxd.com/search/Am%C3%A9lie%20et%20la%20m%C3%A9taphysique%20des%20tubes%202025/",
+          "url": "letterboxd://search/Am%C3%A9lie%20et%20la%20m%C3%A9taphysique%20des%20tubes%202025/",
           "seances": {
             "UGC Internationale": [
               {
@@ -21624,7 +21624,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/a3/e8/a3e859018636c366010d60f860a255a3.jpg",
           "director": "Joséphine Japy",
           "wantToSee": 931,
-          "url": "https://letterboxd.com/search/Qui%20brille%20au%20combat%202025/",
+          "url": "letterboxd://search/Qui%20brille%20au%20combat%202025/",
           "seances": {
             "Ciné Meyzieu": [
               {
@@ -21655,7 +21655,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/d2/2e/d22eb600b354fa230f622cf4fb680e5e.jpg",
           "director": "Nia DaCosta",
           "wantToSee": 757,
-          "url": "https://letterboxd.com/search/28%20Years%20Later%3A%20The%20Bone%20Temple%202026/",
+          "url": "letterboxd://search/28%20Years%20Later%3A%20The%20Bone%20Temple%202026/",
           "seances": {
             "CGR Brignais": [
               {
@@ -21690,7 +21690,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/04/87/0487dbff63a133bc848509d562273652.jpg",
           "director": "Ric Roman Waugh",
           "wantToSee": 674,
-          "url": "https://letterboxd.com/search/Greenland%202%3A%20Migration%202026/",
+          "url": "letterboxd://search/Greenland%202%3A%20Migration%202026/",
           "seances": {
             "Ciné Meyzieu": [
               {
@@ -21719,7 +21719,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/e6/07/e6072a30a6045a3cdc545da6bbafe62a.jpg",
           "director": "Alberto Rodriguez",
           "wantToSee": 613,
-          "url": "https://letterboxd.com/search/Los%20Tigres%202025/",
+          "url": "letterboxd://search/Los%20Tigres%202025/",
           "seances": {
             "Ciné Toboggan": [
               {
@@ -21742,7 +21742,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/bf/23/bf238684c15647fe1420a11916a9b63f.jpg",
           "director": "Craig Brewer",
           "wantToSee": 488,
-          "url": "https://letterboxd.com/search/Song%20Sung%20Blue%202025/",
+          "url": "letterboxd://search/Song%20Sung%20Blue%202025/",
           "seances": {
             "Ciné Meyzieu": [
               {
@@ -21765,7 +21765,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/73/d4/73d440795e61353ca56b8b061af7c5d5.jpg",
           "director": "Derek Drymon",
           "wantToSee": 349,
-          "url": "https://letterboxd.com/search/The%20SpongeBob%20Movie%3A%20Search%20for%20SquarePants%202025/",
+          "url": "letterboxd://search/The%20SpongeBob%20Movie%3A%20Search%20for%20SquarePants%202025/",
           "seances": {
             "Ciné Meyzieu": [
               {
@@ -21788,7 +21788,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/51/04/5104c913367b4e8dc4d89d55c7c965ae.jpg",
           "director": "Abd Al Malik",
           "wantToSee": 305,
-          "url": "https://letterboxd.com/search/Furcy%2C%20n%C3%A9%20libre%202026/",
+          "url": "letterboxd://search/Furcy%2C%20n%C3%A9%20libre%202026/",
           "seances": {
             "Ciné Meyzieu": [
               {
@@ -21811,7 +21811,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/f7/38/f738c353019cfe13d0d338999dd2cc4b.jpg",
           "director": "Tamara Stepanyan",
           "wantToSee": 286,
-          "url": "https://letterboxd.com/search/Le%20Pays%20d%E2%80%99Arto%202025/",
+          "url": "letterboxd://search/Le%20Pays%20d%E2%80%99Arto%202025/",
           "seances": {
             "Ciné Toboggan": [
               {
@@ -21834,7 +21834,7 @@
           "affiche": "https://fr.web.img4.acsta.net/medias/nmedia/18/36/19/67/18460671.jpg",
           "director": "George Cukor",
           "wantToSee": 274,
-          "url": "https://letterboxd.com/search/Unspeakable%20Indiscretions%202014/",
+          "url": "letterboxd://search/Unspeakable%20Indiscretions%202014/",
           "seances": {
             "Institut Lumière": [
               {
@@ -21857,7 +21857,7 @@
           "affiche": "https://fr.web.img3.acsta.net/pictures/19/06/12/12/29/5757848.jpg",
           "director": "Andrzej Wajda",
           "wantToSee": 146,
-          "url": "https://letterboxd.com/search/Popi%C3%B3%C5%82%20i%20diament%201958/",
+          "url": "letterboxd://search/Popi%C3%B3%C5%82%20i%20diament%201958/",
           "seances": {
             "Institut Lumière": [
               {
@@ -21880,7 +21880,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/54/a6/54a6769d8c7f85c019d1b553662355b5.jpg",
           "director": "Steve Hudson",
           "wantToSee": 94,
-          "url": "https://letterboxd.com/search/Stitch%20Head%202025/",
+          "url": "letterboxd://search/Stitch%20Head%202025/",
           "seances": {
             "Ciné Toboggan": [
               {
@@ -21903,7 +21903,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/2f/03/2f03e57f21e957f7a398e715482a5168.jpg",
           "director": "Toshiya Shinohara",
           "wantToSee": 42,
-          "url": "https://letterboxd.com/search/%E4%B8%8D%E6%80%9D%E8%AD%B0%E3%81%AE%E5%9B%BD%E3%81%A7%E3%82%A2%E3%83%AA%E3%82%B9%E3%81%A8%20%E2%80%93Dive%20in%20Wonderland%E2%80%93%202025/",
+          "url": "letterboxd://search/%E4%B8%8D%E6%80%9D%E8%AD%B0%E3%81%AE%E5%9B%BD%E3%81%A7%E3%82%A2%E3%83%AA%E3%82%B9%E3%81%A8%20%E2%80%93Dive%20in%20Wonderland%E2%80%93%202025/",
           "seances": {
             "CGR Brignais": [
               {
@@ -21926,7 +21926,7 @@
           "affiche": "https://fr.web.img6.acsta.net/medias/nmedia/18/79/57/04/19509741.jpg",
           "director": "Peter Yates",
           "wantToSee": 21,
-          "url": "https://letterboxd.com/search/The%20Hot%20Rock%201972/",
+          "url": "letterboxd://search/The%20Hot%20Rock%201972/",
           "seances": {
             "Institut Lumière": [
               {
@@ -21949,7 +21949,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/bd/61/bd61f1a45cc5295af0b3be1a5b51b2f2.jpg",
           "director": "Richard Eyre",
           "wantToSee": 3,
-          "url": "https://letterboxd.com/search/Royal%20Ballet%20%26%20Opera%202025/26%3A%20La%20Traviata%202026/",
+          "url": "letterboxd://search/Royal%20Ballet%20%26%20Opera%202025/26%3A%20La%20Traviata%202026/",
           "seances": {
             "UGC Astoria": [
               {
@@ -21980,7 +21980,7 @@
           "affiche": "/static/images/nocontent.png",
           "director": "Janus Victoria",
           "wantToSee": 2,
-          "url": "https://letterboxd.com/search/%E7%A0%82%E3%81%AE%E4%B8%AD%E3%81%AE%E3%83%80%E3%82%A4%E3%83%A4%E3%83%A2%E3%83%B3%E3%83%89%202025/",
+          "url": "letterboxd://search/%E7%A0%82%E3%81%AE%E4%B8%AD%E3%81%AE%E3%83%80%E3%82%A4%E3%83%A4%E3%83%A2%E3%83%B3%E3%83%89%202025/",
           "seances": {
             "Lumière Bellecour": [
               {
@@ -22003,7 +22003,7 @@
           "affiche": "/static/images/nocontent.png",
           "director": "Janusz Morgenstern",
           "wantToSee": 0,
-          "url": "https://letterboxd.com/search/Jowita%201967/",
+          "url": "letterboxd://search/Jowita%201967/",
           "seances": {
             "Institut Lumière": [
               {
@@ -22031,7 +22031,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/52/fb/52fb8f0345af2b0940557aa049ca19fd.jpg",
           "director": "James Cameron",
           "wantToSee": 9369,
-          "url": "https://letterboxd.com/search/Avatar%3A%20Fire%20and%20Ash%202025/",
+          "url": "letterboxd://search/Avatar%3A%20Fire%20and%20Ash%202025/",
           "seances": {
             "Ciné Meyzieu": [
               {
@@ -22054,7 +22054,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/61/0d/610dc2fcd83afe3717f771b889b979c2.jpg",
           "director": "Paul Thomas Anderson",
           "wantToSee": 5622,
-          "url": "https://letterboxd.com/search/One%20Battle%20After%20Another%202025/",
+          "url": "letterboxd://search/One%20Battle%20After%20Another%202025/",
           "seances": {
             "UGC Part-Dieu": [
               {
@@ -22095,7 +22095,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/22/ab/22ab82f07f1f92122491ae6c19210277.jpg",
           "director": "Brady Corbet",
           "wantToSee": 5594,
-          "url": "https://letterboxd.com/search/The%20brutalist%3A%20a%20spoof%20by%20Reese%20Rawls%202025/",
+          "url": "letterboxd://search/The%20brutalist%3A%20a%20spoof%20by%20Reese%20Rawls%202025/",
           "seances": {
             "UGC Internationale": [
               {
@@ -22124,7 +22124,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/23/af/23afa3f5a87a13139d051786a37ee661.jpg",
           "director": "Joseph Kosinski",
           "wantToSee": 4065,
-          "url": "https://letterboxd.com/search/F1%202025/",
+          "url": "letterboxd://search/F1%202025/",
           "seances": {
             "UGC Internationale": [
               {
@@ -22159,7 +22159,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/f2/64/f2640084cabb11cf1457d43888f43084.jpg",
           "director": "Dominik Moll",
           "wantToSee": 3791,
-          "url": "https://letterboxd.com/search/Dossier%20137%202025/",
+          "url": "letterboxd://search/Dossier%20137%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -22182,7 +22182,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/1b/d9/1bd90040e500db4e76661dcc27d0f593.jpg",
           "director": "Oliver Laxe",
           "wantToSee": 3621,
-          "url": "https://letterboxd.com/search/Sir%C4%81t%202025/",
+          "url": "letterboxd://search/Sir%C4%81t%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -22213,7 +22213,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/21/ff/21fff6cefbc8a6359297f3c7eb1bf212.jpg",
           "director": "Jafar Panahi",
           "wantToSee": 3538,
-          "url": "https://letterboxd.com/search/%DB%8C%DA%A9%20%D8%AA%D8%B5%D8%A7%D8%AF%D9%81%20%D8%B3%D8%A7%D8%AF%D9%87%202025/",
+          "url": "letterboxd://search/%DB%8C%DA%A9%20%D8%AA%D8%B5%D8%A7%D8%AF%D9%81%20%D8%B3%D8%A7%D8%AF%D9%87%202025/",
           "seances": {
             "UGC Part-Dieu": [
               {
@@ -22260,7 +22260,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/83/a4/83a423a22c4438f3ecae29e227b2f6a9.jpg",
           "director": "Carine Tardieu",
           "wantToSee": 3294,
-          "url": "https://letterboxd.com/search/Oh%2C%20Hi%21%202025/",
+          "url": "letterboxd://search/Oh%2C%20Hi%21%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -22283,7 +22283,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/ff/a9/ffa9ece0041769e66fb572c6d8a458a3.jpg",
           "director": "Cédric Klapisch",
           "wantToSee": 3217,
-          "url": "https://letterboxd.com/search/La%20Venue%20de%20l%27avenir%202025/",
+          "url": "letterboxd://search/La%20Venue%20de%20l%27avenir%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -22314,7 +22314,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/99/8d/998d9c67dfd475b5c521a7a78c028361.jpg",
           "director": "Mike Flanagan",
           "wantToSee": 3093,
-          "url": "https://letterboxd.com/search/The%20Life%20of%20Chuck%202025/",
+          "url": "letterboxd://search/The%20Life%20of%20Chuck%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -22345,7 +22345,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/67/96/679692192682dfa81dc8296e92a4cbf5.jpg",
           "director": "Ken Scott",
           "wantToSee": 3056,
-          "url": "https://letterboxd.com/search/Ma%20m%C3%A8re%2C%20Dieu%20et%20Sylvie%20Vartan%202025/",
+          "url": "letterboxd://search/Ma%20m%C3%A8re%2C%20Dieu%20et%20Sylvie%20Vartan%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -22376,7 +22376,7 @@
           "affiche": "https://fr.web.img3.acsta.net/pictures/15/08/10/09/02/444339.jpg",
           "director": "Guillermo del Toro",
           "wantToSee": 2938,
-          "url": "https://letterboxd.com/search/The%20House%20Is%20Alive%3A%20Constructing%20%27Crimson%20Peak%27%202019/",
+          "url": "letterboxd://search/The%20House%20Is%20Alive%3A%20Constructing%20%27Crimson%20Peak%27%202019/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -22399,7 +22399,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/ed/a3/eda3bba832e22c79ea22117b058f84e5.jpg",
           "director": "Paul Feig",
           "wantToSee": 2892,
-          "url": "https://letterboxd.com/search/The%20Housemaid%202025/",
+          "url": "letterboxd://search/The%20Housemaid%202025/",
           "seances": {
             "Ciné Meyzieu": [
               {
@@ -22428,7 +22428,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/17/5f/175fbcee8f625ac212b06378b2d34435.jpg",
           "director": "Franck Dubosc",
           "wantToSee": 2605,
-          "url": "https://letterboxd.com/search/Un%20ours%20dans%20le%20Jura%202025/",
+          "url": "letterboxd://search/Un%20ours%20dans%20le%20Jura%202025/",
           "seances": {
             "Pathé Carré de Soie": [
               {
@@ -22459,7 +22459,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/9c/f8/9cf8cf27a2706be4849760190dddd37b.jpg",
           "director": "Mathias Mlekuz",
           "wantToSee": 2532,
-          "url": "https://letterboxd.com/search/Ensemble%20%C3%A0%20bicyclette%202025/",
+          "url": "letterboxd://search/Ensemble%20%C3%A0%20bicyclette%202025/",
           "seances": {
             "UGC Confluence": [
               {
@@ -22488,7 +22488,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/55/73/5573625688291eab179bae35c5b1560b.jpg",
           "director": "Martin Bourboulon",
           "wantToSee": 2296,
-          "url": "https://letterboxd.com/search/13%20jours%2C%2013%20nuits%202025/",
+          "url": "letterboxd://search/13%20jours%2C%2013%20nuits%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -22511,7 +22511,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/f5/52/f5523e15c97af96169bdc93479553602.jpg",
           "director": "Vincent Munier",
           "wantToSee": 1982,
-          "url": "https://letterboxd.com/search/Le%20chant%20des%20for%C3%AAts%202025/",
+          "url": "letterboxd://search/Le%20chant%20des%20for%C3%AAts%202025/",
           "seances": {
             "Ciné Meyzieu": [
               {
@@ -22534,7 +22534,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/a9/34/a9349d0803d1c401e217faf417099347.jpg",
           "director": "Zach Cregger",
           "wantToSee": 1913,
-          "url": "https://letterboxd.com/search/Weapons%202025/",
+          "url": "letterboxd://search/Weapons%202025/",
           "seances": {
             "Pathé Bellecour": [
               {
@@ -22565,7 +22565,7 @@
           "affiche": "https://fr.web.img4.acsta.net/img/59/d7/59d78bb5da8488688593fc3814cddce4.jpg",
           "director": "Adam Elliot",
           "wantToSee": 1417,
-          "url": "https://letterboxd.com/search/Memoir%20of%20a%20Snail%202024/",
+          "url": "letterboxd://search/Memoir%20of%20a%20Snail%202024/",
           "seances": {
             "UGC Confluence": [
               {
@@ -22588,7 +22588,7 @@
           "affiche": "https://fr.web.img5.acsta.net/pictures/20/09/08/15/24/5596614.jpg",
           "director": "Sydney Pollack",
           "wantToSee": 1229,
-          "url": "https://letterboxd.com/search/Il%20%C3%A9tait%20une%20fois...%20%C2%AB%20Les%20trois%20jours%20du%20Condor%20%C2%BB%202012/",
+          "url": "letterboxd://search/Il%20%C3%A9tait%20une%20fois...%20%C2%AB%20Les%20trois%20jours%20du%20Condor%20%C2%BB%202012/",
           "seances": {
             "Institut Lumière": [
               {
@@ -22611,7 +22611,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/5a/17/5a17cc68c0097baf304c5c94bed73d0f.jpg",
           "director": "Akira Kurosawa",
           "wantToSee": 1014,
-          "url": "https://letterboxd.com/search/%E5%A4%A9%E5%9B%BD%E3%81%A8%E5%9C%B0%E7%8D%84%201963/",
+          "url": "letterboxd://search/%E5%A4%A9%E5%9B%BD%E3%81%A8%E5%9C%B0%E7%8D%84%201963/",
           "seances": {
             "UGC Confluence": [
               {
@@ -22650,7 +22650,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/a3/e8/a3e859018636c366010d60f860a255a3.jpg",
           "director": "Joséphine Japy",
           "wantToSee": 931,
-          "url": "https://letterboxd.com/search/Qui%20brille%20au%20combat%202025/",
+          "url": "letterboxd://search/Qui%20brille%20au%20combat%202025/",
           "seances": {
             "Ciné Meyzieu": [
               {
@@ -22673,7 +22673,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/d2/2e/d22eb600b354fa230f622cf4fb680e5e.jpg",
           "director": "Nia DaCosta",
           "wantToSee": 757,
-          "url": "https://letterboxd.com/search/28%20Years%20Later%3A%20The%20Bone%20Temple%202026/",
+          "url": "letterboxd://search/28%20Years%20Later%3A%20The%20Bone%20Temple%202026/",
           "seances": {
             "CGR Brignais": [
               {
@@ -22708,7 +22708,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/04/87/0487dbff63a133bc848509d562273652.jpg",
           "director": "Ric Roman Waugh",
           "wantToSee": 674,
-          "url": "https://letterboxd.com/search/Greenland%202%3A%20Migration%202026/",
+          "url": "letterboxd://search/Greenland%202%3A%20Migration%202026/",
           "seances": {
             "Ciné Meyzieu": [
               {
@@ -22731,7 +22731,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/e6/07/e6072a30a6045a3cdc545da6bbafe62a.jpg",
           "director": "Alberto Rodriguez",
           "wantToSee": 613,
-          "url": "https://letterboxd.com/search/Los%20Tigres%202025/",
+          "url": "letterboxd://search/Los%20Tigres%202025/",
           "seances": {
             "Ciné Toboggan": [
               {
@@ -22754,7 +22754,7 @@
           "affiche": "https://fr.web.img5.acsta.net/img/a8/23/a823d4d9bc40438a7af124111fc67d19.jpg",
           "director": "Louise Hémon",
           "wantToSee": 538,
-          "url": "https://letterboxd.com/search/L%27Engloutie%202025/",
+          "url": "letterboxd://search/L%27Engloutie%202025/",
           "seances": {
             "Ciné Toboggan": [
               {
@@ -22777,7 +22777,7 @@
           "affiche": "https://fr.web.img6.acsta.net/img/bf/23/bf238684c15647fe1420a11916a9b63f.jpg",
           "director": "Craig Brewer",
           "wantToSee": 488,
-          "url": "https://letterboxd.com/search/Song%20Sung%20Blue%202025/",
+          "url": "letterboxd://search/Song%20Sung%20Blue%202025/",
           "seances": {
             "Ciné Meyzieu": [
               {
@@ -22800,7 +22800,7 @@
           "affiche": "https://fr.web.img4.acsta.net/pictures/18/05/03/11/49/3270246.png",
           "director": "Takeshi Kitano",
           "wantToSee": 364,
-          "url": "https://letterboxd.com/search/%E3%81%82%E3%81%AE%E5%A4%8F%E3%80%81%E3%81%84%E3%81%A1%E3%81%B0%E3%82%93%E9%9D%99%E3%81%8B%E3%81%AA%E6%B5%B7%E3%80%82%201991/",
+          "url": "letterboxd://search/%E3%81%82%E3%81%AE%E5%A4%8F%E3%80%81%E3%81%84%E3%81%A1%E3%81%B0%E3%82%93%E9%9D%99%E3%81%8B%E3%81%AA%E6%B5%B7%E3%80%82%201991/",
           "seances": {
             "Lumière La Fourmi": [
               {
@@ -22823,7 +22823,7 @@
           "affiche": "https://fr.web.img3.acsta.net/img/51/04/5104c913367b4e8dc4d89d55c7c965ae.jpg",
           "director": "Abd Al Malik",
           "wantToSee": 305,
-          "url": "https://letterboxd.com/search/Furcy%2C%20n%C3%A9%20libre%202026/",
+          "url": "letterboxd://search/Furcy%2C%20n%C3%A9%20libre%202026/",
           "seances": {
             "Ciné Meyzieu": [
               {
@@ -22852,7 +22852,7 @@
           "affiche": "https://fr.web.img2.acsta.net/img/37/0c/370c9b5f7f8502fb80051e5e9920fe9b.jpg",
           "director": "Annemarie Jacir",
           "wantToSee": 132,
-          "url": "https://letterboxd.com/search/%D9%81%D9%84%D8%B3%D8%B7%D9%8A%D9%86%20%D9%A3%D9%A6%202025/",
+          "url": "letterboxd://search/%D9%81%D9%84%D8%B3%D8%B7%D9%8A%D9%86%20%D9%A3%D9%A6%202025/",
           "seances": {
             "Lumière Bellecour": [
               {
@@ -22875,7 +22875,7 @@
           "affiche": "https://fr.web.img2.acsta.net/pictures/14/06/27/17/16/266096.jpg",
           "director": "Preston Sturges",
           "wantToSee": 5,
-          "url": "https://letterboxd.com/search/The%20Miracle%20of%20Morgan%E2%80%99s%20Creek%201944/",
+          "url": "letterboxd://search/The%20Miracle%20of%20Morgan%E2%80%99s%20Creek%201944/",
           "seances": {
             "Institut Lumière": [
               {
