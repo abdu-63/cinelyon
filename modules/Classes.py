@@ -81,23 +81,25 @@ class Movie:
         """Récupère l'année de sortie, la note et le synopsis du film depuis TMDB"""
         try:
             search_url = "https://api.themoviedb.org/3/search/movie"
-            # Ajouter l'année dans la recherche si disponible
-            query = self.title
-            if self.allocine_year:
-                query += f" y:{self.allocine_year}"
             
+            # Première recherche: par titre simple
             params = {
                 "api_key": TMDB_API_KEY,
-                "query": query,
+                "query": self.title,
                 "language": "fr-FR",
-                "year": self.allocine_year  # Filtrer par année
             }
+            
+            # Si on a une année, l'ajouter au filtre
+            if self.allocine_year:
+                params["year"] = self.allocine_year
+            
             search_response = requests.get(search_url, params=params)
             search_data = search_response.json()
             
-            if search_data.get("results") and len(search_data["results"]) > 0:
-                # Trier les résultats par similarité de titre et année
-                results = search_data["results"]
+            movie = None
+            results = search_data.get("results", [])
+            
+            if results:
                 if self.allocine_year:
                     # Filtrer les films qui correspondent à l'année
                     matching_results = [
@@ -109,8 +111,36 @@ class Movie:
                     else:
                         movie = results[0]
                 else:
-                    movie = results[0]
-                
+                    # Pas d'année: chercher par réalisateur si disponible
+                    # Sinon prendre le film le plus récent (probablement le nouveau)
+                    if hasattr(self, 'director') and self.director and self.director != "Inconnu":
+                        # Vérifier les crédits pour chaque résultat
+                        for result in results:
+                            movie_id = result.get("id")
+                            credits_url = f"https://api.themoviedb.org/3/movie/{movie_id}/credits"
+                            credits_params = {"api_key": TMDB_API_KEY}
+                            try:
+                                credits_response = requests.get(credits_url, params=credits_params)
+                                credits_data = credits_response.json()
+                                crew = credits_data.get("crew", [])
+                                directors = [c.get("name", "").lower() for c in crew if c.get("job") == "Director"]
+                                if any(self.director.lower() in d or d in self.director.lower() for d in directors):
+                                    movie = result
+                                    break
+                            except:
+                                pass
+                    
+                    # Si pas trouvé par réalisateur, prendre le plus récent
+                    if not movie:
+                        # Trier par date de sortie (plus récent d'abord)
+                        sorted_results = sorted(
+                            [r for r in results if r.get("release_date")],
+                            key=lambda x: x.get("release_date", ""),
+                            reverse=True
+                        )
+                        movie = sorted_results[0] if sorted_results else results[0]
+            
+            if movie:
                 # Récupérer plus de détails du film, y compris le synopsis complet
                 movie_id = movie["id"]
                 details_url = f"https://api.themoviedb.org/3/movie/{movie_id}"

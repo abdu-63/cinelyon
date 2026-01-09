@@ -42,6 +42,14 @@
                 <option value="5">5+ ⭐</option>
             </select>
             <button id="reset-filters" class="reset-btn">Réinitialiser</button>
+            <label class="favorites-toggle">
+                <input type="checkbox" id="filter-favorites">
+                <svg class="favorites-heart" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                </svg>
+                <span class="favorites-label">Favoris</span>
+            </label>
         </div>
     </div>
 
@@ -50,13 +58,22 @@
         <div class="container_infoFilm film-card" data-title="{{ film.title|lower }}"
             data-genres="{{ film.genres|lower }}" data-director="{{ film.director|lower }}"
             data-rating="{{ film.rating }}" data-year="{{ film.release_year }}"
+            data-film-id="{{ film.title|lower|replace(' ', '-') }}"
             data-cinemas="{% for day_data in film.seances_by_day.values() %}{% for cinema in day_data.keys() %}{{ cinema|lower }},{% endfor %}{% endfor %}">
             <img src={{film.affiche}} class="affiche" />
             <div class="infoFilm">
                 <div class="blur-background"></div>
                 <div>
-                    <h3 class="titreFilm"><a href="{{ film.url }}" target="_blank">{{film.title}}</a> <span
-                            class="release_year">({{ film.release_year }})</span></h3>
+                    <div class="titre-container">
+                        <h3 class="titreFilm"><a href="{{ film.url }}" target="_blank">{{film.title}}</a> <span
+                                class="release_year">({{ film.release_year }})</span></h3>
+                        <button class="favorite-btn" title="Ajouter aux favoris">
+                            <svg class="favorite-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                            </svg>
+                        </button>
+                    </div>
                     <div class="info-content">
                         <p class="realisateur">Réalisateur : {{film.director}}</p>
                         <p class="genre">Genre : {{ film.genres }}</p>
@@ -258,6 +275,53 @@
         });
     });
 
+    // ========== SYSTÈME DE FAVORIS ==========
+    const FAVORITES_KEY = 'cinelyon_favorites';
+
+    function getFavorites() {
+        try {
+            const data = localStorage.getItem(FAVORITES_KEY);
+            return data ? JSON.parse(data) : [];
+        } catch (e) {
+            console.error('Erreur lecture favoris:', e);
+            return [];
+        }
+    }
+
+    function saveFavorites(favorites) {
+        try {
+            localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
+        } catch (e) {
+            console.error('Erreur sauvegarde favoris:', e);
+        }
+    }
+
+    function toggleFavorite(filmId) {
+        const favorites = getFavorites();
+        const index = favorites.indexOf(filmId);
+        if (index === -1) {
+            favorites.push(filmId);
+        } else {
+            favorites.splice(index, 1);
+        }
+        saveFavorites(favorites);
+        return index === -1; // retourne true si ajouté
+    }
+
+    function isFavorite(filmId) {
+        return getFavorites().includes(filmId);
+    }
+
+    function updateFavoriteButton(btn, isActive) {
+        if (isActive) {
+            btn.classList.add('active');
+            btn.title = 'Retirer des favoris';
+        } else {
+            btn.classList.remove('active');
+            btn.title = 'Ajouter aux favoris';
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
         const films = document.querySelectorAll('.film-card');
         const searchTitle = document.getElementById('search-title');
@@ -265,11 +329,34 @@
         const filterDirector = document.getElementById('filter-director');
         const filterCinema = document.getElementById('filter-cinema');
         const filterRating = document.getElementById('filter-rating');
+        const filterFavorites = document.getElementById('filter-favorites');
         const resetBtn = document.getElementById('reset-filters');
 
         const genres = new Set();
         const directors = new Set();
         const cinemas = new Set();
+
+        // Initialiser les boutons favoris
+        films.forEach(film => {
+            const filmId = film.dataset.filmId;
+            const favoriteBtn = film.querySelector('.favorite-btn');
+
+            // Appliquer l'état initial depuis localStorage
+            updateFavoriteButton(favoriteBtn, isFavorite(filmId));
+
+            // Ajouter l'écouteur de click
+            favoriteBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const isNowFavorite = toggleFavorite(filmId);
+                updateFavoriteButton(favoriteBtn, isNowFavorite);
+
+                // Rafraîchir le filtre si "Favoris uniquement" est actif
+                if (filterFavorites.checked) {
+                    filterFilms();
+                }
+            });
+        });
 
         films.forEach(film => {
             film.dataset.genres.split(',').forEach(g => {
@@ -310,6 +397,7 @@
             const directorQuery = filterDirector.value.toLowerCase();
             const cinemaQuery = filterCinema.value.toLowerCase();
             const ratingQuery = parseFloat(filterRating.value) || 0;
+            const showOnlyFavorites = filterFavorites.checked;
 
             films.forEach(film => {
                 const title = film.dataset.title;
@@ -317,6 +405,7 @@
                 const director = film.dataset.director;
                 const cinemas = film.dataset.cinemas;
                 const rating = parseFloat(film.dataset.rating) || 0;
+                const filmId = film.dataset.filmId;
 
                 // Trouver les séances associées à ce film
                 let sibling = film.nextElementSibling;
@@ -331,8 +420,9 @@
                 const matchDirector = !directorQuery || director.includes(directorQuery);
                 const matchCinema = !cinemaQuery || cinemas.includes(cinemaQuery);
                 const matchRating = rating >= ratingQuery;
+                const matchFavorites = !showOnlyFavorites || isFavorite(filmId);
 
-                const show = matchTitle && matchGenre && matchDirector && matchCinema && matchRating;
+                const show = matchTitle && matchGenre && matchDirector && matchCinema && matchRating && matchFavorites;
 
                 film.style.display = show ? '' : 'none';
                 relatedElements.forEach(el => el.style.display = show ? '' : 'none');
@@ -344,6 +434,7 @@
         filterDirector.addEventListener('change', filterFilms);
         filterCinema.addEventListener('change', filterFilms);
         filterRating.addEventListener('change', filterFilms);
+        filterFavorites.addEventListener('change', filterFilms);
 
         resetBtn.addEventListener('click', function () {
             searchTitle.value = '';
@@ -351,6 +442,7 @@
             filterDirector.value = '';
             filterCinema.value = '';
             filterRating.value = '';
+            filterFavorites.checked = false;
             filterFilms();
         });
     });

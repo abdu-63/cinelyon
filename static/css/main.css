@@ -817,3 +817,140 @@ html {
         height: 50px;
     }
 }
+
+/* Favoris System */
+.titre-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.titre-container .titreFilm {
+    margin: 0;
+}
+
+.favorite-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.favorite-btn:hover {
+    transform: scale(1.15);
+}
+
+.favorite-icon {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: #999;
+    stroke-width: 2;
+    transition: all 0.2s ease;
+}
+
+.favorite-btn:hover .favorite-icon {
+    stroke: #ff6b6b;
+}
+
+.favorite-btn.active .favorite-icon {
+    fill: #ff6b6b;
+    stroke: #ff6b6b;
+    animation: heartPulse 0.3s ease;
+}
+
+@keyframes heartPulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.favorites-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 8px 15px;
+    border-radius: 8px;
+    background: transparent;
+    border: 2px solid #e0e0e0;
+    transition: all 0.3s ease;
+}
+
+.favorites-toggle:hover {
+    border-color: #ff6b6b;
+}
+
+.favorites-toggle:hover .favorites-heart {
+    stroke: #ff6b6b;
+}
+
+.favorites-toggle input[type="checkbox"] {
+    display: none;
+}
+
+.favorites-heart {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: #999;
+    stroke-width: 2;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.favorites-toggle:has(input:checked) .favorites-heart {
+    fill: #ff6b6b;
+    stroke: #ff6b6b;
+}
+
+.favorites-toggle input[type="checkbox"]:checked~.favorites-label {
+    color: #ff6b6b;
+    font-weight: bold;
+}
+
+.favorites-toggle:has(input:checked) {
+    border-color: #ff6b6b;
+    background: rgba(255, 107, 107, 0.1);
+}
+
+.favorites-label {
+    font-family: 'healTheWebA', sans-serif;
+    font-size: 14px;
+    color: #666;
+    user-select: none;
+}
+
+@media (max-width: 576px) {
+    .titre-container {
+        gap: 8px;
+    }
+
+    .favorite-icon {
+        width: 16px;
+        height: 16px;
+    }
+
+    .favorites-toggle {
+        width: 100%;
+        justify-content: center;
+        padding: 8px 10px;
+    }
+
+    .favorites-label {
+        font-size: 12px;
+    }
+}
