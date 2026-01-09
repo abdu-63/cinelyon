@@ -81,15 +81,12 @@ class Movie:
         """Récupère l'année de sortie, la note et le synopsis du film depuis TMDB"""
         try:
             search_url = "https://api.themoviedb.org/3/search/movie"
-            
-            # Première recherche: par titre simple
             params = {
                 "api_key": TMDB_API_KEY,
                 "query": self.title,
                 "language": "fr-FR",
             }
             
-            # Si on a une année, l'ajouter au filtre
             if self.allocine_year:
                 params["year"] = self.allocine_year
             
@@ -101,20 +98,13 @@ class Movie:
             
             if results:
                 if self.allocine_year:
-                    # Filtrer les films qui correspondent à l'année
                     matching_results = [
                         r for r in results 
                         if r.get("release_date", "").startswith(self.allocine_year)
                     ]
-                    if matching_results:
-                        movie = matching_results[0]
-                    else:
-                        movie = results[0]
+                    movie = matching_results[0] if matching_results else results[0]
                 else:
-                    # Pas d'année: chercher par réalisateur si disponible
-                    # Sinon prendre le film le plus récent (probablement le nouveau)
                     if hasattr(self, 'director') and self.director and self.director != "Inconnu":
-                        # Vérifier les crédits pour chaque résultat
                         for result in results:
                             movie_id = result.get("id")
                             credits_url = f"https://api.themoviedb.org/3/movie/{movie_id}/credits"
@@ -130,9 +120,7 @@ class Movie:
                             except:
                                 pass
                     
-                    # Si pas trouvé par réalisateur, prendre le plus récent
                     if not movie:
-                        # Trier par date de sortie (plus récent d'abord)
                         sorted_results = sorted(
                             [r for r in results if r.get("release_date")],
                             key=lambda x: x.get("release_date", ""),
@@ -141,13 +129,9 @@ class Movie:
                         movie = sorted_results[0] if sorted_results else results[0]
             
             if movie:
-                # Récupérer plus de détails du film, y compris le synopsis complet
                 movie_id = movie["id"]
                 details_url = f"https://api.themoviedb.org/3/movie/{movie_id}"
-                details_params = {
-                    "api_key": TMDB_API_KEY,
-                    "language": "fr-FR"
-                }
+                details_params = {"api_key": TMDB_API_KEY, "language": "fr-FR"}
                 details_response = requests.get(details_url, params=details_params)
                 details_data = details_response.json()
                 
@@ -159,7 +143,7 @@ class Movie:
                 }
             
         except Exception as e:
-            print(f"Erreur lors de la récupération des données depuis TMDB: {e}")
+            print(f"Erreur TMDB: {e}")
         
         return {
             "year": "inconnue", 
