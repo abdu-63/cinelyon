@@ -1,5 +1,7 @@
 import pytest
+
 from app import app
+
 
 @pytest.fixture
 def client():
@@ -15,7 +17,7 @@ def test_health_check(client):
 
 def test_home_page(client):
     """Test que la page d'accueil charge sans erreur 500."""
-    # Note: Cela peut echouer si movies.json est manquant ou corrompu, 
+    # Note: Cela peut echouer si movies.json est manquant ou corrompu,
     # mais load_movies_data gère le cas de fichier manquant.
     rv = client.get('/')
     assert rv.status_code == 200

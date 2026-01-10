@@ -258,7 +258,10 @@ class Showtime:
         return None
 
     def __repr__(self) -> str:
-        return f"<{self.__class__.__name__} name={self.movie.title} startsAt={self.startsAt} lang={self.language} format={self.format}>"
+        return (
+            f"<{self.__class__.__name__} name={self.movie.title} "
+            f"startsAt={self.startsAt} lang={self.language} format={self.format}>"
+        )
 
 
 class Theater:

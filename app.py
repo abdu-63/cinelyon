@@ -195,7 +195,8 @@ def sitemap_xml():
     """Génère un sitemap XML dynamique."""
     content = '<?xml version="1.0" encoding="UTF-8"?>\n'
     content += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-    content += f"  <url>\n    <loc>{request.url_root[:-1]}</loc>\n    <changefreq>daily</changefreq>\n    <priority>1.0</priority>\n  </url>\n"
+    content += f"  <url>\n    <loc>{request.url_root[:-1]}</loc>\n"
+    content += "    <changefreq>daily</changefreq>\n    <priority>1.0</priority>\n  </url>\n"
     content += "</urlset>"
     response = make_response(content)
     response.headers["Content-Type"] = "application/xml"

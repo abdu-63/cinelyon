@@ -6,8 +6,8 @@ Conçu pour être exécuté via GitHub Actions.
 Supporte le scraping incrémental et la reprise après échec.
 """
 
-import logging
 import json
+import logging
 import os
 import time
 from datetime import datetime, timedelta
