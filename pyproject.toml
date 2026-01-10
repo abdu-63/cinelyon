@@ -1,0 +1,27 @@
+[project]
+name = "cinelyon"
+version = "1.0.0"
+description = "CinéLyon - Séances de cinéma à Lyon"
+authors = [{name = "Abdu", email = "contact@cinelyon.fr"}]
+dependencies = [
+    "flask",
+    "requests",
+    "python-dotenv",
+    "flask-compress",
+    "flask-talisman"
+]
+requires-python = ">=3.10"
+
+[tool.ruff]
+line-length = 120
+indent-width = 4
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]  # pycodestyle, pyflakes, warnings, isort
+ignore = []
+
+[tool.pytest.ini_options]
+pythonpath = "."
+testpaths = ["tests"]
+python_files = "test_*.py"

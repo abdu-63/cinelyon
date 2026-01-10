@@ -11,8 +11,10 @@ itsdangerous==2.2.0
 Jinja2==3.1.6
 MarkupSafe==3.0.2
 packaging==25.0
+pytest==8.0.0
 python-dotenv==1.1.1
 requests==2.32.4
+ruff==0.1.14
 urllib3==2.5.0
 Werkzeug==3.1.3
 
