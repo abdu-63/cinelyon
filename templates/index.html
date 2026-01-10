@@ -60,7 +60,8 @@
             data-rating="{{ film.rating }}" data-year="{{ film.release_year }}"
             data-film-id="{{ film.title|lower|replace(' ', '-') }}"
             data-cinemas="{% for day_data in film.seances_by_day.values() %}{% for cinema in day_data.keys() %}{{ cinema|lower }},{% endfor %}{% endfor %}">
-            <img src={{film.affiche}} class="affiche" />
+            <img src={{film.affiche}} class="affiche" loading="lazy" decoding="async"
+                alt="Affiche de {{ film.title }}" />
             <div class="infoFilm">
                 <div class="blur-background"></div>
                 <div>

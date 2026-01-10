@@ -1,7 +1,8 @@
 import dotenv
 import json
 import os
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_from_directory
+from flask_compress import Compress
 from datetime import datetime, timedelta
 
 dotenv.load_dotenv(".env")
@@ -66,6 +67,26 @@ def load_movies_data(force_reload=False):
 load_movies_data()
 
 app = Flask(__name__)
+
+# Optimisation #7: Compression Gzip des réponses
+Compress(app)
+app.config['COMPRESS_MIMETYPES'] = [
+    'text/html', 'text/css', 'text/xml', 'application/json',
+    'application/javascript', 'text/javascript'
+]
+app.config['COMPRESS_LEVEL'] = 6
+app.config['COMPRESS_MIN_SIZE'] = 500
+
+
+# Optimisation #10: Cache HTTP pour les fichiers statiques
+@app.after_request
+def add_cache_headers(response):
+    """Ajoute des headers de cache pour les fichiers statiques."""
+    if request.path.startswith('/static/'):
+        # Cache les fichiers statiques pendant 1 semaine
+        response.headers['Cache-Control'] = 'public, max-age=604800'
+    return response
+
 
 def translateMonth(num: int):
     match num:

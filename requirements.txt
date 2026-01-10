@@ -3,6 +3,7 @@ certifi==2025.8.3
 charset-normalizer==3.4.3
 click==8.2.1
 Flask==3.1.1
+flask-compress==1.15
 gunicorn==23.0.0
 idna==3.10
 itsdangerous==2.2.0
@@ -13,3 +14,4 @@ python-dotenv==1.1.1
 requests==2.32.4
 urllib3==2.5.0
 Werkzeug==3.1.3
+
