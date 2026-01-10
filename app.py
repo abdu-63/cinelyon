@@ -90,11 +90,12 @@ app.config["COMPRESS_MIN_SIZE"] = 500
 # Sécurité Flask-Talisman
 csp = {
     "default-src": "'self'",
-    "script-src": ["'self'", "'unsafe-inline'", "https://api.mapbox.com"],
+    "script-src": ["'self'", "'unsafe-inline'", "https://api.mapbox.com", "blob:"],
     "style-src": ["'self'", "'unsafe-inline'", "https://api.mapbox.com", "https://fonts.googleapis.com"],
     "img-src": ["'self'", "data:", "blob:", "https://*.allocine.fr", "https://*.acsta.net", "https://wsrv.nl", "https://*.mapbox.com"],
     "connect-src": ["'self'", "https://api.mapbox.com", "https://events.mapbox.com"],
     "font-src": ["'self'", "https://fonts.gstatic.com", "data:"],
+    "worker-src": ["'self'", "blob:"],
 }
 Talisman(app, content_security_policy=csp, force_https=False)  # False pour dev local
 
