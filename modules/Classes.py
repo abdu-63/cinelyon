@@ -5,6 +5,7 @@ import re
 import unicodedata
 from dotenv import load_dotenv
 import os
+import json
 
 @dataclass
 class Cinema:
@@ -18,6 +19,28 @@ load_dotenv()
 
 # Récupérer la clé API
 TMDB_API_KEY = os.getenv("TMDB_API_KEY")
+
+# Cache TMDB pour éviter les appels API répétés
+TMDB_CACHE_FILE = "tmdb_cache.json"
+_tmdb_cache = {}
+
+def load_tmdb_cache():
+    """Charge le cache TMDB depuis le fichier."""
+    global _tmdb_cache
+    if os.path.exists(TMDB_CACHE_FILE):
+        try:
+            with open(TMDB_CACHE_FILE, "r", encoding="utf-8") as f:
+                _tmdb_cache = json.load(f)
+        except (json.JSONDecodeError, IOError):
+            _tmdb_cache = {}
+
+def save_tmdb_cache():
+    """Sauvegarde le cache TMDB dans un fichier."""
+    with open(TMDB_CACHE_FILE, "w", encoding="utf-8") as f:
+        json.dump(_tmdb_cache, f, ensure_ascii=False, indent=2)
+
+# Charger le cache au démarrage
+load_tmdb_cache()
 
 class Movie:
     def __init__(self, data) -> None:
@@ -77,7 +100,23 @@ class Movie:
         return f"https://letterboxd.com/search/{quote(search_query)}/"
 
     def _get_data_from_tmdb(self):
-        """Récupère l'année de sortie, la note et le synopsis du film depuis TMDB"""
+        """Récupère l'année de sortie, la note et le synopsis du film depuis TMDB (avec cache)."""
+        global _tmdb_cache
+        
+        # Clé de cache basée sur le titre et l'année Allocine
+        cache_key = f"{self.title}|{self.allocine_year or ''}"
+        
+        # Vérifier si les données sont en cache
+        if cache_key in _tmdb_cache:
+            return _tmdb_cache[cache_key]
+        
+        default_data = {
+            "year": "inconnue", 
+            "rating": "Note inconnue",
+            "synopsis": "Synopsis non disponible",
+            "original_title": self.title
+        }
+        
         try:
             search_url = "https://api.themoviedb.org/3/search/movie"
             params = {
@@ -134,22 +173,27 @@ class Movie:
                 details_response = requests.get(details_url, params=details_params)
                 details_data = details_response.json()
                 
-                return {
+                result = {
                     "year": movie.get("release_date", "").split("-")[0] or "inconnue",
                     "rating": str(round(movie.get("vote_average", 0), 1)) if movie.get("vote_average") else "Note inconnue",
                     "synopsis": details_data.get("overview", "Synopsis non disponible"),
                     "original_title": movie.get("original_title", self.title)
                 }
+                
+                # Sauvegarder dans le cache
+                _tmdb_cache[cache_key] = result
+                save_tmdb_cache()
+                
+                return result
             
         except Exception as e:
             print(f"Erreur TMDB: {e}")
         
-        return {
-            "year": "inconnue", 
-            "rating": "Note inconnue",
-            "synopsis": "Synopsis non disponible",
-            "original_title": self.title
-        }
+        # Sauvegarder même les résultats par défaut pour éviter de refaire l'appel
+        _tmdb_cache[cache_key] = default_data
+        save_tmdb_cache()
+        
+        return default_data
 
 class Showtime:
     def __init__(self, data, theather, movie:Movie, language:str = "VF", format:str = None) -> None:

@@ -18,15 +18,30 @@ for theater in theaters_json:
         "description": theater["name"],
     })
 
+# Variables pour le rechargement des données
+_showtimes_data = None
+_last_load_time = None
+_movies_file_mtime = None
 
-def load_movies_data():
-    """Charge les données des films depuis movies.json"""
+def load_movies_data(force_reload=False):
+    """Charge les données des films depuis movies.json avec cache intelligent."""
+    global _showtimes_data, _last_load_time, _movies_file_mtime
+    
     movies_file = os.path.join(os.path.dirname(__file__), "movies.json")
     
     if not os.path.exists(movies_file):
         print("⚠️ movies.json non trouvé, retour de données vides")
-        return [[] for _ in range(7)]
+        return {"showtimes": [], "num_days": 0}
     
+    # Vérifier si le fichier a été modifié
+    current_mtime = os.path.getmtime(movies_file)
+    
+    if not force_reload and _showtimes_data is not None:
+        # Utiliser le cache si le fichier n'a pas été modifié
+        if _movies_file_mtime == current_mtime:
+            return _showtimes_data
+    
+    # Recharger les données
     with open(movies_file, "r", encoding="utf-8") as f:
         data = json.load(f)
     
@@ -36,12 +51,19 @@ def load_movies_data():
     for day in data.get("days", []):
         showtimes.append(day.get("movies", []))
     
-    while len(showtimes) < 7:
-        showtimes.append([])
+    num_days = len(showtimes)
     
-    return showtimes
+    # Mettre en cache
+    _showtimes_data = {"showtimes": showtimes, "num_days": num_days}
+    _last_load_time = datetime.now()
+    _movies_file_mtime = current_mtime
+    
+    print(f"📊 {num_days} jour(s) de données disponibles")
+    
+    return _showtimes_data
 
-showtimes = load_movies_data()
+# Chargement initial
+load_movies_data()
 
 app = Flask(__name__)
 
@@ -63,29 +85,42 @@ def translateMonth(num: int):
 
 def translateDay(weekday: int):
     match weekday:
-        case 0: return "lun"
-        case 1: return "mar"
-        case 2: return "mer"
-        case 3: return "jeu"
-        case 4: return "ven"
-        case 5: return "sam"
-        case 6: return "dim"
+        case 0: return "Lun"
+        case 1: return "Mar"
+        case 2: return "Mer"
+        case 3: return "Jeu"
+        case 4: return "Ven"
+        case 5: return "Sam"
+        case 6: return "Dim"
         case _: return "???"
 
 @app.route('/health')
 def health():
     return "OK"
 
+@app.route('/reload')
+def reload_data():
+    """Endpoint pour forcer le rechargement des données."""
+    data = load_movies_data(force_reload=True)
+    return f"Données rechargées: {data['num_days']} jours"
+
 @app.route('/')
 def home():
+    # Recharger les données si le fichier a été modifié
+    data = load_movies_data()
+    showtimes = data["showtimes"]
+    num_days = data["num_days"]
+    
     delta = request.args.get("delta", default=None, type=int)
+    max_delta = num_days - 1 if num_days > 0 else 0
 
     if delta is not None:
-        if delta > 6: delta = 6
+        if delta > max_delta: delta = max_delta
         if delta < 0: delta = 0
 
+    # Générer les dates dynamiquement selon le nombre de jours disponibles
     dates = []
-    for i in range(0, 7):
+    for i in range(num_days):
         day = datetime.today() + timedelta(i)
         dates.append({
             "jour": translateDay(day.weekday()),
@@ -97,9 +132,11 @@ def home():
         })
 
     all_films = {}
-    days_to_show = [delta] if delta is not None else range(7)
+    days_to_show = [delta] if delta is not None else range(min(7, num_days))
     
     for day_index in days_to_show:
+        if day_index >= len(showtimes):
+            continue
         day_label = f"{dates[day_index]['jour']} {dates[day_index]['chiffre']} {dates[day_index]['mois']}"
         for film in showtimes[day_index]:
             title = film["title"]
