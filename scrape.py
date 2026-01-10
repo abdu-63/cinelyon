@@ -19,7 +19,7 @@ load_dotenv(".env")
 THEATERS_JSON = os.environ.get("THEATERS", "[]")
 TMDB_API_KEY = os.environ.get("TMDB_API_KEY", "")
 OUTPUT_FILE = "movies.json"
-DAYS_TO_SCRAPE = 20
+DAYS_TO_SCRAPE = 7
 DELAY_BETWEEN_THEATERS = 2  # Délai en secondes entre chaque cinéma
 
 def get_showtimes(theaters: list[Theater], date: datetime) -> list[dict]:
