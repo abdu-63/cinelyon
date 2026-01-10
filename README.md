@@ -14,7 +14,8 @@
     <img alt="Vercel" src="https://img.shields.io/badge/Vercel-Deployed-black?logo=vercel">
   </a>
   <a href="https://github.com/features/actions">
-    <img alt="GitHub Actions" src="https://img.shields.io/badge/CI%2FCD-Passing-2088FF?logo=github-actions">
+    <img alt="GitHub Actions" src="https://img.shields.io/badge/GitHub%20Actions-Scraping-2088FF?
+logo=github-actions">
   </a>
   <a href="https://www.themoviedb.org/">
     <img alt="TMDB" src="https://img.shields.io/badge/TMDB-API-01d277?logo=themoviedb">
@@ -107,7 +108,7 @@ cinelyon/
 ### Flux de données
 
 ```
-GitHub Actions (4h UTC)
+GitHub Actions (9h et 19h30 UTC)
        ↓
    scrape.py
        ↓
