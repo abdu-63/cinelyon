@@ -6,6 +6,7 @@ import unicodedata
 from dotenv import load_dotenv
 import os
 import json
+import time
 
 @dataclass
 class Cinema:
@@ -38,6 +39,28 @@ def save_tmdb_cache():
     """Sauvegarde le cache TMDB dans un fichier."""
     with open(TMDB_CACHE_FILE, "w", encoding="utf-8") as f:
         json.dump(_tmdb_cache, f, ensure_ascii=False, indent=2)
+
+def tmdb_request(url: str, params: dict, max_retries: int = 3) -> dict:
+    """Effectue une requête TMDB avec retry et exponential backoff."""
+    for attempt in range(max_retries):
+        try:
+            response = requests.get(url, params=params, timeout=10)
+            if response.status_code == 200:
+                return response.json()
+            elif response.status_code == 429:  # Rate limit
+                wait_time = 2 ** attempt
+                print(f"   ⏳ Rate limit TMDB, attente {wait_time}s...")
+                time.sleep(wait_time)
+            else:
+                print(f"   ⚠️ TMDB erreur {response.status_code}")
+                return {}
+        except requests.exceptions.Timeout:
+            print(f"   ⏳ Timeout TMDB (tentative {attempt + 1}/{max_retries})")
+            time.sleep(1)
+        except requests.exceptions.RequestException as e:
+            print(f"   ❌ Erreur réseau TMDB: {e}")
+            return {}
+    return {}
 
 # Charger le cache au démarrage
 load_tmdb_cache()
@@ -100,7 +123,7 @@ class Movie:
         return f"https://letterboxd.com/search/{quote(search_query)}/"
 
     def _get_data_from_tmdb(self):
-        """Récupère l'année de sortie, la note et le synopsis du film depuis TMDB (avec cache)."""
+        """Récupère l'année de sortie, la note et le synopsis du film depuis TMDB (avec cache et retry)."""
         global _tmdb_cache
         
         # Clé de cache basée sur le titre et l'année Allocine
@@ -128,8 +151,7 @@ class Movie:
             if self.allocine_year:
                 params["year"] = self.allocine_year
             
-            search_response = requests.get(search_url, params=params)
-            search_data = search_response.json()
+            search_data = tmdb_request(search_url, params)
             
             movie = None
             results = search_data.get("results", [])
@@ -147,16 +169,12 @@ class Movie:
                             movie_id = result.get("id")
                             credits_url = f"https://api.themoviedb.org/3/movie/{movie_id}/credits"
                             credits_params = {"api_key": TMDB_API_KEY}
-                            try:
-                                credits_response = requests.get(credits_url, params=credits_params)
-                                credits_data = credits_response.json()
-                                crew = credits_data.get("crew", [])
-                                directors = [c.get("name", "").lower() for c in crew if c.get("job") == "Director"]
-                                if any(self.director.lower() in d or d in self.director.lower() for d in directors):
-                                    movie = result
-                                    break
-                            except:
-                                pass
+                            credits_data = tmdb_request(credits_url, credits_params)
+                            crew = credits_data.get("crew", [])
+                            directors = [c.get("name", "").lower() for c in crew if c.get("job") == "Director"]
+                            if any(self.director.lower() in d or d in self.director.lower() for d in directors):
+                                movie = result
+                                break
                     
                     if not movie:
                         sorted_results = sorted(
@@ -170,8 +188,7 @@ class Movie:
                 movie_id = movie["id"]
                 details_url = f"https://api.themoviedb.org/3/movie/{movie_id}"
                 details_params = {"api_key": TMDB_API_KEY, "language": "fr-FR"}
-                details_response = requests.get(details_url, params=details_params)
-                details_data = details_response.json()
+                details_data = tmdb_request(details_url, details_params)
                 
                 result = {
                     "year": movie.get("release_date", "").split("-")[0] or "inconnue",
@@ -187,7 +204,7 @@ class Movie:
                 return result
             
         except Exception as e:
-            print(f"Erreur TMDB: {e}")
+            print(f"❌ Erreur TMDB pour '{self.title}': {e}")
         
         # Sauvegarder même les résultats par défaut pour éviter de refaire l'appel
         _tmdb_cache[cache_key] = default_data

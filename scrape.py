@@ -11,6 +11,7 @@ import os
 import time
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from modules.Classes import Theater
 
@@ -20,13 +21,25 @@ THEATERS_JSON = os.environ.get("THEATERS", "[]")
 TMDB_API_KEY = os.environ.get("TMDB_API_KEY", "")
 OUTPUT_FILE = "movies.json"
 DAYS_TO_SCRAPE = 20
+MAX_WORKERS = 5  # Limite pour éviter le rate limiting
+
+def fetch_theater_showtimes(theater: Theater, date: datetime) -> list:
+    """Récupère les séances d'un cinéma (pour exécution parallèle)."""
+    try:
+        return theater.getShowtimes(date)
+    except Exception as e:
+        print(f"      ⚠️ Erreur pour {theater.name}: {e}")
+        return []
 
 def get_showtimes(theaters: list[Theater], date: datetime) -> list[dict]:
-    """Récupère les séances pour une date donnée."""
+    """Récupère les séances pour une date donnée (avec requêtes parallèles)."""
     showtimes_list = []
     
-    for theater in theaters:
-        showtimes_list.extend(theater.getShowtimes(date))
+    # Requêtes parallèles pour les cinémas
+    with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+        futures = {executor.submit(fetch_theater_showtimes, theater, date): theater for theater in theaters}
+        for future in as_completed(futures):
+            showtimes_list.extend(future.result())
     
     data = {}
     

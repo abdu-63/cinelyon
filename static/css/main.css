@@ -8,22 +8,14 @@
     src: url("../font/HealTheWebB-Regular.otf");
 }
 
-@font-face {
-    font-family: 'Raleway-Black';
-    src: url("../font/Raleway-Black.ttf");
-}
-
-@font-face {
-    font-family: 'Montserrat-ExtraBold';
-    src: url("../font/montserrat_extrabold.ttf");
-}
-
 body {
     margin: 0;
     font-family: 'healTheWebA', sans-serif;
 }
 
-h1 h2 h3 {
+h1,
+h2,
+h3 {
     font-family: 'healTheWebB', sans-serif;
 }
 
