@@ -7,10 +7,19 @@ Supporte le scraping incrémental et la reprise après échec.
 """
 
 import json
+import logging
 import os
 import time
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
+
+# Configuration du logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
+logger = logging.getLogger(__name__)
 
 from modules.Classes import Theater
 
@@ -30,7 +39,7 @@ def get_showtimes(theaters: list[Theater], date: datetime) -> list[dict]:
         try:
             showtimes_list.extend(theater.getShowtimes(date))
         except Exception as e:
-            print(f"      ⚠️ Erreur pour {theater.name}: {e}")
+            logger.error(f"Erreur pour {theater.name}: {e}")
         
         # Délai entre les requêtes pour éviter le rate limiting (sauf pour le dernier)
         if i < len(theaters) - 1:
@@ -127,16 +136,16 @@ def clean_old_dates(data: dict) -> dict:
 
 
 def main():
-    print("🎬 Démarrage du scraping des séances de cinéma...")
+    logger.info("🎬 Démarrage du scraping des séances de cinéma...")
     
     theaters_config = json.loads(THEATERS_JSON)
     
     if not theaters_config:
-        print("❌ Aucun cinéma configuré. Vérifiez la variable THEATERS.")
+        logger.error("❌ Aucun cinéma configuré. Vérifiez la variable THEATERS.")
         return
     
     if not TMDB_API_KEY:
-        print("⚠️ TMDB_API_KEY non configurée ! Les données TMDB seront manquantes.")
+        logger.warning("⚠️ TMDB_API_KEY non configurée ! Les données TMDB seront manquantes.")
     
     theaters = []
     for theater_data in theaters_config:
@@ -148,7 +157,7 @@ def main():
             "location": None
         }))
     
-    print(f"📍 {len(theaters)} cinéma(s) configuré(s)")
+    logger.info(f"📍 {len(theaters)} cinéma(s) configuré(s)")
     
     # Charger les données existantes
     existing_data = load_existing_data()
@@ -160,11 +169,11 @@ def main():
     dates_to_scrape = get_dates_to_scrape(existing_data)
     
     if not dates_to_scrape:
-        print("✅ Toutes les données sont à jour, aucun scraping nécessaire.")
+        logger.info("✅ Toutes les données sont à jour, aucun scraping nécessaire.")
         save_data(existing_data)
         return
     
-    print(f"📅 {len(dates_to_scrape)} jour(s) à scraper (données existantes conservées)")
+    logger.info(f"📅 {len(dates_to_scrape)} jour(s) à scraper (données existantes conservées)")
     
     # Créer un dictionnaire des jours existants pour accès rapide
     existing_days = {day["date"]: day for day in existing_data.get("days", [])}
@@ -172,7 +181,7 @@ def main():
     for date_str in dates_to_scrape:
         date = datetime.strptime(date_str, "%Y-%m-%d")
         
-        print(f"📅 Récupération des séances pour {date_str}...")
+        logger.info(f"📅 Récupération des séances pour {date_str}...")
         
         try:
             movies = get_showtimes(theaters, date)
@@ -182,7 +191,7 @@ def main():
                 "movies": movies
             }
             
-            print(f"   ✅ {len(movies)} film(s) récupéré(s)")
+            logger.info(f"   ✅ {len(movies)} film(s) récupéré(s)")
             
             # Sauvegarder après chaque jour pour pouvoir reprendre en cas d'échec
             existing_data["days"] = sorted(existing_days.values(), key=lambda x: x["date"])
@@ -192,16 +201,16 @@ def main():
             time.sleep(1)
             
         except Exception as e:
-            print(f"   ❌ Erreur pour {date_str}: {e}")
-            print("   💾 Progrès sauvegardé. Relancez le script pour continuer.")
+            logger.error(f"❌ Erreur pour {date_str}: {e}")
+            logger.warning("💾 Progrès sauvegardé. Relancez le script pour continuer.")
             # Sauvegarder le progrès avant de quitter
             existing_data["days"] = sorted(existing_days.values(), key=lambda x: x["date"])
             save_data(existing_data)
             raise
     
-    print(f"\n✅ Scraping terminé et sauvegardé dans {OUTPUT_FILE}")
+    logger.info(f"✅ Scraping terminé et sauvegardé dans {OUTPUT_FILE}")
     total_movies = sum(len(day['movies']) for day in existing_data['days'])
-    print(f"📊 Total: {total_movies} entrées de films sur {len(existing_data['days'])} jours")
+    logger.info(f"📊 Total: {total_movies} entrées de films sur {len(existing_data['days'])} jours")
 
 
 if __name__ == "__main__":

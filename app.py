@@ -1,8 +1,9 @@
 import dotenv
 import json
 import os
-from flask import Flask, render_template, request, send_from_directory
+from flask import Flask, render_template, request, make_response
 from flask_compress import Compress
+from flask_talisman import Talisman
 from datetime import datetime, timedelta
 
 dotenv.load_dotenv(".env")
@@ -77,6 +78,16 @@ app.config['COMPRESS_MIMETYPES'] = [
 app.config['COMPRESS_LEVEL'] = 6
 app.config['COMPRESS_MIN_SIZE'] = 500
 
+# Sécurité Flask-Talisman
+csp = {
+    'default-src': "'self'",
+    'script-src': ["'self'", "'unsafe-inline'", "https://api.mapbox.com"],
+    'style-src': ["'self'", "'unsafe-inline'", "https://api.mapbox.com", "https://fonts.googleapis.com"],
+    'img-src': ["'self'", "data:", "https://*.allocine.fr", "https://*.acsta.net", "https://wsrv.nl"],
+    'connect-src': ["'self'", "https://api.mapbox.com", "https://events.mapbox.com"],
+    'font-src': ["'self'", "https://fonts.gstatic.com", "data:"],
+}
+Talisman(app, content_security_policy=csp, force_https=False)  # False pour dev local
 
 # Optimisation #10: Cache HTTP pour les fichiers statiques
 @app.after_request
@@ -134,6 +145,24 @@ def reload_data():
     """Endpoint pour forcer le rechargement des données."""
     data = load_movies_data(force_reload=True)
     return f"Données rechargées: {data['num_days']} jours"
+
+@app.route('/robots.txt')
+def robots_txt():
+    content = "User-agent: *\nDisallow:\nSitemap: /sitemap.xml"
+    response = make_response(content)
+    response.headers['Content-Type'] = 'text/plain'
+    return response
+
+@app.route('/sitemap.xml')
+def sitemap_xml():
+    """Génère un sitemap XML dynamique."""
+    content = '<?xml version="1.0" encoding="UTF-8"?>\n'
+    content += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    content += f'  <url>\n    <loc>{request.url_root[:-1]}</loc>\n    <changefreq>daily</changefreq>\n    <priority>1.0</priority>\n  </url>\n'
+    content += '</urlset>'
+    response = make_response(content)
+    response.headers['Content-Type'] = 'application/xml'
+    return response
 
 @app.route('/')
 def home():

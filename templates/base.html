@@ -6,6 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Découvrez les séances de cinéma à Lyon et ses alentours">
     <meta name="theme-color" content="#444cf7">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cinelyon.fr/">
+    <meta property="og:title" content="{{ website_title }}">
+    <meta property="og:description"
+        content="Découvrez les séances de cinéma à Lyon et ses alentours. Horaires, films, salles et plus encore.">
+    <meta property="og:image" content="{{ url_for('static', filename='images/icon-512.png', _external=True) }}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://cinelyon.fr/">
+    <meta property="twitter:title" content="{{ website_title }}">
+    <meta property="twitter:description" content="Découvrez les séances de cinéma à Lyon et ses alentours.">
+    <meta property="twitter:image" content="{{ url_for('static', filename='images/icon-512.png', _external=True) }}">
+
+    <!-- Resource Hints -->
+    <link rel="preconnect" href="https://api.mapbox.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css' rel='stylesheet' />
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.js'></script>
