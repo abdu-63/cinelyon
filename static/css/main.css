@@ -78,6 +78,8 @@ p {
 .seances-wrapper {
     margin-left: 10%;
     margin-right: 10%;
+    content-visibility: auto;
+    contain-intrinsic-size: 0 200px;
 }
 
 .mini-calendar {
@@ -137,6 +139,8 @@ p {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
+    content-visibility: auto;
+    contain-intrinsic-size: 0 300px;
 }
 
 .blur-background {
