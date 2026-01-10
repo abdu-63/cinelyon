@@ -1,11 +1,13 @@
 @font-face {
     font-family: 'healTheWebA';
     src: url("../font/HealTheWebA-Regular.otf");
+    font-display: swap;
 }
 
 @font-face {
     font-family: 'healTheWebB';
     src: url("../font/HealTheWebB-Regular.otf");
+    font-display: swap;
 }
 
 body {
@@ -141,6 +143,10 @@ p {
     align-items: flex-start;
     content-visibility: auto;
     contain-intrinsic-size: 0 300px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
 }
 
 .blur-background {
@@ -953,15 +959,4 @@ html {
     .favorites-label {
         font-size: 12px;
     }
-}
-
-/* Optimisation animations */
-.film-card {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.film-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-    will-change: transform;
 }

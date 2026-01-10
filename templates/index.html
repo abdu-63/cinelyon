@@ -198,15 +198,22 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        if (typeof mapboxgl !== 'undefined') {
+    // Lazy loading de Mapbox avec Intersection Observer
+    (function () {
+        var mapInitialized = false;
+
+        function initMap() {
+            var mapContainer = document.getElementById('map');
+            if (mapInitialized || typeof mapboxgl === 'undefined' || !mapContainer) return;
+            mapInitialized = true;
+
             mapboxgl.accessToken = '{{ mapbox_token }}';
 
             var map = new mapboxgl.Map({
                 container: 'map',
                 style: 'mapbox://styles/mapbox/streets-v11',
                 center: [4.8544994, 45.7620499],
-                zoom: 11.3
+                zoom: 11.5
             });
 
             map.addControl(new mapboxgl.NavigationControl());
@@ -252,7 +259,36 @@
                     .addTo(map);
             });
         }
-    });
+
+        function setupLazyMap() {
+            var mapContainer = document.getElementById('map');
+            if (!mapContainer) return;
+
+            // Utiliser Intersection Observer pour charger la carte quand visible
+            if ('IntersectionObserver' in window) {
+                var observer = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) {
+                            initMap();
+                            observer.disconnect();
+                        }
+                    });
+                }, { rootMargin: '100px' }); // Charger 100px avant d'être visible
+
+                observer.observe(mapContainer);
+            } else {
+                // Fallback pour vieux navigateurs
+                initMap();
+            }
+        }
+
+        // Attendre que le DOM soit prêt
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setupLazyMap);
+        } else {
+            setupLazyMap();
+        }
+    })();
 
     document.querySelectorAll('.seances-wrapper').forEach(wrapper => {
         const buttons = wrapper.querySelectorAll('.mini-cal-btn');
