@@ -69,7 +69,7 @@
             data-rating="{{ film.rating }}" data-year="{{ film.release_year }}"
             data-film-id="{{ film.title|lower|replace(' ', '-') }}"
             data-cinemas="{% for day_data in film.seances_by_day.values() %}{% for cinema in day_data.keys() %}{{ cinema|lower }},{% endfor %}{% endfor %}">
-            <img src={{film.affiche}} class="affiche" loading="lazy" decoding="async"
+            <img src={{film.affiche}} class="affiche" loading="lazy" decoding="async" width="200" height="288"
                 alt="Affiche de {{ film.title }}" />
             <div class="infoFilm">
                 <div class="blur-background"></div>
@@ -198,7 +198,6 @@
 </div>
 
 <script>
-    // Lazy loading de Mapbox avec Intersection Observer
     (function () {
         var mapInitialized = false;
 
@@ -264,7 +263,6 @@
             var mapContainer = document.getElementById('map');
             if (!mapContainer) return;
 
-            // Utiliser Intersection Observer pour charger la carte quand visible
             if ('IntersectionObserver' in window) {
                 var observer = new IntersectionObserver(function (entries) {
                     entries.forEach(function (entry) {
@@ -273,16 +271,14 @@
                             observer.disconnect();
                         }
                     });
-                }, { rootMargin: '100px' }); // Charger 100px avant d'être visible
+                }, { rootMargin: '100px' });
 
                 observer.observe(mapContainer);
             } else {
-                // Fallback pour vieux navigateurs
                 initMap();
             }
         }
 
-        // Attendre que le DOM soit prêt
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', setupLazyMap);
         } else {
@@ -316,7 +312,6 @@
     document.querySelectorAll('.synopsis-toggle').forEach(btn => {
         const synopsis = btn.previousElementSibling;
 
-        // Cacher le bouton si le texte est court
         if (synopsis.scrollHeight <= synopsis.clientHeight) {
             btn.style.display = 'none';
         }
@@ -327,7 +322,6 @@
         });
     });
 
-    // ========== SYSTÈME DE FAVORIS ==========
     const FAVORITES_KEY = 'cinelyon_favorites';
 
     function getFavorites() {
@@ -357,7 +351,7 @@
             favorites.splice(index, 1);
         }
         saveFavorites(favorites);
-        return index === -1; // retourne true si ajouté
+        return index === -1;
     }
 
     function isFavorite(filmId) {
@@ -388,42 +382,34 @@
         const directors = new Set();
         const cinemas = new Set();
 
-        // Initialiser les boutons favoris
         films.forEach(film => {
             const filmId = film.dataset.filmId;
             const favoriteBtn = film.querySelector('.favorite-btn');
 
-            // Appliquer l'état initial depuis localStorage
             updateFavoriteButton(favoriteBtn, isFavorite(filmId));
 
-            // Ajouter l'écouteur de click
             favoriteBtn.addEventListener('click', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
                 const isNowFavorite = toggleFavorite(filmId);
                 updateFavoriteButton(favoriteBtn, isNowFavorite);
 
-                // Rafraîchir le filtre si "Favoris uniquement" est actif
                 if (filterFavorites.checked) {
                     filterFilms();
                 }
             });
         });
 
-        // Vérifier si le synopsis a besoin d'être tronqué
         document.querySelectorAll('.synopsis_container').forEach(container => {
             const synopsis = container.querySelector('.synopsis');
             const toggleBtn = container.querySelector('.synopsis-toggle');
             if (synopsis && toggleBtn) {
-                // Si le synopsis n'est pas tronqué, masquer le bouton et le dégradé
                 if (synopsis.scrollHeight <= synopsis.clientHeight + 5) {
                     toggleBtn.style.display = 'none';
                     synopsis.classList.add('no-fade');
                 }
             }
         });
-
-        // Note: Les options des filtres sont maintenant pré-générées côté serveur (Optimisation #11)
 
         function filterFilms() {
             const titleQuery = searchTitle.value.toLowerCase();
@@ -441,7 +427,6 @@
                 const rating = parseFloat(film.dataset.rating) || 0;
                 const filmId = film.dataset.filmId;
 
-                // Trouver les séances associées à ce film
                 let sibling = film.nextElementSibling;
                 const relatedElements = [];
                 while (sibling && !sibling.classList.contains('film-card')) {

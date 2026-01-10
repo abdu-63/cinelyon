@@ -23,7 +23,6 @@ for theater in theaters_json:
         }
     )
 
-# Variables pour le rechargement des données
 _showtimes_data = None
 _last_load_time = None
 _movies_file_mtime = None
@@ -39,15 +38,12 @@ def load_movies_data(force_reload=False):
         print("⚠️ movies.json non trouvé, retour de données vides")
         return {"showtimes": [], "num_days": 0}
 
-    # Vérifier si le fichier a été modifié
     current_mtime = os.path.getmtime(movies_file)
 
     if not force_reload and _showtimes_data is not None:
-        # Utiliser le cache si le fichier n'a pas été modifié
         if _movies_file_mtime == current_mtime:
             return _showtimes_data
 
-    # Recharger les données
     with open(movies_file, "r", encoding="utf-8") as f:
         data = json.load(f)
 
@@ -59,7 +55,6 @@ def load_movies_data(force_reload=False):
 
     num_days = len(showtimes)
 
-    # Mettre en cache
     _showtimes_data = {"showtimes": showtimes, "num_days": num_days}
     _last_load_time = datetime.now()
     _movies_file_mtime = current_mtime
@@ -69,12 +64,10 @@ def load_movies_data(force_reload=False):
     return _showtimes_data
 
 
-# Chargement initial
 load_movies_data()
 
 app = Flask(__name__)
 
-# Optimisation #7: Compression Gzip des réponses
 Compress(app)
 app.config["COMPRESS_MIMETYPES"] = [
     "text/html",
@@ -87,7 +80,6 @@ app.config["COMPRESS_MIMETYPES"] = [
 app.config["COMPRESS_LEVEL"] = 6
 app.config["COMPRESS_MIN_SIZE"] = 500
 
-# Sécurité Flask-Talisman
 csp = {
     "default-src": "'self'",
     "script-src": ["'self'", "'unsafe-inline'", "https://api.mapbox.com", "blob:"],
@@ -97,27 +89,22 @@ csp = {
     "font-src": ["'self'", "https://fonts.gstatic.com", "data:"],
     "worker-src": ["'self'", "blob:"],
 }
-Talisman(app, content_security_policy=csp, force_https=False)  # False pour dev local
+Talisman(app, content_security_policy=csp, force_https=False)
 
 
-# Optimisation #10: Cache HTTP pour les fichiers statiques
 @app.after_request
 def add_cache_headers(response):
     """Ajoute des headers de cache pour les fichiers statiques."""
     if request.path.startswith("/static/"):
-        # Cache les fichiers statiques pendant 1 semaine
         response.headers["Cache-Control"] = "public, max-age=604800"
     return response
 
 
-# Optimisation #13: Compression des images via proxy
 def optimize_poster_url(url: str, width: int = 200) -> str:
     """Optimise l'URL d'une affiche via le proxy wsrv.nl."""
     if not url or url.startswith("/static"):
         return url
-    # wsrv.nl est un service gratuit de proxy d'images
     from urllib.parse import quote
-
     return f"https://wsrv.nl/?url={quote(url)}&w={width}&q=80&output=webp"
 
 
@@ -206,7 +193,6 @@ def sitemap_xml():
 
 @app.route("/")
 def home():
-    # Recharger les données si le fichier a été modifié
     data = load_movies_data()
     showtimes = data["showtimes"]
     num_days = data["num_days"]
@@ -220,7 +206,6 @@ def home():
         if delta < 0:
             delta = 0
 
-    # Générer les dates dynamiquement selon le nombre de jours disponibles
     dates = []
     for i in range(num_days):
         day = datetime.today() + timedelta(i)
@@ -253,7 +238,7 @@ def home():
                     "genres": film["genres"],
                     "realisateur": film["realisateur"],
                     "synopsis": film["synopsis"],
-                    "affiche": film["affiche"],  # Retour URL originale
+                    "affiche": film["affiche"],
                     "director": film["director"],
                     "wantToSee": film["wantToSee"],
                     "url": film["url"],
@@ -270,7 +255,6 @@ def home():
 
     films_list = sorted(all_films.values(), key=lambda x: x["wantToSee"], reverse=True)
 
-    # Optimisation #11: Pré-calcul des index pour les filtres
     all_genres = set()
     all_directors = set()
     all_cinemas = set()
@@ -295,7 +279,6 @@ def home():
         theater_locations=theater_locations,
         website_title=WEBSITE_TITLE,
         mapbox_token=MAPBOX_TOKEN,
-        # Index pré-calculés pour les filtres
         all_genres=sorted(all_genres),
         all_directors=sorted(all_directors),
         all_cinemas=sorted(all_cinemas),
