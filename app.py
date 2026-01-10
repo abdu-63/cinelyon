@@ -88,6 +88,16 @@ def add_cache_headers(response):
     return response
 
 
+# Optimisation #13: Compression des images via proxy
+def optimize_poster_url(url: str, width: int = 200) -> str:
+    """Optimise l'URL d'une affiche via le proxy wsrv.nl."""
+    if not url or url.startswith('/static'):
+        return url
+    # wsrv.nl est un service gratuit de proxy d'images
+    from urllib.parse import quote
+    return f"https://wsrv.nl/?url={quote(url)}&w={width}&q=80&output=webp"
+
+
 def translateMonth(num: int):
     match num:
         case 1: return "janv"
@@ -170,7 +180,7 @@ def home():
                     "genres": film["genres"],
                     "realisateur": film["realisateur"],
                     "synopsis": film["synopsis"],
-                    "affiche": film["affiche"],
+                    "affiche": optimize_poster_url(film["affiche"]),  # Optimisation #13
                     "director": film["director"],
                     "wantToSee": film["wantToSee"],
                     "url": film["url"],
@@ -187,6 +197,22 @@ def home():
     
     films_list = sorted(all_films.values(), key=lambda x: x["wantToSee"], reverse=True)
 
+    # Optimisation #11: Pré-calcul des index pour les filtres
+    all_genres = set()
+    all_directors = set()
+    all_cinemas = set()
+    
+    for film in films_list:
+        if film["genres"]:
+            for genre in film["genres"].split(", "):
+                if genre.strip():
+                    all_genres.add(genre.strip())
+        if film["director"] and film["director"] != "Inconnu":
+            all_directors.add(film["director"])
+        for day_seances in film["seances_by_day"].values():
+            for cinema in day_seances.keys():
+                all_cinemas.add(cinema)
+
     return render_template(
         'index.html',
         page_actuelle='home',
@@ -196,6 +222,10 @@ def home():
         theater_locations=theater_locations,
         website_title=WEBSITE_TITLE,
         mapbox_token=MAPBOX_TOKEN,
+        # Index pré-calculés pour les filtres
+        all_genres=sorted(all_genres),
+        all_directors=sorted(all_directors),
+        all_cinemas=sorted(all_cinemas),
     )
 
 if __name__ == '__main__':

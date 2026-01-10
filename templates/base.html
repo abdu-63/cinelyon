@@ -1,15 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Découvrez les séances de cinéma à Lyon et ses alentours">
+    <meta name="theme-color" content="#444cf7">
     <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css' rel='stylesheet' />
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.js'></script>
     <link rel="shortcut icon" type="image/png" href="static/images/favicon.png" />
+    <link rel="manifest" href="/static/manifest.json">
+    <link rel="apple-touch-icon" href="/static/images/favicon.png">
     <title>{{ website_title }}</title>
     {% block head %} {% endblock %}
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/static/sw.js')
+                    .then(reg => console.log('✅ Service Worker enregistré'))
+                    .catch(err => console.log('❌ Service Worker erreur:', err));
+            });
+        }
+    </script>
 </head>
 
 <header id="headerTop">

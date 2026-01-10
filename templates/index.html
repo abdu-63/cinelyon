@@ -26,12 +26,21 @@
         <div class="search-row search-filters">
             <select id="filter-genre" class="search-input">
                 <option value="">Tous les genres</option>
+                {% for genre in all_genres %}
+                <option value="{{ genre|lower }}">{{ genre }}</option>
+                {% endfor %}
             </select>
             <select id="filter-director" class="search-input">
                 <option value="">Tous les réalisateurs</option>
+                {% for director in all_directors %}
+                <option value="{{ director|lower }}">{{ director }}</option>
+                {% endfor %}
             </select>
             <select id="filter-cinema" class="search-input">
                 <option value="">Tous les cinémas</option>
+                {% for cinema in all_cinemas %}
+                <option value="{{ cinema|lower }}">{{ cinema }}</option>
+                {% endfor %}
             </select>
             <select id="filter-rating" class="search-input">
                 <option value="">Toutes les notes</option>
@@ -397,38 +406,7 @@
             }
         });
 
-        films.forEach(film => {
-            film.dataset.genres.split(',').forEach(g => {
-                g = g.trim();
-                if (g) genres.add(g);
-            });
-            if (film.dataset.director) directors.add(film.dataset.director);
-            film.dataset.cinemas.split(',').forEach(c => {
-                c = c.trim();
-                if (c) cinemas.add(c);
-            });
-        });
-
-        [...genres].sort().forEach(g => {
-            const opt = document.createElement('option');
-            opt.value = g;
-            opt.textContent = g.charAt(0).toUpperCase() + g.slice(1);
-            filterGenre.appendChild(opt);
-        });
-
-        [...directors].sort().forEach(d => {
-            const opt = document.createElement('option');
-            opt.value = d;
-            opt.textContent = d.charAt(0).toUpperCase() + d.slice(1);
-            filterDirector.appendChild(opt);
-        });
-
-        [...cinemas].sort().forEach(c => {
-            const opt = document.createElement('option');
-            opt.value = c;
-            opt.textContent = c.charAt(0).toUpperCase() + c.slice(1);
-            filterCinema.appendChild(opt);
-        });
+        // Note: Les options des filtres sont maintenant pré-générées côté serveur (Optimisation #11)
 
         function filterFilms() {
             const titleQuery = searchTitle.value.toLowerCase();
