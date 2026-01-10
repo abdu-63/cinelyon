@@ -32,14 +32,14 @@
 
 Fork de [grainParisArt-Public](https://github.com/solene-drnx/grainParisArt-Public) réalisé par [Solène](https://github.com/solene-drnx)
 
-## Liste des cinémas choisis
+## Liste des cinémas (17)
 
 - Pathé Carré de Soie
 - Pathé Bellecour
 - Pathé Vaise
-- UGC Ciné Cité Part-Dieu
-- UGC Ciné Cité Confluence
-- UGC Ciné Cité Internationale
+- UGC Part-Dieu
+- UGC Confluence
+- UGC Internationale
 - UGC Astoria
 - Lumière Bellecour
 - Lumière La Fourmi
@@ -48,6 +48,9 @@ Fork de [grainParisArt-Public](https://github.com/solene-drnx/grainParisArt-Publ
 - CGR Brignais
 - Ciné Meyzieu
 - Ciné Toboggan
+- Cinéma Comoedia
+- Les Amphis
+- Cinéma Gerard-Philipe
 
 ## Fonctionnalités
 
