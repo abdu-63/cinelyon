@@ -952,3 +952,14 @@ html {
         font-size: 12px;
     }
 }
+
+/* Optimisation animations */
+.film-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.film-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    will-change: transform;
+}
