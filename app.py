@@ -180,7 +180,7 @@ def home():
                     "genres": film["genres"],
                     "realisateur": film["realisateur"],
                     "synopsis": film["synopsis"],
-                    "affiche": optimize_poster_url(film["affiche"]),  # Optimisation #13
+                    "affiche": film["affiche"],  # Retour URL originale
                     "director": film["director"],
                     "wantToSee": film["wantToSee"],
                     "url": film["url"],
