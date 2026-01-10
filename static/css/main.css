@@ -150,6 +150,7 @@ p {
     position: relative;
     display: flex;
     flex-direction: row;
+    align-items: flex-start;
 }
 
 .blur-background {
@@ -445,10 +446,28 @@ footer {
     max-height: 78px;
     overflow: hidden;
     transition: max-height 0.3s ease;
+    position: relative;
+}
+
+.synopsis::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30px;
+    background: linear-gradient(transparent, rgba(255, 255, 255, 0.9));
+    pointer-events: none;
+    transition: opacity 0.3s ease;
 }
 
 .synopsis.expanded {
     max-height: 500px;
+}
+
+.synopsis.expanded::after,
+.synopsis.no-fade::after {
+    opacity: 0;
 }
 
 .synopsis-toggle {
@@ -459,7 +478,7 @@ footer {
     font-family: 'healTheWebA', sans-serif;
     font-size: 14px;
     padding: 5px 0;
-    margin-top: 5px;
+    margin-top: -10px;
 }
 
 .synopsis-toggle:hover {
@@ -558,7 +577,7 @@ html {
 }
 
 .responsive-div-compact {
-    height: 20px;
+    height: 30px;
 }
 
 .responsive-petite-div {
@@ -755,7 +774,7 @@ html {
     }
 
     .responsive-div {
-        height: 30px;
+        height: 10px;
     }
 
     .responsive-petite-div {

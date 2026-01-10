@@ -79,7 +79,7 @@
                         <p class="duree">Durée : {{film.duree}}</p>
                         <p class="rating">Note : {{ film.rating }}</p>
                     </div>
-                    <div style="height: 30px;"></div>
+                    <div style="height: 10px;"></div>
                     <div class="synopsis_container">
                         <p class="synopsis">
                             {{film.synopsis}}
@@ -362,6 +362,19 @@
                     filterFilms();
                 }
             });
+        });
+
+        // Vérifier si le synopsis a besoin d'être tronqué
+        document.querySelectorAll('.synopsis_container').forEach(container => {
+            const synopsis = container.querySelector('.synopsis');
+            const toggleBtn = container.querySelector('.synopsis-toggle');
+            if (synopsis && toggleBtn) {
+                // Si le synopsis n'est pas tronqué, masquer le bouton et le dégradé
+                if (synopsis.scrollHeight <= synopsis.clientHeight + 5) {
+                    toggleBtn.style.display = 'none';
+                    synopsis.classList.add('no-fade');
+                }
+            }
         });
 
         films.forEach(film => {
