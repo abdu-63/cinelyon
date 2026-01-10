@@ -5,7 +5,7 @@
 
 <p align="center">
   <a href="https://www.python.org/">
-    <img alt="Python" src="https://img.shields.io/badge/Python-3.10-blue?logo=python">
+    <img alt="Python" src="https://img.shields.io/badge/Python-3.10+-blue?logo=python">
   </a>
   <a href="https://flask.palletsprojects.com/">
     <img alt="Flask" src="https://img.shields.io/badge/Flask-2.0+-lightgrey?logo=flask">
@@ -14,7 +14,7 @@
     <img alt="Vercel" src="https://img.shields.io/badge/Vercel-Deployed-black?logo=vercel">
   </a>
   <a href="https://github.com/features/actions">
-    <img alt="GitHub Actions" src="https://img.shields.io/badge/GitHub%20Actions-Scraping-2088FF?logo=github-actions">
+    <img alt="GitHub Actions" src="https://img.shields.io/badge/CI%2FCD-Passing-2088FF?logo=github-actions">
   </a>
   <a href="https://www.themoviedb.org/">
     <img alt="TMDB" src="https://img.shields.io/badge/TMDB-API-01d277?logo=themoviedb">
@@ -53,35 +53,52 @@ Fork de [grainParisArt-Public](https://github.com/solene-drnx/grainParisArt-Publ
 
 - **Calendrier interactif** : Visualisez les horaires sur 7 jours
 - **Informations détaillées** : Synopsis, réalisateur, genres, durée, notes TMDB
-- **Carte interactive** : Localisation de tous les cinémas avec Mapbox
+- **Carte interactive** : Localisation de tous les cinémas avec Mapbox et liens GPS
 - **Barre de recherche** : Filtrez par titre, genre, réalisateur, cinéma ou note
+- **Système de favoris** : Sauvegardez vos films préférés (persistant via localStorage)
 - **Badges VO/VF** : Langue de chaque séance clairement affichée
 - **Formats spéciaux** : Badges IMAX, 4DX, 3D pour les séances premium
 - **Scraping automatique** : Données mises à jour quotidiennement via GitHub Actions
+- **PWA** : Installable sur mobile avec Service Worker
 - **Design responsive** : Interface moderne adaptée à tous les écrans
+
+## Optimisations
+
+- **Compression Gzip** : Réponses HTTP compressées via Flask-Compress
+- **Sécurité CSP** : Headers de sécurité avec Flask-Talisman
+- **Cache intelligent** : Rechargement automatique des données si `movies.json` change
+- **Proxy d'images** : Affiches optimisées via wsrv.nl
+- **Cache HTTP** : Headers de cache pour les fichiers statiques
 
 ## Architecture
 
 ```
 cinelyon/
-├── app.py                 # Application Flask
+├── app.py                 # Application Flask (compression, sécurité, cache)
 ├── scrape.py              # Script de scraping (GitHub Actions)
 ├── movies.json            # Données des films (généré automatiquement)
+├── tmdb_cache.json        # Cache des données TMDB
 ├── vercel.json            # Configuration Vercel
+├── pyproject.toml         # Configuration Python (Ruff, pytest)
 ├── requirements.txt       # Dépendances Python
 ├── .env.sample            # Template des variables d'environnement
 ├── .github/
 │   └── workflows/
-│       └── scrape.yml     # Workflow quotidien (4h UTC)
+│       ├── scrape.yml     # Workflow quotidien de scraping
+│       └── quality.yml    # CI: Ruff linting + Pytest
 ├── modules/
 │   └── Classes.py         # Classes: Movie, Theater, Showtime
 ├── templates/
 │   ├── base.html          # Template de base
 │   └── index.html         # Page d'accueil
+├── tests/
+│   └── test_basic.py      # Tests unitaires (health, home)
 └── static/
     ├── css/main.css       # Styles CSS
     ├── font/              # Police
-    └── images/            # Images et icônes
+    ├── images/            # Images et icônes
+    ├── manifest.json      # PWA manifest
+    └── sw.js              # Service Worker
 ```
 
 ### Flux de données
@@ -91,11 +108,11 @@ GitHub Actions (4h UTC)
        ↓
    scrape.py
        ↓
-  Allociné API → movies.json ← TMDB API
+  Allociné API → movies.json ← TMDB API (+ cache)
        ↓
-   app.py (Flask)
+   app.py (Flask + Gzip + Talisman)
        ↓
-   Vercel / Navigateur
+   Vercel / Navigateur (PWA)
 ```
 
 ## Installation locale
@@ -136,6 +153,28 @@ GitHub Actions (4h UTC)
    ```
    → Ouvrir `http://127.0.0.1:5000/` ou `http://localhost:5000`
 
+## Développement
+
+### Qualité du code
+
+```bash
+# Linting avec Ruff
+ruff check .
+
+# Tests avec Pytest
+pytest
+
+# Les deux à la fois (comme CI)
+ruff check . && pytest
+```
+
+### Tests disponibles
+
+| Test | Description |
+|------|-------------|
+| `test_health_check` | Vérifie que `/health` répond OK |
+| `test_home_page` | Vérifie que la page d'accueil charge (200) |
+
 ## Déploiement Vercel
 
 1. **Importer sur [vercel.com/new](https://vercel.com/new)** (Conseil : GitHub)
@@ -149,9 +188,12 @@ Le scraping GitHub Actions met à jour `movies.json` → Vercel redéploie autom
 
 ## GitHub Actions
 
-Le workflow s'exécute :
-- **Automatiquement** : tous les jours à 4h UTC
-- **Manuellement** : Actions → "Scrape Movies" → "Run workflow"
+### Workflows
+
+| Workflow | Déclencheur | Actions |
+|----------|-------------|---------|
+| `scrape.yml` | Quotidien (4h UTC) + manuel | Scraping Allociné + TMDB |
+| `quality.yml` | Push / Pull Request | Ruff linting + Pytest |
 
 ### Secrets requis
 
