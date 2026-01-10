@@ -29,6 +29,7 @@ h1 h2 h3 {
 
 h3 {
     font-size: 24px;
+    padding-right: 15px;
 }
 
 .background_svg {
@@ -441,7 +442,7 @@ footer {
 
 .synopsis {
     opacity: 0.8;
-    max-height: 60px;
+    max-height: 78px;
     overflow: hidden;
     transition: max-height 0.3s ease;
 }
@@ -818,27 +819,19 @@ html {
     }
 }
 
-/* Favoris System */
-.titre-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
 
-.titre-container .titreFilm {
-    margin: 0;
-}
 
 .favorite-btn {
     background: none;
     border: none;
     cursor: pointer;
     padding: 0;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     transition: transform 0.2s ease;
-    flex-shrink: 0;
+    vertical-align: middle;
+    margin-left: 5px;
 }
 
 .favorite-btn:hover {
@@ -935,13 +928,9 @@ html {
 }
 
 @media (max-width: 576px) {
-    .titre-container {
-        gap: 8px;
-    }
-
     .favorite-icon {
-        width: 16px;
-        height: 16px;
+        width: 14px;
+        height: 14px;
     }
 
     .favorites-toggle {
