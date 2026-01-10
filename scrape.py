@@ -3,10 +3,12 @@
 Script de scraping autonome pour récupérer les séances de cinéma.
 Sauvegarde les données dans movies.json.
 Conçu pour être exécuté via GitHub Actions.
+Supporte le scraping incrémental et la reprise après échec.
 """
 
 import json
 import os
+import time
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 
@@ -16,6 +18,8 @@ load_dotenv(".env")
 
 THEATERS_JSON = os.environ.get("THEATERS", "[]")
 TMDB_API_KEY = os.environ.get("TMDB_API_KEY", "")
+OUTPUT_FILE = "movies.json"
+DAYS_TO_SCRAPE = 20
 
 def get_showtimes(theaters: list[Theater], date: datetime) -> list[dict]:
     """Récupère les séances pour une date donnée."""
@@ -62,6 +66,58 @@ def get_showtimes(theaters: list[Theater], date: datetime) -> list[dict]:
     return movies
 
 
+def load_existing_data() -> dict:
+    """Charge les données existantes si disponibles."""
+    if os.path.exists(OUTPUT_FILE):
+        try:
+            with open(OUTPUT_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except (json.JSONDecodeError, IOError):
+            pass
+    return {"generated_at": None, "days": []}
+
+
+def save_data(data: dict):
+    """Sauvegarde les données dans movies.json."""
+    data["generated_at"] = datetime.now().isoformat()
+    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+
+def get_dates_to_scrape(existing_data: dict) -> list[str]:
+    """Détermine les dates à scraper (manquantes ou à mettre à jour)."""
+    today = datetime.today().date()
+    target_dates = set()
+    
+    for i in range(DAYS_TO_SCRAPE):
+        date = today + timedelta(days=i)
+        target_dates.add(date.strftime("%Y-%m-%d"))
+    
+    existing_dates = set()
+    for day in existing_data.get("days", []):
+        date_str = day.get("date", "")
+        # Garder les dates existantes seulement si elles sont encore dans la période cible
+        if date_str in target_dates:
+            existing_dates.add(date_str)
+    
+    # Retourner les dates manquantes, triées
+    missing_dates = target_dates - existing_dates
+    return sorted(list(missing_dates))
+
+
+def clean_old_dates(data: dict) -> dict:
+    """Supprime les dates passées et hors de la période de scraping."""
+    today = datetime.today().date()
+    valid_dates = set()
+    
+    for i in range(DAYS_TO_SCRAPE):
+        date = today + timedelta(days=i)
+        valid_dates.add(date.strftime("%Y-%m-%d"))
+    
+    data["days"] = [day for day in data.get("days", []) if day.get("date") in valid_dates]
+    return data
+
+
 def main():
     print("🎬 Démarrage du scraping des séances de cinéma...")
     
@@ -86,34 +142,58 @@ def main():
     
     print(f"📍 {len(theaters)} cinéma(s) configuré(s)")
     
-    # Récupérer les séances pour les 7 prochains jours
-    all_data = {
-        "generated_at": datetime.now().isoformat(),
-        "days": []
-    }
+    # Charger les données existantes
+    existing_data = load_existing_data()
     
-    for i in range(7):
-        date = datetime.today() + timedelta(days=i)
-        date_str = date.strftime("%Y-%m-%d")
+    # Nettoyer les dates obsolètes
+    existing_data = clean_old_dates(existing_data)
+    
+    # Déterminer les dates à scraper
+    dates_to_scrape = get_dates_to_scrape(existing_data)
+    
+    if not dates_to_scrape:
+        print("✅ Toutes les données sont à jour, aucun scraping nécessaire.")
+        save_data(existing_data)
+        return
+    
+    print(f"📅 {len(dates_to_scrape)} jour(s) à scraper (données existantes conservées)")
+    
+    # Créer un dictionnaire des jours existants pour accès rapide
+    existing_days = {day["date"]: day for day in existing_data.get("days", [])}
+    
+    for date_str in dates_to_scrape:
+        date = datetime.strptime(date_str, "%Y-%m-%d")
         
         print(f"📅 Récupération des séances pour {date_str}...")
         
-        movies = get_showtimes(theaters, date)
-        
-        all_data["days"].append({
-            "date": date_str,
-            "movies": movies
-        })
-        
-        print(f"   ✅ {len(movies)} film(s) récupéré(s)")
+        try:
+            movies = get_showtimes(theaters, date)
+            
+            existing_days[date_str] = {
+                "date": date_str,
+                "movies": movies
+            }
+            
+            print(f"   ✅ {len(movies)} film(s) récupéré(s)")
+            
+            # Sauvegarder après chaque jour pour pouvoir reprendre en cas d'échec
+            existing_data["days"] = sorted(existing_days.values(), key=lambda x: x["date"])
+            save_data(existing_data)
+            
+            # Petit délai pour éviter le rate limiting
+            time.sleep(1)
+            
+        except Exception as e:
+            print(f"   ❌ Erreur pour {date_str}: {e}")
+            print("   💾 Progrès sauvegardé. Relancez le script pour continuer.")
+            # Sauvegarder le progrès avant de quitter
+            existing_data["days"] = sorted(existing_days.values(), key=lambda x: x["date"])
+            save_data(existing_data)
+            raise
     
-    # Sauvegarder dans movies.json
-    output_file = "movies.json"
-    with open(output_file, "w", encoding="utf-8") as f:
-        json.dump(all_data, f, ensure_ascii=False, indent=2)
-    
-    print(f"\n✅ Données sauvegardées dans {output_file}")
-    print(f"📊 Total: {sum(len(day['movies']) for day in all_data['days'])} entrées de films sur 7 jours")
+    print(f"\n✅ Scraping terminé et sauvegardé dans {OUTPUT_FILE}")
+    total_movies = sum(len(day['movies']) for day in existing_data['days'])
+    print(f"📊 Total: {total_movies} entrées de films sur {len(existing_data['days'])} jours")
 
 
 if __name__ == "__main__":

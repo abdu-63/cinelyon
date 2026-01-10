@@ -71,10 +71,10 @@ class Movie:
         return text
 
     def _generate_letterboxd_url(self):
-        """Génère l'URL deep link Letterboxd pour ouvrir dans l'app mobile."""
+        """Génère l'URL Letterboxd (Universal Link: ouvre l'app sur mobile si installée)."""
         from urllib.parse import quote
         search_query = f"{self.original_title} {self.release_year}"
-        return f"letterboxd://search/{quote(search_query)}/"
+        return f"https://letterboxd.com/search/{quote(search_query)}/"
 
     def _get_data_from_tmdb(self):
         """Récupère l'année de sortie, la note et le synopsis du film depuis TMDB"""
