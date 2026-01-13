@@ -123,6 +123,62 @@
                     </div>
                     <div class="horaires_container">
                         {% for seance in seances %}
+                        <div class="horaire-wrapper">
+                            {% if seance.ticketing_url %}
+                            <a href="{{ seance.ticketing_url }}" target="_blank" rel="noopener" class="horaire-link">
+                                <div
+                                    class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}">
+                                    <span class="lang-badge">{{ seance.lang }}</span>
+                                    {% if seance.format %}
+                                    <span class="format-badge">{{ seance.format }}</span>
+                                    {% endif %}
+                                    <p>{{ seance.time }}</p>
+                                </div>
+                            </a>
+                            {% else %}
+                            <div
+                                class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}">
+                                <span class="lang-badge">{{ seance.lang }}</span>
+                                {% if seance.format %}
+                                <span class="format-badge">{{ seance.format }}</span>
+                                {% endif %}
+                                <p>{{ seance.time }}</p>
+                            </div>
+                            {% endif %}
+                            <button class="calendar-btn" data-title="{{ film.title }}"
+                                data-year="{{ film.release_year }}" data-cinema="{{ cinename }}"
+                                data-duree="{{ film.duree }}" data-letterboxd="{{ film.url }}"
+                                data-time="{{ seance.time }}" data-lang="{{ seance.lang }}" data-day="{{ day_label }}"
+                                title="Ajouter au calendrier">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                    <line x1="16" y1="2" x2="16" y2="6" />
+                                    <line x1="8" y1="2" x2="8" y2="6" />
+                                    <line x1="3" y1="10" x2="21" y2="10" />
+                                    <line x1="12" y1="14" x2="12" y2="18" />
+                                    <line x1="10" y1="16" x2="14" y2="16" />
+                                </svg>
+                            </button>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="responsive-petite-div"></div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+            {% else %}
+            {% for day_label, cinemas in film.seances_by_day.items() %}
+            {% for cinename, seances in cinemas.items() %}
+            <div class="seance_container">
+                <div class="cinema">
+                    <a href="#" class="cinema-link" data-cinema="{{cinename}}" target="_blank" rel="noopener">
+                        <p>{{cinename}}</p>
+                    </a>
+                </div>
+                <div class="horaires_container">
+                    {% for seance in seances %}
+                    <div class="horaire-wrapper">
                         {% if seance.ticketing_url %}
                         <a href="{{ seance.ticketing_url }}" target="_blank" rel="noopener" class="horaire-link">
                             <div
@@ -144,45 +200,20 @@
                             <p>{{ seance.time }}</p>
                         </div>
                         {% endif %}
-                        {% endfor %}
+                        <button class="calendar-btn" data-title="{{ film.title }}" data-year="{{ film.release_year }}"
+                            data-cinema="{{ cinename }}" data-duree="{{ film.duree }}" data-letterboxd="{{ film.url }}"
+                            data-time="{{ seance.time }}" data-lang="{{ seance.lang }}" data-day="{{ day_label }}"
+                            title="Ajouter au calendrier">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                <line x1="16" y1="2" x2="16" y2="6" />
+                                <line x1="8" y1="2" x2="8" y2="6" />
+                                <line x1="3" y1="10" x2="21" y2="10" />
+                                <line x1="12" y1="14" x2="12" y2="18" />
+                                <line x1="10" y1="16" x2="14" y2="16" />
+                            </svg>
+                        </button>
                     </div>
-                </div>
-                <div class="responsive-petite-div"></div>
-                {% endfor %}
-            </div>
-            {% endfor %}
-            {% else %}
-            {% for day_label, cinemas in film.seances_by_day.items() %}
-            {% for cinename, seances in cinemas.items() %}
-            <div class="seance_container">
-                <div class="cinema">
-                    <a href="#" class="cinema-link" data-cinema="{{cinename}}" target="_blank" rel="noopener">
-                        <p>{{cinename}}</p>
-                    </a>
-                </div>
-                <div class="horaires_container">
-                    {% for seance in seances %}
-                    {% if seance.ticketing_url %}
-                    <a href="{{ seance.ticketing_url }}" target="_blank" rel="noopener" class="horaire-link">
-                        <div
-                            class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}">
-                            <span class="lang-badge">{{ seance.lang }}</span>
-                            {% if seance.format %}
-                            <span class="format-badge">{{ seance.format }}</span>
-                            {% endif %}
-                            <p>{{ seance.time }}</p>
-                        </div>
-                    </a>
-                    {% else %}
-                    <div
-                        class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}">
-                        <span class="lang-badge">{{ seance.lang }}</span>
-                        {% if seance.format %}
-                        <span class="format-badge">{{ seance.format }}</span>
-                        {% endif %}
-                        <p>{{ seance.time }}</p>
-                    </div>
-                    {% endif %}
                     {% endfor %}
                 </div>
             </div>
@@ -492,6 +523,148 @@
             // Si pas d'URL connue, recherche Google
             link.href = `https://www.google.com/search?q=${encodeURIComponent(cinemaName + ' Lyon')}`;
         }
+    });
+
+    // Calendar button functionality
+    const cinemaAddresses = {
+        "Pathé Carré de Soie": "Place Jacques Monod, Carré de Soie, 69120 Vaulx-en-Velin",
+        "Pathé Bellecour": "79 Rue de la République, 69002 Lyon",
+        "Pathé Vaise": "33 Rue des Docks, 69009 Lyon",
+        "UGC Part-Dieu": "Centre Commercial Part-Dieu, 69003 Lyon",
+        "UGC Confluence": "112 Cours Charlemagne, 69002 Lyon",
+        "UGC Internationale": "Cité Internationale, 80 Quai Charles de Gaulle, 69006 Lyon",
+        "UGC Astoria": "31 Rue de la République, 69002 Lyon",
+        "CGR Brignais": "330 Route de Givors, 69530 Brignais",
+        "Ciné Meyzieu": "24 Rue Louis Saulnier, 69330 Meyzieu",
+        "Ciné Toboggan": "14 Avenue Jean Macé, 69150 Décines-Charpieu",
+        "Lumière Bellecour": "12 Rue de la Barre, 69002 Lyon",
+        "Lumière La Fourmi": "8 Grande Rue de la Guillotière, 69007 Lyon",
+        "Lumière Terreaux": "40 Rue du Président Édouard Herriot, 69001 Lyon",
+        "Institut Lumière": "25 Rue du Premier-Film, 69008 Lyon",
+        "Cinéma Comoedia": "13 Avenue Berthelot, 69007 Lyon",
+        "Les Amphis": "10 Allée Pierre de Coubertin, 69100 Villeurbanne",
+        "Cinéma Gerard-Philipe": "12 Rue Émile Zola, 69200 Vénissieux"
+    };
+
+    function parseDuration(dureeStr) {
+        let hours = 0, minutes = 0;
+        const hourMatch = dureeStr.match(/(\d+)\s*h/);
+        const minMatch = dureeStr.match(/(\d+)\s*min/);
+        if (hourMatch) hours = parseInt(hourMatch[1]);
+        if (minMatch) minutes = parseInt(minMatch[1]);
+        return { hours, minutes };
+    }
+
+    function parseDayLabel(dayLabel) {
+        const dayMap = {
+            'lundi': 1, 'mardi': 2, 'mercredi': 3, 'jeudi': 4,
+            'vendredi': 5, 'samedi': 6, 'dimanche': 0
+        };
+
+        const parts = dayLabel.toLowerCase().split(' ');
+        const dayName = parts[0];
+        const dayNum = parseInt(parts[1]);
+
+        const today = new Date();
+        const currentDayOfWeek = today.getDay();
+        const targetDayOfWeek = dayMap[dayName];
+
+        if (targetDayOfWeek === undefined) {
+            return today;
+        }
+
+        let diff = targetDayOfWeek - currentDayOfWeek;
+        if (diff < 0) diff += 7;
+
+        const targetDate = new Date(today);
+        targetDate.setDate(today.getDate() + diff);
+
+        if (dayNum && targetDate.getDate() !== dayNum) {
+            targetDate.setDate(dayNum);
+        }
+
+        return targetDate;
+    }
+
+    function formatICSDate(date) {
+        const pad = n => n.toString().padStart(2, '0');
+        return `${date.getFullYear()}${pad(date.getMonth() + 1)}${pad(date.getDate())}T${pad(date.getHours())}${pad(date.getMinutes())}00`;
+    }
+
+    function generateICS(title, year, cinema, duree, letterboxd, time, lang, dayLabel) {
+        const movieTitle = `${title} (${year})`;
+        const location = cinemaAddresses[cinema] || `${cinema}, Lyon`;
+        const duration = parseDuration(duree);
+
+        const eventDate = parseDayLabel(dayLabel);
+        const [hours, minutes] = time.split(':').map(Number);
+        eventDate.setHours(hours, minutes, 0, 0);
+
+        const endDate = new Date(eventDate);
+        endDate.setHours(endDate.getHours() + duration.hours);
+        endDate.setMinutes(endDate.getMinutes() + duration.minutes);
+
+        const description = `Film: ${title} (${year})\\nLangue: ${lang}\\nDurée: ${duree}\\n\\nLien Letterboxd: ${letterboxd}`;
+
+        const uid = `cinelyon-${Date.now()}-${Math.random().toString(36).substr(2, 9)}@cinelyon.vercel.app`;
+        const now = new Date();
+
+        const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//CineLyon//Calendar//FR
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:${uid}
+DTSTAMP:${formatICSDate(now)}
+DTSTART:${formatICSDate(eventDate)}
+DTEND:${formatICSDate(endDate)}
+SUMMARY:🎬 ${movieTitle}
+LOCATION:${location}
+DESCRIPTION:${description}
+URL:${letterboxd}
+END:VEVENT
+END:VCALENDAR`;
+
+        return icsContent;
+    }
+
+    function downloadICS(icsContent, filename) {
+        const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(link.href);
+    }
+
+    document.querySelectorAll('.calendar-btn').forEach(btn => {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const title = this.dataset.title;
+            const year = this.dataset.year;
+            const cinema = this.dataset.cinema;
+            const duree = this.dataset.duree;
+            const letterboxd = this.dataset.letterboxd;
+            const time = this.dataset.time;
+            const lang = this.dataset.lang;
+            const dayLabel = this.dataset.day;
+
+            const icsContent = generateICS(title, year, cinema, duree, letterboxd, time, lang, dayLabel);
+            const filename = `${title.replace(/[^a-z0-9]/gi, '_')}_${time.replace(':', 'h')}.ics`;
+
+            downloadICS(icsContent, filename);
+
+            // Visual feedback
+            this.classList.add('added');
+            setTimeout(() => {
+                this.classList.remove('added');
+            }, 2000);
+        });
     });
 </script>
 

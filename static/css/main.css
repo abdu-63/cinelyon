@@ -960,3 +960,67 @@ html {
         font-size: 12px;
     }
 }
+
+/* Calendar Button Styles */
+.horaire-wrapper {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 4px;
+    margin-left: 10px;
+}
+
+.horaire-wrapper .horaire {
+    margin-left: 0;
+}
+
+.calendar-btn {
+    background: linear-gradient(135deg, #444cf7 0%, #6366f1 100%);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 4px 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    opacity: 0.85;
+    height: 28px;
+}
+
+.calendar-btn:hover {
+    transform: scale(1.1);
+    opacity: 1;
+    box-shadow: 0 4px 12px rgba(68, 76, 247, 0.4);
+}
+
+.calendar-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke: white;
+}
+
+.calendar-btn.added {
+    background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+}
+
+.calendar-btn.added svg {
+    stroke: white;
+}
+
+@media (max-width: 576px) {
+    .horaire-wrapper {
+        margin-left: 5px;
+    }
+
+    .calendar-btn {
+        padding: 3px 4px;
+        margin-top: 2px;
+    }
+
+    .calendar-btn svg {
+        width: 12px;
+        height: 12px;
+    }
+}
