@@ -233,62 +233,92 @@
     (function () {
         var mapInitialized = false;
 
+        // Check WebGL support
+        function isWebGLSupported() {
+            try {
+                var canvas = document.createElement('canvas');
+                return !!(window.WebGLRenderingContext &&
+                    (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
+            } catch (e) {
+                return false;
+            }
+        }
+
         function initMap() {
             var mapContainer = document.getElementById('map');
             if (mapInitialized || typeof mapboxgl === 'undefined' || !mapContainer) return;
+
+            // Check WebGL support for iOS Safari
+            if (!isWebGLSupported()) {
+                console.warn('WebGL not supported - showing fallback image');
+                mapContainer.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;background:#f0f0f0;border-radius:10px;"><p style="text-align:center;color:#666;">Carte non disponible sur ce navigateur.<br><a href="https://www.google.com/maps/search/cin%C3%A9ma+lyon" target="_blank" style="color:#444cf7;">Voir sur Google Maps</a></p></div>';
+                return;
+            }
+
             mapInitialized = true;
 
             mapboxgl.accessToken = '{{ mapbox_token }}';
 
-            var map = new mapboxgl.Map({
-                container: 'map',
-                style: 'mapbox://styles/mapbox/streets-v11',
-                center: [4.8544994, 45.7620499],
-                zoom: 11.5
-            });
+            try {
+                var map = new mapboxgl.Map({
+                    container: 'map',
+                    style: 'mapbox://styles/mapbox/streets-v11',
+                    center: [4.8544994, 45.7620499],
+                    zoom: 11.5,
+                    // iOS Safari fixes
+                    preserveDrawingBuffer: true,
+                    antialias: true
+                });
 
-            map.addControl(new mapboxgl.NavigationControl());
+                map.addControl(new mapboxgl.NavigationControl());
 
-            var locations = [
-                { coordinates: [4.9212527, 45.7641958], description: "Pathé Carré de Soie" },
-                { coordinates: [4.8348411, 45.7587566], description: "Pathé Bellecour" },
-                { coordinates: [4.8544482, 45.7620652], description: "UGC Ciné Cité Part-Dieu" },
-                { coordinates: [5.0028814, 45.7649601], description: "Ciné Meyzieu" },
-                { coordinates: [4.955623, 45.7687615], description: "Ciné Toboggan" },
-                { coordinates: [4.8181753, 45.7407344], description: "UGC Ciné Cité Confluence" },
-                { coordinates: [4.8520202, 45.7845498], description: "UGC Ciné Cité Internationale" },
-                { coordinates: [4.8560867, 45.7733587], description: "Pathé Vaise" },
-                { coordinates: [4.8767983, 45.7733587], description: "UGC Astoria" },
-                { coordinates: [4.7699954, 45.7319408], description: "CGR Brignais" },
-                { coordinates: [4.8438138, 45.7320296], description: "Lumière Bellecour" },
-                { coordinates: [4.8520202, 45.7320296], description: "Lumière La Fourmi" },
-                { coordinates: [4.8673231, 45.7733587], description: "Lumière Terreaux" },
-                { coordinates: [4.9027159, 45.7344678], description: "Institut Lumière" },
-                { coordinates: [4.8307605, 45.747503], description: "Cinéma Comoedia" },
-                { coordinates: [4.9153971, 45.78833], description: "Les Amphis" },
-                { coordinates: [4.8666958, 45.6969889], description: "Cinéma Gerard-Philipe" }
-            ];
+                var locations = [
+                    { coordinates: [4.9212527, 45.7641958], description: "Pathé Carré de Soie" },
+                    { coordinates: [4.8348411, 45.7587566], description: "Pathé Bellecour" },
+                    { coordinates: [4.8544482, 45.7620652], description: "UGC Ciné Cité Part-Dieu" },
+                    { coordinates: [5.0028814, 45.7649601], description: "Ciné Meyzieu" },
+                    { coordinates: [4.955623, 45.7687615], description: "Ciné Toboggan" },
+                    { coordinates: [4.8181753, 45.7407344], description: "UGC Ciné Cité Confluence" },
+                    { coordinates: [4.8520202, 45.7845498], description: "UGC Ciné Cité Internationale" },
+                    { coordinates: [4.8560867, 45.7733587], description: "Pathé Vaise" },
+                    { coordinates: [4.8767983, 45.7733587], description: "UGC Astoria" },
+                    { coordinates: [4.7699954, 45.7319408], description: "CGR Brignais" },
+                    { coordinates: [4.8438138, 45.7320296], description: "Lumière Bellecour" },
+                    { coordinates: [4.8520202, 45.7320296], description: "Lumière La Fourmi" },
+                    { coordinates: [4.8673231, 45.7733587], description: "Lumière Terreaux" },
+                    { coordinates: [4.9027159, 45.7344678], description: "Institut Lumière" },
+                    { coordinates: [4.8307605, 45.747503], description: "Cinéma Comoedia" },
+                    { coordinates: [4.9153971, 45.78833], description: "Les Amphis" },
+                    { coordinates: [4.8666958, 45.6969889], description: "Cinéma Gerard-Philipe" }
+                ];
 
-            locations.forEach(function (location) {
-                var el = document.createElement('div');
-                el.className = 'custom-marker';
+                locations.forEach(function (location) {
+                    var el = document.createElement('div');
+                    el.className = 'custom-marker';
 
-                var googleMapsUrl = "https://www.google.com/maps/search/?api=1&query=" + location.coordinates[1] + "," + location.coordinates[0];
-                var appleMapsUrl = "https://maps.apple.com/?q=" + encodeURIComponent(location.description) + "&ll=" + location.coordinates[1] + "," + location.coordinates[0];
+                    var googleMapsUrl = "https://www.google.com/maps/search/?api=1&query=" + location.coordinates[1] + "," + location.coordinates[0];
+                    var appleMapsUrl = "https://maps.apple.com/?q=" + encodeURIComponent(location.description) + "&ll=" + location.coordinates[1] + "," + location.coordinates[0];
 
-                var popupHtml = '<div style="text-align:center;"><strong>' + location.description + '</strong><br>' +
-                    '<div style="margin-top:5px; font-size:12px;">' +
-                    '<a href="' + googleMapsUrl + '" target="_blank" style="color:#444cf7; text-decoration:none;">Google</a> | ' +
-                    '<a href="' + appleMapsUrl + '" target="_blank" style="color:#444cf7; text-decoration:none;">Apple</a>' +
-                    '</div></div>';
+                    var popupHtml = '<div style="text-align:center;"><strong>' + location.description + '</strong><br>' +
+                        '<div style="margin-top:5px; font-size:12px;">' +
+                        '<a href="' + googleMapsUrl + '" target="_blank" style="color:#444cf7; text-decoration:none;">Google</a> | ' +
+                        '<a href="' + appleMapsUrl + '" target="_blank" style="color:#444cf7; text-decoration:none;">Apple</a>' +
+                        '</div></div>';
 
-                var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(popupHtml);
+                    var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(popupHtml);
 
-                new mapboxgl.Marker(el)
-                    .setLngLat(location.coordinates)
-                    .setPopup(popup)
-                    .addTo(map);
-            });
+                    new mapboxgl.Marker(el)
+                        .setLngLat(location.coordinates)
+                        .setPopup(popup)
+                        .addTo(map);
+                });
+            } catch (e) {
+                console.error('Erreur initialisation Mapbox:', e);
+                var mapContainer = document.getElementById('map');
+                if (mapContainer) {
+                    mapContainer.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;background:#f0f0f0;border-radius:10px;"><p style="text-align:center;color:#666;">Carte temporairement indisponible.<br><a href="https://www.google.com/maps/search/cin%C3%A9ma+lyon" target="_blank" style="color:#444cf7;">Voir sur Google Maps</a></p></div>';
+                }
+            }
         }
 
         function setupLazyMap() {

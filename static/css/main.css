@@ -47,6 +47,12 @@ p {
     margin-right: 10%;
     height: 500px;
     border-radius: 10px;
+    /* iOS Safari compatibility fixes */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    will-change: transform;
+    position: relative;
+    z-index: 1;
 }
 
 .custom-marker {
