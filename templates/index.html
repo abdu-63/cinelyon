@@ -38,9 +38,9 @@
             </select>
             <select id="filter-cinema" class="search-input">
                 <option value="">Tous les cinémas</option>
-                <option value="group:pathe">🎬 Tous les Pathé</option>
-                <option value="group:ugc">🎬 Tous les UGC</option>
-                <option value="group:lumiere">🎬 Tous les Lumière</option>
+                <option value="group:pathe">Pathé</option>
+                <option value="group:ugc">UGC</option>
+                <option value="group:lumiere">Lumière</option>
                 <option disabled>──────────</option>
                 {% for cinema in all_cinemas %}
                 <option value="{{ cinema|lower }}">{{ cinema }}</option>

@@ -341,7 +341,13 @@ class Theater:
                         format_str = ", ".join(formats) if formats else None
                         showtimes.append(Showtime(showtime_data, self, inst, language, format_str))
 
-        if int(data["pagination"]["page"]) < int(data["pagination"]["totalPages"]):
+        # Log pagination info
+        current_page = data["pagination"]["page"]
+        total_pages = data["pagination"]["totalPages"]
+        if total_pages > 1:
+            print(f"      📄 {self.name}: page {current_page}/{total_pages}")
+
+        if int(current_page) < int(total_pages):
             return self.getShowtimes(date, page + 1, showtimes)
 
         return showtimes
