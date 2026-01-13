@@ -1015,12 +1015,67 @@ html {
     }
 
     .calendar-btn {
-        padding: 3px 4px;
-        margin-top: 2px;
+        padding: 4px 5px;
+        height: 24px;
     }
 
     .calendar-btn svg {
-        width: 12px;
-        height: 12px;
+        width: 14px;
+        height: 14px;
     }
+}
+
+/* Calendar Dropdown Menu */
+.calendar-menu {
+    position: absolute;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    padding: 6px;
+    z-index: 1000;
+    display: none;
+    min-width: 160px;
+}
+
+.calendar-menu.show {
+    display: block;
+    animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.calendar-menu-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px 12px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: 'healTheWebA', sans-serif;
+    font-size: 13px;
+    color: #333;
+    border-radius: 6px;
+    transition: background 0.15s ease;
+}
+
+.calendar-menu-option:hover {
+    background: #f0f0ff;
+}
+
+.calendar-menu-option svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
 }

@@ -149,6 +149,7 @@
                                 data-year="{{ film.release_year }}" data-cinema="{{ cinename }}"
                                 data-duree="{{ film.duree }}" data-letterboxd="{{ film.url }}"
                                 data-time="{{ seance.time }}" data-lang="{{ seance.lang }}" data-day="{{ day_label }}"
+                                data-ticket="{{ seance.ticketing_url|default('', true) }}"
                                 title="Ajouter au calendrier">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                                     <rect x="3" y="4" width="18" height="18" rx="2" />
@@ -201,7 +202,7 @@
                         <button class="calendar-btn" data-title="{{ film.title }}" data-year="{{ film.release_year }}"
                             data-cinema="{{ cinename }}" data-duree="{{ film.duree }}" data-letterboxd="{{ film.url }}"
                             data-time="{{ seance.time }}" data-lang="{{ seance.lang }}" data-day="{{ day_label }}"
-                            title="Ajouter au calendrier">
+                            data-ticket="{{ seance.ticketing_url|default('', true) }}" title="Ajouter au calendrier">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                                 <rect x="3" y="4" width="18" height="18" rx="2" />
                                 <line x1="3" y1="10" x2="21" y2="10" />
@@ -552,33 +553,32 @@
     }
 
     function parseDayLabel(dayLabel) {
-        const dayMap = {
-            'lundi': 1, 'mardi': 2, 'mercredi': 3, 'jeudi': 4,
-            'vendredi': 5, 'samedi': 6, 'dimanche': 0
+        // Format: "Dim 18 janv" or "Lun 13 Janv"
+        const dayAbbrevMap = {
+            'lun': 1, 'mar': 2, 'mer': 3, 'jeu': 4,
+            'ven': 5, 'sam': 6, 'dim': 0
+        };
+
+        const monthAbbrevMap = {
+            'janv': 0, 'févr': 1, 'mars': 2, 'avr': 3,
+            'mai': 4, 'juin': 5, 'juil': 6, 'août': 7,
+            'sept': 8, 'oct': 9, 'nov': 10, 'déc': 11
         };
 
         const parts = dayLabel.toLowerCase().split(' ');
-        const dayName = parts[0];
         const dayNum = parseInt(parts[1]);
+        const monthAbbrev = parts[2];
 
         const today = new Date();
-        const currentDayOfWeek = today.getDay();
-        const targetDayOfWeek = dayMap[dayName];
+        let year = today.getFullYear();
+        const monthNum = monthAbbrevMap[monthAbbrev];
 
-        if (targetDayOfWeek === undefined) {
-            return today;
+        // If the month is before current month, it's next year
+        if (monthNum !== undefined && monthNum < today.getMonth()) {
+            year++;
         }
 
-        let diff = targetDayOfWeek - currentDayOfWeek;
-        if (diff < 0) diff += 7;
-
-        const targetDate = new Date(today);
-        targetDate.setDate(today.getDate() + diff);
-
-        if (dayNum && targetDate.getDate() !== dayNum) {
-            targetDate.setDate(dayNum);
-        }
-
+        const targetDate = new Date(year, monthNum !== undefined ? monthNum : today.getMonth(), dayNum);
         return targetDate;
     }
 
@@ -587,7 +587,22 @@
         return `${date.getFullYear()}${pad(date.getMonth() + 1)}${pad(date.getDate())}T${pad(date.getHours())}${pad(date.getMinutes())}00`;
     }
 
-    function generateICS(title, year, cinema, duree, letterboxd, time, lang, dayLabel) {
+    function formatGoogleDate(date) {
+        const pad = n => n.toString().padStart(2, '0');
+        return `${date.getFullYear()}${pad(date.getMonth() + 1)}${pad(date.getDate())}T${pad(date.getHours())}${pad(date.getMinutes())}00`;
+    }
+
+    function getEventData(btn) {
+        const title = btn.dataset.title;
+        const year = btn.dataset.year;
+        const cinema = btn.dataset.cinema;
+        const duree = btn.dataset.duree;
+        const letterboxd = btn.dataset.letterboxd;
+        const time = btn.dataset.time;
+        const lang = btn.dataset.lang;
+        const dayLabel = btn.dataset.day;
+        const ticketUrl = btn.dataset.ticket;
+
         const movieTitle = `${title} (${year})`;
         const location = cinemaAddresses[cinema] || `${cinema}, Lyon`;
         const duration = parseDuration(duree);
@@ -600,12 +615,32 @@
         endDate.setHours(endDate.getHours() + duration.hours);
         endDate.setMinutes(endDate.getMinutes() + duration.minutes);
 
-        const description = `Film: ${title} (${year})\\nLangue: ${lang}\\nDurée: ${duree}\\n\\nLien Letterboxd: ${letterboxd}`;
+        let description = `Film: ${title} (${year})\nLangue: ${lang}\nDurée: ${duree}`;
+        if (ticketUrl) {
+            description += `\n\nRéserver: ${ticketUrl}`;
+        }
+        description += `\n\nLetterboxd: ${letterboxd}`;
 
+        return { movieTitle, location, eventDate, endDate, description, letterboxd, title, time };
+    }
+
+    function escapeICS(str) {
+        // Escape special characters for ICS format
+        return str
+            .replace(/\\/g, '\\\\')
+            .replace(/;/g, '\\;')
+            .replace(/,/g, '\\,')
+            .replace(/\n/g, '\\n');
+    }
+
+    function generateICS(data) {
         const uid = `cinelyon-${Date.now()}-${Math.random().toString(36).substr(2, 9)}@cinelyon.vercel.app`;
         const now = new Date();
+        const descEscaped = escapeICS(data.description);
+        const locationEscaped = escapeICS(data.location);
+        const titleEscaped = escapeICS(data.movieTitle);
 
-        const icsContent = `BEGIN:VCALENDAR
+        return `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//CineLyon//Calendar//FR
 CALSCALE:GREGORIAN
@@ -613,16 +648,26 @@ METHOD:PUBLISH
 BEGIN:VEVENT
 UID:${uid}
 DTSTAMP:${formatICSDate(now)}
-DTSTART:${formatICSDate(eventDate)}
-DTEND:${formatICSDate(endDate)}
-SUMMARY:🎬 ${movieTitle}
-LOCATION:${location}
-DESCRIPTION:${description}
-URL:${letterboxd}
+DTSTART:${formatICSDate(data.eventDate)}
+DTEND:${formatICSDate(data.endDate)}
+SUMMARY:${titleEscaped}
+LOCATION:${locationEscaped}
+DESCRIPTION:${descEscaped}
+URL:${data.letterboxd}
 END:VEVENT
 END:VCALENDAR`;
+    }
 
-        return icsContent;
+    function generateGoogleCalendarUrl(data) {
+        const params = new URLSearchParams({
+            action: 'TEMPLATE',
+            text: data.movieTitle,
+            dates: `${formatGoogleDate(data.eventDate)}/${formatGoogleDate(data.endDate)}`,
+            details: data.description,
+            location: data.location,
+            sprop: `website:${data.letterboxd}`
+        });
+        return `https://calendar.google.com/calendar/render?${params.toString()}`;
     }
 
     function downloadICS(icsContent, filename) {
@@ -636,30 +681,77 @@ END:VCALENDAR`;
         URL.revokeObjectURL(link.href);
     }
 
+    // Create dropdown menu
+    const calendarMenu = document.createElement('div');
+    calendarMenu.className = 'calendar-menu';
+    calendarMenu.innerHTML = `
+        <button class="calendar-menu-option" data-type="apple">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+            </svg>
+            Apple Calendar
+        </button>
+        <button class="calendar-menu-option" data-type="google">
+            <svg viewBox="0 0 24 24" width="16" height="16">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+            </svg>
+            Google Calendar
+        </button>
+    `;
+    document.body.appendChild(calendarMenu);
+
+    let activeCalendarBtn = null;
+
+    function closeCalendarMenu() {
+        calendarMenu.classList.remove('show');
+        activeCalendarBtn = null;
+    }
+
+    document.addEventListener('click', function (e) {
+        if (!e.target.closest('.calendar-btn') && !e.target.closest('.calendar-menu')) {
+            closeCalendarMenu();
+        }
+    });
+
+    calendarMenu.querySelectorAll('.calendar-menu-option').forEach(option => {
+        option.addEventListener('click', function () {
+            if (!activeCalendarBtn) return;
+
+            const type = this.dataset.type;
+            const data = getEventData(activeCalendarBtn);
+
+            if (type === 'apple') {
+                const icsContent = generateICS(data);
+                const filename = `${data.title.replace(/[^a-z0-9]/gi, '_')}_${data.time.replace(':', 'h')}.ics`;
+                downloadICS(icsContent, filename);
+            } else if (type === 'google') {
+                const url = generateGoogleCalendarUrl(data);
+                window.open(url, '_blank');
+            }
+
+            activeCalendarBtn.classList.add('added');
+            setTimeout(() => {
+                activeCalendarBtn.classList.remove('added');
+            }, 2000);
+
+            closeCalendarMenu();
+        });
+    });
+
     document.querySelectorAll('.calendar-btn').forEach(btn => {
         btn.addEventListener('click', function (e) {
             e.preventDefault();
             e.stopPropagation();
 
-            const title = this.dataset.title;
-            const year = this.dataset.year;
-            const cinema = this.dataset.cinema;
-            const duree = this.dataset.duree;
-            const letterboxd = this.dataset.letterboxd;
-            const time = this.dataset.time;
-            const lang = this.dataset.lang;
-            const dayLabel = this.dataset.day;
+            const rect = this.getBoundingClientRect();
+            calendarMenu.style.top = `${rect.bottom + window.scrollY + 5}px`;
+            calendarMenu.style.left = `${rect.left + window.scrollX}px`;
 
-            const icsContent = generateICS(title, year, cinema, duree, letterboxd, time, lang, dayLabel);
-            const filename = `${title.replace(/[^a-z0-9]/gi, '_')}_${time.replace(':', 'h')}.ics`;
-
-            downloadICS(icsContent, filename);
-
-            // Visual feedback
-            this.classList.add('added');
-            setTimeout(() => {
-                this.classList.remove('added');
-            }, 2000);
+            activeCalendarBtn = this;
+            calendarMenu.classList.add('show');
         });
     });
 </script>
