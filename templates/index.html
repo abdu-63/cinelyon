@@ -38,6 +38,10 @@
             </select>
             <select id="filter-cinema" class="search-input">
                 <option value="">Tous les cinémas</option>
+                <option value="group:pathe">🎬 Tous les Pathé</option>
+                <option value="group:ugc">🎬 Tous les UGC</option>
+                <option value="group:lumiere">🎬 Tous les Lumière</option>
+                <option disabled>──────────</option>
                 {% for cinema in all_cinemas %}
                 <option value="{{ cinema|lower }}">{{ cinema }}</option>
                 {% endfor %}
@@ -465,7 +469,23 @@
                 const matchTitle = title.includes(titleQuery);
                 const matchGenre = !genreQuery || genres.includes(genreQuery);
                 const matchDirector = !directorQuery || director.includes(directorQuery);
-                const matchCinema = !cinemaQuery || cinemas.includes(cinemaQuery);
+
+                // Gestion des groupes de cinémas
+                let matchCinema = true;
+                if (cinemaQuery) {
+                    if (cinemaQuery.startsWith('group:')) {
+                        const group = cinemaQuery.split(':')[1];
+                        if (group === 'pathe') {
+                            matchCinema = cinemas.includes('pathé');
+                        } else if (group === 'ugc') {
+                            matchCinema = cinemas.includes('ugc');
+                        } else if (group === 'lumiere') {
+                            matchCinema = cinemas.includes('lumière') || cinemas.includes('institut lumière');
+                        }
+                    } else {
+                        matchCinema = cinemas.includes(cinemaQuery);
+                    }
+                }
                 const matchRating = rating >= ratingQuery;
                 const matchFavorites = !showOnlyFavorites || isFavorite(filmId);
 
