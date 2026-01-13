@@ -6,11 +6,24 @@
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#444cf7",
+    "orientation": "portrait-primary",
+    "scope": "/",
     "icons": [
         {
+            "src": "/static/images/apple-touch-icon.png",
+            "sizes": "180x180",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
             "src": "/static/images/favicon.png",
-            "sizes": "192x192",
+            "sizes": "32x32",
             "type": "image/png"
         }
-    ]
+    ],
+    "categories": [
+        "entertainment",
+        "lifestyle"
+    ],
+    "lang": "fr-FR"
 }
