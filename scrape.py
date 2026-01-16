@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
 
 TMDB_API_KEY = os.environ.get("TMDB_API_KEY", "")
 OUTPUT_FILE = "movies.json"
-DAYS_TO_SCRAPE = 7
+DAYS_TO_SCRAPE = 10
 DELAY_BETWEEN_THEATERS = 2  # Délai en secondes entre chaque cinéma
 
 
