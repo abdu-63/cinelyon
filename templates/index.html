@@ -481,6 +481,25 @@
             const ratingQuery = parseFloat(filterRating.value) || 0;
             const showOnlyFavorites = filterFavorites.checked;
 
+            // Helper function to check if a cinema matches the filter
+            function cinemaMatchesFilter(cinemaName) {
+                if (!cinemaQuery) return true;
+                const lowerCinema = cinemaName.toLowerCase();
+                if (cinemaQuery.startsWith('group:')) {
+                    const group = cinemaQuery.split(':')[1];
+                    if (group === 'pathe') {
+                        return lowerCinema.includes('pathé');
+                    } else if (group === 'ugc') {
+                        return lowerCinema.includes('ugc');
+                    } else if (group === 'lumiere') {
+                        return lowerCinema.includes('lumière') || lowerCinema.includes('institut lumière');
+                    }
+                } else {
+                    return lowerCinema.includes(cinemaQuery);
+                }
+                return true;
+            }
+
             films.forEach(film => {
                 const title = film.dataset.title;
                 const genres = film.dataset.genres;
@@ -523,6 +542,66 @@
 
                 film.style.display = show ? '' : 'none';
                 relatedElements.forEach(el => el.style.display = show ? '' : 'none');
+
+                // Filter seances in the mini-calendar and day-seances based on cinema filter
+                if (show) {
+                    const seancesWrapper = relatedElements.find(el => el.classList.contains('seances-wrapper'));
+                    if (seancesWrapper) {
+                        const miniCalBtns = seancesWrapper.querySelectorAll('.mini-cal-btn');
+                        const daySeancesDivs = seancesWrapper.querySelectorAll('.day-seances');
+
+                        // Case 1: With mini-calendar (show_all mode)
+                        if (daySeancesDivs.length > 0) {
+                            // For each day, check if there are matching cinemas
+                            daySeancesDivs.forEach((dayDiv, index) => {
+                                const seanceContainers = dayDiv.querySelectorAll('.seance_container');
+                                let hasVisibleSeance = false;
+
+                                seanceContainers.forEach(container => {
+                                    const cinemaLink = container.querySelector('.cinema-link');
+                                    if (cinemaLink) {
+                                        const cinemaName = cinemaLink.dataset.cinema;
+                                        const matches = cinemaMatchesFilter(cinemaName);
+                                        container.style.display = matches ? '' : 'none';
+                                        // Also hide/show the spacing div that follows
+                                        const spacingDiv = container.nextElementSibling;
+                                        if (spacingDiv && spacingDiv.classList.contains('responsive-petite-div')) {
+                                            spacingDiv.style.display = matches ? '' : 'none';
+                                        }
+                                        if (matches) hasVisibleSeance = true;
+                                    }
+                                });
+
+                                // Show/hide the mini-calendar button for this day
+                                if (miniCalBtns[index]) {
+                                    miniCalBtns[index].style.display = hasVisibleSeance ? '' : 'none';
+                                    // If this button was active but now hidden, deactivate it
+                                    if (!hasVisibleSeance && miniCalBtns[index].classList.contains('active')) {
+                                        miniCalBtns[index].classList.remove('active');
+                                        dayDiv.classList.remove('show');
+                                    }
+                                }
+                            });
+                        } else {
+                            // Case 2: Without mini-calendar (single day mode)
+                            // Filter seance_containers directly in seances-wrapper
+                            const seanceContainers = seancesWrapper.querySelectorAll('.seance_container');
+                            seanceContainers.forEach(container => {
+                                const cinemaLink = container.querySelector('.cinema-link');
+                                if (cinemaLink) {
+                                    const cinemaName = cinemaLink.dataset.cinema;
+                                    const matches = cinemaMatchesFilter(cinemaName);
+                                    container.style.display = matches ? '' : 'none';
+                                    // Also hide/show the spacing div that follows
+                                    const spacingDiv = container.nextElementSibling;
+                                    if (spacingDiv && spacingDiv.classList.contains('responsive-petite-div')) {
+                                        spacingDiv.style.display = matches ? '' : 'none';
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }
             });
         }
 

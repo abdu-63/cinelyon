@@ -229,7 +229,7 @@ class Showtime:
         self.theater: Theater = theather
         self.movie = movie
         self.language = language  # VO ou VF
-        self.format = format  # IMAX, 4DX, 3D, etc.
+        self.format = format  # IMAX, 4DX, 3D, Dolby, ICE, etc.
         # URL de réservation (dans data.ticketing)
         self.ticketing_url = self._extract_ticketing_url(data)
 
@@ -335,6 +335,10 @@ class Theater:
                         if experience:
                             if "E_4DX" in experience:
                                 formats.append("4DX")
+                            if "E_DOLBY_CINEMA" in experience or "E_DOLBY_ATMOS" in experience:
+                                formats.append("Dolby")
+                            if "E_ICE" in experience:
+                                formats.append("ICE")
                             """if "PLF" in experience:
                                 formats.append("PLF")"""
 
