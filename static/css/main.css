@@ -414,17 +414,6 @@ p {
     background-color: #3339c4;
 }
 
-.actions-row {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    width: 100%;
-}
-
-.actions-row .reset-btn {
-    flex: 1;
-}
-
 footer {
     background-color: white;
 }
@@ -727,12 +716,8 @@ html {
         padding: 6px 8px;
     }
 
-    .actions-row {
-        width: 100%;
-    }
-
     .reset-btn {
-        flex: 1;
+        width: 100%;
         padding: 8px 15px;
         font-size: 12px;
     }
@@ -763,22 +748,51 @@ html {
         display: none;
     }
 
+    .seance_container {
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+    }
+
     .cinema {
         height: 30px;
         width: 100px;
         color: white;
         padding-right: 5px;
+        flex-shrink: 0;
     }
 
     .horaires_container {
-        max-width: 250px;
+        max-width: none;
+        flex-wrap: nowrap;
+    }
+
+    .horaire-wrapper {
+        flex-shrink: 0;
     }
 
     .horaire {
         height: 30px;
-        width: 45px;
+        min-width: 60px;
+        width: auto;
         border-radius: 5px;
         margin-left: 5px;
+        padding: 0 8px;
+        flex-wrap: nowrap;
+    }
+
+    .lang-badge {
+        font-size: 9px;
+    }
+
+    .format-badge {
+        font-size: 7px;
+        padding: 1px 3px;
+        white-space: nowrap;
+    }
+
+    .calendar-btn {
+        display: none;
     }
 
     .cinema p,
@@ -840,16 +854,11 @@ html {
     }
 
     .container_footer {
-        max-width: 90vw;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 0;
+        max-width: 80vw;
     }
 
     .container_footer p {
         font-size: 11px;
-        margin: 5px 0;
     }
 
     *:not(.affiche) {
