@@ -414,6 +414,17 @@ p {
     background-color: #3339c4;
 }
 
+.actions-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+}
+
+.actions-row .reset-btn {
+    flex: 1;
+}
+
 footer {
     background-color: white;
 }
@@ -716,8 +727,12 @@ html {
         padding: 6px 8px;
     }
 
-    .reset-btn {
+    .actions-row {
         width: 100%;
+    }
+
+    .reset-btn {
+        flex: 1;
         padding: 8px 15px;
         font-size: 12px;
     }
