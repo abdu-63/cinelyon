@@ -221,7 +221,7 @@ def home():
         )
 
     all_films = {}
-    days_to_show = [delta] if delta is not None else range(min(7, num_days))
+    days_to_show = [delta] if delta is not None else range(num_days)
 
     for day_index in days_to_show:
         if day_index >= len(showtimes):
