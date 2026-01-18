@@ -284,10 +284,10 @@ def home():
         all_cinemas=sorted(all_cinemas),
     )
 
-if __name__ == "__main__":
-    app.run(debug=True)
+"""if __name__ == "__main__":
+    app.run(debug=True)"""
 
 # pour le débug sur mobile
-"""if __name__ == '__main__':
+if __name__ == '__main__':
     # host='0.0.0.0' permet l'accès depuis d'autres appareils
-    app.run(host='0.0.0.0', port=5001)"""
+    app.run(host='0.0.0.0', port=5001)
