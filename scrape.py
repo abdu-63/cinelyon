@@ -15,7 +15,7 @@ from datetime import datetime, timedelta
 
 from dotenv import load_dotenv
 
-from modules.Classes import Theater, TMDB_CACHE_FILE
+from modules.Classes import TMDB_CACHE_FILE, Theater
 
 load_dotenv(".env")
 
@@ -142,31 +142,31 @@ def check_missing_data(existing_data: dict) -> tuple[set[str], set[str]]:
     Retourne les dates à rescraper et les titres de films à supprimer du cache TMDB."""
     dates_with_missing_data = set()
     films_to_clear_from_cache = set()
-    
+
     for day in existing_data.get("days", []):
         date_str = day.get("date", "")
         movies = day.get("movies", [])
-        
+
         for movie in movies:
             title = movie.get("title", "Inconnu")
             year = movie.get("release_year", "")
-            
+
             affiche = movie.get("affiche", "")
             has_missing_data = False
-            
+
             if not affiche or affiche == "/static/images/nocontent.png":
                 logger.info(f"   📷 Affiche manquante pour '{title}' ({date_str})")
                 has_missing_data = True
-            
+
             synopsis = movie.get("synopsis", "")
             if not synopsis or synopsis == "Synopsis non disponible":
                 logger.info(f"   📝 Synopsis manquant pour '{title}' ({date_str})")
                 has_missing_data = True
-            
+
             if has_missing_data:
                 dates_with_missing_data.add(date_str)
                 films_to_clear_from_cache.add(f"{title}|{year}")
-    
+
     return dates_with_missing_data, films_to_clear_from_cache
 
 
@@ -220,7 +220,7 @@ def main():
 
     # Déterminer les dates à scraper
     dates_to_scrape = set(get_dates_to_scrape(existing_data))
-    
+
     # Vérifier les données manquantes
     if not args.force:
         logger.info("🔍 Vérification des données manquantes...")
@@ -228,33 +228,33 @@ def main():
         if dates_with_missing:
             logger.info(f"   ⚠️ {len(dates_with_missing)} date(s) avec données manquantes")
             logger.info(f"   🗑️ {len(films_to_clear)} film(s) à supprimer du cache TMDB")
-            
+
             titles_to_clear = {key.split("|")[0] for key in films_to_clear}
-            
+
             if os.path.exists(TMDB_CACHE_FILE):
                 try:
                     with open(TMDB_CACHE_FILE, "r", encoding="utf-8") as f:
                         tmdb_cache = json.load(f)
-                    
+
                     keys_to_delete = []
                     for cache_key in tmdb_cache.keys():
                         cache_title = cache_key.split("|")[0]
                         if cache_title in titles_to_clear:
                             keys_to_delete.append(cache_key)
-                    
+
                     for key in keys_to_delete:
                         del tmdb_cache[key]
                         logger.info(f"      🧹 Cache supprimé pour: {key.split('|')[0]}")
-                    
+
                     with open(TMDB_CACHE_FILE, "w", encoding="utf-8") as f:
                         json.dump(tmdb_cache, f, ensure_ascii=False, indent=2)
                 except Exception as e:
                     logger.warning(f"   ⚠️ Erreur nettoyage cache: {e}")
-            
+
             dates_to_scrape.update(dates_with_missing)
-            existing_data["days"] = [day for day in existing_data.get("days", []) 
+            existing_data["days"] = [day for day in existing_data.get("days", [])
                                       if day.get("date") not in dates_with_missing]
-    
+
     dates_to_scrape = sorted(list(dates_to_scrape))
 
     if not dates_to_scrape:
