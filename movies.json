@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-01-18T15:01:30.248749",
+  "generated_at": "2026-01-18T15:16:33.620189",
   "days": [
     {
       "date": "2026-01-18",
@@ -39,7 +39,7 @@
               {
                 "time": "16:50",
                 "lang": "VF",
-                "format": "3D, 4DX",
+                "format": "3D, 4DX, ICE",
                 "ticketing_url": "https://s.pathe.fr/fr/V3377S171319/booking?utm_source=allocine&utm_medium=allocine&utm_campaign=partenaire-allocine&partenaire=allocine"
               },
               {
@@ -63,7 +63,7 @@
               {
                 "time": "20:45",
                 "lang": "VF",
-                "format": "3D, 4DX",
+                "format": "3D, 4DX, ICE",
                 "ticketing_url": "https://s.pathe.fr/fr/V3377S171335/booking?utm_source=allocine&utm_medium=allocine&utm_campaign=partenaire-allocine&partenaire=allocine"
               },
               {
@@ -89,7 +89,7 @@
               {
                 "time": "15:25",
                 "lang": "VF",
-                "format": "3D, 4DX",
+                "format": "3D, 4DX, ICE",
                 "ticketing_url": "https://s.pathe.fr/fr/V3027S106709/booking?utm_source=allocine&utm_medium=allocine&utm_campaign=partenaire-allocine&partenaire=allocine"
               },
               {
@@ -101,7 +101,7 @@
               {
                 "time": "19:30",
                 "lang": "VF",
-                "format": "3D, 4DX",
+                "format": "3D, 4DX, ICE",
                 "ticketing_url": "https://s.pathe.fr/fr/V3027S106722/booking?utm_source=allocine&utm_medium=allocine&utm_campaign=partenaire-allocine&partenaire=allocine"
               }
             ],
@@ -241,7 +241,7 @@
               {
                 "time": "16:40",
                 "lang": "VF",
-                "format": "3D",
+                "format": "3D, Dolby, ICE",
                 "ticketing_url": "https://s.pathe.fr/fr/V3029S155705/booking?utm_source=allocine&utm_medium=allocine&utm_campaign=partenaire-allocine&partenaire=allocine"
               },
               {
@@ -259,7 +259,7 @@
               {
                 "time": "20:30",
                 "lang": "VF",
-                "format": "3D",
+                "format": "3D, Dolby, ICE",
                 "ticketing_url": "https://s.pathe.fr/fr/V3029S155721/booking?utm_source=allocine&utm_medium=allocine&utm_campaign=partenaire-allocine&partenaire=allocine"
               }
             ],
@@ -4638,7 +4638,7 @@
               {
                 "time": "12:55",
                 "lang": "VF",
-                "format": "3D, 4DX",
+                "format": "3D, 4DX, ICE",
                 "ticketing_url": "https://s.pathe.fr/fr/V3377S171360/booking?utm_source=allocine&utm_medium=allocine&utm_campaign=partenaire-allocine&partenaire=allocine"
               },
               {
@@ -4668,7 +4668,7 @@
               {
                 "time": "16:50",
                 "lang": "VF",
-                "format": "3D, 4DX",
+                "format": "3D, 4DX, ICE",
                 "ticketing_url": "https://s.pathe.fr/fr/V3377S171373/booking?utm_source=allocine&utm_medium=allocine&utm_campaign=partenaire-allocine&partenaire=allocine"
               },
               {
@@ -4686,7 +4686,7 @@
               {
                 "time": "20:45",
                 "lang": "VF",
-                "format": "3D, 4DX",
+                "format": "3D, 4DX, ICE",
                 "ticketing_url": "https://s.pathe.fr/fr/V3377S171388/booking?utm_source=allocine&utm_medium=allocine&utm_campaign=partenaire-allocine&partenaire=allocine"
               },
               {
@@ -4730,19 +4730,19 @@
               {
                 "time": "20:30",
                 "lang": "VO",
-                "format": "3D, 4DX",
+                "format": "3D, 4DX, ICE",
                 "ticketing_url": "https://s.pathe.fr/fr/V3027S106640/booking?utm_source=allocine&utm_medium=allocine&utm_campaign=partenaire-allocine&partenaire=allocine"
               },
               {
                 "time": "12:50",
                 "lang": "VF",
-                "format": "3D, 4DX",
+                "format": "3D, 4DX, ICE",
                 "ticketing_url": "https://s.pathe.fr/fr/V3027S106617/booking?utm_source=allocine&utm_medium=allocine&utm_campaign=partenaire-allocine&partenaire=allocine"
               },
               {
                 "time": "16:40",
                 "lang": "VF",
-                "format": "3D, 4DX",
+                "format": "3D, 4DX, ICE",
                 "ticketing_url": "https://s.pathe.fr/fr/V3027S106627/booking?utm_source=allocine&utm_medium=allocine&utm_campaign=partenaire-allocine&partenaire=allocine"
               },
               {
@@ -4888,7 +4888,7 @@
               {
                 "time": "16:15",
                 "lang": "VF",
-                "format": "3D",
+                "format": "3D, Dolby, ICE",
                 "ticketing_url": "https://s.pathe.fr/fr/V3029S155752/booking?utm_source=allocine&utm_medium=allocine&utm_campaign=partenaire-allocine&partenaire=allocine"
               },
               {
@@ -4906,7 +4906,7 @@
               {
                 "time": "20:15",
                 "lang": "VF",
-                "format": "3D",
+                "format": "3D, Dolby, ICE",
                 "ticketing_url": "https://s.pathe.fr/fr/V3029S155771/booking?utm_source=allocine&utm_medium=allocine&utm_campaign=partenaire-allocine&partenaire=allocine"
               }
             ],
@@ -5994,7 +5994,7 @@
               {
                 "time": "13:30",
                 "lang": "VF",
-                "format": null,
+                "format": "Dolby, ICE",
                 "ticketing_url": "https://s.pathe.fr/fr/V3029S155739/booking?utm_source=allocine&utm_medium=allocine&utm_campaign=partenaire-allocine&partenaire=allocine"
               },
               {
@@ -9250,7 +9250,7 @@
               {
                 "time": "12:55",
                 "lang": "VF",
-                "format": "3D, 4DX",
+                "format": "3D, 4DX, ICE",
                 "ticketing_url": "https://s.pathe.fr/fr/V3377S171410/booking?utm_source=allocine&utm_medium=allocine&utm_campaign=partenaire-allocine&partenaire=allocine"
               },
               {
@@ -9280,7 +9280,7 @@
               {
                 "time": "16:50",
                 "lang": "VF",
-                "format": "3D, 4DX",
+                "format": "3D, 4DX, ICE",
                 "ticketing_url": "https://s.pathe.fr/fr/V3377S171432/booking?utm_source=allocine&utm_medium=allocine&utm_campaign=partenaire-allocine&partenaire=allocine"
               },
               {
@@ -9304,7 +9304,7 @@
               {
                 "time": "20:45",
                 "lang": "VF",
-                "format": "3D, 4DX",
+                "format": "3D, 4DX, ICE",
                 "ticketing_url": "https://s.pathe.fr/fr/V3377S171448/booking?utm_source=allocine&utm_medium=allocine&utm_campaign=partenaire-allocine&partenaire=allocine"
               },
               {
@@ -9342,19 +9342,19 @@
               {
                 "time": "12:50",
                 "lang": "VF",
-                "format": "3D, 4DX",
+                "format": "3D, 4DX, ICE",
                 "ticketing_url": "https://s.pathe.fr/fr/V3027S106659/booking?utm_source=allocine&utm_medium=allocine&utm_campaign=partenaire-allocine&partenaire=allocine"
               },
               {
                 "time": "16:40",
                 "lang": "VF",
-                "format": "3D, 4DX",
+                "format": "3D, 4DX, ICE",
                 "ticketing_url": "https://s.pathe.fr/fr/V3027S106669/booking?utm_source=allocine&utm_medium=allocine&utm_campaign=partenaire-allocine&partenaire=allocine"
               },
               {
                 "time": "20:30",
                 "lang": "VF",
-                "format": "3D, 4DX",
+                "format": "3D, 4DX, ICE",
                 "ticketing_url": "https://s.pathe.fr/fr/V3027S106682/booking?utm_source=allocine&utm_medium=allocine&utm_campaign=partenaire-allocine&partenaire=allocine"
               }
             ],
@@ -9494,7 +9494,7 @@
               {
                 "time": "16:15",
                 "lang": "VF",
-                "format": "3D",
+                "format": "3D, Dolby, ICE",
                 "ticketing_url": "https://s.pathe.fr/fr/V3029S155802/booking?utm_source=allocine&utm_medium=allocine&utm_campaign=partenaire-allocine&partenaire=allocine"
               },
               {
@@ -9512,7 +9512,7 @@
               {
                 "time": "20:15",
                 "lang": "VF",
-                "format": "3D",
+                "format": "3D, Dolby, ICE",
                 "ticketing_url": "https://s.pathe.fr/fr/V3029S155821/booking?utm_source=allocine&utm_medium=allocine&utm_campaign=partenaire-allocine&partenaire=allocine"
               }
             ],
@@ -10545,7 +10545,7 @@
               {
                 "time": "13:30",
                 "lang": "VF",
-                "format": null,
+                "format": "Dolby, ICE",
                 "ticketing_url": "https://s.pathe.fr/fr/V3029S155788/booking?utm_source=allocine&utm_medium=allocine&utm_campaign=partenaire-allocine&partenaire=allocine"
               },
               {

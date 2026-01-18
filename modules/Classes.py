@@ -335,9 +335,9 @@ class Theater:
                         if experience:
                             if "E_4DX" in experience:
                                 formats.append("4DX")
-                            if "E_DOLBY_CINEMA" in experience or "E_DOLBY_ATMOS" in experience:
+                            if "E_DOLBY_CINEMA" in experience or "E_DOLBY_ATMOS" in experience or "DOLBY_CINEMA" in experience:
                                 formats.append("Dolby")
-                            if "E_ICE" in experience:
+                            if "E_ICE" in experience or "PLF" in experience:
                                 formats.append("ICE")
                             """if "PLF" in experience:
                                 formats.append("PLF")"""
