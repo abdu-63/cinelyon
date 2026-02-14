@@ -12,6 +12,9 @@ import logging
 import os
 import time
 from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
+
+PARIS_TZ = ZoneInfo("Europe/Paris")
 
 from dotenv import load_dotenv
 
@@ -98,14 +101,14 @@ def load_existing_data() -> dict:
 
 def save_data(data: dict):
     """Sauvegarde les données dans movies.json."""
-    data["generated_at"] = datetime.now().isoformat()
+    data["generated_at"] = datetime.now(PARIS_TZ).isoformat()
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 
 def get_dates_to_scrape(existing_data: dict) -> list[str]:
     """Détermine les dates à scraper (manquantes ou à mettre à jour)."""
-    today = datetime.today().date()
+    today = datetime.now(PARIS_TZ).date()
     target_dates = set()
 
     for i in range(DAYS_TO_SCRAPE):
@@ -126,7 +129,7 @@ def get_dates_to_scrape(existing_data: dict) -> list[str]:
 
 def clean_old_dates(data: dict) -> dict:
     """Supprime les dates passées et hors de la période de scraping."""
-    today = datetime.today().date()
+    today = datetime.now(PARIS_TZ).date()
     valid_dates = set()
 
     for i in range(DAYS_TO_SCRAPE):

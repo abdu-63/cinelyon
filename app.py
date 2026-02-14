@@ -1,6 +1,7 @@
 import json
 import os
 from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 
 import dotenv
 from flask import Flask, make_response, render_template, request
@@ -208,7 +209,7 @@ def home():
 
     dates = []
     for i in range(num_days):
-        day = datetime.today() + timedelta(i)
+        day = datetime.now(ZoneInfo("Europe/Paris")) + timedelta(i)
         dates.append(
             {
                 "jour": translateDay(day.weekday()),
