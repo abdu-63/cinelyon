@@ -955,8 +955,24 @@ END:VCALENDAR`;
             e.stopPropagation();
 
             const rect = this.getBoundingClientRect();
-            calendarMenu.style.top = `${rect.bottom + window.scrollY + 5}px`;
-            calendarMenu.style.left = `${rect.left + window.scrollX}px`;
+            const menuWidth = 180;
+            const menuHeight = 90;
+
+            let top = rect.bottom + window.scrollY + 5;
+            let left = rect.left + window.scrollX;
+
+            // Si le menu dépasse à droite
+            if (rect.left + menuWidth > window.innerWidth) {
+                left = rect.right + window.scrollX - menuWidth;
+            }
+
+            // Si le menu dépasse en bas
+            if (rect.bottom + menuHeight > window.innerHeight) {
+                top = rect.top + window.scrollY - menuHeight - 5;
+            }
+
+            calendarMenu.style.top = `${top}px`;
+            calendarMenu.style.left = `${left}px`;
 
             activeCalendarBtn = this;
             calendarMenu.classList.add('show');
