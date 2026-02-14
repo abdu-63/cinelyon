@@ -46,13 +46,12 @@
                 <option value="{{ cinema|lower }}">{{ cinema }}</option>
                 {% endfor %}
             </select>
-            <select id="filter-rating" class="search-input">
-                <option value="">Toutes les notes</option>
-                <option value="9">9+ ⭐</option>
-                <option value="8">8+ ⭐</option>
-                <option value="7">7+ ⭐</option>
-                <option value="6">6+ ⭐</option>
-                <option value="5">5+ ⭐</option>
+            <select id="filter-day" class="search-input">
+                <option value="">Tous les jours</option>
+                {% for date in dates %}
+                <option value="{{ date.jour }} {{ date.chiffre }} {{ date.mois }}">{{ date.jour }} {{ date.chiffre }} {{
+                    date.mois }}</option>
+                {% endfor %}
             </select>
             <div class="actions-row">
                 <button id="reset-filters" class="reset-btn">Réinitialiser</button>
@@ -74,7 +73,8 @@
             data-genres="{{ film.genres|lower }}" data-director="{{ film.director|lower }}"
             data-rating="{{ film.rating }}" data-year="{{ film.release_year }}"
             data-film-id="{{ film.title|lower|replace(' ', '-') }}"
-            data-cinemas="{% for day_data in film.seances_by_day.values() %}{% for cinema in day_data.keys() %}{{ cinema|lower }},{% endfor %}{% endfor %}">
+            data-cinemas="{% for day_data in film.seances_by_day.values() %}{% for cinema in day_data.keys() %}{{ cinema|lower }},{% endfor %}{% endfor %}"
+            data-days="{% for day_label in film.seances_by_day.keys() %}{{ day_label|lower }}||{% endfor %}">
             <img src={{film.affiche}} class="affiche" loading="lazy" decoding="async" width="200" height="288"
                 alt="Affiche de {{ film.title }}" />
             <div class="infoFilm">
@@ -438,7 +438,7 @@
         const filterGenre = document.getElementById('filter-genre');
         const filterDirector = document.getElementById('filter-director');
         const filterCinema = document.getElementById('filter-cinema');
-        const filterRating = document.getElementById('filter-rating');
+        const filterDay = document.getElementById('filter-day');
         const filterFavorites = document.getElementById('filter-favorites');
         const resetBtn = document.getElementById('reset-filters');
 
@@ -480,7 +480,7 @@
             const genreQuery = filterGenre.value.toLowerCase();
             const directorQuery = filterDirector.value.toLowerCase();
             const cinemaQuery = filterCinema.value.toLowerCase();
-            const ratingQuery = parseFloat(filterRating.value) || 0;
+            const dayQuery = filterDay.value.toLowerCase();
             const showOnlyFavorites = filterFavorites.checked;
 
             // Helper function to check if a cinema matches the filter
@@ -507,7 +507,7 @@
                 const genres = film.dataset.genres;
                 const director = film.dataset.director;
                 const cinemas = film.dataset.cinemas;
-                const rating = parseFloat(film.dataset.rating) || 0;
+                const days = film.dataset.days || '';
                 const filmId = film.dataset.filmId;
 
                 let sibling = film.nextElementSibling;
@@ -537,25 +537,33 @@
                         matchCinema = cinemas.includes(cinemaQuery);
                     }
                 }
-                const matchRating = rating >= ratingQuery;
+                const matchDay = !dayQuery || days.includes(dayQuery);
                 const matchFavorites = !showOnlyFavorites || isFavorite(filmId);
 
-                const show = matchTitle && matchGenre && matchDirector && matchCinema && matchRating && matchFavorites;
+                const show = matchTitle && matchGenre && matchDirector && matchCinema && matchDay && matchFavorites;
 
                 film.style.display = show ? '' : 'none';
                 relatedElements.forEach(el => el.style.display = show ? '' : 'none');
 
-                // Filter seances in the mini-calendar and day-seances based on cinema filter
+                // Filter seances in the mini-calendar and day-seances based on cinema and day filters
                 if (show) {
                     const seancesWrapper = relatedElements.find(el => el.classList.contains('seances-wrapper'));
                     if (seancesWrapper) {
                         const miniCalBtns = seancesWrapper.querySelectorAll('.mini-cal-btn');
                         const daySeancesDivs = seancesWrapper.querySelectorAll('.day-seances');
+                        const miniCalendar = seancesWrapper.querySelector('.mini-calendar');
 
                         // Case 1: With mini-calendar (show_all mode)
                         if (daySeancesDivs.length > 0) {
-                            // For each day, check if there are matching cinemas
+                            let firstVisibleDayIndex = -1;
+
                             daySeancesDivs.forEach((dayDiv, index) => {
+                                const btn = miniCalBtns[index];
+                                const btnText = btn ? btn.textContent.trim().toLowerCase() : '';
+
+                                // Check if this day matches the day filter
+                                const dayMatches = !dayQuery || btnText.includes(dayQuery);
+
                                 const seanceContainers = dayDiv.querySelectorAll('.seance_container');
                                 let hasVisibleSeance = false;
 
@@ -563,9 +571,8 @@
                                     const cinemaLink = container.querySelector('.cinema-link');
                                     if (cinemaLink) {
                                         const cinemaName = cinemaLink.dataset.cinema;
-                                        const matches = cinemaMatchesFilter(cinemaName);
+                                        const matches = dayMatches && cinemaMatchesFilter(cinemaName);
                                         container.style.display = matches ? '' : 'none';
-                                        // Also hide/show the spacing div that follows
                                         const spacingDiv = container.nextElementSibling;
                                         if (spacingDiv && spacingDiv.classList.contains('responsive-petite-div')) {
                                             spacingDiv.style.display = matches ? '' : 'none';
@@ -574,19 +581,36 @@
                                     }
                                 });
 
-                                // Show/hide the mini-calendar button for this day
-                                if (miniCalBtns[index]) {
-                                    miniCalBtns[index].style.display = hasVisibleSeance ? '' : 'none';
-                                    // If this button was active but now hidden, deactivate it
-                                    if (!hasVisibleSeance && miniCalBtns[index].classList.contains('active')) {
-                                        miniCalBtns[index].classList.remove('active');
+                                if (btn) {
+                                    btn.style.display = hasVisibleSeance ? '' : 'none';
+                                    if (!hasVisibleSeance && btn.classList.contains('active')) {
+                                        btn.classList.remove('active');
                                         dayDiv.classList.remove('show');
+                                    }
+                                    if (hasVisibleSeance && firstVisibleDayIndex === -1) {
+                                        firstVisibleDayIndex = index;
                                     }
                                 }
                             });
+
+                            // If a day filter is active, auto-expand the matching day
+                            if (dayQuery && firstVisibleDayIndex !== -1) {
+                                // Hide mini-calendar since only one day is shown
+                                if (miniCalendar) miniCalendar.style.display = 'none';
+                                // Show the matching day's seances directly
+                                daySeancesDivs.forEach((dayDiv, index) => {
+                                    if (index === firstVisibleDayIndex) {
+                                        dayDiv.classList.add('show');
+                                    } else {
+                                        dayDiv.classList.remove('show');
+                                    }
+                                });
+                            } else if (!dayQuery) {
+                                // Restore mini-calendar visibility
+                                if (miniCalendar) miniCalendar.style.display = '';
+                            }
                         } else {
                             // Case 2: Without mini-calendar (single day mode)
-                            // Filter seance_containers directly in seances-wrapper
                             const seanceContainers = seancesWrapper.querySelectorAll('.seance_container');
                             seanceContainers.forEach(container => {
                                 const cinemaLink = container.querySelector('.cinema-link');
@@ -594,7 +618,6 @@
                                     const cinemaName = cinemaLink.dataset.cinema;
                                     const matches = cinemaMatchesFilter(cinemaName);
                                     container.style.display = matches ? '' : 'none';
-                                    // Also hide/show the spacing div that follows
                                     const spacingDiv = container.nextElementSibling;
                                     if (spacingDiv && spacingDiv.classList.contains('responsive-petite-div')) {
                                         spacingDiv.style.display = matches ? '' : 'none';
@@ -611,7 +634,7 @@
         filterGenre.addEventListener('change', filterFilms);
         filterDirector.addEventListener('change', filterFilms);
         filterCinema.addEventListener('change', filterFilms);
-        filterRating.addEventListener('change', filterFilms);
+        filterDay.addEventListener('change', filterFilms);
         filterFavorites.addEventListener('change', filterFilms);
 
         resetBtn.addEventListener('click', function () {
@@ -619,7 +642,7 @@
             filterGenre.value = '';
             filterDirector.value = '';
             filterCinema.value = '';
-            filterRating.value = '';
+            filterDay.value = '';
             filterFavorites.checked = false;
             filterFilms();
         });
