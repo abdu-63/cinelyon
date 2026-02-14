@@ -60,6 +60,8 @@ Fork de [grainParisArt-Public](https://github.com/solene-drnx/grainParisArt-Publ
 - **Carte interactive** : Localisation de tous les cinémas avec Mapbox et liens GPS
 - **Barre de recherche** : Filtrez par titre, genre, réalisateur, cinéma ou note
 - **Système de favoris** : Sauvegardez vos films préférés (persistant via localStorage)
+- **Bandes-annonces** : Visionnez la bande-annonce directement dans le synopsis
+- **Filtre par format** : Filtrez les séances par expérience (IMAX, 4DX, Dolby, ICE, 3D)
 - **Badges VO/VF** : Langue de chaque séance clairement affichée
 - **Formats spéciaux** : Badges IMAX, 4DX, 3D pour les séances premium
 - **Scraping automatique** : Données mises à jour quotidiennement via GitHub Actions
