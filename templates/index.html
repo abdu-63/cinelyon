@@ -53,6 +53,12 @@
                     date.mois }}</option>
                 {% endfor %}
             </select>
+            <select id="filter-format" class="search-input">
+                <option value="">Toutes les séances</option>
+                {% for format in all_formats %}
+                <option value="{{ format|lower }}">{{ format }}</option>
+                {% endfor %}
+            </select>
             <div class="actions-row">
                 <button id="reset-filters" class="reset-btn">Réinitialiser</button>
                 <label class="favorites-toggle">
@@ -74,7 +80,8 @@
             data-rating="{{ film.rating }}" data-year="{{ film.release_year }}"
             data-film-id="{{ film.title|lower|replace(' ', '-') }}"
             data-cinemas="{% for day_data in film.seances_by_day.values() %}{% for cinema in day_data.keys() %}{{ cinema|lower }},{% endfor %}{% endfor %}"
-            data-days="{% for day_label in film.seances_by_day.keys() %}{{ day_label|lower }}||{% endfor %}">
+            data-days="{% for day_label in film.seances_by_day.keys() %}{{ day_label|lower }}||{% endfor %}"
+            data-formats="{{ film.formats }}">
             <img src={{film.affiche}} class="affiche" loading="lazy" decoding="async" width="200" height="288"
                 alt="Affiche de {{ film.title }}" />
             <div class="infoFilm">
@@ -138,7 +145,7 @@
                     </div>
                     <div class="horaires_container">
                         {% for seance in seances %}
-                        <div class="horaire-wrapper">
+                        <div class="horaire-wrapper" data-format="{{ seance.format|default('')|lower }}">
                             {% if seance.ticketing_url %}
                             <a href="{{ seance.ticketing_url }}" target="_blank" rel="noopener" class="horaire-link">
                                 <div
@@ -192,7 +199,7 @@
                 </div>
                 <div class="horaires_container">
                     {% for seance in seances %}
-                    <div class="horaire-wrapper">
+                    <div class="horaire-wrapper" data-format="{{ seance.format|default('')|lower }}">
                         {% if seance.ticketing_url %}
                         <a href="{{ seance.ticketing_url }}" target="_blank" rel="noopener" class="horaire-link">
                             <div
@@ -448,6 +455,7 @@
         const filterDirector = document.getElementById('filter-director');
         const filterCinema = document.getElementById('filter-cinema');
         const filterDay = document.getElementById('filter-day');
+        const filterFormat = document.getElementById('filter-format');
         const filterFavorites = document.getElementById('filter-favorites');
         const resetBtn = document.getElementById('reset-filters');
 
@@ -490,6 +498,7 @@
             const directorQuery = filterDirector.value.toLowerCase();
             const cinemaQuery = filterCinema.value.toLowerCase();
             const dayQuery = filterDay.value.toLowerCase();
+            const formatQuery = filterFormat.value.toLowerCase();
             const showOnlyFavorites = filterFavorites.checked;
 
             // Helper function to check if a cinema matches the filter
@@ -517,6 +526,7 @@
                 const director = film.dataset.director;
                 const cinemas = film.dataset.cinemas;
                 const days = film.dataset.days || '';
+                const formats = film.dataset.formats || '';
                 const filmId = film.dataset.filmId;
 
                 let sibling = film.nextElementSibling;
@@ -547,9 +557,10 @@
                     }
                 }
                 const matchDay = !dayQuery || days.includes(dayQuery);
+                const matchFormat = !formatQuery || formats.includes(formatQuery);
                 const matchFavorites = !showOnlyFavorites || isFavorite(filmId);
 
-                const show = matchTitle && matchGenre && matchDirector && matchCinema && matchDay && matchFavorites;
+                const show = matchTitle && matchGenre && matchDirector && matchCinema && matchDay && matchFormat && matchFavorites;
 
                 film.style.display = show ? '' : 'none';
                 relatedElements.forEach(el => el.style.display = show ? '' : 'none');
@@ -582,11 +593,27 @@
                                         const cinemaName = cinemaLink.dataset.cinema;
                                         const matches = dayMatches && cinemaMatchesFilter(cinemaName);
                                         container.style.display = matches ? '' : 'none';
+
+                                        // Filter individual horaires by format
+                                        if (matches && formatQuery) {
+                                            const wrappers = container.querySelectorAll('.horaire-wrapper');
+                                            let hasVisibleHoraire = false;
+                                            wrappers.forEach(w => {
+                                                const fmt = w.dataset.format || '';
+                                                const fmtMatch = fmt.includes(formatQuery);
+                                                w.style.display = fmtMatch ? '' : 'none';
+                                                if (fmtMatch) hasVisibleHoraire = true;
+                                            });
+                                            if (!hasVisibleHoraire) container.style.display = 'none';
+                                        } else if (matches) {
+                                            container.querySelectorAll('.horaire-wrapper').forEach(w => w.style.display = '');
+                                        }
+
                                         const spacingDiv = container.nextElementSibling;
                                         if (spacingDiv && spacingDiv.classList.contains('responsive-petite-div')) {
-                                            spacingDiv.style.display = matches ? '' : 'none';
+                                            spacingDiv.style.display = container.style.display;
                                         }
-                                        if (matches) hasVisibleSeance = true;
+                                        if (container.style.display !== 'none') hasVisibleSeance = true;
                                     }
                                 });
 
@@ -627,9 +654,25 @@
                                     const cinemaName = cinemaLink.dataset.cinema;
                                     const matches = cinemaMatchesFilter(cinemaName);
                                     container.style.display = matches ? '' : 'none';
+
+                                    // Filter individual horaires by format
+                                    if (matches && formatQuery) {
+                                        const wrappers = container.querySelectorAll('.horaire-wrapper');
+                                        let hasVisibleHoraire = false;
+                                        wrappers.forEach(w => {
+                                            const fmt = w.dataset.format || '';
+                                            const fmtMatch = fmt.includes(formatQuery);
+                                            w.style.display = fmtMatch ? '' : 'none';
+                                            if (fmtMatch) hasVisibleHoraire = true;
+                                        });
+                                        if (!hasVisibleHoraire) container.style.display = 'none';
+                                    } else if (matches) {
+                                        container.querySelectorAll('.horaire-wrapper').forEach(w => w.style.display = '');
+                                    }
+
                                     const spacingDiv = container.nextElementSibling;
                                     if (spacingDiv && spacingDiv.classList.contains('responsive-petite-div')) {
-                                        spacingDiv.style.display = matches ? '' : 'none';
+                                        spacingDiv.style.display = container.style.display;
                                     }
                                 }
                             });
@@ -644,6 +687,7 @@
         filterDirector.addEventListener('change', filterFilms);
         filterCinema.addEventListener('change', filterFilms);
         filterDay.addEventListener('change', filterFilms);
+        filterFormat.addEventListener('change', filterFilms);
         filterFavorites.addEventListener('change', filterFilms);
 
         resetBtn.addEventListener('click', function () {
@@ -652,6 +696,7 @@
             filterDirector.value = '';
             filterCinema.value = '';
             filterDay.value = '';
+            filterFormat.value = '';
             filterFavorites.checked = false;
             filterFilms();
         });

@@ -260,6 +260,7 @@ def home():
     all_genres = set()
     all_directors = set()
     all_cinemas = set()
+    all_formats = set()
 
     for film in films_list:
         if film["genres"]:
@@ -268,9 +269,19 @@ def home():
                     all_genres.add(genre.strip())
         if film["director"] and film["director"] != "Inconnu":
             all_directors.add(film["director"])
+
+        # Collecter les formats spéciaux du film
+        film_formats = set()
         for day_seances in film["seances_by_day"].values():
-            for cinema in day_seances.keys():
+            for cinema, seances in day_seances.items():
                 all_cinemas.add(cinema)
+                for seance in seances:
+                    fmt = seance.get("format")
+                    if fmt:
+                        for f in fmt.split(", "):
+                            film_formats.add(f.strip())
+                            all_formats.add(f.strip())
+        film["formats"] = ",".join(film_formats).lower()
 
     return render_template(
         "index.html",
@@ -284,6 +295,7 @@ def home():
         all_genres=sorted(all_genres),
         all_directors=sorted(all_directors),
         all_cinemas=sorted(all_cinemas),
+        all_formats=sorted(all_formats),
     )
 
 if __name__ == "__main__":
