@@ -372,7 +372,8 @@ class Theater:
                         if experience:
                             if "E_4DX" in experience:
                                 formats.append("4DX")
-                            if "E_DOLBY_CINEMA" in experience or "E_DOLBY_ATMOS" in experience or "DOLBY_CINEMA" in experience or "DOLBY_ATMOS" in experience:
+                            dolby_formats = ["E_DOLBY_CINEMA", "E_DOLBY_ATMOS", "DOLBY_CINEMA", "DOLBY_ATMOS"]
+                            if any(fmt in experience for fmt in dolby_formats):
                                 formats.append("Dolby")
                             if "ICE" in experience or "E_ICE" in experience:
                                 formats.append("ICE")

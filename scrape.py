@@ -14,11 +14,11 @@ import time
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-PARIS_TZ = ZoneInfo("Europe/Paris")
-
 from dotenv import load_dotenv
 
 from modules.Classes import TMDB_CACHE_FILE, Theater
+
+PARIS_TZ = ZoneInfo("Europe/Paris")
 
 load_dotenv(".env")
 
