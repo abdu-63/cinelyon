@@ -459,6 +459,10 @@ footer {
     position: relative;
 }
 
+.synopsis p {
+    margin: 0;
+}
+
 .synopsis::after {
     content: '';
     position: absolute;
@@ -472,7 +476,7 @@ footer {
 }
 
 .synopsis.expanded {
-    max-height: 500px;
+    max-height: 1000px;
 }
 
 .synopsis.expanded::after,
@@ -493,6 +497,35 @@ footer {
 
 .synopsis-toggle:hover {
     text-decoration: underline;
+}
+
+.trailer-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 8px;
+    padding: 0;
+    margin-top: 6px;
+    background: none;
+    color: #444cf7;
+    border: none;
+    font-family: 'healTheWebA', sans-serif;
+    font-size: 13px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    opacity: 0.8;
+}
+
+.trailer-btn:hover {
+    opacity: 1;
+    text-decoration: underline;
+    color: #444cf7;
+}
+
+.trailer-btn svg {
+    width: 12px;
+    height: 12px;
 }
 
 .date:hover {
@@ -699,6 +732,25 @@ html {
         display: none;
     }
 
+    .synopsis {
+        max-height: none;
+    }
+
+    .synopsis::after {
+        display: none;
+    }
+
+    .trailer-btn {
+        font-size: 10px;
+        opacity: 0.7;
+        margin-top: 2px;
+    }
+
+    .trailer-btn svg {
+        width: 10px;
+        height: 10px;
+    }
+
     .search-container {
         margin: 10px 5%;
         padding: 10px;
@@ -756,7 +808,16 @@ html {
         margin-right: 5px;
     }
 
+    .synopsis p {
+        display: none;
+    }
+
     .synopsis {
+        max-height: none;
+        overflow: visible;
+    }
+
+    .synopsis::after {
         display: none;
     }
 

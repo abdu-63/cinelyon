@@ -243,6 +243,7 @@ def home():
                     "director": film["director"],
                     "wantToSee": film["wantToSee"],
                     "url": film["url"],
+                    "trailer_url": film.get("trailer_url"),
                     "seances_by_day": {},
                 }
 

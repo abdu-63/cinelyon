@@ -97,9 +97,18 @@
                     </div>
                     <div style="height: 10px;"></div>
                     <div class="synopsis_container">
-                        <p class="synopsis">
-                            {{film.synopsis}}
-                        </p>
+                        <div class="synopsis">
+                            <p>{{film.synopsis}}</p>
+                            {% if film.trailer_url %}
+                            <a href="{{ film.trailer_url }}" target="_blank" rel="noopener" class="trailer-btn"
+                                title="Voir la bande-annonce">
+                                <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+                                    <path d="M8 5v14l11-7z" />
+                                </svg>
+                                Bande-annonce
+                            </a>
+                            {% endif %}
+                        </div>
                         <button class="synopsis-toggle" type="button">Lire plus</button>
                     </div>
                 </div>
@@ -374,7 +383,7 @@
     });
 
     document.querySelectorAll('.synopsis-toggle').forEach(btn => {
-        const synopsis = btn.previousElementSibling;
+        const synopsis = btn.closest('.synopsis_container').querySelector('.synopsis');
 
         if (synopsis.scrollHeight <= synopsis.clientHeight) {
             btn.style.display = 'none';

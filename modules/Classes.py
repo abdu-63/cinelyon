@@ -91,6 +91,7 @@ class Movie:
         self.rating = tmdb_data["rating"]
         self.synopsis = tmdb_data["synopsis"]
         self.original_title = tmdb_data["original_title"]
+        self.trailer_url = tmdb_data.get("trailer_url")
         self.letterboxd_url = self._generate_letterboxd_url()
         self.genres = [genre["translate"] for genre in data["genres"]]
         self.wantToSee = data["stats"]["wantToSeeCount"]
@@ -159,6 +160,7 @@ class Movie:
             "rating": "Note inconnue",
             "synopsis": "Synopsis non disponible",
             "original_title": self.title,
+            "trailer_url": None,
         }
 
         try:
@@ -209,6 +211,27 @@ class Movie:
                 details_params = {"api_key": TMDB_API_KEY, "language": "fr-FR"}
                 details_data = tmdb_request(details_url, details_params)
 
+                # Récupérer la bande-annonce YouTube
+                trailer_url = None
+                try:
+                    videos_url = f"https://api.themoviedb.org/3/movie/{movie_id}/videos"
+                    videos_data = tmdb_request(videos_url, {"api_key": TMDB_API_KEY, "language": "fr-FR"})
+                    videos = videos_data.get("results", [])
+                    if not videos:
+                        videos_data = tmdb_request(videos_url, {"api_key": TMDB_API_KEY, "language": "en-US"})
+                        videos = videos_data.get("results", [])
+                    for v in videos:
+                        if v.get("site") == "YouTube" and v.get("type") == "Trailer":
+                            trailer_url = f"https://www.youtube.com/watch?v={v['key']}"
+                            break
+                    if not trailer_url:
+                        for v in videos:
+                            if v.get("site") == "YouTube" and v.get("type") == "Teaser":
+                                trailer_url = f"https://www.youtube.com/watch?v={v['key']}"
+                                break
+                except Exception:
+                    pass
+
                 result = {
                     "year": movie.get("release_date", "").split("-")[0] or "inconnue",
                     "rating": str(round(movie.get("vote_average", 0), 1))
@@ -216,6 +239,7 @@ class Movie:
                     else "Note inconnue",
                     "synopsis": details_data.get("overview", "Synopsis non disponible"),
                     "original_title": movie.get("original_title", self.title),
+                    "trailer_url": trailer_url,
                 }
 
                 # Sauvegarder dans le cache
@@ -348,12 +372,10 @@ class Theater:
                         if experience:
                             if "E_4DX" in experience:
                                 formats.append("4DX")
-                            if "E_DOLBY_CINEMA" in experience or "E_DOLBY_ATMOS" in experience or "DOLBY_CINEMA" in experience:
+                            if "E_DOLBY_CINEMA" in experience or "E_DOLBY_ATMOS" in experience or "DOLBY_CINEMA" in experience or "DOLBY_ATMOS" in experience:
                                 formats.append("Dolby")
-                            if "E_ICE" in experience or "PLF" in experience:
+                            if "ICE" in experience or "E_ICE" in experience:
                                 formats.append("ICE")
-                            """if "PLF" in experience:
-                                formats.append("PLF")"""
 
                         format_str = ", ".join(formats) if formats else None
                         showtimes.append(Showtime(showtime_data, self, inst, language, format_str))
