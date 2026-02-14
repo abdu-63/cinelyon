@@ -81,12 +81,16 @@ class Movie:
         self.runtime = data["runtime"]
         # Récupérer l'année originale d'Allocine si disponible
         self.allocine_year = data.get("releaseDate", {}).get("date", "").split("-")[0]
+
+        # Extraire le(s) réalisateur(s) AVANT l'appel TMDB (nécessaire pour le matching)
+        self.director = self._extract_directors(data)
+
         # Récupérer les données TMDB
         tmdb_data = self._get_data_from_tmdb()
         self.release_year = tmdb_data["year"]
         self.rating = tmdb_data["rating"]
-        self.synopsis = tmdb_data["synopsis"]  # Utiliser le synopsis de TMDB
-        self.original_title = tmdb_data["original_title"]  # Titre original anglais
+        self.synopsis = tmdb_data["synopsis"]
+        self.original_title = tmdb_data["original_title"]
         self.letterboxd_url = self._generate_letterboxd_url()
         self.genres = [genre["translate"] for genre in data["genres"]]
         self.wantToSee = data["stats"]["wantToSeeCount"]
@@ -95,32 +99,40 @@ class Movie:
         except (KeyError, TypeError):
             self.affiche = "/static/images/nocontent.png"
 
-        # Nom du réalisateur
-        if len(data["credits"]) == 0:
-            self.director = "Inconnu"
-        else:
-            if data["credits"][0]["person"]["lastName"] is None:
-                data["credits"][0]["person"]["lastName"] = ""
-
-            if data["credits"][0]["person"]["firstName"] is None:
-                data["credits"][0]["person"]["firstName"] = ""
-
-            self.director = f"{data['credits'][0]['person']['firstName']} {data['credits'][0]['person']['lastName']}"
-            self.director = self.director.lstrip()
-
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__} name={self.title}>"
 
+    def _extract_directors(self, data):
+        """Extrait le(s) réalisateur(s) depuis les crédits Allocine."""
+        if not data.get("credits"):
+            return "Inconnu"
+
+        directors = []
+        for credit in data["credits"]:
+            position = credit.get("position", {})
+            if position and position.get("name") == "DIRECTOR":
+                person = credit.get("person", {})
+                first = (person.get("firstName") or "").strip()
+                last = (person.get("lastName") or "").strip()
+                name = f"{first} {last}".strip()
+                if name:
+                    directors.append(name)
+
+        if not directors:
+            # Fallback : prendre le premier crédit
+            person = data["credits"][0].get("person", {})
+            first = (person.get("firstName") or "").strip()
+            last = (person.get("lastName") or "").strip()
+            return f"{first} {last}".strip() or "Inconnu"
+
+        return ", ".join(directors)
+
     def _slugify(self, text):
         """Convertit un titre en slug pour Letterboxd."""
-        # Normaliser les accents (é -> e, etc.)
         text = unicodedata.normalize("NFD", text)
         text = text.encode("ascii", "ignore").decode("utf-8")
-        # Convertir en minuscules
         text = text.lower()
-        # Remplacer les espaces et caractères spéciaux par des tirets
         text = re.sub(r"[^a-z0-9]+", "-", text)
-        # Supprimer les tirets en début et fin
         text = text.strip("-")
         return text
 
@@ -161,34 +173,35 @@ class Movie:
                 params["year"] = self.allocine_year
 
             search_data = tmdb_request(search_url, params)
-
-            movie = None
             results = search_data.get("results", [])
 
-            if results:
-                if self.allocine_year:
-                    matching_results = [r for r in results if r.get("release_date", "").startswith(self.allocine_year)]
-                    movie = matching_results[0] if matching_results else results[0]
-                else:
-                    if hasattr(self, "director") and self.director and self.director != "Inconnu":
-                        for result in results:
-                            movie_id = result.get("id")
-                            credits_url = f"https://api.themoviedb.org/3/movie/{movie_id}/credits"
-                            credits_params = {"api_key": TMDB_API_KEY}
-                            credits_data = tmdb_request(credits_url, credits_params)
-                            crew = credits_data.get("crew", [])
-                            directors = [c.get("name", "").lower() for c in crew if c.get("job") == "Director"]
-                            if any(self.director.lower() in d or d in self.director.lower() for d in directors):
-                                movie = result
-                                break
+            # Si aucun résultat avec l'année, retenter sans le filtre (ressorties)
+            if not results and self.allocine_year:
+                params_no_year = {k: v for k, v in params.items() if k != "year"}
+                search_data = tmdb_request(search_url, params_no_year)
+                results = search_data.get("results", [])
 
-                    if not movie:
-                        sorted_results = sorted(
-                            [r for r in results if r.get("release_date")],
-                            key=lambda x: x.get("release_date", ""),
-                            reverse=True,
-                        )
-                        movie = sorted_results[0] if sorted_results else results[0]
+            movie = None
+
+            if results:
+                # Essayer de matcher par réalisateur si disponible
+                if self.director and self.director != "Inconnu":
+                    director_names = [d.strip().lower() for d in self.director.split(",")]
+                    for result in results[:5]:  # Limiter à 5 pour éviter trop d'appels
+                        movie_id = result.get("id")
+                        credits_url = f"https://api.themoviedb.org/3/movie/{movie_id}/credits"
+                        credits_params = {"api_key": TMDB_API_KEY}
+                        credits_data = tmdb_request(credits_url, credits_params)
+                        crew = credits_data.get("crew", [])
+                        tmdb_directors = [c.get("name", "").lower() for c in crew if c.get("job") == "Director"]
+                        if any(dn in td or td in dn for dn in director_names for td in tmdb_directors):
+                            movie = result
+                            break
+
+                # Fallback : préférer le film le plus populaire
+                if not movie:
+                    sorted_results = sorted(results, key=lambda x: x.get("popularity", 0), reverse=True)
+                    movie = sorted_results[0]
 
             if movie:
                 movie_id = movie["id"]
