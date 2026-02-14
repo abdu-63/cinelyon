@@ -189,7 +189,11 @@ def main():
             os.remove(TMDB_CACHE_FILE)
             logger.info("🗑️ Cache TMDB supprimé")
 
-    theaters_config = json.loads(THEATERS_JSON)
+    try:
+        theaters_config = json.loads(THEATERS_JSON)
+    except json.JSONDecodeError as e:
+        logger.error(f"❌ Erreur parsing JSON THEATERS: {e}")
+        return
 
     if not theaters_config:
         logger.error("❌ Aucun cinéma configuré. Vérifiez la variable THEATERS.")
