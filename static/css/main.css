@@ -1329,6 +1329,26 @@ html {
     }
 }
 
+.sync-unlink-btn {
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+    padding: 12px;
+    background: transparent;
+    border: 1px solid #ff6b6b;
+    color: #ff6b6b;
+    border-radius: 10px;
+    font-family: 'healTheWebA', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sync-unlink-btn:hover {
+    background: #fff0f0;
+    transform: translateY(-1px);
+}
+
 /* Toast Notifications */
 #toast-container {
     position: fixed;

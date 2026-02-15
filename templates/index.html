@@ -282,6 +282,9 @@
         </div>
         <p class="sync-modal-hint">Utilisez le même code sur vos différents appareils pour synchroniser
             automatiquement vos favoris.</p>
+
+        <div class="sync-modal-divider"></div>
+        <button id="unlink-device-btn" class="sync-unlink-btn">Déconnecter cet appareil</button>
     </div>
 </div>
 
@@ -1020,6 +1023,10 @@ END:VCALENDAR`;
         syncBtn.addEventListener('click', () => {
             syncCodeDisplay.textContent = getSyncCode();
             syncModal.classList.add('show');
+
+            // Force sync to ensure ID exists in DB so others can find it
+            const currentFavs = getFavorites();
+            syncToSupabase(currentFavs);
         });
 
         syncModalClose.addEventListener('click', () => {
@@ -1080,6 +1087,30 @@ END:VCALENDAR`;
                 }
             }
         });
+
+        // Add Unlink Button Logic
+        const unlinkBtn = document.getElementById('unlink-device-btn');
+        if (unlinkBtn) {
+            unlinkBtn.addEventListener('click', () => {
+                if (confirm("Voulez-vous vraiment déconnecter cet appareil ?\nVos favoris resteront sur cet appareil, mais il ne sera plus synchronisé avec les autres.")) {
+                    // Generate new ID
+                    const newId = (crypto.randomUUID ? crypto.randomUUID() : ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)));
+                    localStorage.setItem(SYNC_ID_KEY, newId);
+
+                    // Update UI
+                    syncCodeDisplay.textContent = getSyncCode();
+
+                    // Push local favorites to the new user ID
+                    const currentFavs = getFavorites();
+                    syncToSupabase(currentFavs);
+
+                    showToast('Appareil déconnecté ! 🔌');
+
+                    // Optional: Close modal
+                    // syncModal.classList.remove('show');
+                }
+            });
+        }
 
         syncLinkBtn.addEventListener('click', () => {
             const code = syncCodeInput.value.trim().toUpperCase();
