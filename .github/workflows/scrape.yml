@@ -9,6 +9,9 @@ on:
   # Permet de lancer manuellement le workflow
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   scrape:
     runs-on: ubuntu-latest
