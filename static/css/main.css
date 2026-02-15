@@ -770,10 +770,20 @@ html {
         min-width: 100%;
     }
 
+    .search-filters {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5px;
+    }
+
     .search-filters .search-input {
-        min-width: calc(50% - 3px);
-        flex: none;
+        min-width: 0;
+        width: 100%;
         padding: 6px 8px;
+    }
+
+    .search-filters .actions-row {
+        grid-column: 1 / -1;
     }
 
     .reset-btn {

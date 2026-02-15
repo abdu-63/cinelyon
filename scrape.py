@@ -9,6 +9,7 @@ Supporte le scraping incrémental et la reprise après échec.
 import argparse
 import json
 import logging
+import sys
 import os
 import time
 from datetime import datetime, timedelta
@@ -193,11 +194,13 @@ def main():
         theaters_config = json.loads(THEATERS_JSON)
     except json.JSONDecodeError as e:
         logger.error(f"❌ Erreur parsing JSON THEATERS: {e}")
-        return
+        logger.error(f"   Valeur reçue: '{THEATERS_JSON[:100]}'")
+        sys.exit(1)
 
     if not theaters_config:
-        logger.error("❌ Aucun cinéma configuré. Vérifiez la variable THEATERS.")
-        return
+        logger.error("❌ Aucun cinéma configuré. Vérifiez le secret THEATERS dans GitHub.")
+        logger.error(f"   THEATERS_JSON='{THEATERS_JSON}'")
+        sys.exit(1)
 
     if not TMDB_API_KEY:
         logger.warning("⚠️ TMDB_API_KEY non configurée ! Les données TMDB seront manquantes.")
