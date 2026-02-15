@@ -20,8 +20,8 @@ logo=github-actions">
   <a href="https://www.themoviedb.org/">
     <img alt="TMDB" src="https://img.shields.io/badge/TMDB-API-01d277?logo=themoviedb">
   </a>
-  <a href="https://www.mapbox.com/">
-    <img alt="Mapbox" src="https://img.shields.io/badge/Mapbox-API-007afc?logo=mapbox">
+  <a href="https://supabase.com/">
+    <img alt="Supabase" src="https://img.shields.io/badge/Supabase-Database-3ECF8E?logo=supabase">
   </a>
   <a href="https://www.allocine.fr/">
     <img alt="Allociné" src="https://img.shields.io/badge/Allocin%C3%A9-Data-FECC00">
@@ -57,7 +57,7 @@ Fork de [grainParisArt-Public](https://github.com/solene-drnx/grainParisArt-Publ
 
 - **Calendrier interactif** : Visualisez les horaires sur 7 jours
 - **Informations détaillées** : Synopsis, réalisateur, genres, durée, notes TMDB
-- **Carte interactive** : Localisation de tous les cinémas avec Mapbox et liens GPS
+- **Synchronisation multi-appareils** : Retrouvez vos favoris sur tous vos écrans via Supabase
 - **Barre de recherche** : Filtrez par titre, genre, réalisateur, cinéma ou note
 - **Système de favoris** : Sauvegardez vos films préférés (persistant via localStorage)
 - **Bandes-annonces** : Visionnez la bande-annonce directement dans le synopsis
@@ -127,7 +127,7 @@ GitHub Actions (9h et 19h30 UTC)
 
 - Python 3.10+
 - Compte [TMDB](https://www.themoviedb.org/settings/api) (gratuit)
-- Compte [Mapbox](https://console.mapbox.com/) (gratuit)
+- Compte [Supabase](https://supabase.com) (gratuit)
 
 ### Configuration
 
@@ -145,7 +145,10 @@ GitHub Actions (9h et 19h30 UTC)
 3. **Configurer les variables d'environnement**
    ```bash
    cp .env.sample .env
-   # Éditer .env avec vos clés API
+   # Éditer .env :
+   # SUPABASE_URL=...
+   # SUPABASE_ANON_KEY=...
+   # TMDB_API_KEY=...
    ```
 
 4. **Générer les données**
@@ -185,7 +188,9 @@ ruff check . && pytest
 
 1. **Importer sur [vercel.com/new](https://vercel.com/new)** (Conseil : GitHub)
 2. **Configurer les variables d'environnement** :
-   - `MAPBOX_TOKEN`
+   - `TMDB_API_KEY`
+   - `SUPABASE_URL`
+   - `SUPABASE_ANON_KEY`
    - `WEBSITE_TITLE`
    - `THEATERS`
 3. **Déployer**
@@ -207,7 +212,6 @@ Le scraping GitHub Actions met à jour `movies.json` → Vercel redéploie autom
 |--------|-------------|
 | `TMDB_API_KEY` | Clé API TMDB (v3 auth) |
 | `THEATERS` | JSON des cinémas |
-| `MAPBOX_TOKEN` | Token Mapbox |
 | `WEBSITE_TITLE` | Titre du site |
 
 ## Ajouter des cinémas
@@ -226,7 +230,7 @@ Dans `.env` ou les secrets GitHub :
 ## Liens utiles
 
 - [TMDB API](https://www.themoviedb.org/settings/api) - Clé API pour les données films
-- [Mapbox](https://console.mapbox.com/) - Token pour la carte
+- [Supabase](https://supabase.com) - Database & Auth
 - [Allociné](https://www.allocine.fr/) - Source des séances
 
 ---
