@@ -94,6 +94,7 @@ csp = {
     "connect-src": ["'self'", "https://*.supabase.co"],
     "font-src": ["'self'", "https://fonts.gstatic.com", "data:"],
     "worker-src": ["'self'", "blob:"],
+    "frame-src": ["'self'", "https://www.youtube.com", "https://youtube.com", "https://www.youtube-nocookie.com"],
 }
 Talisman(app, content_security_policy=csp, force_https=False)
 
