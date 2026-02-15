@@ -96,10 +96,15 @@ class Movie:
         self.letterboxd_url = self._generate_letterboxd_url()
         self.genres = [genre["translate"] for genre in data["genres"]]
         self.wantToSee = data["stats"]["wantToSeeCount"]
-        try:
-            self.affiche = data["poster"]["url"]
-        except (KeyError, TypeError):
-            self.affiche = "/static/images/nocontent.png"
+        # Affiche : priorité TMDB, fallback Allocine, puis placeholder
+        tmdb_poster = tmdb_data.get("poster_url")
+        if tmdb_poster:
+            self.affiche = tmdb_poster
+        else:
+            try:
+                self.affiche = data["poster"]["url"]
+            except (KeyError, TypeError):
+                self.affiche = "/static/images/nocontent.png"
 
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__} name={self.title}>"
@@ -163,6 +168,7 @@ class Movie:
             "original_title": self.title,
             "english_title": self.title,
             "trailer_url": None,
+            "poster_url": None,
         }
 
         try:
@@ -245,6 +251,10 @@ class Movie:
                 except Exception:
                     pass
 
+                # Construire l'URL de l'affiche TMDB
+                poster_path = movie.get("poster_path")
+                poster_url = f"https://image.tmdb.org/t/p/w500{poster_path}" if poster_path else None
+
                 result = {
                     "year": movie.get("release_date", "").split("-")[0] or "inconnue",
                     "rating": str(round(movie.get("vote_average", 0), 1))
@@ -254,6 +264,7 @@ class Movie:
                     "original_title": movie.get("original_title", self.title),
                     "english_title": english_title,
                     "trailer_url": trailer_url,
+                    "poster_url": poster_url,
                 }
 
                 # Sauvegarder dans le cache
