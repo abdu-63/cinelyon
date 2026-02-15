@@ -142,7 +142,7 @@ class Movie:
         """Génère l'URL Letterboxd (Universal Link: ouvre l'app sur mobile si installée)."""
         from urllib.parse import quote
 
-        search_query = f"{self.english_title} {self.release_year}"
+        search_query = self.english_title
         return f"https://letterboxd.com/search/{quote(search_query)}/"
 
     def _get_data_from_tmdb(self):
