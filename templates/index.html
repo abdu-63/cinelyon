@@ -75,40 +75,6 @@
                     <span class="sync-label">Sync</span>
                 </button>
             </div>
-
-            <!-- Device Link Modal -->
-            <div id="sync-modal" class="sync-modal-overlay">
-                <div class="sync-modal">
-                    <button class="sync-modal-close" id="sync-modal-close">&times;</button>
-                    <h3>Synchroniser vos favoris</h3>
-                    <div class="sync-modal-section">
-                        <p class="sync-modal-label">Votre code de sync :</p>
-                        <div class="sync-code-display">
-                            <span id="sync-code">------</span>
-                            <button id="copy-sync-code" class="sync-copy-btn" title="Copier">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16"
-                                    height="16">
-                                    <rect x="9" y="9" width="13" height="13" rx="2" />
-                                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="sync-modal-divider">
-                        <span>ou</span>
-                    </div>
-                    <div class="sync-modal-section">
-                        <p class="sync-modal-label">Entrer un code pour lier cet appareil :</p>
-                        <div class="sync-input-row">
-                            <input type="text" id="sync-code-input" class="sync-code-input" maxlength="6"
-                                placeholder="ABC123" autocomplete="off" spellcheck="false">
-                            <button id="sync-link-btn" class="sync-link-btn">Lier</button>
-                        </div>
-                    </div>
-                    <p class="sync-modal-hint">Utilisez le même code sur vos différents appareils pour synchroniser
-                        automatiquement vos favoris.</p>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -284,6 +250,39 @@
         {% endfor %}
     </div>
 
+</div>
+
+<!-- Device Link Modal -->
+<div id="sync-modal" class="sync-modal-overlay">
+    <div class="sync-modal">
+        <button class="sync-modal-close" id="sync-modal-close">&times;</button>
+        <h3>Synchroniser vos favoris</h3>
+        <div class="sync-modal-section">
+            <p class="sync-modal-label">Votre code de sync :</p>
+            <div class="sync-code-display">
+                <span id="sync-code">------</span>
+                <button id="copy-sync-code" class="sync-copy-btn" title="Copier">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                        <rect x="9" y="9" width="13" height="13" rx="2" />
+                        <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="sync-modal-divider">
+            <span>ou</span>
+        </div>
+        <div class="sync-modal-section">
+            <p class="sync-modal-label">Entrer un code pour lier cet appareil :</p>
+            <div class="sync-input-row">
+                <input type="text" id="sync-code-input" class="sync-code-input" maxlength="6" placeholder="ABC123"
+                    autocomplete="off" spellcheck="false">
+                <button id="sync-link-btn" class="sync-link-btn">Lier</button>
+            </div>
+        </div>
+        <p class="sync-modal-hint">Utilisez le même code sur vos différents appareils pour synchroniser
+            automatiquement vos favoris.</p>
+    </div>
 </div>
 
 <script>
@@ -908,7 +907,7 @@ END:VCALENDAR`;
     function getSyncId() {
         let id = localStorage.getItem(SYNC_ID_KEY);
         if (!id) {
-            id = crypto.randomUUID();
+            id = (crypto.randomUUID ? crypto.randomUUID() : ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)));
             localStorage.setItem(SYNC_ID_KEY, id);
         }
         return id;

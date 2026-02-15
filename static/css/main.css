@@ -1298,6 +1298,37 @@ html {
     line-height: 1.5;
 }
 
+@media (max-width: 576px) {
+    .sync-modal {
+        padding: 24px 20px;
+        width: 92%;
+        max-width: none;
+    }
+
+    .sync-modal h3 {
+        font-size: 18px;
+        margin-bottom: 16px;
+    }
+
+    .sync-code-display span {
+        font-size: 22px;
+        letter-spacing: 4px;
+    }
+
+    .sync-input-row {
+        flex-direction: column;
+    }
+
+    .sync-code-input {
+        font-size: 16px;
+    }
+
+    .sync-link-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
 /* Toast Notifications */
 #toast-container {
     position: fixed;
