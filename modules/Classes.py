@@ -91,6 +91,7 @@ class Movie:
         self.rating = tmdb_data["rating"]
         self.synopsis = tmdb_data["synopsis"]
         self.original_title = tmdb_data["original_title"]
+        self.english_title = tmdb_data.get("english_title", self.original_title)
         self.trailer_url = tmdb_data.get("trailer_url")
         self.letterboxd_url = self._generate_letterboxd_url()
         self.genres = [genre["translate"] for genre in data["genres"]]
@@ -141,7 +142,7 @@ class Movie:
         """Génère l'URL Letterboxd (Universal Link: ouvre l'app sur mobile si installée)."""
         from urllib.parse import quote
 
-        search_query = f"{self.original_title} {self.release_year}"
+        search_query = f"{self.english_title} {self.release_year}"
         return f"https://letterboxd.com/search/{quote(search_query)}/"
 
     def _get_data_from_tmdb(self):
@@ -160,6 +161,7 @@ class Movie:
             "rating": "Note inconnue",
             "synopsis": "Synopsis non disponible",
             "original_title": self.title,
+            "english_title": self.title,
             "trailer_url": None,
         }
 
@@ -232,6 +234,17 @@ class Movie:
                 except Exception:
                     pass
 
+                # Récupérer le titre anglais via un appel en-US
+                english_title = movie.get("original_title", self.title)
+                try:
+                    en_details_url = f"https://api.themoviedb.org/3/movie/{movie_id}"
+                    en_details_params = {"api_key": TMDB_API_KEY, "language": "en-US"}
+                    en_details_data = tmdb_request(en_details_url, en_details_params)
+                    if en_details_data.get("title"):
+                        english_title = en_details_data["title"]
+                except Exception:
+                    pass
+
                 result = {
                     "year": movie.get("release_date", "").split("-")[0] or "inconnue",
                     "rating": str(round(movie.get("vote_average", 0), 1))
@@ -239,6 +252,7 @@ class Movie:
                     else "Note inconnue",
                     "synopsis": details_data.get("overview", "Synopsis non disponible"),
                     "original_title": movie.get("original_title", self.title),
+                    "english_title": english_title,
                     "trailer_url": trailer_url,
                 }
 
