@@ -181,6 +181,10 @@ p {
     margin-bottom: -20px;
 }
 
+.info-content p:last-child {
+    margin-bottom: 0;
+}
+
 .date {
     display: flex;
     flex-direction: column;

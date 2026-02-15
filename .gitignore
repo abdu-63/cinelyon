@@ -25,3 +25,7 @@ Thumbs.db
 # Tests & Linting
 .pytest_cache/
 .ruff_cache/
+
+# Données
+movies.json
+tmdb_cache.json
