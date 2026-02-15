@@ -85,7 +85,7 @@ csp = {
     "default-src": "'self'",
     "script-src": ["'self'", "'unsafe-inline'", "https://api.mapbox.com", "blob:"],
     "style-src": ["'self'", "'unsafe-inline'", "https://api.mapbox.com", "https://fonts.googleapis.com"],
-    "img-src": ["'self'", "data:", "blob:", "https://*.allocine.fr", "https://*.acsta.net", "https://wsrv.nl", "https://*.mapbox.com"],
+    "img-src": ["'self'", "data:", "blob:", "https://*.allocine.fr", "https://*.acsta.net", "https://wsrv.nl", "https://*.mapbox.com", "https://image.tmdb.org"],
     "connect-src": ["'self'", "https://api.mapbox.com", "https://events.mapbox.com"],
     "font-src": ["'self'", "https://fonts.gstatic.com", "data:"],
     "worker-src": ["'self'", "blob:"],

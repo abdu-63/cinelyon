@@ -82,7 +82,7 @@
             data-cinemas="{% for day_data in film.seances_by_day.values() %}{% for cinema in day_data.keys() %}{{ cinema|lower }},{% endfor %}{% endfor %}"
             data-days="{% for day_label in film.seances_by_day.keys() %}{{ day_label|lower }}||{% endfor %}"
             data-formats="{{ film.formats }}">
-            <img src={{film.affiche}} class="affiche" loading="lazy" decoding="async" width="200" height="288"
+            <img src="{{film.affiche}}" class="affiche" loading="lazy" decoding="async" width="200" height="288"
                 alt="Affiche de {{ film.title }}" />
             <div class="infoFilm">
                 <div class="blur-background"></div>
