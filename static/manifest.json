@@ -21,6 +21,30 @@
             "type": "image/png"
         }
     ],
+    "shortcuts": [
+        {
+            "name": "Aujourd'hui",
+            "short_name": "Aujourd'hui",
+            "url": "/",
+            "icons": [
+                {
+                    "src": "/static/images/favicon.png",
+                    "sizes": "32x32"
+                }
+            ]
+        },
+        {
+            "name": "Favoris",
+            "short_name": "Favoris",
+            "url": "/?filter=favorites",
+            "icons": [
+                {
+                    "src": "/static/images/favicon.png",
+                    "sizes": "32x32"
+                }
+            ]
+        }
+    ],
     "categories": [
         "entertainment",
         "lifestyle"

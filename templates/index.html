@@ -288,6 +288,17 @@
     </div>
 </div>
 
+</div>
+
+<!-- Trailer Overlay Modal -->
+<div id="trailer-overlay" class="trailer-overlay">
+    <div class="trailer-modal">
+        <button class="trailer-close-btn" aria-label="Fermer">&times;</button>
+        <iframe id="trailer-iframe" class="trailer-iframe" src="" allow="autoplay; encrypted-media"
+            allowfullscreen></iframe>
+    </div>
+</div>
+
 <script>
     document.querySelectorAll('.seances-wrapper').forEach(wrapper => {
         const buttons = wrapper.querySelectorAll('.mini-cal-btn');
@@ -1204,6 +1215,75 @@ END:VCALENDAR`;
             toast.addEventListener('transitionend', () => toast.remove());
         }, 3000);
     }
+    // --- Trailer Overlay Logic ---
+    document.addEventListener('DOMContentLoaded', () => {
+        const trailerOverlay = document.getElementById('trailer-overlay');
+        const trailerIframe = document.getElementById('trailer-iframe');
+        const trailerCloseBtn = document.querySelector('.trailer-close-btn');
+
+        function openTrailer(videoUrl) {
+            // Convert watch URL to embed URL if needed
+            let embedUrl = videoUrl;
+            if (videoUrl.includes('watch?v=')) {
+                const videoId = videoUrl.split('v=')[1]?.split('&')[0];
+                embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+            } else if (videoUrl.includes('youtu.be/')) {
+                 const videoId = videoUrl.split('youtu.be/')[1]?.split('?')[0];
+                 embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+            }
+
+            trailerIframe.src = embedUrl;
+            trailerOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        }
+
+        function closeTrailer() {
+            trailerOverlay.classList.remove('active');
+            trailerIframe.src = ''; // Stop video
+            document.body.style.overflow = '';
+        }
+
+        // Event delegation for dynamically added buttons if any, or just static ones
+        document.body.addEventListener('click', (e) => {
+            const btn = e.target.closest('.trailer-btn');
+            if (btn) {
+                e.preventDefault();
+                openTrailer(btn.href);
+            }
+        });
+
+        trailerCloseBtn.addEventListener('click', closeTrailer);
+
+        // Close on background click
+        trailerOverlay.addEventListener('click', (e) => {
+            if (e.target === trailerOverlay) {
+                closeTrailer();
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && trailerOverlay.classList.contains('active')) {
+                closeTrailer();
+            }
+        });
+
+        // --- PWA Shortcuts Handler --
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('filter') === 'favorites') {
+            const favoritesToggle = document.getElementById('filter-favorites');
+            if (favoritesToggle) {
+                favoritesToggle.checked = true;
+                // Trigger change event to apply filter
+                favoritesToggle.dispatchEvent(new Event('change'));
+                
+                // Optional: Scroll to films container
+                const filmsContainer = document.getElementById('films-container');
+                if (filmsContainer) filmsContainer.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    });
+
 </script>
 
 {% endblock %}

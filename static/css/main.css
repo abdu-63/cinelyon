@@ -1506,3 +1506,78 @@ html {
     height: 18px;
     flex-shrink: 0;
 }
+
+/* Trailer Overlay Modal */
+.trailer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 9999;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.trailer-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+.trailer-modal {
+    position: relative;
+    width: 90%;
+    max-width: 900px;
+    aspect-ratio: 16/9;
+    background: #000;
+    border-radius: 12px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+.trailer-overlay.active .trailer-modal {
+    transform: scale(1);
+}
+
+.trailer-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.trailer-close-btn {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.trailer-close-btn:hover {
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    .trailer-modal {
+        width: 95%;
+    }
+    .trailer-close-btn {
+        top: -35px;
+        right: 10px;
+    }
+}
