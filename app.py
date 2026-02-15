@@ -12,7 +12,9 @@ dotenv.load_dotenv(".env")
 dotenv.load_dotenv(".env.sample")
 
 WEBSITE_TITLE = os.environ.get("WEBSITE_TITLE", "CinéLyon")
-MAPBOX_TOKEN = os.environ.get("MAPBOX_TOKEN", "")
+
+SUPABASE_URL = os.environ.get("SUPABASE_URL", "")
+SUPABASE_ANON_KEY = os.environ.get("SUPABASE_ANON_KEY", "")
 
 theaters_json = json.loads(os.environ.get("THEATERS", "[]"))
 theater_locations = []
@@ -83,13 +85,13 @@ app.config["COMPRESS_MIN_SIZE"] = 500
 
 csp = {
     "default-src": "'self'",
-    "script-src": ["'self'", "'unsafe-inline'", "https://api.mapbox.com", "blob:"],
-    "style-src": ["'self'", "'unsafe-inline'", "https://api.mapbox.com", "https://fonts.googleapis.com"],
+    "script-src": ["'self'", "'unsafe-inline'", "blob:"],
+    "style-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
     "img-src": [
         "'self'", "data:", "blob:", "https://*.allocine.fr", "https://*.acsta.net",
-        "https://wsrv.nl", "https://*.mapbox.com", "https://image.tmdb.org",
+        "https://wsrv.nl", "https://image.tmdb.org",
     ],
-    "connect-src": ["'self'", "https://api.mapbox.com", "https://events.mapbox.com"],
+    "connect-src": ["'self'", "https://*.supabase.co"],
     "font-src": ["'self'", "https://fonts.gstatic.com", "data:"],
     "worker-src": ["'self'", "blob:"],
 }
@@ -294,17 +296,19 @@ def home():
         show_all=(delta is None),
         theater_locations=theater_locations,
         website_title=WEBSITE_TITLE,
-        mapbox_token=MAPBOX_TOKEN,
+
+        supabase_url=SUPABASE_URL,
+        supabase_anon_key=SUPABASE_ANON_KEY,
         all_genres=sorted(all_genres),
         all_directors=sorted(all_directors),
         all_cinemas=sorted(all_cinemas),
         all_formats=sorted(all_formats),
     )
 
-if __name__ == "__main__":
-    app.run(debug=True)
+"""if __name__ == "__main__":
+    app.run(debug=True)"""
 
 # pour le débug sur mobile
-"""if __name__ == '__main__':
+if __name__ == '__main__':
     # host='0.0.0.0' permet l'accès depuis d'autres appareils
-    app.run(host='0.0.0.0', port=5001)"""
+    app.run(host='0.0.0.0', port=5001)

@@ -42,27 +42,7 @@ p {
     justify-content: space-between;
 }
 
-#map {
-    margin-left: 10%;
-    margin-right: 10%;
-    height: 500px;
-    border-radius: 10px;
-    /* iOS Safari compatibility fixes */
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-    will-change: transform;
-    position: relative;
-    z-index: 1;
-}
 
-.custom-marker {
-    background-color: #444cf7;
-    border: 2px solid #fff;
-    border-radius: 50%;
-    width: 15px;
-    height: 15px;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
-}
 
 
 .container_titrePlanning,
@@ -637,13 +617,7 @@ html {
         flex-direction: column;
     }
 
-    #map {
-        max-width: 100vw;
-        height: 200px;
-        border-radius: 5px;
-        margin-left: 5%;
-        margin-right: 5%;
-    }
+
 
     body {
         margin: 0;
@@ -1086,6 +1060,281 @@ html {
         width: 14px;
         height: 14px;
     }
+}
+
+/* Sync Button */
+.sync-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 8px 15px;
+    border-radius: 8px;
+    background: transparent;
+    border: 2px solid #e0e0e0;
+    transition: all 0.3s ease;
+    font-family: 'healTheWebA', sans-serif;
+    font-size: 14px;
+    color: #666;
+}
+
+.sync-btn:hover {
+    border-color: #444cf7;
+    color: #444cf7;
+}
+
+.sync-btn:hover svg {
+    stroke: #444cf7;
+}
+
+.sync-btn svg {
+    stroke: #999;
+    transition: stroke 0.2s ease;
+}
+
+.sync-label {
+    user-select: none;
+}
+
+@media (max-width: 576px) {
+    .sync-btn {
+        padding: 6px 12px;
+    }
+
+    .sync-label {
+        font-size: 11px;
+    }
+
+    .sync-btn svg {
+        width: 14px;
+        height: 14px;
+    }
+}
+
+/* Sync Modal */
+.sync-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+.sync-modal-overlay.show {
+    display: flex;
+}
+
+.sync-modal {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 420px;
+    width: 90%;
+    position: relative;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.sync-modal h3 {
+    font-family: 'healTheWebA', sans-serif;
+    font-size: 20px;
+    margin: 0 0 24px;
+    color: #222;
+    text-align: center;
+}
+
+.sync-modal-close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #999;
+    cursor: pointer;
+    padding: 4px;
+    line-height: 1;
+}
+
+.sync-modal-close:hover {
+    color: #333;
+}
+
+.sync-modal-section {
+    margin-bottom: 16px;
+}
+
+.sync-modal-label {
+    font-family: 'healTheWebA', sans-serif;
+    font-size: 13px;
+    color: #666;
+    margin: 0 0 8px;
+}
+
+.sync-code-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: #f0f0ff;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.sync-code-display span {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 28px;
+    font-weight: bold;
+    color: #444cf7;
+    letter-spacing: 6px;
+}
+
+.sync-copy-btn {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s;
+}
+
+.sync-copy-btn:hover {
+    border-color: #444cf7;
+    background: #f0f0ff;
+}
+
+.sync-copy-btn svg {
+    stroke: #666;
+}
+
+.sync-copy-btn:hover svg {
+    stroke: #444cf7;
+}
+
+.sync-modal-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 20px 0;
+}
+
+.sync-modal-divider::before,
+.sync-modal-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #e0e0e0;
+}
+
+.sync-modal-divider span {
+    font-family: 'healTheWebA', sans-serif;
+    font-size: 13px;
+    color: #999;
+}
+
+.sync-input-row {
+    display: flex;
+    gap: 8px;
+}
+
+.sync-code-input {
+    flex: 1;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 18px;
+    letter-spacing: 4px;
+    text-align: center;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.2s;
+    text-transform: uppercase;
+}
+
+.sync-code-input:focus {
+    border-color: #444cf7;
+}
+
+.sync-link-btn {
+    padding: 12px 20px;
+    background: #444cf7;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-family: 'healTheWebA', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+
+.sync-link-btn:hover {
+    background: #3338c9;
+}
+
+.sync-modal-hint {
+    font-family: 'healTheWebA', sans-serif;
+    font-size: 12px;
+    color: #999;
+    text-align: center;
+    margin: 16px 0 0;
+    line-height: 1.5;
+}
+
+/* Toast Notifications */
+#toast-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    pointer-events: none;
+}
+
+.toast {
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-family: 'healTheWebA', sans-serif;
+    font-size: 14px;
+    color: white;
+    background: #444cf7;
+    box-shadow: 0 8px 32px rgba(68, 76, 247, 0.3);
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+    pointer-events: auto;
+    white-space: nowrap;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast-warning {
+    background: #ff6b6b;
+    box-shadow: 0 8px 32px rgba(255, 107, 107, 0.3);
 }
 
 /* Calendar Button Styles */

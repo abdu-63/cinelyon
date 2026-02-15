@@ -14,8 +14,6 @@
 
 <img src="../static/images/background.svg" class="background_svg">
 
-<div id="map"></div>
-
 <div class="planning">
 
     <div class="search-container">
@@ -69,6 +67,47 @@
                     </svg>
                     <span class="favorites-label">Favoris</span>
                 </label>
+                <button id="sync-favorites" class="sync-btn" title="Synchroniser mes favoris">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                        <path
+                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    <span class="sync-label">Sync</span>
+                </button>
+            </div>
+
+            <!-- Device Link Modal -->
+            <div id="sync-modal" class="sync-modal-overlay">
+                <div class="sync-modal">
+                    <button class="sync-modal-close" id="sync-modal-close">&times;</button>
+                    <h3>Synchroniser vos favoris</h3>
+                    <div class="sync-modal-section">
+                        <p class="sync-modal-label">Votre code de sync :</p>
+                        <div class="sync-code-display">
+                            <span id="sync-code">------</span>
+                            <button id="copy-sync-code" class="sync-copy-btn" title="Copier">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16"
+                                    height="16">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" />
+                                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="sync-modal-divider">
+                        <span>ou</span>
+                    </div>
+                    <div class="sync-modal-section">
+                        <p class="sync-modal-label">Entrer un code pour lier cet appareil :</p>
+                        <div class="sync-input-row">
+                            <input type="text" id="sync-code-input" class="sync-code-input" maxlength="6"
+                                placeholder="ABC123" autocomplete="off" spellcheck="false">
+                            <button id="sync-link-btn" class="sync-link-btn">Lier</button>
+                        </div>
+                    </div>
+                    <p class="sync-modal-hint">Utilisez le même code sur vos différents appareils pour synchroniser
+                        automatiquement vos favoris.</p>
+                </div>
             </div>
         </div>
     </div>
@@ -248,124 +287,6 @@
 </div>
 
 <script>
-    (function () {
-        var mapInitialized = false;
-
-        // Check WebGL support
-        function isWebGLSupported() {
-            try {
-                var canvas = document.createElement('canvas');
-                return !!(window.WebGLRenderingContext &&
-                    (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
-            } catch (e) {
-                return false;
-            }
-        }
-
-        function initMap() {
-            var mapContainer = document.getElementById('map');
-            if (mapInitialized || typeof mapboxgl === 'undefined' || !mapContainer) return;
-
-            // Check WebGL support for iOS Safari
-            if (!isWebGLSupported()) {
-                console.warn('WebGL not supported - showing fallback image');
-                mapContainer.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;background:#f0f0f0;border-radius:10px;"><p style="text-align:center;color:#666;">Carte non disponible sur ce navigateur.<br><a href="https://www.google.com/maps/search/cin%C3%A9ma+lyon" target="_blank" style="color:#444cf7;">Voir sur Google Maps</a></p></div>';
-                return;
-            }
-
-            mapInitialized = true;
-
-            mapboxgl.accessToken = '{{ mapbox_token }}';
-
-            try {
-                var map = new mapboxgl.Map({
-                    container: 'map',
-                    style: 'mapbox://styles/mapbox/streets-v11',
-                    center: [4.8544994, 45.7620499],
-                    zoom: 11.5,
-                    // iOS Safari fixes
-                    preserveDrawingBuffer: true,
-                    antialias: true
-                });
-
-                map.addControl(new mapboxgl.NavigationControl());
-
-                var locations = [
-                    { coordinates: [4.9212527, 45.7641958], description: "Pathé Carré de Soie" },
-                    { coordinates: [4.8348411, 45.7587566], description: "Pathé Bellecour" },
-                    { coordinates: [4.8544482, 45.7620652], description: "UGC Ciné Cité Part-Dieu" },
-                    { coordinates: [5.0028814, 45.7649601], description: "Ciné Meyzieu" },
-                    { coordinates: [4.955623, 45.7687615], description: "Ciné Toboggan" },
-                    { coordinates: [4.8181753, 45.7407344], description: "UGC Ciné Cité Confluence" },
-                    { coordinates: [4.8520202, 45.7845498], description: "UGC Ciné Cité Internationale" },
-                    { coordinates: [4.8560867, 45.7733587], description: "Pathé Vaise" },
-                    { coordinates: [4.8767983, 45.7733587], description: "UGC Astoria" },
-                    { coordinates: [4.7699954, 45.7319408], description: "CGR Brignais" },
-                    { coordinates: [4.8438138, 45.7320296], description: "Lumière Bellecour" },
-                    { coordinates: [4.8520202, 45.7320296], description: "Lumière La Fourmi" },
-                    { coordinates: [4.8673231, 45.7733587], description: "Lumière Terreaux" },
-                    { coordinates: [4.9027159, 45.7344678], description: "Institut Lumière" },
-                    { coordinates: [4.8307605, 45.747503], description: "Cinéma Comoedia" },
-                    { coordinates: [4.9153971, 45.78833], description: "Les Amphis" },
-                    { coordinates: [4.8666958, 45.6969889], description: "Cinéma Gerard-Philipe" }
-                ];
-
-                locations.forEach(function (location) {
-                    var el = document.createElement('div');
-                    el.className = 'custom-marker';
-
-                    var googleMapsUrl = "https://www.google.com/maps/search/?api=1&query=" + location.coordinates[1] + "," + location.coordinates[0];
-                    var appleMapsUrl = "https://maps.apple.com/?q=" + encodeURIComponent(location.description) + "&ll=" + location.coordinates[1] + "," + location.coordinates[0];
-
-                    var popupHtml = '<div style="text-align:center;"><strong>' + location.description + '</strong><br>' +
-                        '<div style="margin-top:5px; font-size:12px;">' +
-                        '<a href="' + googleMapsUrl + '" target="_blank" style="color:#444cf7; text-decoration:none;">Google</a> | ' +
-                        '<a href="' + appleMapsUrl + '" target="_blank" style="color:#444cf7; text-decoration:none;">Apple</a>' +
-                        '</div></div>';
-
-                    var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(popupHtml);
-
-                    new mapboxgl.Marker(el)
-                        .setLngLat(location.coordinates)
-                        .setPopup(popup)
-                        .addTo(map);
-                });
-            } catch (e) {
-                console.error('Erreur initialisation Mapbox:', e);
-                var mapContainer = document.getElementById('map');
-                if (mapContainer) {
-                    mapContainer.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;background:#f0f0f0;border-radius:10px;"><p style="text-align:center;color:#666;">Carte temporairement indisponible.<br><a href="https://www.google.com/maps/search/cin%C3%A9ma+lyon" target="_blank" style="color:#444cf7;">Voir sur Google Maps</a></p></div>';
-                }
-            }
-        }
-
-        function setupLazyMap() {
-            var mapContainer = document.getElementById('map');
-            if (!mapContainer) return;
-
-            if ('IntersectionObserver' in window) {
-                var observer = new IntersectionObserver(function (entries) {
-                    entries.forEach(function (entry) {
-                        if (entry.isIntersecting) {
-                            initMap();
-                            observer.disconnect();
-                        }
-                    });
-                }, { rootMargin: '100px' });
-
-                observer.observe(mapContainer);
-            } else {
-                initMap();
-            }
-        }
-
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', setupLazyMap);
-        } else {
-            setupLazyMap();
-        }
-    })();
-
     document.querySelectorAll('.seances-wrapper').forEach(wrapper => {
         const buttons = wrapper.querySelectorAll('.mini-cal-btn');
         const daySeances = wrapper.querySelectorAll('.day-seances');
@@ -978,6 +899,239 @@ END:VCALENDAR`;
             calendarMenu.classList.add('show');
         });
     });
+    // --- Supabase Favorites Sync ---
+    const SUPABASE_URL = '{{ supabase_url }}';
+    const SUPABASE_KEY = '{{ supabase_anon_key }}';
+    const SYNC_ID_KEY = 'cinelyon_sync_id';
+    let syncDebounceTimer = null;
+
+    function getSyncId() {
+        let id = localStorage.getItem(SYNC_ID_KEY);
+        if (!id) {
+            id = crypto.randomUUID();
+            localStorage.setItem(SYNC_ID_KEY, id);
+        }
+        return id;
+    }
+
+    function getSyncCode() {
+        return getSyncId().substring(0, 6).toUpperCase();
+    }
+
+    function updateAllFavoriteButtons() {
+        document.querySelectorAll('.film-card').forEach(film => {
+            const filmId = film.dataset.filmId;
+            const favoriteBtn = film.querySelector('.favorite-btn');
+            if (favoriteBtn) {
+                updateFavoriteButton(favoriteBtn, isFavorite(filmId));
+            }
+        });
+    }
+
+    // Push favorites to Supabase (debounced)
+    function syncToSupabase() {
+        if (!SUPABASE_URL || !SUPABASE_KEY) return;
+        clearTimeout(syncDebounceTimer);
+        syncDebounceTimer = setTimeout(() => {
+            const favorites = getFavorites();
+            const syncId = getSyncId();
+            fetch(`${SUPABASE_URL}/rest/v1/favorites?user_id=eq.${syncId}`, {
+                method: 'GET',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`
+                }
+            })
+                .then(r => r.json())
+                .then(data => {
+                    const method = data.length > 0 ? 'PATCH' : 'POST';
+                    const url = data.length > 0
+                        ? `${SUPABASE_URL}/rest/v1/favorites?user_id=eq.${syncId}`
+                        : `${SUPABASE_URL}/rest/v1/favorites`;
+                    return fetch(url, {
+                        method: method,
+                        headers: {
+                            'apikey': SUPABASE_KEY,
+                            'Authorization': `Bearer ${SUPABASE_KEY}`,
+                            'Content-Type': 'application/json',
+                            'Prefer': 'return=minimal'
+                        },
+                        body: JSON.stringify({
+                            user_id: syncId,
+                            films: favorites,
+                            updated_at: new Date().toISOString()
+                        })
+                    });
+                })
+                .catch(e => console.warn('Sync Supabase erreur:', e));
+        }, 500);
+    }
+
+    // Fetch favorites from Supabase and merge
+    function syncFromSupabase() {
+        if (!SUPABASE_URL || !SUPABASE_KEY) return;
+        const syncId = getSyncId();
+        fetch(`${SUPABASE_URL}/rest/v1/favorites?user_id=eq.${syncId}&select=films`, {
+            headers: {
+                'apikey': SUPABASE_KEY,
+                'Authorization': `Bearer ${SUPABASE_KEY}`
+            }
+        })
+            .then(r => r.json())
+            .then(data => {
+                if (data.length > 0 && Array.isArray(data[0].films)) {
+                    const remote = data[0].films;
+                    const local = getFavorites();
+                    const merged = [...new Set([...local, ...remote])];
+                    if (merged.length !== local.length || merged.length !== remote.length) {
+                        saveFavorites(merged);
+                        updateAllFavoriteButtons();
+                        if (merged.length > local.length) {
+                            const newCount = merged.length - local.length;
+                            showToast(`${newCount} favori${newCount > 1 ? 's' : ''} synchronisé${newCount > 1 ? 's' : ''} ☁️`);
+                        }
+                        // Push merged back to Supabase
+                        syncToSupabase();
+                    }
+                }
+            })
+            .catch(e => console.warn('Fetch Supabase erreur:', e));
+    }
+
+    // Override saveFavorites to also sync
+    const _originalSaveFavorites = saveFavorites;
+    saveFavorites = function (favorites) {
+        _originalSaveFavorites(favorites);
+        syncToSupabase();
+    };
+
+    // Fetch on page load
+    syncFromSupabase();
+
+    // --- Sync Modal ---
+    const syncBtn = document.getElementById('sync-favorites');
+    const syncModal = document.getElementById('sync-modal');
+    const syncModalClose = document.getElementById('sync-modal-close');
+    const syncCodeDisplay = document.getElementById('sync-code');
+    const copyCodeBtn = document.getElementById('copy-sync-code');
+    const syncCodeInput = document.getElementById('sync-code-input');
+    const syncLinkBtn = document.getElementById('sync-link-btn');
+
+    if (syncBtn && syncModal) {
+        syncBtn.addEventListener('click', () => {
+            syncCodeDisplay.textContent = getSyncCode();
+            syncModal.classList.add('show');
+        });
+
+        syncModalClose.addEventListener('click', () => {
+            syncModal.classList.remove('show');
+        });
+
+        syncModal.addEventListener('click', (e) => {
+            if (e.target === syncModal) syncModal.classList.remove('show');
+        });
+
+        copyCodeBtn.addEventListener('click', () => {
+            const code = getSyncCode();
+            navigator.clipboard.writeText(code).then(() => {
+                showToast('Code copié ! 📋');
+            }).catch(() => {
+                showToast('Code : ' + code);
+            });
+        });
+
+        syncLinkBtn.addEventListener('click', () => {
+            const code = syncCodeInput.value.trim().toUpperCase();
+            if (code.length !== 6) {
+                showToast('Le code doit faire 6 caractères', 'warning');
+                return;
+            }
+
+            // Find the full UUID for this short code
+            fetch(`${SUPABASE_URL}/rest/v1/favorites?user_id=like.${code.toLowerCase()}*&select=user_id,films`, {
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`
+                }
+            })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.length === 0) {
+                        showToast('Code introuvable. Vérifiez le code.', 'warning');
+                        return;
+                    }
+                    // Adopt the remote user_id
+                    const remoteId = data[0].user_id;
+                    const remoteFilms = data[0].films || [];
+                    localStorage.setItem(SYNC_ID_KEY, remoteId);
+
+                    // Merge local favorites with remote
+                    const local = getFavorites();
+                    const merged = [...new Set([...local, ...remoteFilms])];
+                    _originalSaveFavorites(merged);
+                    updateAllFavoriteButtons();
+
+                    // Push merged back
+                    syncToSupabase();
+
+                    syncCodeDisplay.textContent = getSyncCode();
+                    syncModal.classList.remove('show');
+                    showToast('Appareil lié ! Favoris synchronisés ✨');
+                })
+                .catch(e => {
+                    console.error('Erreur liaison:', e);
+                    showToast('Erreur de liaison', 'warning');
+                });
+        });
+
+        syncCodeInput.addEventListener('input', function () {
+            this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+        });
+    }
+
+    // --- Import from URL (legacy shareable link) ---
+    (function importFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+        const favsParam = params.get('favs');
+        if (!favsParam) return;
+        try {
+            const imported = JSON.parse(atob(decodeURIComponent(favsParam)));
+            if (!Array.isArray(imported) || imported.length === 0) return;
+            const existing = getFavorites();
+            const merged = [...new Set([...existing, ...imported])];
+            saveFavorites(merged);
+            updateAllFavoriteButtons();
+            const cleanUrl = window.location.origin + window.location.pathname;
+            window.history.replaceState({}, '', cleanUrl);
+            const newCount = merged.length - existing.length;
+            if (newCount > 0) {
+                showToast(`${newCount} favori${newCount > 1 ? 's' : ''} importé${newCount > 1 ? 's' : ''} ! 🎬`);
+            } else {
+                showToast('Tous ces favoris étaient déjà enregistrés 👍');
+            }
+        } catch (e) {
+            console.error('Erreur import favoris:', e);
+        }
+    })();
+
+    // Toast notification
+    function showToast(message, type = 'success') {
+        let container = document.getElementById('toast-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'toast-container';
+            document.body.appendChild(container);
+        }
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.textContent = message;
+        container.appendChild(toast);
+        requestAnimationFrame(() => toast.classList.add('show'));
+        setTimeout(() => {
+            toast.classList.remove('show');
+            toast.addEventListener('transitionend', () => toast.remove());
+        }, 3000);
+    }
 </script>
 
 {% endblock %}
