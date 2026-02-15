@@ -1032,11 +1032,53 @@ END:VCALENDAR`;
 
         copyCodeBtn.addEventListener('click', () => {
             const code = getSyncCode();
-            navigator.clipboard.writeText(code).then(() => {
-                showToast('Code copié ! 📋');
-            }).catch(() => {
-                showToast('Code : ' + code);
-            });
+
+            // 1. Try modern Clipboard API
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(code).then(() => {
+                    showToast('Code copié ! 📋');
+                }).catch(() => {
+                    tryFallback();
+                });
+            } else {
+                tryFallback();
+            }
+
+            function tryFallback() {
+                // 2. Try execCommand with iOS support
+                const ta = document.createElement('textarea');
+                ta.value = code;
+                ta.style.cssText = 'position:fixed;left:-9999px;top:-9999px';
+                ta.setAttribute('readonly', '');
+                document.body.appendChild(ta);
+
+                try {
+                    if (navigator.userAgent.match(/ipad|iphone/i)) {
+                        const range = document.createRange();
+                        range.selectNodeContents(ta);
+                        const sel = window.getSelection();
+                        sel.removeAllRanges();
+                        sel.addRange(range);
+                        ta.setSelectionRange(0, code.length);
+                    } else {
+                        ta.select();
+                    }
+
+                    const successful = document.execCommand('copy');
+                    document.body.removeChild(ta);
+
+                    if (successful) {
+                        showToast('Code copié ! 📋');
+                    } else {
+                        throw new Error('execCommand failed');
+                    }
+                } catch (err) {
+                    if (document.body.contains(ta)) document.body.removeChild(ta);
+
+                    // 3. Final fallback: Prompt
+                    prompt("Appuyez longtemps pour copier le code :", code);
+                }
+            }
         });
 
         syncLinkBtn.addEventListener('click', () => {
