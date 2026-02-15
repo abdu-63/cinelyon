@@ -9,8 +9,8 @@ Supporte le scraping incrémental et la reprise après échec.
 import argparse
 import json
 import logging
-import sys
 import os
+import sys
 import time
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
