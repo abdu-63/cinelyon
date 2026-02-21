@@ -1228,8 +1228,8 @@ END:VCALENDAR`;
                 const videoId = videoUrl.split('v=')[1]?.split('&')[0];
                 embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
             } else if (videoUrl.includes('youtu.be/')) {
-                 const videoId = videoUrl.split('youtu.be/')[1]?.split('?')[0];
-                 embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+                const videoId = videoUrl.split('youtu.be/')[1]?.split('?')[0];
+                embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
             }
 
             trailerIframe.src = embedUrl;
@@ -1276,7 +1276,7 @@ END:VCALENDAR`;
                 favoritesToggle.checked = true;
                 // Trigger change event to apply filter
                 favoritesToggle.dispatchEvent(new Event('change'));
-                
+
                 // Optional: Scroll to films container
                 const filmsContainer = document.getElementById('films-container');
                 if (filmsContainer) filmsContainer.scrollIntoView({ behavior: 'smooth' });
