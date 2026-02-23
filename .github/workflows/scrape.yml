@@ -1,8 +1,9 @@
 name: Scrape Movies
 
 on:
-  # Exécution quotidienne à 10h00 et 20h30 heure française
+  # Exécution quotidienne à 00h00, 10h00 et 20h30 heure française
   schedule:
+    - cron: '0 23 * * *'
     - cron: '0 9 * * *'
     - cron: '30 19 * * *'
   
