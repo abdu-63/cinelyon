@@ -4,9 +4,7 @@ on:
   # Exécution quotidienne à 00h00, 10h00 et 20h30 heure française
   schedule:
     - cron: '0 23 * * *'
-    - cron: '0 9 * * *'
-    - cron: '30 19 * * *'
-  
+
   # Permet de lancer manuellement le workflow
   workflow_dispatch:
 
