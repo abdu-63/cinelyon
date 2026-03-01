@@ -55,7 +55,7 @@ Fork de [grainParisArt-Public](https://github.com/solene-drnx/grainParisArt-Publ
 
 ## Fonctionnalités
 
-- **Calendrier interactif** : Visualisez les horaires sur 7 jours
+- **Calendrier interactif** : Visualisez les horaires sur 10 jours
 - **Informations détaillées** : Synopsis, réalisateur, genres, durée, notes TMDB
 - **Synchronisation multi-appareils** : Retrouvez vos favoris sur tous vos écrans via Supabase
 - **Barre de recherche** : Filtrez par titre, genre, réalisateur, cinéma ou note

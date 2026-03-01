@@ -31,8 +31,23 @@ logger = logging.getLogger(__name__)
 
 TMDB_API_KEY = os.environ.get("TMDB_API_KEY", "")
 OUTPUT_FILE = "movies.json"
-DAYS_TO_SCRAPE = 10
+DAYS_TO_SCRAPE = 10          # Fenêtre de base pour tous les cinémas
+DAYS_TO_SCRAPE_EXTENDED = 25  # Fenêtre étendue pour certains cinémas
 DELAY_BETWEEN_THEATERS = 2  # Délai en secondes entre chaque cinéma
+
+# Cinémas scrapés sur 25 jours (les autres restent à 10 jours)
+EXTENDED_THEATERS = {
+    "Pathé Carré de Soie",
+    "Pathé Bellecour",
+    "Pathé Vaise",
+    "UGC Part-Dieu",
+    "UGC Confluence",
+    "UGC Internationale",
+    "UGC Astoria",
+    "Ciné Meyzieu",
+    "Ciné Toboggan",
+    "Les Amphis",
+}
 
 
 def get_showtimes(theaters: list[Theater], date: datetime) -> list[dict]:
@@ -109,11 +124,12 @@ def save_data(data: dict):
 
 
 def get_dates_to_scrape(existing_data: dict) -> list[str]:
-    """Détermine les dates à scraper (manquantes ou à mettre à jour)."""
+    """Détermine les dates à scraper (manquantes ou à mettre à jour).
+    Utilise la fenêtre maximale (DAYS_TO_SCRAPE_EXTENDED) pour ne rien manquer."""
     today = datetime.now(PARIS_TZ).date()
     target_dates = set()
 
-    for i in range(DAYS_TO_SCRAPE):
+    for i in range(DAYS_TO_SCRAPE_EXTENDED):
         date = today + timedelta(days=i)
         target_dates.add(date.strftime("%Y-%m-%d"))
 
@@ -130,11 +146,11 @@ def get_dates_to_scrape(existing_data: dict) -> list[str]:
 
 
 def clean_old_dates(data: dict) -> dict:
-    """Supprime les dates passées et hors de la période de scraping."""
+    """Supprime les dates passées et hors de la période de scraping étendue."""
     today = datetime.now(PARIS_TZ).date()
     valid_dates = set()
 
-    for i in range(DAYS_TO_SCRAPE):
+    for i in range(DAYS_TO_SCRAPE_EXTENDED):
         date = today + timedelta(days=i)
         valid_dates.add(date.strftime("%Y-%m-%d"))
 
@@ -279,13 +295,22 @@ def main():
     # Créer un dictionnaire des jours existants pour accès rapide
     existing_days = {day["date"]: day for day in existing_data.get("days", [])}
 
+    today = datetime.now(PARIS_TZ).date()
+
     for date_str in dates_to_scrape:
         date = datetime.strptime(date_str, "%Y-%m-%d")
+        day_offset = (date.date() - today).days
 
-        logger.info(f"📅 Récupération des séances pour {date_str}...")
+        # Pour les jours au-delà de la fenêtre de base, scraper uniquement les cinémas étendus
+        if day_offset >= DAYS_TO_SCRAPE:
+            theaters_for_date = [t for t in theaters if t.name in EXTENDED_THEATERS]
+            logger.info(f"📅 Récupération des séances pour {date_str} (cinémas étendus uniquement : {len(theaters_for_date)})...")
+        else:
+            theaters_for_date = theaters
+            logger.info(f"📅 Récupération des séances pour {date_str}...")
 
         try:
-            movies = get_showtimes(theaters, date)
+            movies = get_showtimes(theaters_for_date, date)
 
             existing_days[date_str] = {"date": date_str, "movies": movies}
 
