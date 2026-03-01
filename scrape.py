@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Script de scraping autonome pour récupérer les séances de cinéma.
-Sauvegarde les données dans movies.json.
+Sauvegarde les données dans Supabase (table showtimes).
 Conçu pour être exécuté via GitHub Actions.
 Supporte le scraping incrémental et la reprise après échec.
 """
@@ -16,6 +16,7 @@ from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 from dotenv import load_dotenv
+from supabase import create_client, Client
 
 from modules.Classes import TMDB_CACHE_FILE, Theater
 
@@ -30,7 +31,9 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 TMDB_API_KEY = os.environ.get("TMDB_API_KEY", "")
-OUTPUT_FILE = "movies.json"
+SUPABASE_URL = os.environ.get("SUPABASE_URL", "")
+SUPABASE_SERVICE_ROLE_KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "")
+
 DAYS_TO_SCRAPE = 10          # Fenêtre de base pour tous les cinémas
 DAYS_TO_SCRAPE_EXTENDED = 25  # Fenêtre étendue pour certains cinémas
 DELAY_BETWEEN_THEATERS = 2  # Délai en secondes entre chaque cinéma
@@ -49,6 +52,18 @@ EXTENDED_THEATERS = {
     "Les Amphis",
 }
 
+_supabase: Client = None
+
+
+def get_supabase() -> Client:
+    global _supabase
+    if _supabase is None:
+        if not SUPABASE_URL or not SUPABASE_SERVICE_ROLE_KEY:
+            logger.error("❌ SUPABASE_URL ou SUPABASE_SERVICE_ROLE_KEY non configurés.")
+            sys.exit(1)
+        _supabase = create_client(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+    return _supabase
+
 
 def get_showtimes(theaters: list[Theater], date: datetime) -> list[dict]:
     """Récupère les séances pour une date donnée (séquentiel avec délai)."""
@@ -60,7 +75,6 @@ def get_showtimes(theaters: list[Theater], date: datetime) -> list[dict]:
         except Exception as e:
             logger.error(f"Erreur pour {theater.name}: {e}")
 
-        # Délai entre les requêtes pour éviter le rate limiting (sauf pour le dernier)
         if i < len(theaters) - 1:
             time.sleep(DELAY_BETWEEN_THEATERS)
 
@@ -106,21 +120,54 @@ def get_showtimes(theaters: list[Theater], date: datetime) -> list[dict]:
 
 
 def load_existing_data() -> dict:
-    """Charge les données existantes si disponibles."""
-    if os.path.exists(OUTPUT_FILE):
-        try:
-            with open(OUTPUT_FILE, "r", encoding="utf-8") as f:
-                return json.load(f)
-        except (json.JSONDecodeError, IOError):
-            pass
-    return {"generated_at": None, "days": []}
+    """Charge les données existantes depuis Supabase."""
+    supabase = get_supabase()
+    today = datetime.now(PARIS_TZ).date()
+    cutoff = today - timedelta(days=1)
+
+    try:
+        response = supabase.table("showtimes").select("date, movies").gte("date", str(today)).execute()
+        rows = response.data or []
+    except Exception as e:
+        logger.warning(f"⚠️ Impossible de charger depuis Supabase: {e}")
+        return {"generated_at": None, "days": []}
+
+    days = [{"date": row["date"], "movies": row["movies"]} for row in rows]
+    days = sorted(days, key=lambda x: x["date"])
+    return {"generated_at": None, "days": days}
 
 
-def save_data(data: dict):
-    """Sauvegarde les données dans movies.json."""
-    data["generated_at"] = datetime.now(PARIS_TZ).isoformat()
-    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
+def save_day(date_str: str, movies: list):
+    """Upsert d'un jour dans Supabase."""
+    supabase = get_supabase()
+    try:
+        supabase.table("showtimes").upsert(
+            {
+                "date": date_str,
+                "movies": movies,
+                "generated_at": datetime.now(PARIS_TZ).isoformat(),
+            },
+            on_conflict="date",
+        ).execute()
+    except Exception as e:
+        logger.error(f"❌ Erreur lors de la sauvegarde de {date_str} dans Supabase: {e}")
+        raise
+
+
+def clean_old_dates():
+    """Supprime les dates passées et hors de la période de scraping étendue."""
+    supabase = get_supabase()
+    today = datetime.now(PARIS_TZ).date()
+    cutoff = today + timedelta(days=DAYS_TO_SCRAPE_EXTENDED)
+
+    try:
+        # Supprimer les dates avant aujourd'hui
+        supabase.table("showtimes").delete().lt("date", str(today)).execute()
+        # Supprimer les dates au-delà de la fenêtre étendue
+        supabase.table("showtimes").delete().gt("date", str(cutoff)).execute()
+        logger.info("🧹 Dates obsolètes supprimées de Supabase")
+    except Exception as e:
+        logger.warning(f"⚠️ Erreur nettoyage Supabase: {e}")
 
 
 def get_dates_to_scrape(existing_data: dict) -> list[str]:
@@ -136,26 +183,11 @@ def get_dates_to_scrape(existing_data: dict) -> list[str]:
     existing_dates = set()
     for day in existing_data.get("days", []):
         date_str = day.get("date", "")
-        # Garder les dates existantes seulement si elles sont encore dans la période cible
         if date_str in target_dates:
             existing_dates.add(date_str)
 
-    # Retourner les dates manquantes, triées
     missing_dates = target_dates - existing_dates
     return sorted(list(missing_dates))
-
-
-def clean_old_dates(data: dict) -> dict:
-    """Supprime les dates passées et hors de la période de scraping étendue."""
-    today = datetime.now(PARIS_TZ).date()
-    valid_dates = set()
-
-    for i in range(DAYS_TO_SCRAPE_EXTENDED):
-        date = today + timedelta(days=i)
-        valid_dates.add(date.strftime("%Y-%m-%d"))
-
-    data["days"] = [day for day in data.get("days", []) if day.get("date") in valid_dates]
-    return data
 
 
 def check_missing_data(existing_data: dict) -> tuple[set[str], set[str]]:
@@ -192,7 +224,6 @@ def check_missing_data(existing_data: dict) -> tuple[set[str], set[str]]:
 
 
 def main():
-    # Parser d'arguments
     parser = argparse.ArgumentParser(description="Script de scraping des séances de cinéma")
     parser.add_argument("--force", action="store_true", help="Forcer le rescraping complet de toutes les dates")
     parser.add_argument("--clear-cache", action="store_true", help="Vider le cache TMDB avant le scraping")
@@ -200,7 +231,6 @@ def main():
 
     logger.info("🎬 Démarrage du scraping des séances de cinéma...")
 
-    # Vider le cache TMDB si demandé
     if args.clear_cache:
         if os.path.exists(TMDB_CACHE_FILE):
             os.remove(TMDB_CACHE_FILE)
@@ -210,12 +240,10 @@ def main():
         theaters_config = json.loads(THEATERS_JSON)
     except json.JSONDecodeError as e:
         logger.error(f"❌ Erreur parsing JSON THEATERS: {e}")
-        logger.error(f"   Valeur reçue: '{THEATERS_JSON[:100]}'")
         sys.exit(1)
 
     if not theaters_config:
         logger.error("❌ Aucun cinéma configuré. Vérifiez le secret THEATERS dans GitHub.")
-        logger.error(f"   THEATERS_JSON='{THEATERS_JSON}'")
         sys.exit(1)
 
     if not TMDB_API_KEY:
@@ -237,13 +265,22 @@ def main():
 
     logger.info(f"📍 {len(theaters)} cinéma(s) configuré(s)")
 
-    # Charger les données existantes (sauf si --force)
+    # Nettoyer les vieilles dates en base
+    if not args.force:
+        clean_old_dates()
+
+    # Charger les données existantes depuis Supabase
     if args.force:
         existing_data = {"generated_at": None, "days": []}
         logger.info("🔄 Mode force activé - rescraping complet")
+        # Supprimer toutes les données existantes
+        try:
+            get_supabase().table("showtimes").delete().neq("date", "1970-01-01").execute()
+            logger.info("🗑️ Toutes les données Supabase supprimées")
+        except Exception as e:
+            logger.warning(f"⚠️ Erreur suppression Supabase: {e}")
     else:
         existing_data = load_existing_data()
-        existing_data = clean_old_dates(existing_data)
 
     # Déterminer les dates à scraper
     dates_to_scrape = set(get_dates_to_scrape(existing_data))
@@ -263,12 +300,7 @@ def main():
                     with open(TMDB_CACHE_FILE, "r", encoding="utf-8") as f:
                         tmdb_cache = json.load(f)
 
-                    keys_to_delete = []
-                    for cache_key in tmdb_cache.keys():
-                        cache_title = cache_key.split("|")[0]
-                        if cache_title in titles_to_clear:
-                            keys_to_delete.append(cache_key)
-
+                    keys_to_delete = [k for k in tmdb_cache if k.split("|")[0] in titles_to_clear]
                     for key in keys_to_delete:
                         del tmdb_cache[key]
                         logger.info(f"      🧹 Cache supprimé pour: {key.split('|')[0]}")
@@ -279,23 +311,18 @@ def main():
                     logger.warning(f"   ⚠️ Erreur nettoyage cache: {e}")
 
             dates_to_scrape.update(dates_with_missing)
-            existing_data["days"] = [day for day in existing_data.get("days", [])
-                                      if day.get("date") not in dates_with_missing]
 
     dates_to_scrape = sorted(list(dates_to_scrape))
 
     if not dates_to_scrape:
         logger.info("✅ Toutes les données sont à jour, aucun scraping nécessaire.")
         logger.info("   Utilisez --force pour forcer le rescraping")
-        save_data(existing_data)
         return
 
     logger.info(f"📅 {len(dates_to_scrape)} jour(s) à scraper (données existantes conservées)")
 
-    # Créer un dictionnaire des jours existants pour accès rapide
-    existing_days = {day["date"]: day for day in existing_data.get("days", [])}
-
     today = datetime.now(PARIS_TZ).date()
+    total_movies = 0
 
     for date_str in dates_to_scrape:
         date = datetime.strptime(date_str, "%Y-%m-%d")
@@ -311,29 +338,19 @@ def main():
 
         try:
             movies = get_showtimes(theaters_for_date, date)
+            save_day(date_str, movies)
+            total_movies += len(movies)
 
-            existing_days[date_str] = {"date": date_str, "movies": movies}
+            logger.info(f"   ✅ {len(movies)} film(s) récupéré(s) et sauvegardés dans Supabase")
 
-            logger.info(f"   ✅ {len(movies)} film(s) récupéré(s)")
-
-            # Sauvegarder après chaque jour pour pouvoir reprendre en cas d'échec
-            existing_data["days"] = sorted(existing_days.values(), key=lambda x: x["date"])
-            save_data(existing_data)
-
-            # Petit délai pour éviter le rate limiting
             time.sleep(1)
 
         except Exception as e:
             logger.error(f"❌ Erreur pour {date_str}: {e}")
-            logger.warning("💾 Progrès sauvegardé. Relancez le script pour continuer.")
-            # Sauvegarder le progrès avant de quitter
-            existing_data["days"] = sorted(existing_days.values(), key=lambda x: x["date"])
-            save_data(existing_data)
+            logger.warning("💾 Progrès jusqu'ici sauvegardé dans Supabase. Relancez le script pour continuer.")
             raise
 
-    logger.info(f"✅ Scraping terminé et sauvegardé dans {OUTPUT_FILE}")
-    total_movies = sum(len(day["movies"]) for day in existing_data["days"])
-    logger.info(f"📊 Total: {total_movies} entrées de films sur {len(existing_data['days'])} jours")
+    logger.info(f"✅ Scraping terminé. {total_movies} entrées sur {len(dates_to_scrape)} jours sauvegardés dans Supabase.")
 
 
 if __name__ == "__main__":

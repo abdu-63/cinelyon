@@ -1,11 +1,10 @@
 name: Scrape Movies
 
 on:
-  # Exécution quotidienne à 00h00 et 10h00 heure française
+  # Exécution quotidienne à 00h05 et 10h05 heure française
   schedule:
     - cron: '05 23 * * *'
     - cron: '05 9 * * *'
-    
 
   # Permet de lancer manuellement le workflow
   workflow_dispatch:
@@ -16,29 +15,31 @@ permissions:
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           cache: 'pip'
-      
+
       - name: Install dependencies
         run: pip install -r requirements.txt
-      
+
       - name: Run scraping script
         env:
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
           THEATERS: ${{ secrets.THEATERS }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: python scrape.py
-      
-      - name: Commit and push movies.json
+
+      - name: Commit and push tmdb_cache.json
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add movies.json tmdb_cache.json || true
-          git diff --quiet --cached && echo "No changes to commit" || (git commit -m "Update movies.json - $(date +'%Y-%m-%d %H:%M')" && git push)
+          git add tmdb_cache.json || true
+          git diff --quiet --cached && echo "No changes to commit" || (git commit -m "Update tmdb_cache.json - $(date +'%Y-%m-%d %H:%M')" && git push)

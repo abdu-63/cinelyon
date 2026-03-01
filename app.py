@@ -7,6 +7,7 @@ import dotenv
 from flask import Flask, make_response, render_template, request
 from flask_compress import Compress
 from flask_talisman import Talisman
+from supabase import create_client, Client
 
 dotenv.load_dotenv(".env")
 dotenv.load_dotenv(".env.sample")
@@ -15,6 +16,15 @@ WEBSITE_TITLE = os.environ.get("WEBSITE_TITLE", "CinéLyon")
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "")
 SUPABASE_ANON_KEY = os.environ.get("SUPABASE_ANON_KEY", "")
+
+_supabase_client: Client = None
+
+
+def get_supabase() -> Client:
+    global _supabase_client
+    if _supabase_client is None:
+        _supabase_client = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
+    return _supabase_client
 
 theaters_json = json.loads(os.environ.get("THEATERS", "[]"))
 theater_locations = []
@@ -28,41 +38,43 @@ for theater in theaters_json:
 
 _showtimes_data = None
 _last_load_time = None
-_movies_file_mtime = None
+_CACHE_TTL_SECONDS = 300  # 5 minutes
 
 
 def load_movies_data(force_reload=False):
-    """Charge les données des films depuis movies.json avec cache intelligent."""
-    global _showtimes_data, _last_load_time, _movies_file_mtime
+    """Charge les données des films depuis Supabase avec cache TTL de 5 min."""
+    global _showtimes_data, _last_load_time
 
-    movies_file = os.path.join(os.path.dirname(__file__), "movies.json")
+    now = datetime.now()
+    cache_valid = (
+        not force_reload
+        and _showtimes_data is not None
+        and _last_load_time is not None
+        and (now - _last_load_time).total_seconds() < _CACHE_TTL_SECONDS
+    )
 
-    if not os.path.exists(movies_file):
-        print("⚠️ movies.json non trouvé, retour de données vides")
+    if cache_valid:
+        return _showtimes_data
+
+    try:
+        today = datetime.now(ZoneInfo("Europe/Paris")).date()
+        supabase = get_supabase()
+        response = supabase.table("showtimes").select("date, movies").gte("date", str(today)).order("date").execute()
+        rows = response.data or []
+    except Exception as e:
+        print(f"⚠️ Erreur lecture Supabase: {e}")
+        if _showtimes_data is not None:
+            print("   Utilisation du cache précédent.")
+            return _showtimes_data
         return {"showtimes": [], "num_days": 0}
 
-    current_mtime = os.path.getmtime(movies_file)
-
-    if not force_reload and _showtimes_data is not None:
-        if _movies_file_mtime == current_mtime:
-            return _showtimes_data
-
-    with open(movies_file, "r", encoding="utf-8") as f:
-        data = json.load(f)
-
-    print(f"✅ Données chargées depuis movies.json (généré le {data.get('generated_at', 'inconnu')})")
-
-    showtimes = []
-    for day in data.get("days", []):
-        showtimes.append(day.get("movies", []))
-
+    showtimes = [row["movies"] for row in rows]
     num_days = len(showtimes)
 
-    _showtimes_data = {"showtimes": showtimes, "num_days": num_days}
-    _last_load_time = datetime.now()
-    _movies_file_mtime = current_mtime
+    print(f"✅ {num_days} jour(s) chargés depuis Supabase")
 
-    print(f"📊 {num_days} jour(s) de données disponibles")
+    _showtimes_data = {"showtimes": showtimes, "num_days": num_days}
+    _last_load_time = now
 
     return _showtimes_data
 
@@ -172,7 +184,9 @@ def health():
 
 @app.route("/reload")
 def reload_data():
-    """Endpoint pour forcer le rechargement des données."""
+    """Endpoint pour forcer le rechargement des données depuis Supabase."""
+    global _last_load_time
+    _last_load_time = None  # Invalide le cache
     data = load_movies_data(force_reload=True)
     return f"Données rechargées: {data['num_days']} jours"
 
