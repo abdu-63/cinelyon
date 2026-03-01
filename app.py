@@ -7,7 +7,7 @@ import dotenv
 from flask import Flask, make_response, render_template, request
 from flask_compress import Compress
 from flask_talisman import Talisman
-from supabase import create_client, Client
+from supabase import Client, create_client
 
 dotenv.load_dotenv(".env")
 dotenv.load_dotenv(".env.sample")

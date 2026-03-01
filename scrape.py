@@ -16,7 +16,7 @@ from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 from dotenv import load_dotenv
-from supabase import create_client, Client
+from supabase import Client, create_client
 
 from modules.Classes import TMDB_CACHE_FILE, Theater
 
@@ -123,7 +123,6 @@ def load_existing_data() -> dict:
     """Charge les données existantes depuis Supabase."""
     supabase = get_supabase()
     today = datetime.now(PARIS_TZ).date()
-    cutoff = today - timedelta(days=1)
 
     try:
         response = supabase.table("showtimes").select("date, movies").gte("date", str(today)).execute()
@@ -331,7 +330,8 @@ def main():
         # Pour les jours au-delà de la fenêtre de base, scraper uniquement les cinémas étendus
         if day_offset >= DAYS_TO_SCRAPE:
             theaters_for_date = [t for t in theaters if t.name in EXTENDED_THEATERS]
-            logger.info(f"📅 Récupération des séances pour {date_str} (cinémas étendus uniquement : {len(theaters_for_date)})...")
+            nb = len(theaters_for_date)
+            logger.info(f"📅 Récupération des séances pour {date_str} (cinémas étendus uniquement : {nb})...")
         else:
             theaters_for_date = theaters
             logger.info(f"📅 Récupération des séances pour {date_str}...")
@@ -350,7 +350,9 @@ def main():
             logger.warning("💾 Progrès jusqu'ici sauvegardé dans Supabase. Relancez le script pour continuer.")
             raise
 
-    logger.info(f"✅ Scraping terminé. {total_movies} entrées sur {len(dates_to_scrape)} jours sauvegardés dans Supabase.")
+    logger.info(
+        f"✅ Scraping terminé. {total_movies} entrées sur {len(dates_to_scrape)} jours sauvegardés dans Supabase."
+    )
 
 
 if __name__ == "__main__":
