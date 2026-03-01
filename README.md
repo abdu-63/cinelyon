@@ -14,8 +14,7 @@
     <img alt="Vercel" src="https://img.shields.io/badge/Vercel-Deployed-black?logo=vercel">
   </a>
   <a href="https://github.com/features/actions">
-    <img alt="GitHub Actions" src="https://img.shields.io/badge/GitHub%20Actions-Scraping-2088FF?
-logo=github-actions">
+    <img alt="GitHub Actions" src="https://img.shields.io/badge/GitHub%20Actions-Scraping-2088FF?logo=github-actions">
   </a>
   <a href="https://www.themoviedb.org/">
     <img alt="TMDB" src="https://img.shields.io/badge/TMDB-API-01d277?logo=themoviedb">
@@ -35,31 +34,31 @@ Fork de [grainParisArt-Public](https://github.com/solene-drnx/grainParisArt-Publ
 
 ## Liste des cinémas (17)
 
-- Pathé Carré de Soie
-- Pathé Bellecour
-- Pathé Vaise
-- UGC Part-Dieu
-- UGC Confluence
-- UGC Internationale
-- UGC Astoria
-- Lumière Bellecour
-- Lumière La Fourmi
-- Lumière Terreaux
-- Institut Lumière
-- CGR Brignais
-- Ciné Meyzieu
-- Ciné Toboggan
-- Cinéma Comoedia
-- Les Amphis
-- Cinéma Gerard-Philipe
+- Pathé Carré de Soie *(25 jours)*
+- Pathé Bellecour *(25 jours)*
+- Pathé Vaise *(25 jours)*
+- UGC Part-Dieu *(25 jours)*
+- UGC Confluence *(25 jours)*
+- UGC Internationale *(25 jours)*
+- UGC Astoria *(25 jours)*
+- Ciné Meyzieu *(25 jours)*
+- Ciné Toboggan *(25 jours)*
+- Les Amphis *(25 jours)*
+- Lumière Bellecour *(10 jours)*
+- Lumière La Fourmi *(10 jours)*
+- Lumière Terreaux *(10 jours)*
+- Institut Lumière *(10 jours)*
+- CGR Brignais *(10 jours)*
+- Cinéma Comoedia *(10 jours)*
+- Cinéma Gerard-Philipe *(10 jours)*
 
 ## Fonctionnalités
 
-- **Calendrier interactif** : Visualisez les horaires sur 10 jours
+- **Calendrier interactif** : Visualisez les horaires jusqu'à 25 jours à l'avance
 - **Informations détaillées** : Synopsis, réalisateur, genres, durée, notes TMDB
 - **Synchronisation multi-appareils** : Retrouvez vos favoris sur tous vos écrans via Supabase
 - **Barre de recherche** : Filtrez par titre, genre, réalisateur, cinéma ou note
-- **Système de favoris** : Sauvegardez vos films préférés (persistant via localStorage)
+- **Système de favoris** : Sauvegardez vos films préférés
 - **Bandes-annonces** : Visionnez la bande-annonce directement dans le synopsis
 - **Filtre par format** : Filtrez les séances par expérience (IMAX, 4DX, Dolby, ICE, 3D)
 - **Badges VO/VF** : Langue de chaque séance clairement affichée
@@ -72,7 +71,7 @@ Fork de [grainParisArt-Public](https://github.com/solene-drnx/grainParisArt-Publ
 
 - **Compression Gzip** : Réponses HTTP compressées via Flask-Compress
 - **Sécurité CSP** : Headers de sécurité avec Flask-Talisman
-- **Cache intelligent** : Rechargement automatique des données si `movies.json` change
+- **Cache TTL 5 min** : Données Supabase mises en cache mémoire côté serveur
 - **Proxy d'images** : Affiches optimisées via wsrv.nl
 - **Cache HTTP** : Headers de cache pour les fichiers statiques
 
@@ -80,10 +79,9 @@ Fork de [grainParisArt-Public](https://github.com/solene-drnx/grainParisArt-Publ
 
 ```
 cinelyon/
-├── app.py                 # Application Flask (compression, sécurité, cache)
-├── scrape.py              # Script de scraping (GitHub Actions)
-├── movies.json            # Données des films (généré automatiquement)
-├── tmdb_cache.json        # Cache des données TMDB
+├── app.py                 # Application Flask (compression, sécurité, cache TTL)
+├── scrape.py              # Script de scraping (GitHub Actions → Supabase)
+├── tmdb_cache.json        # Cache local des données TMDB (persisté via Git)
 ├── vercel.json            # Configuration Vercel
 ├── pyproject.toml         # Configuration Python (Ruff, pytest)
 ├── requirements.txt       # Dépendances Python
@@ -110,15 +108,30 @@ cinelyon/
 ### Flux de données
 
 ```
-GitHub Actions (9h et 19h30 UTC)
+GitHub Actions (2× par jour)
        ↓
    scrape.py
        ↓
-  Allociné API → movies.json ← TMDB API (+ cache)
-       ↓
-   app.py (Flask + Gzip + Talisman)
+  Allociné API ──→ Supabase (table showtimes)
+  TMDB API                   ↑
+  (+ tmdb_cache.json)        │
+                             │
+   app.py (Flask) ──────────┘
+   Cache TTL 5 min
        ↓
    Vercel / Navigateur (PWA)
+```
+
+### Table Supabase (`showtimes`)
+
+```sql
+CREATE TABLE showtimes (
+  date         DATE PRIMARY KEY,
+  movies       JSONB NOT NULL,
+  generated_at TIMESTAMPTZ DEFAULT now()
+);
+ALTER TABLE showtimes ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "public read" ON showtimes FOR SELECT USING (true);
 ```
 
 ## Installation locale
@@ -127,7 +140,7 @@ GitHub Actions (9h et 19h30 UTC)
 
 - Python 3.10+
 - Compte [TMDB](https://www.themoviedb.org/settings/api) (gratuit)
-- Compte [Supabase](https://supabase.com) (gratuit)
+- Compte [Supabase](https://supabase.com) (gratuit) avec la table `showtimes` créée
 
 ### Configuration
 
@@ -137,21 +150,20 @@ GitHub Actions (9h et 19h30 UTC)
    cd cinelyon
    ```
 
-2. **Installer les dépendances**
+2. **Créer l'environnement virtuel et installer les dépendances**
    ```bash
+   python -m venv .venv
+   source .venv/bin/activate
    pip install -r requirements.txt
    ```
 
 3. **Configurer les variables d'environnement**
    ```bash
    cp .env.sample .env
-   # Éditer .env :
-   # SUPABASE_URL=...
-   # SUPABASE_ANON_KEY=...
-   # TMDB_API_KEY=...
+   # Remplir .env avec vos clés
    ```
 
-4. **Générer les données**
+4. **Générer les données (scraping)**
    ```bash
    python scrape.py
    ```
@@ -160,21 +172,15 @@ GitHub Actions (9h et 19h30 UTC)
    ```bash
    python app.py
    ```
-   → Ouvrir `http://127.0.0.1:5000/` ou `http://localhost:5000`
+   → Ouvrir `http://127.0.0.1:5000`
 
 ## Développement
 
 ### Qualité du code
 
 ```bash
-# Linting avec Ruff
-ruff check .
-
-# Tests avec Pytest
-pytest
-
-# Les deux à la fois (comme CI)
-ruff check . && pytest
+ruff check .   # Linting
+pytest         # Tests
 ```
 
 ### Tests disponibles
@@ -186,16 +192,21 @@ ruff check . && pytest
 
 ## Déploiement Vercel
 
-1. **Importer sur [vercel.com/new](https://vercel.com/new)** (Conseil : GitHub)
-2. **Configurer les variables d'environnement** :
-   - `TMDB_API_KEY`
-   - `SUPABASE_URL`
-   - `SUPABASE_ANON_KEY`
-   - `WEBSITE_TITLE`
-   - `THEATERS`
+1. **Importer sur [vercel.com/new](https://vercel.com/new)**
+2. **Configurer les variables d'environnement** (Settings → Environment Variables) :
+
+| Variable | Description |
+|----------|-------------|
+| `SUPABASE_URL` | URL du projet Supabase |
+| `SUPABASE_ANON_KEY` | Clé publique Supabase (lecture seule) |
+| `WEBSITE_TITLE` | Titre du site |
+| `THEATERS` | JSON des cinémas |
+
+> ⚠️ **Ne pas ajouter `SUPABASE_SERVICE_ROLE_KEY` sur Vercel** — uniquement pour GitHub Actions.
+
 3. **Déployer**
 
-Le scraping GitHub Actions met à jour `movies.json` → Vercel redéploie automatiquement.
+Les données sont dans Supabase — Vercel n'a pas besoin de redéploiement lors du scraping.
 
 ## GitHub Actions
 
@@ -203,34 +214,37 @@ Le scraping GitHub Actions met à jour `movies.json` → Vercel redéploie autom
 
 | Workflow | Déclencheur | Actions |
 |----------|-------------|---------|
-| `scrape.yml` | Quotidien (4h UTC) + manuel | Scraping Allociné + TMDB |
+| `scrape.yml` | Quotidien (2×) + manuel | Scraping Allociné + TMDB → Supabase |
 | `quality.yml` | Push / Pull Request | Ruff linting + Pytest |
 
 ### Secrets requis
 
-| Secret | Description |
-|--------|-------------|
-| `TMDB_API_KEY` | Clé API TMDB (v3 auth) |
-| `THEATERS` | JSON des cinémas |
-| `WEBSITE_TITLE` | Titre du site |
+| Secret | Utilisé par | Description |
+|--------|-------------|-------------|
+| `TMDB_API_KEY` | `scrape.py` | Clé API TMDB |
+| `THEATERS` | `scrape.py` | JSON des cinémas |
+| `SUPABASE_URL` | `scrape.py` | URL du projet Supabase |
+| `SUPABASE_SERVICE_ROLE_KEY` | `scrape.py` | Clé admin Supabase (écriture) |
 
 ## Ajouter des cinémas
 
-Dans `.env` ou les secrets GitHub :
+Dans `.env` ou les secrets GitHub, modifier `THEATERS` :
 
 ```json
 [
-  {"id":"P8507","name":"Pathé Carré de Soie","latitude":45.7641,"longitude":4.9212},
-  {"id":"P0017","name":"Pathé Bellecour","latitude":45.7578,"longitude":4.8320}
+  {"id": "P8507", "name": "Pathé Carré de Soie", "latitude": 45.7641, "longitude": 4.9212},
+  {"id": "P0017", "name": "Pathé Bellecour", "latitude": 45.7578, "longitude": 4.8320}
 ]
 ```
 
 **Trouver l'ID** : Dans l'URL Allociné `salle_gen_csalle=P8507.html` → ID = `P8507`
 
+Pour scraper un cinéma sur **25 jours** au lieu de 10, ajouter son nom dans `EXTENDED_THEATERS` dans `scrape.py`.
+
 ## Liens utiles
 
 - [TMDB API](https://www.themoviedb.org/settings/api) - Clé API pour les données films
-- [Supabase](https://supabase.com) - Database & Auth
+- [Supabase](https://supabase.com) - Base de données PostgreSQL
 - [Allociné](https://www.allocine.fr/) - Source des séances
 
 ---
