@@ -197,7 +197,7 @@ class Movie:
                 # Essayer de matcher par réalisateur si disponible
                 if self.director and self.director != "Inconnu":
                     director_names = [d.strip().lower() for d in self.director.split(",")]
-                    for result in results[:5]:  # Limiter à 5 pour éviter trop d'appels
+                    for result in results[:10]:  # Limiter à 10 pour éviter trop d'appels
                         movie_id = result.get("id")
                         credits_url = f"https://api.themoviedb.org/3/movie/{movie_id}/credits"
                         credits_params = {"api_key": TMDB_API_KEY}
