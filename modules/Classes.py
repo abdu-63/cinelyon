@@ -8,6 +8,7 @@ from datetime import datetime
 
 import requests
 from dotenv import load_dotenv
+from supabase import create_client
 
 
 @dataclass
@@ -24,26 +25,60 @@ load_dotenv()
 # Récupérer la clé API
 TMDB_API_KEY = os.getenv("TMDB_API_KEY")
 
-# Cache TMDB pour éviter les appels API répétés
-TMDB_CACHE_FILE = "tmdb_cache.json"
+# Supabase
+_SUPABASE_URL = os.getenv("SUPABASE_URL", "")
+_SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY") or os.getenv("SUPABASE_ANON_KEY", "")
+_supabase = None
+
+
+def _get_supabase():
+    global _supabase
+    if _supabase is None and _SUPABASE_URL and _SUPABASE_KEY:
+        _supabase = create_client(_SUPABASE_URL, _SUPABASE_KEY)
+    return _supabase
+
+
+# Cache TMDB en mémoire
 _tmdb_cache = {}
+
+# Garde le chemin du fichier local pour la migration initiale
+TMDB_CACHE_FILE = "tmdb_cache.json"
 
 
 def load_tmdb_cache():
-    """Charge le cache TMDB depuis le fichier."""
+    """Charge le cache TMDB depuis Supabase (fallback fichier local si nécessaire)."""
     global _tmdb_cache
+    sb = _get_supabase()
+    if sb:
+        try:
+            rows = sb.table("tmdb_cache").select("key, data").execute().data or []
+            _tmdb_cache = {row["key"]: row["data"] for row in rows}
+            print(f"✅ Cache TMDB chargé depuis Supabase ({len(_tmdb_cache)} entrées)")
+            return
+        except Exception as e:
+            print(f"⚠️ Impossible de charger le cache TMDB depuis Supabase: {e}")
+    # Fallback : fichier local
     if os.path.exists(TMDB_CACHE_FILE):
         try:
             with open(TMDB_CACHE_FILE, "r", encoding="utf-8") as f:
                 _tmdb_cache = json.load(f)
+            print(f"✅ Cache TMDB chargé depuis fichier local ({len(_tmdb_cache)} entrées)")
         except (json.JSONDecodeError, IOError):
             _tmdb_cache = {}
 
 
+def save_tmdb_cache_entry(key: str, value: dict):
+    """Sauvegarde une entrée du cache TMDB dans Supabase."""
+    sb = _get_supabase()
+    if sb:
+        try:
+            sb.table("tmdb_cache").upsert({"key": key, "data": value}, on_conflict="key").execute()
+        except Exception as e:
+            print(f"⚠️ Erreur sauvegarde cache TMDB Supabase: {e}")
+
+
 def save_tmdb_cache():
-    """Sauvegarde le cache TMDB dans un fichier."""
-    with open(TMDB_CACHE_FILE, "w", encoding="utf-8") as f:
-        json.dump(_tmdb_cache, f, ensure_ascii=False, indent=2)
+    """Compat: ne fait rien (sauvegarde maintenant faite entrée par entrée)."""
 
 
 def tmdb_request(url: str, params: dict, max_retries: int = 3) -> dict:
@@ -269,7 +304,7 @@ class Movie:
 
                 # Sauvegarder dans le cache
                 _tmdb_cache[cache_key] = result
-                save_tmdb_cache()
+                save_tmdb_cache_entry(cache_key, result)
 
                 return result
 
@@ -278,7 +313,7 @@ class Movie:
 
         # Sauvegarder même les résultats par défaut pour éviter de refaire l'appel
         _tmdb_cache[cache_key] = default_data
-        save_tmdb_cache()
+        save_tmdb_cache_entry(cache_key, default_data)
 
         return default_data
 
