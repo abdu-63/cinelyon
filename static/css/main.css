@@ -1107,7 +1107,7 @@ html {
     }
 
     .sync-label {
-        font-size: 11px;
+        display: none;
     }
 
     .sync-btn svg {
