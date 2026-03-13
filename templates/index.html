@@ -448,6 +448,7 @@
                 tab.classList.add('active');
                 currentFavTab = tab.dataset.tab;
                 filterFilms(); // Trigger the main filter logic again
+                renderFriendBadges(); // Update badges visibility
             });
         });
 
@@ -461,6 +462,7 @@
             } else {
                 favTabsContainer.style.display = 'none';
             }
+            renderFriendBadges(); // Update badges visibility
             // Trigger filtering handled below
         });
 
@@ -711,7 +713,10 @@
             filterDay.value = '';
             filterFormat.value = '';
             filterFavorites.checked = false;
+            filterFavorites.parentElement.classList.remove('active');
+            favTabsContainer.style.display = 'none';
             filterFilms();
+            renderFriendBadges();
         });
     });
 
@@ -1591,11 +1596,14 @@ END:VCALENDAR`;
         }
 
         function renderFriendBadges() {
+            const showBadges = filterFavorites.checked && currentFavTab === 'amis';
+            
             document.querySelectorAll('.film-card').forEach(card => {
                 const filmId = card.dataset.filmId;
                 const old = card.querySelector('.friend-badge');
                 if (old) old.remove();
-                if (filmId && window.globalFriendsFilmsMap[filmId] && window.globalFriendsFilmsMap[filmId].length > 0) {
+
+                if (showBadges && filmId && window.globalFriendsFilmsMap[filmId] && window.globalFriendsFilmsMap[filmId].length > 0) {
                     const names = window.globalFriendsFilmsMap[filmId];
                     const badge = document.createElement('span');
                     badge.className = 'friend-badge';
