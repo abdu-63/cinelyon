@@ -73,7 +73,7 @@
                         <path
                             d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
-                    <span class="sync-label">Sync / Amis</span>
+                    <span class="sync-label">Sync</span>
                 </button>
             </div>
 
@@ -1393,8 +1393,8 @@ END:VCALENDAR`;
         const myId = getSyncId();
         let friends = [];
 
-        function sbFetch(path, opts = {}) {
-            return fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+        async function sbFetch(path, opts = {}) {
+            const r = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
                 headers: {
                     'apikey': SUPABASE_KEY,
                     'Authorization': `Bearer ${SUPABASE_KEY}`,
@@ -1403,6 +1403,12 @@ END:VCALENDAR`;
                 },
                 ...opts
             });
+            if (!r.ok) {
+                const errText = await r.text();
+                console.error(`Supabase API Error on ${path}: ${r.status}`, errText);
+                throw new Error(`API Error: ${r.status}`);
+            }
+            return r;
         }
 
         async function loadFriends() {
