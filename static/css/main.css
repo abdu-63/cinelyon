@@ -1742,7 +1742,7 @@ html {
 
 /* Badge ami sur les film-cards */
 .friend-badge {
-    display: inline-flex;
+    display: none;
     align-items: center;
     gap: 4px;
     font-size: 11px;
@@ -1756,6 +1756,10 @@ html {
     font-weight: 600;
     var(--card-solid)-space: nowrap;
     cursor: default;
+}
+
+body.show-friend-badges .friend-badge {
+    display: inline-flex;
 }
 
 /* Toast Notifications */

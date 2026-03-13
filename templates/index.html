@@ -447,8 +447,15 @@
                 favTabs.forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
                 currentFavTab = tab.dataset.tab;
+                
+                // Toggle friend badges visibility
+                if (currentFavTab === 'amis') {
+                    document.body.classList.add('show-friend-badges');
+                } else {
+                    document.body.classList.remove('show-friend-badges');
+                }
+                
                 filterFilms(); // Trigger the main filter logic again
-                renderFriendBadges(); // Update badges visibility
             });
         });
 
@@ -459,10 +466,14 @@
             
             if (filterFavorites.checked) {
                 favTabsContainer.style.display = 'flex';
+                // Show badges if amis tab is active when toggled on
+                if (currentFavTab === 'amis') {
+                    document.body.classList.add('show-friend-badges');
+                }
             } else {
                 favTabsContainer.style.display = 'none';
+                document.body.classList.remove('show-friend-badges');
             }
-            renderFriendBadges(); // Update badges visibility
             // Trigger filtering handled below
         });
 
@@ -713,10 +724,7 @@
             filterDay.value = '';
             filterFormat.value = '';
             filterFavorites.checked = false;
-            filterFavorites.parentElement.classList.remove('active');
-            favTabsContainer.style.display = 'none';
             filterFilms();
-            renderFriendBadges();
         });
     });
 
@@ -1596,16 +1604,11 @@ END:VCALENDAR`;
         }
 
         function renderFriendBadges() {
-            const favoritesToggle = document.getElementById('filter-favorites');
-            const activeTab = document.querySelector('.fav-tab.active')?.dataset.tab;
-            const showBadges = favoritesToggle && favoritesToggle.checked && activeTab === 'amis';
-            
             document.querySelectorAll('.film-card').forEach(card => {
                 const filmId = card.dataset.filmId;
                 const old = card.querySelector('.friend-badge');
                 if (old) old.remove();
-
-                if (showBadges && filmId && window.globalFriendsFilmsMap[filmId] && window.globalFriendsFilmsMap[filmId].length > 0) {
+                if (filmId && window.globalFriendsFilmsMap[filmId] && window.globalFriendsFilmsMap[filmId].length > 0) {
                     const names = window.globalFriendsFilmsMap[filmId];
                     const badge = document.createElement('span');
                     badge.className = 'friend-badge';
