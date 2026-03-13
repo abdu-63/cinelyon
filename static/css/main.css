@@ -367,6 +367,21 @@ p {
     font-family: 'healTheWebA', sans-serif;
     font-size: 14px;
     transition: border-color 0.3s;
+    background-color: white;
+    /* Browser normalization for select arrows */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 40px;
+}
+
+.search-input:not(select) {
+    background-image: none;
+    padding-right: 15px;
 }
 
 .search-input:focus {
@@ -408,6 +423,7 @@ p {
     display: flex;
     gap: 10px;
     align-items: center;
+    justify-content: flex-start;
     flex-wrap: wrap;
     width: 100%;
 }
@@ -778,7 +794,7 @@ html {
 
     .actions-row {
         flex-wrap: wrap;
-        justify-content: center;
+        justify-content: flex-start;
     }
 
     .affiche {
@@ -1024,17 +1040,21 @@ html {
     flex-shrink: 0;
 }
 
-.favorites-toggle:has(input:checked) .favorites-heart {
+.favorites-toggle:has(input:checked) .favorites-heart,
+.favorites-toggle.active .favorites-heart,
+.favorites-toggle input[type="checkbox"]:checked ~ .favorites-heart {
     fill: #ff6b6b;
     stroke: #ff6b6b;
 }
 
-.favorites-toggle input[type="checkbox"]:checked~.favorites-label {
+.favorites-toggle input[type="checkbox"]:checked ~ .favorites-label,
+.favorites-toggle.active .favorites-label {
     color: #ff6b6b;
     font-weight: bold;
 }
 
-.favorites-toggle:has(input:checked) {
+.favorites-toggle:has(input:checked),
+.favorites-toggle.active {
     border-color: #ff6b6b;
     background: rgba(255, 107, 107, 0.1);
 }
@@ -1072,7 +1092,7 @@ html {
 .favorites-tabs-container {
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     margin-top: 10px;
 }
 
@@ -1122,6 +1142,7 @@ html {
         flex-wrap: nowrap;
         overflow-x: auto;
         padding-bottom: 4px; /* for scrollbar if any */
+        justify-content: flex-start;
     }
 
     .fav-tab {

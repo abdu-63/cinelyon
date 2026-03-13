@@ -440,6 +440,9 @@
 
         // Extend favorites toggle event
         filterFavorites.addEventListener('change', () => {
+            // Compatibility for iOS < 15.4 (:has selector fallback)
+            filterFavorites.parentElement.classList.toggle('active', filterFavorites.checked);
+            
             if (filterFavorites.checked) {
                 favTabsContainer.style.display = 'flex';
             } else {
