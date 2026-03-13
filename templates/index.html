@@ -1222,8 +1222,9 @@ END:VCALENDAR`;
 
                     showToast('Appareil déconnecté ! 🔌');
 
-                    // Optional: Close modal
-                    // syncModal.classList.remove('show');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1200);
                 }
             });
         }
@@ -1274,6 +1275,10 @@ END:VCALENDAR`;
                     syncCodeDisplay.textContent = getSyncCode();
                     syncModal.classList.remove('show');
                     showToast('Appareil lié ! Favoris synchronisés ✨');
+                    
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1200);
                 })
                 .catch(e => {
                     console.error('Erreur liaison:', e);
@@ -1417,7 +1422,6 @@ END:VCALENDAR`;
         const friendsList = document.getElementById('friends-list');
         const syncedDevicesList = document.getElementById('synced-devices-list');
 
-        const myId = getSyncId();
         const myDeviceId = getDeviceId();
         let friends = [];
         let devices = [];
@@ -1425,30 +1429,41 @@ END:VCALENDAR`;
         async function registerDevice() {
             if (!SUPABASE_URL || !SUPABASE_KEY) return;
             const myName = localStorage.getItem('cinelyon_device_name') || 'Anonyme';
-            await sbFetch('sync_devices', {
-                method: 'POST',
-                headers: { 'Prefer': 'resolution=merge-duplicates' },
-                body: JSON.stringify({
-                    sync_id: myId,
-                    device_id: myDeviceId,
-                    name: myName,
-                    last_seen: new Date().toISOString()
-                })
-            });
+            try {
+                await sbFetch('sync_devices', {
+                    method: 'POST',
+                    headers: { 'Prefer': 'resolution=merge-duplicates' },
+                    body: JSON.stringify({
+                        sync_id: getSyncId(),
+                        device_id: myDeviceId,
+                        name: myName,
+                        last_seen: new Date().toISOString()
+                    })
+                });
+            } catch (e) {
+                console.warn('Erreur registerDevice:', e);
+            }
         }
 
         async function loadSyncedDevices() {
             if (!SUPABASE_URL || !SUPABASE_KEY) return;
-            devices = await sbFetch(`sync_devices?sync_id=eq.${myId}&order=last_seen.desc`);
+            try {
+                const r = await sbFetch(`sync_devices?sync_id=eq.${getSyncId()}&order=last_seen.desc`);
+                devices = (await r.json()) || [];
+            } catch (e) {
+                devices = [];
+            }
             renderDevicesList();
         }
 
         async function updateDeviceName(newName) {
             localStorage.setItem('cinelyon_device_name', newName);
-            await sbFetch(`sync_devices?device_id=eq.${myDeviceId}`, {
-                method: 'PATCH',
-                body: JSON.stringify({ name: newName, last_seen: new Date().toISOString() })
-            });
+            try {
+                await sbFetch(`sync_devices?device_id=eq.${myDeviceId}`, {
+                    method: 'PATCH',
+                    body: JSON.stringify({ name: newName, last_seen: new Date().toISOString() })
+                });
+            } catch (e) {}
             await loadSyncedDevices();
         }
 
@@ -1513,7 +1528,7 @@ END:VCALENDAR`;
 
         async function loadFriends() {
             try {
-                const r = await sbFetch(`friend_follows?follower_id=eq.${myId}&select=followed_id,followed_name,is_hidden`);
+                const r = await sbFetch(`friend_follows?follower_id=eq.${getSyncId()}&select=followed_id,followed_name,is_hidden`);
                 friends = await r.json();
             } catch (e) { friends = []; }
         }
@@ -1599,7 +1614,7 @@ END:VCALENDAR`;
 
         async function toggleHideFriend(followedId, currentHidden) {
             try {
-                await sbFetch(`friend_follows?follower_id=eq.${myId}&followed_id=eq.${followedId}`, {
+                await sbFetch(`friend_follows?follower_id=eq.${getSyncId()}&followed_id=eq.${followedId}`, {
                     method: 'PATCH',
                     body: JSON.stringify({ is_hidden: !currentHidden })
                 });
@@ -1623,7 +1638,7 @@ END:VCALENDAR`;
             if (newName === null) return;
             const finalName = newName.trim();
             try {
-                await sbFetch(`friend_follows?follower_id=eq.${myId}&followed_id=eq.${followedId}`, {
+                await sbFetch(`friend_follows?follower_id=eq.${getSyncId()}&followed_id=eq.${followedId}`, {
                     method: 'PATCH',
                     body: JSON.stringify({ followed_name: finalName || null })
                 });
@@ -1642,12 +1657,12 @@ END:VCALENDAR`;
                 const data = await r.json();
                 if (!data || data.length === 0) { showToast('Code introuvable.', 'warning'); return; }
                 const followedId = data[0].user_id;
-                if (followedId === myId) { showToast('C\'est ton propre code !', 'warning'); return; }
+                if (followedId === getSyncId()) { showToast('C\'est ton propre code !', 'warning'); return; }
                 if (friends.some(f => f.followed_id === followedId)) { showToast('Déjà dans ta liste.', 'warning'); return; }
                 await sbFetch('friend_follows', {
                     method: 'POST',
                     headers: { 'Prefer': 'return=minimal' },
-                    body: JSON.stringify({ follower_id: myId, followed_id: followedId, followed_name: name || null })
+                    body: JSON.stringify({ follower_id: getSyncId(), followed_id: followedId, followed_name: name || null })
                 });
                 friends.push({ followed_id: followedId, followed_name: name || null });
                 await loadFriendsFilms();
@@ -1672,7 +1687,7 @@ END:VCALENDAR`;
 
         async function removeFriend(followedId) {
             try {
-                await sbFetch(`friend_follows?follower_id=eq.${myId}&followed_id=eq.${followedId}`, { method: 'DELETE' });
+                await sbFetch(`friend_follows?follower_id=eq.${getSyncId()}&followed_id=eq.${followedId}`, { method: 'DELETE' });
                 friends = friends.filter(f => f.followed_id !== followedId);
                 await loadFriendsFilms();
                 renderFriendsList();
