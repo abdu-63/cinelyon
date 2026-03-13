@@ -68,21 +68,21 @@
                     </svg>
                     <span class="favorites-label">Favoris</span>
                 </label>
-                <button id="friends-btn" class="sync-btn" title="Voir les favoris de mes amis">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
-                        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-                        <circle cx="9" cy="7" r="4" />
-                        <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
-                    </svg>
-                    <span class="sync-label">Amis</span>
-                </button>
-                <button id="sync-favorites" class="sync-btn" title="Synchroniser mes favoris">
+                <button id="sync-favorites" class="sync-btn" title="Synchroniser mes favoris & Amis">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
                         <path
                             d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
-                    <span class="sync-label">Sync</span>
+                    <span class="sync-label">Sync / Amis</span>
                 </button>
+            </div>
+
+            <!-- Nouveau menu d'onglets pour Favoris -->
+            <div id="favorites-tabs-container" class="favorites-tabs-container" style="display: none;">
+                <div class="favorites-tabs">
+                    <button class="fav-tab active" data-tab="perso">Mes Favoris</button>
+                    <button class="fav-tab" data-tab="amis">Favoris de mes Amis</button>
+                </div>
             </div>
         </div>
     </div>
@@ -294,22 +294,18 @@
 
         <div class="sync-modal-divider"></div>
         <button id="unlink-device-btn" class="sync-unlink-btn">Déconnecter cet appareil</button>
-    </div>
-</div>
 
-<!-- Friends Modal -->
-<div id="friends-modal" class="sync-modal-overlay">
-    <div class="sync-modal friends-modal">
-        <button class="sync-modal-close" id="friends-modal-close">&times;</button>
-        <h3>Favoris de mes amis</h3>
+        <div class="sync-modal-divider"></div>
+
+        <h3>Amis</h3>
 
         <div class="sync-modal-section">
             <p class="sync-modal-label">Ajouter un ami via son code sync :</p>
             <div class="sync-input-row friends-add-row">
-                <input type="text" id="friend-code-input" class="sync-code-input" maxlength="6" placeholder="ABC123"
-                    autocomplete="off" spellcheck="false">
-                <input type="text" id="friend-name-input" class="friend-name-input" maxlength="20" placeholder="Prénom"
-                    autocomplete="off">
+                <input type="text" id="friend-code-input" class="sync-code-input" maxlength="6"
+                    placeholder="ABC123" autocomplete="off" spellcheck="false">
+                <input type="text" id="friend-name-input" class="friend-name-input" maxlength="20"
+                    placeholder="Prénom" autocomplete="off">
                 <button id="friend-add-btn" class="sync-link-btn">Ajouter</button>
             </div>
         </div>
@@ -427,6 +423,30 @@
         const filterFormat = document.getElementById('filter-format');
         const filterFavorites = document.getElementById('filter-favorites');
         const resetBtn = document.getElementById('reset-filters');
+        
+        const favTabsContainer = document.getElementById('favorites-tabs-container');
+        const favTabs = document.querySelectorAll('.fav-tab');
+        let currentFavTab = 'perso';
+
+        // Event listener for tab clicks
+        favTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                favTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                currentFavTab = tab.dataset.tab;
+                filterFilms(); // Trigger the main filter logic again
+            });
+        });
+
+        // Extend favorites toggle event
+        filterFavorites.addEventListener('change', () => {
+            if (filterFavorites.checked) {
+                favTabsContainer.style.display = 'flex';
+            } else {
+                favTabsContainer.style.display = 'none';
+            }
+            // Trigger filtering handled below
+        });
 
         const genres = new Set();
         const directors = new Set();
@@ -527,7 +547,15 @@
                 }
                 const matchDay = !dayQuery || days.includes(dayQuery);
                 const matchFormat = !formatQuery || formats.includes(formatQuery);
-                const matchFavorites = !showOnlyFavorites || isFavorite(filmId);
+                
+                let matchFavorites = true;
+                if (showOnlyFavorites) {
+                    if (currentFavTab === 'perso') {
+                        matchFavorites = isFavorite(filmId);
+                    } else if (currentFavTab === 'amis') {
+                        matchFavorites = window.hasFriendFavorited && window.hasFriendFavorited(filmId);
+                    }
+                }
 
                 const show = matchTitle && matchGenre && matchDirector && matchCinema && matchDay && matchFormat && matchFavorites;
 
@@ -1344,23 +1372,26 @@ END:VCALENDAR`;
         }
     });
 
+    // ── Global map to be accessed by JS filters ────────────────────────
+    window.globalFriendsFilmsMap = {};
+    window.hasFriendFavorited = function(filmId) {
+        return window.globalFriendsFilmsMap[filmId] && window.globalFriendsFilmsMap[filmId].length > 0;
+    };
+
     // ── Friends Feature ──────────────────────────────────────────────────
     (function () {
         if (!SUPABASE_URL || !SUPABASE_KEY) return;
 
-        const friendsBtn = document.getElementById('friends-btn');
-        const friendsModal = document.getElementById('friends-modal');
-        const friendsModalClose = document.getElementById('friends-modal-close');
+        const syncModalOverlay = document.getElementById('sync-modal'); // used for opening/closing
+        const syncFavoritesBtn = document.getElementById('sync-favorites'); // this btn opens sync modal
+        
         const friendCodeInput = document.getElementById('friend-code-input');
         const friendNameInput = document.getElementById('friend-name-input');
         const friendAddBtn = document.getElementById('friend-add-btn');
         const friendsList = document.getElementById('friends-list');
 
-        if (!friendsBtn || !friendsModal) return;
-
         const myId = getSyncId();
         let friends = [];
-        let friendsFilmsMap = {};
 
         function sbFetch(path, opts = {}) {
             return fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
@@ -1382,7 +1413,7 @@ END:VCALENDAR`;
         }
 
         async function loadFriendsFilms() {
-            friendsFilmsMap = {};
+            window.globalFriendsFilmsMap = {};
             if (friends.length === 0) return;
             const query = friends.map(f => `user_id=eq.${f.followed_id}`).join(',');
             try {
@@ -1392,8 +1423,8 @@ END:VCALENDAR`;
                     const friend = friends.find(f => f.followed_id === row.user_id);
                     const name = friend ? (friend.followed_name || row.user_id.substring(0, 6).toUpperCase()) : '?';
                     (row.films || []).forEach(filmId => {
-                        if (!friendsFilmsMap[filmId]) friendsFilmsMap[filmId] = [];
-                        if (!friendsFilmsMap[filmId].includes(name)) friendsFilmsMap[filmId].push(name);
+                        if (!window.globalFriendsFilmsMap[filmId]) window.globalFriendsFilmsMap[filmId] = [];
+                        if (!window.globalFriendsFilmsMap[filmId].includes(name)) window.globalFriendsFilmsMap[filmId].push(name);
                     });
                 });
             } catch (e) { console.warn('Erreur films amis:', e); }
@@ -1404,8 +1435,8 @@ END:VCALENDAR`;
                 const filmId = card.dataset.filmId;
                 const old = card.querySelector('.friend-badge');
                 if (old) old.remove();
-                if (filmId && friendsFilmsMap[filmId] && friendsFilmsMap[filmId].length > 0) {
-                    const names = friendsFilmsMap[filmId];
+                if (filmId && window.globalFriendsFilmsMap[filmId] && window.globalFriendsFilmsMap[filmId].length > 0) {
+                    const names = window.globalFriendsFilmsMap[filmId];
                     const badge = document.createElement('span');
                     badge.className = 'friend-badge';
                     badge.title = names.join(', ');
@@ -1425,7 +1456,7 @@ END:VCALENDAR`;
             friends.forEach(f => {
                 const name = f.followed_name || f.followed_id.substring(0, 6).toUpperCase();
                 const code = f.followed_id.substring(0, 6).toUpperCase();
-                const filmCount = Object.values(friendsFilmsMap).filter(arr => arr.includes(name)).length;
+                const filmCount = Object.values(window.globalFriendsFilmsMap).filter(arr => arr.includes(name)).length;
                 const item = document.createElement('div');
                 item.className = 'friend-item';
                 item.innerHTML = `
@@ -1461,6 +1492,14 @@ END:VCALENDAR`;
                 showToast(`${name || code} ajouté ! 🎉`);
                 friendCodeInput.value = '';
                 friendNameInput.value = '';
+                
+                // Trigger global filter if tab is active
+                const currentFavTab = document.querySelector('.fav-tab.active')?.dataset.tab;
+                if (document.getElementById('filter-favorites').checked && currentFavTab === 'amis') {
+                    // This is slightly a hack, but firing an input event on search-title will trigger filterFilms()
+                    const ev = new Event('input');
+                    document.getElementById('search-title').dispatchEvent(ev);
+                }
             } catch (e) { showToast('Erreur lors de l\'ajout', 'warning'); }
         }
 
@@ -1472,6 +1511,12 @@ END:VCALENDAR`;
                 renderFriendsList();
                 renderFriendBadges();
                 showToast('Ami supprimé');
+                
+                const currentFavTab = document.querySelector('.fav-tab.active')?.dataset.tab;
+                if (document.getElementById('filter-favorites').checked && currentFavTab === 'amis') {
+                    const ev = new Event('input');
+                    document.getElementById('search-title').dispatchEvent(ev);
+                }
             } catch (e) { console.warn('Erreur suppression ami:', e); }
         }
 
@@ -1486,12 +1531,10 @@ END:VCALENDAR`;
             addFriend(code, name);
         });
 
-        friendsBtn.addEventListener('click', () => {
-            friendsModal.classList.add('show');
+        syncFavoritesBtn.addEventListener('click', () => {
+             // We inject into the existing sync button listener logic so it refreshes the list
             renderFriendsList();
         });
-        friendsModalClose.addEventListener('click', () => friendsModal.classList.remove('show'));
-        friendsModal.addEventListener('click', e => { if (e.target === friendsModal) friendsModal.classList.remove('show'); });
 
         loadFriends().then(async () => {
             await loadFriendsFilms();
