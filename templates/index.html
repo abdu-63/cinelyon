@@ -1596,7 +1596,9 @@ END:VCALENDAR`;
         }
 
         function renderFriendBadges() {
-            const showBadges = filterFavorites.checked && currentFavTab === 'amis';
+            const favoritesToggle = document.getElementById('filter-favorites');
+            const activeTab = document.querySelector('.fav-tab.active')?.dataset.tab;
+            const showBadges = favoritesToggle && favoritesToggle.checked && activeTab === 'amis';
             
             document.querySelectorAll('.film-card').forEach(card => {
                 const filmId = card.dataset.filmId;
