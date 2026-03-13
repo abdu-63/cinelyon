@@ -1076,34 +1076,38 @@ html {
 }
 
 .favorites-tabs {
-    display: inline-flex;
-    background: #f0f0f0;
-    border-radius: 20px;
-    padding: 4px;
-    gap: 4px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .fav-tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 15px;
+    border-radius: 8px;
     background: transparent;
-    border: none;
-    padding: 6px 16px;
-    border-radius: 16px;
-    font-family: inherit;
-    font-size: 13px;
+    border: 2px solid #e0e0e0;
+    transition: all 0.3s ease;
+    font-family: 'healTheWebA', sans-serif;
+    font-size: 14px;
     color: #666;
     cursor: pointer;
-    transition: all 0.2s ease;
 }
 
 .fav-tab:hover {
-    color: #444cf7;
+    border-color: #ff6b6b;
+    color: #ff6b6b;
 }
 
 .fav-tab.active {
-    background: white;
-    color: #444cf7;
+    border-color: #ff6b6b;
+    background: rgba(255, 107, 107, 0.1);
+    color: #ff6b6b;
     font-weight: bold;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: none;
 }
 
 /* Sync Button */
@@ -1147,6 +1151,7 @@ html {
 
     .sync-label {
         font-size: 11px;
+        display: inline;
     }
 
     .sync-btn svg {
@@ -1177,6 +1182,8 @@ html {
     padding: 32px;
     max-width: 420px;
     width: 90%;
+    max-height: 85vh;
+    overflow-y: auto;
     position: relative;
     box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
     animation: modalSlideIn 0.3s ease;
