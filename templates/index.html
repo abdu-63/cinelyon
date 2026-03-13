@@ -301,6 +301,12 @@
 
             <div class="sync-modal-divider"></div>
             <button id="unlink-device-btn" class="sync-unlink-btn">Déconnecter cet appareil</button>
+
+            <div class="sync-modal-divider"></div>
+            <p class="sync-modal-label">Appareils synchronisés :</p>
+            <div id="synced-devices-list" class="synced-devices-list">
+                <!-- Populé par JS -->
+            </div>
         </div>
 
         <!-- TAB 2 : FRIENDS -->
@@ -989,6 +995,7 @@ END:VCALENDAR`;
     const SUPABASE_URL = '{{ supabase_url }}';
     const SUPABASE_KEY = '{{ supabase_anon_key }}';
     const SYNC_ID_KEY = 'cinelyon_sync_id';
+    const DEVICE_ID_KEY = 'cinelyon_device_id';
     let syncDebounceTimer = null;
 
     function getSyncId() {
@@ -996,6 +1003,15 @@ END:VCALENDAR`;
         if (!id) {
             id = (crypto.randomUUID ? crypto.randomUUID() : ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)));
             localStorage.setItem(SYNC_ID_KEY, id);
+        }
+        return id;
+    }
+
+    function getDeviceId() {
+        let id = localStorage.getItem(DEVICE_ID_KEY);
+        if (!id) {
+            id = (crypto.randomUUID ? crypto.randomUUID() : ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)));
+            localStorage.setItem(DEVICE_ID_KEY, id);
         }
         return id;
     }
@@ -1399,9 +1415,81 @@ END:VCALENDAR`;
         const friendNameInput = document.getElementById('friend-name-input');
         const friendAddBtn = document.getElementById('friend-add-btn');
         const friendsList = document.getElementById('friends-list');
+        const syncedDevicesList = document.getElementById('synced-devices-list');
 
         const myId = getSyncId();
+        const myDeviceId = getDeviceId();
         let friends = [];
+        let devices = [];
+
+        async function registerDevice() {
+            if (!SUPABASE_URL || !SUPABASE_KEY) return;
+            const myName = localStorage.getItem('cinelyon_device_name') || 'Anonyme';
+            await sbFetch('sync_devices', {
+                method: 'POST',
+                headers: { 'Prefer': 'resolution=merge-duplicates' },
+                body: JSON.stringify({
+                    sync_id: myId,
+                    device_id: myDeviceId,
+                    name: myName,
+                    last_seen: new Date().toISOString()
+                })
+            });
+        }
+
+        async function loadSyncedDevices() {
+            if (!SUPABASE_URL || !SUPABASE_KEY) return;
+            devices = await sbFetch(`sync_devices?sync_id=eq.${myId}&order=last_seen.desc`);
+            renderDevicesList();
+        }
+
+        async function updateDeviceName(newName) {
+            localStorage.setItem('cinelyon_device_name', newName);
+            await sbFetch(`sync_devices?device_id=eq.${myDeviceId}`, {
+                method: 'PATCH',
+                body: JSON.stringify({ name: newName, last_seen: new Date().toISOString() })
+            });
+            await loadSyncedDevices();
+        }
+
+        function renderDevicesList() {
+            syncedDevicesList.innerHTML = '';
+            if (devices.length === 0) {
+                syncedDevicesList.innerHTML = '<p class="friends-empty">Aucun appareil trouvé.</p>';
+                return;
+            }
+
+            devices.forEach(device => {
+                const isMe = device.device_id === myDeviceId;
+                const div = document.createElement('div');
+                div.className = 'friend-item';
+                if (isMe) div.classList.add('me-device');
+
+                const initials = (device.name || 'A').substring(0, 2).toUpperCase();
+                
+                div.innerHTML = `
+                    <div class="friend-avatar">${initials}</div>
+                    <div class="friend-info">
+                        <div class="friend-name-row">
+                            <span class="friend-name">${device.name || 'Appareil Inconnu'} ${isMe ? '(Moi)' : ''}</span>
+                            ${isMe ? '<button class="friend-edit-btn" title="Modifier le nom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7M18.5 2.5a2.121 2.121 0 113 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>' : ''}
+                        </div>
+                        <div class="friend-stats">Dernière activité : ${new Date(device.last_seen).toLocaleDateString()}</div>
+                    </div>
+                `;
+
+                if (isMe) {
+                    div.querySelector('.friend-edit-btn').addEventListener('click', () => {
+                        const newName = prompt('Nom de cet appareil :', device.name || '');
+                        if (newName && newName.trim()) {
+                            updateDeviceName(newName.trim());
+                        }
+                    });
+                }
+
+                syncedDevicesList.appendChild(div);
+            });
+        }
 
         // APRÈS (corrigé)
         async function sbFetch(path, opts = {}) {
@@ -1613,6 +1701,8 @@ END:VCALENDAR`;
         syncFavoritesBtn.addEventListener('click', () => {
             // We inject into the existing sync button listener logic so it refreshes the list
             renderFriendsList();
+            registerDevice();
+            loadSyncedDevices();
         });
 
         // Modal Tabs Logic
