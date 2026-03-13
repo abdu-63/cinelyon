@@ -1087,16 +1087,17 @@ html {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 8px 15px;
+    padding: 8px 20px;
     border-radius: 8px;
     background: transparent;
     border: 2px solid #e0e0e0;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     font-family: 'healTheWebA', sans-serif;
     font-size: 14px;
     color: #666;
     cursor: pointer;
     white-space: nowrap;
+    min-width: 120px;
 }
 
 .fav-tab:hover {
@@ -1108,7 +1109,6 @@ html {
     border-color: #ff6b6b;
     background: rgba(255, 107, 107, 0.1);
     color: #ff6b6b;
-    font-weight: bold;
     box-shadow: none;
 }
 
@@ -1122,8 +1122,9 @@ html {
     }
 
     .fav-tab {
-        padding: 6px 12px;
+        padding: 6px 10px;
         font-size: 11px;
+        min-width: 100px;
     }
 }
 
