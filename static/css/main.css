@@ -777,7 +777,8 @@ html {
     }
 
     .actions-row {
-        flex-wrap: nowrap;
+        flex-wrap: wrap;
+        justify-content: center;
     }
 
     .affiche {
@@ -1095,6 +1096,7 @@ html {
     font-size: 14px;
     color: #666;
     cursor: pointer;
+    white-space: nowrap;
 }
 
 .fav-tab:hover {
@@ -1108,6 +1110,21 @@ html {
     color: #ff6b6b;
     font-weight: bold;
     box-shadow: none;
+}
+
+@media (max-width: 576px) {
+    .favorites-tabs-container {
+        margin-top: 8px;
+    }
+    
+    .favorites-tabs {
+        gap: 6px;
+    }
+
+    .fav-tab {
+        padding: 6px 12px;
+        font-size: 11px;
+    }
 }
 
 /* Sync Button */
