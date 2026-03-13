@@ -1477,30 +1477,62 @@ html {
     font-weight: 600;
     font-size: 14px;
     color: #222;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.friend-item.is-hidden {
+    opacity: 0.5;
+}
+
+.friend-item.is-hidden .friend-avatar {
+    filter: grayscale(1);
+}
+
+.friend-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.friend-action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #ccc;
+    padding: 4px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.friend-action-btn:hover {
+    background: #f0f0f0;
+    color: #666;
+}
+
+.friend-action-btn.hide-btn:hover {
+    color: #444cf7;
+}
+
+.friend-action-btn.remove-btn:hover {
+    color: #e53935;
+    background: #fff0f0;
+}
+
+.friend-action-btn svg {
+    width: 16px;
+    height: 16px;
 }
 
 .friend-meta {
     font-size: 11px;
     color: #888;
     margin-top: 1px;
-}
-
-.friend-remove-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #ccc;
-    font-size: 18px;
-    line-height: 1;
-    padding: 2px 6px;
-    border-radius: 6px;
-    transition: color 0.2s, background 0.2s;
-    flex-shrink: 0;
-}
-
-.friend-remove-btn:hover {
-    color: #e53935;
-    background: #fff0f0;
 }
 
 .friends-empty {
