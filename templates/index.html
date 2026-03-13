@@ -265,57 +265,64 @@
 <div id="sync-modal" class="sync-modal-overlay">
     <div class="sync-modal">
         <button class="sync-modal-close" id="sync-modal-close">&times;</button>
-        <h3>Synchroniser vos favoris</h3>
-        <div class="sync-modal-section">
-            <p class="sync-modal-label">Votre code de sync :</p>
-            <div class="sync-code-display">
-                <span id="sync-code">------</span>
-                <button id="copy-sync-code" class="sync-copy-btn" title="Copier">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-                        <rect x="9" y="9" width="13" height="13" rx="2" />
-                        <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
-                    </svg>
-                </button>
+        <div class="sync-modal-tabs">
+            <button class="sync-modal-tab active" data-target="sync-tab-device">Mon Appareil</button>
+            <button class="sync-modal-tab" data-target="sync-tab-friends">Mes Amis</button>
+        </div>
+
+        <!-- TAB 1 : DEVICE -->
+        <div id="sync-tab-device" class="sync-tab-content active">
+            <div class="sync-modal-section">
+                <p class="sync-modal-label">Votre code de sync :</p>
+                <div class="sync-code-display">
+                    <span id="sync-code">------</span>
+                    <button id="copy-sync-code" class="sync-copy-btn" title="Copier">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                            <rect x="9" y="9" width="13" height="13" rx="2" />
+                            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+                        </svg>
+                    </button>
+                </div>
             </div>
-        </div>
-        <div class="sync-modal-divider">
-            <span>ou</span>
-        </div>
-        <div class="sync-modal-section">
-            <p class="sync-modal-label">Entrer un code pour lier cet appareil :</p>
-            <div class="sync-input-row">
-                <input type="text" id="sync-code-input" class="sync-code-input" maxlength="6" placeholder="ABC123"
-                    autocomplete="off" spellcheck="false">
-                <button id="sync-link-btn" class="sync-link-btn">Lier</button>
+            
+            <div class="sync-modal-divider">
+                <span>ou</span>
             </div>
-        </div>
-        <p class="sync-modal-hint">Utilisez le même code sur vos différents appareils pour synchroniser
-            automatiquement vos favoris.</p>
-
-        <div class="sync-modal-divider"></div>
-        <button id="unlink-device-btn" class="sync-unlink-btn">Déconnecter cet appareil</button>
-
-        <div class="sync-modal-divider"></div>
-
-        <h3>Amis</h3>
-
-        <div class="sync-modal-section">
-            <p class="sync-modal-label">Ajouter un ami via son code sync :</p>
-            <div class="sync-input-row friends-add-row">
-                <input type="text" id="friend-code-input" class="sync-code-input" maxlength="6" placeholder="ABC123"
-                    autocomplete="off" spellcheck="false">
-                <input type="text" id="friend-name-input" class="friend-name-input" maxlength="20" placeholder="Prénom"
-                    autocomplete="off">
-                <button id="friend-add-btn" class="sync-link-btn">Ajouter</button>
+            
+            <div class="sync-modal-section">
+                <p class="sync-modal-label">Entrer un code pour lier cet appareil :</p>
+                <div class="sync-input-row">
+                    <input type="text" id="sync-code-input" class="sync-code-input" maxlength="6" placeholder="ABC123"
+                        autocomplete="off" spellcheck="false">
+                    <button id="sync-link-btn" class="sync-link-btn">Lier</button>
+                </div>
             </div>
+            <p class="sync-modal-hint">Utilisez le même code sur vos appareils pour synchroniser vos favoris automatiquement.</p>
+
+            <div class="sync-modal-divider"></div>
+            <button id="unlink-device-btn" class="sync-unlink-btn">Déconnecter cet appareil</button>
         </div>
 
-        <div class="sync-modal-divider"></div>
+        <!-- TAB 2 : FRIENDS -->
+        <div id="sync-tab-friends" class="sync-tab-content">
+            <div class="sync-modal-section">
+                <p class="sync-modal-label">Ajouter un ami via son code sync :</p>
+                <div class="sync-input-row friends-add-row">
+                    <input type="text" id="friend-code-input" class="sync-code-input" maxlength="6" placeholder="ABC123"
+                        autocomplete="off" spellcheck="false">
+                    <input type="text" id="friend-name-input" class="friend-name-input" maxlength="20" placeholder="Prénom"
+                        autocomplete="off">
+                    <button id="friend-add-btn" class="sync-link-btn">Ajouter</button>
+                </div>
+            </div>
 
-        <div id="friends-list-section" class="sync-modal-section">
-            <p class="sync-modal-label">Mes amis :</p>
-            <div id="friends-list">
-                <p class="friends-empty">Aucun ami ajouté pour l'instant.</p>
+            <div class="sync-modal-divider"></div>
+
+            <div id="friends-list-section" class="sync-modal-section">
+                <p class="sync-modal-label">Mes amis :</p>
+                <div id="friends-list">
+                    <p class="friends-empty">Aucun ami ajouté pour l'instant.</p>
+                </div>
             </div>
         </div>
     </div>
@@ -1606,6 +1613,16 @@ END:VCALENDAR`;
         syncFavoritesBtn.addEventListener('click', () => {
             // We inject into the existing sync button listener logic so it refreshes the list
             renderFriendsList();
+        });
+
+        // Modal Tabs Logic
+        document.querySelectorAll('.sync-modal-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.sync-modal-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.sync-tab-content').forEach(c => c.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.target).classList.add('active');
+            });
         });
 
         loadFriends().then(async () => {

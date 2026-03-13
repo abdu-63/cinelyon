@@ -1247,12 +1247,50 @@ html {
     }
 }
 
-.sync-modal h3 {
+.sync-modal-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    justify-content: center;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 12px;
+}
+
+.sync-modal-tab {
+    background: transparent;
+    border: none;
     font-family: 'healTheWebA', sans-serif;
-    font-size: 20px;
-    margin: 0 0 24px;
-    color: #222;
-    text-align: center;
+    font-size: 16px;
+    color: #999;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.sync-modal-tab:hover {
+    color: #444cf7;
+    background: #f0f0ff;
+}
+
+.sync-modal-tab.active {
+    color: #444cf7;
+    background: #f0f0ff;
+    font-weight: bold;
+}
+
+.sync-tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.sync-tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .sync-modal-close {
@@ -1402,9 +1440,13 @@ html {
         max-width: none;
     }
 
-    .sync-modal h3 {
-        font-size: 18px;
+    .sync-modal-tabs {
         margin-bottom: 16px;
+        padding-bottom: 8px;
+    }
+    .sync-modal-tab {
+        font-size: 14px;
+        flex: 1;
     }
 
     .sync-code-display span {
