@@ -1533,22 +1533,60 @@ END:VCALENDAR`;
             } catch (e) { friends = []; }
         }
 
+        let previousFriendsFilmsMap = null;
+
         async function loadFriendsFilms() {
-            window.globalFriendsFilmsMap = {};
+            const newMap = {};
             const activeFriends = friends.filter(f => !f.is_hidden);
-            if (activeFriends.length === 0) return;
+            if (activeFriends.length === 0) {
+                window.globalFriendsFilmsMap = {};
+                return;
+            }
             const query = activeFriends.map(f => `user_id.eq.${f.followed_id}`).join(',');
             try {
                 const r = await sbFetch(`favorites?or=(${query})&select=user_id,films`);
                 const rows = await r.json();
+                
                 rows.forEach(row => {
                     const friend = friends.find(f => f.followed_id === row.user_id);
                     const name = friend ? (friend.followed_name || row.user_id.substring(0, 6).toUpperCase()) : '?';
                     (row.films || []).forEach(filmId => {
-                        if (!window.globalFriendsFilmsMap[filmId]) window.globalFriendsFilmsMap[filmId] = [];
-                        if (!window.globalFriendsFilmsMap[filmId].includes(name)) window.globalFriendsFilmsMap[filmId].push(name);
+                        if (!newMap[filmId]) newMap[filmId] = [];
+                        if (!newMap[filmId].includes(name)) newMap[filmId].push(name);
                     });
                 });
+
+                // Detect new favorites if we already had a map
+                if (previousFriendsFilmsMap !== null) {
+                    const newAdds = new Set();
+                    for (const filmId in newMap) {
+                        const currentNames = newMap[filmId];
+                        const oldNames = previousFriendsFilmsMap[filmId] || [];
+                        const addedNames = currentNames.filter(n => !oldNames.includes(n));
+                        
+                        addedNames.forEach(name => {
+                            newAdds.add(name);
+                        });
+                    }
+
+                    if (newAdds.size > 0) {
+                        const namesArr = Array.from(newAdds);
+                        const namesStr = namesArr.length > 2 
+                            ? `${namesArr.slice(0, 2).join(', ')} et d'autres` 
+                            : namesArr.join(' et ');
+                        showToast(`${namesStr} a ajouté un nouveau favori ! 🍿`);
+                        
+                        // If we are currently filtering by friend favorites, refresh the view
+                        const currentFavTab = document.querySelector('.fav-tab.active')?.dataset.tab;
+                        if (document.getElementById('filter-favorites').checked && currentFavTab === 'amis') {
+                            document.getElementById('search-title').dispatchEvent(new Event('input'));
+                        }
+                    }
+                }
+
+                window.globalFriendsFilmsMap = newMap;
+                previousFriendsFilmsMap = JSON.parse(JSON.stringify(newMap)); // deep copy
+
             } catch (e) { console.warn('Erreur films amis:', e); }
         }
 
@@ -1733,6 +1771,13 @@ END:VCALENDAR`;
         loadFriends().then(async () => {
             await loadFriendsFilms();
             renderFriendBadges();
+            
+            // Start polling every 30 seconds
+            setInterval(async () => {
+                await loadFriends();
+                await loadFriendsFilms();
+                renderFriendBadges();
+            }, 30000);
         });
     })();
 
