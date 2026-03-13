@@ -422,9 +422,11 @@ class Theater:
                         projections = showtime_data.get("projection", []) or []
                         experience = showtime_data.get("experience", []) or []
                         tags = showtime_data.get("tags", []) or []
+                        picture = showtime_data.get("picture", []) or []
+                        sound = showtime_data.get("sound", []) or []
 
                         # Regrouper tout en majuscules pour une recherche facile
-                        all_format_hints = [str(x).upper() for x in (projections + experience + tags)]
+                        all_format_hints = [str(x).upper() for x in (projections + experience + tags + picture + sound)]
                         all_hints_str = " ".join(all_format_hints)
 
                         # Check IMAX
