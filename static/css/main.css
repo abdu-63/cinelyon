@@ -1,3 +1,40 @@
+
+:root {
+    --bg-main: #f5f6f8;
+    --text-main: #111;
+    --text-muted: #666;
+    --text-light: #999;
+    --primary: #444cf7;
+    --primary-hover: #3339c4;
+    --card-bg: rgba(255, 255, 255, 0.6);
+    --card-blur: rgba(255, 255, 255, 0.5);
+    --card-solid: #fff;
+    --border-color: #ddd;
+    --border-light: #eee;
+    --shadow-sm: rgba(0, 0, 0, 0.05);
+    --shadow-md: rgba(0, 0, 0, 0.15);
+    --shadow-lg: rgba(0, 0, 0, 0.1);
+    --bg-gradient: radial-gradient(ellipse at 80% 80%, rgba(130, 44, 247, 0.35) 0%, rgba(68, 76, 247, 0.18) 40%, transparent 70%);
+}
+
+[data-theme="dark"] {
+    --bg-main: #121212;
+    --text-main: #e0e0e0;
+    --text-muted: #aaa;
+    --text-light: #777;
+    --primary: #626afc;
+    --primary-hover: #7b82fb;
+    --card-bg: rgba(30, 30, 30, 0.8);
+    --card-blur: rgba(20, 20, 20, 0.7);
+    --card-solid: #1e1e1e;
+    --border-color: #444;
+    --border-light: #333;
+    --shadow-sm: rgba(0, 0, 0, 0.3);
+    --shadow-md: rgba(0, 0, 0, 0.5);
+    --shadow-lg: rgba(0, 0, 0, 0.6);
+    --bg-gradient: radial-gradient(ellipse at 80% 80%, rgba(130, 44, 247, 0.15) 0%, rgba(68, 76, 247, 0.08) 40%, transparent 70%);
+}
+
 @font-face {
     font-family: 'healTheWebA';
     src: url("../font/HealTheWebA-Regular.otf");
@@ -27,7 +64,7 @@ body::before {
     right: -20%;
     width: 130vw;
     height: 130vh;
-    background: radial-gradient(ellipse at 80% 80%, rgba(130, 44, 247, 0.35) 0%, rgba(68, 76, 247, 0.18) 40%, transparent 70%);
+    background: var(--bg-gradient);
     filter: blur(80px);
     z-index: -2;
     pointer-events: none;
@@ -44,8 +81,51 @@ p {
     margin-right: 10%;
     display: flex;
     flex-direction: row;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
+}
+
+.header-left h1 {
+    margin-bottom: 0;
+}
+
+.header-left p {
+    margin-top: 5px;
+}
+
+/* Theme Toggle */
+.theme-toggle {
+    background: transparent;
+    border: none;
+    color: var(--text-main);
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s, color 0.3s;
+}
+
+.theme-toggle:hover {
+    background: var(--card-bg);
+}
+
+.theme-toggle svg {
+    width: 24px;
+    height: 24px;
+}
+
+.theme-toggle .moon-icon {
+    display: none;
+}
+
+[data-theme="dark"] .theme-toggle .sun-icon {
+    display: none;
+}
+
+[data-theme="dark"] .theme-toggle .moon-icon {
+    display: block;
 }
 
 
@@ -86,8 +166,8 @@ p {
 .mini-cal-btn {
     padding: 6px 12px;
     background-color: transparent;
-    color: #666;
-    border: 1px solid #ddd;
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
     border-radius: 20px;
     cursor: pointer;
     font-family: 'healTheWebA', sans-serif;
@@ -97,14 +177,14 @@ p {
 }
 
 .mini-cal-btn:hover {
-    border-color: #444cf7;
-    color: #444cf7;
+    border-color: var(--primary);
+    color: var(--primary);
 }
 
 .mini-cal-btn.active {
-    background-color: #444cf7;
-    color: white;
-    border-color: #444cf7;
+    background-color: var(--primary);
+    color: var(--card-solid);
+    border-color: var(--primary);
 }
 
 .day-seances {
@@ -135,9 +215,9 @@ p {
     align-items: flex-start;
     content-visibility: auto;
     contain-intrinsic-size: 0 300px;
-    background: rgba(255, 255, 255, 0.6);
+    background: var(--card-bg);
     border-radius: 15px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 32px var(--shadow-lg);
     margin-bottom: 10px;
 }
 
@@ -147,12 +227,12 @@ p {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(255, 255, 255, 0.5);
+    background: var(--card-blur);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     z-index: -1;
     border-radius: 20px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 32px var(--shadow-lg);
 }
 
 .info-content {
@@ -185,13 +265,13 @@ p {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #444cf7;
-    color: white;
+    background-color: var(--primary);
+    color: var(--card-solid);
     border-radius: 10px;
     width: 80px;
     height: 100px;
     justify-content: center;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6px 20px var(--shadow-md);
 }
 
 .date-tous {
@@ -206,15 +286,15 @@ p {
 }
 
 .date-tous:hover {
-    background-color: #444cf7;
-    color: white;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    background-color: var(--primary);
+    color: var(--card-solid);
+    box-shadow: 0 6px 20px var(--shadow-md);
 }
 
 .date-tous-active {
-    background-color: #444cf7;
-    color: white;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    background-color: var(--primary);
+    color: var(--card-solid);
+    box-shadow: 0 6px 20px var(--shadow-md);
 }
 
 .tous-label {
@@ -247,27 +327,27 @@ p {
 }
 
 .cinema-link {
-    color: white;
+    color: var(--card-solid);
 }
 
 .cinema {
-    background-color: #444cf7;
+    background-color: var(--primary);
     border-radius: 5px;
     height: 40px;
     width: 200px;
-    color: white;
+    color: var(--card-solid);
     padding-left: 10px;
     box-sizing: border-box;
     align-items: center;
     display: flex;
     align-items: center;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6px 20px var(--shadow-md);
     flex-shrink: 0;
     flex-grow: 0;
 }
 
 .horaire_container {
-    background-color: white;
+    background-color: var(--card-solid);
 }
 
 .seance_container {
@@ -292,18 +372,18 @@ p {
 
 
 .horaire {
-    background-color: white;
+    background-color: var(--card-solid);
     border-radius: 5px;
     height: 40px;
     min-width: 100px;
-    color: #444cf7;
+    color: var(--primary);
     box-sizing: border-box;
     align-items: center;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-left: 10px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6px 20px var(--shadow-md);
     flex-shrink: 0;
     flex-grow: 0;
     gap: 8px;
@@ -324,7 +404,7 @@ p {
     padding: 2px 5px;
     border-radius: 3px;
     background-color: #666efe;
-    color: white;
+    color: var(--card-solid);
     text-transform: uppercase;
 }
 
@@ -342,7 +422,7 @@ p {
 
 .horaire-link:hover .horaire {
     box-shadow: 0 4px 12px rgba(68, 76, 247, 0.3);
-    border: 2px solid #444cf7;
+    border: 2px solid var(--primary);
 }
 
 .search-container {
@@ -362,12 +442,12 @@ p {
 
 .search-input {
     padding: 12px 15px;
-    border: 2px solid #e0e0e0;
+    border: 2px solid var(--border-color);
     border-radius: 8px;
     font-family: 'healTheWebA', sans-serif;
     font-size: 14px;
     transition: border-color 0.3s;
-    background-color: white;
+    background-color: var(--card-solid);
     /* Browser normalization for select arrows */
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -386,7 +466,7 @@ p {
 
 .search-input:focus {
     outline: none;
-    border-color: #444cf7;
+    border-color: var(--primary);
 }
 
 .search-main {
@@ -405,8 +485,8 @@ p {
 
 .reset-btn {
     padding: 12px 20px;
-    background-color: #444cf7;
-    color: white;
+    background-color: var(--primary);
+    color: var(--card-solid);
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -416,7 +496,7 @@ p {
 }
 
 .reset-btn:hover {
-    background-color: #3339c4;
+    background-color: var(--primary-hover);
 }
 
 .actions-row {
@@ -430,7 +510,7 @@ p {
 
 footer {
     background-color: transparent;
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    border-top: 1px solid var(--shadow-sm);
     margin-top: 10px;
 }
 
@@ -449,7 +529,7 @@ footer {
 .footer-info p {
     margin: 4px 0;
     font-size: 14px;
-    color: #666;
+    color: var(--text-muted);
 }
 
 .footer-social {
@@ -464,15 +544,15 @@ footer {
     width: 38px;
     height: 38px;
     border-radius: 50%;
-    background: #f8f9fa;
-    color: #444cf7;
+    background: var(--card-solid);
+    color: var(--primary);
     transition: all 0.3s ease;
-    border: 1px solid #eee;
+    border: 1px solid var(--border-light);
 }
 
 .social-link:hover {
-    background: #444cf7;
-    color: white;
+    background: var(--primary);
+    color: var(--card-solid);
     transform: translateY(-3px);
     box-shadow: 0 4px 12px rgba(68, 76, 247, 0.2);
 }
@@ -570,7 +650,7 @@ footer {
 .synopsis-toggle {
     background: none;
     border: none;
-    color: #444cf7;
+    color: var(--primary);
     cursor: pointer;
     font-family: 'healTheWebA', sans-serif;
     font-size: 14px;
@@ -590,7 +670,7 @@ footer {
     padding: 0;
     margin-top: 6px;
     background: none;
-    color: #444cf7;
+    color: var(--primary);
     border: none;
     font-family: 'healTheWebA', sans-serif;
     font-size: 13px;
@@ -603,7 +683,7 @@ footer {
 .trailer-btn:hover {
     opacity: 1;
     text-decoration: underline;
-    color: #444cf7;
+    color: var(--primary);
 }
 
 .trailer-btn svg {
@@ -615,13 +695,13 @@ footer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #444cf7;
-    color: white;
+    background-color: var(--primary);
+    color: var(--card-solid);
     border-radius: 10px;
     width: 80px;
     height: 100px;
     justify-content: center;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6px 20px var(--shadow-md);
     transition: all 0.2s ease-in-out;
 }
 
@@ -648,7 +728,7 @@ a {
 #loader div.box::after {
     content: "";
     position: absolute;
-    background: #444cf7;
+    background: var(--primary);
     height: 3rem;
     ;
     width: 3rem;
@@ -680,8 +760,8 @@ a {
 .goTop {
     width: 50px;
     height: 50px;
-    background-color: #444cf7;
-    border: #fff solid 5px;
+    background-color: var(--primary);
+    border: var(--card-solid) solid 5px;
     border-radius: 50%;
     position: fixed;
     bottom: 20px;
@@ -690,7 +770,7 @@ a {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6px 20px var(--shadow-md);
 }
 
 html {
@@ -918,7 +998,7 @@ html {
     .cinema {
         height: 30px;
         width: 100px;
-        color: white;
+        color: var(--card-solid);
         padding-right: 5px;
         flex-shrink: 0;
     }
@@ -949,7 +1029,7 @@ html {
     .format-badge {
         font-size: 7px;
         padding: 1px 3px;
-        white-space: nowrap;
+        var(--card-solid)-space: nowrap;
     }
 
     .calendar-btn {
@@ -981,8 +1061,8 @@ html {
         right: 10px;
         width: 50px;
         height: 50px;
-        background-color: #444cf7;
-        border: #fff solid 4px;
+        background-color: var(--primary);
+        border: var(--card-solid) solid 4px;
     }
 
     .goTop p {
@@ -1004,7 +1084,7 @@ html {
         backdrop-filter: blur(20px);
         z-index: -1;
         border-radius: 5px;
-        box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 -4px 16px var(--shadow-lg);
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
     }
 
@@ -1043,7 +1123,7 @@ html {
     width: 22px;
     height: 22px;
     fill: none;
-    stroke: #999;
+    stroke: var(--text-light);
     stroke-width: 2;
     transition: all 0.2s ease;
 }
@@ -1080,7 +1160,7 @@ html {
     padding: 8px 15px;
     border-radius: 8px;
     background: transparent;
-    border: 2px solid #e0e0e0;
+    border: 2px solid var(--border-color);
     transition: all 0.3s ease;
 }
 
@@ -1100,7 +1180,7 @@ html {
     width: 18px;
     height: 18px;
     fill: none;
-    stroke: #999;
+    stroke: var(--text-light);
     stroke-width: 2;
     transition: all 0.2s ease;
     flex-shrink: 0;
@@ -1128,7 +1208,7 @@ html {
 .favorites-label {
     font-family: 'healTheWebA', sans-serif;
     font-size: 14px;
-    color: #666;
+    color: var(--text-muted);
     user-select: none;
 }
 
@@ -1176,13 +1256,13 @@ html {
     padding: 8px 20px;
     border-radius: 8px;
     background: transparent;
-    border: 2px solid #e0e0e0;
+    border: 2px solid var(--border-color);
     transition: all 0.2s ease;
     font-family: 'healTheWebA', sans-serif;
     font-size: 14px;
-    color: #666;
+    color: var(--text-muted);
     cursor: pointer;
-    white-space: nowrap;
+    var(--card-solid)-space: nowrap;
     min-width: 120px;
 }
 
@@ -1231,24 +1311,24 @@ html {
     padding: 8px 15px;
     border-radius: 8px;
     background: transparent;
-    border: 2px solid #e0e0e0;
+    border: 2px solid var(--border-color);
     transition: all 0.3s ease;
     font-family: 'healTheWebA', sans-serif;
     font-size: 14px;
-    color: #666;
+    color: var(--text-muted);
 }
 
 .sync-btn:hover {
-    border-color: #444cf7;
-    color: #444cf7;
+    border-color: var(--primary);
+    color: var(--primary);
 }
 
 .sync-btn:hover svg {
-    stroke: #444cf7;
+    stroke: var(--primary);
 }
 
 .sync-btn svg {
-    stroke: #999;
+    stroke: var(--text-light);
     transition: stroke 0.2s ease;
 }
 
@@ -1289,7 +1369,7 @@ html {
 }
 
 .sync-modal {
-    background: white;
+    background: var(--card-solid);
     border-radius: 16px;
     padding: 32px;
     max-width: 420px;
@@ -1327,7 +1407,7 @@ html {
     border: none;
     font-family: 'healTheWebA', sans-serif;
     font-size: 16px;
-    color: #999;
+    color: var(--text-light);
     cursor: pointer;
     padding: 8px 16px;
     border-radius: 8px;
@@ -1335,12 +1415,12 @@ html {
 }
 
 .sync-modal-tab:hover {
-    color: #444cf7;
+    color: var(--primary);
     background: #f0f0ff;
 }
 
 .sync-modal-tab.active {
-    color: #444cf7;
+    color: var(--primary);
     background: #f0f0ff;
     font-weight: bold;
 }
@@ -1367,7 +1447,7 @@ html {
     border: none;
     font-size: 20px;
     font-weight: bold;
-    color: #666;
+    color: var(--text-muted);
     cursor: pointer;
     width: 32px;
     height: 32px;
@@ -1381,7 +1461,7 @@ html {
 }
 
 .sync-modal-close:hover {
-    color: #333;
+    color: var(--text-main);
 }
 
 .sync-modal-section {
@@ -1391,7 +1471,7 @@ html {
 .sync-modal-label {
     font-family: 'healTheWebA', sans-serif;
     font-size: 13px;
-    color: #666;
+    color: var(--text-muted);
     margin: 0 0 8px;
 }
 
@@ -1409,13 +1489,13 @@ html {
     font-family: 'SF Mono', 'Fira Code', monospace;
     font-size: 28px;
     font-weight: bold;
-    color: #444cf7;
+    color: var(--primary);
     letter-spacing: 6px;
 }
 
 .sync-copy-btn {
-    background: white;
-    border: 1px solid #ddd;
+    background: var(--card-solid);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 8px;
     cursor: pointer;
@@ -1425,16 +1505,16 @@ html {
 }
 
 .sync-copy-btn:hover {
-    border-color: #444cf7;
+    border-color: var(--primary);
     background: #f0f0ff;
 }
 
 .sync-copy-btn svg {
-    stroke: #666;
+    stroke: var(--text-muted);
 }
 
 .sync-copy-btn:hover svg {
-    stroke: #444cf7;
+    stroke: var(--primary);
 }
 
 .sync-modal-divider {
@@ -1449,13 +1529,13 @@ html {
     content: '';
     flex: 1;
     height: 1px;
-    background: #e0e0e0;
+    background: var(--border-color);
 }
 
 .sync-modal-divider span {
     font-family: 'healTheWebA', sans-serif;
     font-size: 13px;
-    color: #999;
+    color: var(--text-light);
 }
 
 .sync-input-row {
@@ -1470,7 +1550,7 @@ html {
     letter-spacing: 4px;
     text-align: center;
     padding: 12px;
-    border: 2px solid #e0e0e0;
+    border: 2px solid var(--border-color);
     border-radius: 10px;
     outline: none;
     transition: border-color 0.2s;
@@ -1478,30 +1558,30 @@ html {
 }
 
 .sync-code-input:focus {
-    border-color: #444cf7;
+    border-color: var(--primary);
 }
 
 .sync-link-btn {
     padding: 12px 20px;
-    background: #444cf7;
-    color: white;
+    background: var(--primary);
+    color: var(--card-solid);
     border: none;
     border-radius: 10px;
     font-family: 'healTheWebA', sans-serif;
     font-size: 14px;
     cursor: pointer;
     transition: background 0.2s;
-    white-space: nowrap;
+    var(--card-solid)-space: nowrap;
 }
 
 .sync-link-btn:hover {
-    background: #3338c9;
+    background: var(--primary-hover);
 }
 
 .sync-modal-hint {
     font-family: 'healTheWebA', sans-serif;
     font-size: 12px;
-    color: #999;
+    color: var(--text-light);
     text-align: center;
     margin: 16px 0 0;
     line-height: 1.5;
@@ -1574,8 +1654,8 @@ html {
 }
 
 .me-device .friend-avatar {
-    background: #444cf7;
-    color: white;
+    background: var(--primary);
+    color: var(--card-solid);
 }
 
 /* ── Friends Feature ── */
@@ -1588,7 +1668,7 @@ html {
     flex: 1;
     min-width: 80px;
     padding: 8px 12px;
-    border: 1.5px solid #e0e0e0;
+    border: 1.5px solid var(--border-color);
     border-radius: 10px;
     font-size: 14px;
     outline: none;
@@ -1623,7 +1703,7 @@ html {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff;
+    color: var(--card-solid);
     font-weight: 700;
     font-size: 14px;
     flex-shrink: 0;
@@ -1673,11 +1753,11 @@ html {
 
 .friend-action-btn:hover {
     background: #f0f0f0;
-    color: #666;
+    color: var(--text-muted);
 }
 
 .friend-action-btn.hide-btn:hover {
-    color: #444cf7;
+    color: var(--primary);
 }
 
 .friend-action-btn.remove-btn:hover {
@@ -1717,7 +1797,7 @@ html {
     margin-left: 6px;
     vertical-align: middle;
     font-weight: 600;
-    white-space: nowrap;
+    var(--card-solid)-space: nowrap;
     cursor: default;
 }
 
@@ -1740,14 +1820,14 @@ html {
     border-radius: 12px;
     font-family: 'healTheWebA', sans-serif;
     font-size: 14px;
-    color: white;
-    background: #444cf7;
+    color: var(--card-solid);
+    background: var(--primary);
     box-shadow: 0 8px 32px rgba(68, 76, 247, 0.3);
     opacity: 0;
     transform: translateY(-20px);
     transition: all 0.3s ease;
     pointer-events: auto;
-    white-space: nowrap;
+    var(--card-solid)-space: nowrap;
 }
 
 .toast.show {
@@ -1775,7 +1855,7 @@ html {
 }
 
 .calendar-btn {
-    background: linear-gradient(135deg, #444cf7 0%, #6366f1 100%);
+    background: linear-gradient(135deg, var(--primary) 0%, #6366f1 100%);
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -1797,7 +1877,7 @@ html {
 .calendar-btn svg {
     width: 16px;
     height: 16px;
-    stroke: white;
+    stroke: var(--card-solid);
 }
 
 .calendar-btn.added {
@@ -1805,7 +1885,7 @@ html {
 }
 
 .calendar-btn.added svg {
-    stroke: white;
+    stroke: var(--card-solid);
 }
 
 @media (max-width: 576px) {
@@ -1827,9 +1907,9 @@ html {
 /* Calendar Dropdown Menu */
 .calendar-menu {
     position: absolute;
-    background: white;
+    background: var(--card-solid);
     border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 20px var(--shadow-md);
     padding: 6px;
     z-index: 1000;
     display: none;
@@ -1864,7 +1944,7 @@ html {
     cursor: pointer;
     font-family: 'healTheWebA', sans-serif;
     font-size: 13px;
-    color: #333;
+    color: var(--text-main);
     border-radius: 6px;
     transition: background 0.15s ease;
 }
@@ -1931,7 +2011,7 @@ html {
     right: 0;
     background: none;
     border: none;
-    color: white;
+    color: var(--card-solid);
     font-size: 30px;
     cursor: pointer;
     padding: 0;
