@@ -1423,7 +1423,7 @@ END:VCALENDAR`;
         async function loadFriendsFilms() {
             window.globalFriendsFilmsMap = {};
             if (friends.length === 0) return;
-            const query = friends.map(f => `user_id=eq.${f.followed_id}`).join(',');
+            const query = friends.map(f => `user_id.eq.${f.followed_id}`).join(',');
             try {
                 const r = await sbFetch(`favorites?or=(${query})&select=user_id,films`);
                 const rows = await r.json();
