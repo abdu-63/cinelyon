@@ -429,19 +429,21 @@ p {
 }
 
 footer {
-    background-color: white;
+    background-color: transparent;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    margin-top: 40px;
 }
 
 .container_footer {
     margin-right: 10%;
     margin-left: 10%;
-    padding: 20px 0;
+    padding: 30px 0 80px 0; /* Plus de padding en bas pour le bouton popcorn */
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 24px;
 }
 
 .footer-info p {
@@ -485,10 +487,17 @@ footer {
         text-align: center;
         margin-left: 5%;
         margin-right: 5%;
+        padding-bottom: 90px;
+    }
+    
+    .footer-info {
+        order: 2;
     }
     
     .footer-social {
+        order: 1;
         justify-content: center;
+        margin-bottom: 10px;
     }
 }
 
