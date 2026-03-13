@@ -416,27 +416,36 @@ class Theater:
                         language = "VF"  # Par défaut (multiple, etc.)
 
                     for showtime_data in value:
-                        # Extraire le format (IMAX, 4DX, 3D)
+                        # Extraire le format (IMAX, 4DX, 3D, etc.) depuis projection, experience OU tags
                         formats = []
 
-                        # Vérifier les projections
-                        projections = showtime_data.get("projection", [])
-                        if projections:
-                            if "IMAX" in projections:
-                                formats.append("IMAX")
-                            if "F_3D" in projections:
-                                formats.append("3D")
+                        projections = showtime_data.get("projection", []) or []
+                        experience = showtime_data.get("experience", []) or []
+                        tags = showtime_data.get("tags", []) or []
 
-                        # Vérifier les expériences
-                        experience = showtime_data.get("experience", [])
-                        if experience:
-                            if "E_4DX" in experience:
-                                formats.append("4DX")
-                            dolby_formats = ["E_DOLBY_CINEMA", "E_DOLBY_ATMOS", "DOLBY_CINEMA", "DOLBY_ATMOS"]
-                            if any(fmt in experience for fmt in dolby_formats):
-                                formats.append("Dolby")
-                            if "ICE" in experience or "E_ICE" in experience:
-                                formats.append("ICE")
+                        # Regrouper tout en majuscules pour une recherche facile
+                        all_format_hints = [str(x).upper() for x in (projections + experience + tags)]
+                        all_hints_str = " ".join(all_format_hints)
+
+                        # Check IMAX
+                        if "IMAX" in all_hints_str:
+                            formats.append("IMAX")
+
+                        # Check 3D
+                        if "3D" in all_hints_str:
+                            formats.append("3D")
+
+                        # Check 4DX
+                        if "4DX" in all_hints_str:
+                            formats.append("4DX")
+
+                        # Check Dolby
+                        if "DOLBY" in all_hints_str:
+                            formats.append("Dolby")
+
+                        # Check ICE
+                        if "ICE" in all_hints_str:
+                            formats.append("ICE")
 
                         format_str = ", ".join(formats) if formats else None
                         showtimes.append(Showtime(showtime_data, self, inst, language, format_str))
