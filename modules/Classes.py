@@ -444,7 +444,7 @@ class Theater:
                             formats.append("Dolby")
 
                         # Check ICE
-                        if "ICE" in all_hints_str:
+                        if re.search(r'\bICE\b', all_hints_str):
                             formats.append("ICE")
 
                         format_str = ", ".join(formats) if formats else None
