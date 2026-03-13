@@ -81,51 +81,8 @@ p {
     margin-right: 10%;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: baseline;
     justify-content: space-between;
-}
-
-.header-left h1 {
-    margin-bottom: 0;
-}
-
-.header-left p {
-    margin-top: 5px;
-}
-
-/* Theme Toggle */
-.theme-toggle {
-    background: transparent;
-    border: none;
-    color: var(--text-main);
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.3s, color 0.3s;
-}
-
-.theme-toggle:hover {
-    background: var(--card-bg);
-}
-
-.theme-toggle svg {
-    width: 24px;
-    height: 24px;
-}
-
-.theme-toggle .moon-icon {
-    display: none;
-}
-
-[data-theme="dark"] .theme-toggle .sun-icon {
-    display: none;
-}
-
-[data-theme="dark"] .theme-toggle .moon-icon {
-    display: block;
 }
 
 
