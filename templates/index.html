@@ -302,10 +302,10 @@
         <div class="sync-modal-section">
             <p class="sync-modal-label">Ajouter un ami via son code sync :</p>
             <div class="sync-input-row friends-add-row">
-                <input type="text" id="friend-code-input" class="sync-code-input" maxlength="6"
-                    placeholder="ABC123" autocomplete="off" spellcheck="false">
-                <input type="text" id="friend-name-input" class="friend-name-input" maxlength="20"
-                    placeholder="Prénom" autocomplete="off">
+                <input type="text" id="friend-code-input" class="sync-code-input" maxlength="6" placeholder="ABC123"
+                    autocomplete="off" spellcheck="false">
+                <input type="text" id="friend-name-input" class="friend-name-input" maxlength="20" placeholder="Prénom"
+                    autocomplete="off">
                 <button id="friend-add-btn" class="sync-link-btn">Ajouter</button>
             </div>
         </div>
@@ -423,7 +423,7 @@
         const filterFormat = document.getElementById('filter-format');
         const filterFavorites = document.getElementById('filter-favorites');
         const resetBtn = document.getElementById('reset-filters');
-        
+
         const favTabsContainer = document.getElementById('favorites-tabs-container');
         const favTabs = document.querySelectorAll('.fav-tab');
         let currentFavTab = 'perso';
@@ -547,7 +547,7 @@
                 }
                 const matchDay = !dayQuery || days.includes(dayQuery);
                 const matchFormat = !formatQuery || formats.includes(formatQuery);
-                
+
                 let matchFavorites = true;
                 if (showOnlyFavorites) {
                     if (currentFavTab === 'perso') {
@@ -1374,7 +1374,7 @@ END:VCALENDAR`;
 
     // ── Global map to be accessed by JS filters ────────────────────────
     window.globalFriendsFilmsMap = {};
-    window.hasFriendFavorited = function(filmId) {
+    window.hasFriendFavorited = function (filmId) {
         return window.globalFriendsFilmsMap[filmId] && window.globalFriendsFilmsMap[filmId].length > 0;
     };
 
@@ -1384,7 +1384,7 @@ END:VCALENDAR`;
 
         const syncModalOverlay = document.getElementById('sync-modal'); // used for opening/closing
         const syncFavoritesBtn = document.getElementById('sync-favorites'); // this btn opens sync modal
-        
+
         const friendCodeInput = document.getElementById('friend-code-input');
         const friendNameInput = document.getElementById('friend-name-input');
         const friendAddBtn = document.getElementById('friend-add-btn');
@@ -1393,15 +1393,17 @@ END:VCALENDAR`;
         const myId = getSyncId();
         let friends = [];
 
+        // APRÈS (corrigé)
         async function sbFetch(path, opts = {}) {
+            const { headers: extraHeaders, ...restOpts } = opts;  // ← sépare headers du reste
             const r = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
                 headers: {
                     'apikey': SUPABASE_KEY,
                     'Authorization': `Bearer ${SUPABASE_KEY}`,
                     'Content-Type': 'application/json',
-                    ...opts.headers
+                    ...extraHeaders   // merge proprement
                 },
-                ...opts
+                ...restOpts   // spread SANS la clé headers
             });
             if (!r.ok) {
                 const errText = await r.text();
@@ -1520,7 +1522,7 @@ END:VCALENDAR`;
                 renderFriendsList();
                 renderFriendBadges();
                 showToast('Ami supprimé');
-                
+
                 const currentFavTab = document.querySelector('.fav-tab.active')?.dataset.tab;
                 if (document.getElementById('filter-favorites').checked && currentFavTab === 'amis') {
                     const ev = new Event('input');
@@ -1541,7 +1543,7 @@ END:VCALENDAR`;
         });
 
         syncFavoritesBtn.addEventListener('click', () => {
-             // We inject into the existing sync button listener logic so it refreshes the list
+            // We inject into the existing sync button listener logic so it refreshes the list
             renderFriendsList();
         });
 
