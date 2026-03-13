@@ -1498,7 +1498,6 @@ END:VCALENDAR`;
                 showToast(`${name || code} ajouté ! 🎉`);
                 friendCodeInput.value = '';
                 friendNameInput.value = '';
-                
                 // Trigger global filter if tab is active
                 const currentFavTab = document.querySelector('.fav-tab.active')?.dataset.tab;
                 if (document.getElementById('filter-favorites').checked && currentFavTab === 'amis') {
@@ -1506,7 +1505,11 @@ END:VCALENDAR`;
                     const ev = new Event('input');
                     document.getElementById('search-title').dispatchEvent(ev);
                 }
-            } catch (e) { showToast('Erreur lors de l\'ajout', 'warning'); }
+            } catch (e) {
+                console.error(e);
+                showToast(`Erreur d'ajout: ${e.message}`, 'warning');
+                alert(`Erreur Supabase: ${e.message}\nVerifie que les Policies RLS autorisent INSERT/SELECT pour cette table.`);
+            }
         }
 
         async function removeFriend(followedId) {
