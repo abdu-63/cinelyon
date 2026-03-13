@@ -170,34 +170,15 @@ def clean_old_dates():
 
 
 def get_dates_to_scrape(existing_data: dict) -> list[str]:
-    """Détermine les dates à scraper (manquantes ou à mettre à jour).
-    Les dates proches (< DAYS_ALWAYS_RESCRAPE) sont toujours rescrapées car les
-    cinémas mettent régulièrement à jour leurs programmes à court terme.
-    Les dates lointaines sont sautées si déjà présentes."""
+    """Retourne toutes les dates à scraper sur la fenêtre complète.
+    Toutes les dates sont toujours rescrapées pour garantir que les nouvelles
+    séances ajoutées par les cinémas sont bien récupérées."""
     today = datetime.now(PARIS_TZ).date()
-    # Nombre de jours toujours rescrapés quoi qu'il arrive
-    DAYS_ALWAYS_RESCRAPE = 4
-
-    target_dates = set()
+    dates = []
     for i in range(DAYS_TO_SCRAPE_EXTENDED):
         date = today + timedelta(days=i)
-        target_dates.add(date.strftime("%Y-%m-%d"))
-
-    existing_dates = set()
-    for day in existing_data.get("days", []):
-        date_str = day.get("date", "")
-        if date_str in target_dates:
-            existing_dates.add(date_str)
-
-    dates_to_scrape = set()
-    for date_str in target_dates:
-        date = datetime.strptime(date_str, "%Y-%m-%d").date()
-        days_ahead = (date - today).days
-        # Toujours rescraper les dates proches, sinon seulement si manquantes
-        if days_ahead < DAYS_ALWAYS_RESCRAPE or date_str not in existing_dates:
-            dates_to_scrape.add(date_str)
-
-    return sorted(list(dates_to_scrape))
+        dates.append(date.strftime("%Y-%m-%d"))
+    return dates
 
 
 def check_missing_data(existing_data: dict) -> tuple[set[str], set[str]]:
