@@ -1119,6 +1119,9 @@ html {
     
     .favorites-tabs {
         gap: 6px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 4px; /* for scrollbar if any */
     }
 
     .fav-tab {
