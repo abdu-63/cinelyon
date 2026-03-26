@@ -1671,6 +1671,13 @@ html {
     min-width: 0;
 }
 
+.friend-name-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+}
+
 .friend-name {
     font-weight: 600;
     font-size: 14px;
@@ -1678,6 +1685,42 @@ html {
     display: flex;
     align-items: center;
     gap: 6px;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.device-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.friend-edit-btn,
+.device-unlink-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #ccc;
+    padding: 4px 5px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+}
+
+.friend-edit-btn:hover {
+    background: #f0f0f0;
+    color: var(--primary);
+}
+
+.device-unlink-btn:hover {
+    background: #fff0f0;
+    color: #e53935;
 }
 
 .friend-item.is-hidden {
