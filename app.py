@@ -270,10 +270,14 @@ def home():
             if day_label not in all_films[title]["seances_by_day"]:
                 all_films[title]["seances_by_day"][day_label] = {}
 
-            for cinema, seances in film["seances"].items():
+            for cinema, seances in sorted(film["seances"].items()):
                 if cinema not in all_films[title]["seances_by_day"][day_label]:
                     all_films[title]["seances_by_day"][day_label][cinema] = []
                 all_films[title]["seances_by_day"][day_label][cinema].extend(seances)
+            # Réordonner le dict du jour par ordre alphabétique des cinémas
+            all_films[title]["seances_by_day"][day_label] = dict(
+                sorted(all_films[title]["seances_by_day"][day_label].items())
+            )
 
     films_list = sorted(all_films.values(), key=lambda x: x["wantToSee"], reverse=True)
 
