@@ -56,11 +56,11 @@ Fork de [grainParisArt-Public](https://github.com/solene-drnx/grainParisArt-Publ
 ## Fonctionnalités
 
 - **Calendrier interactif** : Visualisez les horaires jusqu'à 25 jours à l'avance
-- **Informations détaillées** : Métadonnées ultra-fiables (affiches, synopsis, années) basées sur Allociné, avec notes et trailers TMDB
+- **Informations détaillées** : Synopsis, titres originaux et données ultra-fiables basés sur Allociné. Affiches de haute qualité et bandes-annonces récupérées via TMDB (avec fallback sur Allociné).
 - **Synchronisation multi-appareils** : Retrouvez vos favoris sur tous vos écrans via Supabase
 - **Barre de recherche** : Filtrez par titre, genre, réalisateur, cinéma ou note
 - **Système de favoris** : Sauvegardez vos films préférés
-- **Bandes-annonces & Liens** : Visionnez le trailer directement ou accédez à la fiche Allociné du film
+- **Bandes-annonces & Liens** : Visionnez le trailer YouTube directement ou accédez à la fiche Allociné / Letterboxd du film
 - **Badges Événements** : Distinction visuelle par code couleur des *Avant-premières* (rose) et événements *Live* (orange)
 - **Badges Accessibilité** : Repérez facilement les séances accessibles aux Personnes à Mobilité Réduite (PMR)
 - **Badges Formats & Langues** : Filtre et indication des séances spéciales (IMAX, 4DX, Dolby, ICE, 3D) et VO/VF
