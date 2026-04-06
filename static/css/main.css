@@ -365,6 +365,36 @@ p {
     text-transform: uppercase;
 }
 
+.event-badge {
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: var(--card-solid);
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.event-badge.avant-premiere {
+    background: linear-gradient(135deg, #e91e8c, #ff5252);
+}
+
+.event-badge.live {
+    background: linear-gradient(135deg, #ff6d00, #ffd600);
+    color: #222;
+}
+
+.pmr-badge {
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px 5px;
+    border-radius: 3px;
+    background-color: #2e7d32;
+    color: var(--card-solid);
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
 .horaire-link {
     text-decoration: none;
     color: inherit;
@@ -986,7 +1016,7 @@ html {
     .format-badge {
         font-size: 7px;
         padding: 1px 3px;
-        var(--card-solid)-space: nowrap;
+        white-space: nowrap;
     }
 
     .calendar-btn {
@@ -1219,7 +1249,7 @@ html {
     font-size: 14px;
     color: var(--text-muted);
     cursor: pointer;
-    var(--card-solid)-space: nowrap;
+    white-space: nowrap;
     min-width: 120px;
 }
 
@@ -1528,7 +1558,7 @@ html {
     font-size: 14px;
     cursor: pointer;
     transition: background 0.2s;
-    var(--card-solid)-space: nowrap;
+    white-space: nowrap;
 }
 
 .sync-link-btn:hover {
@@ -1797,7 +1827,7 @@ html {
     margin-left: 6px;
     vertical-align: middle;
     font-weight: 600;
-    var(--card-solid)-space: nowrap;
+    white-space: nowrap;
     cursor: default;
 }
 
@@ -1831,7 +1861,7 @@ body.show-friend-badges .friend-badge {
     transform: translateY(-20px);
     transition: all 0.3s ease;
     pointer-events: auto;
-    var(--card-solid)-space: nowrap;
+    white-space: nowrap;
 }
 
 .toast.show {

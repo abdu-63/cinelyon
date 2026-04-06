@@ -306,7 +306,7 @@ class Movie:
 
 
 class Showtime:
-    def __init__(self, data, theather, movie: Movie, language: str = "VF", format: str = None) -> None:
+    def __init__(self, data, theather, movie: Movie, language: str = "VF", format: str = None, event: str = None, is_pmr: bool = False) -> None:
         self.startsAt = datetime.fromisoformat(data["startsAt"])
         self.diffusionVersion = data["diffusionVersion"]
         self.services = data["service"]
@@ -314,6 +314,8 @@ class Showtime:
         self.movie = movie
         self.language = language  # VO ou VF
         self.format = format  # IMAX, 4DX, 3D, Dolby, ICE, etc.
+        self.event = event  # Avant-première, Live, etc.
+        self.is_pmr = is_pmr  # Personnes à Mobilité Réduite
         # URL de réservation (dans data.ticketing)
         self.ticketing_url = self._extract_ticketing_url(data)
 
@@ -437,7 +439,19 @@ class Theater:
                             formats.append("ICE")
 
                         format_str = ", ".join(formats) if formats else None
-                        showtimes.append(Showtime(showtime_data, self, inst, language, format_str))
+
+                        # Détecter les événements spéciaux
+                        event_str = None
+                        is_preview = showtime_data.get("isPreview", False)
+                        if is_preview or "SHOWTIME.EVENT.PREMIER" in all_hints_str:
+                            event_str = "Avant-première"
+                        elif "SHOWTIME.EVENT.LIVE" in all_hints_str:
+                            event_str = "Live"
+
+                        # Détecter l'accessibilité PMR
+                        is_pmr = "DISABLEDACCESS" in all_hints_str or "DISABLED_ACCESS" in all_hints_str
+
+                        showtimes.append(Showtime(showtime_data, self, inst, language, format_str, event_str, is_pmr))
 
         # Log pagination info
         current_page = data["pagination"]["page"]

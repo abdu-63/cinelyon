@@ -110,6 +110,8 @@ def get_showtimes(theaters: list[Theater], date: datetime) -> list[dict]:
                 "time": showtime.startsAt.strftime("%H:%M"),
                 "lang": showtime.language,
                 "format": showtime.format,
+                "event": showtime.event,
+                "is_pmr": showtime.is_pmr,
                 "ticketing_url": showtime.ticketing_url,
             }
         )
