@@ -138,12 +138,6 @@ class Movie:
         else:
             self.rating = "Note inconnue"
 
-        # Affiche Allociné (toujours correcte)
-        try:
-            self.affiche = data["poster"]["url"]
-        except (KeyError, TypeError):
-            self.affiche = "/static/images/nocontent.png"
-
         # URL fiche Allociné
         self.allocine_url = f"https://www.allocine.fr/film/fichefilm_gen_cfilm={self.id}.html"
 
@@ -151,10 +145,18 @@ class Movie:
         self.genres = [genre["translate"] for genre in data.get("genres", [])]
         self.wantToSee = (data.get("stats") or {}).get("wantToSeeCount", 0)
 
-        # --- TMDB (uniquement trailer YouTube + titre anglais pour Letterboxd) ---
+        # --- TMDB (Trailer YouTube, Titre anglais, et Affiche TMDB par défaut) ---
         tmdb_data = self._get_tmdb_extras()
         self.trailer_url = tmdb_data.get("trailer_url")
         self.english_title = tmdb_data.get("english_title", self.original_title)
+        
+        # Affiche TMDB trouvée en premier, sinon fallback sur Allociné, sinon image par défaut
+        try:
+            allocine_poster = data["poster"]["url"]
+        except (KeyError, TypeError):
+            allocine_poster = "/static/images/nocontent.png"
+            
+        self.affiche = tmdb_data.get("tmdb_poster") or allocine_poster
 
         # URL Letterboxd
         self.letterboxd_url = self._generate_letterboxd_url()
@@ -210,9 +212,12 @@ class Movie:
         cache_key = f"{self.title}|{self.release_year}"
 
         if cache_key in _tmdb_cache:
-            return _tmdb_cache[cache_key]
+            cached_data = _tmdb_cache[cache_key]
+            # Si l'ancienne entrée de cache n'a pas l'affiche TMDB, on force un refetch
+            if "tmdb_poster" in cached_data:
+                return cached_data
 
-        default = {"trailer_url": None, "english_title": self.original_title}
+        default = {"trailer_url": None, "english_title": self.original_title, "tmdb_poster": None}
 
         if not TMDB_API_KEY:
             return default
@@ -260,6 +265,8 @@ class Movie:
 
             if movie:
                 movie_id = movie["id"]
+                poster_path = movie.get("poster_path")
+                tmdb_poster = f"https://image.tmdb.org/t/p/w500{poster_path}" if poster_path else None
 
                 # Bande-annonce YouTube
                 trailer_url = None
@@ -292,7 +299,7 @@ class Movie:
                 except Exception:
                     pass
 
-                result = {"trailer_url": trailer_url, "english_title": english_title}
+                result = {"trailer_url": trailer_url, "english_title": english_title, "tmdb_poster": tmdb_poster}
                 _tmdb_cache[cache_key] = result
                 save_tmdb_cache_entry(cache_key, result)
                 return result
