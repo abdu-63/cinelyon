@@ -32,7 +32,7 @@
 
 Fork de [grainParisArt-Public](https://github.com/solene-drnx/grainParisArt-Public) réalisé par [Solène](https://github.com/solene-drnx)
 
-## Liste des cinémas (17)
+## Liste des cinémas (18)
 
 - Pathé Carré de Soie *(25 jours)*
 - Pathé Bellecour *(25 jours)*
@@ -51,18 +51,19 @@ Fork de [grainParisArt-Public](https://github.com/solene-drnx/grainParisArt-Publ
 - CGR Brignais *(10 jours)*
 - Cinéma Comoedia *(10 jours)*
 - Cinéma Gerard-Philipe *(10 jours)*
+- Ciné Saint-Denis *(10 jours)*
 
 ## Fonctionnalités
 
 - **Calendrier interactif** : Visualisez les horaires jusqu'à 25 jours à l'avance
-- **Informations détaillées** : Synopsis, réalisateur, genres, durée, notes TMDB
+- **Informations détaillées** : Métadonnées ultra-fiables (affiches, synopsis, années) basées sur Allociné, avec notes et trailers TMDB
 - **Synchronisation multi-appareils** : Retrouvez vos favoris sur tous vos écrans via Supabase
 - **Barre de recherche** : Filtrez par titre, genre, réalisateur, cinéma ou note
 - **Système de favoris** : Sauvegardez vos films préférés
-- **Bandes-annonces** : Visionnez la bande-annonce directement dans le synopsis
-- **Filtre par format** : Filtrez les séances par expérience (IMAX, 4DX, Dolby, ICE, 3D)
-- **Badges VO/VF** : Langue de chaque séance clairement affichée
-- **Formats spéciaux** : Badges IMAX, 4DX, 3D pour les séances premium
+- **Bandes-annonces & Liens** : Visionnez le trailer directement ou accédez à la fiche Allociné du film
+- **Badges Événements** : Distinction visuelle par code couleur des *Avant-premières* (rose) et événements *Live* (orange)
+- **Badges Accessibilité** : Repérez facilement les séances accessibles aux Personnes à Mobilité Réduite (PMR)
+- **Badges Formats & Langues** : Filtre et indication des séances spéciales (IMAX, 4DX, Dolby, ICE, 3D) et VO/VF
 - **Scraping automatique** : Données mises à jour quotidiennement via GitHub Actions
 - **PWA** : Installable sur mobile avec Service Worker
 - **Design responsive** : Interface moderne adaptée à tous les écrans
