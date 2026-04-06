@@ -114,32 +114,50 @@ class Movie:
         self.title = data["title"]
         self.id = data["internalId"]
         self.runtime = data["runtime"]
-        # Récupérer l'année originale d'Allocine si disponible
-        self.allocine_year = data.get("releaseDate", {}).get("date", "").split("-")[0]
 
-        # Extraire le(s) réalisateur(s) AVANT l'appel TMDB (nécessaire pour le matching)
+        # --- Données Allociné (source primaire, toujours fiables) ---
+
+        # Année de production (fiable, via data.productionYear)
+        movie_data = data.get("data") or {}
+        self.release_year = str(movie_data.get("productionYear", "")) or "inconnue"
+
+        # Réalisateur(s)
         self.director = self._extract_directors(data)
 
-        # Récupérer les données TMDB
-        tmdb_data = self._get_data_from_tmdb()
-        self.release_year = tmdb_data["year"]
-        self.rating = tmdb_data["rating"]
-        self.synopsis = tmdb_data["synopsis"]
-        self.original_title = tmdb_data["original_title"]
-        self.english_title = tmdb_data.get("english_title", self.original_title)
-        self.trailer_url = tmdb_data.get("trailer_url")
-        self.letterboxd_url = self._generate_letterboxd_url()
-        self.genres = [genre["translate"] for genre in data["genres"]]
-        self.wantToSee = data["stats"]["wantToSeeCount"]
-        # Affiche : priorité TMDB, fallback Allocine, puis placeholder
-        tmdb_poster = tmdb_data.get("poster_url")
-        if tmdb_poster:
-            self.affiche = tmdb_poster
+        # Synopsis Allociné (déjà en français)
+        self.synopsis = data.get("synopsis") or "Synopsis non disponible"
+
+        # Titre original Allociné
+        self.original_title = data.get("originalTitle") or self.title
+
+        # Note utilisateur Allociné (sur 5)
+        allocine_rating = (data.get("stats") or {}).get("userRating") or {}
+        if allocine_rating.get("score"):
+            score = round(allocine_rating["score"], 1)
+            self.rating = f"{score}/5"
         else:
-            try:
-                self.affiche = data["poster"]["url"]
-            except (KeyError, TypeError):
-                self.affiche = "/static/images/nocontent.png"
+            self.rating = "Note inconnue"
+
+        # Affiche Allociné (toujours correcte)
+        try:
+            self.affiche = data["poster"]["url"]
+        except (KeyError, TypeError):
+            self.affiche = "/static/images/nocontent.png"
+
+        # URL fiche Allociné
+        self.allocine_url = f"https://www.allocine.fr/film/fichefilm_gen_cfilm={self.id}.html"
+
+        # Genres & popularité
+        self.genres = [genre["translate"] for genre in data.get("genres", [])]
+        self.wantToSee = (data.get("stats") or {}).get("wantToSeeCount", 0)
+
+        # --- TMDB (uniquement trailer YouTube + titre anglais pour Letterboxd) ---
+        tmdb_data = self._get_tmdb_extras()
+        self.trailer_url = tmdb_data.get("trailer_url")
+        self.english_title = tmdb_data.get("english_title", self.original_title)
+
+        # URL Letterboxd
+        self.letterboxd_url = self._generate_letterboxd_url()
 
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__} name={self.title}>"
@@ -185,26 +203,19 @@ class Movie:
         search_query = self.english_title
         return f"https://letterboxd.com/search/{quote(search_query)}/"
 
-    def _get_data_from_tmdb(self):
-        """Récupère l'année de sortie, la note et le synopsis du film depuis TMDB (avec cache et retry)."""
+    def _get_tmdb_extras(self):
+        """Récupère le trailer YouTube et le titre anglais depuis TMDB (avec cache)."""
         global _tmdb_cache
 
-        # Clé de cache basée sur le titre et l'année Allocine
-        cache_key = f"{self.title}|{self.allocine_year or ''}"
+        cache_key = f"{self.title}|{self.release_year}"
 
-        # Vérifier si les données sont en cache
         if cache_key in _tmdb_cache:
             return _tmdb_cache[cache_key]
 
-        default_data = {
-            "year": "inconnue",
-            "rating": "Note inconnue",
-            "synopsis": "Synopsis non disponible",
-            "original_title": self.title,
-            "english_title": self.title,
-            "trailer_url": None,
-            "poster_url": None,
-        }
+        default = {"trailer_url": None, "english_title": self.original_title}
+
+        if not TMDB_API_KEY:
+            return default
 
         try:
             search_url = "https://api.themoviedb.org/3/search/movie"
@@ -214,14 +225,15 @@ class Movie:
                 "language": "fr-FR",
             }
 
-            if self.allocine_year:
-                params["year"] = self.allocine_year
+            # Utiliser l'année de production Allociné pour un matching précis
+            if self.release_year and self.release_year != "inconnue":
+                params["year"] = self.release_year
 
             search_data = tmdb_request(search_url, params)
             results = search_data.get("results", [])
 
-            # Si aucun résultat avec l'année, retenter sans le filtre (ressorties)
-            if not results and self.allocine_year:
+            # Si aucun résultat avec l'année, retenter sans (ressorties)
+            if not results and self.release_year and self.release_year != "inconnue":
                 params_no_year = {k: v for k, v in params.items() if k != "year"}
                 search_data = tmdb_request(search_url, params_no_year)
                 results = search_data.get("results", [])
@@ -229,32 +241,27 @@ class Movie:
             movie = None
 
             if results:
-                # Essayer de matcher par réalisateur si disponible
+                # Matcher par réalisateur si disponible
                 if self.director and self.director != "Inconnu":
                     director_names = [d.strip().lower() for d in self.director.split(",")]
-                    for result in results[:10]:  # Limiter à 10 pour éviter trop d'appels
+                    for result in results[:5]:
                         movie_id = result.get("id")
                         credits_url = f"https://api.themoviedb.org/3/movie/{movie_id}/credits"
-                        credits_params = {"api_key": TMDB_API_KEY}
-                        credits_data = tmdb_request(credits_url, credits_params)
+                        credits_data = tmdb_request(credits_url, {"api_key": TMDB_API_KEY})
                         crew = credits_data.get("crew", [])
                         tmdb_directors = [c.get("name", "").lower() for c in crew if c.get("job") == "Director"]
                         if any(dn in td or td in dn for dn in director_names for td in tmdb_directors):
                             movie = result
                             break
 
-                # Fallback : préférer le film le plus populaire
+                # Fallback : film le plus populaire
                 if not movie:
-                    sorted_results = sorted(results, key=lambda x: x.get("popularity", 0), reverse=True)
-                    movie = sorted_results[0]
+                    movie = sorted(results, key=lambda x: x.get("popularity", 0), reverse=True)[0]
 
             if movie:
                 movie_id = movie["id"]
-                details_url = f"https://api.themoviedb.org/3/movie/{movie_id}"
-                details_params = {"api_key": TMDB_API_KEY, "language": "fr-FR"}
-                details_data = tmdb_request(details_url, details_params)
 
-                # Récupérer la bande-annonce YouTube
+                # Bande-annonce YouTube
                 trailer_url = None
                 try:
                     videos_url = f"https://api.themoviedb.org/3/movie/{movie_id}/videos"
@@ -275,47 +282,27 @@ class Movie:
                 except Exception:
                     pass
 
-                # Récupérer le titre anglais via un appel en-US
-                english_title = movie.get("original_title", self.title)
+                # Titre anglais pour Letterboxd
+                english_title = self.original_title
                 try:
-                    en_details_url = f"https://api.themoviedb.org/3/movie/{movie_id}"
-                    en_details_params = {"api_key": TMDB_API_KEY, "language": "en-US"}
-                    en_details_data = tmdb_request(en_details_url, en_details_params)
-                    if en_details_data.get("title"):
-                        english_title = en_details_data["title"]
+                    en_url = f"https://api.themoviedb.org/3/movie/{movie_id}"
+                    en_data = tmdb_request(en_url, {"api_key": TMDB_API_KEY, "language": "en-US"})
+                    if en_data.get("title"):
+                        english_title = en_data["title"]
                 except Exception:
                     pass
 
-                # Construire l'URL de l'affiche TMDB
-                poster_path = movie.get("poster_path")
-                poster_url = f"https://image.tmdb.org/t/p/w500{poster_path}" if poster_path else None
-
-                result = {
-                    "year": movie.get("release_date", "").split("-")[0] or "inconnue",
-                    "rating": str(round(movie.get("vote_average", 0), 1))
-                    if movie.get("vote_average")
-                    else "Note inconnue",
-                    "synopsis": details_data.get("overview", "Synopsis non disponible"),
-                    "original_title": movie.get("original_title", self.title),
-                    "english_title": english_title,
-                    "trailer_url": trailer_url,
-                    "poster_url": poster_url,
-                }
-
-                # Sauvegarder dans le cache
+                result = {"trailer_url": trailer_url, "english_title": english_title}
                 _tmdb_cache[cache_key] = result
                 save_tmdb_cache_entry(cache_key, result)
-
                 return result
 
         except Exception as e:
             print(f"❌ Erreur TMDB pour '{self.title}': {e}")
 
-        # Sauvegarder même les résultats par défaut pour éviter de refaire l'appel
-        _tmdb_cache[cache_key] = default_data
-        save_tmdb_cache_entry(cache_key, default_data)
-
-        return default_data
+        _tmdb_cache[cache_key] = default
+        save_tmdb_cache_entry(cache_key, default)
+        return default
 
 
 class Showtime:
