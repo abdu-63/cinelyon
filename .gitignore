@@ -29,6 +29,3 @@ Thumbs.db
 # Données
 movies.json
 tmdb_cache.json
-scripts/instagram/output/
-node_modules/
-.env.local
