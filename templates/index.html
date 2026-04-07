@@ -159,20 +159,12 @@
                     </div>
                     <div class="horaires_container">
                         {% for seance in seances %}
-                        <div class="horaire-wrapper" data-format="{{ seance.format|default('')|lower }}" data-event="{{ seance.event|default('')|lower }}">
+                        <div class="horaire-wrapper" data-format="{{ seance.format|default('')|lower }}">
                             {% if seance.ticketing_url %}
                             <a href="{{ seance.ticketing_url }}" target="_blank" rel="noopener" class="horaire-link">
                                 <div
-                                    class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}{% if seance.event %} horaire-event{% endif %}">
+                                    class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}">
                                     <span class="lang-badge">{{ seance.lang }}</span>
-                                    {% if seance.event %}
-                                    <span class="event-badge {% if seance.event == 'Avant-première' %}avant-premiere{% elif seance.event == 'Live' %}live{% endif %}">
-                                        {% if seance.event == 'Avant-première' %}🎬 AP{% elif seance.event == 'Live' %}📡 Live{% else %}{{ seance.event }}{% endif %}
-                                    </span>
-                                    {% endif %}
-                                    {% if seance.is_pmr %}
-                                    <span class="pmr-badge" title="Accessible PMR">PMR</span>
-                                    {% endif %}
                                     {% if seance.format %}
                                     <span class="format-badge">{{ seance.format }}</span>
                                     {% endif %}
@@ -181,16 +173,8 @@
                             </a>
                             {% else %}
                             <div
-                                class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}{% if seance.event %} horaire-event{% endif %}">
+                                class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}">
                                 <span class="lang-badge">{{ seance.lang }}</span>
-                                {% if seance.event %}
-                                <span class="event-badge {% if seance.event == 'Avant-première' %}avant-premiere{% elif seance.event == 'Live' %}live{% endif %}">
-                                    {% if seance.event == 'Avant-première' %}🎬 AP{% elif seance.event == 'Live' %}📡 Live{% else %}{{ seance.event }}{% endif %}
-                                </span>
-                                {% endif %}
-                                {% if seance.is_pmr %}
-                                <span class="pmr-badge" title="Accessible PMR">PMR</span>
-                                {% endif %}
                                 {% if seance.format %}
                                 <span class="format-badge">{{ seance.format }}</span>
                                 {% endif %}
@@ -229,20 +213,12 @@
                 </div>
                 <div class="horaires_container">
                     {% for seance in seances %}
-                    <div class="horaire-wrapper" data-format="{{ seance.format|default('')|lower }}" data-event="{{ seance.event|default('')|lower }}">
+                    <div class="horaire-wrapper" data-format="{{ seance.format|default('')|lower }}">
                         {% if seance.ticketing_url %}
                         <a href="{{ seance.ticketing_url }}" target="_blank" rel="noopener" class="horaire-link">
                             <div
-                                class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}{% if seance.event %} horaire-event{% endif %}">
+                                class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}">
                                 <span class="lang-badge">{{ seance.lang }}</span>
-                                {% if seance.event %}
-                                <span class="event-badge {% if seance.event == 'Avant-première' %}avant-premiere{% elif seance.event == 'Live' %}live{% endif %}">
-                                    {% if seance.event == 'Avant-première' %}🎬 AP{% elif seance.event == 'Live' %}📡 Live{% else %}{{ seance.event }}{% endif %}
-                                </span>
-                                {% endif %}
-                                {% if seance.is_pmr %}
-                                <span class="pmr-badge" title="Accessible PMR">PMR</span>
-                                {% endif %}
                                 {% if seance.format %}
                                 <span class="format-badge">{{ seance.format }}</span>
                                 {% endif %}
@@ -251,16 +227,8 @@
                         </a>
                         {% else %}
                         <div
-                            class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}{% if seance.event %} horaire-event{% endif %}">
+                            class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}">
                             <span class="lang-badge">{{ seance.lang }}</span>
-                            {% if seance.event %}
-                            <span class="event-badge {% if seance.event == 'Avant-première' %}avant-premiere{% elif seance.event == 'Live' %}live{% endif %}">
-                                {% if seance.event == 'Avant-première' %}🎬 AP{% elif seance.event == 'Live' %}📡 Live{% else %}{{ seance.event }}{% endif %}
-                            </span>
-                            {% endif %}
-                            {% if seance.is_pmr %}
-                            <span class="pmr-badge" title="Accessible PMR">PMR</span>
-                            {% endif %}
                             {% if seance.format %}
                             <span class="format-badge">{{ seance.format }}</span>
                             {% endif %}

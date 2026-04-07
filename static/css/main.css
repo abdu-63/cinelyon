@@ -365,35 +365,7 @@ p {
     text-transform: uppercase;
 }
 
-.event-badge {
-    font-size: 10px;
-    font-weight: bold;
-    padding: 2px 6px;
-    border-radius: 3px;
-    color: var(--card-solid);
-    text-transform: uppercase;
-    white-space: nowrap;
-}
 
-.event-badge.avant-premiere {
-    background: linear-gradient(135deg, #e91e8c, #ff5252);
-}
-
-.event-badge.live {
-    background: linear-gradient(135deg, #ff6d00, #ffd600);
-    color: #222;
-}
-
-.pmr-badge {
-    font-size: 10px;
-    font-weight: bold;
-    padding: 2px 5px;
-    border-radius: 3px;
-    background-color: #2e7d32;
-    color: var(--card-solid);
-    text-transform: uppercase;
-    white-space: nowrap;
-}
 
 .horaire-link {
     text-decoration: none;

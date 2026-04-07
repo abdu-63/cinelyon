@@ -313,16 +313,14 @@ class Movie:
 
 
 class Showtime:
-    def __init__(self, data, theather, movie: Movie, language: str = "VF", format: str = None, event: str = None, is_pmr: bool = False) -> None:
+    def __init__(self, data, theather, movie: Movie, language: str = "VF", format: str = None) -> None:
         self.startsAt = datetime.fromisoformat(data["startsAt"])
         self.diffusionVersion = data["diffusionVersion"]
         self.services = data["service"]
         self.theater: Theater = theather
         self.movie = movie
         self.language = language  # VO ou VF
-        self.format = format  # IMAX, 4DX, 3D, Dolby, ICE, etc.
-        self.event = event  # Avant-première, Live, etc.
-        self.is_pmr = is_pmr  # Personnes à Mobilité Réduite
+        self.format = format  # IMAX, 4DX, 3D, Dolby, ICE, Avant-première, Live, etc.
         # URL de réservation (dans data.ticketing)
         self.ticketing_url = self._extract_ticketing_url(data)
 
@@ -445,20 +443,16 @@ class Theater:
                         if re.search(r'\bICE\b', all_hints_str):
                             formats.append("ICE")
 
-                        format_str = ", ".join(formats) if formats else None
-
-                        # Détecter les événements spéciaux
-                        event_str = None
+                        # Détecter les événements comme des formats
                         is_preview = showtime_data.get("isPreview", False)
                         if is_preview or "SHOWTIME.EVENT.PREMIER" in all_hints_str:
-                            event_str = "Avant-première"
+                            formats.append("Avant-première")
                         elif "SHOWTIME.EVENT.LIVE" in all_hints_str:
-                            event_str = "Live"
+                            formats.append("Live")
 
-                        # Détecter l'accessibilité PMR
-                        is_pmr = "DISABLEDACCESS" in all_hints_str or "DISABLED_ACCESS" in all_hints_str
+                        format_str = ", ".join(formats) if formats else None
 
-                        showtimes.append(Showtime(showtime_data, self, inst, language, format_str, event_str, is_pmr))
+                        showtimes.append(Showtime(showtime_data, self, inst, language, format_str))
 
         # Log pagination info
         current_page = data["pagination"]["page"]

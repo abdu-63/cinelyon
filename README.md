@@ -61,9 +61,7 @@ Fork de [grainParisArt-Public](https://github.com/solene-drnx/grainParisArt-Publ
 - **Barre de recherche** : Filtrez par titre, genre, réalisateur, cinéma ou note
 - **Système de favoris** : Sauvegardez vos films préférés
 - **Bandes-annonces & Liens** : Visionnez le trailer YouTube directement ou accédez à la fiche Allociné / Letterboxd du film
-- **Badges Événements** : Distinction visuelle par code couleur des *Avant-premières* (rose) et événements *Live* (orange)
-- **Badges Accessibilité** : Repérez facilement les séances accessibles aux Personnes à Mobilité Réduite (PMR)
-- **Badges Formats & Langues** : Filtre et indication des séances spéciales (IMAX, 4DX, Dolby, ICE, 3D) et VO/VF
+- **Badges Formats & Langues** : Filtre et indication globale des séances spéciales via un style unique (IMAX, 4DX, Dolby, ICE, 3D, Avant-premières, Live) et VO/VF
 - **Scraping automatique** : Données mises à jour quotidiennement via GitHub Actions
 - **PWA** : Installable sur mobile avec Service Worker
 - **Design responsive** : Interface moderne adaptée à tous les écrans
