@@ -32,3 +32,5 @@ tmdb_cache.json
 scripts/instagram/output/
 node_modules/
 .env.local
+
+scripts/instagram/*.js

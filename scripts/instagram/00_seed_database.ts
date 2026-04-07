@@ -58,28 +58,33 @@ async function scrapeLetterboxdList(page: Page, url: string): Promise<ScrapedFil
   while (currentUrl) {
     console.log(`Scraping Letterboxd page ${pageNum}...`);
     await page.goto(currentUrl, { waitUntil: 'domcontentloaded' });
-    
+
     // Note: This is an approximation. Letterboxd lists often only load posters, 
     // real year and director might need more deep scraping, but we try to grab what's on the page.
     const items = await page.$$('.poster-list li');
     for (const item of items) {
-      const img = await item.$('img');
-      const container = await item.$('div.film-poster');
-      
-      const title = await img?.getAttribute('alt') || '';
-      const urlPath = await container?.getAttribute('data-film-slug') || '';
-      // Default to what we can get without visiting the film page
-      const poster_url = await img?.getAttribute('src') || '';
-      
-      // We will leave year and director empty or mock them unless we visit the individual page.
-      // Often, hitting each page on Letterboxd takes a very long time, so they might be enriched later.
+      const container = await item.$('.react-component[data-component-class="LazyPoster"]');
+      if (!container) continue;
+
+      const itemName = await container.getAttribute('data-item-name') || '';
+      const urlPath = await container.getAttribute('data-item-link') || '';
+
+      // Extract title and year from "Harakiri (1962)"
+      let title = itemName;
+      let year = 0;
+      const yearMatch = itemName.match(/\((\d{4})\)$/);
+      if (yearMatch) {
+        year = parseInt(yearMatch[1], 10);
+        title = title.replace(yearMatch[0], '').trim();
+      }
+
       if (title && urlPath) {
         films.push({
           title,
-          year: 0, 
-          director: '',
+          year,
+          director: '', // Non disponible sur la page liste
           rank: films.length + 1,
-          poster_url,
+          poster_url: '', // Non préchargé 
           url: `https://letterboxd.com${urlPath}`
         });
       }
@@ -118,7 +123,7 @@ async function scrapeSensCritiqueList(page: Page, url: string): Promise<ScrapedF
       const yearEl = await item.$('[data-testid="product-year"]');
       const directorEl = await item.$('[data-testid="product-creator"]');
       const imgEl = await item.$('img');
-      
+
       const title = titleEl ? await titleEl.innerText() : '';
       const yearStr = yearEl ? await yearEl.innerText() : '';
       const year = yearStr ? parseInt(yearStr.replace(/[^0-9]/g, ''), 10) : 0;
@@ -218,7 +223,7 @@ export async function seedSource(source: string): Promise<void> {
 
   for (const film of scrapedFilms) {
     const title_normalized = normalizeTitle(film.title);
-    
+
     // Check exist
     const { data: existingFilms } = await supabase
       .from('reference_films')
@@ -241,10 +246,10 @@ export async function seedSource(source: string): Promise<void> {
           avg_rank: newAvgRank
         })
         .eq('id', existing.id);
-        
+
       merged++;
     } else {
-      await supabase
+      const { error } = await supabase
         .from('reference_films')
         .insert({
           title: film.title,
@@ -252,14 +257,19 @@ export async function seedSource(source: string): Promise<void> {
           year: film.year,
           director: film.director,
           poster_url: film.poster_url,
-          url: film.url,
           sources: [source],
           source_count: 1,
           avg_rank: film.rank,
           avg_note: 0 // Default
         });
-      
-      inserted++;
+
+      if (error) {
+        // Affiche l'erreur exacte renvoyée par Supabase sans faire planter tout le script
+        console.error(`❌ Erreur lors de l'insertion de "${film.title}" :`, error.message || error);
+      } else {
+        // On n'incrémente le compteur QUE si l'insertion a réellement réussi
+        inserted++;
+      }
     }
   }
 
@@ -280,7 +290,7 @@ export async function seedSource(source: string): Promise<void> {
   if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir, { recursive: true });
   }
-  
+
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
   const reportPath = path.join(outputDir, `${source}_${timestamp}.json`);
   fs.writeFileSync(reportPath, JSON.stringify({
@@ -301,6 +311,6 @@ if (process.argv[1] && process.argv[1].includes('00_seed_database.ts')) {
     console.log("Sources disponibles:\n- " + Object.keys(SOURCES).join('\n- '));
     process.exit(1);
   }
-  
+
   seedSource(sourceArg).catch(console.error);
 }
