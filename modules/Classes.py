@@ -149,13 +149,13 @@ class Movie:
         tmdb_data = self._get_tmdb_extras()
         self.trailer_url = tmdb_data.get("trailer_url")
         self.english_title = tmdb_data.get("english_title", self.original_title)
-        
+
         # Affiche TMDB trouvée en premier, sinon fallback sur Allociné, sinon image par défaut
         try:
             allocine_poster = data["poster"]["url"]
         except (KeyError, TypeError):
             allocine_poster = "/static/images/nocontent.png"
-            
+
         self.affiche = tmdb_data.get("tmdb_poster") or allocine_poster
 
         # URL Letterboxd

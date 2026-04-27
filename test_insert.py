@@ -1,5 +1,6 @@
 import os
-from supabase import create_client, Client
+
+from supabase import Client, create_client
 
 url = os.environ.get("SUPABASE_URL")
 key = os.environ.get("SUPABASE_ANON_KEY")
@@ -17,7 +18,7 @@ try:
         "followed_name": "Test Name"
     }).execute()
     print("Success:", response)
-    
+
     # Cleanup
     supabase.table("friend_follows").delete().eq("follower_id", "test_user_a").execute()
 except Exception as e:
