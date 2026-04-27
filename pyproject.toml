@@ -11,12 +11,12 @@ dependencies = [
     "flask-talisman",
     "supabase==2.28.0",
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 
 [tool.ruff]
 line-length = 120
 indent-width = 4
-target-version = "py310"
+target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I"]  # pycodestyle, pyflakes, warnings, isort

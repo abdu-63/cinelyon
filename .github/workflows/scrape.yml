@@ -5,15 +5,16 @@ on:
   schedule:
     - cron: '05 23 * * *'
     - cron: '05 9 * * *'
-
-  # Permet de lancer manuellement le workflow
   workflow_dispatch:
 
 jobs:
   scrape:
     runs-on: ubuntu-latest
     timeout-minutes: 18
-    
+    concurrency: 
+      group: scraper-group
+      cancel-in-progress: false
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

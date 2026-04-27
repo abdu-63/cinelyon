@@ -5,7 +5,7 @@
 
 <p align="center">
   <a href="https://www.python.org/">
-    <img alt="Python" src="https://img.shields.io/badge/Python-3.10+-blue?logo=python">
+    <img alt="Python" src="https://img.shields.io/badge/Python-3.11+-blue?logo=python">
   </a>
   <a href="https://flask.palletsprojects.com/">
     <img alt="Flask" src="https://img.shields.io/badge/Flask-2.0+-lightgrey?logo=flask">
@@ -159,7 +159,7 @@ CREATE POLICY "public read" ON showtimes FOR SELECT USING (true);
 
 ### Prérequis
 
-- Python 3.10+
+- Python 3.11+
 - Compte [TMDB](https://www.themoviedb.org/settings/api) (gratuit)
 - Compte [Supabase](https://supabase.com) (gratuit) avec la table `showtimes` créée
 
