@@ -57,14 +57,14 @@ Fork de [grainParisArt-Public](https://github.com/solene-drnx/grainParisArt-Publ
 
 - **Calendrier interactif** : Visualisez les horaires jusqu'à 25 jours à l'avance
 - **Informations détaillées** : Synopsis, titres originaux et données ultra-fiables basés sur Allociné. Affiches de haute qualité et bandes-annonces récupérées via TMDB (avec fallback sur Allociné).
-- **Synchronisation multi-appareils** : Retrouvez vos favoris sur tous vos écrans via Supabase
-- **Barre de recherche** : Filtrez par titre, genre, réalisateur, cinéma ou note
-- **Système de favoris** : Sauvegardez vos films préférés
-- **Bandes-annonces & Liens** : Visionnez le trailer YouTube directement ou accédez à la fiche Allociné / Letterboxd du film
-- **Badges Formats & Langues** : Filtre et indication globale des séances spéciales via un style unique (IMAX, 4DX, Dolby, ICE, 3D, Avant-premières, Live) et VO/VF
-- **Scraping automatique** : Données mises à jour quotidiennement via GitHub Actions
-- **PWA** : Installable sur mobile avec Service Worker
-- **Design responsive** : Interface moderne adaptée à tous les écrans
+- **Système de favoris & Amis** : Sauvegardez vos films préférés et suivez vos amis pour voir leurs sélections (synchronisation via Supabase).
+- **Barre de recherche avancée** : Filtrez par titre, genre, réalisateur, cinéma, jour ou format (IMAX, 4DX...).
+- **Bandes-annonces & Liens** : Visionnez le trailer YouTube directement ou accédez à la fiche Allociné / Letterboxd du film.
+- **Badges Formats & Langues** : Filtre et indication globale des séances spéciales via un style unique (IMAX, 4DX, Dolby, ICE, 3D, Avant-premières, Live) et VO/VF.
+- **Scraping automatique** : Données mises à jour quotidiennement via GitHub Actions.
+- **Instagram Automation** (en cours) : Pipeline complet pour générer et publier les séances du jour sur Instagram.
+- **PWA** : Installable sur mobile avec Service Worker.
+- **SEO & Performance** : Sitemap dynamique, compression Gzip et headers de sécurité CSP.
 
 ## Optimisations
 
@@ -80,26 +80,28 @@ Fork de [grainParisArt-Public](https://github.com/solene-drnx/grainParisArt-Publ
 cinelyon/
 ├── app.py                 # Application Flask (compression, sécurité, cache TTL)
 ├── scrape.py              # Script de scraping (GitHub Actions → Supabase)
-├── tmdb_cache.json        # Cache local des données TMDB (persisté via Git)
 ├── vercel.json            # Configuration Vercel
 ├── pyproject.toml         # Configuration Python (Ruff, pytest)
 ├── requirements.txt       # Dépendances Python
 ├── .env.sample            # Template des variables d'environnement
+├── fix_rls.sql            # Scripts SQL pour les politiques de sécurité Supabase
 ├── .github/
 │   └── workflows/
 │       ├── scrape.yml     # Workflow quotidien de scraping
 │       └── quality.yml    # CI: Ruff linting + Pytest
 ├── modules/
-│   └── Classes.py         # Classes: Movie, Theater, Showtime
+│   └── Classes.py         # Classes: Movie, Theater, Showtime (Gestion cache Supabase)
+├── scripts/
+│   └── instagram/         # Pipeline d'automatisation Instagram (TS/Node)
 ├── templates/
 │   ├── base.html          # Template de base
-│   └── index.html         # Page d'accueil
+│   └── index.html         # Page d'accueil (Gestion favoris & sync)
 ├── tests/
 │   └── test_basic.py      # Tests unitaires (health, home)
 └── static/
     ├── css/main.css       # Styles CSS
-    ├── font/              # Police
-    ├── images/            # Images et icônes
+    ├── font/              # Polices locales
+    ├── images/            # Images et icônes PWA
     ├── manifest.json      # PWA manifest
     └── sw.js              # Service Worker
 ```
@@ -121,14 +123,34 @@ GitHub Actions (2× par jour)
    Vercel / Navigateur (PWA)
 ```
 
-### Table Supabase (`showtimes`)
+### Schéma Supabase
+
+Le projet utilise trois tables principales :
 
 ```sql
+-- 1. Séances (JSON par jour)
 CREATE TABLE showtimes (
   date         DATE PRIMARY KEY,
   movies       JSONB NOT NULL,
   generated_at TIMESTAMPTZ DEFAULT now()
 );
+
+-- 2. Cache TMDB (Évite les appels API inutiles)
+CREATE TABLE tmdb_cache (
+  key  TEXT PRIMARY KEY,
+  data JSONB NOT NULL
+);
+
+-- 3. Système d'amis (Synchronisation)
+CREATE TABLE friend_follows (
+  id            BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  follower_id   TEXT NOT NULL, -- Code sync du suiveur
+  followed_id   TEXT NOT NULL, -- Code sync du suivi
+  followed_name TEXT NOT NULL,
+  created_at    TIMESTAMPTZ DEFAULT now()
+);
+
+-- Politiques RLS (voir fix_rls.sql pour les détails)
 ALTER TABLE showtimes ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "public read" ON showtimes FOR SELECT USING (true);
 ```
@@ -165,6 +187,9 @@ CREATE POLICY "public read" ON showtimes FOR SELECT USING (true);
 4. **Générer les données (scraping)**
    ```bash
    python scrape.py
+   # Options : 
+   # --force        : Rescraper toutes les dates
+   # --clear-cache  : Vider le cache TMDB local/Supabase
    ```
 
 5. **Lancer l'application**
@@ -239,6 +264,27 @@ Dans `.env` ou les secrets GitHub, modifier `THEATERS` :
 **Trouver l'ID** : Dans l'URL Allociné `salle_gen_csalle=P8507.html` → ID = `P8507`
 
 Pour scraper un cinéma sur **25 jours** au lieu de 10, ajouter son nom dans `EXTENDED_THEATERS` dans `scrape.py`.
+
+## Automatisation Instagram (Story/Post) (en cours)
+
+Le dossier `scripts/instagram/` contient un pipeline TypeScript pour automatiser la communication sur les réseaux sociaux.
+
+### Fonctionnement du pipeline
+
+1. **Seed** : Récupère les données depuis Supabase.
+2. **Select** : Choisit les meilleurs films à mettre en avant.
+3. **Generate Images** : Crée des visuels optimisés pour Instagram (via `satori` / `resvg`).
+4. **Caption** : Génère une légende attractive (optionnel).
+5. **Publish** : Poste automatiquement via l'API Graph de Facebook/Instagram.
+
+### Utilisation locale
+
+```bash
+cd scripts/instagram
+npm install
+# Configurer les variables dans .env
+npm run start
+```
 
 ## Liens utiles
 
