@@ -26,6 +26,7 @@ def get_supabase() -> Client:
         _supabase_client = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
     return _supabase_client
 
+
 theaters_json = json.loads(os.environ.get("THEATERS", "[]"))
 theater_locations = []
 for theater in theaters_json:
@@ -100,8 +101,13 @@ csp = {
     "script-src": ["'self'", "'unsafe-inline'", "blob:"],
     "style-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
     "img-src": [
-        "'self'", "data:", "blob:", "https://*.allocine.fr", "https://*.acsta.net",
-        "https://wsrv.nl", "https://image.tmdb.org",
+        "'self'",
+        "data:",
+        "blob:",
+        "https://*.allocine.fr",
+        "https://*.acsta.net",
+        "https://wsrv.nl",
+        "https://image.tmdb.org",
     ],
     "connect-src": ["'self'", "https://*.supabase.co"],
     "font-src": ["'self'", "https://fonts.gstatic.com", "data:"],
@@ -124,6 +130,7 @@ def optimize_poster_url(url: str, width: int = 200) -> str:
     if not url or url.startswith("/static"):
         return url
     from urllib.parse import quote
+
     return f"https://wsrv.nl/?url={quote(url)}&w={width}&q=80&output=webp"
 
 
@@ -316,7 +323,6 @@ def home():
         show_all=(delta is None),
         theater_locations=theater_locations,
         website_title=WEBSITE_TITLE,
-
         supabase_url=SUPABASE_URL,
         supabase_anon_key=SUPABASE_ANON_KEY,
         all_genres=sorted(all_genres),
@@ -324,6 +330,7 @@ def home():
         all_cinemas=sorted(all_cinemas),
         all_formats=sorted(all_formats),
     )
+
 
 if __name__ == "__main__":
     app.run(debug=True)

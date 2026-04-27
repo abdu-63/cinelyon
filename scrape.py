@@ -34,7 +34,7 @@ TMDB_API_KEY = os.environ.get("TMDB_API_KEY", "")
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "")
 SUPABASE_SERVICE_ROLE_KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "")
 
-DAYS_TO_SCRAPE = 10          # Fenêtre de base pour tous les cinémas
+DAYS_TO_SCRAPE = 10  # Fenêtre de base pour tous les cinémas
 DAYS_TO_SCRAPE_EXTENDED = 25  # Fenêtre étendue pour certains cinémas
 DELAY_BETWEEN_THEATERS = 2  # Délai en secondes entre chaque cinéma
 

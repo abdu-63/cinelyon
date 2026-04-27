@@ -12,11 +12,11 @@ if not url or not key:
 supabase: Client = create_client(url, key)
 
 try:
-    response = supabase.table("friend_follows").insert({
-        "follower_id": "test_user_a",
-        "followed_id": "test_user_b",
-        "followed_name": "Test Name"
-    }).execute()
+    response = (
+        supabase.table("friend_follows")
+        .insert({"follower_id": "test_user_a", "followed_id": "test_user_b", "followed_name": "Test Name"})
+        .execute()
+    )
     print("Success:", response)
 
     # Cleanup

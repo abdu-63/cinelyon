@@ -440,7 +440,7 @@ class Theater:
                             formats.append("Dolby")
 
                         # Check ICE
-                        if re.search(r'\bICE\b', all_hints_str):
+                        if re.search(r"\bICE\b", all_hints_str):
                             formats.append("ICE")
 
                         # Détecter les événements comme des formats
