@@ -1,24 +1,25 @@
-name: TruffleHog OSS
+name: TruffleHog Full Scan
 
 on:
   push:
     branches: [main, master]
   pull_request:
     branches: [main, master]
+  workflow_dispatch: # Permet de lancer le scan manuellement depuis l'onglet Actions
 
 jobs:
   trufflehog_scan:
+    name: Scan Repository for Secrets
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Important pour scanner tout l'historique
+          fetch-depth: 0 # Récupère tout l'historique (indispensable pour tout scanner)
 
       - name: TruffleHog OSS
         uses: trufflesecurity/trufflehog@v3.95.2
         with:
           path: ./
-          base: ${{ github.event.repository.default_branch }}
-          head: HEAD
-          extra_args: --debug --only-verified
+          entrypoint: trufflehog
+          args: filesystem --directory=./ --only-verified --fail
