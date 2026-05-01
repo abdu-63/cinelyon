@@ -61,15 +61,13 @@
                 <div class="film-links">
                     {% if film.url %}
                     <a href="{{ film.url }}" target="_blank" rel="noopener" class="film-link-btn film-link-letterboxd">
-                        <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
-                            <path d="M7.42 10.32a1.25 1.25 0 0 0-1.25 1.25v2.86a1.25 1.25 0 0 0 2.5 0v-2.86a1.25 1.25 0 0 0-1.25-1.25zm4.58 0a1.25 1.25 0 0 0-1.25 1.25v2.86a1.25 1.25 0 0 0 2.5 0v-2.86a1.25 1.25 0 0 0-1.25-1.25zm4.58 0a1.25 1.25 0 0 0-1.25 1.25v2.86a1.25 1.25 0 0 0 2.5 0v-2.86a1.25 1.25 0 0 0-1.25-1.25zM12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/>
-                        </svg>
+                        <img src="{{ url_for('static', filename='images/logo-cinema/letterboxd-decal-dots-pos-rgb.svg') }}" alt="Letterboxd" class="film-link-logo" />
                         Letterboxd
                     </a>
                     {% endif %}
                     {% if film.allocine_url %}
                     <a href="{{ film.allocine_url }}" target="_blank" rel="noopener" class="film-link-btn film-link-allocine">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                        <img src="{{ url_for('static', filename='images/logo-cinema/Allocine.png') }}" alt="AlloCiné" class="film-link-logo" />
                         AlloCiné
                     </a>
                     {% endif %}

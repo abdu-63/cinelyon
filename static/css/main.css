@@ -2291,14 +2291,20 @@ body.show-friend-badges .friend-badge {
     cursor: pointer;
 }
 
+.film-link-logo {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+}
+
 .film-link-letterboxd {
-    background: linear-gradient(135deg, #00c030, #40bcf4);
+    background: #1F2831;
     color: #fff;
 }
 
 .film-link-letterboxd:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0, 192, 48, 0.4);
+    box-shadow: 0 4px 16px rgba(116, 155, 126, 0.4);
 }
 
 .film-link-allocine {
@@ -2327,7 +2333,7 @@ body.show-friend-badges .friend-badge {
 }
 
 .film-section-title svg {
-    color: var(--primary);
+    color: var(--text-main);
 }
 
 /* ── Trailer ── */
