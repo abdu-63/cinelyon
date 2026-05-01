@@ -288,7 +288,7 @@ p {
 .cinema {
     background-color: var(--primary);
     border-radius: 5px;
-    height: 40px;
+    height: 48px;
     width: 200px;
     color: var(--card-solid);
     padding-left: 10px;
@@ -992,13 +992,22 @@ html {
     }
 
     .horaire {
-        height: 30px;
+        height: auto;
         min-width: 60px;
         width: auto;
-        border-radius: 5px;
+        border-radius: 6px;
         margin-left: 5px;
-        padding: 0 8px;
+        padding: 4px 8px 6px 8px;
         flex-wrap: nowrap;
+        gap: 1px;
+    }
+
+    .horaire-top {
+        gap: 3px;
+    }
+
+    .horaire-bottom {
+        gap: 3px;
     }
 
     .lang-badge {
@@ -1009,6 +1018,11 @@ html {
         font-size: 8px;
     }
 
+    .seance-time {
+        font-size: 13px;
+        margin: 0;
+    }
+
     .calendar-btn {
         display: none;
     }
@@ -1016,7 +1030,7 @@ html {
     .cinema p,
     .horaire p {
         font-size: 12px;
-        margin-block-start: 1em;
+        margin: 0;
     }
 
     .container_titrePlanning,
@@ -1902,6 +1916,9 @@ body.show-friend-badges .friend-badge {
     display: block;
     stroke-width: 2px;
     stroke: grey;
+    padding-left: 3px;
+    position: relative;
+    bottom: 2px;
 }
 
 .calendar-btn.added {
@@ -2392,7 +2409,7 @@ body.show-friend-badges .friend-badge {
 
 .film-cinema-name {
     font-weight: 600;
-    font-size: 14px;
+    font-size: 16px;
     color: var(--text-main);
 }
 
@@ -2468,7 +2485,7 @@ body.show-friend-badges .friend-badge {
 }
 
 .cinema-brand-text {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 700;
     color: var(--text-main);
 }
