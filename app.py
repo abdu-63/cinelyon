@@ -1,10 +1,12 @@
 import json
 import os
+import re
+import unicodedata
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 import dotenv
-from flask import Flask, make_response, render_template, request
+from flask import Flask, abort, make_response, render_template, request
 from flask_compress import Compress
 from flask_talisman import Talisman
 from supabase import Client, create_client
@@ -133,6 +135,18 @@ def optimize_poster_url(url: str, width: int = 200) -> str:
     return f"https://wsrv.nl/?url={quote(url)}&w={width}&q=80&output=webp"
 
 
+def slugify(text: str, year: str = "") -> str:
+    """Convertit un titre de film en slug URL-friendly."""
+    text = unicodedata.normalize("NFD", text)
+    text = text.encode("ascii", "ignore").decode("utf-8")
+    text = text.lower()
+    text = re.sub(r"[^a-z0-9]+", "-", text)
+    text = text.strip("-")
+    if year and year != "inconnue":
+        text = f"{text}-{year}"
+    return text
+
+
 def translateMonth(num: int):
     match num:
         case 1:
@@ -212,10 +226,23 @@ def robots_txt():
 @app.route("/sitemap.xml")
 def sitemap_xml():
     """Génère un sitemap XML dynamique."""
+    base_url = request.url_root.rstrip("/")
     content = '<?xml version="1.0" encoding="UTF-8"?>\n'
     content += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-    content += f"  <url>\n    <loc>{request.url_root[:-1]}</loc>\n"
+    content += f"  <url>\n    <loc>{base_url}</loc>\n"
     content += "    <changefreq>daily</changefreq>\n    <priority>1.0</priority>\n  </url>\n"
+
+    # Ajouter les pages individuelles des films
+    data = load_movies_data()
+    seen_slugs = set()
+    for day_movies in data["showtimes"]:
+        for film in day_movies:
+            film_slug = slugify(film["title"], film.get("release_year", ""))
+            if film_slug not in seen_slugs:
+                seen_slugs.add(film_slug)
+                content += f"  <url>\n    <loc>{base_url}/film/{film_slug}</loc>\n"
+                content += "    <changefreq>daily</changefreq>\n    <priority>0.8</priority>\n  </url>\n"
+
     content += "</urlset>"
     response = make_response(content)
     response.headers["Content-Type"] = "application/xml"
@@ -275,6 +302,7 @@ def home():
                     "url": film["url"],
                     "allocine_url": film.get("allocine_url", ""),
                     "trailer_url": film.get("trailer_url"),
+                    "slug": slugify(film["title"], film.get("release_year", "")),
                     "seances_by_day": {},
                 }
 
@@ -332,6 +360,147 @@ def home():
         all_directors=sorted(all_directors),
         all_cinemas=sorted(all_cinemas),
         all_formats=sorted(all_formats),
+    )
+
+
+@app.route("/film/<slug>")
+def film_detail(slug):
+    """Page de détail d'un film."""
+    data = load_movies_data()
+    showtimes = data["showtimes"]
+    num_days = data["num_days"]
+
+    # Construire la liste des dates
+    dates = []
+    for i in range(num_days):
+        day = datetime.now(ZoneInfo("Europe/Paris")) + timedelta(i)
+        dates.append(
+            {
+                "jour": translateDay(day.weekday()),
+                "chiffre": day.day,
+                "mois": translateMonth(day.month),
+                "index": i,
+                "full_date": day.strftime("%d/%m"),
+            }
+        )
+
+    # Trouver le film correspondant au slug
+    film_data = None
+    seances_by_day = {}
+
+    for day_index in range(num_days):
+        if day_index >= len(showtimes):
+            continue
+        day_label = f"{dates[day_index]['jour']} {dates[day_index]['chiffre']} {dates[day_index]['mois']}"
+        for film in showtimes[day_index]:
+            film_slug = slugify(film["title"], film.get("release_year", ""))
+            if film_slug == slug:
+                if film_data is None:
+                    film_data = {
+                        "title": film["title"],
+                        "release_year": film["release_year"],
+                        "duree": film["duree"],
+                        "rating": film["rating"],
+                        "genres": film["genres"],
+                        "realisateur": film["realisateur"],
+                        "synopsis": film["synopsis"],
+                        "affiche": film["affiche"],
+                        "director": film["director"],
+                        "wantToSee": film["wantToSee"],
+                        "url": film["url"],
+                        "allocine_url": film.get("allocine_url", ""),
+                        "trailer_url": film.get("trailer_url"),
+                        "slug": film_slug,
+                    }
+
+                if day_label not in seances_by_day:
+                    seances_by_day[day_label] = {}
+
+                for cinema, seances in sorted(film["seances"].items()):
+                    if cinema not in seances_by_day[day_label]:
+                        seances_by_day[day_label][cinema] = []
+                    seances_by_day[day_label][cinema].extend(seances)
+                seances_by_day[day_label] = dict(sorted(seances_by_day[day_label].items()))
+
+    if film_data is None:
+        abort(404)
+
+    film_data["seances_by_day"] = seances_by_day
+
+    # Collecter les formats
+    film_formats = set()
+    for day_seances in seances_by_day.values():
+        for cinema, seances in day_seances.items():
+            for seance in seances:
+                fmt = seance.get("format")
+                if fmt:
+                    for f in fmt.split(", "):
+                        film_formats.add(f.strip())
+    film_data["formats"] = ",".join(film_formats).lower()
+
+    # Convertir trailer_url en embed URL
+    trailer_embed = None
+    if film_data.get("trailer_url"):
+        url = film_data["trailer_url"]
+        if "watch?v=" in url:
+            video_id = url.split("v=")[1].split("&")[0]
+            trailer_embed = f"https://www.youtube.com/embed/{video_id}"
+        elif "youtu.be/" in url:
+            video_id = url.split("youtu.be/")[1].split("?")[0]
+            trailer_embed = f"https://www.youtube.com/embed/{video_id}"
+        elif "youtube.com/embed/" in url or "youtube-nocookie.com/embed/" in url:
+            trailer_embed = url
+    film_data["trailer_embed"] = trailer_embed
+
+    # Brand order for display
+    BRAND_ORDER = ["Pathé", "UGC", "Lumière", "Institut Lumière", "Ciné", "CGR", "Autre"]
+
+    def get_brand(cinema_name):
+        """Extract brand from cinema name."""
+        name = cinema_name.lower()
+        if name.startswith("pathé") or name.startswith("pathe"):
+            return "Pathé"
+        if name.startswith("ugc"):
+            return "UGC"
+        if "lumière" in name and "institut" not in name:
+            return "Lumière"
+        if "institut lumière" in name:
+            return "Institut Lumière"
+        if name.startswith("ciné") or name.startswith("cine"):
+            return "Ciné"
+        if name.startswith("cgr"):
+            return "CGR"
+        return "Autre"
+
+    # Group cinemas by brand for each day
+    seances_by_day_grouped = {}
+    for day_label, cinemas in seances_by_day.items():
+        brands = {}
+        for cinema_name, seances in cinemas.items():
+            brand = get_brand(cinema_name)
+            if brand not in brands:
+                brands[brand] = {}
+            brands[brand][cinema_name] = seances
+        # Sort brands by BRAND_ORDER
+        seances_by_day_grouped[day_label] = {
+            brand: brands[brand]
+            for brand in BRAND_ORDER
+            if brand in brands
+        }
+        # Append any brand not in BRAND_ORDER
+        for brand in brands:
+            if brand not in seances_by_day_grouped[day_label]:
+                seances_by_day_grouped[day_label][brand] = brands[brand]
+
+    film_data["seances_by_day_grouped"] = seances_by_day_grouped
+
+    return render_template(
+        "film.html",
+        film=film_data,
+        theater_locations=theater_locations,
+        website_title=WEBSITE_TITLE,
+        supabase_url=SUPABASE_URL,
+        supabase_anon_key=SUPABASE_ANON_KEY,
     )
 
 

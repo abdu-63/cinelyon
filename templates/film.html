@@ -1,0 +1,338 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<meta property="og:title" content="{{ film.title }} ({{ film.release_year }}) — {{ website_title }}">
+<meta property="og:description" content="{{ film.synopsis[:150] }}...">
+<meta property="og:image" content="{{ film.affiche }}">
+<title>{{ film.title }} ({{ film.release_year }}) — {{ website_title }}</title>
+{% endblock %}
+
+{% block body %}
+
+<div class="film-page">
+    <!-- Back button -->
+    <a href="{{ url_for('home') }}" class="film-back-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Retour
+    </a>
+
+    <!-- Hero Section -->
+    <div class="film-hero">
+        <div class="film-hero-bg" style="background-image: url('{{ film.affiche }}')"></div>
+        <div class="film-hero-content">
+            <img src="{{ film.affiche }}" class="film-hero-poster" alt="Affiche de {{ film.title }}" width="300" height="432" />
+            <div class="film-hero-info">
+                <h1 class="film-title">{{ film.title }}
+                    <span class="film-year">({{ film.release_year }})</span>
+                    <button class="favorite-btn" data-film-id="{{ film.title|lower|replace(' ', '-') }}" title="Ajouter aux favoris">
+                        <svg class="favorite-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                        </svg>
+                    </button>
+                </h1>
+
+                <div class="film-meta">
+                    <span class="film-meta-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                        {{ film.duree }}
+                    </span>
+                    <span class="film-meta-item">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        {{ film.rating }}
+                    </span>
+                    <span class="film-meta-item">🎬 {{ film.director }}</span>
+                </div>
+
+                <div class="film-genres">
+                    {% for genre in film.genres.split(', ') %}
+                    {% if genre.strip() %}
+                    <span class="film-genre-tag">{{ genre.strip() }}</span>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+
+                <div class="film-synopsis-full">
+                    <p>{{ film.synopsis }}</p>
+                </div>
+
+                <!-- External Links -->
+                <div class="film-links">
+                    {% if film.url %}
+                    <a href="{{ film.url }}" target="_blank" rel="noopener" class="film-link-btn film-link-letterboxd">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                            <path d="M7.42 10.32a1.25 1.25 0 0 0-1.25 1.25v2.86a1.25 1.25 0 0 0 2.5 0v-2.86a1.25 1.25 0 0 0-1.25-1.25zm4.58 0a1.25 1.25 0 0 0-1.25 1.25v2.86a1.25 1.25 0 0 0 2.5 0v-2.86a1.25 1.25 0 0 0-1.25-1.25zm4.58 0a1.25 1.25 0 0 0-1.25 1.25v2.86a1.25 1.25 0 0 0 2.5 0v-2.86a1.25 1.25 0 0 0-1.25-1.25zM12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/>
+                        </svg>
+                        Letterboxd
+                    </a>
+                    {% endif %}
+                    {% if film.allocine_url %}
+                    <a href="{{ film.allocine_url }}" target="_blank" rel="noopener" class="film-link-btn film-link-allocine">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                        AlloCiné
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trailer Section -->
+    {% if film.trailer_embed %}
+    <section class="film-section">
+        <h2 class="film-section-title">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M8 5v14l11-7z"/></svg>
+            Bande-annonce
+        </h2>
+        <div class="film-trailer-container">
+            <iframe src="{{ film.trailer_embed }}" class="film-trailer-iframe" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Showtimes Section -->
+    {% if film.seances_by_day %}
+    <section class="film-section">
+        <h2 class="film-section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg>
+            Séances disponibles
+        </h2>
+
+        <div class="film-seances-calendar">
+            {% for day_label in film.seances_by_day.keys() %}
+            <button class="film-cal-btn{% if loop.first %} active{% endif %}" type="button" data-day="{{ loop.index0 }}">
+                {{ day_label }}
+            </button>
+            {% endfor %}
+        </div>
+
+        {% for day_label, brands in film.seances_by_day_grouped.items() %}
+        <div class="film-day-seances{% if loop.first %} show{% endif %}" data-day="{{ loop.index0 }}">
+            {% for brand_name, cinemas in brands.items() %}
+            <div class="film-brand-block">
+                <!-- Brand Header with Logo -->
+                <div class="film-brand-header">
+                    <div class="film-brand-logo-wrap">
+                        {% if brand_name == "Pathé" %}
+                        <img src="https://upload.wikimedia.org/wikipedia/fr/thumb/2/2b/Path%C3%A9_Logo.svg/320px-Path%C3%A9_Logo.svg.png" alt="Pathé" class="cinema-brand-logo" />
+                        {% elif brand_name == "UGC" %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/UGC_logo_2015.svg/320px-UGC_logo_2015.svg.png" alt="UGC" class="cinema-brand-logo" />
+                        {% elif brand_name == "Lumière" %}
+                        <span class="cinema-brand-text">Cinémas Lumière</span>
+                        {% elif brand_name == "Institut Lumière" %}
+                        <span class="cinema-brand-text">Institut Lumière</span>
+                        {% elif brand_name == "CGR" %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Logo_CGR_Cin%C3%A9mas.svg/320px-Logo_CGR_Cin%C3%A9mas.svg.png" alt="CGR" class="cinema-brand-logo" />
+                        {% else %}
+                        <span class="cinema-brand-text">{{ brand_name }}</span>
+                        {% endif %}
+                    </div>
+                    <span class="film-brand-count">{{ cinemas|length }} cinéma{% if cinemas|length > 1 %}s{% endif %}</span>
+                </div>
+
+                <!-- Cinemas within this brand -->
+                {% for cinename, seances in cinemas.items() %}
+                <div class="film-cinema-block">
+                    <div class="film-cinema-header">
+                        <a href="#" class="cinema-link" data-cinema="{{ cinename }}" target="_blank" rel="noopener">
+                            <span class="film-cinema-name">{{ cinename }}</span>
+                        </a>
+                        <a href="https://www.google.com/maps/search/{{ cinename|urlencode }}+Lyon" target="_blank" rel="noopener" class="film-gps-btn" title="Localiser sur Google Maps">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            GPS
+                        </a>
+                    </div>
+                    <div class="film-horaires">
+                        {% for seance in seances %}
+                        <div class="horaire-wrapper">
+                            {% if seance.ticketing_url %}
+                            <a href="{{ seance.ticketing_url }}" target="_blank" rel="noopener" class="horaire-link">
+                                <div class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}">
+                                    <span class="lang-badge">{{ seance.lang }}</span>
+                                    {% if seance.format %}<span class="format-badge">{{ seance.format }}</span>{% endif %}
+                                    <p>{{ seance.time }}</p>
+                                </div>
+                            </a>
+                            {% else %}
+                            <div class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}">
+                                <span class="lang-badge">{{ seance.lang }}</span>
+                                {% if seance.format %}<span class="format-badge">{{ seance.format }}</span>{% endif %}
+                                <p>{{ seance.time }}</p>
+                            </div>
+                            {% endif %}
+                            <button class="calendar-btn" data-title="{{ film.title }}"
+                                data-year="{{ film.release_year }}" data-cinema="{{ cinename }}"
+                                data-duree="{{ film.duree }}" data-letterboxd="{{ film.url }}"
+                                data-time="{{ seance.time }}" data-lang="{{ seance.lang }}" data-day="{{ day_label }}"
+                                data-ticket="{{ seance.ticketing_url|default('', true) }}"
+                                title="Ajouter au calendrier">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" />
+                                    <line x1="3" y1="10" x2="21" y2="10" />
+                                    <line x1="8" y1="2" x2="8" y2="6" />
+                                    <line x1="16" y1="2" x2="16" y2="6" />
+                                </svg>
+                            </button>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </section>
+    {% endif %}
+</div>
+
+<script>
+    // ── Favorites ──
+    const FAVORITES_KEY = 'cinelyon_favorites';
+    function getFavorites() { try { return JSON.parse(localStorage.getItem(FAVORITES_KEY) || '[]'); } catch(e) { return []; } }
+    function saveFavorites(f) { localStorage.setItem(FAVORITES_KEY, JSON.stringify(f)); }
+    function isFavorite(id) { return getFavorites().includes(id); }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const btn = document.querySelector('.favorite-btn');
+        if (!btn) return;
+        const filmId = btn.dataset.filmId;
+
+        function updateBtn() {
+            if (isFavorite(filmId)) { btn.classList.add('active'); btn.title = 'Retirer des favoris'; }
+            else { btn.classList.remove('active'); btn.title = 'Ajouter aux favoris'; }
+        }
+        updateBtn();
+
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const favs = getFavorites();
+            const idx = favs.indexOf(filmId);
+            if (idx === -1) favs.push(filmId); else favs.splice(idx, 1);
+            saveFavorites(favs);
+            updateBtn();
+        });
+    });
+
+    // ── Day tabs ──
+    document.querySelectorAll('.film-cal-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.film-cal-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.film-day-seances').forEach(d => d.classList.remove('show'));
+            this.classList.add('active');
+            const target = document.querySelector(`.film-day-seances[data-day="${this.dataset.day}"]`);
+            if (target) target.classList.add('show');
+        });
+    });
+
+    // ── Cinema URLs ──
+    const cinemaUrls = {
+        "Pathé Carré de Soie": "https://www.pathe.fr/cinemas/cinema-pathe-carre-de-soie",
+        "Pathé Bellecour": "https://www.pathe.fr/cinemas/cinema-pathe-bellecour",
+        "Pathé Vaise": "https://www.pathe.fr/cinemas/cinema-pathe-vaise",
+        "UGC Part-Dieu": "https://www.ugc.fr/cinema-ugc-cine-cite-part-dieu.html",
+        "UGC Confluence": "https://www.ugc.fr/cinema-ugc-cine-cite-confluence.html",
+        "UGC Internationale": "https://www.ugc.fr/cinema-ugc-cine-cite-internationale-lyon.html",
+        "UGC Astoria": "https://www.ugc.fr/cinema-ugc-astoria.html",
+        "CGR Brignais": "https://www.cgrcinemas.fr/films-a-l-affiche/",
+        "Ciné Meyzieu": "https://cinemeyzieu.fr/",
+        "Ciné Toboggan": "https://www.letoboggan.com/cinema/",
+        "Lumière Bellecour": "https://www.cinemas-lumiere.com/programmation/bellecour.html",
+        "Lumière La Fourmi": "https://www.cinemas-lumiere.com/programmation/fourmi.html",
+        "Lumière Terreaux": "https://www.cinemas-lumiere.com/programmation/terreaux.html",
+        "Institut Lumière": "https://www.institut-lumiere.org/"
+    };
+    document.querySelectorAll('.cinema-link').forEach(link => {
+        const name = link.dataset.cinema;
+        link.href = cinemaUrls[name] || `https://www.google.com/search?q=${encodeURIComponent(name + ' Lyon')}`;
+    });
+
+    // ── Calendar (reuse from index) ──
+    const cinemaAddresses = {
+        "Pathé Carré de Soie": "Place Jacques Monod, Carré de Soie, 69120 Vaulx-en-Velin",
+        "Pathé Bellecour": "79 Rue de la République, 69002 Lyon",
+        "Pathé Vaise": "33 Rue des Docks, 69009 Lyon",
+        "UGC Part-Dieu": "Centre Commercial Part-Dieu, 69003 Lyon",
+        "UGC Confluence": "112 Cours Charlemagne, 69002 Lyon",
+        "UGC Internationale": "Cité Internationale, 80 Quai Charles de Gaulle, 69006 Lyon",
+        "UGC Astoria": "31 Rue de la République, 69002 Lyon",
+        "CGR Brignais": "330 Route de Givors, 69530 Brignais",
+        "Ciné Meyzieu": "24 Rue Louis Saulnier, 69330 Meyzieu",
+        "Ciné Toboggan": "14 Avenue Jean Macé, 69150 Décines-Charpieu",
+        "Lumière Bellecour": "12 Rue de la Barre, 69002 Lyon",
+        "Lumière La Fourmi": "8 Grande Rue de la Guillotière, 69007 Lyon",
+        "Lumière Terreaux": "40 Rue du Président Édouard Herriot, 69001 Lyon",
+        "Institut Lumière": "25 Rue du Premier-Film, 69008 Lyon"
+    };
+
+    function parseDuration(s) { let h=0,m=0; const hm=s.match(/(\d+)\s*h/), mm=s.match(/(\d+)\s*min/); if(hm)h=parseInt(hm[1]); if(mm)m=parseInt(mm[1]); return {hours:h,minutes:m}; }
+    function parseDayLabel(l) {
+        const mMap={'janv':0,'févr':1,'mars':2,'avr':3,'mai':4,'juin':5,'juil':6,'août':7,'sept':8,'oct':9,'nov':10,'déc':11};
+        const p=l.toLowerCase().split(' '); const d=parseInt(p[1]); const mn=mMap[p[2]];
+        const t=new Date(); let y=t.getFullYear(); if(mn!==undefined&&mn<t.getMonth())y++;
+        return new Date(y,mn!==undefined?mn:t.getMonth(),d);
+    }
+    function fmtICS(d){const p=n=>n.toString().padStart(2,'0');return`${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}T${p(d.getHours())}${p(d.getMinutes())}00`;}
+    function escICS(s){return s.replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/\n/g,'\\n');}
+
+    const calMenu = document.createElement('div');
+    calMenu.className = 'calendar-menu';
+    calMenu.innerHTML = `
+        <button class="calendar-menu-option" data-type="apple">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            Apple Calendar
+        </button>
+        <button class="calendar-menu-option" data-type="google">
+            <svg viewBox="0 0 24 24" width="16" height="16"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            Google Calendar
+        </button>`;
+    document.body.appendChild(calMenu);
+    let activeBtn = null;
+
+    document.addEventListener('click', e => { if(!e.target.closest('.calendar-btn')&&!e.target.closest('.calendar-menu')) calMenu.classList.remove('show'); });
+
+    calMenu.querySelectorAll('.calendar-menu-option').forEach(opt => {
+        opt.addEventListener('click', function() {
+            if(!activeBtn) return;
+            const b=activeBtn, t=this.dataset.type;
+            const title=b.dataset.title, year=b.dataset.year, cinema=b.dataset.cinema;
+            const duree=b.dataset.duree, letterboxd=b.dataset.letterboxd, time=b.dataset.time;
+            const lang=b.dataset.lang, dayLabel=b.dataset.day, ticket=b.dataset.ticket;
+            const movieTitle=`${title} (${year}) - ${cinema}`;
+            const location=cinemaAddresses[cinema]||`${cinema}, Lyon`;
+            const dur=parseDuration(duree);
+            const ev=parseDayLabel(dayLabel); const[h,m]=time.split(':').map(Number); ev.setHours(h,m,0,0);
+            const end=new Date(ev); end.setHours(end.getHours()+dur.hours); end.setMinutes(end.getMinutes()+dur.minutes);
+            let desc=`Film: ${title} (${year})\nLangue: ${lang}\nDurée: ${duree}`;
+            if(ticket) desc+=`\n\nRéserver: ${ticket}`; desc+=`\n\nLetterboxd: ${letterboxd}`;
+
+            if(t==='apple') {
+                const uid=`cinelyon-${Date.now()}-${Math.random().toString(36).substr(2,9)}@cinelyon.vercel.app`;
+                const ics=`BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//CineLyon//Calendar//FR\nCALSCALE:GREGORIAN\nMETHOD:PUBLISH\nBEGIN:VEVENT\nUID:${uid}\nDTSTAMP:${fmtICS(new Date())}\nDTSTART:${fmtICS(ev)}\nDTEND:${fmtICS(end)}\nSUMMARY:${escICS(movieTitle)}\nLOCATION:${escICS(location)}\nDESCRIPTION:${escICS(desc)}\nURL:${letterboxd}\nEND:VEVENT\nEND:VCALENDAR`;
+                const blob=new Blob([ics],{type:'text/calendar;charset=utf-8'}); const a=document.createElement('a');
+                a.href=URL.createObjectURL(blob); a.download=`${title.replace(/[^a-z0-9]/gi,'_')}_${time.replace(':','h')}.ics`;
+                document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(a.href);
+            } else {
+                const params=new URLSearchParams({action:'TEMPLATE',text:movieTitle,dates:`${fmtICS(ev)}/${fmtICS(end)}`,details:desc,location:location});
+                window.open(`https://calendar.google.com/calendar/render?${params.toString()}`,'_blank');
+            }
+            b.classList.add('added'); setTimeout(()=>b.classList.remove('added'),2000);
+            calMenu.classList.remove('show'); activeBtn=null;
+        });
+    });
+
+    document.querySelectorAll('.calendar-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault(); e.stopPropagation();
+            const r=this.getBoundingClientRect();
+            let top=r.bottom+window.scrollY+5, left=r.left+window.scrollX;
+            if(r.left+180>window.innerWidth) left=r.right+window.scrollX-180;
+            if(r.bottom+90>window.innerHeight) top=r.top+window.scrollY-95;
+            calMenu.style.top=`${top}px`; calMenu.style.left=`${left}px`;
+            activeBtn=this; calMenu.classList.add('show');
+        });
+    });
+</script>
+
+{% endblock %}

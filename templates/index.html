@@ -96,12 +96,13 @@
             data-cinemas="{% for day_data in film.seances_by_day.values() %}{% for cinema in day_data.keys() %}{{ cinema|lower }},{% endfor %}{% endfor %}"
             data-days="{% for day_label in film.seances_by_day.keys() %}{{ day_label|lower }}||{% endfor %}"
             data-formats="{{ film.formats }}">
+            <a href="/film/{{ film.slug }}" class="film-card-link" aria-hidden="true" tabindex="-1"></a>
             <img src="{{film.affiche}}" class="affiche" loading="lazy" decoding="async" width="200" height="288"
                 alt="Affiche de {{ film.title }}" />
             <div class="infoFilm">
                 <div class="blur-background"></div>
                 <div>
-                    <h3 class="titreFilm"><a href="{{ film.url }}" target="_blank">{{film.title}}</a> <span
+                    <h3 class="titreFilm"><a href="/film/{{ film.slug }}" style="color: inherit; text-decoration: none;">{{film.title}}</a> <span
                             class="release_year">({{ film.release_year }})</span>
                         <button class="favorite-btn" title="Ajouter aux favoris">
                             <svg class="favorite-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

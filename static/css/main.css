@@ -33,6 +33,7 @@
     --shadow-md: rgba(0, 0, 0, 0.5);
     --shadow-lg: rgba(0, 0, 0, 0.6);
     --bg-gradient: radial-gradient(ellipse at 80% 80%, rgba(130, 44, 247, 0.15) 0%, rgba(68, 76, 247, 0.08) 40%, transparent 70%);
+    --logo-filter: brightness(0) invert(1);
 }
 
 @font-face {
@@ -73,7 +74,6 @@ body::before {
 
 p {
     font-size: 20;
-    font-family: 'healTheWebA', sans-serif;
 }
 
 .divHeader {
@@ -2038,5 +2038,437 @@ body.show-friend-badges .friend-badge {
     .trailer-close-btn {
         top: -35px;
         right: 10px;
+    }
+}
+
+/* ── Film Card Link (homepage) ── */
+.film-card-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    border-radius: 15px;
+}
+
+.container_infoFilm {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.container_infoFilm:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px var(--shadow-md);
+}
+
+.container_infoFilm .favorite-btn,
+.container_infoFilm .trailer-btn,
+.container_infoFilm .synopsis-toggle,
+.container_infoFilm .titreFilm a {
+    position: relative;
+    z-index: 2;
+}
+
+/* ── Film Detail Page ── */
+.film-page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px 40px;
+}
+
+.film-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 18px;
+    margin: 20px 0;
+    border-radius: 10px;
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    color: var(--text-main);
+    text-decoration: none;
+    font-family: 'healTheWebA', sans-serif;
+    font-size: 14px;
+    border: 1px solid var(--border-color);
+    transition: all 0.2s;
+}
+
+.film-back-btn:hover {
+    background: var(--primary);
+    color: var(--card-solid);
+    border-color: var(--primary);
+}
+
+.film-hero {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.film-hero-bg {
+    display: none;
+}
+
+.film-hero-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: 30px;
+    padding: 20px 0;
+    align-items: flex-start;
+}
+
+.film-hero-poster {
+    width: 250px;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    flex-shrink: 0;
+}
+
+.film-hero-info {
+    flex: 1;
+    min-width: 0;
+    color: var(--text-main);
+}
+
+.film-title {
+    font-size: 32px;
+    margin: 0 0 12px;
+    line-height: 1.2;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.film-year {
+    font-weight: 400;
+    color: var(--text-muted);
+    font-size: 24px;
+}
+
+.film-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 16px;
+    font-size: 15px;
+    opacity: 0.9;
+}
+
+.film-meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.film-meta-item svg {
+    opacity: 0.8;
+}
+
+.film-genres {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.film-genre-tag {
+    padding: 4px 14px;
+    border-radius: 20px;
+    background: transparent;
+    font-size: 13px;
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+}
+
+.film-synopsis-full {
+    margin-bottom: 20px;
+    line-height: 1.6;
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.film-synopsis-full p {
+    margin: 0;
+    font-size: 15px;
+    color: var(--text-main);
+}
+
+.film-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.film-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-family: 'healTheWebA', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+}
+
+.film-link-letterboxd {
+    background: linear-gradient(135deg, #00c030, #40bcf4);
+    color: #fff;
+}
+
+.film-link-letterboxd:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 192, 48, 0.4);
+}
+
+.film-link-allocine {
+    background: linear-gradient(135deg, #fecc00, #f0b000);
+    color: #1a1a1a;
+}
+
+.film-link-allocine:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(254, 204, 0, 0.4);
+}
+
+/* ── Film Sections ── */
+.film-section {
+    margin-bottom: 30px;
+}
+
+.film-section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'healTheWebA', sans-serif;
+    font-size: 22px;
+    margin: 0 0 20px;
+    color: var(--text-main);
+}
+
+.film-section-title svg {
+    color: var(--primary);
+}
+
+/* ── Trailer ── */
+.film-trailer-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    border-radius: 12px;
+    overflow: hidden;
+    background: transparent;
+}
+
+.film-trailer-iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: none;
+    border-radius: 12px;
+}
+
+/* ── Seances Calendar ── */
+.film-seances-calendar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.film-cal-btn {
+    padding: 8px 16px;
+    background: transparent;
+    color: var(--text-muted);
+    border: 1.5px solid var(--border-color);
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'healTheWebA', sans-serif;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.film-cal-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.film-cal-btn.active {
+    background: var(--primary);
+    color: var(--card-solid);
+    border-color: var(--primary);
+}
+
+.film-day-seances {
+    display: none;
+}
+
+.film-day-seances.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.film-cinema-block {
+    margin-bottom: 8px;
+    padding: 12px 0 12px 16px;
+    border-left: 2px solid var(--border-light);
+}
+
+.film-cinema-block:last-child {
+    margin-bottom: 0;
+}
+
+.film-cinema-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.film-cinema-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text-main);
+}
+
+.film-gps-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: rgba(68, 76, 247, 0.08);
+    color: var(--primary);
+    font-size: 11px;
+    font-family: 'healTheWebA', sans-serif;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid rgba(68, 76, 247, 0.15);
+    transition: all 0.2s;
+}
+
+.film-gps-btn:hover {
+    background: var(--primary);
+    color: var(--card-solid);
+}
+
+.film-horaires {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.film-horaires .horaire-wrapper {
+    margin-left: 0;
+}
+
+/* ── Brand Blocks ── */
+.film-brand-block {
+    margin-bottom: 28px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.film-brand-block:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.film-brand-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.film-brand-logo-wrap {
+    display: flex;
+    align-items: center;
+}
+
+.cinema-brand-logo {
+    height: 28px;
+    width: auto;
+    max-width: 120px;
+    object-fit: contain;
+    filter: var(--logo-filter, none);
+}
+
+.cinema-brand-text {
+    font-family: 'healTheWebB', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.film-brand-count {
+    font-size: 12px;
+    color: var(--text-muted);
+    background: var(--border-light);
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+}
+
+/* ── Film Page Mobile ── */
+@media (max-width: 576px) {
+    .film-page {
+        padding: 0 10px 30px;
+    }
+
+    .film-back-btn {
+        margin: 10px 0;
+        font-size: 13px;
+        padding: 8px 14px;
+    }
+
+    .film-hero-content {
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .film-hero-poster {
+        width: 180px;
+    }
+
+    .film-title {
+        font-size: 22px;
+        justify-content: center;
+    }
+
+    .film-year { font-size: 18px; }
+
+    .film-meta {
+        justify-content: center;
+        font-size: 13px;
+    }
+
+    .film-genres { justify-content: center; }
+
+    .film-synopsis-full { text-align: left; }
+    .film-synopsis-full p { font-size: 13px; }
+
+    .film-links { justify-content: center; }
+
+    .film-section { padding: 16px; }
+    .film-section-title { font-size: 18px; }
+
+    .film-cal-btn { padding: 6px 12px; font-size: 12px; }
+
+    .film-cinema-block { padding: 12px; }
+    .film-cinema-name { font-size: 14px; }
+
+    .film-hero-info .favorite-btn .favorite-icon {
+        width: 22px;
+        height: 22px;
     }
 }
