@@ -371,7 +371,7 @@ class Theater:
             showtimes = []
 
         datestr = date.strftime("%Y-%m-%d")
-        r = requests.get(f"https://www.allocine.fr/_/showtimes/theater-{self.id}/d-{datestr}/p-{page}/")
+        r = requests.get(f"https://www.allocine.fr/_/showtimes/theater-{self.id}/d-{datestr}/p-{page}/", timeout=15)
 
         if r.status_code != 200:
             raise Exception(f"Error: {r.status_code} - {r.content}")
@@ -467,7 +467,7 @@ class Theater:
 
     @staticmethod
     def new(query: str):
-        r = requests.get(f"https://www.allocine.fr/_/localization_city/{query}")
+        r = requests.get(f"https://www.allocine.fr/_/localization_city/{query}", timeout=15)
 
         try:
             data = r.json()
