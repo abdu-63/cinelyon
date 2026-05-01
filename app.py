@@ -126,6 +126,31 @@ def add_cache_headers(response):
     return response
 
 
+@app.url_defaults
+def hashed_url_for_static_file(endpoint, values):
+    """Bust cache by appending the file's mtime to static URLs."""
+    if "static" == endpoint or endpoint.endswith(".static"):
+        filename = values.get("filename")
+        if filename:
+            if "." in endpoint:
+                blueprint = endpoint.rsplit(".", 1)[0]
+            else:
+                blueprint = request.blueprint
+
+            if blueprint:
+                static_folder = app.blueprints[blueprint].static_folder
+            else:
+                static_folder = app.static_folder
+
+            param_name = "v"
+            while param_name in values:
+                param_name = "_" + param_name
+            try:
+                values[param_name] = int(os.stat(os.path.join(static_folder, filename)).st_mtime)
+            except OSError:
+                pass
+
+
 def optimize_poster_url(url: str, width: int = 200) -> str:
     """Optimise l'URL d'une affiche via le proxy wsrv.nl."""
     if not url or url.startswith("/static"):
