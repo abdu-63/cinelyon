@@ -5,7 +5,7 @@ on:
     branches: [main, master]
   pull_request:
     branches: [main, master]
-  workflow_dispatch: # Permet de lancer le scan manuellement depuis l'onglet Actions
+  workflow_dispatch:
 
 jobs:
   trufflehog_scan:
@@ -15,11 +15,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Récupère tout l'historique (indispensable pour tout scanner)
+          fetch-depth: 0
 
       - name: TruffleHog OSS
         uses: trufflesecurity/trufflehog@v3.95.2
         with:
           path: ./
-          entrypoint: trufflehog
-          args: filesystem --directory=./ --only-verified --fail
+          # On utilise extra_args pour passer les commandes filesystem
+          extra_args: filesystem --only-verified --fail
