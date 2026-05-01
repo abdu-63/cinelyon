@@ -194,7 +194,6 @@ p {
 
 .info-content {
     position: relative;
-    z-index: 1;
 }
 
 .realisateur,
@@ -606,6 +605,15 @@ footer {
     opacity: 0;
 }
 
+.synopsis-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 5px;
+    position: relative;
+    z-index: 2;
+}
+
 .synopsis-toggle {
     background: none;
     border: none;
@@ -614,7 +622,6 @@ footer {
     font-family: 'healTheWebA', sans-serif;
     font-size: 14px;
     padding: 5px 0;
-    margin-top: -10px;
 }
 
 .synopsis-toggle:hover {
