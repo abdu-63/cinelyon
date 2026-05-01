@@ -444,9 +444,13 @@ def film_detail(slug):
     trailer_embed = None
     if film_data.get("trailer_url"):
         import re
+
         url = film_data["trailer_url"]
         # Robust regex for various YouTube URL formats
-        yt_regex = r'(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=|shorts\/)|youtu\.be\/)([^"&?\/\s]{11})'
+        yt_regex = (
+            r"(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=|shorts\/)"
+            r"|youtu\.be\/)([^\"&?\/\s]{11})"
+        )
         match = re.search(yt_regex, url)
         if match:
             video_id = match.group(1)
@@ -456,7 +460,18 @@ def film_detail(slug):
     film_data["trailer_embed"] = trailer_embed
 
     # Brand order for display
-    BRAND_ORDER = ["Pathé", "UGC", "Lumière", "Institut Lumière", "Ciné", "CGR", "Comoedia", "Les Amphis", "Gérard-Philipe", "Autre"]
+    BRAND_ORDER = [
+        "Pathé",
+        "UGC",
+        "Lumière",
+        "Institut Lumière",
+        "Ciné",
+        "CGR",
+        "Comoedia",
+        "Les Amphis",
+        "Gérard-Philipe",
+        "Autre",
+    ]
 
     def get_brand(cinema_name):
         """Extract brand from cinema name."""
@@ -491,11 +506,7 @@ def film_detail(slug):
                 brands[brand] = {}
             brands[brand][cinema_name] = seances
         # Sort brands by BRAND_ORDER
-        seances_by_day_grouped[day_label] = {
-            brand: brands[brand]
-            for brand in BRAND_ORDER
-            if brand in brands
-        }
+        seances_by_day_grouped[day_label] = {brand: brands[brand] for brand in BRAND_ORDER if brand in brands}
         # Append any brand not in BRAND_ORDER
         for brand in brands:
             if brand not in seances_by_day_grouped[day_label]:
