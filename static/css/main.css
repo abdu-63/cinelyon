@@ -2359,8 +2359,8 @@ body.show-friend-badges .friend-badge {
 .film-cinema-header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
+    gap: 12px;
+    margin-bottom: 12px;
 }
 
 .film-cinema-name {
@@ -2372,22 +2372,30 @@ body.show-friend-badges .friend-badge {
 .film-gps-btn {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    padding: 4px 10px;
-    border-radius: 20px;
-    background: rgba(68, 76, 247, 0.08);
-    color: var(--primary);
-    font-size: 11px;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: var(--card-solid);
+    color: var(--text-muted);
+    font-size: 12px;
     font-family: 'healTheWebA', sans-serif;
     font-weight: 600;
     text-decoration: none;
-    border: 1px solid rgba(68, 76, 247, 0.15);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 8px var(--shadow-sm);
     transition: all 0.2s;
+    cursor: pointer;
 }
 
 .film-gps-btn:hover {
-    background: var(--primary);
-    color: var(--card-solid);
+    background: var(--bg-hover);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.film-gps-btn svg {
+    stroke: currentColor;
+    opacity: 0.7;
 }
 
 .film-horaires {
