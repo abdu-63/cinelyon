@@ -520,6 +520,12 @@ footer {
     border: 1px solid var(--border-light);
 }
 
+.social-logo {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
 .social-link:hover {
     background: var(--primary);
     color: var(--card-solid);
