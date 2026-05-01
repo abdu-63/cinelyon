@@ -420,6 +420,8 @@ def film_detail(slug):
                     if cinema not in seances_by_day[day_label]:
                         seances_by_day[day_label][cinema] = []
                     seances_by_day[day_label][cinema].extend(seances)
+                    # Sort seances by time
+                    seances_by_day[day_label][cinema].sort(key=lambda x: x["time"])
                 seances_by_day[day_label] = dict(sorted(seances_by_day[day_label].items()))
 
     if film_data is None:

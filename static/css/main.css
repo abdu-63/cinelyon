@@ -1965,6 +1965,51 @@ body.show-friend-badges .friend-badge {
     flex-shrink: 0;
 }
 
+/* ── GPS Menu ── */
+.gps-menu {
+    position: absolute;
+    z-index: 1000;
+    background: var(--card-solid);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px var(--shadow-lg);
+    padding: 8px;
+    display: none;
+    flex-direction: column;
+    min-width: 180px;
+    animation: fadeIn 0.2s ease;
+}
+
+.gps-menu.show {
+    display: flex;
+}
+
+.gps-menu-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: none;
+    border: none;
+    color: var(--text-main);
+    font-family: 'healTheWebA', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.2s;
+    text-align: left;
+    width: 100%;
+}
+
+.gps-menu-option:hover {
+    background: var(--bg-main);
+}
+
+.gps-menu-option svg {
+    flex-shrink: 0;
+}
+
 /* Trailer Overlay Modal */
 .trailer-overlay {
     position: fixed;
