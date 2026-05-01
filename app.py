@@ -10,7 +10,6 @@ from flask_talisman import Talisman
 from supabase import Client, create_client
 
 dotenv.load_dotenv(".env")
-dotenv.load_dotenv(".env.sample")
 
 WEBSITE_TITLE = os.environ.get("WEBSITE_TITLE", "CinéLyon")
 
@@ -114,7 +113,7 @@ csp = {
     "worker-src": ["'self'", "blob:"],
     "frame-src": ["'self'", "https://www.youtube.com", "https://youtube.com", "https://www.youtube-nocookie.com"],
 }
-Talisman(app, content_security_policy=csp, force_https=False)
+Talisman(app, content_security_policy=csp, force_https=os.environ.get("FORCE_HTTPS", "true").lower() == "true")
 
 
 @app.after_request
@@ -192,6 +191,10 @@ def health():
 @app.route("/reload")
 def reload_data():
     """Endpoint pour forcer le rechargement des données depuis Supabase."""
+    secret = request.args.get("secret", "")
+    reload_secret = os.environ.get("RELOAD_SECRET", "")
+    if reload_secret and secret != reload_secret:
+        return "Unauthorized", 401
     global _last_load_time
     _last_load_time = None  # Invalide le cache
     data = load_movies_data(force_reload=True)
@@ -338,7 +341,8 @@ def page_not_found(e):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    debug_mode = os.environ.get("FLASK_DEBUG", "0") == "1"
+    app.run(debug=debug_mode)
 
 # pour le débug sur mobile
 """if __name__ == '__main__':

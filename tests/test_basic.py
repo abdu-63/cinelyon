@@ -1,6 +1,11 @@
+import os
+
 import pytest
 
-from app import app
+# Désactive la redirection HTTPS de Talisman pendant les tests
+os.environ.setdefault("FORCE_HTTPS", "0")
+
+from app import app  # noqa: E402
 
 
 @pytest.fixture
