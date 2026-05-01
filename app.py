@@ -443,19 +443,20 @@ def film_detail(slug):
     # Convertir trailer_url en embed URL
     trailer_embed = None
     if film_data.get("trailer_url"):
+        import re
         url = film_data["trailer_url"]
-        if "watch?v=" in url:
-            video_id = url.split("v=")[1].split("&")[0]
-            trailer_embed = f"https://www.youtube.com/embed/{video_id}"
-        elif "youtu.be/" in url:
-            video_id = url.split("youtu.be/")[1].split("?")[0]
+        # Robust regex for various YouTube URL formats
+        yt_regex = r'(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=|shorts\/)|youtu\.be\/)([^"&?\/\s]{11})'
+        match = re.search(yt_regex, url)
+        if match:
+            video_id = match.group(1)
             trailer_embed = f"https://www.youtube.com/embed/{video_id}"
         elif "youtube.com/embed/" in url or "youtube-nocookie.com/embed/" in url:
             trailer_embed = url
     film_data["trailer_embed"] = trailer_embed
 
     # Brand order for display
-    BRAND_ORDER = ["Pathé", "UGC", "Lumière", "Institut Lumière", "Ciné", "CGR", "Autre"]
+    BRAND_ORDER = ["Pathé", "UGC", "Lumière", "Institut Lumière", "Ciné", "CGR", "Comoedia", "Les Amphis", "Gérard-Philipe", "Autre"]
 
     def get_brand(cinema_name):
         """Extract brand from cinema name."""
@@ -468,10 +469,16 @@ def film_detail(slug):
             return "Lumière"
         if "institut lumière" in name:
             return "Institut Lumière"
-        if name.startswith("ciné") or name.startswith("cine"):
-            return "Ciné"
         if name.startswith("cgr"):
             return "CGR"
+        if "comoedia" in name:
+            return "Comoedia"
+        if "amphis" in name:
+            return "Les Amphis"
+        if "gerard-philipe" in name or "gérard-philipe" in name:
+            return "Gérard-Philipe"
+        if name.startswith("ciné") or name.startswith("cine"):
+            return "Ciné"
         return "Autre"
 
     # Group cinemas by brand for each day

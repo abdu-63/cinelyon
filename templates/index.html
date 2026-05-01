@@ -1368,14 +1368,16 @@ END:VCALENDAR`;
         const trailerCloseBtn = document.querySelector('.trailer-close-btn');
 
         function openTrailer(videoUrl) {
-            // Convert watch URL to embed URL if needed
+            // Robust regex for various YouTube URL formats (watch, youtu.be, embed, shorts)
+            const ytRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=|shorts\/)|youtu\.be\/)([^"&?\/\s]{11})/;
+            const match = videoUrl.match(ytRegex);
             let embedUrl = videoUrl;
-            if (videoUrl.includes('watch?v=')) {
-                const videoId = videoUrl.split('v=')[1]?.split('&')[0];
+
+            if (match && match[1]) {
+                const videoId = match[1];
                 embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-            } else if (videoUrl.includes('youtu.be/')) {
-                const videoId = videoUrl.split('youtu.be/')[1]?.split('?')[0];
-                embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+            } else if (videoUrl.includes('youtube.com/embed/') || videoUrl.includes('youtube-nocookie.com/embed/')) {
+                embedUrl = videoUrl.includes('?') ? `${videoUrl}&autoplay=1` : `${videoUrl}?autoplay=1`;
             }
 
             trailerIframe.src = embedUrl;
