@@ -2366,7 +2366,7 @@ body.show-friend-badges .friend-badge {
 }
 
 .film-cinema-block {
-    margin-bottom: 8px;
+    margin-bottom: -8px;
     padding: 12px 0 12px 16px;
     border-left: 2px solid var(--border-light);
 }
@@ -2470,7 +2470,7 @@ body.show-friend-badges .friend-badge {
     }
 
     .film-back-btn {
-        margin: 10px 0;
+        margin: 10px 0 10px 15px;
         font-size: 13px;
         padding: 8px 14px;
     }
@@ -2508,7 +2508,7 @@ body.show-friend-badges .friend-badge {
     .film-section { padding: 16px; }
     .film-section-title { font-size: 18px; }
 
-    .film-cal-btn { padding: 6px 12px; font-size: 12px; }
+    .film-cal-btn { padding: 6px 12px; font-size: 10px; }
 
     .film-cinema-block { padding: 12px; }
     .film-cinema-name { font-size: 14px; }
