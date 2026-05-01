@@ -2427,39 +2427,33 @@ body.show-friend-badges .friend-badge {
 }
 
 .film-brand-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     margin-bottom: 14px;
 }
 
-.film-brand-logo-wrap {
+.film-brand-title {
     display: flex;
     align-items: center;
+    gap: 8px;
 }
 
 .cinema-brand-logo {
-    height: 28px;
+    height: 20px;
     width: auto;
-    max-width: 120px;
+    max-width: 80px;
     object-fit: contain;
     filter: var(--logo-filter, none);
 }
 
 .cinema-brand-text {
-    font-family: 'healTheWebB', sans-serif;
     font-size: 18px;
     font-weight: 700;
     color: var(--text-main);
 }
 
 .film-brand-count {
-    font-size: 12px;
+    font-family: 'healTheWebA', sans-serif;
+    font-size: 16px;
     color: var(--text-muted);
-    background: var(--border-light);
-    padding: 3px 10px;
-    border-radius: 20px;
-    border: 1px solid var(--border-color);
 }
 
 /* ── Film Page Mobile ── */

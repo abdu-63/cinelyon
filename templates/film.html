@@ -113,22 +113,25 @@
             <div class="film-brand-block">
                 <!-- Brand Header with Logo -->
                 <div class="film-brand-header">
-                    <div class="film-brand-logo-wrap">
+                    <div class="film-brand-title">
                         {% if brand_name == "Pathé" %}
-                        <img src="https://upload.wikimedia.org/wikipedia/fr/thumb/2/2b/Path%C3%A9_Logo.svg/320px-Path%C3%A9_Logo.svg.png" alt="Pathé" class="cinema-brand-logo" />
+                        <img src="{{ url_for('static', filename='images/logo-cinema/pathe.svg') }}" alt="Pathé" class="cinema-brand-logo" />
+                        <span class="cinema-brand-text">Pathé</span>
                         {% elif brand_name == "UGC" %}
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/UGC_logo_2015.svg/320px-UGC_logo_2015.svg.png" alt="UGC" class="cinema-brand-logo" />
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/UGC_logo_2015.svg" alt="UGC" class="cinema-brand-logo" />
+                        <span class="cinema-brand-text">UGC</span>
                         {% elif brand_name == "Lumière" %}
                         <span class="cinema-brand-text">Cinémas Lumière</span>
                         {% elif brand_name == "Institut Lumière" %}
                         <span class="cinema-brand-text">Institut Lumière</span>
                         {% elif brand_name == "CGR" %}
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Logo_CGR_Cin%C3%A9mas.svg/320px-Logo_CGR_Cin%C3%A9mas.svg.png" alt="CGR" class="cinema-brand-logo" />
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Logo_CGR_Cin%C3%A9mas.svg" alt="CGR" class="cinema-brand-logo" />
+                        <span class="cinema-brand-text">CGR</span>
                         {% else %}
                         <span class="cinema-brand-text">{{ brand_name }}</span>
                         {% endif %}
+                        <span class="film-brand-count">({{ cinemas|length }})</span>
                     </div>
-                    <span class="film-brand-count">{{ cinemas|length }} cinéma{% if cinemas|length > 1 %}s{% endif %}</span>
                 </div>
 
                 <!-- Cinemas within this brand -->
