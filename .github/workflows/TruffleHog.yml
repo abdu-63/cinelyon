@@ -1,2 +1,24 @@
-- name: TruffleHog OSS
-  uses: trufflesecurity/trufflehog@v3.95.2
+name: TruffleHog OSS
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  trufflehog_scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Important pour scanner tout l'historique
+
+      - name: TruffleHog OSS
+        uses: trufflesecurity/trufflehog@v3.95.2
+        with:
+          path: ./
+          base: ${{ github.event.repository.default_branch }}
+          head: HEAD
+          extra_args: --debug --only-verified
