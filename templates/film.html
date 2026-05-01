@@ -168,7 +168,7 @@
                                 <div class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}">
                                     <span class="lang-badge">{{ seance.lang }}</span>
                                     {% if seance.format %}<span class="format-badge">{{ seance.format }}</span>{% endif %}
-                                    <p>{{ seance.time }}</p>
+                                    <p class="seance-time">{{ seance.time }}</p>
                                     <button class="calendar-btn" data-title="{{ film.title }}"
                                         data-year="{{ film.release_year }}" data-cinema="{{ cinename }}"
                                         data-duree="{{ film.duree }}" data-letterboxd="{{ film.url }}"
@@ -188,7 +188,7 @@
                             <div class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}">
                                 <span class="lang-badge">{{ seance.lang }}</span>
                                 {% if seance.format %}<span class="format-badge">{{ seance.format }}</span>{% endif %}
-                                <p>{{ seance.time }}</p>
+                                <p class="seance-time">{{ seance.time }}</p>
                                 <button class="calendar-btn" data-title="{{ film.title }}"
                                     data-year="{{ film.release_year }}" data-cinema="{{ cinename }}"
                                     data-duree="{{ film.duree }}" data-letterboxd="{{ film.url }}"

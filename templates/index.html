@@ -102,7 +102,8 @@
             <div class="infoFilm">
                 <div class="blur-background"></div>
                 <div>
-                    <h3 class="titreFilm"><a href="/film/{{ film.slug }}" style="color: inherit; text-decoration: none;">{{film.title}}</a> <span
+                    <h3 class="titreFilm"><a href="/film/{{ film.slug }}"
+                            style="color: inherit; text-decoration: none;">{{film.title}}</a> <span
                             class="release_year">({{ film.release_year }})</span>
                         <button class="favorite-btn" title="Ajouter aux favoris">
                             <svg class="favorite-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -118,23 +119,23 @@
                         <p class="rating">Note : {{ film.rating }}</p>
                     </div>
                     <div style="height: 10px;"></div>
-                        <div class="synopsis_container">
-                            <div class="synopsis">
-                                <p>{{film.synopsis}}</p>
-                            </div>
-                            <div class="synopsis-actions">
-                                <button class="synopsis-toggle" type="button">Lire plus</button>
-                                {% if film.trailer_url %}
-                                <a href="{{ film.trailer_url }}" target="_blank" rel="noopener" class="trailer-btn"
-                                    title="Voir la bande-annonce">
-                                    <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
-                                        <path d="M8 5v14l11-7z" />
-                                    </svg>
-                                    Bande-annonce
-                                </a>
-                                {% endif %}
-                            </div>
+                    <div class="synopsis_container">
+                        <div class="synopsis">
+                            <p>{{film.synopsis}}</p>
                         </div>
+                        <div class="synopsis-actions">
+                            <button class="synopsis-toggle" type="button">Lire plus</button>
+                            {% if film.trailer_url %}
+                            <a href="{{ film.trailer_url }}" target="_blank" rel="noopener" class="trailer-btn"
+                                title="Voir la bande-annonce">
+                                <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+                                    <path d="M8 5v14l11-7z" />
+                                </svg>
+                                Bande-annonce
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -171,11 +172,12 @@
                                     {% if seance.format %}
                                     <span class="format-badge">{{ seance.format }}</span>
                                     {% endif %}
-                                    <p>{{ seance.time }}</p>
+                                    <p class="seance-time">{{ seance.time }}</p>
                                     <button class="calendar-btn" data-title="{{ film.title }}"
                                         data-year="{{ film.release_year }}" data-cinema="{{ cinename }}"
                                         data-duree="{{ film.duree }}" data-letterboxd="{{ film.url }}"
-                                        data-time="{{ seance.time }}" data-lang="{{ seance.lang }}" data-day="{{ day_label }}"
+                                        data-time="{{ seance.time }}" data-lang="{{ seance.lang }}"
+                                        data-day="{{ day_label }}"
                                         data-ticket="{{ seance.ticketing_url|default('', true) }}"
                                         title="Ajouter au calendrier">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -194,11 +196,12 @@
                                 {% if seance.format %}
                                 <span class="format-badge">{{ seance.format }}</span>
                                 {% endif %}
-                                <p>{{ seance.time }}</p>
+                                <p class="seance-time">{{ seance.time }}</p>
                                 <button class="calendar-btn" data-title="{{ film.title }}"
                                     data-year="{{ film.release_year }}" data-cinema="{{ cinename }}"
                                     data-duree="{{ film.duree }}" data-letterboxd="{{ film.url }}"
-                                    data-time="{{ seance.time }}" data-lang="{{ seance.lang }}" data-day="{{ day_label }}"
+                                    data-time="{{ seance.time }}" data-lang="{{ seance.lang }}"
+                                    data-day="{{ day_label }}"
                                     data-ticket="{{ seance.ticketing_url|default('', true) }}"
                                     title="Ajouter au calendrier">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -238,7 +241,7 @@
                                 {% if seance.format %}
                                 <span class="format-badge">{{ seance.format }}</span>
                                 {% endif %}
-                                <p>{{ seance.time }}</p>
+                                <p class="seance-time">{{ seance.time }}</p>
                             </div>
                         </a>
                         {% else %}
@@ -293,18 +296,19 @@
                 <div class="sync-code-display">
                     <span id="sync-code">------</span>
                     <button id="copy-sync-code" class="sync-copy-btn" title="Copier">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16"
+                            height="16">
                             <rect x="9" y="9" width="13" height="13" rx="2" />
                             <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
                         </svg>
                     </button>
                 </div>
             </div>
-            
+
             <div class="sync-modal-divider">
                 <span>ou</span>
             </div>
-            
+
             <div class="sync-modal-section">
                 <p class="sync-modal-label">Entrer un code pour lier cet appareil :</p>
                 <div class="sync-input-row">
@@ -313,10 +317,12 @@
                     <button id="sync-link-btn" class="sync-link-btn">Lier</button>
                 </div>
             </div>
-            <p class="sync-modal-hint">Utilisez le même code sur vos appareils pour synchroniser vos favoris automatiquement.</p>
+            <p class="sync-modal-hint">Utilisez le même code sur vos appareils pour synchroniser vos favoris
+                automatiquement.</p>
 
             <div class="sync-modal-divider"></div>
-            <button id="unlink-device-btn" class="sync-unlink-btn" style="display:none;">Déconnecter cet appareil</button>
+            <button id="unlink-device-btn" class="sync-unlink-btn" style="display:none;">Déconnecter cet
+                appareil</button>
 
             <div class="sync-modal-divider"></div>
             <p class="sync-modal-label">Appareils synchronisés :</p>
@@ -332,8 +338,8 @@
                 <div class="sync-input-row friends-add-row">
                     <input type="text" id="friend-code-input" class="sync-code-input" maxlength="6" placeholder="ABC123"
                         autocomplete="off" spellcheck="false">
-                    <input type="text" id="friend-name-input" class="friend-name-input" maxlength="20" placeholder="Prénom"
-                        autocomplete="off">
+                    <input type="text" id="friend-name-input" class="friend-name-input" maxlength="20"
+                        placeholder="Prénom" autocomplete="off">
                     <button id="friend-add-btn" class="sync-link-btn">Ajouter</button>
                 </div>
             </div>
@@ -474,14 +480,14 @@
                 favTabs.forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
                 currentFavTab = tab.dataset.tab;
-                
+
                 // Toggle friend badges visibility
                 if (currentFavTab === 'amis') {
                     document.body.classList.add('show-friend-badges');
                 } else {
                     document.body.classList.remove('show-friend-badges');
                 }
-                
+
                 filterFilms(); // Trigger the main filter logic again
             });
         });
@@ -490,7 +496,7 @@
         filterFavorites.addEventListener('change', () => {
             // Compatibility for iOS < 15.4 (:has selector fallback)
             filterFavorites.parentElement.classList.toggle('active', filterFavorites.checked);
-            
+
             if (filterFavorites.checked) {
                 favTabsContainer.style.display = 'flex';
                 // Show badges if amis tab is active when toggled on
@@ -1315,7 +1321,7 @@ END:VCALENDAR`;
                     syncCodeDisplay.textContent = getSyncCode();
                     syncModal.classList.remove('show');
                     showToast('Appareil lié ! Favoris synchronisés ✨');
-                    
+
                     setTimeout(() => {
                         window.location.reload();
                     }, 1200);
@@ -1505,7 +1511,7 @@ END:VCALENDAR`;
                     method: 'PATCH',
                     body: JSON.stringify({ name: newName, last_seen: new Date().toISOString() })
                 });
-            } catch (e) {}
+            } catch (e) { }
             await loadSyncedDevices();
         }
 
@@ -1519,7 +1525,7 @@ END:VCALENDAR`;
 
             if (isMe) {
                 // Regenerate sync ID (same as global unlink button)
-                const newId = (crypto.randomUUID ? crypto.randomUUID() : ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)));
+                const newId = (crypto.randomUUID ? crypto.randomUUID() : ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)));
                 localStorage.setItem(SYNC_ID_KEY, newId);
                 localStorage.setItem('cinelyon_local_updated_at', new Date().toISOString().split('.')[0] + 'Z');
                 syncCodeDisplay.textContent = getSyncCode();
@@ -1638,7 +1644,7 @@ END:VCALENDAR`;
             try {
                 const r = await sbFetch(`favorites?or=(${query})&select=user_id,films`);
                 const rows = await r.json();
-                
+
                 rows.forEach(row => {
                     const friend = friends.find(f => f.followed_id === row.user_id);
                     const name = friend ? (friend.followed_name || row.user_id.substring(0, 6).toUpperCase()) : '?';
@@ -1655,7 +1661,7 @@ END:VCALENDAR`;
                         const currentNames = newMap[filmId];
                         const oldNames = previousFriendsFilmsMap[filmId] || [];
                         const addedNames = currentNames.filter(n => !oldNames.includes(n));
-                        
+
                         addedNames.forEach(name => {
                             newAdds.add(name);
                         });
@@ -1663,11 +1669,11 @@ END:VCALENDAR`;
 
                     if (newAdds.size > 0) {
                         const namesArr = Array.from(newAdds);
-                        const namesStr = namesArr.length > 2 
-                            ? `${namesArr.slice(0, 2).join(', ')} et d'autres` 
+                        const namesStr = namesArr.length > 2
+                            ? `${namesArr.slice(0, 2).join(', ')} et d'autres`
                             : namesArr.join(' et ');
                         showToast(`${namesStr} a ajouté un nouveau favori ! 🍿`);
-                        
+
                         // If we are currently filtering by friend favorites, refresh the view
                         const currentFavTab = document.querySelector('.fav-tab.active')?.dataset.tab;
                         if (document.getElementById('filter-favorites').checked && currentFavTab === 'amis') {
@@ -1710,7 +1716,7 @@ END:VCALENDAR`;
                 const code = f.followed_id.substring(0, 6).toUpperCase();
                 const filmCount = Object.values(window.globalFriendsFilmsMap).filter(arr => arr.includes(name)).length;
                 const isHidden = f.is_hidden || false;
-                
+
                 const item = document.createElement('div');
                 item.className = `friend-item ${isHidden ? 'is-hidden' : ''}`;
                 item.innerHTML = `
@@ -1726,15 +1732,15 @@ END:VCALENDAR`;
                     </div>
                     <div class="friend-actions">
                         <button class="friend-action-btn hide-btn" title="${isHidden ? 'Afficher' : 'Masquer'}">
-                            ${isHidden 
-                                ? `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0z"></path><circle cx="12" cy="12" r="3"></circle></svg>`
-                                : `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye-off"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"></path><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"></path><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"></path><path d="m2 2 20 20"></path></svg>`
-                            }
+                            ${isHidden
+                        ? `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0z"></path><circle cx="12" cy="12" r="3"></circle></svg>`
+                        : `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye-off"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"></path><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"></path><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"></path><path d="m2 2 20 20"></path></svg>`
+                    }
                         </button>
                         <button class="friend-action-btn remove-btn" title="Supprimer">×</button>
                     </div>
                 `;
-                
+
                 item.querySelector('.edit-btn').addEventListener('click', () => editFriendName(f.followed_id, f.followed_name));
                 item.querySelector('.hide-btn').addEventListener('click', () => toggleHideFriend(f.followed_id, isHidden));
                 item.querySelector('.remove-btn').addEventListener('click', () => removeFriend(f.followed_id));
@@ -1754,7 +1760,7 @@ END:VCALENDAR`;
                 renderFriendsList();
                 renderFriendBadges();
                 showToast(!currentHidden ? 'Ami masqué' : 'Ami affiché');
-                
+
                 // Re-filter if on friends tab
                 const currentFavTab = document.querySelector('.fav-tab.active')?.dataset.tab;
                 if (document.getElementById('filter-favorites').checked && currentFavTab === 'amis') {
@@ -1863,7 +1869,7 @@ END:VCALENDAR`;
         loadFriends().then(async () => {
             await loadFriendsFilms();
             renderFriendBadges();
-            
+
             // Start polling every 30 seconds
             setInterval(async () => {
                 await loadFriends();

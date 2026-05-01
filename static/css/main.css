@@ -1,4 +1,3 @@
-
 :root {
     --bg-main: #f5f6f8;
     --text-main: #111;
@@ -349,7 +348,7 @@ p {
 .lang-badge {
     font-size: 13px;
     font-weight: bold;
-    padding: 2px 4px;
+    padding: 0px 2px;
     border-radius: 3px;
     color: grey;
 }
@@ -359,9 +358,12 @@ p {
     color: grey;
     text-transform: uppercase;
     font-weight: bold;
+    padding: 0px 2px;
 }
 
-
+.seance-time {
+    font-size: 16px;
+}
 
 .horaire-link {
     text-decoration: none;
@@ -521,10 +523,11 @@ footer {
         text-align: center;
         margin-left: 5%;
         margin-right: 5%;
-        padding: 15px 0 70px 0; /* Garde une marge pour le bouton popcorn mais moins imposante */
+        padding: 15px 0 70px 0;
+        /* Garde une marge pour le bouton popcorn mais moins imposante */
         gap: 12px;
     }
-    
+
     .footer-info {
         order: 2;
     }
@@ -533,7 +536,7 @@ footer {
         font-size: 11px;
         margin: 2px 0;
     }
-    
+
     .footer-social {
         order: 1;
         justify-content: center;
@@ -998,7 +1001,7 @@ html {
 
     .cinema p,
     .horaire p {
-        font-size: 10px;
+        font-size: 12px;
         margin-block-start: 1em;
     }
 
@@ -1148,12 +1151,12 @@ html {
 
 .favorites-toggle:has(input:checked) .favorites-heart,
 .favorites-toggle.active .favorites-heart,
-.favorites-toggle input[type="checkbox"]:checked ~ .favorites-heart {
+.favorites-toggle input[type="checkbox"]:checked~.favorites-heart {
     fill: #ff4d4d !important;
     stroke: #ff4d4d !important;
 }
 
-.favorites-toggle input[type="checkbox"]:checked ~ .favorites-label,
+.favorites-toggle input[type="checkbox"]:checked~.favorites-label,
 .favorites-toggle.active .favorites-label {
     color: #ff4d4d;
     font-weight: bold;
@@ -1395,8 +1398,15 @@ html {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(5px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .sync-modal-close {
@@ -1558,6 +1568,7 @@ html {
         margin-bottom: 16px;
         padding-bottom: 8px;
     }
+
     .sync-modal-tab {
         font-size: 14px;
         flex: 1;
@@ -2300,8 +2311,10 @@ body.show-friend-badges .friend-badge {
 
 .film-trailer-iframe {
     position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     border: none;
     border-radius: 12px;
 }
@@ -2480,27 +2493,51 @@ body.show-friend-badges .friend-badge {
         justify-content: center;
     }
 
-    .film-year { font-size: 18px; }
+    .film-year {
+        font-size: 18px;
+    }
 
     .film-meta {
         justify-content: center;
         font-size: 13px;
     }
 
-    .film-genres { justify-content: center; }
+    .film-genres {
+        justify-content: center;
+    }
 
-    .film-synopsis-full { text-align: left; }
-    .film-synopsis-full p { font-size: 13px; }
+    .film-synopsis-full {
+        text-align: left;
+    }
 
-    .film-links { justify-content: center; }
+    .film-synopsis-full p {
+        font-size: 13px;
+    }
 
-    .film-section { padding: 16px; }
-    .film-section-title { font-size: 18px; }
+    .film-links {
+        justify-content: center;
+    }
 
-    .film-cal-btn { padding: 6px 12px; font-size: 10px; }
+    .film-section {
+        padding: 16px;
+    }
 
-    .film-cinema-block { padding: 12px; }
-    .film-cinema-name { font-size: 14px; }
+    .film-section-title {
+        font-size: 18px;
+    }
+
+    .film-cal-btn {
+        padding: 6px 12px;
+        font-size: 10px;
+    }
+
+    .film-cinema-block {
+        padding: 12px;
+    }
+
+    .film-cinema-name {
+        font-size: 14px;
+    }
 
     .film-hero-info .favorite-btn .favorite-icon {
         width: 22px;
