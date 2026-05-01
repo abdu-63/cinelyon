@@ -349,19 +349,16 @@ p {
 .lang-badge {
     font-size: 13px;
     font-weight: bold;
-    padding: 2px 6px;
+    padding: 2px 4px;
     border-radius: 3px;
     color: grey;
 }
 
 .format-badge {
-    font-size: 10px;
-    font-weight: bold;
-    padding: 2px 5px;
-    border-radius: 3px;
-    background-color: #666efe;
-    color: var(--card-solid);
+    font-size: 13px;
+    color: grey;
     text-transform: uppercase;
+    font-weight: bold;
 }
 
 
@@ -380,7 +377,6 @@ p {
 
 .horaire-link:hover .horaire {
     box-shadow: 0 4px 12px rgba(68, 76, 247, 0.3);
-    border: 2px solid var(--primary);
 }
 
 .search-container {
@@ -993,9 +989,7 @@ html {
     }
 
     .format-badge {
-        font-size: 7px;
-        padding: 1px 3px;
-        white-space: nowrap;
+        font-size: 8px;
     }
 
     .calendar-btn {
@@ -1868,29 +1862,21 @@ body.show-friend-badges .friend-badge {
 }
 
 .calendar-btn {
-    background: linear-gradient(135deg, var(--primary) 0%, #6366f1 100%);
+    background: none;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
-    padding: 4px 6px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
-    opacity: 0.85;
-    height: 28px;
-}
-
-.calendar-btn:hover {
-    transform: scale(1.1);
-    opacity: 1;
-    box-shadow: 0 4px 12px rgba(68, 76, 247, 0.4);
+    color: inherit;
+    padding: 0;
 }
 
 .calendar-btn svg {
-    width: 16px;
-    height: 16px;
-    stroke: var(--card-solid);
+    height: 18px;
+    display: block;
+    stroke-width: 2px;
+    stroke: grey;
 }
 
 .calendar-btn.added {
@@ -1904,11 +1890,6 @@ body.show-friend-badges .friend-badge {
 @media (max-width: 576px) {
     .horaire-wrapper {
         margin-left: 5px;
-    }
-
-    .calendar-btn {
-        padding: 4px 5px;
-        height: 24px;
     }
 
     .calendar-btn svg {
