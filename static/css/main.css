@@ -328,41 +328,55 @@ p {
 
 .horaire {
     background-color: var(--card-solid);
-    border-radius: 5px;
-    height: 40px;
-    min-width: 100px;
+    border-radius: 8px;
+    min-width: 90px;
     color: var(--primary);
     box-sizing: border-box;
-    align-items: center;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     justify-content: center;
     margin-left: 10px;
     box-shadow: 0 6px 20px var(--shadow-md);
     flex-shrink: 0;
     flex-grow: 0;
-    gap: 8px;
-    padding: 0 12px;
+    padding: 6px 12px 8px 12px;
+    gap: 2px;
+}
+
+.horaire-top {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.horaire-bottom {
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
 .lang-badge {
-    font-size: 13px;
+    font-size: 11px;
     font-weight: bold;
-    padding: 0px 2px;
+    padding: 0;
     border-radius: 3px;
     color: grey;
 }
 
 .format-badge {
-    font-size: 13px;
+    font-size: 11px;
     color: grey;
     text-transform: uppercase;
     font-weight: bold;
-    padding: 0px 2px;
+    padding: 0;
 }
 
 .seance-time {
     font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+    line-height: 1.1;
 }
 
 .horaire-link {

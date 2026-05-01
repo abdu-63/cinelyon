@@ -166,12 +166,41 @@
                         <div class="horaire-wrapper" data-format="{{ seance.format|default('')|lower }}">
                             {% if seance.ticketing_url %}
                             <a href="{{ seance.ticketing_url }}" target="_blank" rel="noopener" class="horaire-link">
-                                <div
-                                    class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}">
+                                <div class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}">
+                                    <div class="horaire-top">
+                                        <span class="lang-badge">{{ seance.lang }}</span>
+                                        {% if seance.format %}
+                                        <span class="format-badge">{{ seance.format }}</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="horaire-bottom">
+                                        <p class="seance-time">{{ seance.time }}</p>
+                                        <button class="calendar-btn" data-title="{{ film.title }}"
+                                            data-year="{{ film.release_year }}" data-cinema="{{ cinename }}"
+                                            data-duree="{{ film.duree }}" data-letterboxd="{{ film.url }}"
+                                            data-time="{{ seance.time }}" data-lang="{{ seance.lang }}"
+                                            data-day="{{ day_label }}"
+                                            data-ticket="{{ seance.ticketing_url|default('', true) }}"
+                                            title="Ajouter au calendrier">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                                <rect x="3" y="4" width="18" height="18" rx="2" />
+                                                <line x1="3" y1="10" x2="21" y2="10" />
+                                                <line x1="8" y1="2" x2="8" y2="6" />
+                                                <line x1="16" y1="2" x2="16" y2="6" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </a>
+                            {% else %}
+                            <div class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}">
+                                <div class="horaire-top">
                                     <span class="lang-badge">{{ seance.lang }}</span>
                                     {% if seance.format %}
                                     <span class="format-badge">{{ seance.format }}</span>
                                     {% endif %}
+                                </div>
+                                <div class="horaire-bottom">
                                     <p class="seance-time">{{ seance.time }}</p>
                                     <button class="calendar-btn" data-title="{{ film.title }}"
                                         data-year="{{ film.release_year }}" data-cinema="{{ cinename }}"
@@ -188,29 +217,6 @@
                                         </svg>
                                     </button>
                                 </div>
-                            </a>
-                            {% else %}
-                            <div
-                                class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}">
-                                <span class="lang-badge">{{ seance.lang }}</span>
-                                {% if seance.format %}
-                                <span class="format-badge">{{ seance.format }}</span>
-                                {% endif %}
-                                <p class="seance-time">{{ seance.time }}</p>
-                                <button class="calendar-btn" data-title="{{ film.title }}"
-                                    data-year="{{ film.release_year }}" data-cinema="{{ cinename }}"
-                                    data-duree="{{ film.duree }}" data-letterboxd="{{ film.url }}"
-                                    data-time="{{ seance.time }}" data-lang="{{ seance.lang }}"
-                                    data-day="{{ day_label }}"
-                                    data-ticket="{{ seance.ticketing_url|default('', true) }}"
-                                    title="Ajouter au calendrier">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                        <rect x="3" y="4" width="18" height="18" rx="2" />
-                                        <line x1="3" y1="10" x2="21" y2="10" />
-                                        <line x1="8" y1="2" x2="8" y2="6" />
-                                        <line x1="16" y1="2" x2="16" y2="6" />
-                                    </svg>
-                                </button>
                             </div>
                             {% endif %}
                         </div>
