@@ -26,3 +26,8 @@ ignore = []
 pythonpath = "."
 testpaths = ["tests"]
 python_files = "test_*.py"
+
+[tool.pyrefly]
+# Pyrefly analyses code fragments out of context (virtual inmemory files),
+# generating false positives. The real linter (ruff) reports no issues.
+ignore_missing_imports = true
