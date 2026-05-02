@@ -187,8 +187,7 @@ p {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     z-index: -1;
-    border-radius: 20px;
-    box-shadow: 0 8px 32px var(--shadow-lg);
+    border-radius: 15px;
 }
 
 .info-content {
@@ -1095,10 +1094,9 @@ html {
     .blur-background {
         background: rgba(255, 255, 255, 0.3);
         backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         z-index: -1;
-        border-radius: 5px;
-        box-shadow: 0 -4px 16px var(--shadow-lg);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        border-radius: 15px;
     }
 
 
