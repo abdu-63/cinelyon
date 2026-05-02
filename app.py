@@ -122,7 +122,13 @@ Talisman(app, content_security_policy=csp, force_https=os.environ.get("FORCE_HTT
 def add_cache_headers(response):
     """Ajoute des headers de cache pour les fichiers statiques."""
     if request.path.startswith("/static/"):
-        response.headers["Cache-Control"] = "public, max-age=604800"
+        # Ne jamais cacher sw.js ou manifest.json pour permettre les mises à jour PWA
+        if "sw.js" in request.path or "manifest.json" in request.path:
+            response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+            response.headers["Pragma"] = "no-cache"
+            response.headers["Expires"] = "0"
+        else:
+            response.headers["Cache-Control"] = "public, max-age=604800"
     return response
 
 
