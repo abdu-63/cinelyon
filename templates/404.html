@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
 {% block body %}
-<main style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 50vh; text-align: center; padding: 2rem;">
-    <h2 style="font-size: 3rem; margin-bottom: 1rem; color: var(--primary-color, #444cf7);">404</h2>
-    <h3 style="font-size: 1.5rem; margin-bottom: 1.5rem;">Page non trouvée</h3>
-    <p style="margin-bottom: 2rem; color: #666;">La page que vous recherchez n'existe pas, a été supprimée ou est temporairement indisponible.</p>
-    <a href="{{ url_for('home') }}" style="background-color: var(--primary-color, #444cf7); color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s;">Retour à l'accueil</a>
+<main class="page-404">
+    <h2 class="page-404-title">404</h2>
+    <h3 class="page-404-subtitle">Page non trouvée</h3>
+    <p class="page-404-text">La page que vous recherchez n'existe pas, a été supprimée ou est temporairement indisponible.</p>
+    <a href="{{ url_for('home') }}" class="page-404-btn">Retour à l'accueil</a>
 </main>
 {% endblock %}

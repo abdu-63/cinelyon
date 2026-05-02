@@ -2625,3 +2625,43 @@ body.show-friend-badges .friend-badge {
         height: 22px;
     }
 }
+/* ── 404 Page ── */
+.page-404 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
+    text-align: center;
+    padding: 2rem;
+}
+
+.page-404-title {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: var(--primary);
+}
+
+.page-404-subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.page-404-text {
+    margin-bottom: 2rem;
+    color: var(--text-muted);
+}
+
+.page-404-btn {
+    background-color: var(--primary);
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.page-404-btn:hover {
+    opacity: 0.85;
+}

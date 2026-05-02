@@ -2,6 +2,8 @@ const CACHE_NAME = 'cinelyon-v2';
 const STATIC_ASSETS = [
     '/',
     '/static/css/main.css',
+    '/static/js/film.js',
+    '/static/js/index.js',
     '/static/images/nocontent.png',
     '/static/images/background.svg'
 ];
