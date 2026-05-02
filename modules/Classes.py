@@ -145,10 +145,11 @@ class Movie:
         self.genres = [genre["translate"] for genre in data.get("genres", [])]
         self.wantToSee = (data.get("stats") or {}).get("wantToSeeCount", 0)
 
-        # --- TMDB (Trailer YouTube, Titre anglais, et Affiche TMDB par défaut) ---
+        # --- TMDB (Trailer YouTube, Titre anglais, Watch Providers, et Affiche TMDB par défaut) ---
         tmdb_data = self._get_tmdb_extras()
         self.trailer_url = tmdb_data.get("trailer_url")
         self.english_title = tmdb_data.get("english_title", self.original_title)
+        self.watch_providers = tmdb_data.get("watch_providers", [])
 
         # Affiche TMDB trouvée en premier, sinon fallback sur Allociné, sinon image par défaut
         try:
@@ -213,11 +214,11 @@ class Movie:
 
         if cache_key in _tmdb_cache:
             cached_data = _tmdb_cache[cache_key]
-            # Si l'ancienne entrée de cache n'a pas l'affiche TMDB, on force un refetch
-            if "tmdb_poster" in cached_data:
+            # Si l'ancienne entrée de cache n'a pas l'affiche TMDB ou les watch_providers, on force un refetch
+            if "tmdb_poster" in cached_data and "watch_providers" in cached_data:
                 return cached_data
 
-        default = {"trailer_url": None, "english_title": self.original_title, "tmdb_poster": None}
+        default = {"trailer_url": None, "english_title": self.original_title, "tmdb_poster": None, "watch_providers": []}
 
         if not TMDB_API_KEY:
             return default
@@ -289,17 +290,29 @@ class Movie:
                 except Exception:
                     pass
 
-                # Titre anglais pour Letterboxd
+                # Titre anglais pour Letterboxd et Watch Providers
                 english_title = self.original_title
+                watch_providers = []
                 try:
                     en_url = f"https://api.themoviedb.org/3/movie/{movie_id}"
                     en_data = tmdb_request(en_url, {"api_key": TMDB_API_KEY, "language": "en-US"})
                     if en_data.get("title"):
                         english_title = en_data["title"]
+                        
+                    # Plateformes de streaming
+                    providers_url = f"https://api.themoviedb.org/3/movie/{movie_id}/watch/providers"
+                    providers_data = tmdb_request(providers_url, {"api_key": TMDB_API_KEY})
+                    fr_providers = providers_data.get("results", {}).get("FR", {})
+                    if fr_providers.get("flatrate"):
+                        for provider in fr_providers["flatrate"]:
+                            watch_providers.append({
+                                "name": provider.get("provider_name"),
+                                "logo_path": f"https://image.tmdb.org/t/p/original{provider.get('logo_path')}" if provider.get("logo_path") else None
+                            })
                 except Exception:
                     pass
 
-                result = {"trailer_url": trailer_url, "english_title": english_title, "tmdb_poster": tmdb_poster}
+                result = {"trailer_url": trailer_url, "english_title": english_title, "tmdb_poster": tmdb_poster, "watch_providers": watch_providers}
                 _tmdb_cache[cache_key] = result
                 save_tmdb_cache_entry(cache_key, result)
                 return result

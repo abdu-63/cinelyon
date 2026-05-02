@@ -99,6 +99,7 @@ def get_showtimes(theaters: list[Theater], date: datetime) -> list[dict]:
                 "url": movie.letterboxd_url,
                 "allocine_url": movie.allocine_url,
                 "trailer_url": movie.trailer_url,
+                "watch_providers": movie.watch_providers,
                 "seances": {},
             }
 

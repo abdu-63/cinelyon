@@ -333,6 +333,7 @@ def home():
                     "url": film["url"],
                     "allocine_url": film.get("allocine_url", ""),
                     "trailer_url": film.get("trailer_url"),
+                    "watch_providers": film.get("watch_providers", []),
                     "slug": slugify(film["title"], film.get("release_year", "")),
                     "seances_by_day": {},
                 }
@@ -443,6 +444,7 @@ def film_detail(slug):
                         "url": film["url"],
                         "allocine_url": film.get("allocine_url", ""),
                         "trailer_url": film.get("trailer_url"),
+                        "watch_providers": film.get("watch_providers", []),
                         "slug": film_slug,
                     }
 

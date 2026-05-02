@@ -227,6 +227,29 @@
         {% endfor %}
     </section>
     {% endif %}
+
+    <!-- Streaming Providers Section -->
+    {% if film.watch_providers %}
+    <section class="film-section">
+        <h2 class="film-section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
+            </svg>
+            Disponible en streaming
+        </h2>
+        <div class="watch-providers-container" style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 1rem;">
+            {% for provider in film.watch_providers %}
+                {% if provider.logo_path %}
+                <div class="provider-logo-wrapper" title="{{ provider.name }}" style="background: rgba(255,255,255,0.05); padding: 4px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; transition: transform 0.2s ease; cursor: default;">
+                    <img src="{{ provider.logo_path }}" alt="{{ provider.name }}" style="width: 48px; height: 48px; border-radius: 8px; object-fit: cover;">
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
 </div>
 
 <script src="{{ url_for('static', filename='js/film.js') }}" defer></script>
