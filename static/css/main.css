@@ -293,7 +293,7 @@ p {
 .cinema {
     background-color: var(--primary);
     border-radius: 5px;
-    height: 48px;
+    min-height: 48px;
     width: 200px;
     color: var(--card-solid);
     padding-left: 10px;
@@ -1019,7 +1019,7 @@ html {
     }
 
     .cinema {
-        height: 36px;
+        min-height: 36px;
         width: 100px;
         color: var(--card-solid);
         padding-right: 5px;
