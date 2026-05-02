@@ -338,6 +338,8 @@ def home():
                 if cinema not in all_films[title]["seances_by_day"][day_label]:
                     all_films[title]["seances_by_day"][day_label][cinema] = []
                 all_films[title]["seances_by_day"][day_label][cinema].extend(seances)
+                # Sort seances by time
+                all_films[title]["seances_by_day"][day_label][cinema].sort(key=lambda x: x["time"])
             # Réordonner le dict du jour par ordre alphabétique des cinémas
             all_films[title]["seances_by_day"][day_label] = dict(
                 sorted(all_films[title]["seances_by_day"][day_label].items())
