@@ -242,11 +242,35 @@
         <div class="watch-providers-container" style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 1rem;">
             {% for provider in film.watch_providers %}
                 {% if provider.logo_path %}
-                <div class="provider-logo-wrapper" title="{{ provider.name }}" style="background: rgba(255,255,255,0.05); padding: 4px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; transition: transform 0.2s ease; cursor: default;">
+                
+                {% set provider_name = provider.name %}
+                {% set search_query = film.title|urlencode %}
+                {% set provider_url = 'https://www.google.com/search?q=regarder+' ~ search_query ~ '+sur+' ~ provider_name|urlencode %}
+                
+                {% if 'Netflix' in provider_name %}
+                    {% set provider_url = 'https://www.netflix.com/search?q=' ~ search_query %}
+                {% elif 'Prime Video' in provider_name or 'Amazon' in provider_name %}
+                    {% set provider_url = 'https://www.primevideo.com/search/ref=atv_nb_sr?phrase=' ~ search_query %}
+                {% elif 'Canal+' in provider_name or 'Canal VOD' in provider_name %}
+                    {% set provider_url = 'https://www.canalplus.com/recherche/?q=' ~ search_query %}
+                {% elif 'Disney' in provider_name %}
+                    {% set provider_url = 'https://www.disneyplus.com/search?q=' ~ search_query %}
+                {% elif 'Apple TV' in provider_name %}
+                    {% set provider_url = 'https://tv.apple.com/fr/search?q=' ~ search_query %}
+                {% elif 'MUBI' in provider_name %}
+                    {% set provider_url = 'https://mubi.com/fr/search/query?utf8=✓&q=' ~ search_query %}
+                {% elif 'Crunchyroll' in provider_name %}
+                    {% set provider_url = 'https://www.crunchyroll.com/fr/search?q=' ~ search_query %}
+                {% endif %}
+
+                <a href="{{ provider_url }}" target="_blank" rel="noopener noreferrer" class="provider-logo-wrapper" title="Chercher {{ film.title }} sur {{ provider.name }}" style="background: rgba(255,255,255,0.05); padding: 4px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; transition: transform 0.2s ease; cursor: pointer; text-decoration: none;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
                     <img src="{{ provider.logo_path }}" alt="{{ provider.name }}" style="width: 48px; height: 48px; border-radius: 8px; object-fit: cover;">
-                </div>
+                </a>
                 {% endif %}
             {% endfor %}
+        </div>
+        <div style="margin-top: 12px; font-size: 0.8rem; color: rgba(255,255,255,0.5);">
+            Données de streaming fournies par <a href="https://www.justwatch.com/" target="_blank" style="color: inherit; text-decoration: underline;">JustWatch</a>.
         </div>
     </section>
     {% endif %}
