@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cinelyon-v1';
+const CACHE_NAME = 'cinelyon-v2';
 const STATIC_ASSETS = [
     '/',
     '/static/css/main.css',
