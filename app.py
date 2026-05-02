@@ -490,9 +490,11 @@ def film_detail(slug):
         "UGC",
         "Lumière",
         "Institut Lumière",
-        "Ciné",
-        "CGR",
         "Comoedia",
+        "CGR",
+        "Ciné Meyzieu",
+        "Ciné Toboggan",
+        "Ciné Saint-Denis",
         "Les Amphis",
         "Gérard-Philipe",
         "Autre",
@@ -517,6 +519,12 @@ def film_detail(slug):
             return "Les Amphis"
         if "gerard-philipe" in name or "gérard-philipe" in name:
             return "Gérard-Philipe"
+        if "meyzieu" in name:
+            return "Ciné Meyzieu"
+        if "toboggan" in name:
+            return "Ciné Toboggan"
+        if "saint-denis" in name:
+            return "Ciné Saint-Denis"
         if name.startswith("ciné") or name.startswith("cine"):
             return "Ciné"
         return "Autre"

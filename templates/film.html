@@ -119,25 +119,31 @@
                         <img src="{{ url_for('static', filename='images/logo-cinema/UGC.svg') }}" alt="UGC" class="cinema-brand-logo" />
                         <span class="cinema-brand-text">UGC</span>
                         {% elif brand_name == "Lumière" %}
-                        <img src="{{ url_for('static', filename='images/logo-cinema/lumiere.svg') }}" alt="Lumière" class="cinema-brand-logo" />
+                        <img src="{{ url_for('static', filename='images/logo-cinema/lumiere.webp') }}" alt="Lumière" class="cinema-brand-logo" />
                         <span class="cinema-brand-text">Cinémas Lumière</span>
                         {% elif brand_name == "Institut Lumière" %}
                         <img src="{{ url_for('static', filename='images/logo-cinema/institut-lumiere.svg') }}" alt="Institut Lumière" class="cinema-brand-logo" />
                         <span class="cinema-brand-text">Institut Lumière</span>
                         {% elif brand_name == "CGR" %}
-                        <img src="{{ url_for('static', filename='images/logo-cinema/CGR.png') }}" alt="CGR" class="cinema-brand-logo" />
+                        <img src="{{ url_for('static', filename='images/logo-cinema/CGR.webp') }}" alt="CGR" class="cinema-brand-logo" />
                         <span class="cinema-brand-text">CGR</span>
-                        {% elif brand_name == "Ciné" %}
-                        <img src="{{ url_for('static', filename='images/logo-cinema/cine-meyzieu.png') }}" alt="Ciné Meyzieu" class="cinema-brand-logo" />
+                        {% elif brand_name == "Ciné Meyzieu" %}
+                        <img src="{{ url_for('static', filename='images/logo-cinema/cine-meyzieu.webp') }}" alt="Ciné Meyzieu" class="cinema-brand-logo" />
                         <span class="cinema-brand-text">Ciné Meyzieu</span>
+                        {% elif brand_name == "Ciné Toboggan" %}
+                        <img src="{{ url_for('static', filename='images/logo-cinema/cine-toboggan.png') }}" alt="Ciné Toboggan" class="cinema-brand-logo" />
+                        <span class="cinema-brand-text">Ciné Toboggan</span>
+                        {% elif brand_name == "Ciné Saint-Denis" %}
+                        <img src="{{ url_for('static', filename='images/logo-cinema/cinema-st-denis.png') }}" alt="Ciné Saint-Denis" class="cinema-brand-logo" />
+                        <span class="cinema-brand-text">Ciné Saint-Denis</span>
                         {% elif brand_name == "Comoedia" %}
-                        <img src="{{ url_for('static', filename='images/logo-cinema/comoedia.svg') }}" alt="Comoedia" class="cinema-brand-logo" />
+                        <img src="{{ url_for('static', filename='images/logo-cinema/comoedia.webp') }}" alt="Comoedia" class="cinema-brand-logo" />
                         <span class="cinema-brand-text">Comoedia</span>
                         {% elif brand_name == "Les Amphis" %}
-                        <img src="{{ url_for('static', filename='images/logo-cinema/amphis.svg') }}" alt="Les Amphis" class="cinema-brand-logo" />
+                        <img src="{{ url_for('static', filename='images/logo-cinema/les-amphis.webp') }}" alt="Les Amphis" class="cinema-brand-logo" />
                         <span class="cinema-brand-text">Les Amphis</span>
                         {% elif brand_name == "Gérard-Philipe" %}
-                        <img src="{{ url_for('static', filename='images/logo-cinema/gerard-philipe.svg') }}" alt="Gérard-Philipe" class="cinema-brand-logo" />
+                        <img src="{{ url_for('static', filename='images/logo-cinema/Gerard-Philipe.webp') }}" alt="Gérard-Philipe" class="cinema-brand-logo" />
                         <span class="cinema-brand-text">Gérard-Philipe</span>
                         {% else %}
                         <span class="cinema-brand-text">{{ brand_name }}</span>
