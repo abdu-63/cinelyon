@@ -44,6 +44,16 @@
             const todayBlock = wrapper.querySelector('.day-seances[data-day="0"]');
             if (!todayBlock) return;
 
+            const btn = wrapper.querySelector('.mini-cal-btn[data-day="0"]');
+            if (btn) {
+                const dayDate = parseDayLabel(btn.textContent.trim());
+                if (dayDate.getDate() !== now.getDate() || 
+                    dayDate.getMonth() !== now.getMonth() || 
+                    dayDate.getFullYear() !== now.getFullYear()) {
+                    return;
+                }
+            }
+
             todayBlock.querySelectorAll('.horaire-wrapper').forEach(hw => {
                 const timeStr = hw.dataset.time;
                 if (!timeStr) return;

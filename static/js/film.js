@@ -44,6 +44,16 @@ function hidePastSeances() {
     const todayBlock = document.querySelector('.film-day-seances[data-day="0"]');
     if (!todayBlock) return;
 
+    const todayBtn = document.querySelector('.film-cal-btn[data-day="0"]');
+    if (todayBtn) {
+        const dayDate = parseDayLabel(todayBtn.textContent.trim());
+        if (dayDate.getDate() !== now.getDate() || 
+            dayDate.getMonth() !== now.getMonth() || 
+            dayDate.getFullYear() !== now.getFullYear()) {
+            return;
+        }
+    }
+
     todayBlock.querySelectorAll('.horaire-wrapper').forEach(hw => {
         const timeStr = hw.dataset.time;
         if (!timeStr) return;
