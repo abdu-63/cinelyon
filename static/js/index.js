@@ -47,7 +47,8 @@
             todayBlock.querySelectorAll('.horaire-wrapper').forEach(hw => {
                 const timeStr = hw.dataset.time;
                 if (!timeStr) return;
-                const [h, m] = timeStr.split('h').map(Number);
+                const cleanTimeStr = timeStr.replace('h', ':');
+                const [h, m] = cleanTimeStr.split(':').map(Number);
                 const seanceMinutes = h * 60 + (m || 0);
                 if (seanceMinutes < currentMinutes) {
                     hw.style.display = 'none';
