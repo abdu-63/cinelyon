@@ -160,7 +160,7 @@ p {
 .affiche {
     width: 200px;
     height: 288px;
-    border-radius: 5px;
+    border-radius: 15px 0 0 15px;
     padding-right: 30px;
 }
 
@@ -175,6 +175,7 @@ p {
     border-radius: 15px;
     box-shadow: 0 8px 32px var(--shadow-lg);
     margin-bottom: 10px;
+    overflow: hidden;
 }
 
 .blur-background {
