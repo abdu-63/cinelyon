@@ -55,24 +55,26 @@ Fork de [grainParisArt-Public](https://github.com/solene-drnx/grainParisArt-Publ
 
 ## Fonctionnalités
 
-- **Calendrier interactif** : Visualisez les horaires jusqu'à 25 jours à l'avance
+- **Calendrier interactif** : Visualisez les horaires jusqu'à 25 jours à l'avance.
 - **Informations détaillées** : Synopsis, titres originaux et données ultra-fiables basés sur Allociné. Affiches de haute qualité et bandes-annonces récupérées via TMDB (avec fallback sur Allociné).
-- **Système de favoris & Amis** : Sauvegardez vos films préférés et suivez vos amis pour voir leurs sélections (synchronisation via Supabase).
+- **Vue de films complète** : Accès complet aux fiches détaillées.
+**Système de favoris & Amis** : Sauvegardez vos films préférés et suivez vos amis pour voir leurs sélections (synchronisation via Supabase).
 - **Barre de recherche avancée** : Filtrez par titre, genre, réalisateur, cinéma, jour ou format (IMAX, 4DX...).
 - **Bandes-annonces & Liens** : Visionnez le trailer YouTube directement ou accédez à la fiche Allociné / Letterboxd du film.
 - **Badges Formats & Langues** : Filtre et indication globale des séances spéciales via un style unique (IMAX, 4DX, Dolby, ICE, 3D, Avant-premières, Live) et VO/VF.
 - **Scraping automatique** : Données mises à jour quotidiennement via GitHub Actions.
 - **Instagram Automation** (en cours) : Pipeline complet pour générer et publier les séances du jour sur Instagram.
 - **PWA** : Installable sur mobile avec Service Worker.
-- **SEO & Performance** : Sitemap dynamique, compression Gzip et headers de sécurité CSP.
+- **SEO & Sécurité** : Sitemap dynamique, robots.txt, security.txt, compression Gzip et headers de sécurité CSP.
 
 ## Optimisations
 
-- **Compression Gzip** : Réponses HTTP compressées via Flask-Compress
-- **Sécurité CSP** : Headers de sécurité avec Flask-Talisman
-- **Cache TTL 5 min** : Données Supabase mises en cache mémoire côté serveur
-- **Proxy d'images** : Affiches optimisées via wsrv.nl
-- **Cache HTTP** : Headers de cache pour les fichiers statiques
+- **Compression Gzip** : Réponses HTTP compressées via Flask-Compress.
+- **Sécurité CSP** : Headers de sécurité avec Flask-Talisman.
+- **Cache TTL 5 min** : Données Supabase mises en cache mémoire côté serveur.
+- **Automatic Cache Busting** : Invalidation automatique du cache navigateur pour les fichiers statiques (CSS/JS) lors des mises à jour.
+- **Proxy d'images** : Affiches optimisées via wsrv.nl.
+- **Cache HTTP** : Headers de cache optimisés pour les fichiers statiques.
 
 ## Architecture
 
