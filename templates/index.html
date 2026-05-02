@@ -163,7 +163,7 @@
                     </div>
                     <div class="horaires_container">
                         {% for seance in seances %}
-                        <div class="horaire-wrapper" data-format="{{ seance.format|default('')|lower }}">
+                        <div class="horaire-wrapper" data-format="{{ seance.format|default('')|lower }}" data-time="{{ seance.time }}">
                             {% if seance.ticketing_url %}
                             <a href="{{ seance.ticketing_url }}" target="_blank" rel="noopener" class="horaire-link">
                                 <div class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}">
@@ -405,6 +405,40 @@
             });
         });
     });
+
+    /**
+     * Cache les séances passées pour le jour en cours (data-day="0").
+     * Compare l'heure de chaque séance à l'heure locale actuelle.
+     */
+    function hidePastSeances() {
+        const now = new Date();
+        const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+        document.querySelectorAll('.seances-wrapper').forEach(wrapper => {
+            const todayBlock = wrapper.querySelector('.day-seances[data-day="0"]');
+            if (!todayBlock) return;
+
+            todayBlock.querySelectorAll('.horaire-wrapper').forEach(hw => {
+                const timeStr = hw.dataset.time;
+                if (!timeStr) return;
+                const [h, m] = timeStr.split('h').map(Number);
+                const seanceMinutes = h * 60 + (m || 0);
+                if (seanceMinutes < currentMinutes) {
+                    hw.style.display = 'none';
+                }
+            });
+
+            // Si toutes les séances d'un cinéma sont cachées, cacher le conteneur
+            todayBlock.querySelectorAll('.seance_container').forEach(container => {
+                const visible = container.querySelectorAll('.horaire-wrapper:not([style*="display: none"])');
+                if (visible.length === 0) {
+                    container.style.display = 'none';
+                }
+            });
+        });
+    }
+
+    hidePastSeances();
 
     document.querySelectorAll('.synopsis-toggle').forEach(btn => {
         const synopsis = btn.closest('.synopsis_container').querySelector('.synopsis');

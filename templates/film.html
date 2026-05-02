@@ -166,7 +166,7 @@
                     </div>
                     <div class="film-horaires">
                         {% for seance in seances %}
-                        <div class="horaire-wrapper">
+                        <div class="horaire-wrapper" data-time="{{ seance.time }}">
                             {% if seance.ticketing_url %}
                             <a href="{{ seance.ticketing_url }}" target="_blank" rel="noopener" class="horaire-link">
                                 <div class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}">
@@ -267,6 +267,43 @@
             if (target) target.classList.add('show');
         });
     });
+
+    // ── Cache les séances passées (aujourd'hui uniquement) ──
+    function hidePastSeances() {
+        const now = new Date();
+        const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+        const todayBlock = document.querySelector('.film-day-seances[data-day="0"]');
+        if (!todayBlock) return;
+
+        todayBlock.querySelectorAll('.horaire-wrapper').forEach(hw => {
+            const timeStr = hw.dataset.time;
+            if (!timeStr) return;
+            const [h, m] = timeStr.split('h').map(Number);
+            const seanceMinutes = h * 60 + (m || 0);
+            if (seanceMinutes < currentMinutes) {
+                hw.style.display = 'none';
+            }
+        });
+
+        // Cacher les blocs cinéma sans séances visibles
+        todayBlock.querySelectorAll('.film-cinema-block').forEach(block => {
+            const visible = block.querySelectorAll('.horaire-wrapper:not([style*="display: none"])');
+            if (visible.length === 0) {
+                block.style.display = 'none';
+            }
+        });
+
+        // Cacher les blocs marque sans cinémas visibles
+        todayBlock.querySelectorAll('.film-brand-block').forEach(block => {
+            const visible = block.querySelectorAll('.film-cinema-block:not([style*="display: none"])');
+            if (visible.length === 0) {
+                block.style.display = 'none';
+            }
+        });
+    }
+
+    hidePastSeances();
 
     // ── Cinema URLs ──
     const cinemaUrls = {
