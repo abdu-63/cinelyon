@@ -5,31 +5,43 @@ import { generateCaption } from './04_generate_caption';
 import { publishInstagram } from './05_publish_instagram';
 
 async function main() {
-  console.log("🎬 Début du workflow Instagram Automatique");
+  const isDryRun = process.argv.includes('--dry-run');
+
+  if (isDryRun) {
+    console.log("🧪 MODE DRY-RUN — Les images seront générées mais rien ne sera publié sur Instagram.\n");
+  } else {
+    console.log("🎬 Début du workflow Instagram Automatique\n");
+  }
 
   try {
     // ÉTAPE 1: Sélection et scoring
-    console.log("\n[1/5] Sélection et scoring des films...");
+    console.log("[1/5] Sélection et scoring des films...");
     await selectFilms();
-    console.log("✅ Films sélectionnés.");
+    console.log("✅ Films sélectionnés.\n");
 
     // ÉTAPE 2: Fetch des séances de demain
-    console.log("\n[2/5] Récupération des séances à Lyon pour demain...");
+    console.log("[2/5] Récupération des séances à Lyon pour demain...");
     await fetchShowtimes();
-    console.log("✅ Séances récupérées.");
+    console.log("✅ Séances récupérées.\n");
 
     // ÉTAPE 3: Génération des images
-    console.log("\n[3/5] Génération du carrousel d'images (Satori/Resvg)...");
+    console.log("[3/5] Génération du carrousel d'images (Satori/Resvg)...");
     await generateCarousel();
-    console.log("✅ Images PNG générées.");
+    console.log("✅ Images PNG générées.\n");
 
     // ÉTAPE 4: Génération de la description
-    console.log("\n[4/5] Génération de la légende du post...");
+    console.log("[4/5] Génération de la légende du post...");
     generateCaption();
-    console.log("✅ Légende créée.");
+    console.log("✅ Légende créée.\n");
+
+    if (isDryRun) {
+      console.log("🧪 DRY-RUN terminé ! Tes slides sont dans : scripts/instagram/output/slides/");
+      console.log("   Lance sans --dry-run pour publier sur Instagram.");
+      return;
+    }
 
     // ÉTAPE 5: Publication Meta API
-    console.log("\n[5/5] Publication sur Instagram...");
+    console.log("[5/5] Publication sur Instagram...");
     await publishInstagram();
     console.log("✅ Publication terminée avec succès !");
 
