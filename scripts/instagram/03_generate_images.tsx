@@ -192,7 +192,7 @@ export async function generateCarousel(): Promise<string[]> {
       <div style={{ display: 'flex', position: 'absolute', bottom: 200, left: 0, right: 0, flexDirection: 'column', alignItems: 'center' }}>
 
         <div style={{ display: 'flex', width: 700, justifyContent: 'flex-end', marginBottom: 24 }}>
-          <span style={{ display: 'flex', fontSize: 56, fontWeight: 800, color: WHITE }}>
+          <span style={{ display: 'flex', fontSize: 56, fontWeight: 800, color: WHITE, paddingRight: 25 }}>
             {cal.monthName}
           </span>
         </div>
