@@ -129,6 +129,13 @@ def add_cache_headers(response):
             response.headers["Expires"] = "0"
         else:
             response.headers["Cache-Control"] = "public, max-age=604800"
+    elif response.content_type and "text/html" in response.content_type:
+        # Les pages HTML ne doivent jamais être mises en cache :
+        # elles contiennent des URLs versionnées vers les CSS/JS, et si une
+        # vieille page est servie depuis le cache, le navigateur utilisera
+        # les anciens assets (même si le SW a été mis à jour).
+        response.headers["Cache-Control"] = "no-cache, must-revalidate"
+        response.headers["Pragma"] = "no-cache"
     return response
 
 
@@ -226,6 +233,70 @@ def translateDay(weekday: int):
             return "Dim"
         case _:
             return "???"
+
+
+@app.route("/force-update")
+def force_update():
+    """
+    Page de secours accessible depuis l'iPhone pour forcer la mise à jour du cache.
+    Ouvrir cinelyon.fr/force-update dans Safari pour vider le cache du SW et revenir
+    sur la page d'accueil avec les assets frais.
+    """
+    html = """<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mise à jour forcée — CinéLyon</title>
+    <style>
+        body { font-family: -apple-system, sans-serif; text-align: center;
+               padding: 40px 20px; background: #121212; color: #e0e0e0; }
+        h1 { color: #626afc; }
+        p { color: #aaa; margin: 10px 0; }
+        .spinner { font-size: 40px; animation: spin 1s linear infinite; display: inline-block; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="spinner">🔄</div>
+    <h1>Mise à jour en cours…</h1>
+    <p>Suppression du cache du Service Worker…</p>
+    <p id="status">Initialisation…</p>
+    <script>
+        const status = document.getElementById('status');
+        async function forceUpdate() {
+            try {
+                // 1. Supprimer tous les caches
+                const cacheNames = await caches.keys();
+                await Promise.all(cacheNames.map(name => {
+                    status.textContent = 'Suppression du cache : ' + name;
+                    return caches.delete(name);
+                }));
+
+                // 2. Désinscrire tous les Service Workers
+                if ('serviceWorker' in navigator) {
+                    const registrations = await navigator.serviceWorker.getRegistrations();
+                    await Promise.all(registrations.map(reg => {
+                        status.textContent = 'Désinscription du SW…';
+                        return reg.unregister();
+                    }));
+                }
+
+                status.textContent = '✅ Cache vidé ! Redirection…';
+                setTimeout(() => { window.location.replace('/'); }, 1500);
+            } catch(e) {
+                status.textContent = 'Erreur : ' + e.message + '. Redirection…';
+                setTimeout(() => { window.location.replace('/'); }, 2000);
+            }
+        }
+        forceUpdate();
+    </script>
+</body>
+</html>"""
+    response = make_response(html, 200)
+    response.headers["Cache-Control"] = "no-store"
+    response.headers["Content-Type"] = "text/html; charset=utf-8"
+    return response
 
 
 @app.route("/health")
