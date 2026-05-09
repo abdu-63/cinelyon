@@ -334,8 +334,9 @@ p {
 .horaire {
     background-color: var(--card-solid);
     border-radius: 8px;
-    width: 93px; /* Largeur fixe standard */
-    height: 51px; /* Hauteur fixe standard */
+    min-width: 93px; /* Taille minimale standard */
+    width: auto;     /* S'adapte si le texte est très long */
+    height: 51px;    /* Garde une hauteur constante */
     color: var(--primary);
     box-sizing: border-box;
     display: flex;
@@ -350,29 +351,14 @@ p {
     gap: 2px;
 }
 
-.horaire-avant-premiere {
-    width: auto !important;
-    min-width: 90px;
-}
+/* Suppression de l'exception spécifique car le réglage ci-dessus est global */
 
 .horaire-top {
     display: flex;
     align-items: center;
-    gap: 4px;
-}
-
-.horaire-bottom {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.lang-badge {
-    font-size: 11px;
-    font-weight: bold;
-    padding: 0;
-    border-radius: 3px;
-    color: grey;
+    justify-content: flex-start;
+    gap: 6px;
+    width: 100%;
 }
 
 .format-badge {
@@ -381,6 +367,22 @@ p {
     text-transform: uppercase;
     font-weight: bold;
     padding: 0;
+    white-space: nowrap;
+}
+
+.horaire-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.lang-badge {
+    font-size: 11px;
+    font-weight: bold;
+    padding: 0;
+    border-radius: 3px;
+    color: grey;
 }
 
 .seance-time {
@@ -1944,7 +1946,6 @@ body.show-friend-badges .friend-badge {
     display: block;
     stroke-width: 2px;
     stroke: grey;
-    padding-left: 3px;
     position: relative;
     bottom: 2px;
 }
