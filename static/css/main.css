@@ -421,6 +421,7 @@ p {
     border-radius: 8px;
     font-family: 'healTheWebA', sans-serif;
     font-size: 14px;
+    color: var(--text-main);
     transition: border-color 0.3s;
     background-color: var(--card-solid);
     /* Browser normalization for select arrows */
