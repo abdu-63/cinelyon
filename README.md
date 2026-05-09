@@ -267,25 +267,56 @@ Dans `.env` ou les secrets GitHub, modifier `THEATERS` :
 
 Pour scraper un cinéma sur **25 jours** au lieu de 10, ajouter son nom dans `EXTENDED_THEATERS` dans `scrape.py`.
 
-## Automatisation Instagram (Story/Post) (en cours)
+## 📸 Automatisation Instagram (Carousel Daily)
 
-Le dossier `scripts/instagram/` contient un pipeline TypeScript pour automatiser la communication sur les réseaux sociaux.
+Le dossier `scripts/instagram/` contient un pipeline complet en TypeScript permettant de générer et publier automatiquement chaque jour un carrousel Instagram des meilleurs films à voir demain à Lyon.
 
-### Fonctionnement du pipeline
+### 🛠️ Architecture du Pipeline
 
-1. **Seed** : Récupère les données depuis Supabase.
-2. **Select** : Choisit les meilleurs films à mettre en avant.
-3. **Generate Images** : Crée des visuels optimisés pour Instagram (via `satori` / `resvg`).
-4. **Caption** : Génère une légende attractive (optionnel).
-5. **Publish** : Poste automatiquement via l'API Graph de Facebook/Instagram.
+Le workflow est découpé en 6 modules orchestrés par `run.ts` :
 
-### Utilisation locale
+1.  **Module 1 (`01_select_films.ts`)** : Sélectionne les meilleurs films selon un algorithme de scoring (films cultes, notes, ancienneté).
+2.  **Module 2 (`02_fetch_showtimes.ts`)** : Récupère les séances réelles à Lyon pour demain depuis Supabase.
+3.  **Module 3 (`03_generate_images.tsx`)** : Génère des visuels 1080x1440 (Portrait 3:4) via **Satori** et **Resvg**.
+4.  **Module 4 (`04_generate_caption.ts`)** : Crée une légende optimisée avec emojis et hashtags.
+5.  **Module 5 (`05_publish_instagram.ts`)** : Upload les images sur **ImgBB** et publie le carrousel via **Meta Graph API**.
+6.  **Module 6 (`run.ts`)** : L'orchestrateur qui enchaîne tout le processus.
 
+### 🚀 Utilisation Locale
+
+1. **Installation**
+   ```bash
+   cd scripts/instagram
+   npm install
+   ```
+
+2. **Configuration**
+   Assurez-vous que votre fichier `.env` à la racine contient :
+   - `IMGBB_API_KEY` : Clé API ImgBB (stockage temporaire).
+   - `INSTAGRAM_ACCOUNT_ID` : ID de votre compte Instagram Business.
+   - `INSTAGRAM_ACCESS_TOKEN` : Token Meta Graph API (commençant par `EAA...`).
+
+3. **Tester le design (Dry-Run)**
+   Génère les images dans `output/slides/` sans rien publier sur Instagram :
+   ```bash
+   npx ts-node run.ts --dry-run
+   ```
+
+4. **Lancer la publication réelle**
+   ```bash
+   npx ts-node run.ts
+   ```
+
+### 🤖 Automatisation via GitHub Actions
+
+Le fichier `.github/workflows/instagram-daily.yml` automatise ce processus **tous les jours à 20h00**.
+Pour que cela fonctionne, vous devez ajouter les secrets suivants dans les paramètres de votre dépôt GitHub (Settings > Secrets and variables > Actions) :
+`SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `TMDB_API_KEY`, `IMGBB_API_KEY`, `INSTAGRAM_ACCOUNT_ID`, `INSTAGRAM_ACCESS_TOKEN`.
+
+### 🔄 Maintenance du Token
+Le token Meta expire tous les 60 jours. Utilisez l'utilitaire fourni pour générer un nouveau token longue durée :
 ```bash
-cd scripts/instagram
-npm install
-# Configurer les variables dans .env
-npm run start
+npx ts-node refresh_token.ts
 ```
 
 ## Liens utiles
