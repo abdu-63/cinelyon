@@ -1,0 +1,38 @@
+name: Instagram Daily Poster
+
+on:
+  schedule:
+    # 18h00 UTC = 20h00 Heure de Paris (en été), 19h00 (en hiver)
+    - cron: '0 18 * * *'
+  workflow_dispatch: # Permet de lancer le workflow manuellement depuis GitHub
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Installation globale pour la partie python/backend au besoin (facultatif si ton backend l'exige)
+      # Mais ici on se concentre sur le script instagram :
+      - name: Installer les dépendances TS
+        working-directory: ./scripts/instagram
+        run: npm ci
+
+      - name: Lancer l'Orchestrateur Instagram (run.ts)
+        working-directory: ./scripts/instagram
+        env:
+          # On passe toutes les clés API via les Secrets GitHub
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+          IMGBB_API_KEY: ${{ secrets.IMGBB_API_KEY }}
+          INSTAGRAM_ACCOUNT_ID: ${{ secrets.INSTAGRAM_ACCOUNT_ID }}
+          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+        run: npx ts-node run.ts
