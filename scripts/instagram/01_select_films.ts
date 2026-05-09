@@ -28,28 +28,33 @@ function clamp(value: number, min: number, max: number) {
 export async function selectFilms(): Promise<void> {
   console.log("Démarrage de la sélection des films...");
 
-  // ÉTAPE 1 — Récupérer les films à l'affiche (depuis la table 'showtimes' existante)
+  // ÉTAPE 1 — Récupérer UNIQUEMENT les films qui passent DEMAIN
+  const targetDateObj = new Date(Date.now() + 86400000);
+  const targetDateStr = targetDateObj.toISOString().split('T')[0];
+
   const { data: showtimesData, error: showtimesError } = await supabase
     .from('showtimes')
-    .select('movies');
+    .select('movies')
+    .eq('date', targetDateStr);
   
   if (showtimesError) {
     console.error("Erreur lors de la récupération des séances", showtimesError);
   }
 
-  const currentFilmsObj = new Set();
+  // Map titre normalisé → données complètes du film (pour enrichissement)
+  const tomorrowFilmsMap = new Map<string, any>();
   if (showtimesData) {
     for (const row of showtimesData) {
       if (row.movies) {
         for (const m of row.movies) {
-          if (m.title) currentFilmsObj.add(normalizeTitle(m.title));
+          if (m.title) tomorrowFilmsMap.set(normalizeTitle(m.title), m);
         }
       }
     }
   }
-  const currentFilms = currentFilmsObj;
+  const currentFilms = tomorrowFilmsMap;
   
-  console.log(`${currentFilms.size} films à l'affiche trouvés dans la table 'showtimes'.`);
+  console.log(`${currentFilms.size} films trouvés dans 'showtimes' pour demain (${targetDateStr}).`);
 
   // ÉTAPE 2 — Récupérer les films de reference_films
   const { data: referenceFilms, error: refError } = await supabase
@@ -66,13 +71,14 @@ export async function selectFilms(): Promise<void> {
   const scoredFilms = [];
 
   for (const film of referenceFilms) {
-    // Si à l'affiche => score = 1.0 direct (priorité absolue)
+    // Si le film passe DEMAIN => score = 1.0 direct (priorité absolue)
     if (currentFilms.has(film.title_normalized)) {
+      const dbData = currentFilms.get(film.title_normalized);
       scoredFilms.push({
         title: film.title,
-        year: film.year,
-        director: film.director,
-        poster_url: film.poster_url,
+        year: film.year || dbData?.release_year,
+        director: film.director || dbData?.director || dbData?.realisateur,
+        poster_url: film.poster_url || dbData?.affiche,
         score: 1.0,
         sources: film.sources,
         source_count: film.source_count,

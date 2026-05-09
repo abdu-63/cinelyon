@@ -31,11 +31,15 @@ function getPassesForCinema(cinemaName: string): string[] {
 
 export async function fetchShowtimes(): Promise<void> {
   const inputPath = path.join(dirname, 'output', 'selected_films.json');
-  if (!fs.existsSync(inputPath)) {
-    throw new Error(`Le fichier ${inputPath} est introuvable. Lance le Module 1 d'abord.`);
-  }
+  const selectedFilms = fs.existsSync(inputPath)
+    ? JSON.parse(fs.readFileSync(inputPath, 'utf8'))
+    : [];
 
-  const selectedFilms = JSON.parse(fs.readFileSync(inputPath, 'utf8'));
+  // Construire un Map normalisé des scores de reference_films
+  const refScores = new Map<string, number>();
+  for (const f of selectedFilms) {
+    refScores.set(normalizeTitle(f.title), f.score ?? 0);
+  }
 
   // Cible : demain
   const targetDateObj = new Date(Date.now() + 86400000);
@@ -43,8 +47,6 @@ export async function fetchShowtimes(): Promise<void> {
 
   console.log(`Recherche des séances pour demain : ${targetDateStr}`);
 
-  // 1 & 2. Utilisation de la table "showtimes" de ton projet (au lieu de scraper Allociné)
-  // C'est beaucoup plus sûr et ultra-rapide puisque les données sont déjà scrapées par ton backend Python !
   const { data, error } = await supabase
     .from('showtimes')
     .select('movies')
@@ -59,27 +61,22 @@ export async function fetchShowtimes(): Promise<void> {
     }
   }
 
-  const showtimesMovies = data?.movies || [];
-  const moviesDict = new Map();
+  const showtimesMovies: any[] = data?.movies || [];
 
-  for (const m of showtimesMovies) {
-    moviesDict.set(normalizeTitle(m.title), m);
+  if (showtimesMovies.length === 0) {
+    throw new Error("NO_FILMS_AVAILABLE");
   }
 
+  // Construire les films enrichis directement depuis showtimes (source de vérité pour les séances)
   const enrichedFilms: EnrichedFilm[] = [];
 
-  for (const film of selectedFilms) {
-    const normTitle = normalizeTitle(film.title);
-    const dbMovie = moviesDict.get(normTitle);
+  for (const dbMovie of showtimesMovies) {
+    if (!dbMovie.seances || Object.keys(dbMovie.seances).length === 0) continue;
 
-    if (!dbMovie || !dbMovie.seances || Object.keys(dbMovie.seances).length === 0) {
-      // Zéro séance demain pour ce film, on l'écarte (règle n°4 du plan)
-      continue;
-    }
+    // Score de référence si le film est dans notre sélection (bonus, pas bloquant)
+    const refScore = refScores.get(normalizeTitle(dbMovie.title)) ?? 0;
 
     const cinemas: Cinema[] = [];
-
-    // 3. Récupérer les séances et passes
     for (const [cinemaName, seancesRaw] of Object.entries(dbMovie.seances)) {
       const showtimes = (seancesRaw as any[]).map(s => {
         if (typeof s === 'string') return s;
@@ -88,41 +85,46 @@ export async function fetchShowtimes(): Promise<void> {
 
       cinemas.push({
         name: cinemaName,
-        address: 'Lyon', // Adresse exacte nécessiterait de charger le JSON THEATERS, restons simple pour Insta
-        showtimes: showtimes,
+        address: 'Lyon',
+        showtimes,
         passes: getPassesForCinema(cinemaName)
       });
     }
 
     if (cinemas.length > 0) {
-      // 💡 ASTUCE : C'est ici qu'on "soigne" les données incomplètes du Module 0 !
-      // On utilise l'affiche HD (affiche) et le réalisateur récupérés par ton scraper Allociné de CinéLyon
       enrichedFilms.push({
-        title: dbMovie.title || film.title,
-        director: dbMovie.director || dbMovie.realisateur || film.director || 'Inconnu',
-        year: dbMovie.release_year || film.year,
-        poster_url: dbMovie.affiche || film.poster_url,
-        cinema: cinemas
+        title: dbMovie.title,
+        director: dbMovie.director || dbMovie.realisateur || 'Inconnu',
+        year: dbMovie.release_year,
+        poster_url: dbMovie.affiche,
+        cinema: cinemas,
+        // @ts-ignore — on passe le score pour permettre un tri éventuel
+        refScore
       });
     }
   }
 
-  // 4. Gestion d'erreur critique
-  if (enrichedFilms.length === 0) {
-    console.error("⚠️ Aucun film de la sélection n'a de séances demain à Lyon !");
+  // Trier : films en reference_films (score > 0) en premier, puis les autres
+  enrichedFilms.sort((a, b) => ((b as any).refScore ?? 0) - ((a as any).refScore ?? 0));
+
+  // Limiter à 9 films max (limite carousel Instagram)
+  const finalFilms = enrichedFilms.slice(0, 9);
+
+  if (finalFilms.length === 0) {
+    console.error("⚠️ Aucun film avec séances trouvé pour demain à Lyon !");
     throw new Error("NO_FILMS_AVAILABLE");
   }
 
-  // 5. Sauvegarde
+  // Nettoyage du champ interne refScore avant sauvegarde
+  const cleanFilms = finalFilms.map(({ ...f }) => { delete (f as any).refScore; return f; });
+
   const outputDir = path.join(dirname, 'output');
-  if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, { recursive: true });
-  }
+  if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
 
   const outPath = path.join(outputDir, 'enriched_films.json');
-  fs.writeFileSync(outPath, JSON.stringify(enrichedFilms, null, 2));
+  fs.writeFileSync(outPath, JSON.stringify(cleanFilms, null, 2));
 
-  console.log(`✅ Module 2 terminé : ${enrichedFilms.length} films avec séances sauvegardés dans ${outPath}`);
+  console.log(`✅ Module 2 terminé : ${cleanFilms.length} films avec séances sauvegardés dans ${outPath}`);
 }
 
 if (process.argv[1] && process.argv[1].includes('02_fetch_showtimes.ts')) {
