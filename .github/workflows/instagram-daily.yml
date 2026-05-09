@@ -2,8 +2,8 @@ name: Instagram Daily Poster
 
 on:
   schedule:
-    # 18h00 UTC = 20h00 Heure de Paris (en été), 19h00 (en hiver)
-    - cron: '0 18 * * *'
+    # 10h00 UTC = 12h00 Heure de Paris (en été), 11h00 (en hiver)
+    - cron: '0 10 * * *'
   workflow_dispatch: # Permet de lancer le workflow manuellement depuis GitHub
 
 jobs:

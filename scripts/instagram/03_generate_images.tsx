@@ -5,181 +5,362 @@ import { Resvg } from '@resvg/resvg-js';
 import React from 'react';
 import * as dotenv from 'dotenv';
 import { EnrichedFilm } from './types';
-import { COLORS } from './constants';
 
 const dirname = process.cwd();
 dotenv.config({ path: path.join(dirname, '../../.env') });
 
-async function loadFont() {
-  const fontUrl = 'https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff';
-  const res = await fetch(fontUrl);
-  return await res.arrayBuffer();
+// ─── Design tokens ────────────────────────────────────────────────────────────
+const ACCENT = '#444cf7';
+const BG_DARK = '#121212';
+const WHITE = '#FFFFFF';
+const MUTED = 'rgba(255,255,255,0.55)';
+const SLIDE = { width: 1080, height: 1440 } as const;
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+async function loadInterRegular() {
+  const url = 'https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg.ttf';
+  const res = await fetch(url);
+  return res.arrayBuffer();
 }
 
-function formatDateFr(date: Date): string {
-  const options: Intl.DateTimeFormatOptions = { weekday: 'long', day: 'numeric', month: 'long' };
-  return date.toLocaleDateString('fr-FR', options).toUpperCase();
+async function loadInterBold() {
+  const url = 'https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuFuYMZg.ttf';
+  const res = await fetch(url);
+  return res.arrayBuffer();
 }
 
-async function getTmdbBackdrop(title: string, year: number): Promise<string> {
+async function loadInterExtraBold() {
+  const url = 'https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuDyYMZg.ttf';
+  const res = await fetch(url);
+  return res.arrayBuffer();
+}
+
+interface DateLabel { dayName: string; dayNum: number; monthName: string }
+
+function getDateLabel(date: Date): DateLabel {
+  const dayNames = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+  const monthNames = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin',
+    'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+  return {
+    dayName: dayNames[date.getDay()],
+    dayNum: date.getDate(),
+    monthName: monthNames[date.getMonth()],
+  };
+}
+
+interface CalendarData { monthName: string; weeks: (number | null)[][]; targetDay: number }
+
+function getCalendarData(date: Date): CalendarData {
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const monthNames = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin',
+    'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+  const rawFirst = new Date(year, month, 1).getDay();
+  const offset = rawFirst === 0 ? 6 : rawFirst - 1; // Monday-first grid
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  const weeks: (number | null)[][] = [];
+  let week: (number | null)[] = Array(offset).fill(null);
+  for (let d = 1; d <= daysInMonth; d++) {
+    week.push(d);
+    if (week.length === 7) { weeks.push(week); week = []; }
+  }
+  if (week.length > 0) {
+    while (week.length < 7) week.push(null);
+    weeks.push(week);
+  }
+  return { monthName: monthNames[month], weeks, targetDay: date.getDate() };
+}
+
+// Récupère une scène de film populaire au hasard pour la couverture
+async function getRandomMovieScene(): Promise<string> {
   const apiKey = process.env.TMDB_API_KEY;
   if (apiKey) {
     try {
-      const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(title)}&year=${year}`);
+      const randomPage = Math.floor(Math.random() * 20) + 1;
+      const res = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&sort_by=popularity.desc&page=${randomPage}`);
       const data = await res.json();
-      if (data.results && data.results.length > 0 && data.results[0].backdrop_path) {
-        return `https://image.tmdb.org/t/p/w1280${data.results[0].backdrop_path}`;
+
+      if (data.results && data.results.length > 0) {
+        const randomMovie = data.results[Math.floor(Math.random() * data.results.length)];
+        if (randomMovie.backdrop_path) {
+          return `https://image.tmdb.org/t/p/original${randomMovie.backdrop_path}`;
+        }
       }
     } catch (e) {
-      console.warn("Erreur TMDB:", e);
+      console.warn("Erreur TMDB (scène aléatoire):", e);
     }
   }
-  // Fallback si TMDB échoue
-  return 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1280&auto=format&fit=crop';
+
+  // Backup avec images Unsplash cinématographiques
+  const fallbackImages = [
+    '1489599849927-2ee91cede3ba',
+    '1536440136628-849c177e76a1',
+    '1517604931442-7e0c8ed2963c',
+    '1440404653325-ab127d49abc1'
+  ];
+  const randomFallbackId = fallbackImages[Math.floor(Math.random() * fallbackImages.length)];
+  return `https://images.unsplash.com/photo-${randomFallbackId}?q=100&w=2560&auto=format&fit=crop`;
 }
+
+function renderToFile(svg: string, outPath: string) {
+  const buffer = new Resvg(svg, { fitTo: { mode: 'width', value: SLIDE.width } }).render().asPng();
+  fs.writeFileSync(outPath, buffer);
+}
+
+// ─── Main export ──────────────────────────────────────────────────────────────
 
 export async function generateCarousel(): Promise<string[]> {
   const inputPath = path.join(dirname, 'output', 'enriched_films.json');
   if (!fs.existsSync(inputPath)) throw new Error(`Fichier introuvable: ${inputPath}.`);
 
   const films: EnrichedFilm[] = JSON.parse(fs.readFileSync(inputPath, 'utf8'));
-  if (films.length === 0) throw new Error("NO_FILMS_AVAILABLE");
+  if (films.length === 0) throw new Error('NO_FILMS_AVAILABLE');
 
-  const targetDateObj = new Date(Date.now() + 86400000);
-  const formattedDate = formatDateFr(targetDateObj);
-  const fontData = await loadFont();
+  const targetDate = new Date(Date.now() + 86400000);
+  const { dayName, dayNum, monthName } = getDateLabel(targetDate);
+  const cal = getCalendarData(targetDate);
+  const [fontReg, fontBold, fontExtra] = await Promise.all([
+    loadInterRegular(),
+    loadInterBold(),
+    loadInterExtraBold()
+  ]);
+
+  const logoPath = path.join(dirname, '../../static/images/icon-192x192-rond.png');
+  const logoBase64 = fs.existsSync(logoPath)
+    ? `data:image/png;base64,${fs.readFileSync(logoPath).toString('base64')}`
+    : null;
 
   const outputDir = path.join(dirname, 'output', 'slides');
-  if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, { recursive: true });
-  }
+  if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
+
+  const FONTS = [
+    { name: 'Inter', data: fontReg, weight: 400 as const, style: 'normal' as const },
+    { name: 'Inter', data: fontBold, weight: 700 as const, style: 'normal' as const },
+    { name: 'Inter', data: fontExtra, weight: 800 as const, style: 'normal' as const },
+  ];
 
   const generatedPaths: string[] = [];
+  const DAY_LETTERS = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
 
-  // ==========================================
-  // IMAGE 1 : COUVERTURE
-  // ==========================================
-  const firstFilm = films[0];
-  const backdropUrl = await getTmdbBackdrop(firstFilm.title, firstFilm.year);
+  // ══════════════════════════════════════════════════════════════
+  // SLIDE 0 — COUVERTURE
+  // ══════════════════════════════════════════════════════════════
+  const backdropUrl = await getRandomMovieScene();
 
   const coverSvg = await satori(
-    <div style={{
-      display: 'flex', flexDirection: 'column', width: '100%', height: '100%',
-      backgroundColor: COLORS.background, color: COLORS.text,
-      justifyContent: 'center', alignItems: 'center', padding: '40px',
-      position: 'relative', overflow: 'hidden'
-    }}>
-      <img 
-        src={backdropUrl}
-        style={{
-          display: 'flex', position: 'absolute', top: '-10%', left: '-10%', width: '120%', height: '120%', 
-          objectFit: 'cover', opacity: 0.6
-        }} 
-      />
-      {/* Overlay gradient pour lisibilité */}
-      <div style={{
-        display: 'flex', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
-        backgroundColor: 'rgba(0,0,0,0.5)'
-      }}></div>
+    <div style={{ display: 'flex', width: '100%', height: '100%', backgroundColor: '#000', position: 'relative', overflow: 'hidden' }}>
 
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', zIndex: 10 }}>
-        <span style={{ display: 'flex', fontSize: 50, fontWeight: 500, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '10px' }}>
-          On regarde quoi à Lyon ?
-        </span>
-        <span style={{ display: 'flex', fontSize: 100, fontWeight: 800, color: COLORS.accent, marginBottom: '20px' }}>
-          {formattedDate}
-        </span>
+      {/* Backdrop */}
+      <img src={backdropUrl} style={{ display: 'flex', position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+
+      {/* Gradient overlay — darker at top & bottom, transparent in middle */}
+      <div style={{
+        display: 'flex', position: 'absolute', top: 0, left: 0, right: 0, height: '52%',
+        background: 'linear-gradient(to bottom, rgba(0,0,0,0.80), rgba(0,0,0,0.0))'
+      }} />
+      <div style={{
+        display: 'flex', position: 'absolute', bottom: 0, left: 0, right: 0, height: '40%',
+        background: 'linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.0))'
+      }} />
+
+      {/* ── TOP TEXT ── */}
+      <div style={{ display: 'flex', position: 'absolute', top: 250, left: 0, right: 0, flexDirection: 'column', alignItems: 'center' }}>
+
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'baseline' }}>
+          <span style={{ display: 'flex', fontSize: 56, fontWeight: 400, color: WHITE }}>on</span>
+          <span style={{ display: 'flex', fontSize: 56, fontWeight: 800, color: WHITE, marginLeft: '16px', marginRight: '16px' }}>regarde</span>
+          <span style={{ display: 'flex', fontSize: 56, fontWeight: 400, color: WHITE }}>quoi à lyon</span>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: 16 }}>
+          <div style={{ display: 'flex', position: 'relative', paddingLeft: 10, paddingRight: 10 }}>
+            {/* The half-highlight background */}
+            <div style={{
+              display: 'flex', position: 'absolute', bottom: '-4px', left: 0, right: 0, height: '45%', backgroundColor: ACCENT
+            }} />
+            <span style={{ display: 'flex', fontSize: 64, fontWeight: 800, color: WHITE }}>
+              {dayName} {dayNum} {monthName}
+            </span>
+          </div>
+          <span style={{ display: 'flex', fontSize: 64, fontWeight: 800, color: WHITE, marginLeft: 12 }}>?</span>
+        </div>
       </div>
 
+      {/* ── CALENDAR ── */}
+      <div style={{ display: 'flex', position: 'absolute', bottom: 200, left: 0, right: 0, flexDirection: 'column', alignItems: 'center' }}>
+
+        <div style={{ display: 'flex', width: 700, justifyContent: 'flex-end', marginBottom: 24 }}>
+          <span style={{ display: 'flex', fontSize: 56, fontWeight: 800, color: WHITE }}>
+            {cal.monthName}
+          </span>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'row', marginBottom: 10 }}>
+          {DAY_LETTERS.map((d, i) => (
+            <div key={i} style={{ display: 'flex', width: 100, height: 50, alignItems: 'center', justifyContent: 'center' }}>
+              <span style={{ display: 'flex', fontSize: 36, fontWeight: 400, color: MUTED }}>{d}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Week rows avec le cercle fait main */}
+        {cal.weeks.map((week, wi) => (
+          <div key={wi} style={{ display: 'flex', flexDirection: 'row', marginBottom: 8 }}>
+            {week.map((day, di) => {
+              const isTarget = day === cal.targetDay;
+              return (
+                <div key={di} style={{
+                  display: 'flex', width: 100, height: 100,
+                  alignItems: 'center', justifyContent: 'center',
+                  position: 'relative' // Requis pour positionner le SVG pardessus
+                }}>
+                  {isTarget && (
+                    <svg width="120" height="120" viewBox="0 0 100 100" style={{ display: 'flex', position: 'absolute', top: '-10px', left: '-10px' }}>
+                      <path
+                        d="M50,15 C25,10 10,30 10,50 C10,75 25,90 50,85 C75,80 90,65 85,45 C80,25 65,15 50,20"
+                        fill="none" stroke={ACCENT} strokeWidth="5" strokeLinecap="round" strokeDasharray="12,4"
+                      />
+                    </svg>
+                  )}
+
+                  <span style={{
+                    display: 'flex', fontSize: 44,
+                    fontWeight: isTarget ? 800 : 400,
+                    color: day !== null ? WHITE : 'transparent',
+                  }}>{day !== null ? String(day) : '0'}</span>
+                </div>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+
+      {/* ── TOP BRANDING ── */}
       <div style={{
-        display: 'flex', position: 'absolute', bottom: '60px', flexDirection: 'column', alignItems: 'center'
+        display: 'flex', position: 'absolute', top: '60px', left: '60px',
       }}>
-        <span style={{ display: 'flex', fontSize: 36, fontWeight: 800, letterSpacing: '4px' }}>CINELYON.FR</span>
+        <span style={{ display: 'flex', color: WHITE, fontSize: 28, fontWeight: 800, letterSpacing: '0.1em', opacity: 0.8 }}>
+          CINELYON.FR
+        </span>
       </div>
+
+      {/* ── LOGO ROND ── */}
+      {logoBase64 && (
+        <img
+          src={logoBase64}
+          style={{ display: 'flex', position: 'absolute', bottom: '50px', right: '50px', width: 80, height: 80 }}
+        />
+      )}
+
     </div>,
-    {
-      width: 1080, height: 1440, // Format 3:4 Instagram
-      fonts: [
-        { name: 'Inter', data: fontData, weight: 400, style: 'normal' },
-        { name: 'Inter', data: fontData, weight: 800, style: 'normal' }
-      ]
-    }
+    { width: SLIDE.width, height: SLIDE.height, fonts: FONTS }
   );
 
-  const resvgCover = new Resvg(coverSvg, { fitTo: { mode: 'width', value: 1080 } });
-  const coverBuffer = resvgCover.render().asPng();
   const coverPath = path.join(outputDir, 'slide_00.png');
-  fs.writeFileSync(coverPath, coverBuffer);
+  renderToFile(coverSvg, coverPath);
   generatedPaths.push(coverPath);
-  console.log('✅ Slide couverture générée');
+  console.log('✅ Slide couverture générée (Scène aléatoire)');
 
-  // ==========================================
-  // IMAGES 2 A N : FILMS
-  // ==========================================
-  let index = 1;
-  const maxInteractions = Math.min(films.length, 9);
+  // ══════════════════════════════════════════════════════════════
+  // SLIDES 1..N — FILMS  
+  // ══════════════════════════════════════════════════════════════
+  const maxSlides = Math.min(films.length, 9);
 
-  for (let i = 0; i < maxInteractions; i++) {
+  for (let i = 0; i < maxSlides; i++) {
     const film = films[i];
     const showtimeLabel = film.cinema[0]?.name + ' • ' + (film.cinema[0]?.showtimes[0] || '?');
-    const passesLabel = film.cinema[0]?.passes.length ? film.cinema[0].passes.join(', ') : '';
+
+    // Le filtre pour retirer Pathé/UGC est bien là !
+    const passesList = film.cinema[0]?.passes?.filter((p: string) => !p.toLowerCase().includes('pathé') && !p.toLowerCase().includes('ugc')) || [];
+    const passesLabel = passesList.length > 0 ? passesList.join(', ') : '';
 
     const slideSvg = await satori(
       <div style={{
         display: 'flex', flexDirection: 'column', width: '100%', height: '100%',
-        backgroundColor: COLORS.background, color: COLORS.text, position: 'relative'
+        backgroundColor: '#0a0a0a', position: 'relative'
       }}>
-        {/* Poster en haut (qui prend plus de place en 3:4) */}
-        <div style={{ display: 'flex', width: '100%', height: '65%' }}>
-          <img src={film.poster_url} style={{ display: 'flex', width: '100%', height: '100%', objectFit: 'cover' }} />
-        </div>
+        <img
+          src={film.poster_url}
+          style={{
+            display: 'flex', position: 'absolute', top: 0, left: 0,
+            width: '100%', height: '100%', objectFit: 'cover'
+          }}
+        />
 
-        {/* Détails en bas */}
-        <div style={{ 
-          display: 'flex', flexDirection: 'column', width: '100%', height: '35%', 
-          padding: '50px 60px', justifyContent: 'center' 
+        <div style={{
+          display: 'flex', position: 'absolute', bottom: 0, left: 0,
+          width: '100%', height: '70%',
+          backgroundImage: 'linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.95))'
+        }} />
+
+        <div style={{
+          display: 'flex', position: 'absolute', top: '60px', left: '60px',
         }}>
-          <h1 style={{ display: 'flex', fontSize: 70, fontWeight: 800, lineHeight: 1.1, marginBottom: '15px' }}>
-            {film.title.toUpperCase()}
-          </h1>
-          <p style={{ display: 'flex', fontSize: 35, color: COLORS.textSecondary, marginBottom: 'auto' }}>
-            de {film.director || 'Inconnu'} ({film.year})
-          </p>
-
-          <div style={{ 
-            display: 'flex', flexDirection: 'column', backgroundColor: '#1A1A1A',
-            padding: '30px', borderRadius: '20px', borderLeft: `8px solid ${COLORS.accent}`
-          }}>
-            <span style={{ display: 'flex', fontSize: 30, color: COLORS.textSecondary, marginBottom: '10px' }}>PREMIÈRE SÉANCE :</span>
-            <span style={{ display: 'flex', fontSize: 45, fontWeight: 800, color: '#FFFFFF' }}>{showtimeLabel}</span>
-            {passesLabel && (
-              <span style={{ display: 'flex', fontSize: 25, color: COLORS.accent, marginTop: '20px' }}>{passesLabel}</span>
-            )}
-          </div>
+          <span style={{ display: 'flex', color: WHITE, fontSize: 28, fontWeight: 800, letterSpacing: '0.1em', opacity: 0.8 }}>
+            CINELYON.FR
+          </span>
         </div>
 
         <div style={{
-          display: 'flex', position: 'absolute', bottom: '30px', right: '40px', opacity: 0.5
+          display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
+          width: '100%', height: '100%', padding: '80px 60px', position: 'absolute',
         }}>
-          <span style={{ display: 'flex', fontSize: 24, fontWeight: 800 }}>CINELYON.FR</span>
+
+          <div style={{ display: 'flex', flexWrap: 'wrap', marginBottom: '10px' }}>
+            {film.title.toUpperCase().split(' ').map((word, idx, arr) => {
+              const isLast = idx === arr.length - 1;
+              const content = word + (isLast ? '' : '\u00A0');
+              return (
+                <div key={idx} style={{ display: 'flex', position: 'relative', marginBottom: '5px' }}>
+                  <div style={{
+                    display: 'flex', position: 'absolute', bottom: '-4px', left: 0, right: 0, height: '45%', backgroundColor: ACCENT
+                  }} />
+                  <h1 style={{ display: 'flex', color: WHITE, fontSize: 60, fontWeight: 800, lineHeight: 1.1, position: 'relative', margin: 0 }}>
+                    {content}
+                  </h1>
+                </div>
+              );
+            })}
+          </div>
+          <span style={{ display: 'flex', color: '#CCCCCC', fontSize: 30, marginBottom: '40px' }}>
+            de {film.director || 'Inconnu'} ({film.year})
+          </span>
+
+
+
+          <span style={{ display: 'flex', color: WHITE, fontSize: 50, fontWeight: 800, lineHeight: 1, marginBottom: passesLabel ? '30px' : '0px' }}>
+            {showtimeLabel}
+          </span>
+
+          {passesLabel && (
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <span style={{
+                display: 'flex', color: '#E0E0E0', fontSize: 26, fontWeight: 400,
+                backgroundColor: 'rgba(255, 255, 255, 0.15)', padding: '12px 24px',
+                borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.1)'
+              }}>
+                {passesLabel}
+              </span>
+            </div>
+          )}
+          {logoBase64 && (
+            <img
+              src={logoBase64}
+              style={{ display: 'flex', position: 'absolute', bottom: '50px', right: '50px', width: 80, height: 80 }}
+            />
+          )}
+
         </div>
       </div>,
-      {
-        width: 1080, height: 1440, // Format 3:4 Instagram
-        fonts: [
-          { name: 'Inter', data: fontData, weight: 400, style: 'normal' },
-          { name: 'Inter', data: fontData, weight: 800, style: 'normal' }
-        ]
-      }
+      { width: SLIDE.width, height: SLIDE.height, fonts: FONTS }
     );
 
-    const resvgSlide = new Resvg(slideSvg, { fitTo: { mode: 'width', value: 1080 } });
-    const slideBuffer = resvgSlide.render().asPng();
-    const slidePath = path.join(outputDir, `slide_0${index}.png`);
-    fs.writeFileSync(slidePath, slideBuffer);
+    const slidePath = path.join(outputDir, `slide_0${i + 1}.png`);
+    renderToFile(slideSvg, slidePath);
     generatedPaths.push(slidePath);
     console.log(`✅ Slide film : ${film.title} générée`);
-    index++;
   }
 
   return generatedPaths;
@@ -187,6 +368,6 @@ export async function generateCarousel(): Promise<string[]> {
 
 if (process.argv[1] && process.argv[1].includes('03_generate_images.tsx')) {
   generateCarousel()
-    .then((paths) => console.log(`🚀 Total slides générées : ${paths.length}`))
+    .then(paths => console.log(`🚀 Total slides générées : ${paths.length}`))
     .catch(console.error);
 }
