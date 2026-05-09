@@ -2511,6 +2511,10 @@ body.show-friend-badges .friend-badge {
     filter: var(--logo-filter, none);
 }
 
+.cinema-brand-logo.logo-amphis {
+    height: 14px;
+}
+
 .cinema-brand-text {
     font-size: 20px;
     font-weight: 700;

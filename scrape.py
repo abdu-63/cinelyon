@@ -35,10 +35,11 @@ SUPABASE_URL = os.environ.get("SUPABASE_URL", "")
 SUPABASE_SERVICE_ROLE_KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "")
 
 DAYS_TO_SCRAPE = 10  # Fenêtre de base pour tous les cinémas
+DAYS_TO_SCRAPE_MEDIUM = 15  # Fenêtre intermédiaire pour certains cinémas
 DAYS_TO_SCRAPE_EXTENDED = 25  # Fenêtre étendue pour certains cinémas
 DELAY_BETWEEN_THEATERS = 2  # Délai en secondes entre chaque cinéma
 
-# Cinémas scrapés sur 25 jours (les autres restent à 10 jours)
+# Cinémas scrapés sur 25 jours
 EXTENDED_THEATERS = {
     "Pathé Carré de Soie",
     "Pathé Bellecour",
@@ -47,9 +48,13 @@ EXTENDED_THEATERS = {
     "UGC Confluence",
     "UGC Internationale",
     "UGC Astoria",
-    "Ciné Meyzieu",
     "Ciné Toboggan",
     "Les Amphis",
+}
+
+# Cinémas scrapés sur 15 jours
+MEDIUM_THEATERS = {
+    "Ciné Meyzieu",
 }
 
 _supabase: Client = None
@@ -321,11 +326,16 @@ def main():
         date = datetime.strptime(date_str, "%Y-%m-%d")
         day_offset = (date.date() - today).days
 
-        # Pour les jours au-delà de la fenêtre de base, scraper uniquement les cinémas étendus
+        # Pour les jours au-delà de la fenêtre de base, scraper uniquement les cinémas concernés
         if day_offset >= DAYS_TO_SCRAPE:
-            theaters_for_date = [t for t in theaters if t.name in EXTENDED_THEATERS]
+            theaters_for_date = [
+                t
+                for t in theaters
+                if (t.name in EXTENDED_THEATERS)
+                or (day_offset < DAYS_TO_SCRAPE_MEDIUM and t.name in MEDIUM_THEATERS)
+            ]
             nb = len(theaters_for_date)
-            logger.info(f"📅 Récupération des séances pour {date_str} (cinémas étendus uniquement : {nb})...")
+            logger.info(f"📅 Récupération des séances pour {date_str} (cinémas prioritaires : {nb})...")
         else:
             theaters_for_date = theaters
             logger.info(f"📅 Récupération des séances pour {date_str}...")
