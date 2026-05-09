@@ -1,26 +1,31 @@
-const CACHE_NAME = 'cinelyon-v4';
+// ⚠️ Pour invalider le cache sur tous les appareils, modifiez ce numéro de version.
+// Il suffit d'incrémenter CACHE_VERSION à chaque déploiement majeur.
+const CACHE_VERSION = 'v6';
+const CACHE_NAME = `cinelyon-${CACHE_VERSION}`;
+
+// Assets statiques mis en cache à l'installation (ne changent pas souvent)
 const STATIC_ASSETS = [
-    '/',
     '/static/css/main.css',
     '/static/js/film.js',
     '/static/js/index.js',
     '/static/images/nocontent.png',
-    '/static/images/background.svg'
+    '/static/images/background.svg',
 ];
 
-// Installation: mise en cache des assets statiques
+// Installation: mise en cache des assets statiques uniquement
 self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then((cache) => {
-                console.log('📦 Cache ouvert');
+                console.log('📦 Cache SW ouvert:', CACHE_NAME);
                 return cache.addAll(STATIC_ASSETS);
             })
+            // Prendre le contrôle immédiatement sans attendre la fermeture des onglets
             .then(() => self.skipWaiting())
     );
 });
 
-// Activation: nettoyage des anciens caches
+// Activation: supprimer tous les anciens caches
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.keys().then((cacheNames) => {
@@ -32,56 +37,74 @@ self.addEventListener('activate', (event) => {
                     }
                 })
             );
+        // Prendre le contrôle des clients existants immédiatement
         }).then(() => self.clients.claim())
     );
 });
 
-// Fetch: stratégie Network First avec fallback sur le cache
+// Fetch: stratégies différenciées selon le type de ressource
 self.addEventListener('fetch', (event) => {
     // Ignorer les requêtes non-GET
     if (event.request.method !== 'GET') return;
 
-    // Ignorer les requêtes vers des domaines externes (sauf les images d'affiches)
     const url = new URL(event.request.url);
     const isExternal = url.origin !== location.origin;
-    const isPosterImage = event.request.url.includes('allocine.fr') ||
-        event.request.url.includes('wsrv.nl');
+
+    // Ignorer les requêtes vers des domaines externes (Supabase, analytics, etc.)
+    // sauf les images d'affiches (allocine, wsrv)
+    const isPosterImage = url.hostname.includes('allocine.fr') ||
+        url.hostname.includes('wsrv.nl') ||
+        url.hostname.includes('acsta.net') ||
+        url.hostname.includes('image.tmdb.org');
 
     if (isExternal && !isPosterImage) return;
 
-    event.respondWith(
-        // Essayer d'abord le réseau
-        fetch(event.request)
-            .then((response) => {
-                // Cloner la réponse pour la mettre en cache
-                const responseClone = response.clone();
+    // Ignorer sw.js et manifest.json : ils doivent toujours être récupérés depuis le réseau
+    if (url.pathname === '/static/sw.js' || url.pathname === '/static/manifest.json') return;
 
-                // Ne mettre en cache que les réponses valides
-                if (response.status === 200) {
-                    caches.open(CACHE_NAME).then((cache) => {
-                        cache.put(event.request, responseClone);
-                    });
-                }
+    const isHTMLPage = event.request.headers.get('accept')?.includes('text/html');
+    const isStaticAsset = url.pathname.startsWith('/static/');
 
-                return response;
-            })
-            .catch(() => {
-                // Si le réseau échoue, essayer le cache
-                return caches.match(event.request).then((cachedResponse) => {
-                    if (cachedResponse) {
-                        return cachedResponse;
+    if (isStaticAsset) {
+        // Stratégie Cache First pour les assets statiques (CSS, JS, images)
+        // Ils ont un cache-control long côté serveur + hash mtime dans l'URL
+        event.respondWith(
+            caches.match(event.request).then((cached) => {
+                if (cached) return cached;
+                return fetch(event.request).then((response) => {
+                    if (response.status === 200) {
+                        const clone = response.clone();
+                        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
                     }
-
-                    // Pour les pages HTML, retourner la page principale en cache
-                    if (event.request.headers.get('accept').includes('text/html')) {
-                        return caches.match('/');
-                    }
-
-                    return new Response('Contenu non disponible hors ligne', {
-                        status: 503,
-                        statusText: 'Service Unavailable'
-                    });
+                    return response;
                 });
             })
-    );
+        );
+    } else if (isHTMLPage) {
+        // Stratégie Network First pour les pages HTML (données toujours fraîches)
+        // Pas de mise en cache des pages HTML : elles sont dynamiques (séances du jour)
+        event.respondWith(
+            fetch(event.request)
+                .catch(() => {
+                    // Hors ligne : retourner la page principale depuis le cache si dispo
+                    return caches.match('/') || new Response(
+                        '<h1>Hors ligne</h1><p>Connectez-vous pour voir les séances.</p>',
+                        { status: 503, headers: { 'Content-Type': 'text/html' } }
+                    );
+                })
+        );
+    } else {
+        // Stratégie Network First pour tout le reste
+        event.respondWith(
+            fetch(event.request)
+                .then((response) => {
+                    if (response.status === 200) {
+                        const clone = response.clone();
+                        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+                    }
+                    return response;
+                })
+                .catch(() => caches.match(event.request))
+        );
+    }
 });

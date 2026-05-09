@@ -42,10 +42,14 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register("{{ url_for('static', filename='sw.js') }}")
+                // ⚠️ Ne PAS utiliser url_for() ici : Flask ajoute ?v=xxxx
+                // ce qui empêche le navigateur de détecter les mises à jour du SW sur iOS.
+                navigator.serviceWorker.register('/static/sw.js', { scope: '/' })
                     .then(reg => {
                         console.log('✅ Service Worker enregistré');
-                        
+                        // Vérifier immédiatement si une mise à jour est disponible
+                        reg.update();
+
                         // Force le rafraîchissement si une mise à jour est détectée
                         reg.addEventListener('updatefound', () => {
                             const newWorker = reg.installing;
