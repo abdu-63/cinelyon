@@ -331,8 +331,7 @@ def main():
             theaters_for_date = [
                 t
                 for t in theaters
-                if (t.name in EXTENDED_THEATERS)
-                or (day_offset < DAYS_TO_SCRAPE_MEDIUM and t.name in MEDIUM_THEATERS)
+                if (t.name in EXTENDED_THEATERS) or (day_offset < DAYS_TO_SCRAPE_MEDIUM and t.name in MEDIUM_THEATERS)
             ]
             nb = len(theaters_for_date)
             logger.info(f"📅 Récupération des séances pour {date_str} (cinémas prioritaires : {nb})...")
