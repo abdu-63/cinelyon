@@ -159,7 +159,7 @@
                         <div class="horaire-wrapper" data-format="{{ seance.format|default('')|lower }}" data-time="{{ seance.time }}">
                             {% if seance.ticketing_url %}
                             <a href="{{ seance.ticketing_url }}" target="_blank" rel="noopener" class="horaire-link">
-                                <div class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}">
+                                <div class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}{% if seance.format and 'première' in seance.format|lower %} horaire-avant-premiere{% endif %}">
                                     <div class="horaire-top">
                                         <span class="lang-badge">{{ seance.lang }}</span>
                                         {% if seance.format %}
@@ -186,7 +186,7 @@
                                 </div>
                             </a>
                             {% else %}
-                            <div class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}">
+                            <div class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}{% if seance.format and 'première' in seance.format|lower %} horaire-avant-premiere{% endif %}">
                                 <div class="horaire-top">
                                     <span class="lang-badge">{{ seance.lang }}</span>
                                     {% if seance.format %}
@@ -235,7 +235,7 @@
                         {% if seance.ticketing_url %}
                         <a href="{{ seance.ticketing_url }}" target="_blank" rel="noopener" class="horaire-link">
                             <div
-                                class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}">
+                                class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}{% if seance.format and 'première' in seance.format|lower %} horaire-avant-premiere{% endif %}">
                                 <span class="lang-badge">{{ seance.lang }}</span>
                                 {% if seance.format %}
                                 <span class="format-badge">{{ seance.format }}</span>
@@ -245,7 +245,7 @@
                         </a>
                         {% else %}
                         <div
-                            class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}">
+                            class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}{% if seance.format and 'première' in seance.format|lower %} horaire-avant-premiere{% endif %}">
                             <span class="lang-badge">{{ seance.lang }}</span>
                             {% if seance.format %}
                             <span class="format-badge">{{ seance.format }}</span>
