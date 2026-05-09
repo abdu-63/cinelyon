@@ -341,7 +341,7 @@ p {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch; /* Les enfants prennent toute la largeur */
     justify-content: center;
     margin-left: 10px;
     box-shadow: 0 6px 20px var(--shadow-md);
@@ -358,7 +358,6 @@ p {
     align-items: center;
     justify-content: flex-start;
     gap: 6px;
-    width: 100%;
 }
 
 .format-badge {
@@ -373,8 +372,7 @@ p {
 .horaire-bottom {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    width: 100%;
+    justify-content: flex-start;
 }
 
 .lang-badge {
@@ -1939,6 +1937,7 @@ body.show-friend-badges .friend-badge {
     justify-content: center;
     color: inherit;
     padding: 0;
+    margin-left: auto;
 }
 
 .calendar-btn svg {
