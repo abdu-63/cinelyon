@@ -218,7 +218,12 @@ class Movie:
             if "tmdb_poster" in cached_data and "watch_providers" in cached_data:
                 return cached_data
 
-        default = {"trailer_url": None, "english_title": self.original_title, "tmdb_poster": None, "watch_providers": []}
+        default = {
+            "trailer_url": None,
+            "english_title": self.original_title,
+            "tmdb_poster": None,
+            "watch_providers": [],
+        }
 
         if not TMDB_API_KEY:
             return default
@@ -298,21 +303,30 @@ class Movie:
                     en_data = tmdb_request(en_url, {"api_key": TMDB_API_KEY, "language": "en-US"})
                     if en_data.get("title"):
                         english_title = en_data["title"]
-                        
+
                     # Plateformes de streaming
                     providers_url = f"https://api.themoviedb.org/3/movie/{movie_id}/watch/providers"
                     providers_data = tmdb_request(providers_url, {"api_key": TMDB_API_KEY})
                     fr_providers = providers_data.get("results", {}).get("FR", {})
                     if fr_providers.get("flatrate"):
                         for provider in fr_providers["flatrate"]:
-                            watch_providers.append({
-                                "name": provider.get("provider_name"),
-                                "logo_path": f"https://image.tmdb.org/t/p/original{provider.get('logo_path')}" if provider.get("logo_path") else None
-                            })
+                            watch_providers.append(
+                                {
+                                    "name": provider.get("provider_name"),
+                                    "logo_path": f"https://image.tmdb.org/t/p/original{provider.get('logo_path')}"
+                                    if provider.get("logo_path")
+                                    else None,
+                                }
+                            )
                 except Exception:
                     pass
 
-                result = {"trailer_url": trailer_url, "english_title": english_title, "tmdb_poster": tmdb_poster, "watch_providers": watch_providers}
+                result = {
+                    "trailer_url": trailer_url,
+                    "english_title": english_title,
+                    "tmdb_poster": tmdb_poster,
+                    "watch_providers": watch_providers,
+                }
                 _tmdb_cache[cache_key] = result
                 save_tmdb_cache_entry(cache_key, result)
                 return result
