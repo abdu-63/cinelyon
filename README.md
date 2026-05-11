@@ -81,17 +81,22 @@ graph TD
 ```
 
 ### Stack Technologique
-- **Backend** : Python 3.11, Flask.
+- **Backend** : Python 3.11+, Flask.
 - **Frontend** : Vanilla JS, CSS3, PWA.
-- **Automation** : Node.js 18+, TypeScript, GitHub Actions.
+- **Automation** : Node.js 18+, TypeScript, GitHub Actions, Playwright.
 - **Base de données** : PostgreSQL (via Supabase) avec Row Level Security (RLS).
 
 ---
 
 ## Installation & Développement
 
-### 1. Configuration de la Base de données (Supabase)
-Exécutez les scripts SQL suivants dans votre éditeur SQL Supabase pour créer les tables nécessaires :
+### 1. Prérequis
+- **Python 3.11+** et **pip**.
+- **Node.js 18+** et **npm**.
+- Un compte **Supabase** (gratuit) et un compte **TMDB** (pour la clé API).
+
+### 2. Configuration de la Base de données (Supabase)
+Exécutez les scripts SQL suivants dans votre éditeur SQL Supabase pour créer les tables et configurer les politiques de sécurité (RLS) :
 
 ```sql
 -- Séances quotidiennes
@@ -107,7 +112,7 @@ CREATE TABLE tmdb_cache (
   data JSONB NOT NULL
 );
 
--- Synchronisation sociale
+-- Synchronisation sociale (Favoris)
 CREATE TABLE friend_follows (
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   follower_id TEXT NOT NULL,
@@ -138,67 +143,79 @@ CREATE TABLE reference_sources (
   film_count INTEGER
 );
 
--- RLS : Autoriser la lecture publique sur les séances
+-- Sécurité RLS : Lecture publique pour les séances
 ALTER TABLE showtimes ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Public Read" ON showtimes FOR SELECT USING (true);
+CREATE POLICY "Enable read access for all users" ON showtimes FOR SELECT USING (true);
+
+-- Sécurité RLS : Lecture/Ecriture publique pour le système d'amis
+ALTER TABLE friend_follows ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Enable read access for all users" ON friend_follows FOR SELECT TO anon USING (true);
+CREATE POLICY "Enable insert for all users" ON friend_follows FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "Enable delete for all users" ON friend_follows FOR DELETE TO anon USING (true);
 ```
 
-### 2. Configuration de l'environnement
-Créez un fichier `.env` à la racine du projet à partir du template :
+### 3. Configuration de l'environnement
+Copiez le fichier d'exemple et remplissez les variables :
 ```bash
 cp .env.sample .env
 ```
 
-#### Variables requises :
-| Variable | Description |
-|----------|-------------|
+| Variable | Usage |
+|----------|-------|
 | `SUPABASE_URL` | URL de votre projet Supabase. |
-| `SUPABASE_ANON_KEY` | Clé publique (pour l'application web). |
-| `SUPABASE_SERVICE_ROLE_KEY` | Clé admin (requise pour le scraping et le seed). |
-| `TMDB_API_KEY` | Clé API TheMovieDB (pour les métadonnées). |
-| `THEATERS` | JSON string listant les cinémas (ex: `[{"id":"P0017","name":"Pathé Bellecour","latitude":45.7578,"longitude":4.8320}]`). |
-| `IMGBB_API_KEY` | Clé API ImgBB (pour l'hébergement temporaire des images Instagram). |
-| `INSTAGRAM_ACCOUNT_ID` | ID du compte Instagram Business (Meta). |
-| `INSTAGRAM_ACCESS_TOKEN` | Token d'accès Meta Graph API. |
+| `SUPABASE_ANON_KEY` | Clé publique pour l'application web. |
+| `SUPABASE_SERVICE_ROLE_KEY` | Clé admin pour le scraping (NE PAS EXPOSER). |
+| `TMDB_API_KEY` | Clé API pour les métadonnées et affiches. |
+| `THEATERS` | Liste JSON des cinémas (ID Allociné, Nom, Coordonnées). |
+| `WEBSITE_TITLE` | Titre de votre instance CinéLyon. |
+| `IMGBB_API_KEY` | (Optionnel) Pour l'automatisation Instagram. |
+| `INSTAGRAM_ACCOUNT_ID` | (Optionnel) Pour l'automatisation Instagram. |
+| `INSTAGRAM_ACCESS_TOKEN` | (Optionnel) Pour l'automatisation Instagram. |
 
-### 3. Installation du Backend (Python)
+### 4. Installation du Backend (Python)
 ```bash
-# Installation
+# Création de l'environnement virtuel
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
-# Lancer le scraping initial
+# Scraping initial (remplit Supabase)
 python scrape.py
 
-# Lancer l'app web locale
+# Lancement de l'application
 python app.py
 ```
+Accès local : `http://localhost:5000`
 
-### 4. Installation du Pipeline Instagram (Node/TS)
+### 5. Installation du Pipeline Instagram (Node/TS)
 ```bash
 cd scripts/instagram
 npm install
-npx playwright install # Requis pour le seeding automatique
+npx playwright install chromium # Requis pour le seeding
 
-# Remplir la base de données de référence (Seeding)
-# Exemple pour importer le Top 500 Letterboxd :
+# Initialisation de la base de curation (Seeding)
+# Pour une source spécifique :
 npx ts-node 00_seed_database.ts --source=letterboxd_top500
+# Ou pour tout importer d'un coup (plusieurs heures) :
+bash seed_all.sh
 
-# Tester la génération de carrousel (Dry-Run)
+# Tester la génération du carrousel (Dry-Run)
 npx ts-node run.ts --dry-run
 ```
 
 ---
 
-## Qualité & Tests
+## Qualité & Maintenance
 ```bash
 ruff check .   # Linting Python
 pytest         # Tests unitaires
 ```
 
-## Déploiement
-- **Frontend/API** : Déploiement automatique sur Vercel à chaque push sur `main`.
-- **Automatisation** : Les workflows GitHub Actions (`scrape.yml` et `instagram-daily.yml`) utilisent les secrets configurés dans les paramètres du dépôt.
+### GitHub Actions
+Le projet inclut deux workflows principaux :
+1. `scrape.yml` : Lance le scraping automatique 2 fois par jour.
+2. `instagram-daily.yml` : Génère et publie le carrousel quotidien à 20h.
+
+*Note : Assurez-vous de configurer les variables d'environnement dans les secrets GitHub (Actions Secrets).*
 
 ---
 
