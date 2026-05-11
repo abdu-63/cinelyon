@@ -134,7 +134,15 @@ export async function generateCarousel(): Promise<string[]> {
     : null;
 
   const outputDir = path.join(dirname, 'output', 'slides');
-  if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+  } else {
+    // Nettoyer les anciennes slides pour éviter les résidus des jours précédents
+    const existingFiles = fs.readdirSync(outputDir).filter(f => f.endsWith('.png'));
+    for (const file of existingFiles) {
+      fs.unlinkSync(path.join(outputDir, file));
+    }
+  }
 
   const FONTS = [
     { name: 'Inter', data: fontReg, weight: 400 as const, style: 'normal' as const },

@@ -225,48 +225,53 @@ export async function fetchShowtimes(): Promise<void> {
 
   // Limiter à 14 films max (limite carousel Instagram de 15 slides) avec max 3 films par cinéma
   const finalFilms: EnrichedFilm[] = [];
+  const rejectedFilms: EnrichedFilm[] = [];
   const cinemaCounts = new Map<string, number>();
   const decadeCounts = new Map<string, number>();
   const MAX_PER_CINEMA = 3;
   const MAX_PER_DECADE = 4;
 
+  // PASSAGE 1 : Sélection avec règles de diversité strictes
   for (const film of enrichedFilms) {
     if (finalFilms.length >= (INSTAGRAM.maxSlides - 1)) break;
 
-    // Règle Anti-Monopole Temporel : max 4 films par décennie
     const year = Number(film.year) || new Date().getFullYear();
     const decade = `${Math.floor(year / 10) * 10}s`;
     const dCount = decadeCounts.get(decade) || 0;
+    const isDecadeFull = dCount >= MAX_PER_DECADE;
 
-    if (dCount >= MAX_PER_DECADE) {
-      continue; // Décennie saturée, on passe au film suivant pour plus de diversité
-    }
-
-    // Chercher un cinéma pour ce film qui n'a pas atteint la limite
+    // Chercher un cinéma valide
     let selectedCinemaIndex = -1;
     for (let i = 0; i < film.cinema.length; i++) {
-      const cName = film.cinema[i].name;
-      const count = cinemaCounts.get(cName) || 0;
+      const count = cinemaCounts.get(film.cinema[i].name) || 0;
       if (count < MAX_PER_CINEMA) {
         selectedCinemaIndex = i;
         break;
       }
     }
 
-    if (selectedCinemaIndex !== -1) {
-      // On a trouvé un cinéma valide
+    if (!isDecadeFull && selectedCinemaIndex !== -1) {
       const selectedCinema = film.cinema[selectedCinemaIndex];
-      
-      // On le garde comme unique cinéma pour l'affichage
       film.cinema = [selectedCinema];
-      
-      // On incrémente les compteurs de ce cinéma et de cette décennie
       cinemaCounts.set(selectedCinema.name, (cinemaCounts.get(selectedCinema.name) || 0) + 1);
       decadeCounts.set(decade, dCount + 1);
+      finalFilms.push(film);
+    } else {
+      rejectedFilms.push(film);
+    }
+  }
+
+  // PASSAGE 2 : Repêchage si on a moins de 9 films (on ignore les limites de décennie/cinéma)
+  if (finalFilms.length < 9 && rejectedFilms.length > 0) {
+    console.log(`⚠️ Seulement ${finalFilms.length} films sélectionnés. Tentative de repêchage pour atteindre le minimum de 9...`);
+    for (const film of rejectedFilms) {
+      if (finalFilms.length >= 9 || finalFilms.length >= (INSTAGRAM.maxSlides - 1)) break;
       
+      // Pour le repêchage, on prend le premier cinéma dispo même s'il dépasse le quota
+      const selectedCinema = film.cinema[0];
+      film.cinema = [selectedCinema];
       finalFilms.push(film);
     }
-    // Sinon, le film est ignoré pour forcer la diversité
   }
 
   if (finalFilms.length === 0) {
