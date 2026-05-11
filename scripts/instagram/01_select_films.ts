@@ -28,9 +28,16 @@ function clamp(value: number, min: number, max: number) {
 export async function selectFilms(): Promise<void> {
   console.log("Démarrage de la sélection des films...");
 
-  // ÉTAPE 1 — Récupérer UNIQUEMENT les films qui passent DEMAIN
-  const targetDateObj = new Date(Date.now() + 86400000);
-  const targetDateStr = targetDateObj.toISOString().split('T')[0];
+  // ÉTAPE 1 — Récupérer UNIQUEMENT les films qui passent à la date cible
+  const dateArg = process.argv.find(a => a.startsWith('--date='))?.split('=')[1];
+  let targetDateStr: string;
+
+  if (dateArg) {
+    targetDateStr = dateArg;
+  } else {
+    const targetDateObj = new Date(Date.now() + 86400000);
+    targetDateStr = targetDateObj.toISOString().split('T')[0];
+  }
 
   const { data: showtimesData, error: showtimesError } = await supabase
     .from('showtimes')
@@ -56,14 +63,25 @@ export async function selectFilms(): Promise<void> {
   
   console.log(`${currentFilms.size} films trouvés dans 'showtimes' pour demain (${targetDateStr}).`);
 
-  // ÉTAPE 2 — Récupérer les films de reference_films
-  const { data: referenceFilms, error: refError } = await supabase
-    .from('reference_films')
-    .select('*');
+  // ÉTAPE 2 — Récupérer TOUS les films de reference_films (pagination pour dépasser la limite de 1000 par défaut de Supabase)
+  let referenceFilms: any[] = [];
+  let from = 0;
+  const pageSize = 1000;
 
-  if (refError || !referenceFilms) {
-    console.error("Erreur lors de la récupération des films de référence", refError);
-    return;
+  while (true) {
+    const { data, error } = await supabase
+      .from('reference_films')
+      .select('*')
+      .range(from, from + pageSize - 1);
+
+    if (error) {
+      console.error("Erreur lors de la récupération des films de référence", error);
+      return;
+    }
+    if (!data || data.length === 0) break;
+    referenceFilms = referenceFilms.concat(data);
+    if (data.length < pageSize) break;
+    from += pageSize;
   }
 
   console.log(`${referenceFilms.length} films de référence récupérés.`);
@@ -71,18 +89,28 @@ export async function selectFilms(): Promise<void> {
   const scoredFilms = [];
 
   for (const film of referenceFilms) {
-    // Si le film passe DEMAIN => score = 1.0 direct (priorité absolue)
+    // Si le film passe DEMAIN : distinguer reprise vs nouveauté
     if (currentFilms.has(film.title_normalized)) {
       const dbData = currentFilms.get(film.title_normalized);
+      // IMPORTANT : release_year dans showtimes est stocké en string → parseInt obligatoire
+      const filmYear = film.year || parseInt(dbData?.release_year, 10) || 0;
+      const currentYear = new Date().getFullYear();
+
+      // Reprise : film sorti avant l'année courante → priorité maximale
+      // Nouveauté : film sorti cette année → priorité modérée (évite la domination des sorties récentes)
+      const isReprise = filmYear > 0 && filmYear < currentYear;
+      const playingScore = isReprise ? SCORING.repriseScore : SCORING.nouveauteScore;
+
       scoredFilms.push({
         title: film.title,
-        year: film.year || dbData?.release_year,
+        year: filmYear,
         director: film.director || dbData?.director || dbData?.realisateur,
         poster_url: film.poster_url || dbData?.affiche,
-        score: 1.0,
+        score: playingScore,
         sources: film.sources,
         source_count: film.source_count,
-        is_playing: true
+        is_playing: true,
+        is_reprise: isReprise
       });
       continue;
     }
@@ -93,7 +121,8 @@ export async function selectFilms(): Promise<void> {
     
     // Ancienneté
     const filmYear = film.year || 2000;
-    const age = Math.max(0, 2025 - filmYear);
+    const currentYear = new Date().getFullYear();
+    const age = Math.max(0, currentYear - filmYear);
     const scoreAnciennete = clamp(Math.pow(0.5, age / SCORING.halfLifeYears), SCORING.minScore, 1.0);
     
     // Note Senscritique moy.

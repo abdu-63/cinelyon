@@ -42,5 +42,10 @@ export const SCORING = {
   minScore: 0.01,
   knownDirectorScore: 1.0,
   unknownDirectorScore: 0.6,
-  topFilmsToKeep: 10
+  topFilmsToKeep: 10,
+  // Score pour les films à l'affiche demain :
+  // - repriseScore : film classique (année < année courante) → priorité maximale
+  // - nouveauteScore : nouveauté de l'année courante → priorité modérée
+  repriseScore: 2.0,
+  nouveauteScore: 0.85,
 };

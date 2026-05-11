@@ -27,7 +27,8 @@ export function generateCaption(): void {
     throw new Error("NO_FILMS_AVAILABLE");
   }
 
-  const targetDateObj = new Date(Date.now() + 86400000); // 1 jour
+  const dateArg = process.argv.find(a => a.startsWith('--date='))?.split('=')[1];
+  const targetDateObj = dateArg ? new Date(dateArg) : new Date(Date.now() + 86400000);
   const dateStr = targetDateObj.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' });
   const dayName = getDayString(targetDateObj);
 

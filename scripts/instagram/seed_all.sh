@@ -16,6 +16,13 @@ SOURCES=(
   "senscritique_top111"
   "senscritique_top100"
   "senscritique_claques"
+  "letterboxd_animation_before_2000s"
+  "letterboxd_criterion"
+  "letterboxd_love_questioning_films"
+  "letterboxd_imdb250"
+  "letterboxd_oscars"
+  "letterboxd_cannes"
+  "letterboxd_horror250"
 )
 
 echo "Démarrage du scraping massif des listes..."

@@ -41,11 +41,18 @@ export async function fetchShowtimes(): Promise<void> {
     refScores.set(normalizeTitle(f.title), f.score ?? 0);
   }
 
-  // Cible : demain
-  const targetDateObj = new Date(Date.now() + 86400000);
-  const targetDateStr = targetDateObj.toISOString().split('T')[0];
+  // Cible : date spécifiée ou demain
+  const dateArg = process.argv.find(a => a.startsWith('--date='))?.split('=')[1];
+  let targetDateStr: string;
 
-  console.log(`Recherche des séances pour demain : ${targetDateStr}`);
+  if (dateArg) {
+    targetDateStr = dateArg;
+  } else {
+    const targetDateObj = new Date(Date.now() + 86400000);
+    targetDateStr = targetDateObj.toISOString().split('T')[0];
+  }
+
+  console.log(`Recherche des séances pour : ${targetDateStr}`);
 
   const { data, error } = await supabase
     .from('showtimes')
@@ -73,8 +80,35 @@ export async function fetchShowtimes(): Promise<void> {
   for (const dbMovie of showtimesMovies) {
     if (!dbMovie.seances || Object.keys(dbMovie.seances).length === 0) continue;
 
-    // Score de référence si le film est dans notre sélection (bonus, pas bloquant)
-    const refScore = refScores.get(normalizeTitle(dbMovie.title)) ?? 0;
+    // Score : priorité aux reprises (films anciens) sur les nouveautés
+    // 1. Film connu de reference_films → score calculé (2.0 pour reprises, 0.85 pour nouveautés)
+    // 2. Film inconnu de reference_films → fallback progressif selon l'âge du film
+    const currentYear = new Date().getFullYear();
+    const knownScore = refScores.get(normalizeTitle(dbMovie.title));
+    let refScore: number;
+
+    if (knownScore !== undefined) {
+      refScore = knownScore;
+    } else {
+      // Fallback progressif : plus le film est ancien, plus il est prioritaire
+      // IMPORTANT : release_year est stocké en string dans showtimes, parseInt obligatoire
+      const movieYear = parseInt(dbMovie.release_year, 10) || 0;
+      const age = movieYear > 0 ? currentYear - movieYear : -1;
+
+      if (age < 0) {
+        refScore = 0.4; // Année inconnue → priorité minimale
+      } else if (age <= 1) {
+        refScore = 0.5; // Nouveauté (cette année ou l'an dernier) → priorité basse
+      } else if (age <= 5) {
+        refScore = 0.7; // Film récent (2-5 ans) → légère priorité
+      } else if (age <= 15) {
+        refScore = 1.2; // Reprise récente (6-15 ans) → bonne priorité
+      } else if (age <= 40) {
+        refScore = 1.6; // Classique (16-40 ans) → haute priorité
+      } else {
+        refScore = 1.9; // Grand classique (40+ ans) → priorité maximale parmi les non-référencés
+      }
+    }
 
     const cinemas: Cinema[] = [];
     for (const [cinemaName, seancesRaw] of Object.entries(dbMovie.seances)) {

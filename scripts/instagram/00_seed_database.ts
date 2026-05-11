@@ -15,6 +15,7 @@ const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABAS
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 const SOURCES: Record<string, string> = {
+  // --- Sources existantes ---
   "letterboxd_rege": "https://letterboxd.com/regelegorila/list/rege-cine-club/",
   "letterboxd_bfi_dir": "https://letterboxd.com/bfi/list/sight-and-sounds-directors-100-greatest-films/",
   "letterboxd_bfi": "https://letterboxd.com/bfi/list/sight-and-sounds-greatest-films-of-all-time/",
@@ -26,7 +27,14 @@ const SOURCES: Record<string, string> = {
   "senscritique_cultes": "https://www.senscritique.com/liste/l_encyclopedie_des_films_cultes/27776",
   "senscritique_top111": "https://www.senscritique.com/films/tops/top111",
   "senscritique_top100": "https://www.senscritique.com/films/tops/top100-des-top10",
-  "senscritique_claques": "https://www.senscritique.com/top/resultats/les_plus_belles_claques_esthetiques/253158"
+  "senscritique_claques": "https://www.senscritique.com/top/resultats/les_plus_belles_claques_esthetiques/253158",
+  "letterboxd_animation_before_2000s": "https://letterboxd.com/criterion/list/animation-before-the-2000s-criterion-channel/",
+  "letterboxd_criterion": "https://letterboxd.com/ablount86/list/the-criterion-collection/",
+  "letterboxd_love_questioning_films": "https://letterboxd.com/criterion/list/films-to-watch-when-youre-questioning-love/",
+  "letterboxd_imdb250": "https://letterboxd.com/dave/list/imdb-top-250/",
+  "letterboxd_oscars": "https://letterboxd.com/oscars/list/oscar-winning-films-best-picture/",
+  "letterboxd_cannes": "https://letterboxd.com/brsan/list/cannes-palme-dor-winners/",
+  "letterboxd_horror250": "https://letterboxd.com/official/list/top-250-horror-films/",
 };
 
 interface ScrapedFilm {
