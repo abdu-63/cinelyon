@@ -1949,13 +1949,7 @@ body.show-friend-badges .friend-badge {
     bottom: 2px;
 }
 
-.calendar-btn.added {
-    background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
-}
 
-.calendar-btn.added svg {
-    stroke: var(--card-solid);
-}
 
 @media (max-width: 576px) {
     .horaire-wrapper {
