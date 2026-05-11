@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as dotenv from 'dotenv';
 import { EnrichedFilm, Cinema } from './types';
-import { INSTAGRAM } from './constants';
+import { INSTAGRAM, KNOWN_DIRECTORS } from './constants';
 
 const dirname = process.cwd();
 dotenv.config({ path: path.join(dirname, '../../.env') });
@@ -161,7 +161,30 @@ export async function fetchShowtimes(): Promise<void> {
       else if (wantToSee >= 100) hypeBonus = 0.1;
       else if (wantToSee >= 20) hypeBonus = 0.05;
 
-      refScore = baseScore + ratingBonus + hypeBonus;
+      // Bonus Réalisateur Culte pour les nouveautés non référencées
+      let directorBonus = 0;
+      const dirName = dbMovie.director || dbMovie.realisateur || '';
+      const isKnownDir = KNOWN_DIRECTORS.some(d => dirName.toLowerCase().includes(d.toLowerCase()));
+      if (isKnownDir) directorBonus = 0.3;
+
+      refScore = baseScore + ratingBonus + hypeBonus + directorBonus;
+    }
+
+    // Prime à l'Événement (Formats Spéciaux / Avant-Premières)
+    // On analyse les données brutes du film pour détecter des mots clés magiques
+    const movieStr = JSON.stringify(dbMovie).toLowerCase();
+    if (
+      movieStr.includes('70mm') || 
+      movieStr.includes('35mm') || 
+      movieStr.includes('restauration 4k') || 
+      movieStr.includes('restauré 4k') || 
+      movieStr.includes('avant-première') ||
+      movieStr.includes('avant première') ||
+      movieStr.includes('rencontre') ||
+      movieStr.includes('copie neuve') ||
+      movieStr.includes('festival')
+    ) {
+      refScore += 0.5; // Bonus exceptionnel (+0.5) pour les événements cinéphiles
     }
 
     // PÉNALITÉ DE RÉCENCE : éviter la redondance
@@ -203,10 +226,21 @@ export async function fetchShowtimes(): Promise<void> {
   // Limiter à 14 films max (limite carousel Instagram de 15 slides) avec max 3 films par cinéma
   const finalFilms: EnrichedFilm[] = [];
   const cinemaCounts = new Map<string, number>();
+  const decadeCounts = new Map<string, number>();
   const MAX_PER_CINEMA = 3;
+  const MAX_PER_DECADE = 4;
 
   for (const film of enrichedFilms) {
     if (finalFilms.length >= (INSTAGRAM.maxSlides - 1)) break;
+
+    // Règle Anti-Monopole Temporel : max 4 films par décennie
+    const year = Number(film.year) || new Date().getFullYear();
+    const decade = `${Math.floor(year / 10) * 10}s`;
+    const dCount = decadeCounts.get(decade) || 0;
+
+    if (dCount >= MAX_PER_DECADE) {
+      continue; // Décennie saturée, on passe au film suivant pour plus de diversité
+    }
 
     // Chercher un cinéma pour ce film qui n'a pas atteint la limite
     let selectedCinemaIndex = -1;
@@ -226,8 +260,10 @@ export async function fetchShowtimes(): Promise<void> {
       // On le garde comme unique cinéma pour l'affichage
       film.cinema = [selectedCinema];
       
-      // On incrémente le compteur de ce cinéma
+      // On incrémente les compteurs de ce cinéma et de cette décennie
       cinemaCounts.set(selectedCinema.name, (cinemaCounts.get(selectedCinema.name) || 0) + 1);
+      decadeCounts.set(decade, dCount + 1);
+      
       finalFilms.push(film);
     }
     // Sinon, le film est ignoré pour forcer la diversité

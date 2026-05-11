@@ -96,10 +96,27 @@ export async function selectFilms(): Promise<void> {
       const filmYear = film.year || parseInt(dbData?.release_year, 10) || 0;
       const currentYear = new Date().getFullYear();
 
-      // Reprise : film sorti avant l'année courante → priorité maximale
-      // Nouveauté : film sorti cette année → priorité modérée (évite la domination des sorties récentes)
+      // Point 1 : Rendre le Pass VIP intelligent (Calcul du score dynamique)
       const isReprise = filmYear > 0 && filmYear < currentYear;
-      const playingScore = isReprise ? SCORING.repriseScore : SCORING.nouveauteScore;
+      
+      // Score de base élevé, mais qui sera ajusté par la qualité du film
+      let baseScore = isReprise ? 1.5 : 0.6; 
+
+      const avgRank = film.avg_rank || 250;
+      const scoreRang = clamp(1.0 - (avgRank / 500), SCORING.minScore, 1.0); // 0 à 1
+      
+      const avgNote = film.avg_note || 7.0; 
+      const scoreNote = clamp(avgNote / 10, SCORING.minScore, 1.0); // 0 à 1
+      
+      const isKnownDir = KNOWN_DIRECTORS.some(d => film.director && film.director.toLowerCase().includes(d.toLowerCase()));
+      const scoreRealisateur = isKnownDir ? 1.2 : 1.0; // Bonus réalisateur culte
+
+      const sourcesCount = film.source_count || 1;
+      const scoreMultiSource = clamp(1.0 + ((sourcesCount - 1) * 0.1), 1.0, 1.5);
+
+      // Score VIP = Base (1.5 ou 0.6) + Qualité (peut monter jusqu'à +1.0)
+      // Une reprise chef d'oeuvre aura ~2.5, une reprise "simple" ~1.8
+      const playingScore = baseScore + (scoreRang * scoreNote * scoreRealisateur * scoreMultiSource);
 
       scoredFilms.push({
         title: film.title,

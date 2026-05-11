@@ -35,6 +35,23 @@ const SOURCES: Record<string, string> = {
   "letterboxd_oscars": "https://letterboxd.com/oscars/list/oscar-winning-films-best-picture/",
   "letterboxd_cannes": "https://letterboxd.com/brsan/list/cannes-palme-dor-winners/",
   "letterboxd_horror250": "https://letterboxd.com/official/list/top-250-horror-films/",
+  "letterboxd_top_250_animated": "https://letterboxd.com/official/list/top-250-animated-films/",
+  "letterboxd_cosmic_horror": "https://letterboxd.com/simanto/list/cosmic-horror/",
+  "letterboxd_below_100_minutes": "https://letterboxd.com/official/list/top-250-films-below-100-minutes-in-runtime/",
+  "letterboxd_romantic_comedy_250": "https://letterboxd.com/official/list/top-250-romantic-comedy-films/",
+  "letterboxd_science_fiction_250": "https://letterboxd.com/official/list/top-250-science-fiction-films/",
+  "letterboxd_top100_eurekaka": "https://letterboxd.com/naklubidur/list/top-100-jai-pas-fini-et-ca-change-tout-le/",
+  "letterboxd_top100_zrkv": "https://letterboxd.com/zrkv/list/top-100/",
+  "letterboxd_visually_stunning": "https://letterboxd.com/angelmonkey/list/visually-stunning/",
+  "letterboxd_atmospheric_horror": "https://letterboxd.com/gymnopedie/list/atmospheric-horror/",
+  "letterboxd_visually_insane": "https://letterboxd.com/etolkin/list/filmlist:28697007/",
+  "letterboxd_director": "https://letterboxd.com/jasonli777/list/director/",
+  "letterboxd_classics": "https://letterboxd.com/burningman_04/list/classics/",
+  "letterboxd_horror_must_watch": "https://letterboxd.com/browsehorror/list/horror-movies-everyone-should-watch-at-least/",
+  "letterboxd_french_classic": "https://letterboxd.com/4bdu/list/french-classic/",
+  "letterboxd_visually_stunning_movies": "https://letterboxd.com/4bdu/list/visually-stunning-movies/",
+  "letterboxd_horror_film_recommendation": "https://letterboxd.com/4bdu/list/horror-film-recommendation/",
+  "letterboxd_most_terrifying_horror_films": "https://letterboxd.com/4bdu/list/les-films-dhorreur-les-plus-terrifiants/",
 };
 
 interface ScrapedFilm {
