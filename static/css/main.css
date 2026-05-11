@@ -2653,3 +2653,182 @@ body.show-friend-badges .friend-badge {
 .page-404-btn:hover {
     opacity: 0.85;
 }
+
+/* --- Settings Modal --- */
+.settings-btn {
+    background: none;
+    border: none;
+    color: #000;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+.settings-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.settings-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.95);
+    background-color: #F1F1F1;
+    border-radius: 16px;
+    z-index: 10001;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 30px rgba(80, 80, 80, 0.5);
+    opacity: 0;
+    transition: all 0.2s ease-out;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.settings-modal.show {
+    display: block;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.settings-modal-content {
+    padding: 20px;
+}
+
+.settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 10px;
+}
+.settings-header h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: #000000;
+}
+
+.close-settings-btn {
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+}
+.close-settings-btn:hover {
+    color: #fff;
+    background-color: rgba(255,255,255,0.1);
+}
+
+.settings-body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.setting-info h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.1rem;
+    color: #000;
+}
+.setting-info p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #303030;
+}
+
+/* Toggle Switch */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+    flex-shrink: 0;
+}
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #444;
+    transition: .4s;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+input:checked + .slider {
+    background-color: var(--accent-color, #626afc);
+}
+input:checked + .slider:before {
+    transform: translateX(22px);
+}
+.slider.round {
+    border-radius: 34px;
+}
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.links-container {
+    justify-content: center;
+    margin-top: 10px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+.suggestion-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--accent-color, #626afc);
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+    width: 100%;
+    justify-content: center;
+}
+.suggestion-link:hover {
+    background-color: rgba(98, 106, 252, 0.1);
+}
+
+.settings-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    z-index: 10000;
+    backdrop-filter: blur(3px);
+}
+.settings-overlay.show {
+    display: block;
+}

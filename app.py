@@ -638,6 +638,11 @@ def film_detail(slug):
     )
 
 
+@app.route("/suggestions")
+def suggestions():
+    return render_template("suggestions.html", website_title=WEBSITE_TITLE)
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html", website_title=WEBSITE_TITLE), 404

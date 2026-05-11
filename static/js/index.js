@@ -37,6 +37,10 @@
      * Compare l'heure de chaque séance à l'heure locale actuelle.
      */
     function hidePastSeances() {
+        if (localStorage.getItem('hidePastShowtimes') === 'false') {
+            return; // Masquage désactivé
+        }
+        
         const now = new Date();
         const currentMinutes = now.getHours() * 60 + now.getMinutes();
 

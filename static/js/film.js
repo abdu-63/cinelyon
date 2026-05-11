@@ -38,6 +38,10 @@ document.querySelectorAll('.film-cal-btn').forEach(btn => {
 
 // ── Cache les séances passées (aujourd'hui uniquement) ──
 function hidePastSeances() {
+    if (localStorage.getItem('hidePastShowtimes') === 'false') {
+        return; // Masquage désactivé
+    }
+    
     const now = new Date();
     const currentMinutes = now.getHours() * 60 + now.getMinutes();
 

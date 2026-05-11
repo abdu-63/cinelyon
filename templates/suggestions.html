@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style>
+    .suggestions-container {
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 30px;
+        background-color: #FFFFFF;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(80, 80, 80, 0.5);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .suggestions-container h2 {
+        margin-top: 0;
+        color: #000;
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+    }
+
+    .suggestions-container p {
+        color: #333;
+        line-height: 1.6;
+        margin-bottom: 25px;
+    }
+
+    .contact-options {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .contact-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        padding: 16px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.2s ease;
+        text-align: center;
+        font-size: 1.1rem;
+    }
+
+    .btn-bug {
+        background-color: rgba(244, 67, 54, 0.1);
+        color: #ff5252;
+        border: 1px solid rgba(244, 67, 54, 0.3);
+    }
+
+    .btn-bug:hover {
+        background-color: rgba(244, 67, 54, 0.2);
+    }
+
+    .btn-feature {
+        background-color: rgba(0, 0, 0, 0.05);
+        color: #000;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-feature:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn-back {
+        display: inline-block;
+        margin-top: 30px;
+        color: #333;
+        text-decoration: none;
+        font-size: 0.95rem;
+        transition: color 0.2s;
+    }
+    
+    .btn-back:hover {
+        color: #000;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="suggestions-container">
+    <h2>Aidez-nous à améliorer CinéLyon !</h2>
+    <p>Vous avez repéré un bug qui vous empêche d'utiliser le site correctement ? Ou vous avez une idée géniale de fonctionnalité qui pourrait améliorer votre expérience ? Faites-le nous savoir via les boutons ci-dessous.</p>
+    
+    <div class="contact-options">
+        <a href="mailto:cinelyon.fr@gmail.com?subject=[Bug]%20Signalement%20sur%20CinéLyon&body=Description%20du%20bug%20:%0A%0AÉtapes%20pour%20reproduire%20:%0A%0AAppareil/Navigateur%20:" class="contact-btn btn-bug">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+            Signaler un bug
+        </a>
+        
+        <a href="mailto:cinelyon.fr@gmail.com?subject=[Idée]%20Nouvelle%20fonctionnalité%20CinéLyon&body=Mon%20idée%20:%0A%0APourquoi%20ce%20serait%20utile%20:" class="contact-btn btn-feature">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="16"></line>
+                <line x1="8" y1="12" x2="16" y2="12"></line>
+            </svg>
+            Suggérer une fonctionnalité
+        </a>
+    </div>
+    
+    <a href="{{ url_for('home') }}" class="btn-back">← Retour à l'accueil</a>
+</div>
+{% endblock %}
