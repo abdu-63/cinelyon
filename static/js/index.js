@@ -148,8 +148,14 @@
         const filterCinema = document.getElementById('filter-cinema');
         const filterDay = document.getElementById('filter-day');
         const filterFormat = document.getElementById('filter-format');
+        const filterTime = document.getElementById('filter-time');
         const filterFavorites = document.getElementById('filter-favorites');
         const resetBtn = document.getElementById('reset-filters');
+
+        [searchTitle, filterGenre, filterDirector, filterCinema, filterDay, filterFormat, filterTime].forEach(el => {
+            if (el) el.addEventListener('change', filterFilms);
+            if (el && el.id === 'search-title') el.addEventListener('input', filterFilms);
+        });
 
         const favTabsContainer = document.getElementById('favorites-tabs-container');
         const favTabs = document.querySelectorAll('.fav-tab');
@@ -189,6 +195,7 @@
                 document.body.classList.remove('show-friend-badges');
             }
             // Trigger filtering handled below
+            filterFilms();
         });
 
         const genres = new Set();
@@ -231,7 +238,38 @@
             const cinemaQuery = filterCinema.value.toLowerCase();
             const dayQuery = filterDay.value.toLowerCase();
             const formatQuery = filterFormat.value.toLowerCase();
+            const timeQuery = filterTime.value;
             const showOnlyFavorites = filterFavorites.checked;
+
+            function checkTimeSlot(timeStr, slot) {
+                if (!timeStr || !slot) return true;
+                const cleanTimeStr = timeStr.replace('h', ':');
+                const [h, m] = cleanTimeStr.split(':').map(Number);
+                const totalMinutes = h * 60 + (m || 0);
+
+                switch (slot) {
+                    case 'morning': return totalMinutes < 780; // avant 13h
+                    case 'afternoon': return totalMinutes >= 780 && totalMinutes < 1080; // 13h-18h
+                    case 'evening': return totalMinutes >= 1080 && totalMinutes < 1320; // 18h-22h
+                    case 'night': return totalMinutes >= 1320; // après 22h
+                    default: return true;
+                }
+            }
+
+            function matchesTimeFilter(filmElement) {
+                if (!timeQuery) return true;
+                const seancesWrapper = filmElement.nextElementSibling;
+                if (!seancesWrapper || !seancesWrapper.classList.contains('seances-wrapper')) return false;
+                
+                const todayBlock = seancesWrapper.querySelector('.day-seances[data-day="0"]');
+                if (!todayBlock) return false;
+                
+                const horaires = todayBlock.querySelectorAll('.horaire-wrapper');
+                for (let hw of horaires) {
+                    if (checkTimeSlot(hw.dataset.time, timeQuery)) return true;
+                }
+                return false;
+            }
 
             // Helper function to check if a cinema matches the filter
             function cinemaMatchesFilter(cinemaName) {
@@ -291,16 +329,10 @@
                 const matchDay = !dayQuery || days.includes(dayQuery);
                 const matchFormat = !formatQuery || formats.includes(formatQuery);
 
-                let matchFavorites = true;
-                if (showOnlyFavorites) {
-                    if (currentFavTab === 'perso') {
-                        matchFavorites = isFavorite(filmId);
-                    } else if (currentFavTab === 'amis') {
-                        matchFavorites = window.hasFriendFavorited && window.hasFriendFavorited(filmId);
-                    }
-                }
-
-                const show = matchTitle && matchGenre && matchDirector && matchCinema && matchDay && matchFormat && matchFavorites;
+                const matchFavorites = !showOnlyFavorites || (currentFavTab === 'perso' ? isFavorite(filmId) : (window.hasFriendFavorited && window.hasFriendFavorited(filmId)));
+                const matchTime = matchesTimeFilter(film);
+                
+                const show = matchTitle && matchGenre && matchDirector && matchCinema && matchDay && matchFormat && matchFavorites && matchTime;
 
                 film.style.display = show ? '' : 'none';
                 relatedElements.forEach(el => el.style.display = show ? '' : 'none');
@@ -334,15 +366,28 @@
                                         const matches = dayMatches && cinemaMatchesFilter(cinemaName);
                                         container.style.display = matches ? '' : 'none';
 
-                                        // Filter individual horaires by format
-                                        if (matches && formatQuery) {
+                                        // Filter individual horaires by format and time range
+                                        if (matches && (formatQuery || timeQuery)) {
                                             const wrappers = container.querySelectorAll('.horaire-wrapper');
                                             let hasVisibleHoraire = false;
                                             wrappers.forEach(w => {
                                                 const fmt = w.dataset.format || '';
-                                                const fmtMatch = fmt.includes(formatQuery);
-                                                w.style.display = fmtMatch ? '' : 'none';
-                                                if (fmtMatch) hasVisibleHoraire = true;
+                                                const timeStr = w.dataset.time || '';
+                                                
+                                                const fmtMatch = !formatQuery || fmt.includes(formatQuery);
+                                                
+                                                let timeRangeMatch = true;
+                                                if (timeQuery) {
+                                                    if (index !== 0) { // Time filter only applies to today
+                                                        timeRangeMatch = false;
+                                                    } else {
+                                                        timeRangeMatch = checkTimeSlot(timeStr, timeQuery);
+                                                    }
+                                                }
+
+                                                const hwShow = fmtMatch && timeRangeMatch;
+                                                w.style.display = hwShow ? '' : 'none';
+                                                if (hwShow) hasVisibleHoraire = true;
                                             });
                                             if (!hasVisibleHoraire) container.style.display = 'none';
                                         } else if (matches) {
@@ -437,6 +482,7 @@
             filterCinema.value = '';
             filterDay.value = '';
             filterFormat.value = '';
+            filterTime.value = '';
             filterFavorites.checked = false;
             filterFilms();
         });

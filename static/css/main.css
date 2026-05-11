@@ -181,6 +181,47 @@ p {
     font-weight: bold !important;
 }
 
+/* Quick Filter Badges */
+.quick-filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    justify-content: flex-start;
+}
+
+.quick-filter-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background-color: var(--card-solid, #fff);
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'healTheWebA', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-main, #333);
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px var(--shadow-sm, rgba(0,0,0,0.05));
+}
+
+.quick-filter-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--shadow-md, rgba(0,0,0,0.1));
+    border-color: var(--primary, #444cf7);
+}
+
+.quick-filter-badge.active {
+    background-color: var(--primary, #444cf7);
+    color: white;
+    border-color: var(--primary, #444cf7);
+}
+
+.quick-filter-badge .badge-icon {
+    font-size: 16px;
+}
+
 .day-seances {
     display: none;
 }

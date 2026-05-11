@@ -58,6 +58,13 @@
                 <option value="{{ format|lower }}">{{ format }}</option>
                 {% endfor %}
             </select>
+            <select id="filter-time" class="search-input">
+                <option value="">Tous les horaires (Auj.)</option>
+                <option value="morning">Matin (avant 13h)</option>
+                <option value="afternoon">Après-midi (13h-18h)</option>
+                <option value="evening">Soirée (18h-22h)</option>
+                <option value="night">Nuit (après 22h)</option>
+            </select>
             <div class="actions-row">
                 <button id="reset-filters" class="reset-btn">Réinitialiser</button>
                 <label class="favorites-toggle">
