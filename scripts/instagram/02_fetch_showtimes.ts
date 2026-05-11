@@ -123,19 +123,45 @@ export async function fetchShowtimes(): Promise<void> {
       const movieYear = parseInt(dbMovie.release_year, 10) || 0;
       const age = movieYear > 0 ? currentYear - movieYear : -1;
 
+      let baseScore = 0.5;
       if (age < 0) {
-        refScore = 0.4; // Année inconnue → priorité minimale
+        baseScore = 0.4; // Année inconnue → priorité minimale
       } else if (age <= 1) {
-        refScore = 0.5; // Nouveauté (cette année ou l'an dernier) → priorité basse
+        baseScore = 0.5; // Nouveauté (cette année ou l'an dernier) → priorité basse
       } else if (age <= 5) {
-        refScore = 0.7; // Film récent (2-5 ans) → légère priorité
+        baseScore = 0.7; // Film récent (2-5 ans) → légère priorité
       } else if (age <= 15) {
-        refScore = 1.2; // Reprise récente (6-15 ans) → bonne priorité
+        baseScore = 1.2; // Reprise récente (6-15 ans) → bonne priorité
       } else if (age <= 40) {
-        refScore = 1.6; // Classique (16-40 ans) → haute priorité
+        baseScore = 1.6; // Classique (16-40 ans) → haute priorité
       } else {
-        refScore = 1.9; // Grand classique (40+ ans) → priorité maximale parmi les non-référencés
+        baseScore = 1.9; // Grand classique (40+ ans) → priorité maximale parmi les non-référencés
       }
+
+      // Bonus/Malus basé sur la note (rating)
+      let ratingBonus = 0;
+      let parsedRating = 0;
+      if (dbMovie.rating && typeof dbMovie.rating === 'string') {
+        const parts = dbMovie.rating.split('/');
+        if (parts.length > 0) parsedRating = parseFloat(parts[0].replace(',', '.'));
+      } else if (typeof dbMovie.rating === 'number') {
+        parsedRating = dbMovie.rating;
+      }
+      
+      if (parsedRating > 0 && parsedRating <= 5) {
+        if (parsedRating >= 4.0) ratingBonus = 0.2;       // Chef-d'œuvre
+        else if (parsedRating >= 3.5) ratingBonus = 0.1;  // Très bon film
+        else if (parsedRating < 2.5) ratingBonus = -0.3;  // Mauvais film (navet)
+      }
+
+      // Bonus d'attente (Hype) pour départager les nouveautés
+      let hypeBonus = 0;
+      const wantToSee = typeof dbMovie.wantToSee === 'number' ? dbMovie.wantToSee : parseInt(dbMovie.wantToSee || '0', 10) || 0;
+      if (wantToSee >= 500) hypeBonus = 0.2;
+      else if (wantToSee >= 100) hypeBonus = 0.1;
+      else if (wantToSee >= 20) hypeBonus = 0.05;
+
+      refScore = baseScore + ratingBonus + hypeBonus;
     }
 
     // PÉNALITÉ DE RÉCENCE : éviter la redondance

@@ -115,41 +115,9 @@ export async function selectFilms(): Promise<void> {
       continue;
     }
 
-    // Sinon, calcul du score (ÉTAPE 2 du plan)
-    const avgRank = film.avg_rank || 250;
-    const scoreRang = clamp(1.0 - (avgRank / 500), SCORING.minScore, 1.0);
-    
-    // Ancienneté
-    const filmYear = film.year || 2000;
-    const currentYear = new Date().getFullYear();
-    const age = Math.max(0, currentYear - filmYear);
-    const scoreAnciennete = clamp(Math.pow(0.5, age / SCORING.halfLifeYears), SCORING.minScore, 1.0);
-    
-    // Note Senscritique moy.
-    const avgNote = film.avg_note || 7.0; 
-    const scoreNote = clamp(avgNote / 10, SCORING.minScore, 1.0);
-    
-    // Réalisateur connu
-    const isKnownDir = KNOWN_DIRECTORS.some(d => film.director && film.director.toLowerCase().includes(d.toLowerCase()));
-    const scoreRealisateur = isKnownDir ? SCORING.knownDirectorScore : SCORING.unknownDirectorScore;
-
-    // Multi-source (présent dans plusieurs listes cultes)
-    const sourcesCount = film.source_count || 1;
-    const scoreMultiSource = clamp(1.0 + ((sourcesCount - 1) * 0.1), 1.0, 1.5);
-
-    // Score final multiplicatif
-    const finalScore = scoreRang * scoreAnciennete * scoreNote * scoreRealisateur * scoreMultiSource;
-
-    scoredFilms.push({
-      title: film.title,
-      year: film.year,
-      director: film.director,
-      poster_url: film.poster_url,
-      score: finalScore,
-      sources: film.sources,
-      source_count: film.source_count,
-      is_playing: false
-    });
+    // Si le film ne passe pas demain, on l'ignore complètement !
+    // Il est inutile de calculer un score pour un film qu'on ne peut pas aller voir.
+    continue;
   }
 
   // ÉTAPE 3 — Tri et conservation
