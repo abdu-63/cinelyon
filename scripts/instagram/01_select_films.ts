@@ -165,8 +165,8 @@ export async function selectFilms(): Promise<void> {
       seenTitles.add(norm);
       topFilms.push(film);
     }
-    // On garde les 20 premiers comme dicté par le plan
-    if (topFilms.length >= 20) break;
+    // On garde les N premiers comme dicté par les constantes
+    if (topFilms.length >= SCORING.topFilmsToKeep) break;
   }
 
   // ÉTAPE 4 — Output JSON

@@ -33,7 +33,7 @@ export const COLORS = {
 
 export const INSTAGRAM = {
   imageSize: 1080,
-  maxSlides: 10,
+  maxSlides: 15,
   waitBeforePublish: 10000 // 10s entre création et publication carousel
 };
 
@@ -42,7 +42,7 @@ export const SCORING = {
   minScore: 0.01,
   knownDirectorScore: 1.0,
   unknownDirectorScore: 0.6,
-  topFilmsToKeep: 10,
+  topFilmsToKeep: 40,
   // Score pour les films à l'affiche demain :
   // - repriseScore : film classique (année < année courante) → priorité maximale
   // - nouveauteScore : nouveauté de l'année courante → priorité modérée

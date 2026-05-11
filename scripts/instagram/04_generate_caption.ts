@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { EnrichedFilm } from './types';
+import { INSTAGRAM } from './constants';
 
 const dirname = process.cwd();
 
@@ -35,7 +36,7 @@ export function generateCaption(): void {
   let caption = `🍿 Qu'est-ce qu'on regarde à Lyon ${dayName} (${dateStr}) ?\n\n`;
   caption += `Voici notre sélection des meilleurs films classiques et cultes à l'affiche dans vos cinémas lyonnais : \n\n`;
 
-  const maxFilms = Math.min(films.length, 9);
+  const maxFilms = Math.min(films.length, INSTAGRAM.maxSlides - 1);
   for (let i = 0; i < maxFilms; i++) {
     const f = films[i];
     const cinemaName = f.cinema[0]?.name || "Cinéma Inconnu";

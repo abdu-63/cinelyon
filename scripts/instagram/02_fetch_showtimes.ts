@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as dotenv from 'dotenv';
 import { EnrichedFilm, Cinema } from './types';
+import { INSTAGRAM } from './constants';
 
 const dirname = process.cwd();
 dotenv.config({ path: path.join(dirname, '../../.env') });
@@ -53,6 +54,33 @@ export async function fetchShowtimes(): Promise<void> {
   }
 
   console.log(`Recherche des séances pour : ${targetDateStr}`);
+
+  // Récupération de l'historique des 7 derniers jours
+  const historyDate = new Date();
+  historyDate.setDate(historyDate.getDate() - 7);
+  const { data: historyData, error: historyError } = await supabase
+    .from('instagram_history')
+    .select('films')
+    .gte('published_at', historyDate.toISOString());
+
+  if (historyError) {
+    console.warn("⚠️ Impossible de récupérer l'historique Instagram (table instagram_history peut-être manquante).", historyError.message);
+  }
+
+  const recentlyPostedFilms = new Set<string>();
+  if (historyData) {
+    for (const row of historyData) {
+      if (Array.isArray(row.films)) {
+        for (const title of row.films) {
+          recentlyPostedFilms.add(title);
+        }
+      }
+    }
+  }
+  
+  if (recentlyPostedFilms.size > 0) {
+    console.log(`🕒 ${recentlyPostedFilms.size} films ont été publiés récemment et seront pénalisés.`);
+  }
 
   const { data, error } = await supabase
     .from('showtimes')
@@ -110,6 +138,11 @@ export async function fetchShowtimes(): Promise<void> {
       }
     }
 
+    // PÉNALITÉ DE RÉCENCE : éviter la redondance
+    if (recentlyPostedFilms.has(normalizeTitle(dbMovie.title))) {
+      refScore = refScore * 0.01;
+    }
+
     const cinemas: Cinema[] = [];
     for (const [cinemaName, seancesRaw] of Object.entries(dbMovie.seances)) {
       const showtimes = (seancesRaw as any[]).map(s => {
@@ -141,8 +174,38 @@ export async function fetchShowtimes(): Promise<void> {
   // Trier : films en reference_films (score > 0) en premier, puis les autres
   enrichedFilms.sort((a, b) => ((b as any).refScore ?? 0) - ((a as any).refScore ?? 0));
 
-  // Limiter à 9 films max (limite carousel Instagram)
-  const finalFilms = enrichedFilms.slice(0, 9);
+  // Limiter à 14 films max (limite carousel Instagram de 15 slides) avec max 3 films par cinéma
+  const finalFilms: EnrichedFilm[] = [];
+  const cinemaCounts = new Map<string, number>();
+  const MAX_PER_CINEMA = 3;
+
+  for (const film of enrichedFilms) {
+    if (finalFilms.length >= (INSTAGRAM.maxSlides - 1)) break;
+
+    // Chercher un cinéma pour ce film qui n'a pas atteint la limite
+    let selectedCinemaIndex = -1;
+    for (let i = 0; i < film.cinema.length; i++) {
+      const cName = film.cinema[i].name;
+      const count = cinemaCounts.get(cName) || 0;
+      if (count < MAX_PER_CINEMA) {
+        selectedCinemaIndex = i;
+        break;
+      }
+    }
+
+    if (selectedCinemaIndex !== -1) {
+      // On a trouvé un cinéma valide
+      const selectedCinema = film.cinema[selectedCinemaIndex];
+      
+      // On le garde comme unique cinéma pour l'affichage
+      film.cinema = [selectedCinema];
+      
+      // On incrémente le compteur de ce cinéma
+      cinemaCounts.set(selectedCinema.name, (cinemaCounts.get(selectedCinema.name) || 0) + 1);
+      finalFilms.push(film);
+    }
+    // Sinon, le film est ignoré pour forcer la diversité
+  }
 
   if (finalFilms.length === 0) {
     console.error("⚠️ Aucun film avec séances trouvé pour demain à Lyon !");

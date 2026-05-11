@@ -1,9 +1,24 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as dotenv from 'dotenv';
+import { createClient } from '@supabase/supabase-js';
 
 const dirname = process.cwd();
 dotenv.config({ path: path.join(dirname, '../../.env') });
+
+const supabaseUrl = process.env.SUPABASE_URL || '';
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY || '';
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+function normalizeTitle(title: string): string {
+  if (!title) return '';
+  return title.toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/^(le |la |les |the |a |an |l')/i, '')
+    .replace(/[^a-z0-9\s]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
 
 const IMGBB_API_KEY = process.env.IMGBB_API_KEY;
 const INSTAGRAM_ACCOUNT_ID = process.env.INSTAGRAM_ACCOUNT_ID;
@@ -144,6 +159,30 @@ export async function publishInstagram(): Promise<void> {
     post_id: publishData.id,
     images: imageUrls
   }, null, 2));
+
+  // 7. Enregistrer dans l'historique Supabase
+  const enrichedFilmsPath = path.join(dirname, 'output', 'enriched_films.json');
+  if (fs.existsSync(enrichedFilmsPath)) {
+    try {
+      const enrichedFilms = JSON.parse(fs.readFileSync(enrichedFilmsPath, 'utf8'));
+      const filmTitles = enrichedFilms.map((f: any) => normalizeTitle(f.title));
+      
+      if (filmTitles.length > 0) {
+        console.log(`- Sauvegarde de l'historique dans Supabase...`);
+        const { error: dbError } = await supabase
+          .from('instagram_history')
+          .insert([{ films: filmTitles }]);
+          
+        if (dbError) {
+          console.error("⚠️ Erreur lors de la sauvegarde dans l'historique:", dbError.message);
+        } else {
+          console.log(`✅ Historique sauvegardé (${filmTitles.length} films).`);
+        }
+      }
+    } catch (err) {
+      console.error("⚠️ Impossible de lire enriched_films.json pour l'historique:", err);
+    }
+  }
 }
 
 if (process.argv[1] && process.argv[1].includes('05_publish_instagram.ts')) {

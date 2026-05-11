@@ -5,6 +5,7 @@ import { Resvg } from '@resvg/resvg-js';
 import React from 'react';
 import * as dotenv from 'dotenv';
 import { EnrichedFilm } from './types';
+import { INSTAGRAM } from './constants';
 
 const dirname = process.cwd();
 dotenv.config({ path: path.join(dirname, '../../.env') });
@@ -266,9 +267,9 @@ export async function generateCarousel(): Promise<string[]> {
   // ══════════════════════════════════════════════════════════════
   // SLIDES 1..N — FILMS  
   // ══════════════════════════════════════════════════════════════
-  const maxSlides = Math.min(films.length, 9);
+  const maxFilmSlides = Math.min(films.length, INSTAGRAM.maxSlides - 1);
 
-  for (let i = 0; i < maxSlides; i++) {
+  for (let i = 0; i < maxFilmSlides; i++) {
     const film = films[i];
     const showtimeLabel = film.cinema[0]?.name + ' • ' + (film.cinema[0]?.showtimes[0] || '?');
 
@@ -357,7 +358,7 @@ export async function generateCarousel(): Promise<string[]> {
       { width: SLIDE.width, height: SLIDE.height, fonts: FONTS }
     );
 
-    const slidePath = path.join(outputDir, `slide_0${i + 1}.png`);
+    const slidePath = path.join(outputDir, `slide_${String(i + 1).padStart(2, '0')}.png`);
     renderToFile(slideSvg, slidePath);
     generatedPaths.push(slidePath);
     console.log(`✅ Slide film : ${film.title} générée`);
