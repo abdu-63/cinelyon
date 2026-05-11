@@ -99,7 +99,17 @@
 
         <div class="film-seances-calendar">
             {% for day_label in film.seances_by_day.keys() %}
-            <button class="film-cal-btn{% if loop.first %} active{% endif %}" type="button" data-day="{{ loop.index0 }}">
+            {% set day_has_ap = [false] %}
+            {% if day_label in film.seances_by_day %}
+                {% for cinename, seances in film.seances_by_day[day_label].items() %}
+                    {% for seance in seances %}
+                        {% if seance.format and 'première' in seance.format|lower %}
+                            {% if day_has_ap.append(true) %}{% endif %}
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+            <button class="film-cal-btn{% if loop.first %} active{% endif %}{% if true in day_has_ap %} has-notification{% endif %}" type="button" data-day="{{ loop.index0 }}">
                 {{ day_label }}
             </button>
             {% endfor %}

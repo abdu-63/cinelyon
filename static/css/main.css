@@ -143,6 +143,44 @@ p {
     border-color: var(--primary);
 }
 
+/* Notification dot for day buttons */
+.mini-cal-btn, .film-cal-btn {
+    position: relative;
+}
+
+.mini-cal-btn.has-notification::after, 
+.film-cal-btn.has-notification::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    right: 2px;
+    width: 8px;
+    height: 8px;
+    background-color: #ff3b30;
+    border-radius: 50%;
+    border: 1.5px solid var(--card-solid, #fff);
+    box-shadow: 0 0 4px rgba(255, 59, 48, 0.4);
+}
+
+/* Avant-première styling */
+.horaire-avant-premiere {
+    background-color: rgba(255, 149, 0, 0.08) !important;
+    border: 1.5px solid #ff9500 !important;
+}
+
+.horaire-avant-premiere .format-badge {
+    background-color: #ff9500 !important;
+    color: white !important;
+    padding: 1px 5px !important;
+    border-radius: 4px !important;
+    font-size: 10px !important;
+}
+
+.horaire-avant-premiere .seance-time {
+    color: #ff9500 !important;
+    font-weight: bold !important;
+}
+
 .day-seances {
     display: none;
 }

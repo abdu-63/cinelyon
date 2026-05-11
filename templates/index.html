@@ -139,7 +139,15 @@
             {% if show_all %}
             <div class="mini-calendar">
                 {% for day_label, cinemas in film.seances_by_day.items() %}
-                <button class="mini-cal-btn" type="button" data-day="{{ loop.index0 }}">
+                {% set has_avant_premiere = [false] %}
+                {% for cinename, seances in cinemas.items() %}
+                    {% for seance in seances %}
+                        {% if seance.format and 'première' in seance.format|lower %}
+                            {% if has_avant_premiere.append(true) %}{% endif %}
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                <button class="mini-cal-btn{% if true in has_avant_premiere %} has-notification{% endif %}" type="button" data-day="{{ loop.index0 }}">
                     {{ day_label }}
                 </button>
                 {% endfor %}
