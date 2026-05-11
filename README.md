@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🎬 CinéLyon
+# CinéLyon
 *Découvrez la scène cinématographique de Lyon instantanément et sans effort*
 
 <p align="center">
@@ -10,320 +10,195 @@
   <a href="https://flask.palletsprojects.com/">
     <img alt="Flask" src="https://img.shields.io/badge/Flask-2.0+-lightgrey?logo=flask">
   </a>
+  <a href="https://www.typescriptlang.org/">
+    <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.0+-blue?logo=typescript">
+  </a>
   <a href="https://vercel.com/">
     <img alt="Vercel" src="https://img.shields.io/badge/Vercel-Deployed-black?logo=vercel">
   </a>
   <a href="https://github.com/features/actions">
-    <img alt="GitHub Actions" src="https://img.shields.io/badge/GitHub%20Actions-Scraping-2088FF?logo=github-actions">
-  </a>
-  <a href="https://www.themoviedb.org/">
-    <img alt="TMDB" src="https://img.shields.io/badge/TMDB-API-01d277?logo=themoviedb">
+    <img alt="GitHub Actions" src="https://img.shields.io/badge/GitHub%20Actions-Automated-2088FF?logo=github-actions">
   </a>
   <a href="https://supabase.com/">
     <img alt="Supabase" src="https://img.shields.io/badge/Supabase-Database-3ECF8E?logo=supabase">
   </a>
-  <a href="https://www.allocine.fr/">
-    <img alt="Allociné" src="https://img.shields.io/badge/Allocin%C3%A9-Data-FECC00">
-  </a>
 </p>
 </div>
 
-## Crédit
+## Le projet
 
-Fork de [grainParisArt-Public](https://github.com/solene-drnx/grainParisArt-Public) réalisé par [Solène](https://github.com/solene-drnx)
+CinéLyon est une plateforme moderne conçue pour les cinéphiles lyonnais. Elle agrège les séances de 18 cinémas (indépendants et grands circuits) tout en mettant l'accent sur la richesse éditoriale : reprises cultes, films d'auteur et ressorties patrimoniales.
 
-## Liste des cinémas (18)
+## Fonctionnalités clés
 
-- Pathé Carré de Soie *(25 jours)*
-- Pathé Bellecour *(25 jours)*
-- Pathé Vaise *(25 jours)*
-- UGC Part-Dieu *(25 jours)*
-- UGC Confluence *(25 jours)*
-- UGC Internationale *(25 jours)*
-- UGC Astoria *(25 jours)*
-- Ciné Meyzieu *(25 jours)*
-- Ciné Toboggan *(25 jours)*
-- Les Amphis *(25 jours)*
-- Lumière Bellecour *(10 jours)*
-- Lumière La Fourmi *(10 jours)*
-- Lumière Terreaux *(10 jours)*
-- Institut Lumière *(10 jours)*
-- CGR Brignais *(10 jours)*
-- Cinéma Comoedia *(10 jours)*
-- Cinéma Gerard-Philipe *(10 jours)*
-- Ciné Saint-Denis *(10 jours)*
+- **Calendrier Étendu** : Visualisez les séances jusqu'à 25 jours à l'avance pour les cinémas majeurs.
+- **Données Enrichies** : Fusion intelligente des données Allociné (séances, synopsis FR) et TMDB (affiches haute résolution, bandes-annonces, titres originaux).
+- **Disponibilité Streaming** : Affiche directement si un film est disponible sur vos plateformes préférées (Netflix, Disney+, etc.) avec liens directs.
+- **Système de Favoris & Social** : Sauvegardez vos films et suivez la sélection de vos amis grâce à la synchronisation en temps réel via Supabase.
+- **Recherche Intuitive** : Filtrez instantanément par titre, réalisateur, genre, format (IMAX, 4DX, VO/VF) ou cinéma.
+- **PWA First** : Expérience fluide sur mobile, installable comme une application native avec support hors-ligne (Service Worker).
+- **Automatisation Instagram** : Publication quotidienne d'un carrousel des meilleures séances via un pipeline intelligent.
+- **Curation Patrimoniale** : Base de données de films de référence alimentée par les meilleures listes mondiales (Letterboxd Top 250, SensCritique, BFI, etc.).
 
-## Fonctionnalités
+---
 
-- **Calendrier interactif** : Visualisez les horaires jusqu'à 25 jours à l'avance.
-- **Informations détaillées** : Synopsis, titres originaux et données ultra-fiables basés sur Allociné. Affiches de haute qualité et bandes-annonces récupérées via TMDB (avec fallback sur Allociné).
-- **Vue de films complète** : Accès complet aux fiches détaillées.
-**Système de favoris & Amis** : Sauvegardez vos films préférés et suivez vos amis pour voir leurs sélections (synchronisation via Supabase).
-- **Barre de recherche avancée** : Filtrez par titre, genre, réalisateur, cinéma, jour ou format (IMAX, 4DX...).
-- **Bandes-annonces & Liens** : Visionnez le trailer YouTube directement ou accédez à la fiche Allociné / Letterboxd du film.
-- **Badges Formats & Langues** : Filtre et indication globale des séances spéciales via un style unique (IMAX, 4DX, Dolby, ICE, 3D, Avant-premières, Live) et VO/VF.
-- **Scraping automatique** : Données mises à jour quotidiennement via GitHub Actions.
-- **Instagram Automation** (en cours) : Pipeline complet pour générer et publier les séances du jour sur Instagram.
-- **PWA** : Installable sur mobile avec Service Worker.
-- **SEO & Sécurité** : Sitemap dynamique, robots.txt, security.txt, compression Gzip et headers de sécurité CSP.
+## Pipeline Instagram (Carousel Daily)
 
-## Optimisations
+Le dossier `scripts/instagram/` contient un orchestrateur TypeScript qui génère chaque jour un carrousel optimisé pour l'engagement.
 
-- **Compression Gzip** : Réponses HTTP compressées via Flask-Compress.
-- **Sécurité CSP** : Headers de sécurité avec Flask-Talisman.
-- **Cache TTL 5 min** : Données Supabase mises en cache mémoire côté serveur.
-- **Automatic Cache Busting** : Invalidation automatique du cache navigateur pour les fichiers statiques (CSS/JS) lors des mises à jour.
-- **Proxy d'images** : Affiches optimisées via wsrv.nl.
-- **Cache HTTP** : Headers de cache optimisés pour les fichiers statiques.
+### Algorithme de Sélection & Scoring
+Le pipeline score les films selon plusieurs critères :
+- **Priorité aux Reprises** : Les films classiques et ressorties reçoivent un bonus massif.
+- **Prestige Réalisateur** : Bonus automatique pour les films de réalisateurs cultes (Kubrick, Scorsese, Varda, Miyazaki, etc.).
+- **Scoring Multi-Source** : Agrégation des notes et classements (Letterboxd, IMDb, Rotten Tomatoes).
+- **Diversité Éditoriale** : Limitation intelligente par cinéma pour garantir un carrousel varié.
 
-## Architecture
+### Design & Génération Visuelle
+- **Moteur Satori & Resvg** : Génération de PNG 1080x1440 à partir de composants React/TSX.
+- **Design Adaptatif** :
+  - **Slide Couverture** : Scène de film aléatoire récupérée via TMDB.
+  - **Calendrier Visuel** : Affichage stylisé de la date du jour.
+  - **Slides Films** : Mise en avant du réalisateur et des cinémas indépendants.
 
-```
-cinelyon/
-├── app.py                 # Application Flask (compression, sécurité, cache TTL)
-├── scrape.py              # Script de scraping (GitHub Actions → Supabase)
-├── vercel.json            # Configuration Vercel
-├── pyproject.toml         # Configuration Python (Ruff, pytest)
-├── requirements.txt       # Dépendances Python
-├── .env.sample            # Template des variables d'environnement
-├── fix_rls.sql            # Scripts SQL pour les politiques de sécurité Supabase
-├── .github/
-│   └── workflows/
-│       ├── scrape.yml     # Workflow quotidien de scraping
-│       └── quality.yml    # CI: Ruff linting + Pytest
-├── modules/
-│   └── Classes.py         # Classes: Movie, Theater, Showtime (Gestion cache Supabase)
-├── scripts/
-│   └── instagram/         # Pipeline d'automatisation Instagram (TS/Node)
-├── templates/
-│   ├── base.html          # Template de base
-│   └── index.html         # Page d'accueil (Gestion favoris & sync)
-├── tests/
-│   └── test_basic.py      # Tests unitaires (health, home)
-└── static/
-    ├── css/main.css       # Styles CSS
-    ├── font/              # Polices locales
-    ├── images/            # Images et icônes PWA
-    ├── manifest.json      # PWA manifest
-    └── sw.js              # Service Worker
+---
+
+## Architecture Technique
+
+```mermaid
+graph TD
+    GA[GitHub Actions] -->|Scraping 2x/jour| S[scrape.py]
+    S -->|Séances| AL[Allociné API]
+    S -->|Metadata| TM[TMDB API]
+    S -->|Storage| SUP[(Supabase DB)]
+    
+    GA -->|Daily 20h| INST[Instagram Pipeline]
+    INST -->|Selection| SUP
+    INST -->|Rendering| Satori[Satori/Resvg]
+    INST -->|Publish| Meta[Meta Graph API]
+    
+    V[Vercel / PWA] -->|Read| SUP
+    V -->|Real-time| Sync[Supabase Realtime]
 ```
 
-### Flux de données
+### Stack Technologique
+- **Backend** : Python 3.11, Flask.
+- **Frontend** : Vanilla JS, CSS3, PWA.
+- **Automation** : Node.js 18+, TypeScript, GitHub Actions.
+- **Base de données** : PostgreSQL (via Supabase) avec Row Level Security (RLS).
 
-```
-GitHub Actions (2× par jour)
-       ↓
-   scrape.py
-       ↓
-  Allociné API ──→ Supabase (table showtimes)
-  TMDB API                   ↑
-  (+ tmdb_cache.json)        │
-                             │
-   app.py (Flask) ──────────┘
-   Cache TTL 5 min
-       ↓
-   Vercel / Navigateur (PWA)
-```
+---
 
-### Schéma Supabase
+## Installation & Développement
 
-Le projet utilise trois tables principales :
+### 1. Configuration de la Base de données (Supabase)
+Exécutez les scripts SQL suivants dans votre éditeur SQL Supabase pour créer les tables nécessaires :
 
 ```sql
--- 1. Séances (JSON par jour)
+-- Séances quotidiennes
 CREATE TABLE showtimes (
-  date         DATE PRIMARY KEY,
-  movies       JSONB NOT NULL,
+  date DATE PRIMARY KEY,
+  movies JSONB NOT NULL,
   generated_at TIMESTAMPTZ DEFAULT now()
 );
 
--- 2. Cache TMDB (Évite les appels API inutiles)
+-- Cache métadonnées TMDB
 CREATE TABLE tmdb_cache (
-  key  TEXT PRIMARY KEY,
+  key TEXT PRIMARY KEY,
   data JSONB NOT NULL
 );
 
--- 3. Système d'amis (Synchronisation)
+-- Synchronisation sociale
 CREATE TABLE friend_follows (
-  id            BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  follower_id   TEXT NOT NULL, -- Code sync du suiveur
-  followed_id   TEXT NOT NULL, -- Code sync du suivi
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  follower_id TEXT NOT NULL,
+  followed_id TEXT NOT NULL,
   followed_name TEXT NOT NULL,
-  created_at    TIMESTAMPTZ DEFAULT now()
+  created_at TIMESTAMPTZ DEFAULT now()
 );
 
--- Politiques RLS (voir fix_rls.sql pour les détails)
+-- Curation pour Instagram
+CREATE TABLE reference_films (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  title TEXT NOT NULL,
+  title_normalized TEXT NOT NULL,
+  year INTEGER,
+  director TEXT,
+  poster_url TEXT,
+  sources TEXT[],
+  source_count INTEGER DEFAULT 1,
+  avg_rank FLOAT,
+  avg_note FLOAT DEFAULT 0,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Suivi des sources de curation
+CREATE TABLE reference_sources (
+  id TEXT PRIMARY KEY,
+  last_scraped_at TIMESTAMPTZ,
+  film_count INTEGER
+);
+
+-- RLS : Autoriser la lecture publique sur les séances
 ALTER TABLE showtimes ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "public read" ON showtimes FOR SELECT USING (true);
+CREATE POLICY "Public Read" ON showtimes FOR SELECT USING (true);
 ```
 
-## Installation locale
-
-### Prérequis
-
-- Python 3.11+
-- Compte [TMDB](https://www.themoviedb.org/settings/api) (gratuit)
-- Compte [Supabase](https://supabase.com) (gratuit) avec la table `showtimes` créée
-
-### Configuration
-
-1. **Cloner le repository**
-   ```bash
-   git clone https://github.com/votre-username/cinelyon.git
-   cd cinelyon
-   ```
-
-2. **Créer l'environnement virtuel et installer les dépendances**
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate
-   pip install -r requirements.txt
-   ```
-
-3. **Configurer les variables d'environnement**
-   ```bash
-   cp .env.sample .env
-   # Remplir .env avec vos clés
-   ```
-
-4. **Générer les données (scraping)**
-   ```bash
-   python scrape.py
-   # Options : 
-   # --force        : Rescraper toutes les dates
-   # --clear-cache  : Vider le cache TMDB local/Supabase
-   ```
-
-5. **Lancer l'application**
-   ```bash
-   python app.py
-   ```
-   → Ouvrir `http://127.0.0.1:5000`
-
-## Développement
-
-### Qualité du code
-
+### 2. Configuration de l'environnement
+Créez un fichier `.env` à la racine du projet à partir du template :
 ```bash
-ruff check .   # Linting
-pytest         # Tests
+cp .env.sample .env
 ```
 
-### Tests disponibles
-
-| Test | Description |
-|------|-------------|
-| `test_health_check` | Vérifie que `/health` répond OK |
-| `test_home_page` | Vérifie que la page d'accueil charge (200) |
-
-## Déploiement Vercel
-
-1. **Importer sur [vercel.com/new](https://vercel.com/new)**
-2. **Configurer les variables d'environnement** (Settings → Environment Variables) :
-
+#### Variables requises :
 | Variable | Description |
 |----------|-------------|
-| `SUPABASE_URL` | URL du projet Supabase |
-| `SUPABASE_ANON_KEY` | Clé publique Supabase (lecture seule) |
-| `WEBSITE_TITLE` | Titre du site |
-| `THEATERS` | JSON des cinémas |
+| `SUPABASE_URL` | URL de votre projet Supabase. |
+| `SUPABASE_ANON_KEY` | Clé publique (pour l'application web). |
+| `SUPABASE_SERVICE_ROLE_KEY` | Clé admin (requise pour le scraping et le seed). |
+| `TMDB_API_KEY` | Clé API TheMovieDB (pour les métadonnées). |
+| `THEATERS` | JSON string listant les cinémas (ex: `[{"id":"P0017","name":"Pathé Bellecour","latitude":45.7578,"longitude":4.8320}]`). |
+| `IMGBB_API_KEY` | Clé API ImgBB (pour l'hébergement temporaire des images Instagram). |
+| `INSTAGRAM_ACCOUNT_ID` | ID du compte Instagram Business (Meta). |
+| `INSTAGRAM_ACCESS_TOKEN` | Token d'accès Meta Graph API. |
 
-> ⚠️ **Ne pas ajouter `SUPABASE_SERVICE_ROLE_KEY` sur Vercel** — uniquement pour GitHub Actions.
-
-3. **Déployer**
-
-Les données sont dans Supabase — Vercel n'a pas besoin de redéploiement lors du scraping.
-
-## GitHub Actions
-
-### Workflows
-
-| Workflow | Déclencheur | Actions |
-|----------|-------------|---------|
-| `scrape.yml` | Quotidien (2×) + manuel | Scraping Allociné + TMDB → Supabase |
-| `quality.yml` | Push / Pull Request | Ruff linting + Pytest |
-
-### Secrets requis
-
-| Secret | Utilisé par | Description |
-|--------|-------------|-------------|
-| `TMDB_API_KEY` | `scrape.py` | Clé API TMDB |
-| `THEATERS` | `scrape.py` | JSON des cinémas |
-| `SUPABASE_URL` | `scrape.py` | URL du projet Supabase |
-| `SUPABASE_SERVICE_ROLE_KEY` | `scrape.py` | Clé admin Supabase (écriture) |
-
-## Ajouter des cinémas
-
-Dans `.env` ou les secrets GitHub, modifier `THEATERS` :
-
-```json
-[
-  {"id": "P8507", "name": "Pathé Carré de Soie", "latitude": 45.7641, "longitude": 4.9212},
-  {"id": "P0017", "name": "Pathé Bellecour", "latitude": 45.7578, "longitude": 4.8320}
-]
-```
-
-**Trouver l'ID** : Dans l'URL Allociné `salle_gen_csalle=P8507.html` → ID = `P8507`
-
-Pour scraper un cinéma sur **25 jours** au lieu de 10, ajouter son nom dans `EXTENDED_THEATERS` dans `scrape.py`.
-
-## 📸 Automatisation Instagram (Carousel Daily)
-
-Le dossier `scripts/instagram/` contient un pipeline complet en TypeScript permettant de générer et publier automatiquement chaque jour un carrousel Instagram des meilleurs films à voir demain à Lyon.
-
-### 🛠️ Architecture du Pipeline
-
-Le workflow est découpé en 6 modules orchestrés par `run.ts` :
-
-1.  **Module 1 (`01_select_films.ts`)** : Sélectionne les meilleurs films selon un algorithme de scoring (films cultes, notes, ancienneté).
-2.  **Module 2 (`02_fetch_showtimes.ts`)** : Récupère les séances réelles à Lyon pour demain depuis Supabase.
-3.  **Module 3 (`03_generate_images.tsx`)** : Génère des visuels 1080x1440 (Portrait 3:4) via **Satori** et **Resvg**.
-4.  **Module 4 (`04_generate_caption.ts`)** : Crée une légende optimisée avec emojis et hashtags.
-5.  **Module 5 (`05_publish_instagram.ts`)** : Upload les images sur **ImgBB** et publie le carrousel via **Meta Graph API**.
-6.  **Module 6 (`run.ts`)** : L'orchestrateur qui enchaîne tout le processus.
-
-### 🚀 Utilisation Locale
-
-1. **Installation**
-   ```bash
-   cd scripts/instagram
-   npm install
-   ```
-
-2. **Configuration**
-   Assurez-vous que votre fichier `.env` à la racine contient :
-   - `IMGBB_API_KEY` : Clé API ImgBB (stockage temporaire).
-   - `INSTAGRAM_ACCOUNT_ID` : ID de votre compte Instagram Business.
-   - `INSTAGRAM_ACCESS_TOKEN` : Token Meta Graph API (commençant par `EAA...`).
-
-3. **Tester le design (Dry-Run)**
-   Génère les images dans `output/slides/` sans rien publier sur Instagram :
-   ```bash
-   npx ts-node run.ts --dry-run
-   ```
-
-4. **Lancer la publication réelle**
-   ```bash
-   npx ts-node run.ts
-   ```
-
-### 🤖 Automatisation via GitHub Actions
-
-Le fichier `.github/workflows/instagram-daily.yml` automatise ce processus **tous les jours à 20h00**.
-Pour que cela fonctionne, vous devez ajouter les secrets suivants dans les paramètres de votre dépôt GitHub (Settings > Secrets and variables > Actions) :
-`SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `TMDB_API_KEY`, `IMGBB_API_KEY`, `INSTAGRAM_ACCOUNT_ID`, `INSTAGRAM_ACCESS_TOKEN`.
-
-### 🔄 Maintenance du Token
-Le token Meta expire tous les 60 jours. Utilisez l'utilitaire fourni pour générer un nouveau token longue durée :
+### 3. Installation du Backend (Python)
 ```bash
-npx ts-node refresh_token.ts
+# Installation
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+
+# Lancer le scraping initial
+python scrape.py
+
+# Lancer l'app web locale
+python app.py
 ```
 
-## Liens utiles
+### 4. Installation du Pipeline Instagram (Node/TS)
+```bash
+cd scripts/instagram
+npm install
+npx playwright install # Requis pour le seeding automatique
 
-- [TMDB API](https://www.themoviedb.org/settings/api) - Clé API pour les données films
-- [Supabase](https://supabase.com) - Base de données PostgreSQL
-- [Allociné](https://www.allocine.fr/) - Source des séances
+# Remplir la base de données de référence (Seeding)
+# Exemple pour importer le Top 500 Letterboxd :
+npx ts-node 00_seed_database.ts --source=letterboxd_top500
+
+# Tester la génération de carrousel (Dry-Run)
+npx ts-node run.ts --dry-run
+```
+
+---
+
+## Qualité & Tests
+```bash
+ruff check .   # Linting Python
+pytest         # Tests unitaires
+```
+
+## Déploiement
+- **Frontend/API** : Déploiement automatique sur Vercel à chaque push sur `main`.
+- **Automatisation** : Les workflows GitHub Actions (`scrape.yml` et `instagram-daily.yml`) utilisent les secrets configurés dans les paramètres du dépôt.
 
 ---
 
