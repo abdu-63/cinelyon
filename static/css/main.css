@@ -606,7 +606,6 @@ footer {
     height: 38px;
     border-radius: 50%;
     background: var(--card-solid);
-    color: var(--primary);
     transition: all 0.3s ease;
     border: 1px solid var(--border-light);
 }
