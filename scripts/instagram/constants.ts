@@ -33,7 +33,7 @@ export const COLORS = {
 
 export const INSTAGRAM = {
   imageSize: 1080,
-  maxSlides: 15,
+  maxSlides: 10,
   waitBeforePublish: 10000 // 10s entre création et publication carousel
 };
 

@@ -86,6 +86,11 @@ export async function publishInstagram(): Promise<void> {
     throw new Error("⚠️ Aucune image trouvée dans le dossier slides.");
   }
 
+  if (files.length > 10) {
+    console.warn(`⚠️ Trop de slides détectées (${files.length}). Instagram limite les carrousels à 10 items. Seules les 10 premières seront publiées.`);
+    files.splice(10);
+  }
+
   console.log(`📤 Préparation de la publication de ${files.length} images...`);
 
   // 1. Upload sur ImgBB
