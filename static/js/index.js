@@ -424,8 +424,8 @@
                                 }
                             });
 
-                            // If a day filter is active, auto-expand the matching day
-                            if (dayQuery && firstVisibleDayIndex !== -1) {
+                            // If a day or time filter is active, auto-expand the matching day
+                            if ((dayQuery || timeQuery) && firstVisibleDayIndex !== -1) {
                                 // Hide mini-calendar since only one day is shown
                                 if (miniCalendar) miniCalendar.style.display = 'none';
                                 // Show the matching day's seances directly
@@ -436,7 +436,7 @@
                                         dayDiv.classList.remove('show');
                                     }
                                 });
-                            } else if (!dayQuery) {
+                            } else if (!dayQuery && !timeQuery) {
                                 // Restore mini-calendar visibility
                                 if (miniCalendar) miniCalendar.style.display = '';
                             }
