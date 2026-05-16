@@ -113,13 +113,29 @@ python app.py
 ```
 Accès local : `http://localhost:5000`
 
-### 5. Installation du Pipeline Instagram (Node/TS)
+### 5. Utilisation & Tests du Pipeline Instagram (Node/TS)
 ```bash
 cd scripts/instagram
 npm install
 
-# Tester la génération du carrousel (Dry-Run)
+# Initialisation de la base de curation (Seeding)
+# Pour une source spécifique (ex: Top 500 Letterboxd) :
+npx ts-node 00_seed_database.ts --source=letterboxd_top500
+
+# Pour tout importer d'un coup (plusieurs dizaines de minutes) :
+bash seed_all.sh
+
+# Vérifier les statistiques de la base de curation :
+npx ts-node check_stats.ts
+
+# Tester la génération du carrousel pour demain (Dry-Run, sans publication) :
 npx ts-node run.ts --dry-run
+
+# Tester la génération pour un jour précis (ex: 25 mai 2026) :
+npx ts-node run.ts --date=2026-05-25 --dry-run
+
+# Lancer la publication réelle pour un jour précis :
+npx ts-node run.ts --date=2026-05-25
 ```
 
 ---
@@ -133,7 +149,7 @@ pytest         # Tests unitaires
 ### GitHub Actions
 Le projet inclut deux workflows principaux :
 1. `scrape.yml` : Lance le scraping automatique 2 fois par jour.
-2. `instagram-daily.yml` : Génère et publie le carrousel quotidien à 20h.
+2. `instagram-daily.yml` : Génère et publie le carrousel quotidien vers 12h00 (10h07 UTC).
 
 ---
 
