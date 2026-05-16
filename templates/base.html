@@ -50,13 +50,14 @@
                         // Vérifier immédiatement si une mise à jour est disponible
                         reg.update();
 
-                        // Force le rafraîchissement si une mise à jour est détectée
+                        // Affiche la bannière si une mise à jour est détectée
                         reg.addEventListener('updatefound', () => {
                             const newWorker = reg.installing;
                             newWorker.addEventListener('statechange', () => {
                                 if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                    console.log('✨ Nouvelle version disponible, rechargement...');
-                                    window.location.reload();
+                                    console.log('✨ Nouvelle version disponible.');
+                                    const banner = document.getElementById('update-banner');
+                                    if (banner) banner.style.display = 'flex';
                                 }
                             });
                         });
@@ -101,6 +102,23 @@
 </header>
 
 <body>
+    <div id="update-banner" class="update-banner" style="display: none;">
+        <span>🍿 Une nouvelle version est disponible !</span>
+        <a href="/force-update" class="update-btn">Mettre à jour</a>
+        <button id="close-update-banner" class="close-update-btn" aria-label="Fermer la bannière">&times;</button>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const closeBannerBtn = document.getElementById('close-update-banner');
+            if (closeBannerBtn) {
+                closeBannerBtn.addEventListener('click', () => {
+                    document.getElementById('update-banner').style.display = 'none';
+                });
+            }
+        });
+    </script>
+
     {% block body %} {% endblock %}
 
     <!-- Settings Modal -->
