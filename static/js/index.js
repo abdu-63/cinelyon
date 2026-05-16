@@ -258,13 +258,23 @@
 
             function matchesTimeFilter(filmElement) {
                 if (!timeQuery) return true;
-                const seancesWrapper = filmElement.nextElementSibling;
-                if (!seancesWrapper || !seancesWrapper.classList.contains('seances-wrapper')) return false;
+                
+                let sibling = filmElement.nextElementSibling;
+                let seancesWrapper = null;
+                while (sibling && !sibling.classList.contains('film-card')) {
+                    if (sibling.classList.contains('seances-wrapper')) {
+                        seancesWrapper = sibling;
+                        break;
+                    }
+                    sibling = sibling.nextElementSibling;
+                }
+                
+                if (!seancesWrapper) return false;
                 
                 const todayBlock = seancesWrapper.querySelector('.day-seances[data-day="0"]');
-                if (!todayBlock) return false;
+                const searchRoot = todayBlock ? todayBlock : seancesWrapper;
                 
-                const horaires = todayBlock.querySelectorAll('.horaire-wrapper');
+                const horaires = searchRoot.querySelectorAll('.horaire-wrapper');
                 for (let hw of horaires) {
                     if (checkTimeSlot(hw.dataset.time, timeQuery)) return true;
                 }
