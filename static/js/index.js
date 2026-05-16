@@ -240,6 +240,11 @@
             const formatQuery = filterFormat.value.toLowerCase();
             const timeQuery = filterTime.value;
             const showOnlyFavorites = filterFavorites.checked;
+            
+            let effectiveDayQuery = dayQuery;
+            if (timeQuery && !dayQuery) {
+                effectiveDayQuery = 'auj';
+            }
 
             function checkTimeSlot(timeStr, slot) {
                 if (!timeStr || !slot) return true;
@@ -256,7 +261,7 @@
                 }
             }
 
-            function matchesTimeFilter(filmElement) {
+            function matchesTimeFilter(filmElement, targetDayQuery) {
                 if (!timeQuery) return true;
                 
                 let sibling = filmElement.nextElementSibling;
@@ -271,20 +276,20 @@
                 
                 if (!seancesWrapper) return false;
                 
-                let todayIndex = -1;
+                let targetIndex = -1;
                 const btns = seancesWrapper.querySelectorAll('.mini-cal-btn');
                 btns.forEach((btn, idx) => {
-                    if (btn.textContent.toLowerCase().includes('auj')) {
-                        todayIndex = idx;
+                    if (targetDayQuery && btn.textContent.toLowerCase().includes(targetDayQuery)) {
+                        targetIndex = idx;
                     }
                 });
 
-                if (todayIndex === -1) return false;
+                if (targetIndex === -1) return false;
                 
-                const todayBlock = seancesWrapper.querySelector(`.day-seances[data-day="${todayIndex}"]`);
-                if (!todayBlock) return false;
+                const targetBlock = seancesWrapper.querySelector(`.day-seances[data-day="${targetIndex}"]`);
+                if (!targetBlock) return false;
                 
-                const horaires = todayBlock.querySelectorAll('.horaire-wrapper');
+                const horaires = targetBlock.querySelectorAll('.horaire-wrapper');
                 for (let hw of horaires) {
                     if (checkTimeSlot(hw.dataset.time, timeQuery)) return true;
                 }
@@ -346,11 +351,11 @@
                         matchCinema = cinemas.includes(cinemaQuery);
                     }
                 }
-                const matchDay = !dayQuery || days.includes(dayQuery);
+                const matchDay = !effectiveDayQuery || days.includes(effectiveDayQuery);
                 const matchFormat = !formatQuery || formats.includes(formatQuery);
 
                 const matchFavorites = !showOnlyFavorites || (currentFavTab === 'perso' ? isFavorite(filmId) : (window.hasFriendFavorited && window.hasFriendFavorited(filmId)));
-                const matchTime = matchesTimeFilter(film);
+                const matchTime = matchesTimeFilter(film, effectiveDayQuery);
                 
                 const show = matchTitle && matchGenre && matchDirector && matchCinema && matchDay && matchFormat && matchFavorites && matchTime;
 
@@ -373,9 +378,9 @@
                             daySeancesDivs.forEach((dayDiv, index) => {
                                 const btn = btns[index];
                                 const btnText = btn ? btn.textContent.toLowerCase() : '';
-                                const isToday = btnText.includes('auj');
+                                const isTargetDay = btnText.includes(effectiveDayQuery);
                                 
-                                const dayMatches = !dayQuery || btnText.includes(dayQuery);
+                                const dayMatches = !effectiveDayQuery || btnText.includes(effectiveDayQuery);
 
                                 const seanceContainers = dayDiv.querySelectorAll('.seance_container');
                                 let hasVisibleSeance = false;
@@ -398,7 +403,7 @@
                                             
                                             let timeRangeMatch = true;
                                             if (timeQuery) {
-                                                if (!isToday) { // Time filter only applies to today
+                                                if (!isTargetDay) { // Time filter only applies to the targeted day
                                                     timeRangeMatch = false;
                                                 } else {
                                                     timeRangeMatch = checkTimeSlot(timeStr, timeQuery);
@@ -433,8 +438,8 @@
                                 }
                             });
 
-                            // If a day or time filter is active, auto-expand the matching day
-                            if ((dayQuery || timeQuery) && firstVisibleDayIndex !== -1) {
+                            // If a day filter is active (effectively or explicitly), auto-expand the matching day
+                            if (effectiveDayQuery && firstVisibleDayIndex !== -1) {
                                 // Hide mini-calendar since only one day is shown
                                 if (miniCalendar) miniCalendar.style.display = 'none';
                                 // Show the matching day's seances directly
@@ -445,7 +450,7 @@
                                         dayDiv.classList.remove('show');
                                     }
                                 });
-                            } else if (!dayQuery && !timeQuery) {
+                            } else if (!effectiveDayQuery) {
                                 // Restore mini-calendar visibility
                                 if (miniCalendar) miniCalendar.style.display = '';
                             }
