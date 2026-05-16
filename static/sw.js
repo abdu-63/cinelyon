@@ -1,6 +1,6 @@
 // ⚠️ Pour invalider le cache sur tous les appareils, modifiez ce numéro de version.
 // Il suffit d'incrémenter CACHE_VERSION à chaque déploiement majeur.
-const CACHE_VERSION = 'v8';
+const CACHE_VERSION = 'v9';
 const CACHE_NAME = `cinelyon-${CACHE_VERSION}`;
 
 // Assets statiques mis en cache à l'installation (ne changent pas souvent)
@@ -20,8 +20,7 @@ self.addEventListener('install', (event) => {
                 console.log('📦 Cache SW ouvert:', CACHE_NAME);
                 return cache.addAll(STATIC_ASSETS);
             })
-            // Prendre le contrôle immédiatement sans attendre la fermeture des onglets
-            .then(() => self.skipWaiting())
+            // On ne fait plus de self.skipWaiting() ici pour laisser la bannière s'afficher
     );
 });
 
