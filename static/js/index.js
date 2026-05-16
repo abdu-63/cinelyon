@@ -271,10 +271,20 @@
                 
                 if (!seancesWrapper) return false;
                 
-                const todayBlock = seancesWrapper.querySelector('.day-seances[data-day="0"]');
-                const searchRoot = todayBlock ? todayBlock : seancesWrapper;
+                let todayIndex = -1;
+                const btns = seancesWrapper.querySelectorAll('.mini-cal-btn');
+                btns.forEach((btn, idx) => {
+                    if (btn.textContent.toLowerCase().includes('auj')) {
+                        todayIndex = idx;
+                    }
+                });
+
+                if (todayIndex === -1) return false;
                 
-                const horaires = searchRoot.querySelectorAll('.horaire-wrapper');
+                const todayBlock = seancesWrapper.querySelector(`.day-seances[data-day="${todayIndex}"]`);
+                if (!todayBlock) return false;
+                
+                const horaires = todayBlock.querySelectorAll('.horaire-wrapper');
                 for (let hw of horaires) {
                     if (checkTimeSlot(hw.dataset.time, timeQuery)) return true;
                 }
@@ -352,6 +362,7 @@
                     const seancesWrapper = relatedElements.find(el => el.classList.contains('seances-wrapper'));
                     if (seancesWrapper) {
                         const miniCalBtns = seancesWrapper.querySelectorAll('.mini-cal-btn');
+                        const btns = seancesWrapper.querySelectorAll('.mini-cal-btn');
                         const daySeancesDivs = seancesWrapper.querySelectorAll('.day-seances');
                         const miniCalendar = seancesWrapper.querySelector('.mini-calendar');
 
@@ -360,10 +371,10 @@
                             let firstVisibleDayIndex = -1;
 
                             daySeancesDivs.forEach((dayDiv, index) => {
-                                const btn = miniCalBtns[index];
-                                const btnText = btn ? btn.textContent.trim().toLowerCase() : '';
-
-                                // Check if this day matches the day filter
+                                const btn = btns[index];
+                                const btnText = btn ? btn.textContent.toLowerCase() : '';
+                                const isToday = btnText.includes('auj');
+                                
                                 const dayMatches = !dayQuery || btnText.includes(dayQuery);
 
                                 const seanceContainers = dayDiv.querySelectorAll('.seance_container');
@@ -371,45 +382,43 @@
 
                                 seanceContainers.forEach(container => {
                                     const cinemaLink = container.querySelector('.cinema-link');
-                                    if (cinemaLink) {
-                                        const cinemaName = cinemaLink.dataset.cinema;
-                                        const matches = dayMatches && cinemaMatchesFilter(cinemaName);
-                                        container.style.display = matches ? '' : 'none';
+                                    const cinemaName = cinemaLink ? cinemaLink.dataset.cinema : '';
+                                    const matches = dayMatches && cinemaMatchesFilter(cinemaName);
+                                    container.style.display = matches ? '' : 'none';
 
-                                        // Filter individual horaires by format and time range
-                                        if (matches && (formatQuery || timeQuery)) {
-                                            const wrappers = container.querySelectorAll('.horaire-wrapper');
-                                            let hasVisibleHoraire = false;
-                                            wrappers.forEach(w => {
-                                                const fmt = w.dataset.format || '';
-                                                const timeStr = w.dataset.time || '';
-                                                
-                                                const fmtMatch = !formatQuery || fmt.includes(formatQuery);
-                                                
-                                                let timeRangeMatch = true;
-                                                if (timeQuery) {
-                                                    if (index !== 0) { // Time filter only applies to today
-                                                        timeRangeMatch = false;
-                                                    } else {
-                                                        timeRangeMatch = checkTimeSlot(timeStr, timeQuery);
-                                                    }
+                                    // Filter individual horaires by format and time range
+                                    if (matches && (formatQuery || timeQuery)) {
+                                        const wrappers = container.querySelectorAll('.horaire-wrapper');
+                                        let hasVisibleHoraire = false;
+                                        wrappers.forEach(w => {
+                                            const fmt = w.dataset.format || '';
+                                            const timeStr = w.dataset.time || '';
+                                            
+                                            const fmtMatch = !formatQuery || fmt.includes(formatQuery);
+                                            
+                                            let timeRangeMatch = true;
+                                            if (timeQuery) {
+                                                if (!isToday) { // Time filter only applies to today
+                                                    timeRangeMatch = false;
+                                                } else {
+                                                    timeRangeMatch = checkTimeSlot(timeStr, timeQuery);
                                                 }
+                                            }
 
-                                                const hwShow = fmtMatch && timeRangeMatch;
-                                                w.style.display = hwShow ? '' : 'none';
-                                                if (hwShow) hasVisibleHoraire = true;
-                                            });
-                                            if (!hasVisibleHoraire) container.style.display = 'none';
-                                        } else if (matches) {
-                                            container.querySelectorAll('.horaire-wrapper').forEach(w => w.style.display = '');
-                                        }
-
-                                        const spacingDiv = container.nextElementSibling;
-                                        if (spacingDiv && spacingDiv.classList.contains('responsive-petite-div')) {
-                                            spacingDiv.style.display = container.style.display;
-                                        }
-                                        if (container.style.display !== 'none') hasVisibleSeance = true;
+                                            const hwShow = fmtMatch && timeRangeMatch;
+                                            w.style.display = hwShow ? '' : 'none';
+                                            if (hwShow) hasVisibleHoraire = true;
+                                        });
+                                        if (!hasVisibleHoraire) container.style.display = 'none';
+                                    } else if (matches) {
+                                        container.querySelectorAll('.horaire-wrapper').forEach(w => w.style.display = '');
                                     }
+
+                                    const spacingDiv = container.nextElementSibling;
+                                    if (spacingDiv && spacingDiv.classList.contains('responsive-petite-div')) {
+                                        spacingDiv.style.display = container.style.display;
+                                    }
+                                    if (container.style.display !== 'none') hasVisibleSeance = true;
                                 });
 
                                 if (btn) {
