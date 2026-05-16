@@ -77,6 +77,41 @@
     .btn-back:hover {
         color: #000;
     }
+
+    @media (max-width: 576px) {
+        .suggestions-container {
+            margin: 20px 15px;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .suggestions-container h2 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .suggestions-container p {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+
+        .contact-btn {
+            padding: 12px;
+            font-size: 0.95rem;
+            flex-direction: row;
+        }
+
+        .contact-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .btn-back {
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+    }
 </style>
 {% endblock %}
 
