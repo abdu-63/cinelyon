@@ -31,34 +31,26 @@ CinéLyon est une plateforme moderne conçue pour les cinéphiles lyonnais. Elle
 
 ## Fonctionnalités clés
 
-- **Calendrier Étendu** : Visualisez les séances jusqu'à 25 jours à l'avance pour les cinémas majeurs.
-- **Données Enrichies** : Fusion intelligente des données Allociné (séances, synopsis FR) et TMDB (affiches haute résolution, bandes-annonces, titres originaux).
+- **Calendrier Étendu & Export** : Visualisez les séances jusqu'à 25 jours à l'avance et ajoutez-les directement à votre calendrier (Apple Calendar / Google Calendar).
+- **Données Enrichies & Bandes-Annonces** : Fusion intelligente des données Allociné (séances, synopsis FR) et TMDB (affiches haute résolution, bandes-annonces intégrées, titres originaux).
 - **Disponibilité Streaming** : Affiche directement si un film est disponible sur vos plateformes préférées (Netflix, Disney+, etc.) avec liens directs.
-- **Système de Favoris & Social** : Sauvegardez vos films et suivez la sélection de vos amis grâce à la synchronisation en temps réel via Supabase.
-- **Recherche Intuitive** : Filtrez instantanément par titre, réalisateur, genre, format (IMAX, 4DX, VO/VF) ou cinéma.
-- **PWA First** : Expérience fluide sur mobile, installable comme une application native avec support hors-ligne (Service Worker).
+- **Système de Favoris & Social Sync** : Sauvegardez vos films et partagez/suivez la sélection de vos amis grâce à un système de synchronisation multiappareil propulsé par Supabase.
+- **Recherche & Filtres Avancés** : Filtrez instantanément par titre, réalisateur, genre, format (IMAX, 4DX, VO/VF), horaire, favoris ou cinéma.
+- **PWA First** : Expérience fluide sur mobile, installable comme une application native avec support hors-ligne (Service Worker) et gestion de cache optimisée.
 - **Automatisation Instagram** : Publication quotidienne d'un carrousel des meilleures séances via un pipeline intelligent.
-- **Curation Patrimoniale** : Base de données de films de référence alimentée par les meilleures listes mondiales (Letterboxd Top 250, SensCritique, BFI, etc.).
+- **Curation Patrimoniale** : Base de données de films de référence alimentée par les meilleures listes mondiales (Letterboxd, SensCritique, BFI, etc.).
 
 ---
 
 ## Pipeline Instagram (Carousel Daily)
 
-Le dossier `scripts/instagram/` contient un orchestrateur TypeScript qui génère chaque jour un carrousel optimisé pour l'engagement.
-
-### Algorithme de Sélection & Scoring
-Le pipeline score les films selon plusieurs critères :
-- **Priorité aux Reprises** : Les films classiques et ressorties reçoivent un bonus massif.
-- **Prestige Réalisateur** : Bonus automatique pour les films de réalisateurs cultes (Kubrick, Scorsese, Varda, Miyazaki, etc.).
-- **Scoring Multi-Source** : Agrégation des notes et classements (Letterboxd, IMDb, Rotten Tomatoes).
-- **Diversité Éditoriale** : Limitation intelligente par cinéma pour garantir un carrousel varié.
-
-### Design & Génération Visuelle
-- **Moteur Satori & Resvg** : Génération de PNG 1080x1440 à partir de composants React/TSX.
-- **Design Adaptatif** :
-  - **Slide Couverture** : Scène de film aléatoire récupérée via TMDB.
-  - **Calendrier Visuel** : Affichage stylisé de la date du jour.
-  - **Slides Films** : Mise en avant du réalisateur et des cinémas indépendants.
+Le dossier `scripts/instagram/` contient un orchestrateur TypeScript qui génère chaque jour un carrousel optimisé pour l'engagement :
+- `00_seed_database.ts` : Initialisation et enrichissement de la base de référence.
+- `01_select_films.ts` : Sélection algorithmique des 8 meilleurs films du jour (prenant en compte le prestige, la qualité et la diversité).
+- `02_fetch_showtimes.ts` : Récupération des horaires précis pour la sélection.
+- `03_generate_images.tsx` : Rendu des slides en PNG via Satori et Resvg.
+- `04_generate_caption.ts` : Création de la description Instagram.
+- `05_publish_instagram.ts` : Publication automatisée via la Meta Graph API.
 
 ---
 
@@ -77,13 +69,13 @@ graph TD
     INST -->|Publish| Meta[Meta Graph API]
     
     V[Vercel / PWA] -->|Read| SUP
-    V -->|Real-time| Sync[Supabase Realtime]
+    V -->|Friend Sync| SUP
 ```
 
 ### Stack Technologique
-- **Backend** : Python 3.11+, Flask.
-- **Frontend** : Vanilla JS, CSS3, PWA.
-- **Automation** : Node.js 18+, TypeScript, GitHub Actions, Playwright.
+- **Backend** : Python 3.11+, Flask (app.py).
+- **Frontend** : Vanilla JS, CSS3, PWA (Manifest + Service Worker).
+- **Automation** : Node.js 18+, TypeScript, GitHub Actions.
 - **Base de données** : PostgreSQL (via Supabase) avec Row Level Security (RLS).
 
 ---
@@ -96,63 +88,11 @@ graph TD
 - Un compte **Supabase** (gratuit) et un compte **TMDB** (pour la clé API).
 
 ### 2. Configuration de la Base de données (Supabase)
-Exécutez les scripts SQL suivants dans votre éditeur SQL Supabase pour créer les tables et configurer les politiques de sécurité (RLS) :
-
-```sql
--- Séances quotidiennes
-CREATE TABLE showtimes (
-  date DATE PRIMARY KEY,
-  movies JSONB NOT NULL,
-  generated_at TIMESTAMPTZ DEFAULT now()
-);
-
--- Cache métadonnées TMDB
-CREATE TABLE tmdb_cache (
-  key TEXT PRIMARY KEY,
-  data JSONB NOT NULL
-);
-
--- Synchronisation sociale (Favoris)
-CREATE TABLE friend_follows (
-  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  follower_id TEXT NOT NULL,
-  followed_id TEXT NOT NULL,
-  followed_name TEXT NOT NULL,
-  created_at TIMESTAMPTZ DEFAULT now()
-);
-
--- Curation pour Instagram
-CREATE TABLE reference_films (
-  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  title TEXT NOT NULL,
-  title_normalized TEXT NOT NULL,
-  year INTEGER,
-  director TEXT,
-  poster_url TEXT,
-  sources TEXT[],
-  source_count INTEGER DEFAULT 1,
-  avg_rank FLOAT,
-  avg_note FLOAT DEFAULT 0,
-  created_at TIMESTAMPTZ DEFAULT now()
-);
-
--- Suivi des sources de curation
-CREATE TABLE reference_sources (
-  id TEXT PRIMARY KEY,
-  last_scraped_at TIMESTAMPTZ,
-  film_count INTEGER
-);
-
--- Sécurité RLS : Lecture publique pour les séances
-ALTER TABLE showtimes ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Enable read access for all users" ON showtimes FOR SELECT USING (true);
-
--- Sécurité RLS : Lecture/Ecriture publique pour le système d'amis
-ALTER TABLE friend_follows ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Enable read access for all users" ON friend_follows FOR SELECT TO anon USING (true);
-CREATE POLICY "Enable insert for all users" ON friend_follows FOR INSERT TO anon WITH CHECK (true);
-CREATE POLICY "Enable delete for all users" ON friend_follows FOR DELETE TO anon USING (true);
-```
+Exécutez `fix_rls.sql` et les commandes définies pour configurer le schéma, incluant les tables :
+- `showtimes` (Séances)
+- `tmdb_cache` (Cache)
+- `friend_follows` (Synchronisation sociale)
+- `reference_films` et `reference_sources` (Curation)
 
 ### 3. Configuration de l'environnement
 Copiez le fichier d'exemple et remplissez les variables :
@@ -160,21 +100,8 @@ Copiez le fichier d'exemple et remplissez les variables :
 cp .env.sample .env
 ```
 
-| Variable | Usage |
-|----------|-------|
-| `SUPABASE_URL` | URL de votre projet Supabase. |
-| `SUPABASE_ANON_KEY` | Clé publique pour l'application web. |
-| `SUPABASE_SERVICE_ROLE_KEY` | Clé admin pour le scraping (NE PAS EXPOSER). |
-| `TMDB_API_KEY` | Clé API pour les métadonnées et affiches. |
-| `THEATERS` | Liste JSON des cinémas (ID Allociné, Nom, Coordonnées). |
-| `WEBSITE_TITLE` | Titre de votre instance CinéLyon. |
-| `IMGBB_API_KEY` | (Optionnel) Pour l'automatisation Instagram. |
-| `INSTAGRAM_ACCOUNT_ID` | (Optionnel) Pour l'automatisation Instagram. |
-| `INSTAGRAM_ACCESS_TOKEN` | (Optionnel) Pour l'automatisation Instagram. |
-
 ### 4. Installation du Backend (Python)
 ```bash
-# Création de l'environnement virtuel
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
@@ -190,13 +117,6 @@ Accès local : `http://localhost:5000`
 ```bash
 cd scripts/instagram
 npm install
-npx playwright install chromium # Requis pour le seeding
-
-# Initialisation de la base de curation (Seeding)
-# Pour une source spécifique :
-npx ts-node 00_seed_database.ts --source=letterboxd_top500
-# Ou pour tout importer d'un coup (plusieurs heures) :
-bash seed_all.sh
 
 # Tester la génération du carrousel (Dry-Run)
 npx ts-node run.ts --dry-run
@@ -214,8 +134,6 @@ pytest         # Tests unitaires
 Le projet inclut deux workflows principaux :
 1. `scrape.yml` : Lance le scraping automatique 2 fois par jour.
 2. `instagram-daily.yml` : Génère et publie le carrousel quotidien à 20h.
-
-*Note : Assurez-vous de configurer les variables d'environnement dans les secrets GitHub (Actions Secrets).*
 
 ---
 
