@@ -1,18 +1,15 @@
 // ⚠️ Pour invalider le cache sur tous les appareils, modifiez ce numéro de version.
 // Il suffit d'incrémenter CACHE_VERSION à chaque déploiement majeur.
-const CACHE_VERSION = 'v14';
+const CACHE_VERSION = 'v15';
 const CACHE_NAME = `cinelyon-${CACHE_VERSION}`;
 
-// Assets statiques mis en cache à l'installation (ne changent pas souvent)
+// Assets statiques préchargés à l'installation (images uniquement — ne changent pas)
 const STATIC_ASSETS = [
-    '/static/css/main.css',
-    '/static/js/film.js',
-    '/static/js/index.js',
     '/static/images/nocontent.png',
     '/static/images/background.svg',
 ];
 
-// Installation: mise en cache des assets statiques uniquement
+// Installation: mise en cache des images uniquement
 self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME)
@@ -20,7 +17,7 @@ self.addEventListener('install', (event) => {
                 console.log('📦 Cache SW ouvert:', CACHE_NAME);
                 return cache.addAll(STATIC_ASSETS);
             })
-            // On ne fait plus de self.skipWaiting() ici pour laisser la bannière s'afficher
+        // On ne fait plus de self.skipWaiting() ici pour laisser la bannière s'afficher
     );
 });
 
@@ -64,9 +61,12 @@ self.addEventListener('fetch', (event) => {
     const isHTMLPage = event.request.headers.get('accept')?.includes('text/html');
     const isStaticAsset = url.pathname.startsWith('/static/');
 
-    if (isStaticAsset) {
-        // Stratégie Cache First pour les assets statiques (CSS, JS, images)
-        // Ils ont un cache-control long côté serveur + hash mtime dans l'URL
+    // JS et CSS : Network First — on veut TOUJOURS la dernière version du serveur.
+    // Le paramètre ?v=X.X dans l'URL HTML suffit à différencier les versions.
+    const isJsOrCss = url.pathname.endsWith('.js') || url.pathname.endsWith('.css');
+
+    if (isStaticAsset && !isJsOrCss) {
+        // Stratégie Cache First pour les images uniquement (elles ne changent pas)
         event.respondWith(
             caches.match(event.request).then((cached) => {
                 if (cached) return cached;
@@ -79,14 +79,21 @@ self.addEventListener('fetch', (event) => {
                 });
             })
         );
-    } else if (isHTMLPage) {
-        // Stratégie Network First pour les pages HTML (données toujours fraîches)
-        // Pas de mise en cache des pages HTML : elles sont dynamiques (séances du jour)
+    } else if (isHTMLPage || isJsOrCss) {
+        // Stratégie Network First pour les pages HTML et tous les fichiers JS/CSS
         event.respondWith(
             fetch(event.request)
+                .then((response) => {
+                    // Pour les images d'affiches externes, on peut les mettre en cache
+                    if (response.status === 200 && isPosterImage) {
+                        const clone = response.clone();
+                        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+                    }
+                    return response;
+                })
                 .catch(() => {
-                    // Hors ligne : retourner la page principale depuis le cache si dispo
-                    return caches.match('/') || new Response(
+                    // Hors ligne : retourner depuis le cache si disponible
+                    return caches.match(event.request) || caches.match('/') || new Response(
                         '<h1>Hors ligne</h1><p>Connectez-vous pour voir les séances.</p>',
                         { status: 503, headers: { 'Content-Type': 'text/html' } }
                     );
