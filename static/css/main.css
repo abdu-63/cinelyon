@@ -1335,9 +1335,13 @@ html {
     flex-shrink: 0;
 }
 
-.favorites-toggle:has(input:checked) .favorites-heart,
 .favorites-toggle.active .favorites-heart,
 .favorites-toggle input[type="checkbox"]:checked~.favorites-heart {
+    fill: #ff4d4d !important;
+    stroke: #ff4d4d !important;
+}
+
+.favorites-toggle:has(input:checked) .favorites-heart {
     fill: #ff4d4d !important;
     stroke: #ff4d4d !important;
 }
@@ -1348,8 +1352,12 @@ html {
     font-weight: bold;
 }
 
-.favorites-toggle:has(input:checked),
 .favorites-toggle.active {
+    border-color: #ff4d4d;
+    background: rgba(255, 77, 77, 0.1);
+}
+
+.favorites-toggle:has(input:checked) {
     border-color: #ff4d4d;
     background: rgba(255, 77, 77, 0.1);
 }

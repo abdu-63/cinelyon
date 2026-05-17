@@ -629,6 +629,9 @@
             filterFormat.value = '';
             filterTime.value = '';
             filterFavorites.checked = false;
+            filterFavorites.parentElement.classList.remove('active');
+            favTabsContainer.style.display = 'none';
+            document.body.classList.remove('show-friend-badges');
             filterFilms();
         });
     });
@@ -644,6 +647,7 @@
         "CGR Brignais": "https://www.cgrcinemas.fr/films-a-l-affiche/",
         "Ciné Meyzieu": "https://cinemeyzieu.fr/",
         "Ciné Toboggan": "https://www.letoboggan.com/cinema/",
+        "Cinéma Saint-Denis": "https://www.cinema-saint-denis.fr/",
         "Lumière Bellecour": "https://www.cinemas-lumiere.com/programmation/bellecour.html",
         "Lumière La Fourmi": "https://www.cinemas-lumiere.com/programmation/fourmi.html",
         "Lumière Terreaux": "https://www.cinemas-lumiere.com/programmation/terreaux.html",
@@ -673,6 +677,7 @@
         "CGR Brignais": "330 Route de Givors, 69530 Brignais",
         "Ciné Meyzieu": "24 Rue Louis Saulnier, 69330 Meyzieu",
         "Ciné Toboggan": "14 Avenue Jean Macé, 69150 Décines-Charpieu",
+        "Cinéma Saint-Denis": "77 Gd Rue de la Croix-Rousse, 69004 Lyon",
         "Lumière Bellecour": "12 Rue de la Barre, 69002 Lyon",
         "Lumière La Fourmi": "8 Grande Rue de la Guillotière, 69007 Lyon",
         "Lumière Terreaux": "40 Rue du Président Édouard Herriot, 69001 Lyon",
