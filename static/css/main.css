@@ -843,6 +843,58 @@ a {
     }
 }
 
+/* ── Chargement progressif (lazy / infinite scroll) ─────────────────── */
+.lazy-hidden {
+    display: none !important;
+}
+
+@keyframes lazy-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.lazy-reveal {
+    animation: lazy-fade-in 0.3s ease both;
+}
+
+#lazy-loader {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 24px 0 40px;
+}
+
+#lazy-loader span {
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--primary);
+    opacity: 0.3;
+    animation: lazy-dot-pulse 1.2s ease-in-out infinite;
+}
+
+#lazy-loader span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+#lazy-loader span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes lazy-dot-pulse {
+    0%, 80%, 100% { opacity: 0.3; transform: scale(1); }
+    40%           { opacity: 1;   transform: scale(1.4); }
+}
+/* ── Fin chargement progressif ───────────────────────────────────────── */
+
 .goTop {
     width: 50px;
     height: 50px;

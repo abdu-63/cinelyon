@@ -152,6 +152,109 @@
         const filterFavorites = document.getElementById('filter-favorites');
         const resetBtn = document.getElementById('reset-filters');
 
+        // ── Pagination / Infinite Scroll ─────────────────────────────────────
+        const PAGE_SIZE = 20;
+        const filmsContainer = document.getElementById('films-container');
+
+        /**
+         * Collecte tous les groupes DOM associés à chaque film-card.
+         * Un groupe = [film-card, spacer div, seances-wrapper, responsive-div]
+         */
+        function collectFilmGroups() {
+            const groups = [];
+            document.querySelectorAll('#films-container .film-card').forEach(card => {
+                const group = [card];
+                let sibling = card.nextElementSibling;
+                while (
+                    sibling &&
+                    !sibling.classList.contains('film-card') &&
+                    sibling.id !== 'lazy-sentinel' &&
+                    sibling.id !== 'lazy-loader'
+                ) {
+                    group.push(sibling);
+                    sibling = sibling.nextElementSibling;
+                }
+                groups.push(group);
+            });
+            return groups;
+        }
+
+        // Sentinel (élément observé pour déclencher le chargement suivant)
+        const sentinel = document.createElement('div');
+        sentinel.id = 'lazy-sentinel';
+        filmsContainer.appendChild(sentinel);
+
+        // Loader affiché pendant le chargement
+        const lazyLoader = document.createElement('div');
+        lazyLoader.id = 'lazy-loader';
+        lazyLoader.innerHTML = '<span></span><span></span><span></span>';
+        lazyLoader.style.display = 'none';
+        filmsContainer.appendChild(lazyLoader);
+
+        let visibleGroups = [];  // groupes filtrés et potentiellement visibles
+        let revealedCount = 0;   // combien ont déjà été révélés
+
+        /** Cache un groupe complet (film + séances) */
+        function hideGroup(group) {
+            group.forEach(el => {
+                el.classList.add('lazy-hidden');
+            });
+        }
+
+        /** Révèle un groupe complet avec animation */
+        function revealGroup(group) {
+            group.forEach(el => {
+                el.classList.remove('lazy-hidden');
+                if (el.classList.contains('film-card')) {
+                    el.classList.add('lazy-reveal');
+                    el.addEventListener('animationend', () => el.classList.remove('lazy-reveal'), { once: true });
+                }
+            });
+        }
+
+        /** Révèle le prochain lot de films */
+        function revealNextBatch() {
+            const end = Math.min(revealedCount + PAGE_SIZE, visibleGroups.length);
+            if (revealedCount >= visibleGroups.length) {
+                lazyLoader.style.display = 'none';
+                return;
+            }
+            for (let i = revealedCount; i < end; i++) {
+                revealGroup(visibleGroups[i]);
+            }
+            revealedCount = end;
+            lazyLoader.style.display = revealedCount < visibleGroups.length ? 'flex' : 'none';
+        }
+
+        /**
+         * Réinitialise la pagination après un changement de filtre.
+         * groups = liste des groupes qui doivent être visibles
+         */
+        function resetPagination(groups) {
+            // Masquer tous les groupes d'abord
+            const allGroups = collectFilmGroups();
+            allGroups.forEach(g => hideGroup(g));
+
+            visibleGroups = groups;
+            revealedCount = 0;
+            revealNextBatch();
+        }
+
+        // IntersectionObserver sur le sentinel
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && revealedCount < visibleGroups.length) {
+                lazyLoader.style.display = 'flex';
+                // Petit délai pour montrer le loader
+                setTimeout(revealNextBatch, 100);
+            }
+        }, { rootMargin: '200px' });
+        observer.observe(sentinel);
+
+        // Pagination initiale (tous les films visibles au départ)
+        const allGroups = collectFilmGroups();
+        resetPagination(allGroups);
+        // ── Fin Pagination ────────────────────────────────────────────────────
+
         [searchTitle, filterGenre, filterDirector, filterCinema, filterDay, filterFormat, filterTime].forEach(el => {
             if (el) el.addEventListener('change', filterFilms);
             if (el && el.id === 'search-title') el.addEventListener('input', filterFilms);
@@ -315,6 +418,9 @@
                 return true;
             }
 
+            // Collecter les groupes filtrés pour la pagination
+            const filteredGroups = [];
+
             films.forEach(film => {
                 const title = film.dataset.title;
                 const genres = film.dataset.genres;
@@ -326,7 +432,12 @@
 
                 let sibling = film.nextElementSibling;
                 const relatedElements = [];
-                while (sibling && !sibling.classList.contains('film-card')) {
+                while (
+                    sibling &&
+                    !sibling.classList.contains('film-card') &&
+                    sibling.id !== 'lazy-sentinel' &&
+                    sibling.id !== 'lazy-loader'
+                ) {
                     relatedElements.push(sibling);
                     sibling = sibling.nextElementSibling;
                 }
@@ -359,8 +470,15 @@
                 
                 const show = matchTitle && matchGenre && matchDirector && matchCinema && matchDay && matchFormat && matchFavorites && matchTime;
 
-                film.style.display = show ? '' : 'none';
-                relatedElements.forEach(el => el.style.display = show ? '' : 'none');
+                // Ne pas modifier display ici — géré par la pagination
+                // On marque juste les groupes à inclure dans la liste paginée
+                if (!show) {
+                    // Masquer explicitement les films exclus par le filtre
+                    film.classList.add('lazy-hidden');
+                    relatedElements.forEach(el => el.classList.add('lazy-hidden'));
+                } else {
+                    filteredGroups.push([film, ...relatedElements]);
+                }
 
                 // Filter seances in the mini-calendar and day-seances based on cinema and day filters
                 if (show) {
@@ -489,6 +607,9 @@
                     }
                 }
             });
+
+            // Réinitialiser la pagination avec les groupes filtrés
+            resetPagination(filteredGroups);
         }
 
         searchTitle.addEventListener('input', filterFilms);
