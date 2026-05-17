@@ -2503,6 +2503,39 @@ body.show-friend-badges .friend-badge {
     box-shadow: 0 4px 16px rgba(254, 204, 0, 0.4);
 }
 
+.film-share-btn {
+    background: var(--card-light);
+    color: var(--text-main);
+    border: 1px solid var(--border-light);
+}
+
+.film-share-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px var(--shadow-sm);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.film-share-img-btn {
+    background: linear-gradient(135deg, var(--primary), #626afc);
+    color: #fff;
+    border: none;
+    position: relative;
+}
+
+.film-share-img-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(68, 76, 247, 0.4);
+}
+
+@keyframes shareImgSpin {
+    to { transform: rotate(360deg); }
+}
+
+.spin-icon {
+    animation: shareImgSpin 1s linear infinite;
+}
+
 /* ── Film Sections ── */
 .film-section {
     margin-bottom: 30px;
