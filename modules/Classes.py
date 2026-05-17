@@ -267,9 +267,11 @@ class Movie:
 
                 # Fallback : matcher par similarité de titre (évite les fausses associations de posters)
                 if not movie:
+
                     def _title_sim(t1, t2):
                         """Score de similarité entre 0 et 1 basé sur les mots communs (Jaccard)."""
                         import unicodedata as _ud
+
                         t1n = _ud.normalize("NFD", t1.lower()).encode("ascii", "ignore").decode()
                         t2n = _ud.normalize("NFD", t2.lower()).encode("ascii", "ignore").decode()
                         t1n = re.sub(r"[^a-z0-9 ]", "", t1n).strip()
