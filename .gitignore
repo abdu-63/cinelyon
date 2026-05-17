@@ -34,3 +34,4 @@ node_modules/
 .env.local
 
 scripts/instagram/*.js
+scripts/instagram/output/

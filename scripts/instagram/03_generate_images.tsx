@@ -19,22 +19,8 @@ const SLIDE = { width: 1080, height: 1440 } as const;
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-async function loadInterRegular() {
-  const url = 'https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg.ttf';
-  const res = await fetch(url);
-  return res.arrayBuffer();
-}
-
-async function loadInterBold() {
-  const url = 'https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuFuYMZg.ttf';
-  const res = await fetch(url);
-  return res.arrayBuffer();
-}
-
-async function loadInterExtraBold() {
-  const url = 'https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuDyYMZg.ttf';
-  const res = await fetch(url);
-  return res.arrayBuffer();
+async function loadHelveticaNeue(variant: string) {
+  return fs.promises.readFile(path.join(dirname, `../../static/font/HelveticaNeue_Helvetica Neue_${variant}.ttf`));
 }
 
 interface DateLabel { dayName: string; dayNum: number; monthName: string }
@@ -122,10 +108,10 @@ export async function generateCarousel(): Promise<string[]> {
   const targetDate = new Date(Date.now() + 86400000);
   const { dayName, dayNum, monthName } = getDateLabel(targetDate);
   const cal = getCalendarData(targetDate);
-  const [fontReg, fontBold, fontExtra] = await Promise.all([
-    loadInterRegular(),
-    loadInterBold(),
-    loadInterExtraBold()
+  const [fontReg, fontBold, fontBoldItalic] = await Promise.all([
+    loadHelveticaNeue('Regular'),
+    loadHelveticaNeue('Bold'),
+    loadHelveticaNeue('Bold Italic')
   ]);
 
   const logoPath = path.join(dirname, '../../static/images/icon-192x192-rond.png');
@@ -145,9 +131,9 @@ export async function generateCarousel(): Promise<string[]> {
   }
 
   const FONTS = [
-    { name: 'Inter', data: fontReg, weight: 400 as const, style: 'normal' as const },
-    { name: 'Inter', data: fontBold, weight: 700 as const, style: 'normal' as const },
-    { name: 'Inter', data: fontExtra, weight: 800 as const, style: 'normal' as const },
+    { name: 'Helvetica Neue', data: fontReg, weight: 400 as const, style: 'normal' as const },
+    { name: 'Helvetica Neue', data: fontBold, weight: 700 as const, style: 'normal' as const },
+    { name: 'Helvetica Neue', data: fontBoldItalic, weight: 700 as const, style: 'italic' as const },
   ];
 
   const generatedPaths: string[] = [];
@@ -279,11 +265,7 @@ export async function generateCarousel(): Promise<string[]> {
 
   for (let i = 0; i < maxFilmSlides; i++) {
     const film = films[i];
-    const showtimeLabel = film.cinema[0]?.name + ' • ' + (film.cinema[0]?.showtimes[0] || '?');
-
-    // Le filtre pour retirer Pathé/UGC est bien là !
-    const passesList = film.cinema[0]?.passes?.filter((p: string) => !p.toLowerCase().includes('pathé') && !p.toLowerCase().includes('ugc')) || [];
-    const passesLabel = passesList.length > 0 ? passesList.join(', ') : '';
+    const cinemaDateLabel = film.cinema[0]?.name;
 
     const slideSvg = await satori(
       <div style={{
@@ -304,62 +286,52 @@ export async function generateCarousel(): Promise<string[]> {
           backgroundImage: 'linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.95))'
         }} />
 
-        <div style={{
-          display: 'flex', position: 'absolute', top: '60px', left: '60px',
-        }}>
-          <span style={{ display: 'flex', color: WHITE, fontSize: 28, fontWeight: 800, letterSpacing: '0.1em', opacity: 0.8 }}>
-            CINELYON.FR
-          </span>
-        </div>
+
 
         <div style={{
           display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
-          width: '100%', height: '100%', padding: '80px 60px', position: 'absolute',
+          width: '100%', height: '100%', padding: '220px 120px', position: 'absolute',
         }}>
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', marginBottom: '10px' }}>
-            {film.title.toUpperCase().split(' ').map((word, idx, arr) => {
-              const isLast = idx === arr.length - 1;
-              const content = word + (isLast ? '' : '\u00A0');
-              return (
-                <div key={idx} style={{ display: 'flex', position: 'relative', marginBottom: '5px' }}>
-                  <div style={{
-                    display: 'flex', position: 'absolute', bottom: '-4px', left: 0, right: 0, height: '45%', backgroundColor: ACCENT
-                  }} />
-                  <h1 style={{ display: 'flex', color: WHITE, fontSize: 60, fontWeight: 800, lineHeight: 1.1, position: 'relative', margin: 0 }}>
-                    {content}
-                  </h1>
-                </div>
-              );
-            })}
+          <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '4px' }}>
+            <h1 style={{ 
+              display: 'flex', 
+              color: WHITE, 
+              fontSize: 52, 
+              fontWeight: 700, 
+              fontStyle: 'italic', 
+              lineHeight: 1.1, 
+              margin: 0,
+              letterSpacing: '-0.05em' 
+            }}>
+              {film.title}
+            </h1>
           </div>
-          <span style={{ display: 'flex', color: '#CCCCCC', fontSize: 30, marginBottom: '40px' }}>
-            de {film.director || 'Inconnu'} ({film.year})
+
+          <span style={{ 
+            display: 'flex', 
+            color: WHITE, 
+            fontSize: 46, 
+            fontWeight: 400, 
+            lineHeight: 1, 
+            letterSpacing: '-0.05em' 
+          }}>
+            {cinemaDateLabel}
           </span>
-
-
-
-          <span style={{ display: 'flex', color: WHITE, fontSize: 50, fontWeight: 800, lineHeight: 1, marginBottom: passesLabel ? '30px' : '0px' }}>
-            {showtimeLabel}
-          </span>
-
-          {passesLabel && (
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <span style={{
-                display: 'flex', color: '#E0E0E0', fontSize: 26, fontWeight: 400,
-                backgroundColor: 'rgba(255, 255, 255, 0.15)', padding: '12px 24px',
-                borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.1)'
-              }}>
-                {passesLabel}
-              </span>
-            </div>
-          )}
           {logoBase64 && (
             <img
               src={logoBase64}
               style={{ display: 'flex', position: 'absolute', bottom: '50px', right: '50px', width: 80, height: 80 }}
             />
           )}
+
+          <div style={{
+            display: 'flex', position: 'absolute', bottom: '70px', left: 0, right: 0, justifyContent: 'center'
+          }}>
+            <span style={{ display: 'flex', color: WHITE, fontSize: 28, fontWeight: 800, letterSpacing: '0.1em', opacity: 0.8 }}>
+              CINELYON.FR
+            </span>
+          </div>
 
         </div>
       </div>,
