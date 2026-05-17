@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { EnrichedFilm } from './types';
-import { INSTAGRAM } from './constants';
+import { INSTAGRAM, CINEMA_ADDRESSES } from './constants';
 
 const dirname = process.cwd();
 
@@ -34,23 +34,22 @@ export function generateCaption(): void {
   const dayName = getDayString(targetDateObj);
 
   let caption = `🍿 Qu'est-ce qu'on regarde à Lyon ${dayName} (${dateStr}) ?\n\n`;
-  caption += `Voici notre sélection des meilleurs films classiques et cultes à l'affiche dans vos cinémas lyonnais : \n\n`;
+  caption += `Horaires & séances sur cinelyon.fr\n\n`;
 
   const maxFilms = Math.min(films.length, INSTAGRAM.maxSlides - 1);
   for (let i = 0; i < maxFilms; i++) {
     const f = films[i];
-    const cinemaName = f.cinema[0]?.name || "Cinéma Inconnu";
-    caption += `🎬 ${f.title.toUpperCase()}\n`;
-    if (f.director && f.director !== 'Inconnu') {
-      caption += `👤 De ${f.director} (${f.year})\n`;
-    }
-    caption += `📍 ${cinemaName}\n`;
-    caption += `\n`;
-  }
+    const cinema = f.cinema[0];
+    const cinemaName = cinema?.name || "Cinéma Inconnu";
+    const address = CINEMA_ADDRESSES[cinemaName] || cinema?.address || "Lyon";
+    const showtimesFormatted = (cinema?.showtimes || []).map(t => t.replace(':', 'h')).join(', ');
+    const directorPart = f.director && f.director !== 'Inconnu' ? ` de ${f.director}` : '';
 
-  caption += `👉 Retrouvez toutes les séances et horaires complets sur le lien dans notre bio : cinelyon.fr\n\n`;
+    caption += `✦ ${f.title.toUpperCase()} (${f.year || ''})${directorPart}\n`;
+    caption += `${cinemaName} à ${showtimesFormatted} (${address})\n\n`;
+  }
   
-  const hashtags = ['#Cinelyon', '#Lyon', '#CinemaLyon', '#SortirALyon', '#Cinephile', '#FilmCulte'];
+  const hashtags = ['#Cinelyon', '#Lyon', '#CinemaLyon', '#SortirALyon', '#Cinephile', '#FilmCulte', '#Cinema', '#Ciné'];
   caption += hashtags.join(' ');
 
   // Tronquer proprement si jamais > 2200 caractères (limite Insta)

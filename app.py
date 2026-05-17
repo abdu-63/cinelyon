@@ -575,8 +575,8 @@ def film_detail(slug):
         "CGR",
         "Ciné Meyzieu",
         "Ciné Toboggan",
-        "Ciné Saint-Denis",
-        "Les Amphis",
+        "Cinéma Saint-Denis",
+        "Cinéma Les Amphis",
         "Gérard-Philipe",
         "Autre",
     ]
@@ -597,7 +597,7 @@ def film_detail(slug):
         if "comoedia" in name:
             return "Comoedia"
         if "amphis" in name:
-            return "Les Amphis"
+            return "Cinéma Les Amphis"
         if "gerard-philipe" in name or "gérard-philipe" in name:
             return "Gérard-Philipe"
         if "meyzieu" in name:
@@ -605,7 +605,7 @@ def film_detail(slug):
         if "toboggan" in name:
             return "Ciné Toboggan"
         if "saint-denis" in name:
-            return "Ciné Saint-Denis"
+            return "Cinéma Saint-Denis"
         if name.startswith("ciné") or name.startswith("cine"):
             return "Ciné"
         return "Autre"

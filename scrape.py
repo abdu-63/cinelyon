@@ -49,7 +49,7 @@ EXTENDED_THEATERS = {
     "UGC Internationale",
     "UGC Astoria",
     "Ciné Toboggan",
-    "Les Amphis",
+    "Cinéma Les Amphis",
 }
 
 # Cinémas scrapés sur 15 jours

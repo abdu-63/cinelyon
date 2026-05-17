@@ -103,10 +103,10 @@ const cinemaUrls = {
     "Lumière La Fourmi": "https://www.cinemas-lumiere.com/programmation/fourmi.html",
     "Lumière Terreaux": "https://www.cinemas-lumiere.com/programmation/terreaux.html",
     "Institut Lumière": "https://www.institut-lumiere.org/",
-    "Les Amphis": "https://www.les-amphis.com/",
+    "Cinéma Les Amphis": "https://www.les-amphis.com/",
     "Cinéma Comoedia": "https://www.cinema-comoedia.org/",
     "Cinéma Gerard-Philipe": "https://www.cinema-gerard-philipe.fr/",
-    "Ciné Saint-Denis": "https://www.cinestdenis.fr/"
+    "Cinéma Saint-Denis": "https://www.cinestdenis.fr/"
 };
 document.querySelectorAll('.cinema-link').forEach(link => {
     const name = link.dataset.cinema;

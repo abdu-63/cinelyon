@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as dotenv from 'dotenv';
 import { EnrichedFilm, Cinema } from './types';
-import { INSTAGRAM, KNOWN_DIRECTORS } from './constants';
+import { INSTAGRAM, KNOWN_DIRECTORS, CINEMA_ADDRESSES } from './constants';
 
 const dirname = process.cwd();
 dotenv.config({ path: path.join(dirname, '../../.env') });
@@ -201,7 +201,7 @@ export async function fetchShowtimes(): Promise<void> {
 
       cinemas.push({
         name: cinemaName,
-        address: 'Lyon',
+        address: CINEMA_ADDRESSES[cinemaName] || 'Lyon',
         showtimes,
         passes: getPassesForCinema(cinemaName)
       });

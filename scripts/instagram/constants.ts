@@ -49,3 +49,25 @@ export const SCORING = {
   repriseScore: 2.0,
   nouveauteScore: 0.85,
 };
+
+export const CINEMA_ADDRESSES: Record<string, string> = {
+  "Pathé Carré de Soie": "2 Rue Jacquard, 69120 Vaulx-en-Velin",
+  "Pathé Bellecour": "79 Rue de la République, 69002 Lyon",
+  "Pathé Vaise": "43 Rue des Docks, 69009 Lyon",
+  "UGC Part-Dieu": "17 Rue Dr Bouchut, 69003 Lyon",
+  "UGC Confluence": "112 Cr Charlemagne, 69002 Lyon",
+  "UGC Cité Internationale": "80 Quai Charles de Gaulle, 69006 Lyon",
+  "UGC Internationale": "80 Quai Charles de Gaulle, 69006 Lyon",
+  "UGC Astoria": "31 Cr Vitton, 69006 Lyon",
+  "CGR Brignais": "ZI Nord, Les Vallières, 69530 Brignais",
+  "Ciné Meyzieu": "27 Rue Louis Saulnier, 69330 Meyzieu",
+  "Ciné Toboggan": "14 Av. Jean Macé, 69150 Décines",
+  "Cinéma Saint-Denis": "77 Gd Rue de la Croix-Rousse, 69004 Lyon",
+  "Lumière Bellecour": "12 Rue de la Barre, 69002 Lyon",
+  "Lumière La Fourmi": "68 Rue Pierre Corneille, 69003 Lyon",
+  "Lumière Terreaux": "40 Rue du Pdt Édouard Herriot, 69001 Lyon",
+  "Institut Lumière": "25 Rue du Premier-Film, 69008 Lyon",
+  "Cinéma Comoedia": "13 Av. Berthelot, 69007 Lyon",
+  "Cinéma Les Amphis": "12 Rue Pierre Cot, 69120 Vaulx-en-Velin",
+  "Cinéma Gerard-Philipe": "12 Av. Jean Cagne, 69200 Vénissieux"
+};
