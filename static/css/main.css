@@ -1134,16 +1134,32 @@ html {
     }
 
     .cinema {
-        min-height: 36px;
+        min-height: 46px;
         width: 100px;
+        min-width: 100px;
         color: var(--card-solid);
-        padding-right: 5px;
         flex-shrink: 0;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .cinema p {
+        font-size: 12px;
+        line-height: 1.2;
+        margin: 0;
+        word-break: break-word;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
 
     .horaires_container {
         max-width: none;
         flex-wrap: nowrap;
+        align-items: center;
     }
 
     .horaire-wrapper {
@@ -1152,21 +1168,32 @@ html {
 
     .horaire {
         height: auto;
-        min-width: 60px;
         width: auto;
+        min-width: 72px;
         border-radius: 6px;
-        margin-left: 5px;
-        padding: 4px 8px 6px 8px;
-        flex-wrap: nowrap;
+        margin-left: 6px;
+        padding: 4px 8px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: stretch;
         gap: 1px;
     }
 
     .horaire-top {
         gap: 3px;
+        height: 14px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
     }
 
     .horaire-bottom {
         gap: 3px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
     }
 
     .lang-badge {
@@ -1186,7 +1213,6 @@ html {
         display: none;
     }
 
-    .cinema p,
     .horaire p {
         font-size: 12px;
         margin: 0;

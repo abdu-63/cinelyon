@@ -1,6 +1,6 @@
 // ⚠️ Pour invalider le cache sur tous les appareils, modifiez ce numéro de version.
 // Il suffit d'incrémenter CACHE_VERSION à chaque déploiement majeur.
-const CACHE_VERSION = 'v11';
+const CACHE_VERSION = 'v12';
 const CACHE_NAME = `cinelyon-${CACHE_VERSION}`;
 
 // Assets statiques mis en cache à l'installation (ne changent pas souvent)

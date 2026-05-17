@@ -140,7 +140,7 @@ npx ts-node run.ts --date=2026-05-25
 
 ### 6. Déploiement & Gestion du Cache PWA (Important)
 L'application fonctionne comme une PWA (Progressive Web App) avec une gestion stricte du cache via un Service Worker. Lors du déploiement de modifications sur les fichiers statiques (CSS, JS) :
-1. **Dans `static/sw.js`** : Incrémentez la constante `CACHE_VERSION` (ex. `v11` -> `v12`). Cela signale aux navigateurs qu'un nouveau Service Worker est disponible et déclenchera l'apparition de la bannière de mise à jour chez les utilisateurs.
+1. **Dans `static/sw.js`** : Incrémentez la constante `CACHE_VERSION` (ex. `v12` -> `v13`). Cela signale aux navigateurs qu'un nouveau Service Worker est disponible et déclenchera l'apparition de la bannière de mise à jour chez les utilisateurs.
 2. **Incrémentez les paramètres de cache-busting** des fichiers statiques pour forcer l'invalidation du cache natif d'iOS/Safari. Les 4 assets concernés sont répartis dans 3 templates :
    - `templates/base.html` : `main.css?v=X.X` et `settings.js?v=X.X`
    - `templates/index.html` : `index.js?v=X.X`
