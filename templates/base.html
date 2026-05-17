@@ -47,19 +47,35 @@
                 navigator.serviceWorker.register('/static/sw.js', { scope: '/' })
                     .then(reg => {
                         console.log('✅ Service Worker enregistré');
-                        // Vérifier immédiatement si une mise à jour est disponible
-                        reg.update();
 
-                        // Affiche la bannière si une mise à jour est détectée
+                        const showUpdateBanner = () => {
+                            const banner = document.getElementById('update-banner');
+                            if (banner) banner.style.display = 'flex';
+                        };
+
+                        // 1. Vérifier si une mise à jour est déjà en attente
+                        if (reg.waiting) {
+                            console.log('✨ Nouvelle version déjà en attente.');
+                            showUpdateBanner();
+                        }
+
+                        // 2. Écouter l'installation d'une nouvelle mise à jour
                         reg.addEventListener('updatefound', () => {
                             const newWorker = reg.installing;
                             newWorker.addEventListener('statechange', () => {
                                 if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
                                     console.log('✨ Nouvelle version disponible.');
-                                    const banner = document.getElementById('update-banner');
-                                    if (banner) banner.style.display = 'flex';
+                                    showUpdateBanner();
                                 }
                             });
+                        });
+
+                        // Vérifier les mises à jour au chargement et au retour au premier plan
+                        reg.update();
+                        document.addEventListener('visibilitychange', () => {
+                            if (document.visibilityState === 'visible') {
+                                reg.update();
+                            }
                         });
                     })
                     .catch(err => console.log('❌ Service Worker erreur:', err));
@@ -164,7 +180,7 @@
                 </div>
                 
                 <div class="version-info" style="text-align: center; margin-top: 30px; margin-bottom: 5px; color: #a0a0a0; font-size: 0.8rem;">
-                    Version 1.0 (v10)
+                    Version 1.1
                 </div>
             </div>
         </div>
