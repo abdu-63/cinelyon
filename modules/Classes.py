@@ -265,9 +265,42 @@ class Movie:
                             movie = result
                             break
 
-                # Fallback : film le plus populaire
+                # Fallback : matcher par similarité de titre (évite les fausses associations de posters)
                 if not movie:
-                    movie = sorted(results, key=lambda x: x.get("popularity", 0), reverse=True)[0]
+                    def _title_sim(t1, t2):
+                        """Score de similarité entre 0 et 1 basé sur les mots communs (Jaccard)."""
+                        import unicodedata as _ud
+                        t1n = _ud.normalize("NFD", t1.lower()).encode("ascii", "ignore").decode()
+                        t2n = _ud.normalize("NFD", t2.lower()).encode("ascii", "ignore").decode()
+                        t1n = re.sub(r"[^a-z0-9 ]", "", t1n).strip()
+                        t2n = re.sub(r"[^a-z0-9 ]", "", t2n).strip()
+                        if not t1n or not t2n:
+                            return 0.0
+                        if t1n == t2n:
+                            return 1.0
+                        w1 = set(t1n.split())
+                        w2 = set(t2n.split())
+                        union = w1 | w2
+                        return len(w1 & w2) / len(union) if union else 0.0
+
+                    best_score = 0.0
+                    best_candidate = None
+                    for candidate in results[:5]:
+                        score = max(
+                            _title_sim(self.title, candidate.get("title", "")),
+                            _title_sim(self.title, candidate.get("original_title", "")),
+                        )
+                        # Bonus si l'année correspond
+                        tmdb_year = (candidate.get("release_date") or "")[:4]
+                        if tmdb_year and self.release_year and tmdb_year == str(self.release_year):
+                            score = min(score + 0.2, 1.0)
+                        if score > best_score:
+                            best_score = score
+                            best_candidate = candidate
+
+                    # Seuil de 0.5 pour éviter les fausses correspondances
+                    if best_candidate and best_score >= 0.5:
+                        movie = best_candidate
 
             if movie:
                 movie_id = movie["id"]
