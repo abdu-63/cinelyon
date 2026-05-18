@@ -612,14 +612,6 @@
             resetPagination(filteredGroups);
         }
 
-        searchTitle.addEventListener('input', filterFilms);
-        filterGenre.addEventListener('change', filterFilms);
-        filterDirector.addEventListener('change', filterFilms);
-        filterCinema.addEventListener('change', filterFilms);
-        filterDay.addEventListener('change', filterFilms);
-        filterFormat.addEventListener('change', filterFilms);
-        filterFavorites.addEventListener('change', filterFilms);
-
         resetBtn.addEventListener('click', function () {
             searchTitle.value = '';
             filterGenre.value = '';

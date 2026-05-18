@@ -21,7 +21,7 @@
 
     <!-- Hero Section -->
     <div class="film-hero">
-        <div class="film-hero-bg" style="background-image: url('{{ film.affiche }}')"></div>
+        <div class="film-hero-bg" style="background-image: url('{{ film.affiche | urlencode }}')"></div>
         <div class="film-hero-content">
             <img src="{{ film.affiche }}" class="film-hero-poster" alt="Affiche de {{ film.title }}" width="300" height="432" />
             <div class="film-hero-info">
@@ -465,7 +465,7 @@
                     {% set provider_url = 'https://www.crunchyroll.com/fr/search?q=' ~ search_query %}
                 {% endif %}
 
-                <a href="{{ provider_url }}" target="_blank" rel="noopener noreferrer" class="provider-logo-wrapper" title="Chercher {{ film.title }} sur {{ provider.name }}" style="background: rgba(255,255,255,0.05); padding: 4px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; transition: transform 0.2s ease; cursor: pointer; text-decoration: none;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                <a href="{{ provider_url }}" target="_blank" rel="noopener noreferrer" class="provider-logo-wrapper" title="Chercher {{ film.title }} sur {{ provider.name }}">
                     <img src="{{ provider.logo_path }}" alt="{{ provider.name }}" style="width: 48px; height: 48px; border-radius: 8px; object-fit: cover;">
                 </a>
                 {% endif %}

@@ -3,6 +3,7 @@ import os
 import re
 import unicodedata
 from datetime import datetime, timedelta
+from urllib.parse import quote
 from zoneinfo import ZoneInfo
 
 import dotenv
@@ -168,8 +169,6 @@ def optimize_poster_url(url: str, width: int = 200) -> str:
     """Optimise l'URL d'une affiche via le proxy wsrv.nl."""
     if not url or url.startswith("/static"):
         return url
-    from urllib.parse import quote
-
     return f"https://wsrv.nl/?url={quote(url)}&w={width}&q=80&output=webp"
 
 
@@ -185,54 +184,19 @@ def slugify(text: str, year: str = "") -> str:
     return text
 
 
+_MONTHS = {
+    1: "janv", 2: "févr", 3: "mars", 4: "avr", 5: "mai", 6: "juin",
+    7: "juil", 8: "août", 9: "sept", 10: "oct", 11: "nov", 12: "déc",
+}
+_DAYS = {0: "Lun", 1: "Mar", 2: "Mer", 3: "Jeu", 4: "Ven", 5: "Sam", 6: "Dim"}
+
+
 def translateMonth(num: int):
-    match num:
-        case 1:
-            return "janv"
-        case 2:
-            return "févr"
-        case 3:
-            return "mars"
-        case 4:
-            return "avr"
-        case 5:
-            return "mai"
-        case 6:
-            return "juin"
-        case 7:
-            return "juil"
-        case 8:
-            return "août"
-        case 9:
-            return "sept"
-        case 10:
-            return "oct"
-        case 11:
-            return "nov"
-        case 12:
-            return "déc"
-        case _:
-            return "???"
+    return _MONTHS.get(num, "???")
 
 
 def translateDay(weekday: int):
-    match weekday:
-        case 0:
-            return "Lun"
-        case 1:
-            return "Mar"
-        case 2:
-            return "Mer"
-        case 3:
-            return "Jeu"
-        case 4:
-            return "Ven"
-        case 5:
-            return "Sam"
-        case 6:
-            return "Dim"
-        case _:
-            return "???"
+    return _DAYS.get(weekday, "???")
 
 
 @app.route("/force-update")
@@ -307,9 +271,11 @@ def health():
 @app.route("/reload")
 def reload_data():
     """Endpoint pour forcer le rechargement des données depuis Supabase."""
-    secret = request.args.get("secret", "")
     reload_secret = os.environ.get("RELOAD_SECRET", "")
-    if reload_secret and secret != reload_secret:
+    if not reload_secret:
+        return "Endpoint disabled", 403
+    secret = request.args.get("secret", "")
+    if secret != reload_secret:
         return "Unauthorized", 401
     global _last_load_time
     _last_load_time = None  # Invalide le cache
@@ -553,8 +519,6 @@ def film_detail(slug):
     # Convertir trailer_url en embed URL
     trailer_embed = None
     if film_data.get("trailer_url"):
-        import re
-
         url = film_data["trailer_url"]
         # Robust regex for various YouTube URL formats
         yt_regex = (
@@ -655,8 +619,3 @@ def page_not_found(e):
 if __name__ == "__main__":
     debug_mode = os.environ.get("FLASK_DEBUG", "0") == "1"
     app.run(debug=debug_mode)
-
-# pour le débug sur mobile
-"""if __name__ == '__main__':
-    # host='0.0.0.0' permet l'accès depuis d'autres appareils
-    app.run(host='0.0.0.0', port=5001)"""

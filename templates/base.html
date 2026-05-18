@@ -32,7 +32,7 @@
 
     <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}?v=1.7">
 
-    <link rel="shortcut icon" type="image/png" sizes="32x32" href="static/images/favicon.png?v=3" />
+    <link rel="shortcut icon" type="image/png" sizes="32x32" href="/static/images/favicon.png?v=3" />
     <link rel="manifest" href="/static/manifest.json">
     <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon-180x180.png?v=2">
     <title>{% block title %}{{ website_title }}{% endblock %}</title>
@@ -103,6 +103,7 @@
     <script src="{{ url_for('static', filename='js/settings.js') }}?v=1.6" defer></script>
 </head>
 
+<body>
 <header id="headerTop">
     <div class="divHeader">
         <h1 class="textLogo_header"><a href="{{ url_for('home') }}" style="text-decoration: none; color: inherit;">{{
@@ -116,8 +117,6 @@
         </svg>
     </button>
 </header>
-
-<body>
     <div id="update-banner" class="update-banner" style="display: none;">
         <span>🍿 Une nouvelle version est disponible !</span>
         <a href="/force-update" class="update-btn">Mettre à jour</a>
@@ -186,7 +185,6 @@
         </div>
     </div>
     <div id="settingsOverlay" class="settings-overlay"></div>
-</body>
 
 <footer>
     <div class="container_footer">
@@ -250,5 +248,7 @@
         </div>
     </div>
 </footer>
+
+</body>
 
 </html>

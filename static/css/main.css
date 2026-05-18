@@ -3233,3 +3233,21 @@ input:checked + .slider:before {
     padding: 0 5px;
     line-height: 1;
 }
+
+/* Streaming provider logos (film detail page) */
+.provider-logo-wrapper {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 4px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.provider-logo-wrapper:hover {
+    transform: scale(1.1);
+}

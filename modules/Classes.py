@@ -376,7 +376,7 @@ class Movie:
                 # Note Rotten Tomatoes via OMDB (si clé disponible et IMDB ID trouvé)
                 if OMDB_API_KEY and imdb_id:
                     try:
-                        omdb_url = "http://www.omdbapi.com/"
+                        omdb_url = "https://www.omdbapi.com/"
                         omdb_data = tmdb_request(omdb_url, {"apikey": OMDB_API_KEY, "i": imdb_id, "tomatoes": "true"})
                         for rating in omdb_data.get("Ratings", []):
                             if rating.get("Source") == "Rotten Tomatoes":
