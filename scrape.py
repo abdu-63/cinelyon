@@ -105,6 +105,8 @@ def get_showtimes(theaters: list[Theater], date: datetime) -> list[dict]:
                 "allocine_url": movie.allocine_url,
                 "trailer_url": movie.trailer_url,
                 "watch_providers": movie.watch_providers,
+                "tmdb_score": movie.tmdb_score,
+                "rt_score": movie.rt_score,
                 "seances": {},
             }
 
@@ -232,7 +234,12 @@ def main():
     if args.clear_cache:
         if os.path.exists(TMDB_CACHE_FILE):
             os.remove(TMDB_CACHE_FILE)
-            logger.info("🗑️ Cache TMDB supprimé")
+            logger.info("🗑️ Cache TMDB local supprimé")
+        try:
+            get_supabase().table("tmdb_cache").delete().neq("key", "").execute()
+            logger.info("🗑️ Table Supabase tmdb_cache vidée")
+        except Exception as e:
+            logger.warning(f"⚠️ Erreur lors du nettoyage de la table Supabase tmdb_cache: {e}")
 
     try:
         theaters_config = json.loads(THEATERS_JSON)

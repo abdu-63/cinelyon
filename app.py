@@ -405,6 +405,8 @@ def home():
                     "allocine_url": film.get("allocine_url", ""),
                     "trailer_url": film.get("trailer_url"),
                     "watch_providers": film.get("watch_providers", []),
+                    "tmdb_score": film.get("tmdb_score"),
+                    "rt_score": film.get("rt_score"),
                     "slug": slugify(film["title"], film.get("release_year", "")),
                     "seances_by_day": {},
                 }
@@ -516,6 +518,8 @@ def film_detail(slug):
                         "allocine_url": film.get("allocine_url", ""),
                         "trailer_url": film.get("trailer_url"),
                         "watch_providers": film.get("watch_providers", []),
+                        "tmdb_score": film.get("tmdb_score"),
+                        "rt_score": film.get("rt_score"),
                         "slug": film_slug,
                     }
 

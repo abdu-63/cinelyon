@@ -2427,6 +2427,55 @@ body.show-friend-badges .friend-badge {
     opacity: 0.8;
 }
 
+/* ── Scores externes (TMDB, RT) ── */
+.film-score-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: 'healTheWebA', sans-serif;
+    transition: transform 0.15s ease;
+}
+
+.film-score-badge:hover {
+    transform: scale(1.05);
+}
+
+.film-score-tmdb {
+    background: rgba(1, 180, 228, 0.15);
+    color: #01b4e4;
+    border: 1px solid rgba(1, 180, 228, 0.3);
+}
+
+.film-score-rt-fresh {
+    background: rgba(250, 87, 12, 0.12);
+    color: #fa570c;
+    border: 1px solid rgba(250, 87, 12, 0.3);
+}
+
+.film-score-rt-rotten {
+    background: rgba(100, 100, 100, 0.12);
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
+}
+
+.film-score-rt-certified {
+    background: rgba(250, 87, 12, 0.18);
+    color: #fa570c;
+    border: 1px solid rgba(250, 87, 12, 0.45);
+    box-shadow: 0 0 8px rgba(250, 87, 12, 0.15);
+}
+
+.film-score-badge img {
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+}
+
+
 .film-genres {
     display: flex;
     flex-wrap: wrap;

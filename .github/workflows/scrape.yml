@@ -6,6 +6,17 @@ on:
     - cron: '05 23 * * *'
     - cron: '05 9 * * *'
   workflow_dispatch:
+    inputs:
+      clear_cache:
+        description: 'Vider le cache TMDB/OMDB avant de scraper'
+        required: false
+        type: boolean
+        default: false
+      force:
+        description: 'Forcer un rescraping complet de toutes les dates'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   scrape:
@@ -31,7 +42,13 @@ jobs:
       - name: Run scraping script
         env:
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+          OMDB_API_KEY: ${{ secrets.OMDB_API_KEY }}
           THEATERS: ${{ secrets.THEATERS }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-        run: python scrape.py
+        run: |
+          FLAGS=""
+          if [ "${{ github.event.inputs.clear_cache }}" = "true" ]; then FLAGS="$FLAGS --clear-cache"; fi
+          if [ "${{ github.event.inputs.force }}" = "true" ]; then FLAGS="$FLAGS --force"; fi
+          python scrape.py $FLAGS
+

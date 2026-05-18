@@ -24,6 +24,7 @@ load_dotenv()
 
 # Récupérer la clé API
 TMDB_API_KEY = os.getenv("TMDB_API_KEY")
+OMDB_API_KEY = os.getenv("OMDB_API_KEY")
 
 # Supabase
 _SUPABASE_URL = os.getenv("SUPABASE_URL", "")
@@ -150,6 +151,8 @@ class Movie:
         self.trailer_url = tmdb_data.get("trailer_url")
         self.english_title = tmdb_data.get("english_title", self.original_title)
         self.watch_providers = tmdb_data.get("watch_providers", [])
+        self.tmdb_score = tmdb_data.get("tmdb_score")  # Note TMDB sur 10
+        self.rt_score = tmdb_data.get("rt_score")      # Note Rotten Tomatoes (ex: "87%")
 
         # Affiche TMDB trouvée en premier, sinon fallback sur Allociné, sinon image par défaut
         try:
@@ -215,7 +218,7 @@ class Movie:
         if cache_key in _tmdb_cache:
             cached_data = _tmdb_cache[cache_key]
             # Si l'ancienne entrée de cache n'a pas l'affiche TMDB ou les watch_providers, on force un refetch
-            if "tmdb_poster" in cached_data and "watch_providers" in cached_data:
+            if "tmdb_poster" in cached_data and "watch_providers" in cached_data and "tmdb_score" in cached_data:
                 return cached_data
 
         default = {
@@ -223,6 +226,8 @@ class Movie:
             "english_title": self.original_title,
             "tmdb_poster": None,
             "watch_providers": [],
+            "tmdb_score": None,
+            "rt_score": None,
         }
 
         if not TMDB_API_KEY:
@@ -330,14 +335,26 @@ class Movie:
                 except Exception:
                     pass
 
-                # Titre anglais pour Letterboxd et Watch Providers
+                # Titre anglais, note TMDB, Watch Providers et score RT
                 english_title = self.original_title
                 watch_providers = []
+                tmdb_score = None
+                rt_score = None
+                imdb_id = None
                 try:
                     en_url = f"https://api.themoviedb.org/3/movie/{movie_id}"
-                    en_data = tmdb_request(en_url, {"api_key": TMDB_API_KEY, "language": "en-US"})
+                    en_data = tmdb_request(en_url, {"api_key": TMDB_API_KEY, "language": "en-US", "append_to_response": "external_ids"})
                     if en_data.get("title"):
                         english_title = en_data["title"]
+
+                    # Note TMDB sur 10 (arrondie à 1 décimale)
+                    vote_avg = en_data.get("vote_average")
+                    vote_count = en_data.get("vote_count", 0)
+                    if vote_avg and vote_count and vote_count >= 10:
+                        tmdb_score = round(float(vote_avg), 1)
+
+                    # IMDB ID pour OMDB
+                    imdb_id = en_data.get("imdb_id") or (en_data.get("external_ids") or {}).get("imdb_id")
 
                     # Plateformes de streaming
                     providers_url = f"https://api.themoviedb.org/3/movie/{movie_id}/watch/providers"
@@ -356,11 +373,25 @@ class Movie:
                 except Exception:
                     pass
 
+                # Note Rotten Tomatoes via OMDB (si clé disponible et IMDB ID trouvé)
+                if OMDB_API_KEY and imdb_id:
+                    try:
+                        omdb_url = "http://www.omdbapi.com/"
+                        omdb_data = tmdb_request(omdb_url, {"apikey": OMDB_API_KEY, "i": imdb_id, "tomatoes": "true"})
+                        for rating in omdb_data.get("Ratings", []):
+                            if rating.get("Source") == "Rotten Tomatoes":
+                                rt_score = rating["Value"]  # ex: "87%"
+                                break
+                    except Exception:
+                        pass
+
                 result = {
                     "trailer_url": trailer_url,
                     "english_title": english_title,
                     "tmdb_poster": tmdb_poster,
                     "watch_providers": watch_providers,
+                    "tmdb_score": tmdb_score,
+                    "rt_score": rt_score,
                 }
                 _tmdb_cache[cache_key] = result
                 save_tmdb_cache_entry(cache_key, result)
