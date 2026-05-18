@@ -107,7 +107,8 @@ const cinemaUrls = {
     "Cinéma Les Amphis": "https://www.les-amphis.com/",
     "Cinéma Comoedia": "https://www.cinema-comoedia.org/",
     "Cinéma Gerard-Philipe": "https://www.cinema-gerard-philipe.fr/",
-    "Cinéma Saint-Denis": "https://www.cinestdenis.fr/"
+    "Cinéma Saint-Denis": "https://www.cinestdenis.fr/",
+    "Cinéma Opéra": "https://www.allocine.fr/seance/salle_gen_csalle=P0006.html"
 };
 document.querySelectorAll('.cinema-link').forEach(link => {
     const name = link.dataset.cinema;
@@ -134,7 +135,8 @@ const cinemaAddresses = {
     "Institut Lumière": "25 Rue du Premier-Film, 69008 Lyon",
     "Cinéma Comoedia": "13 Av. Berthelot, 69007 Lyon",
     "Cinéma Les Amphis": "12 Rue Pierre Cot, 69120 Vaulx-en-Velin",
-    "Cinéma Gerard-Philipe": "12 Av. Jean Cagne, 69200 Vénissieux"
+    "Cinéma Gerard-Philipe": "12 Av. Jean Cagne, 69200 Vénissieux",
+    "Cinéma Opéra": "6 Rue Joseph Serlin, 69001 Lyon"
 };
 
 function parseDuration(s) { let h = 0, m = 0; const hm = s.match(/(\d+)\s*h/), mm = s.match(/(\d+)\s*min/); if (hm) h = parseInt(hm[1]); if (mm) m = parseInt(mm[1]); return { hours: h, minutes: m }; }

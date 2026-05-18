@@ -651,7 +651,8 @@
         "Lumière Bellecour": "https://www.cinemas-lumiere.com/programmation/bellecour.html",
         "Lumière La Fourmi": "https://www.cinemas-lumiere.com/programmation/fourmi.html",
         "Lumière Terreaux": "https://www.cinemas-lumiere.com/programmation/terreaux.html",
-        "Institut Lumière": "https://www.institut-lumiere.org/"
+        "Institut Lumière": "https://www.institut-lumiere.org/",
+        "Cinéma Opéra": "https://www.allocine.fr/seance/salle_gen_csalle=P0006.html"
     };
 
     document.querySelectorAll('.cinema-link').forEach(link => {
@@ -684,7 +685,8 @@
         "Institut Lumière": "25 Rue du Premier-Film, 69008 Lyon",
         "Cinéma Comoedia": "13 Avenue Berthelot, 69007 Lyon",
         "Cinéma Les Amphis": "12 Rue Pierre Cot, 69120 Vaulx-en-Velin",
-        "Cinéma Gerard-Philipe": "12 Rue Émile Zola, 69200 Vénissieux"
+        "Cinéma Gerard-Philipe": "12 Rue Émile Zola, 69200 Vénissieux",
+        "Cinéma Opéra": "6 Rue Joseph Serlin, 69001 Lyon"
     };
 
     function parseDuration(dureeStr) {

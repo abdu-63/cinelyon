@@ -69,5 +69,6 @@ export const CINEMA_ADDRESSES: Record<string, string> = {
   "Institut Lumière": "25 Rue du Premier-Film, 69008 Lyon",
   "Cinéma Comoedia": "13 Av. Berthelot, 69007 Lyon",
   "Cinéma Les Amphis": "12 Rue Pierre Cot, 69120 Vaulx-en-Velin",
-  "Cinéma Gerard-Philipe": "12 Av. Jean Cagne, 69200 Vénissieux"
+  "Cinéma Gerard-Philipe": "12 Av. Jean Cagne, 69200 Vénissieux",
+  "Cinéma Opéra": "6 Rue Joseph Serlin, 69001 Lyon"
 };
