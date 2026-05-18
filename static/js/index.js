@@ -1850,6 +1850,9 @@ END:VCALENDAR`;
             });
         });
 
+        // Initialisation au chargement de la page
+        registerDevice().then(() => loadSyncedDevices());
+
         loadFriends().then(async () => {
             await loadFriendsFilms();
             renderFriendBadges();
