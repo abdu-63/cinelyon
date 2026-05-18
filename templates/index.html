@@ -348,13 +348,32 @@
         <!-- TAB 2 : FRIENDS -->
         <div id="sync-tab-friends" class="sync-tab-content">
             <div class="sync-modal-section">
-                <p class="sync-modal-label">Ajouter un ami via son code sync :</p>
-                <div class="sync-input-row friends-add-row">
-                    <input type="text" id="friend-code-input" class="sync-code-input" maxlength="6" placeholder="ABC123"
-                        autocomplete="off" spellcheck="false">
-                    <input type="text" id="friend-name-input" class="friend-name-input" maxlength="20"
-                        placeholder="Prénom" autocomplete="off">
-                    <button id="friend-add-btn" class="sync-link-btn">Ajouter</button>
+                <p class="sync-modal-label">Ajouter un ami :</p>
+
+                <!-- Mode selector -->
+                <div class="friend-add-mode-tabs">
+                    <button class="friend-mode-tab active" data-mode="code">Par code</button>
+                    <button class="friend-mode-tab" data-mode="name">Par nom</button>
+                </div>
+
+                <!-- Panel : Par code -->
+                <div id="friend-add-by-code" class="friend-add-panel">
+                    <div class="sync-input-row friends-add-row">
+                        <input type="text" id="friend-code-input" class="sync-code-input" maxlength="6" placeholder="ABC123"
+                            autocomplete="off" spellcheck="false">
+                        <input type="text" id="friend-name-input" class="friend-name-input" maxlength="20"
+                            placeholder="Prénom (optionnel)" autocomplete="off">
+                        <button id="friend-add-btn" class="sync-link-btn">Ajouter</button>
+                    </div>
+                </div>
+
+                <!-- Panel : Par nom -->
+                <div id="friend-add-by-name" class="friend-add-panel" style="display:none">
+                    <div class="friend-name-search-wrap">
+                        <input type="text" id="friend-search-input" class="friend-name-search-input"
+                            placeholder="Rechercher un ami par son prénom…" autocomplete="off" spellcheck="false">
+                    </div>
+                    <div id="friend-search-results" class="friend-search-results"></div>
                 </div>
             </div>
 
@@ -385,6 +404,6 @@
         supabaseKey: '{{ supabase_anon_key }}'
     };
 </script>
-<script src="{{ url_for('static', filename='js/index.js') }}?v=1.6" defer></script>
+<script src="{{ url_for('static', filename='js/index.js') }}?v=1.7" defer></script>
 
 {% endblock %}

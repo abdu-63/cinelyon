@@ -27,7 +27,7 @@
 
 ## Le projet
 
-CinéLyon est une plateforme moderne conçue pour les cinéphiles lyonnais. Elle agrège les séances de 19 cinémas (indépendants et grands circuits) tout en mettant l'accent sur la richesse éditoriale : reprises cultes, films d'auteur et ressorties patrimoniales.
+CinéLyon est une plateforme moderne conçue pour les cinéphiles lyonnais. Elle agrège les séances de 20 cinémas (indépendants et grands circuits) tout en mettant l'accent sur la richesse éditoriale : reprises cultes, films d'auteur et ressorties patrimoniales.
 
 ## Fonctionnalités clés
 

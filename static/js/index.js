@@ -1348,6 +1348,8 @@ END:VCALENDAR`;
         const friendAddBtn = document.getElementById('friend-add-btn');
         const friendsList = document.getElementById('friends-list');
         const syncedDevicesList = document.getElementById('synced-devices-list');
+        const friendSearchInput = document.getElementById('friend-search-input');
+        const friendSearchResults = document.getElementById('friend-search-results');
 
         const myDeviceId = getDeviceId();
         let friends = [];
@@ -1674,16 +1676,29 @@ END:VCALENDAR`;
                 const followedId = data[0].user_id;
                 if (followedId === getSyncId()) { showToast('C\'est ton propre code !', 'warning'); return; }
                 if (friends.some(f => f.followed_id === followedId)) { showToast('Déjà dans ta liste.', 'warning'); return; }
+
+                // Si pas de nom saisi, récupérer automatiquement le nom public de l'ami
+                let resolvedName = name || null;
+                if (!resolvedName) {
+                    try {
+                        const rDev = await sbFetch(`sync_devices?sync_id=eq.${followedId}&order=last_seen.desc&limit=1&select=name`);
+                        const devData = await rDev.json();
+                        if (devData && devData.length > 0 && devData[0].name && devData[0].name !== 'Anonyme') {
+                            resolvedName = devData[0].name;
+                        }
+                    } catch (_) { /* silence – le nom restera null */ }
+                }
+
                 await sbFetch('friend_follows', {
                     method: 'POST',
                     headers: { 'Prefer': 'return=minimal' },
-                    body: JSON.stringify({ follower_id: getSyncId(), followed_id: followedId, followed_name: name || null })
+                    body: JSON.stringify({ follower_id: getSyncId(), followed_id: followedId, followed_name: resolvedName })
                 });
-                friends.push({ followed_id: followedId, followed_name: name || null });
+                friends.push({ followed_id: followedId, followed_name: resolvedName });
                 await loadFriendsFilms();
                 renderFriendsList();
                 renderFriendBadges();
-                showToast(`${name || code} ajouté ! 🎉`);
+                showToast(`${resolvedName || code} ajouté ! 🎉`);
                 friendCodeInput.value = '';
                 friendNameInput.value = '';
                 // Trigger global filter if tab is active
@@ -1717,6 +1732,82 @@ END:VCALENDAR`;
             } catch (e) { console.warn('Erreur suppression ami:', e); }
         }
 
+        // ── Recherche par nom ─────────────────────────────────────────────────
+        async function addFriendById(syncId, name) {
+            if (syncId === getSyncId()) { showToast('C\'est toi !', 'warning'); return; }
+            if (friends.some(f => f.followed_id === syncId)) { showToast('Déjà dans ta liste.', 'warning'); return; }
+            try {
+                await sbFetch('friend_follows', {
+                    method: 'POST',
+                    headers: { 'Prefer': 'return=minimal' },
+                    body: JSON.stringify({ follower_id: getSyncId(), followed_id: syncId, followed_name: name })
+                });
+                friends.push({ followed_id: syncId, followed_name: name });
+                await loadFriendsFilms();
+                renderFriendsList();
+                renderFriendBadges();
+                showToast(`${name} ajouté ! 🎉`);
+                if (friendSearchInput) { friendSearchInput.value = ''; }
+                if (friendSearchResults) { friendSearchResults.innerHTML = ''; }
+                const currentFavTab = document.querySelector('.fav-tab.active')?.dataset.tab;
+                if (document.getElementById('filter-favorites').checked && currentFavTab === 'amis') {
+                    document.getElementById('search-title').dispatchEvent(new Event('input'));
+                }
+            } catch (e) {
+                console.error(e);
+                showToast('Erreur d\'ajout', 'warning');
+            }
+        }
+
+        function renderSearchResults(results) {
+            if (!friendSearchResults) return;
+            if (results.length === 0) {
+                friendSearchResults.innerHTML = '<p class="friends-empty">Aucun utilisateur trouvé.</p>';
+                return;
+            }
+            friendSearchResults.innerHTML = '';
+            results.forEach(user => {
+                if (user.sync_id === getSyncId()) return; // skip self
+                const alreadyAdded = friends.some(f => f.followed_id === user.sync_id);
+                const initials = (user.name || '?').substring(0, 2).toUpperCase();
+
+                const item = document.createElement('div');
+                item.className = `friend-search-result${alreadyAdded ? ' already-added' : ''}`;
+                item.innerHTML = `
+                    <div class="friend-avatar">${escapeHtml(initials)}</div>
+                    <span class="friend-search-name">${escapeHtml(user.name)}</span>
+                    <button class="sync-link-btn friend-search-add-btn">${alreadyAdded ? 'Ajouté ✓' : 'Ajouter'}</button>
+                `;
+                if (!alreadyAdded) {
+                    item.querySelector('.friend-search-add-btn').addEventListener('click', () => {
+                        addFriendById(user.sync_id, user.name);
+                    });
+                }
+                friendSearchResults.appendChild(item);
+            });
+        }
+
+        let nameSearchDebounce = null;
+        if (friendSearchInput) {
+            friendSearchInput.addEventListener('input', function () {
+                clearTimeout(nameSearchDebounce);
+                const query = this.value.trim();
+                if (query.length < 2) {
+                    friendSearchResults.innerHTML = '';
+                    return;
+                }
+                nameSearchDebounce = setTimeout(async () => {
+                    try {
+                        const r = await sbFetch(`sync_devices?name=ilike.*${encodeURIComponent(query)}*&select=sync_id,name&limit=8`);
+                        const results = await r.json();
+                        renderSearchResults(results);
+                    } catch (e) {
+                        friendSearchResults.innerHTML = '<p class="friends-empty">Erreur de recherche.</p>';
+                    }
+                }, 350);
+            });
+        }
+
         friendCodeInput.addEventListener('input', function () {
             this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
         });
@@ -1726,6 +1817,20 @@ END:VCALENDAR`;
             const name = friendNameInput.value.trim();
             if (code.length !== 6) { showToast('Le code doit faire 6 caractères', 'warning'); return; }
             addFriend(code, name);
+        });
+
+        // ── Toggle mode Par code / Par nom ────────────────────────────────────
+        document.querySelectorAll('.friend-mode-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.friend-mode-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                const mode = tab.dataset.mode;
+                document.getElementById('friend-add-by-code').style.display = mode === 'code' ? '' : 'none';
+                document.getElementById('friend-add-by-name').style.display = mode === 'name' ? '' : 'none';
+                if (mode === 'name' && friendSearchInput) {
+                    friendSearchInput.focus();
+                }
+            });
         });
 
         syncFavoritesBtn.addEventListener('click', () => {

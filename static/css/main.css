@@ -2017,6 +2017,114 @@ html {
     padding: 16px 0;
 }
 
+/* ── Friend add mode toggle ── */
+.friend-add-mode-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+    background: #f0f0ff;
+    border-radius: 10px;
+    padding: 4px;
+}
+
+.friend-mode-tab {
+    flex: 1;
+    background: transparent;
+    border: none;
+    font-family: 'healTheWebA', sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 7px 10px;
+    border-radius: 7px;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.friend-mode-tab.active {
+    background: var(--card-solid);
+    color: var(--primary);
+    font-weight: 700;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.friend-add-panel {
+    animation: fadeIn 0.2s ease;
+}
+
+/* ── Friend name search ── */
+.friend-name-search-wrap {
+    position: relative;
+}
+
+.friend-name-search-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: 'healTheWebA', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+    background: var(--card-solid);
+    box-sizing: border-box;
+}
+
+.friend-name-search-input:focus {
+    border-color: var(--primary);
+}
+
+.friend-search-results {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+.friend-search-result {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    background: #f8f8ff;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+}
+
+.friend-search-result:hover {
+    border-color: var(--primary);
+    background: #f0f0ff;
+}
+
+.friend-search-result .friend-search-name {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-main);
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.friend-search-add-btn {
+    padding: 6px 14px;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+.friend-search-result.already-added {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.friend-search-result.already-added .friend-search-add-btn {
+    background: #aaa;
+}
+
 /* Badge ami sur les film-cards */
 .friend-badge {
     display: none;
