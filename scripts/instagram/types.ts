@@ -20,4 +20,8 @@ export interface EnrichedFilm {
   year: number;
   poster_url: string;
   cinema: Cinema[];
+  tmdb_id?: number | string;
+  synopsis?: string;
+  overview?: string;
+  description?: string;
 }

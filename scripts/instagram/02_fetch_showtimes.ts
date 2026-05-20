@@ -214,6 +214,8 @@ export async function fetchShowtimes(): Promise<void> {
         year: dbMovie.release_year,
         poster_url: dbMovie.affiche,
         cinema: cinemas,
+        tmdb_id: dbMovie.tmdb_id || dbMovie.id,
+        synopsis: dbMovie.synopsis || dbMovie.overview || dbMovie.description,
         // @ts-ignore — on passe le score pour permettre un tri éventuel
         refScore
       });
