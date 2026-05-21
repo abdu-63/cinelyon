@@ -182,20 +182,15 @@ async function getIMDbBackdrops(imdbId: string, topCast: string[] = [], director
   return [];
 }
 
-// Récupère 3 scènes (backdrops) différentes et originales pour un film précis
-async function getMovieBackdrops(film: EnrichedFilm): Promise<string[]> {
+// Récupère jusqu'à 3 scènes (backdrops) pour un film précis
+// Si moins de 2 scènes : comble avec l'affiche du film
+// Si moins de 3 scènes : comble avec l'affiche du film
+// Pas d'images de backup génériques
+async function getMovieBackdrops(film: EnrichedFilm): Promise<{ scenes: string[]; posterUrl: string | null }> {
   const apiKey = process.env.TMDB_API_KEY;
-  const fallbackImagesBase = [
-    'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=100&w=2560&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=100&w=2560&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=100&w=2560&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?q=100&w=2560&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1585647347384-2593bc35786b?q=100&w=2560&auto=format&fit=crop'
-  ];
-  // On mélange la base de fallbacks pour avoir 3 images génériques différentes
-  const shuffledFallbacks = [...fallbackImagesBase].sort(() => 0.5 - Math.random()).slice(0, 3);
+  const posterUrl = film.poster_url || null;
 
-  if (!apiKey) return shuffledFallbacks;
+  if (!apiKey) return { scenes: [], posterUrl };
 
   try {
     // 1. Résolution de l'ID TMDB : champ direct ou recherche par titre
@@ -215,7 +210,7 @@ async function getMovieBackdrops(film: EnrichedFilm): Promise<string[]> {
         console.log(`🔍 ID TMDB résolu pour "${film.title}" → ${tmdbId}`);
       } else {
         console.warn(`⚠️ Aucun résultat TMDB pour : ${film.title}`);
-        return shuffledFallbacks;
+        return { scenes: [], posterUrl };
       }
     }
 
@@ -252,7 +247,7 @@ async function getMovieBackdrops(film: EnrichedFilm): Promise<string[]> {
       backdrops = await getIMDbBackdrops(imdbId, topCast, directorName);
     }
 
-    // 4. Fallback TMDB s'il manque des images IMDb (moins de 3)
+    // 4. Fallback TMDB s'il manque des images IMDb
     if (backdrops.length < 3) {
       console.log(`🔄 Fallback TMDB déclenché pour "${film.title}" (images IMDb valides trouvées : ${backdrops.length})`);
       try {
@@ -284,16 +279,14 @@ async function getMovieBackdrops(film: EnrichedFilm): Promise<string[]> {
       }
     }
 
-    // 5. On comble avec des images génériques si on n'a toujours pas 3 backdrops
-    if (backdrops.length >= 3) return backdrops.slice(0, 3);
-    if (backdrops.length === 2) return [backdrops[0], backdrops[1], shuffledFallbacks[0]];
-    if (backdrops.length === 1) return [backdrops[0], shuffledFallbacks[0], shuffledFallbacks[1]];
+    // 5. Retourner les scènes disponibles (max 3), sans images génériques
+    return { scenes: backdrops.slice(0, 3), posterUrl };
 
   } catch (e) {
     console.warn(`Erreur lors de la récupération des scènes pour ${film.title}:`, e);
   }
 
-  return shuffledFallbacks;
+  return { scenes: [], posterUrl };
 }
 
 // ─── Helpers : Extraction de Couleur (Point 4) ────────────────────────────────
@@ -492,10 +485,18 @@ export async function generateCarousel(): Promise<string[]> {
     const formattedTitle = film.title.toUpperCase();
     
     // (Point 3) Récupération des photogrammes via TMDB
-    const backdrops = await getMovieBackdrops(film);
-    const mainImage = backdrops[0];
-    const secondaryImage = backdrops[1];
-    const tertiaryImage = backdrops[2];
+    const { scenes, posterUrl } = await getMovieBackdrops(film);
+
+    // Résolution des slots d'images :
+    // - mainImage   : 1ère scène disponible (requis)
+    // - secondImage : 2ème scène si dispo, sinon l'affiche
+    // - thirdImage  : 3ème scène si dispo, sinon l'affiche si seulement 2 scènes, sinon null (non affiché)
+    const mainImage = scenes[0] || posterUrl || '';
+    const secondImage = scenes[1] || posterUrl || null;
+    // 3ème image uniquement si on a au moins 2 scènes (on complète avec l'affiche si 2 scènes, null si 0 ou 1)
+    const thirdImage = scenes.length >= 3 ? scenes[2] : (scenes.length === 2 ? posterUrl : null);
+
+    console.log(`📸 Scènes pour "${film.title}": ${scenes.length} — 3e image: ${thirdImage ? 'affiche/scène' : 'absente'}`);
 
     // (Point 4) Extraction de la palette dominante à partir du photogramme principal
     const dynamicTitleColor = await getDominantColor(mainImage);
@@ -512,22 +513,29 @@ export async function generateCarousel(): Promise<string[]> {
     // B2: Gauche (Image + Texte), Droite (Petite en haut, Grosse en bas)
     const layouts = ['A1', 'B1', 'A2', 'B2'];
     const layoutType = layouts[i % layouts.length];
+
+    // Style commun du synopsis (plus compact pour afficher plus de texte)
+    const synopsisStyle = {
+      display: '-webkit-box' as const, WebkitLineClamp: 18, WebkitBoxOrient: 'vertical' as const,
+      overflow: 'hidden', textOverflow: 'ellipsis', fontSize: 21, fontWeight: 700,
+      color: TEXT_DARK, lineHeight: 1.3, textTransform: 'uppercase' as const
+    };
+    const synopsisStyleRight = { ...synopsisStyle, textAlign: 'right' as const };
     
     let collageContent;
     if (layoutType === 'A1') {
       collageContent = (
         <div style={{ display: 'flex', flexDirection: 'row', width: '100%', height: '920px' }}>
           <div style={{ display: 'flex', width: '55%', flexDirection: 'column', paddingRight: '15px' }}>
-            <img src={mainImage} style={{ width: '100%', height: '600px', objectFit: 'cover', marginBottom: '30px' }} />
-            <img src={secondaryImage} style={{ width: '100%', height: '290px', objectFit: 'cover' }} />
+            <img src={mainImage} style={{ width: '100%', height: secondImage ? '600px' : '920px', objectFit: 'cover', marginBottom: secondImage ? '30px' : '0' }} />
+            {secondImage && <img src={secondImage} style={{ width: '100%', height: '290px', objectFit: 'cover' }} />}
           </div>
           <div style={{ display: 'flex', width: '45%', flexDirection: 'column', paddingLeft: '15px' }}>
-            <img src={tertiaryImage} style={{ width: '100%', height: '430px', objectFit: 'cover', marginBottom: '30px' }} />
-            <div style={{ 
-              display: '-webkit-box', WebkitLineClamp: 12, WebkitBoxOrient: 'vertical',
-              overflow: 'hidden', textOverflow: 'ellipsis', fontSize: 26, fontWeight: 700, 
-              color: TEXT_DARK, lineHeight: 1.25, textTransform: 'uppercase'
-            }}>
+            {thirdImage
+              ? <img src={thirdImage} style={{ width: '100%', height: '430px', objectFit: 'cover', marginBottom: '30px' }} />
+              : null
+            }
+            <div style={{ ...synopsisStyle, flex: 1 }}>
               {synopsis}
             </div>
           </div>
@@ -537,16 +545,15 @@ export async function generateCarousel(): Promise<string[]> {
       collageContent = (
         <div style={{ display: 'flex', flexDirection: 'row', width: '100%', height: '920px' }}>
           <div style={{ display: 'flex', width: '55%', flexDirection: 'column', paddingRight: '15px' }}>
-            <img src={mainImage} style={{ width: '100%', height: '290px', objectFit: 'cover', marginBottom: '30px' }} />
-            <img src={secondaryImage} style={{ width: '100%', height: '600px', objectFit: 'cover' }} />
+            <img src={mainImage} style={{ width: '100%', height: secondImage ? '290px' : '920px', objectFit: 'cover', marginBottom: secondImage ? '30px' : '0' }} />
+            {secondImage && <img src={secondImage} style={{ width: '100%', height: '600px', objectFit: 'cover' }} />}
           </div>
           <div style={{ display: 'flex', width: '45%', flexDirection: 'column', paddingLeft: '15px' }}>
-            <img src={tertiaryImage} style={{ width: '100%', height: '430px', objectFit: 'cover', marginBottom: '30px' }} />
-            <div style={{ 
-              display: '-webkit-box', WebkitLineClamp: 12, WebkitBoxOrient: 'vertical',
-              overflow: 'hidden', textOverflow: 'ellipsis', fontSize: 26, fontWeight: 700, 
-              color: TEXT_DARK, lineHeight: 1.25, textTransform: 'uppercase'
-            }}>
+            {thirdImage
+              ? <img src={thirdImage} style={{ width: '100%', height: '430px', objectFit: 'cover', marginBottom: '30px' }} />
+              : null
+            }
+            <div style={{ ...synopsisStyle, flex: 1 }}>
               {synopsis}
             </div>
           </div>
@@ -557,17 +564,13 @@ export async function generateCarousel(): Promise<string[]> {
         <div style={{ display: 'flex', flexDirection: 'row', width: '100%', height: '920px' }}>
           <div style={{ display: 'flex', width: '45%', flexDirection: 'column', paddingRight: '15px' }}>
             <img src={mainImage} style={{ width: '100%', height: '500px', objectFit: 'cover', marginBottom: '30px' }} />
-            <div style={{ 
-              display: '-webkit-box', WebkitLineClamp: 11, WebkitBoxOrient: 'vertical',
-              overflow: 'hidden', textOverflow: 'ellipsis', fontSize: 26, fontWeight: 700, 
-              color: TEXT_DARK, lineHeight: 1.25, textTransform: 'uppercase', textAlign: 'right'
-            }}>
+            <div style={{ ...synopsisStyleRight, flex: 1 }}>
               {synopsis}
             </div>
           </div>
           <div style={{ display: 'flex', width: '55%', flexDirection: 'column', paddingLeft: '15px' }}>
-            <img src={secondaryImage} style={{ width: '100%', height: '630px', objectFit: 'cover', marginBottom: '30px' }} />
-            <img src={tertiaryImage} style={{ width: '100%', height: '260px', objectFit: 'cover' }} />
+            <img src={secondImage || mainImage} style={{ width: '100%', height: thirdImage ? '630px' : '920px', objectFit: 'cover', marginBottom: thirdImage ? '30px' : '0' }} />
+            {thirdImage && <img src={thirdImage} style={{ width: '100%', height: '260px', objectFit: 'cover' }} />}
           </div>
         </div>
       );
@@ -576,17 +579,13 @@ export async function generateCarousel(): Promise<string[]> {
         <div style={{ display: 'flex', flexDirection: 'row', width: '100%', height: '920px' }}>
           <div style={{ display: 'flex', width: '45%', flexDirection: 'column', paddingRight: '15px' }}>
             <img src={mainImage} style={{ width: '100%', height: '500px', objectFit: 'cover', marginBottom: '30px' }} />
-            <div style={{ 
-              display: '-webkit-box', WebkitLineClamp: 11, WebkitBoxOrient: 'vertical',
-              overflow: 'hidden', textOverflow: 'ellipsis', fontSize: 26, fontWeight: 700, 
-              color: TEXT_DARK, lineHeight: 1.25, textTransform: 'uppercase', textAlign: 'right'
-            }}>
+            <div style={{ ...synopsisStyleRight, flex: 1 }}>
               {synopsis}
             </div>
           </div>
           <div style={{ display: 'flex', width: '55%', flexDirection: 'column', paddingLeft: '15px' }}>
-            <img src={secondaryImage} style={{ width: '100%', height: '260px', objectFit: 'cover', marginBottom: '30px' }} />
-            <img src={tertiaryImage} style={{ width: '100%', height: '630px', objectFit: 'cover' }} />
+            <img src={secondImage || mainImage} style={{ width: '100%', height: thirdImage ? '260px' : '920px', objectFit: 'cover', marginBottom: thirdImage ? '30px' : '0' }} />
+            {thirdImage && <img src={thirdImage} style={{ width: '100%', height: '630px', objectFit: 'cover' }} />}
           </div>
         </div>
       );
