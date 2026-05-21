@@ -116,7 +116,21 @@ export async function selectFilms(): Promise<void> {
 
       // Score VIP = Base (1.5 ou 0.6) + Qualité (peut monter jusqu'à +1.0)
       // Une reprise chef d'oeuvre aura ~2.5, une reprise "simple" ~1.8
-      const playingScore = baseScore + (scoreRang * scoreNote * scoreRealisateur * scoreMultiSource);
+      let playingScore = baseScore + (scoreRang * scoreNote * scoreRealisateur * scoreMultiSource);
+
+      const dbMovieStr = JSON.stringify(dbData).toLowerCase();
+      const titleLower = film.title.toLowerCase();
+      const isAvantPremiere = 
+        titleLower.includes('avant-première') || 
+        titleLower.includes('avant première') || 
+        titleLower.includes(' avp') || 
+        dbMovieStr.includes('avant-première') || 
+        dbMovieStr.includes('avant première') || 
+        dbMovieStr.includes(' avp');
+
+      if (isAvantPremiere) {
+        playingScore += SCORING.avantPremiereBonus;
+      }
 
       scoredFilms.push({
         title: film.title,

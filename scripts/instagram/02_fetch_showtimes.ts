@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as dotenv from 'dotenv';
 import { EnrichedFilm, Cinema } from './types';
-import { INSTAGRAM, KNOWN_DIRECTORS, CINEMA_ADDRESSES } from './constants';
+import { INSTAGRAM, KNOWN_DIRECTORS, CINEMA_ADDRESSES, SCORING } from './constants';
 
 const dirname = process.cwd();
 dotenv.config({ path: path.join(dirname, '../../.env') });
@@ -173,15 +173,24 @@ export async function fetchShowtimes(): Promise<void> {
     // Prime à l'Événement (Formats Spéciaux / Avant-Premières)
     // On analyse les données brutes du film pour détecter des mots clés magiques
     const movieStr = JSON.stringify(dbMovie).toLowerCase();
-    if (
+    const titleLower = dbMovie.title.toLowerCase();
+    const isAvantPremiere = 
+      titleLower.includes('avant-première') || 
+      titleLower.includes('avant première') || 
+      titleLower.includes(' avp') || 
+      movieStr.includes('avant-première') || 
+      movieStr.includes('avant première') || 
+      movieStr.includes(' avp');
+
+    if (isAvantPremiere) {
+      refScore += SCORING.avantPremiereBonus; // Bonus massif (+3.0) pour les avant-premières
+    } else if (
       movieStr.includes('70mm') || 
       movieStr.includes('35mm') || 
       movieStr.includes('restauration 4k') || 
       movieStr.includes('restauré 4k') || 
-      movieStr.includes('avant-première') ||
-      movieStr.includes('avant première') ||
-      movieStr.includes('rencontre') ||
-      movieStr.includes('copie neuve') ||
+      movieStr.includes('rencontre') || 
+      movieStr.includes('copie neuve') || 
       movieStr.includes('festival')
     ) {
       refScore += 0.5; // Bonus exceptionnel (+0.5) pour les événements cinéphiles
@@ -189,7 +198,8 @@ export async function fetchShowtimes(): Promise<void> {
 
     // PÉNALITÉ DE RÉCENCE : éviter la redondance
     if (recentlyPostedFilms.has(normalizeTitle(dbMovie.title))) {
-      refScore = refScore * 0.01;
+      const penalty = isAvantPremiere ? 0.8 : 0.01; // Pénalité très légère (0.8) pour les avant-premières pour les favoriser
+      refScore = refScore * penalty;
     }
 
     const cinemas: Cinema[] = [];
@@ -225,7 +235,8 @@ export async function fetchShowtimes(): Promise<void> {
   // Trier : films en reference_films (score > 0) en premier, puis les autres
   enrichedFilms.sort((a, b) => ((b as any).refScore ?? 0) - ((a as any).refScore ?? 0));
 
-  // Limiter à 14 films max (limite carousel Instagram de 15 slides) avec max 3 films par cinéma
+  // Limiter à 20 films candidats max avec max 3 films par cinéma
+  const CANDIDATE_LIMIT = 20;
   const finalFilms: EnrichedFilm[] = [];
   const rejectedFilms: EnrichedFilm[] = [];
   const cinemaCounts = new Map<string, number>();
@@ -235,7 +246,7 @@ export async function fetchShowtimes(): Promise<void> {
 
   // PASSAGE 1 : Sélection avec règles de diversité strictes
   for (const film of enrichedFilms) {
-    if (finalFilms.length >= (INSTAGRAM.maxSlides - 1)) break;
+    if (finalFilms.length >= CANDIDATE_LIMIT) break;
 
     const year = Number(film.year) || new Date().getFullYear();
     const decade = `${Math.floor(year / 10) * 10}s`;
@@ -263,11 +274,11 @@ export async function fetchShowtimes(): Promise<void> {
     }
   }
 
-  // PASSAGE 2 : Repêchage si on a moins de 9 films (on ignore les limites de décennie/cinéma)
-  if (finalFilms.length < 9 && rejectedFilms.length > 0) {
-    console.log(`⚠️ Seulement ${finalFilms.length} films sélectionnés. Tentative de repêchage pour atteindre le minimum de 9...`);
+  // PASSAGE 2 : Repêchage si on a moins de CANDIDATE_LIMIT films (on ignore les limites de décennie/cinéma)
+  if (finalFilms.length < CANDIDATE_LIMIT && rejectedFilms.length > 0) {
+    console.log(`⚠️ Seulement ${finalFilms.length} films sélectionnés. Tentative de repêchage pour atteindre le minimum de ${CANDIDATE_LIMIT}...`);
     for (const film of rejectedFilms) {
-      if (finalFilms.length >= 9 || finalFilms.length >= (INSTAGRAM.maxSlides - 1)) break;
+      if (finalFilms.length >= CANDIDATE_LIMIT) break;
       
       // Pour le repêchage, on prend le premier cinéma dispo même s'il dépasse le quota
       const selectedCinema = film.cinema[0];

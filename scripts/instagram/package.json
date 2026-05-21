@@ -3,6 +3,7 @@
     "@resvg/resvg-js": "^2.6.2",
     "@supabase/supabase-js": "^2.101.1",
     "@types/react": "^19.2.14",
+    "cheerio": "^1.2.0",
     "dotenv": "^17.4.1",
     "node-vibrant": "^4.0.4",
     "playwright": "^1.59.1",

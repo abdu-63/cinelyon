@@ -5,6 +5,8 @@ import { Resvg } from '@resvg/resvg-js';
 import React from 'react';
 import * as dotenv from 'dotenv';
 import { Vibrant } from 'node-vibrant/node';
+import sharp from 'sharp';
+import * as cheerio from 'cheerio';
 import { EnrichedFilm } from './types';
 import { INSTAGRAM } from './constants';
 
@@ -23,10 +25,16 @@ const BG_DARK = '#121212';
 const WHITE = '#FFFFFF';
 const MUTED = 'rgba(255,255,255,0.55)';
 
+
+
 // ─── Helpers : Dates & Calendrier ─────────────────────────────────────────────
 
 async function loadHelveticaNeue(variant: string) {
   return fs.promises.readFile(path.join(dirname, `../../static/font/HelveticaNeue_Helvetica Neue_${variant}.ttf`));
+}
+
+async function loadImpact() {
+  return fs.promises.readFile(path.join(dirname, '../../static/font/impact.ttf'));
 }
 
 interface DateLabel { dayName: string; dayNum: number; monthName: string }
@@ -66,6 +74,130 @@ function getCalendarData(date: Date): CalendarData {
   return { monthName: monthNames[month], weeks, targetDay: date.getDate() };
 }
 
+// ─── Helpers : Analyse & Filtrage d'images (Similarité & Qualité) ──────────────
+
+async function getDHashAndStats(imageUrl: string): Promise<{ hash: string; whitePercent: number; blackPercent: number; satPercent: number } | null> {
+  try {
+    // Utilisation de la version w300 (miniature) pour TMDB pour optimiser le chargement et le calcul
+    const downloadUrl = imageUrl.includes('image.tmdb.org/t/p/original/')
+      ? imageUrl.replace('/t/p/original/', '/t/p/w300/')
+      : imageUrl;
+
+    const res = await fetch(downloadUrl);
+    if (!res.ok) return null;
+    const buffer = Buffer.from(await res.arrayBuffer());
+
+    // 1. Calcul du dHash (difference hash sur 9x8 pixels en niveau de gris)
+    const resizedRaw = await sharp(buffer)
+      .grayscale()
+      .resize(9, 8, { fit: 'fill' })
+      .raw()
+      .toBuffer();
+
+    let hash = '';
+    for (let y = 0; y < 8; y++) {
+      for (let x = 0; x < 8; x++) {
+        const left = resizedRaw[y * 9 + x];
+        const right = resizedRaw[y * 9 + x + 1];
+        hash += (left > right ? '1' : '0');
+      }
+    }
+
+    // 2. Calcul du pourcentage de pixels blancs, noirs et très saturés (sur 100x100 pixels)
+    const rgbRaw = await sharp(buffer)
+      .resize(100, 100, { fit: 'fill' })
+      .raw()
+      .toBuffer();
+
+    let whiteCount = 0;
+    let blackCount = 0;
+    let highSatCount = 0;
+    const totalPixels = 10000;
+    for (let i = 0; i < totalPixels; i++) {
+      const r = rgbRaw[i * 3];
+      const g = rgbRaw[i * 3 + 1];
+      const b = rgbRaw[i * 3 + 2];
+      const brightness = (r + g + b) / 3;
+      if (brightness > 240) {
+        whiteCount++;
+      } else if (brightness < 15) {
+        blackCount++;
+      }
+      // Saturation HSV : détecte les graphismes/key art aux couleurs vives et uniformes
+      const max = Math.max(r, g, b);
+      const min = Math.min(r, g, b);
+      const sat = max === 0 ? 0 : (max - min) / max;
+      if (sat > 0.7 && max > 100) {
+        highSatCount++;
+      }
+    }
+
+    const whitePercent = (whiteCount / totalPixels) * 100;
+    const blackPercent = (blackCount / totalPixels) * 100;
+    const satPercent = (highSatCount / totalPixels) * 100;
+
+    return { hash, whitePercent, blackPercent, satPercent };
+  } catch (e) {
+    console.warn(`[getDHashAndStats] Erreur lors de l'analyse de l'image ${imageUrl}:`, e);
+    return null;
+  }
+}
+
+function getHammingDistance(h1: string, h2: string): number {
+  let dist = 0;
+  for (let i = 0; i < h1.length; i++) {
+    if (h1[i] !== h2[i]) dist++;
+  }
+  return dist;
+}
+
+async function filterUniqueScenes(urls: string[]): Promise<string[]> {
+  const accepted: { url: string; hash: string }[] = [];
+
+  for (const url of urls) {
+    const stats = await getDHashAndStats(url);
+    if (!stats) continue;
+
+    const { hash, whitePercent, blackPercent, satPercent } = stats;
+
+    // Filtre dessins/key art sur fond blanc
+    if (whitePercent > 40) {
+      console.log(`   🚫 Image rejetée (trop claire/dessin) [${whitePercent.toFixed(1)}% blanc] : ${url}`);
+      continue;
+    }
+    // Filtre cartons titre/crédits sombres
+    if (blackPercent > 75) {
+      console.log(`   🚫 Image rejetée (trop sombre/générique) [${blackPercent.toFixed(1)}% noir] : ${url}`);
+      continue;
+    }
+    // Filtre key art graphique / affiches promotionnelles aux couleurs très saturées
+    if (satPercent > 35) {
+      console.log(`   🚫 Image rejetée (key art graphique) [${satPercent.toFixed(1)}% sat.] : ${url}`);
+      continue;
+    }
+
+    // Filtrage des doublons visuels (distance Hamming < 15 pour capturer aussi les plans quasi-identiques d'une même scène)
+    let isDuplicate = false;
+    for (const acc of accepted) {
+      const dist = getHammingDistance(hash, acc.hash);
+      if (dist < 15) {
+        isDuplicate = true;
+        console.log(`   🚫 Image rejetée (similarité) [distance=${dist}] : ${url} (proche de ${acc.url})`);
+        break;
+      }
+    }
+
+    if (isDuplicate) continue;
+
+    accepted.push({ url, hash });
+    console.log(`   ✅ Image acceptée : ${url}`);
+
+    if (accepted.length === 3) break;
+  }
+
+  return accepted.map(a => a.url);
+}
+
 // ─── Helpers : API TMDB (Point 3) ─────────────────────────────────────────────
 
 // Récupère une scène de film populaire au hasard pour la couverture
@@ -99,194 +231,177 @@ async function getRandomMovieScene(): Promise<string> {
   return `https://images.unsplash.com/photo-${randomFallbackId}?q=100&w=2560&auto=format&fit=crop`;
 }
 
-// Récupère des scènes de secours via l'API IMDb (RapidAPI)
-async function getIMDbBackdrops(imdbId: string, topCast: string[] = [], director: string = ''): Promise<string[]> {
-  const rapidApiKey = process.env.RAPIDAPI_KEY;
-  if (!rapidApiKey || !imdbId) return [];
-
+async function getFilmGrabImages(title: string): Promise<string[]> {
   try {
-    const res = await fetch(`https://imdb8.p.rapidapi.com/title/get-images?tconst=${imdbId}&limit=25`, {
-      headers: {
-        'x-rapidapi-key': rapidApiKey,
-        'x-rapidapi-host': 'imdb8.p.rapidapi.com'
+    const url = `https://film-grab.com/?s=${encodeURIComponent(title)}`;
+    const res = await fetch(url);
+    if (!res.ok) return [];
+    const html = await res.text();
+    const $ = cheerio.load(html);
+
+    const firstResult = $('.entry-title a').first().attr('href');
+    if (!firstResult) return [];
+
+    const postRes = await fetch(firstResult);
+    if (!postRes.ok) return [];
+    const postHtml = await postRes.text();
+    const $post = cheerio.load(postHtml);
+
+    const images: string[] = [];
+    $post('.bwg-masonry-thumb, .bwg-item img, img.size-full, .gallery-item img, figure img').each((i, el) => {
+      let src = $post(el).closest('a').attr('href') || $post(el).attr('src') || $post(el).attr('data-src') || $post(el).attr('data-lazy-src');
+      if (src) {
+        if (src.includes('/thumb/')) {
+           src = src.replace('/thumb/', '/').split('?')[0];
+        }
+        images.push(src);
       }
     });
-    
-    const data = await res.json();
-    
-    if (data.images && data.images.length > 0) {
-      // 1. Filtrer les images de mauvaise qualité, de mauvais type ou mauvais format (portrait)
-      const filteredImages = data.images.filter((img: any) => {
-        if (!img.url) return false;
 
-        const type = (img.type || '').toLowerCase();
-        // Exclure les posters, événements (tapis rouges, etc.) et les coulisses (behind the scenes)
-        if (type === 'poster' || type === 'event' || type === 'behind_the_scenes') {
-          return false;
-        }
-
-        // Exclure si ce n'est pas un format paysage (largeur > hauteur)
-        const w = Number(img.width) || 0;
-        const h = Number(img.height) || 0;
-        if (w <= h || (w / h) < 1.2) {
-          return false;
-        }
-
-        // Exclure si la légende contient des mots-clés indésirables (affiches, promo, etc.)
-        const caption = (img.caption || '').toLowerCase();
-        const blacklistedKeywords = [
-          'poster', 'affiche', 'dvd', 'blu-ray', 'behind the scenes', 
-          'sur le tournage', 'tournage', 'photocall', 'premiere', 'avant-première',
-          'key art', 'promotional event', 'press conference', 'publicity photo'
-        ];
-        if (blacklistedKeywords.some(keyword => caption.includes(keyword))) {
-          return false;
-        }
-
-        return true;
-      });
-
-      // 2. Noter/Scorer les images pour faire remonter les plus emblématiques (acteurs principaux, réalisateur)
-      const scoredImages = filteredImages.map((img: any, index: number) => {
-        let score = 0;
-        const caption = (img.caption || '').toLowerCase();
-
-        // Bonus pour la présence des acteurs principaux dans la légende
-        topCast.forEach(actor => {
-          if (actor && caption.includes(actor.toLowerCase())) {
-            score += 10;
-          }
+    if (images.length === 0) {
+        $post('.entry-content img').each((i, el) => {
+           let src = $post(el).closest('a').attr('href') || $post(el).attr('src');
+           if (src) images.push(src);
         });
-
-        // Bonus pour la présence du réalisateur dans la légende
-        if (director && caption.includes(director.toLowerCase())) {
-          score += 5;
-        }
-
-        // Pénalité légère pour l'index d'origine afin de conserver l'ordre de pertinence d'IMDb
-        score -= index * 0.05;
-
-        return { url: img.url, score };
-      });
-
-      // Trier par score décroissant
-      scoredImages.sort((a: any, b: any) => b.score - a.score);
-
-      // Retourner les URLs triées
-      return scoredImages.map((img: any) => img.url);
     }
+
+    return images;
   } catch (e) {
-    console.warn(`Erreur lors de la récupération IMDb pour ${imdbId}:`, e);
+    console.warn(`Erreur Film-Grab pour ${title}:`, e);
+    return [];
   }
-  
-  return [];
 }
 
-// Récupère jusqu'à 3 scènes (backdrops) pour un film précis
-// Si moins de 2 scènes : comble avec l'affiche du film
-// Si moins de 3 scènes : comble avec l'affiche du film
-// Pas d'images de backup génériques
-async function getMovieBackdrops(film: EnrichedFilm): Promise<{ scenes: string[]; posterUrl: string | null }> {
+// Nettoie et raccourcit proprement le synopsis sous la limite maxLength
+function getShortSynopsis(text: string, maxLength: number = 220): string {
+  if (!text) return "";
+  let clean = text.replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ').trim();
+  if (clean.length <= maxLength) return clean;
+
+  // Trouver toutes les fins de phrases
+  const sentenceEndings = /([.!?])\s+/g;
+  let match;
+  const sentenceEnds: number[] = [];
+
+  let lastIndex = 0;
+  while ((match = sentenceEndings.exec(clean)) !== null) {
+    const endIdx = match.index + match[1].length;
+    sentenceEnds.push(endIdx);
+    lastIndex = endIdx;
+  }
+  if (clean.length > lastIndex) {
+    sentenceEnds.push(clean.length);
+  }
+
+  // Chercher la combinaison maximale de phrases sous maxLength
+  let bestEnd = -1;
+  for (const endIdx of sentenceEnds) {
+    if (endIdx <= maxLength) {
+      bestEnd = endIdx;
+    } else {
+      break;
+    }
+  }
+
+  if (bestEnd > 0) {
+    return clean.slice(0, bestEnd).trim();
+  }
+
+  // Si même la première phrase dépasse maxLength, mais qu'elle se termine avant un seuil de tolérance (ex: 260)
+  const toleranceLimit = maxLength + 40;
+  if (sentenceEnds.length > 0 && sentenceEnds[0] <= toleranceLimit) {
+    return clean.slice(0, sentenceEnds[0]).trim();
+  }
+
+  // Si on doit vraiment couper au milieu de la phrase
+  const lastSpace = clean.lastIndexOf(' ', maxLength - 3);
+  if (lastSpace > 0) {
+    return clean.slice(0, lastSpace).trim() + '...';
+  }
+
+  return clean.slice(0, maxLength - 3).trim() + '...';
+}
+
+async function getMovieBackdrops(film: EnrichedFilm): Promise<{ scenes: string[]; posterUrl: string | null; synopsis: string | null }> {
   const apiKey = process.env.TMDB_API_KEY;
   const posterUrl = film.poster_url || null;
 
-  if (!apiKey) return { scenes: [], posterUrl };
+  if (!apiKey) return { scenes: [], posterUrl, synopsis: null };
 
   try {
-    // 1. Résolution de l'ID TMDB : champ direct ou recherche par titre
     let tmdbId: number | null = film.tmdb_id ? Number(film.tmdb_id) : (film as any).id ? Number((film as any).id) : null;
+    let tmdbOverview: string | null = null;
+    let originalTitle: string = film.title;
+    let fallbackTmdbScenes: string[] = [];
 
+    // Fetch TMDB details for ID, synopsis, and fallback backdrops
     if (!tmdbId) {
-      // Recherche par titre (+ année si dispo) pour résoudre l'ID
       const query = encodeURIComponent(film.title.trim());
       const yearParam = film.year ? `&year=${film.year}` : '';
-      const searchRes = await fetch(
-        `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}${yearParam}&language=fr-FR`
-      );
+      const searchRes = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}${yearParam}&language=fr-FR`);
       const searchData = await searchRes.json();
-
       if (searchData.results && searchData.results.length > 0) {
         tmdbId = searchData.results[0].id;
-        console.log(`🔍 ID TMDB résolu pour "${film.title}" → ${tmdbId}`);
-      } else {
-        console.warn(`⚠️ Aucun résultat TMDB pour : ${film.title}`);
-        return { scenes: [], posterUrl };
       }
+    }
+
+    if (tmdbId) {
+      try {
+        const movieDetailsRes = await fetch(`https://api.themoviedb.org/3/movie/${tmdbId}?api_key=${apiKey}&language=fr-FR`);
+        const movieDetails = await movieDetailsRes.json();
+        tmdbOverview = movieDetails.overview || null;
+        if (movieDetails.original_title) {
+          originalTitle = movieDetails.original_title;
+        }
+        if (!tmdbOverview) {
+          const enDetailsRes = await fetch(`https://api.themoviedb.org/3/movie/${tmdbId}?api_key=${apiKey}&language=en-US`);
+          const enDetails = await enDetailsRes.json();
+          tmdbOverview = enDetails.overview || null;
+        }
+
+        // Fetch TMDB backdrops as fallback
+        const imagesRes = await fetch(`https://api.themoviedb.org/3/movie/${tmdbId}/images?api_key=${apiKey}`);
+        const imagesData = await imagesRes.json();
+        if (imagesData.backdrops && imagesData.backdrops.length > 0) {
+          let textless = imagesData.backdrops.filter((b: any) => b.iso_639_1 === null && (b.aspect_ratio || 0) >= 1.3);
+          fallbackTmdbScenes = textless.map((b: any) => `https://image.tmdb.org/t/p/original${b.file_path}`);
+        }
+      } catch (err) {
+        console.warn(`Erreur TMDB pour ${film.title}:`, err);
+      }
+    }
+
+    console.log(`🎬 Récupération des images Film-Grab pour "${film.title}" (Recherche avec "${originalTitle}")...`);
+    let fgScenes = await getFilmGrabImages(originalTitle);
+    
+    // Si la recherche avec le titre original ne donne rien, on essaie avec le titre français
+    if (fgScenes.length === 0 && originalTitle !== film.title) {
+      console.log(`🎬 Film-Grab vide pour "${originalTitle}", tentative avec "${film.title}"...`);
+      fgScenes = await getFilmGrabImages(film.title);
     }
 
     let backdrops: string[] = [];
 
-    // 2. Récupération de l'ID IMDb et des crédits (cast/director) via l'API TMDB
-    let imdbId: string | null = null;
-    let topCast: string[] = [];
-    let directorName: string = film.director || '';
 
-    try {
-      const movieDetailsRes = await fetch(
-        `https://api.themoviedb.org/3/movie/${tmdbId}?api_key=${apiKey}&append_to_response=credits`
-      );
-      const movieDetails = await movieDetailsRes.json();
-      imdbId = movieDetails.imdb_id;
-
-      if (movieDetails.credits && movieDetails.credits.cast) {
-        topCast = movieDetails.credits.cast.slice(0, 5).map((c: any) => c.name);
-      }
-      if (movieDetails.credits && movieDetails.credits.crew) {
-        const directorObj = movieDetails.credits.crew.find((c: any) => c.job === 'Director');
-        if (directorObj) {
-          directorName = directorObj.name;
-        }
-      }
-    } catch (err) {
-      console.warn(`Erreur lors de la récupération des détails TMDB pour ${film.title}:`, err);
+    if (fgScenes.length > 0) {
+      backdrops = await filterUniqueScenes(fgScenes);
     }
 
-    // 3. Récupération des backdrops IMDb si l'ID IMDb est disponible
-    if (imdbId) {
-      console.log(`🎬 Récupération des images IMDb pour "${film.title}" (${imdbId})...`);
-      backdrops = await getIMDbBackdrops(imdbId, topCast, directorName);
-    }
-
-    // 4. Fallback TMDB s'il manque des images IMDb
-    if (backdrops.length < 3) {
-      console.log(`🔄 Fallback TMDB déclenché pour "${film.title}" (images IMDb valides trouvées : ${backdrops.length})`);
-      try {
-        const imagesRes = await fetch(
-          `https://api.themoviedb.org/3/movie/${tmdbId}/images?api_key=${apiKey}`
-        );
-        const imagesData = await imagesRes.json();
-
-        let tmdbBackdrops: string[] = [];
-        if (imagesData.backdrops && imagesData.backdrops.length > 0) {
-          tmdbBackdrops = imagesData.backdrops.map(
-            (b: any) => `https://image.tmdb.org/t/p/original${b.file_path}`
-          );
-          
-          // On retire les 2 premières images si possible, car ce sont souvent des déclinaisons de l'affiche
-          if (tmdbBackdrops.length > 5) {
-            tmdbBackdrops = tmdbBackdrops.slice(2);
-          }
-
-          // Mélange de Fisher-Yates
-          for (let i = tmdbBackdrops.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [tmdbBackdrops[i], tmdbBackdrops[j]] = [tmdbBackdrops[j], tmdbBackdrops[i]];
-          }
-        }
-        backdrops = [...backdrops, ...tmdbBackdrops];
-      } catch (e) {
-        console.warn(`Erreur lors du fallback TMDB pour ${film.title}:`, e);
+    if (backdrops.length < 3 && fallbackTmdbScenes.length > 0) {
+      console.log(`🎬 Pas assez d'images Film-Grab, tentative TMDB fallback pour "${film.title}"...`);
+      const tmdbFiltered = await filterUniqueScenes(fallbackTmdbScenes);
+      if (tmdbFiltered.length >= 3 || tmdbFiltered.length > backdrops.length) {
+        backdrops = tmdbFiltered;
       }
     }
 
-    // 5. Retourner les scènes disponibles (max 3), sans images génériques
-    return { scenes: backdrops.slice(0, 3), posterUrl };
+    return { scenes: backdrops.slice(0, 3), posterUrl, synopsis: tmdbOverview };
 
   } catch (e) {
     console.warn(`Erreur lors de la récupération des scènes pour ${film.title}:`, e);
   }
 
-  return { scenes: [], posterUrl };
+  return { scenes: [], posterUrl, synopsis: null };
 }
 
 // ─── Helpers : Extraction de Couleur (Point 4) ────────────────────────────────
@@ -328,10 +443,11 @@ export async function generateCarousel(): Promise<string[]> {
   const { dayName, dayNum, monthName } = getDateLabel(targetDate);
   const cal = getCalendarData(targetDate);
   
-  const [fontReg, fontBold, fontBoldItalic] = await Promise.all([
+  const [fontReg, fontBold, fontBoldItalic, fontImpact] = await Promise.all([
     loadHelveticaNeue('Regular'),
     loadHelveticaNeue('Bold'),
-    loadHelveticaNeue('Bold Italic')
+    loadHelveticaNeue('Bold Italic'),
+    loadImpact()
   ]);
 
   const logoPath = path.join(dirname, '../../static/images/icon-192x192-rond.png');
@@ -351,6 +467,7 @@ export async function generateCarousel(): Promise<string[]> {
     { name: 'Helvetica Neue', data: fontReg, weight: 400 as const, style: 'normal' as const },
     { name: 'Helvetica Neue', data: fontBold, weight: 700 as const, style: 'normal' as const },
     { name: 'Helvetica Neue', data: fontBoldItalic, weight: 700 as const, style: 'italic' as const },
+    { name: 'Impact', data: fontImpact, weight: 400 as const, style: 'normal' as const },
   ];
 
   const generatedPaths: string[] = [];
@@ -476,27 +593,63 @@ export async function generateCarousel(): Promise<string[]> {
   console.log('✅ Slide couverture générée');
 
   // ══════════════════════════════════════════════════════════════
+  // PRÉ-FETCH DES SCÈNES — Tri des films par disponibilité d'images
+  // ══════════════════════════════════════════════════════════════
+  console.log(`\n🔎 Pré-fetch des images pour ${films.length} films (tri par qualité visuelle)...`);
+  const filmsWithScenes = await Promise.all(
+    films.map(async (film) => {
+      const result = await getMovieBackdrops(film);
+      return { film, ...result };
+    })
+  );
+
+  // Filtre strict : on ne garde que les films avec exactement 3 scènes disponibles
+  const filmsReady = filmsWithScenes.filter(f => f.scenes.length >= 3);
+  const filmsExcluded = filmsWithScenes.filter(f => f.scenes.length < 3);
+
+  const with3 = filmsReady.length;
+  const with2 = filmsWithScenes.filter(f => f.scenes.length === 2).length;
+  const with1 = filmsWithScenes.filter(f => f.scenes.length === 1).length;
+  const with0 = filmsWithScenes.filter(f => f.scenes.length === 0).length;
+  console.log(`📊 Après tri — 3 scènes: ${with3} | 2 scènes: ${with2} | 1 scène: ${with1} | 0 scène: ${with0}`);
+
+  if (filmsExcluded.length > 0) {
+    console.log(`🚫 Films exclus (images insuffisantes) : ${filmsExcluded.map(f => `"${f.film.title}" (${f.scenes.length} scène(s))`).join(', ')}`);
+  }
+  console.log();
+
+  if (filmsReady.length === 0) throw new Error('NO_FILMS_AVAILABLE');
+
+  // Limiter la liste finale des films à (INSTAGRAM.maxSlides - 1) pour respecter la limite du carrousel Instagram (maximum 9 films + 1 couverture)
+  const finalFilmsReady = filmsReady.slice(0, INSTAGRAM.maxSlides - 1);
+
+  const filteredFilmList = finalFilmsReady.map(f => {
+    const rawSynopsis = f.synopsis || f.film.synopsis || "";
+    f.film.synopsis = getShortSynopsis(rawSynopsis, 220);
+    return f.film;
+  });
+  fs.writeFileSync(inputPath, JSON.stringify(filteredFilmList, null, 2), 'utf8');
+  console.log(`💾 enriched_films.json mis à jour avec les synopses TMDB raccourcis : ${filteredFilmList.length} film(s) retenus (ordre slides)\n`);
+
+  // ══════════════════════════════════════════════════════════════
   // SLIDES 1..N — FILMS
   // ══════════════════════════════════════════════════════════════
-  const maxFilmSlides = Math.min(films.length, INSTAGRAM.maxSlides - 1);
+  const maxFilmSlides = finalFilmsReady.length;
 
   for (let i = 0; i < maxFilmSlides; i++) {
-    const film = films[i];
+    const { film, scenes, posterUrl } = finalFilmsReady[i];
     const formattedTitle = film.title.toUpperCase();
-    
-    // (Point 3) Récupération des photogrammes via TMDB
-    const { scenes, posterUrl } = await getMovieBackdrops(film);
 
-    // Résolution des slots d'images :
-    // - mainImage   : 1ère scène disponible (requis)
-    // - secondImage : 2ème scène si dispo, sinon l'affiche
-    // - thirdImage  : 3ème scène si dispo, sinon l'affiche si seulement 2 scènes, sinon null (non affiché)
-    const mainImage = scenes[0] || posterUrl || '';
-    const secondImage = scenes[1] || posterUrl || null;
-    // 3ème image uniquement si on a au moins 2 scènes (on complète avec l'affiche si 2 scènes, null si 0 ou 1)
-    const thirdImage = scenes.length >= 3 ? scenes[2] : (scenes.length === 2 ? posterUrl : null);
+    // Résolution des slots d'images (basée strictement sur scenes.length) :
+    // 0 scène  : mainImage = affiche, secondImage = null,   thirdImage = null
+    // 1 scène  : mainImage = scène1, secondImage = affiche, thirdImage = null
+    // 2 scènes : mainImage = scène1, secondImage = scène2,  thirdImage = affiche
+    // 3 scènes : mainImage = scène1, secondImage = scène2,  thirdImage = scène3
+    const mainImage   = scenes[0] ?? posterUrl ?? '';
+    const secondImage = scenes.length >= 2 ? scenes[1] : (scenes.length === 1 ? posterUrl : null);
+    const thirdImage  = scenes.length >= 3 ? scenes[2] : (scenes.length === 2 ? posterUrl : null);
 
-    console.log(`📸 Scènes pour "${film.title}": ${scenes.length} — 3e image: ${thirdImage ? 'affiche/scène' : 'absente'}`);
+    console.log(`📸 Scènes pour "${film.title}": ${scenes.length} — 2e: ${secondImage ? '✓' : '✗'} — 3e: ${thirdImage ? '✓' : '✗'}`);
 
     // (Point 4) Extraction de la palette dominante à partir du photogramme principal
     const dynamicTitleColor = await getDominantColor(mainImage);
@@ -514,28 +667,37 @@ export async function generateCarousel(): Promise<string[]> {
     const layouts = ['A1', 'B1', 'A2', 'B2'];
     const layoutType = layouts[i % layouts.length];
 
-    // Style commun du synopsis (plus compact pour afficher plus de texte)
+    const lineClamp = 10;
+
+    // Style commun du synopsis
     const synopsisStyle = {
-      display: '-webkit-box' as const, WebkitLineClamp: 18, WebkitBoxOrient: 'vertical' as const,
-      overflow: 'hidden', textOverflow: 'ellipsis', fontSize: 21, fontWeight: 700,
-      color: TEXT_DARK, lineHeight: 1.3, textTransform: 'uppercase' as const
+      display: '-webkit-box' as const, WebkitLineClamp: lineClamp, WebkitBoxOrient: 'vertical' as const,
+      overflow: 'hidden', textOverflow: 'ellipsis', fontSize: 38, fontWeight: 700,
+      color: TEXT_DARK, lineHeight: 1.12, textTransform: 'uppercase' as const,
+      fontFamily: 'Impact', letterSpacing: '-0.02em', transformOrigin: 'top left',
+      paddingLeft: '5px', paddingRight: '5px' // Éviter le rognage des lettres sur les bords
     };
-    const synopsisStyleRight = { ...synopsisStyle, textAlign: 'right' as const };
+    const synopsisStyleRight = { 
+      ...synopsisStyle, 
+      textAlign: 'right' as const,
+      transformOrigin: 'top right',
+      paddingRight: '12px' // Plus de marge à droite pour le texte aligné à droite
+    };
     
     let collageContent;
     if (layoutType === 'A1') {
       collageContent = (
         <div style={{ display: 'flex', flexDirection: 'row', width: '100%', height: '920px' }}>
           <div style={{ display: 'flex', width: '55%', flexDirection: 'column', paddingRight: '15px' }}>
-            <img src={mainImage} style={{ width: '100%', height: secondImage ? '600px' : '920px', objectFit: 'cover', marginBottom: secondImage ? '30px' : '0' }} />
-            {secondImage && <img src={secondImage} style={{ width: '100%', height: '290px', objectFit: 'cover' }} />}
+            <img src={mainImage} style={{ width: '100%', height: secondImage ? '600px' : '920px', objectFit: 'cover', marginBottom: secondImage ? '30px' : '0', border: '2px solid #2B2B2B', boxSizing: 'border-box' }} />
+            {secondImage && <img src={secondImage} style={{ width: '100%', height: '290px', objectFit: 'cover', border: '2px solid #2B2B2B', boxSizing: 'border-box' }} />}
           </div>
           <div style={{ display: 'flex', width: '45%', flexDirection: 'column', paddingLeft: '15px' }}>
             {thirdImage
-              ? <img src={thirdImage} style={{ width: '100%', height: '430px', objectFit: 'cover', marginBottom: '30px' }} />
+              ? <img src={thirdImage} style={{ width: '100%', height: '430px', objectFit: 'cover', marginBottom: '30px', border: '2px solid #2B2B2B', boxSizing: 'border-box' }} />
               : null
             }
-            <div style={{ ...synopsisStyle, flex: 1 }}>
+            <div style={{ ...synopsisStyle, height: '460px' }}>
               {synopsis}
             </div>
           </div>
@@ -545,15 +707,15 @@ export async function generateCarousel(): Promise<string[]> {
       collageContent = (
         <div style={{ display: 'flex', flexDirection: 'row', width: '100%', height: '920px' }}>
           <div style={{ display: 'flex', width: '55%', flexDirection: 'column', paddingRight: '15px' }}>
-            <img src={mainImage} style={{ width: '100%', height: secondImage ? '290px' : '920px', objectFit: 'cover', marginBottom: secondImage ? '30px' : '0' }} />
-            {secondImage && <img src={secondImage} style={{ width: '100%', height: '600px', objectFit: 'cover' }} />}
+            <img src={mainImage} style={{ width: '100%', height: secondImage ? '290px' : '920px', objectFit: 'cover', marginBottom: secondImage ? '30px' : '0', border: '2px solid #2B2B2B', boxSizing: 'border-box' }} />
+            {secondImage && <img src={secondImage} style={{ width: '100%', height: '600px', objectFit: 'cover', border: '2px solid #2B2B2B', boxSizing: 'border-box' }} />}
           </div>
           <div style={{ display: 'flex', width: '45%', flexDirection: 'column', paddingLeft: '15px' }}>
             {thirdImage
-              ? <img src={thirdImage} style={{ width: '100%', height: '430px', objectFit: 'cover', marginBottom: '30px' }} />
+              ? <img src={thirdImage} style={{ width: '100%', height: '430px', objectFit: 'cover', marginBottom: '30px', border: '2px solid #2B2B2B', boxSizing: 'border-box' }} />
               : null
             }
-            <div style={{ ...synopsisStyle, flex: 1 }}>
+            <div style={{ ...synopsisStyle, height: '460px' }}>
               {synopsis}
             </div>
           </div>
@@ -563,14 +725,14 @@ export async function generateCarousel(): Promise<string[]> {
       collageContent = (
         <div style={{ display: 'flex', flexDirection: 'row', width: '100%', height: '920px' }}>
           <div style={{ display: 'flex', width: '45%', flexDirection: 'column', paddingRight: '15px' }}>
-            <img src={mainImage} style={{ width: '100%', height: '500px', objectFit: 'cover', marginBottom: '30px' }} />
-            <div style={{ ...synopsisStyleRight, flex: 1 }}>
+            <img src={mainImage} style={{ width: '100%', height: '450px', objectFit: 'cover', marginBottom: '30px', border: '2px solid #2B2B2B', boxSizing: 'border-box' }} />
+            <div style={{ ...synopsisStyleRight, height: '440px' }}>
               {synopsis}
             </div>
           </div>
           <div style={{ display: 'flex', width: '55%', flexDirection: 'column', paddingLeft: '15px' }}>
-            <img src={secondImage || mainImage} style={{ width: '100%', height: thirdImage ? '630px' : '920px', objectFit: 'cover', marginBottom: thirdImage ? '30px' : '0' }} />
-            {thirdImage && <img src={thirdImage} style={{ width: '100%', height: '260px', objectFit: 'cover' }} />}
+            {secondImage && <img src={secondImage} style={{ width: '100%', height: thirdImage ? '630px' : '920px', objectFit: 'cover', marginBottom: thirdImage ? '30px' : '0', border: '2px solid #2B2B2B', boxSizing: 'border-box' }} />}
+            {thirdImage && <img src={thirdImage} style={{ width: '100%', height: secondImage ? '260px' : '920px', objectFit: 'cover', border: '2px solid #2B2B2B', boxSizing: 'border-box' }} />}
           </div>
         </div>
       );
@@ -578,14 +740,14 @@ export async function generateCarousel(): Promise<string[]> {
       collageContent = (
         <div style={{ display: 'flex', flexDirection: 'row', width: '100%', height: '920px' }}>
           <div style={{ display: 'flex', width: '45%', flexDirection: 'column', paddingRight: '15px' }}>
-            <img src={mainImage} style={{ width: '100%', height: '500px', objectFit: 'cover', marginBottom: '30px' }} />
-            <div style={{ ...synopsisStyleRight, flex: 1 }}>
+            <img src={mainImage} style={{ width: '100%', height: '450px', objectFit: 'cover', marginBottom: '30px', border: '2px solid #2B2B2B', boxSizing: 'border-box' }} />
+            <div style={{ ...synopsisStyleRight, height: '440px' }}>
               {synopsis}
             </div>
           </div>
           <div style={{ display: 'flex', width: '55%', flexDirection: 'column', paddingLeft: '15px' }}>
-            <img src={secondImage || mainImage} style={{ width: '100%', height: thirdImage ? '260px' : '920px', objectFit: 'cover', marginBottom: thirdImage ? '30px' : '0' }} />
-            {thirdImage && <img src={thirdImage} style={{ width: '100%', height: '630px', objectFit: 'cover' }} />}
+            {secondImage && <img src={secondImage} style={{ width: '100%', height: thirdImage ? '260px' : '920px', objectFit: 'cover', marginBottom: thirdImage ? '30px' : '0', border: '2px solid #2B2B2B', boxSizing: 'border-box' }} />}
+            {thirdImage && <img src={thirdImage} style={{ width: '100%', height: secondImage ? '630px' : '920px', objectFit: 'cover', border: '2px solid #2B2B2B', boxSizing: 'border-box' }} />}
           </div>
         </div>
       );
@@ -594,7 +756,7 @@ export async function generateCarousel(): Promise<string[]> {
     const slideSvg = await satori(
       <div style={{
         display: 'flex', flexDirection: 'column', width: '100%', height: '100%',
-        backgroundColor: BG_COLOR, padding: '50px', boxSizing: 'border-box'
+        backgroundColor: BG_COLOR, padding: '50px 50px 30px 50px', boxSizing: 'border-box'
       }}>
         
         {/* COLLAGE HAUT (Aléatoire 4 variations) */}
@@ -604,33 +766,53 @@ export async function generateCarousel(): Promise<string[]> {
         <div style={{ 
           display: 'flex', flex: 1, flexDirection: 'column', 
           justifyContent: 'flex-end', alignItems: 'center',
-          paddingBottom: '20px'
+          paddingBottom: '5px'
         }}>
-          {/* (Point 4) Couleur Dynamique et (Taille adaptative) */}
+          {/* Titre en Impact avec couleur dynamique et taille adaptative */}
           <h1 style={{ 
             display: 'flex',
+            fontFamily: 'Impact',
             color: dynamicTitleColor, 
             fontSize: formattedTitle.length >= 20 ? 95 : (formattedTitle.length >= 14 ? 115 : (formattedTitle.length >= 10 ? 135 : 160)),
-            fontWeight: 800, 
+            fontWeight: 400,
             lineHeight: 0.9, 
             margin: 0,
-            letterSpacing: '-0.04em',
-            textAlign: 'center'
+            letterSpacing: '-0.03em',
+            textAlign: 'center',
+            transform: 'scaleY(1.4)'
           }}>
             {formattedTitle}
           </h1>
           
-          {/* (Point 5) Réalisateur dynamique */}
+          {/* Réalisateur centré */}
           <span style={{ 
             display: 'flex',
             color: TEXT_DARK, 
-            fontSize: 34, 
+            fontSize: 32, 
             fontWeight: 700, 
-            marginTop: '30px',
+            marginTop: '40px',
             letterSpacing: '0.02em',
-            textTransform: 'uppercase'
+            textTransform: 'uppercase',
+            textAlign: 'center',
+            fontFamily: 'Impact',
+            transform: 'scaleY(1.4)'
           }}>
             DIRECTED BY {directorName} ({releaseYear})
+          </span>
+
+          {/* Branding CINELYON.FR */}
+          <span style={{
+            display: 'flex',
+            color: TEXT_DARK,
+            fontSize: 22,
+            fontWeight: 400,
+            marginTop: '20px',
+            letterSpacing: '0.15em',
+            opacity: 0.5,
+            textTransform: 'uppercase',
+            fontFamily: 'Helvetica Neue'
+          }}>
+            CINELYON.FR
           </span>
         </div>
 

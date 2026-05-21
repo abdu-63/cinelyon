@@ -48,6 +48,7 @@ export const SCORING = {
   // - nouveauteScore : nouveauté de l'année courante → priorité modérée
   repriseScore: 2.0,
   nouveauteScore: 0.85,
+  avantPremiereBonus: 3.0,
 };
 
 export const CINEMA_ADDRESSES: Record<string, string> = {
