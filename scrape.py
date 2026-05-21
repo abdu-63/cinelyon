@@ -329,6 +329,13 @@ def main():
     today = datetime.now(PARIS_TZ).date()
     total_movies = 0
 
+    # Diff : mémoriser les titres existants avant scraping
+    existing_titles_by_date: dict[str, set[str]] = {}
+    for day in existing_data.get("days", []):
+        existing_titles_by_date[day["date"]] = {m["title"] for m in day.get("movies", [])}
+
+    new_films_report: dict[str, list[str]] = {}  # date → nouveaux titres
+
     for date_str in dates_to_scrape:
         date = datetime.strptime(date_str, "%Y-%m-%d")
         day_offset = (date.date() - today).days
@@ -348,6 +355,14 @@ def main():
 
         try:
             movies = get_showtimes(theaters_for_date, date)
+            # Calcul du diff pour cette date
+            existing_titles = existing_titles_by_date.get(date_str, set())
+            new_titles = [m["title"] for m in movies if m["title"] not in existing_titles]
+            if new_titles:
+                new_films_report[date_str] = new_titles
+                logger.info(f"   🆕 {len(new_titles)} nouveau(x) film(s) : {', '.join(new_titles)}")
+            else:
+                logger.info("   ✔ Aucun nouveau film par rapport au scraping précédent")
             save_day(date_str, movies)
             total_movies += len(movies)
 
@@ -361,9 +376,42 @@ def main():
             raise
 
     logger.info(
+        # Écriture du rapport dans GitHub Actions Step Summary
+        _write_step_summary(new_films_report, dates_to_scrape)
         f"✅ Scraping terminé. {total_movies} entrées sur {len(dates_to_scrape)} jours sauvegardés dans Supabase."
     )
 
 
 if __name__ == "__main__":
+    def _write_step_summary(new_films_report: dict[str, list[str]], dates_scraped: list[str]) -> None:
+    """Écrit un rapport Markdown dans le GitHub Actions Step Summary."""
+    summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+    if not summary_path:
+        return  # On n'est pas dans GitHub Actions, on skip
+
+    total_new = sum(len(v) for v in new_films_report.values())
+    run_time = datetime.now(PARIS_TZ).strftime("%d/%m/%Y à %H:%M")
+
+    lines = [
+        f"## 🎬 Rapport de scraping — {run_time}\n",
+        f"**{len(dates_scraped)} date(s) scrapée(s)** · "
+        f"**{total_new} nouveau(x) film(s) détecté(s)**\n",
+    ]
+
+    if not new_films_report:
+        lines.append(
+            "> ✅ Aucun nouveau film ajouté par rapport au scraping précédent. "
+            "Le second scraping quotidien pourrait être supprimé.\n"
+        )
+    else:
+        lines.append("| Date | Nouveaux films |\n|------|----------------|\n")
+        for date_str in sorted(new_films_report.keys()):
+            films = new_films_report[date_str]
+            films_md = "<br>".join(f"• {t}" for t in films)
+            lines.append(f"| `{date_str}` | {films_md} |\n")
+
+    with open(summary_path, "a", encoding="utf-8") as f:
+        f.writelines(lines)
+
+    logger.info(f"📋 Rapport écrit dans le Step Summary ({total_new} nouveau(x) film(s))")
     main()
