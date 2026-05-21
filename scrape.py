@@ -223,6 +223,38 @@ def check_missing_data(existing_data: dict) -> tuple[set[str], set[str]]:
     return dates_with_missing_data, films_to_clear_from_cache
 
 
+def _write_step_summary(new_films_report: dict[str, list[str]], dates_scraped: list[str]) -> None:
+    """Écrit un rapport Markdown dans le GitHub Actions Step Summary."""
+    summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+    if not summary_path:
+        return  # On n'est pas dans GitHub Actions, on skip
+
+    total_new = sum(len(v) for v in new_films_report.values())
+    run_time = datetime.now(PARIS_TZ).strftime("%d/%m/%Y à %H:%M")
+
+    lines = [
+        f"## 🎬 Rapport de scraping — {run_time}\n",
+        f"**{len(dates_scraped)} date(s) scrapée(s)** · **{total_new} nouveau(x) film(s) détecté(s)**\n",
+    ]
+
+    if not new_films_report:
+        lines.append(
+            "> ✅ Aucun nouveau film ajouté par rapport au scraping précédent. "
+            "Le second scraping quotidien pourrait être supprimé.\n"
+        )
+    else:
+        lines.append("| Date | Nouveaux films |\n|------|----------------|\n")
+        for date_str in sorted(new_films_report.keys()):
+            films = new_films_report[date_str]
+            films_md = "<br>".join(f"• {t}" for t in films)
+            lines.append(f"| `{date_str}` | {films_md} |\n")
+
+    with open(summary_path, "a", encoding="utf-8") as f:
+        f.writelines(lines)
+
+    logger.info(f"📋 Rapport écrit dans le Step Summary ({total_new} nouveau(x) film(s))")
+
+
 def main():
     parser = argparse.ArgumentParser(description="Script de scraping des séances de cinéma")
     parser.add_argument("--force", action="store_true", help="Forcer le rescraping complet de toutes les dates")
@@ -375,43 +407,13 @@ def main():
             logger.warning("💾 Progrès jusqu'ici sauvegardé dans Supabase. Relancez le script pour continuer.")
             raise
 
+    # Écriture du rapport dans GitHub Actions Step Summary
+    _write_step_summary(new_films_report, dates_to_scrape)
+
     logger.info(
-        # Écriture du rapport dans GitHub Actions Step Summary
-        _write_step_summary(new_films_report, dates_to_scrape)
         f"✅ Scraping terminé. {total_movies} entrées sur {len(dates_to_scrape)} jours sauvegardés dans Supabase."
     )
 
 
 if __name__ == "__main__":
-    def _write_step_summary(new_films_report: dict[str, list[str]], dates_scraped: list[str]) -> None:
-    """Écrit un rapport Markdown dans le GitHub Actions Step Summary."""
-    summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
-    if not summary_path:
-        return  # On n'est pas dans GitHub Actions, on skip
-
-    total_new = sum(len(v) for v in new_films_report.values())
-    run_time = datetime.now(PARIS_TZ).strftime("%d/%m/%Y à %H:%M")
-
-    lines = [
-        f"## 🎬 Rapport de scraping — {run_time}\n",
-        f"**{len(dates_scraped)} date(s) scrapée(s)** · "
-        f"**{total_new} nouveau(x) film(s) détecté(s)**\n",
-    ]
-
-    if not new_films_report:
-        lines.append(
-            "> ✅ Aucun nouveau film ajouté par rapport au scraping précédent. "
-            "Le second scraping quotidien pourrait être supprimé.\n"
-        )
-    else:
-        lines.append("| Date | Nouveaux films |\n|------|----------------|\n")
-        for date_str in sorted(new_films_report.keys()):
-            films = new_films_report[date_str]
-            films_md = "<br>".join(f"• {t}" for t in films)
-            lines.append(f"| `{date_str}` | {films_md} |\n")
-
-    with open(summary_path, "a", encoding="utf-8") as f:
-        f.writelines(lines)
-
-    logger.info(f"📋 Rapport écrit dans le Step Summary ({total_new} nouveau(x) film(s))")
     main()

@@ -152,7 +152,7 @@ class Movie:
         self.english_title = tmdb_data.get("english_title", self.original_title)
         self.watch_providers = tmdb_data.get("watch_providers", [])
         self.tmdb_score = tmdb_data.get("tmdb_score")  # Note TMDB sur 10
-        self.rt_score = tmdb_data.get("rt_score")      # Note Rotten Tomatoes (ex: "87%")
+        self.rt_score = tmdb_data.get("rt_score")  # Note Rotten Tomatoes (ex: "87%")
 
         # Affiche TMDB trouvée en premier, sinon fallback sur Allociné, sinon image par défaut
         try:
@@ -343,7 +343,12 @@ class Movie:
                 imdb_id = None
                 try:
                     en_url = f"https://api.themoviedb.org/3/movie/{movie_id}"
-                    en_data = tmdb_request(en_url, {"api_key": TMDB_API_KEY, "language": "en-US", "append_to_response": "external_ids"})
+                    params_en = {
+                        "api_key": TMDB_API_KEY,
+                        "language": "en-US",
+                        "append_to_response": "external_ids",
+                    }
+                    en_data = tmdb_request(en_url, params_en)
                     if en_data.get("title"):
                         english_title = en_data["title"]
 

@@ -185,8 +185,18 @@ def slugify(text: str, year: str = "") -> str:
 
 
 _MONTHS = {
-    1: "janv", 2: "févr", 3: "mars", 4: "avr", 5: "mai", 6: "juin",
-    7: "juil", 8: "août", 9: "sept", 10: "oct", 11: "nov", 12: "déc",
+    1: "janv",
+    2: "févr",
+    3: "mars",
+    4: "avr",
+    5: "mai",
+    6: "juin",
+    7: "juil",
+    8: "août",
+    9: "sept",
+    10: "oct",
+    11: "nov",
+    12: "déc",
 }
 _DAYS = {0: "Lun", 1: "Mar", 2: "Mer", 3: "Jeu", 4: "Ven", 5: "Sam", 6: "Dim"}
 
