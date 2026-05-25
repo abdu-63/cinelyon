@@ -1,37 +1,43 @@
-# Environnements virtuels
-venv/
-env/
-.venv/
+# OS / System files
+.DS_Store
+Thumbs.db
+*.log
 
-# Variables d'environnement
-.env
-
-# Cache Python
-__pycache__/
-*.pyc
-*.pyo
-
-# IDE
+# IDEs & Editor configurations
 .vscode/
 .idea/
 
-# Logs
-*.log
+# Python Virtual Environments
+.venv/
+venv/
+env/
 
-# OS
-.DS_Store
-Thumbs.db
-
-# Tests & Linting
+# Python Cache & Testing
+__pycache__/
+*.pyc
+*.pyo
 .pytest_cache/
 .ruff_cache/
 
-# Données
+# Environment Variables
+.env
+.env.local
+.env.*
+!.env.sample
+
+# Node.js dependencies
+node_modules/
+
+# Vercel Deployment
+.vercel/
+
+# Project Data & Caches
 movies.json
 tmdb_cache.json
-scripts/instagram/output/
-node_modules/
-.env.local
 
-scripts/instagram/*.js
+# Scripts & Outputs
 scripts/instagram/output/
+scripts/instagram/*.js
+
+# AI Instructions
+claude.md
