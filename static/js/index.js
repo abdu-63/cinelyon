@@ -323,6 +323,14 @@
             });
         });
 
+        // Met à jour les cœurs et ré-applique le filtre favoris lors du retour arrière (bfcache)
+        window.addEventListener('pageshow', function () {
+            updateAllFavoriteButtons();
+            if (filterFavorites && filterFavorites.checked) {
+                filterFilms();
+            }
+        });
+
         document.querySelectorAll('.synopsis_container').forEach(container => {
             const synopsis = container.querySelector('.synopsis');
             const toggleBtn = container.querySelector('.synopsis-toggle');
