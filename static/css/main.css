@@ -1381,9 +1381,23 @@ html {
 }
 
 @media (max-width: 576px) {
-    .favorite-icon {
-        width: 14px;
-        height: 14px;
+    .container_infoFilm .favorite-icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    .container_infoFilm .favorite-btn {
+        position: relative;
+    }
+
+    /* Expand the clickable area of the favorite button on homepage movie cards for better mobile touch usability */
+    .container_infoFilm .favorite-btn::after {
+        content: '';
+        position: absolute;
+        top: -13px;
+        bottom: -13px;
+        left: -13px;
+        right: -13px;
     }
 
     .favorites-toggle {
