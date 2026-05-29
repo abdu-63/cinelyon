@@ -147,6 +147,30 @@ L'application fonctionne comme une PWA (Progressive Web App) avec une gestion st
    - `templates/film.html` : `film.js?v=X.X`
 3. **Dans `templates/base.html`** : Mettez à jour le texte affiché dans la modale des paramètres (`<div class="version-info">Version X.X</div>`).
 
+#### Automatisation du Versioning
+Pour éviter de faire ces étapes manuellement, vous pouvez utiliser les outils suivants :
+
+##### A. En local (PC)
+Exécutez le script Python d'invalidation à la racine du projet :
+```bash
+python3 scripts/bump_pwa_version.py
+```
+Ce script détecte les versions actuelles de vos fichiers statiques et les incrémente tous de manière cohérente en une seule fois. Pensez ensuite à commiter et pousser vos modifications :
+```bash
+git add static/sw.js templates/base.html templates/index.html templates/film.html
+git commit -m "chore: bump PWA version"
+git push
+```
+
+##### B. Via GitHub Actions
+Un workflow manuel `.github/workflows/bump-version.yml` est disponible. Vous pouvez le déclencher :
+* **Via l'interface GitHub** : Allez dans l'onglet **Actions** -> Sélectionnez le workflow **Bump PWA Version** -> Cliquez sur **Run workflow**.
+* **Via la CLI GitHub (gh)** :
+  ```bash
+  gh workflow run "Bump PWA Version"
+  ```
+  *(Le workflow exécutera le script Python, committera les modifications au nom de `github-actions[bot]` et poussera le commit automatiquement).*
+
 ---
 
 ## Qualité & Maintenance
@@ -156,9 +180,10 @@ pytest         # Tests unitaires
 ```
 
 ### GitHub Actions
-Le projet inclut deux workflows principaux :
-1. `scrape.yml` : Lance le scraping automatique 2 fois par jour.
-2. `instagram-daily.yml` : Génère et publie le carrousel quotidien vers 12h00 (10h07 UTC).
+Le projet inclut trois workflows principaux :
+1. `scrape.yml` : Lance le scraping automatique quotidiennement à 23h05 UTC (01h05 ou 00h05 heure française).
+2. `instagram-daily.yml` : Génère et publie le carrousel quotidien à 07h05 UTC (09h05 ou 08h05 heure française).
+3. `bump-version.yml` : Permet d'incrémenter les versions du cache PWA de façon automatisée.
 
 ---
 
