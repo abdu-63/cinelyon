@@ -231,7 +231,7 @@ async function getRandomMovieScene(): Promise<string> {
   return `https://images.unsplash.com/photo-${randomFallbackId}?q=100&w=2560&auto=format&fit=crop`;
 }
 
-async function getFilmGrabImages(title: string): Promise<string[]> {
+async function getFilmGrabImages(title: string, year?: number | null, director?: string | null): Promise<string[]> {
   try {
     const url = `https://film-grab.com/?s=${encodeURIComponent(title)}`;
     const res = await fetch(url);
@@ -239,10 +239,46 @@ async function getFilmGrabImages(title: string): Promise<string[]> {
     const html = await res.text();
     const $ = cheerio.load(html);
 
-    const firstResult = $('.entry-title a').first().attr('href');
-    if (!firstResult) return [];
+    // Collect all search result entries to pick the best match
+    const results: { href: string; entryTitle: string }[] = [];
+    $('.entry-title a').each((_, el) => {
+      const href = $(el).attr('href');
+      const entryTitle = $(el).text().trim();
+      if (href) results.push({ href, entryTitle });
+    });
 
-    const postRes = await fetch(firstResult);
+    if (results.length === 0) return [];
+
+    // Score each result: year match = 2pts, director match = 1pt
+    // This handles ambiguous titles (e.g. Dune 1984 vs 2021, Poltergeist 1982 vs 2015)
+    let bestResult = results[0];
+    if (year || director) {
+      const yearStr = year ? String(year) : null;
+      // Normalize director: keep only last name tokens for fuzzy matching
+      const directorTokens = director
+        ? director.toLowerCase().split(/\s+/).filter(t => t.length > 2)
+        : [];
+
+      let bestScore = -1;
+      for (const r of results) {
+        const haystack = (r.entryTitle + ' ' + r.href).toLowerCase();
+        let score = 0;
+        if (yearStr && haystack.includes(yearStr)) score += 2;
+        if (directorTokens.length > 0 && directorTokens.some(t => haystack.includes(t))) score += 1;
+        if (score > bestScore) {
+          bestScore = score;
+          bestResult = r;
+        }
+      }
+
+      if (bestScore > 0) {
+        console.log(`   🎯 Film-Grab : meilleure correspondance (score=${bestScore}) → "${bestResult.entryTitle}" (${bestResult.href})`);
+      } else {
+        console.warn(`   ⚠️  Film-Grab : aucune correspondance année/réalisateur pour "${title}" (${year ?? '?'} / ${director ?? '?'}). Premier résultat utilisé : "${results[0].entryTitle}"`);
+      }
+    }
+
+    const postRes = await fetch(bestResult.href);
     if (!postRes.ok) return [];
     const postHtml = await postRes.text();
     const $post = cheerio.load(postHtml);
@@ -371,13 +407,15 @@ async function getMovieBackdrops(film: EnrichedFilm): Promise<{ scenes: string[]
       }
     }
 
-    console.log(`🎬 Récupération des images Film-Grab pour "${film.title}" (Recherche avec "${originalTitle}")...`);
-    let fgScenes = await getFilmGrabImages(originalTitle);
+    const filmYear = film.year ? Number(film.year) : null;
+    const filmDirector = film.director || null;
+    console.log(`🎬 Récupération des images Film-Grab pour "${film.title}" ("${originalTitle}"${filmYear ? `, ${filmYear}` : ''}${filmDirector ? `, ${filmDirector}` : ''})...`);
+    let fgScenes = await getFilmGrabImages(originalTitle, filmYear, filmDirector);
     
     // Si la recherche avec le titre original ne donne rien, on essaie avec le titre français
     if (fgScenes.length === 0 && originalTitle !== film.title) {
       console.log(`🎬 Film-Grab vide pour "${originalTitle}", tentative avec "${film.title}"...`);
-      fgScenes = await getFilmGrabImages(film.title);
+      fgScenes = await getFilmGrabImages(film.title, filmYear, filmDirector);
     }
 
     let backdrops: string[] = [];
