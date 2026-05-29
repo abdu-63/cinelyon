@@ -1,34 +1,13 @@
 name: Bump PWA Version
 
-# Workflow manuel pour incrémenter la version du site mobile (PWA).
-# Incrémente en une seule opération :
+# Workflow manuel pour incrémenter la version de tous les fichiers du site mobile (PWA) en même temps.
+# Incrémente :
 #   - CACHE_VERSION dans static/sw.js  (ex: v19 → v20)
 #   - ?v=X.X de main.css, settings.js, index.js, film.js dans les templates
 #   - Le texte "Version X.X" visible dans la modale Paramètres
 
 on:
   workflow_dispatch:
-    inputs:
-      bump_css:
-        description: 'Incrémenter main.css (modifié ?)'
-        required: true
-        type: boolean
-        default: true
-      bump_settings_js:
-        description: 'Incrémenter settings.js (modifié ?)'
-        required: true
-        type: boolean
-        default: false
-      bump_index_js:
-        description: 'Incrémenter index.js (modifié ?)'
-        required: true
-        type: boolean
-        default: false
-      bump_film_js:
-        description: 'Incrémenter film.js (modifié ?)'
-        required: true
-        type: boolean
-        default: false
 
 jobs:
   bump-version:
@@ -48,11 +27,6 @@ jobs:
           python-version: '3.11'
 
       - name: Bump versions
-        env:
-          BUMP_CSS: ${{ github.event.inputs.bump_css }}
-          BUMP_SETTINGS_JS: ${{ github.event.inputs.bump_settings_js }}
-          BUMP_INDEX_JS: ${{ github.event.inputs.bump_index_js }}
-          BUMP_FILM_JS: ${{ github.event.inputs.bump_film_js }}
         run: |
           python - << 'EOF'
           import re, os
@@ -80,11 +54,12 @@ jobs:
           def bump_asset_version(path, filename, old_v, new_v):
               """Remplace ?v=old_v par ?v=new_v pour un filename donné."""
               content = open(path).read()
-              pattern = rf"({re.escape(filename)})\?v={re.escape(old_v)}"
+              # Recherche le nom de fichier suivi éventuellement de fermetures d'accolades Jinja, puis ?v=
+              pattern = rf"({re.escape(filename)}['\"]?\s*(?:\)\s*}}}}\s*)?\?v=){re.escape(old_v)}"
               if not re.search(pattern, content):
                   print(f"  ⚠️  {filename}?v={old_v} introuvable dans {path}")
                   return old_v
-              new_content = re.sub(pattern, rf"\1?v={new_v}", content)
+              new_content = re.sub(pattern, rf"\1{new_v}", content)
               open(path, 'w').write(new_content)
               return new_v
 
@@ -105,16 +80,11 @@ jobs:
           index_html     = 'templates/index.html'
           film_html      = 'templates/film.html'
 
-          bump_css        = os.environ.get('BUMP_CSS', 'false').lower() == 'true'
-          bump_settings   = os.environ.get('BUMP_SETTINGS_JS', 'false').lower() == 'true'
-          bump_index      = os.environ.get('BUMP_INDEX_JS', 'false').lower() == 'true'
-          bump_film       = os.environ.get('BUMP_FILM_JS', 'false').lower() == 'true'
-
-          changed = bump_css or bump_settings or bump_index or bump_film
-
-          if not changed:
-              print("ℹ️  Aucun fichier sélectionné — rien à faire.")
-              exit(0)
+          # On incrémente systématiquement tout
+          bump_css        = True
+          bump_settings   = True
+          bump_index      = True
+          bump_film       = True
 
           # ── 1. Incrémenter CACHE_VERSION dans sw.js ───────────────
           old_sw, new_sw = bump_sw_version(sw_path)
@@ -123,12 +93,12 @@ jobs:
           # ── 2. Lire les versions courantes dans les templates ─────
           base_content = open(base_html).read()
 
-          css_match      = re.search(r"main\.css\?v=([\d.]+)", base_content)
-          settings_match = re.search(r"settings\.js\?v=([\d.]+)", base_content)
+          css_match      = re.search(r"css/main\.css['\"]?\s*(?:\)\s*}}}}\s*)?\?v=([\d.]+)", base_content)
+          settings_match = re.search(r"js/settings\.js['\"]?\s*(?:\)\s*}}}}\s*)?\?v=([\d.]+)", base_content)
           index_content  = open(index_html).read()
-          index_match    = re.search(r"index\.js\?v=([\d.]+)", index_content)
+          index_match    = re.search(r"js/index\.js['\"]?\s*(?:\)\s*}}}}\s*)?\?v=([\d.]+)", index_content)
           film_content   = open(film_html).read()
-          film_match     = re.search(r"film\.js\?v=([\d.]+)", film_content)
+          film_match     = re.search(r"js/film\.js['\"]?\s*(?:\)\s*}}}}\s*)?\?v=([\d.]+)", film_content)
 
           cur_css      = css_match.group(1)      if css_match      else None
           cur_settings = settings_match.group(1) if settings_match else None
