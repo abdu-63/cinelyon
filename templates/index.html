@@ -105,7 +105,7 @@
             data-formats="{{ film.formats }}">
             <a href="/film/{{ film.slug }}" class="film-card-link" aria-hidden="true" tabindex="-1"></a>
             <img src="{{film.affiche}}" class="affiche" loading="lazy" decoding="async" width="200" height="288"
-                alt="Affiche de {{ film.title }}" />
+                alt="Affiche de {{ film.title }}" style="--poster-vt-name: poster-{{ film.slug }}" />
             <div class="infoFilm">
                 <div class="blur-background"></div>
                 <div>

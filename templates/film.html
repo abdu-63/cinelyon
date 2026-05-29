@@ -23,7 +23,7 @@
     <div class="film-hero">
         <div class="film-hero-bg" style="background-image: url('{{ film.affiche | urlencode }}')"></div>
         <div class="film-hero-content">
-            <img src="{{ film.affiche }}" class="film-hero-poster" alt="Affiche de {{ film.title }}" width="300" height="432" />
+            <img src="{{ film.affiche }}" class="film-hero-poster" alt="Affiche de {{ film.title }}" width="300" height="432" loading="eager" fetchpriority="high" style="--poster-vt-name: poster-{{ film.slug }}" />
             <div class="film-hero-info">
                 <h1 class="film-title">{{ film.title }}
                     <span class="film-year">({{ film.release_year }})</span>

@@ -16,6 +16,27 @@
     --bg-gradient: radial-gradient(ellipse at 80% 80%, rgba(130, 44, 247, 0.35) 0%, rgba(68, 76, 247, 0.18) 40%, transparent 70%);
 }
 
+/* ── View Transitions (navigation liste ↔ film) ── */
+@view-transition {
+    navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation-duration: 0.2s;
+    animation-timing-function: ease-out;
+}
+
+/* Transition de l'affiche : vol de la carte vers la page film */
+.affiche {
+    view-transition-name: var(--poster-vt-name, none);
+}
+
+.film-hero-poster {
+    view-transition-name: var(--poster-vt-name, none);
+}
+
+
 [data-theme="dark"] {
     --bg-main: #121212;
     --text-main: #e0e0e0;
