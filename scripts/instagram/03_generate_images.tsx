@@ -474,9 +474,51 @@ export async function generateCarousel(): Promise<string[]> {
   const DAY_LETTERS = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
 
   // ══════════════════════════════════════════════════════════════
+  // PRÉ-FETCH DES SCÈNES — Tri des films par disponibilité d'images
+  // ══════════════════════════════════════════════════════════════
+  console.log(`\n🔎 Pré-fetch des images pour ${films.length} films (tri par qualité visuelle)...`);
+  const filmsWithScenes = await Promise.all(
+    films.map(async (film) => {
+      const result = await getMovieBackdrops(film);
+      return { film, ...result };
+    })
+  );
+
+  // Filtre strict : on ne garde que les films avec exactement 3 scènes disponibles
+  const filmsReady = filmsWithScenes.filter(f => f.scenes.length >= 3);
+  const filmsExcluded = filmsWithScenes.filter(f => f.scenes.length < 3);
+
+  const with3 = filmsReady.length;
+  const with2 = filmsWithScenes.filter(f => f.scenes.length === 2).length;
+  const with1 = filmsWithScenes.filter(f => f.scenes.length === 1).length;
+  const with0 = filmsWithScenes.filter(f => f.scenes.length === 0).length;
+  console.log(`📊 Après tri — 3 scènes: ${with3} | 2 scènes: ${with2} | 1 scène: ${with1} | 0 scène: ${with0}`);
+
+  if (filmsExcluded.length > 0) {
+    console.log(`🚫 Films exclus (images insuffisantes) : ${filmsExcluded.map(f => `"${f.film.title}" (${f.scenes.length} scène(s))`).join(', ')}`);
+  }
+  console.log();
+
+  if (filmsReady.length === 0) throw new Error('NO_FILMS_AVAILABLE');
+
+  // Limiter la liste finale des films à (INSTAGRAM.maxSlides - 1) pour respecter la limite du carrousel Instagram (maximum 9 films + 1 couverture)
+  const finalFilmsReady = filmsReady.slice(0, INSTAGRAM.maxSlides - 1);
+
+  const filteredFilmList = finalFilmsReady.map(f => {
+    const rawSynopsis = f.synopsis || f.film.synopsis || "";
+    f.film.synopsis = getShortSynopsis(rawSynopsis, 220);
+    return f.film;
+  });
+  fs.writeFileSync(inputPath, JSON.stringify(filteredFilmList, null, 2), 'utf8');
+  console.log(`💾 enriched_films.json mis à jour avec les synopses TMDB raccourcis : ${filteredFilmList.length} film(s) retenus (ordre slides)\n`);
+
+  // ══════════════════════════════════════════════════════════════
   // SLIDE 0 — COUVERTURE
   // ══════════════════════════════════════════════════════════════
-  const backdropUrl = await getRandomMovieScene();
+  // Utilisation de la scène principale du premier film sélectionné
+  const backdropUrl = (finalFilmsReady.length > 0 && finalFilmsReady[0].scenes.length > 0)
+    ? finalFilmsReady[0].scenes[0]
+    : await getRandomMovieScene();
 
   const coverSvg = await satori(
     <div style={{ display: 'flex', width: '100%', height: '100%', backgroundColor: '#000', position: 'relative', overflow: 'hidden' }}>
@@ -591,45 +633,6 @@ export async function generateCarousel(): Promise<string[]> {
   renderToFile(coverSvg, coverPath);
   generatedPaths.push(coverPath);
   console.log('✅ Slide couverture générée');
-
-  // ══════════════════════════════════════════════════════════════
-  // PRÉ-FETCH DES SCÈNES — Tri des films par disponibilité d'images
-  // ══════════════════════════════════════════════════════════════
-  console.log(`\n🔎 Pré-fetch des images pour ${films.length} films (tri par qualité visuelle)...`);
-  const filmsWithScenes = await Promise.all(
-    films.map(async (film) => {
-      const result = await getMovieBackdrops(film);
-      return { film, ...result };
-    })
-  );
-
-  // Filtre strict : on ne garde que les films avec exactement 3 scènes disponibles
-  const filmsReady = filmsWithScenes.filter(f => f.scenes.length >= 3);
-  const filmsExcluded = filmsWithScenes.filter(f => f.scenes.length < 3);
-
-  const with3 = filmsReady.length;
-  const with2 = filmsWithScenes.filter(f => f.scenes.length === 2).length;
-  const with1 = filmsWithScenes.filter(f => f.scenes.length === 1).length;
-  const with0 = filmsWithScenes.filter(f => f.scenes.length === 0).length;
-  console.log(`📊 Après tri — 3 scènes: ${with3} | 2 scènes: ${with2} | 1 scène: ${with1} | 0 scène: ${with0}`);
-
-  if (filmsExcluded.length > 0) {
-    console.log(`🚫 Films exclus (images insuffisantes) : ${filmsExcluded.map(f => `"${f.film.title}" (${f.scenes.length} scène(s))`).join(', ')}`);
-  }
-  console.log();
-
-  if (filmsReady.length === 0) throw new Error('NO_FILMS_AVAILABLE');
-
-  // Limiter la liste finale des films à (INSTAGRAM.maxSlides - 1) pour respecter la limite du carrousel Instagram (maximum 9 films + 1 couverture)
-  const finalFilmsReady = filmsReady.slice(0, INSTAGRAM.maxSlides - 1);
-
-  const filteredFilmList = finalFilmsReady.map(f => {
-    const rawSynopsis = f.synopsis || f.film.synopsis || "";
-    f.film.synopsis = getShortSynopsis(rawSynopsis, 220);
-    return f.film;
-  });
-  fs.writeFileSync(inputPath, JSON.stringify(filteredFilmList, null, 2), 'utf8');
-  console.log(`💾 enriched_films.json mis à jour avec les synopses TMDB raccourcis : ${filteredFilmList.length} film(s) retenus (ordre slides)\n`);
 
   // ══════════════════════════════════════════════════════════════
   // SLIDES 1..N — FILMS
