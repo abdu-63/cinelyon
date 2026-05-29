@@ -624,6 +624,11 @@
             filterFavorites.parentElement.classList.remove('active');
             favTabsContainer.style.display = 'none';
             document.body.classList.remove('show-friend-badges');
+
+            // Fermer les calendriers ouverts
+            document.querySelectorAll('.mini-cal-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.day-seances').forEach(div => div.classList.remove('show'));
+
             filterFilms();
         });
     });
