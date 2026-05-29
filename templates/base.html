@@ -38,6 +38,15 @@
     <title>{% block title %}{{ website_title }}{% endblock %}</title>
     {% block head %} {% endblock %}
 
+    <!-- URL Cache Buster Cleanup -->
+    <script>
+        if (window.location.search.includes('v=')) {
+            const url = new URL(window.location.href);
+            url.searchParams.delete('v');
+            window.history.replaceState(null, '', url.pathname + url.search);
+        }
+    </script>
+
     <!-- Service Worker Registration -->
     <script>
         if ('serviceWorker' in navigator) {

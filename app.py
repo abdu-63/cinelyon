@@ -135,8 +135,9 @@ def add_cache_headers(response):
         # elles contiennent des URLs versionnées vers les CSS/JS, et si une
         # vieille page est servie depuis le cache, le navigateur utilisera
         # les anciens assets (même si le SW a été mis à jour).
-        response.headers["Cache-Control"] = "no-cache, must-revalidate"
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
         response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
     return response
 
 
@@ -257,10 +258,10 @@ def force_update():
                 }
 
                 status.textContent = '✅ Cache vidé ! Redirection…';
-                setTimeout(() => { window.location.replace('/'); }, 1500);
+                setTimeout(() => { window.location.replace('/?v=' + Date.now()); }, 1500);
             } catch(e) {
                 status.textContent = 'Erreur : ' + e.message + '. Redirection…';
-                setTimeout(() => { window.location.replace('/'); }, 2000);
+                setTimeout(() => { window.location.replace('/?v=' + Date.now()); }, 2000);
             }
         }
         forceUpdate();

@@ -81,13 +81,20 @@ def main() -> None:
     cur_index    = read_asset_version(INDEX_HTML, "js/index.js")
     cur_film     = read_asset_version(FILM_HTML,  "js/film.js")
 
-    print(f"Versions detectees -> main.css:{cur_css}  settings.js:{cur_settings}  index.js:{cur_index}  film.js:{cur_film}")
+    print(
+        f"Versions detectees -> main.css:{cur_css}  settings.js:{cur_settings}  "
+        f"index.js:{cur_index}  film.js:{cur_film}"
+    )
 
     errors = []
-    if not cur_css:      errors.append("main.css version non trouvee")
-    if not cur_settings: errors.append("settings.js version non trouvee")
-    if not cur_index:    errors.append("index.js version non trouvee")
-    if not cur_film:     errors.append("film.js version non trouvee")
+    if not cur_css:
+        errors.append("main.css version non trouvee")
+    if not cur_settings:
+        errors.append("settings.js version non trouvee")
+    if not cur_index:
+        errors.append("index.js version non trouvee")
+    if not cur_film:
+        errors.append("film.js version non trouvee")
     if errors:
         print("\nERREUR(S) :")
         for e in errors:
