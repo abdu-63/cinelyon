@@ -357,8 +357,8 @@ p {
 .cinema {
     background-color: var(--primary);
     border-radius: 5px;
-    min-height: 48px;
-    width: 200px;
+    height: 52px;
+    width: 175px;
     color: var(--card-solid);
     padding: 5px 15px;
     box-sizing: border-box;
@@ -399,7 +399,7 @@ p {
     border-radius: 8px;
     min-width: 93px; /* Taille minimale standard */
     width: max-content; /* S'adapte si le texte est très long, plus sûr sur Safari */
-    height: 51px;    /* Garde une hauteur constante */
+    height: 52px;
     color: var(--primary);
     box-sizing: border-box;
     display: flex;
@@ -1118,7 +1118,7 @@ html {
     }
 
     .cinema {
-        min-height: 46px;
+        height: 42px;
         width: 100px;
         min-width: 100px;
         color: var(--card-solid);
@@ -1152,7 +1152,7 @@ html {
     }
 
     .horaire {
-        height: auto;
+        height: 42px;
         width: auto;
         min-width: 72px;
         border-radius: 6px;
