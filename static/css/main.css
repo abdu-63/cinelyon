@@ -2573,15 +2573,16 @@ body.show-friend-badges .friend-badge {
 }
 
 .film-score-tmdb {
-    background: rgba(1, 180, 228, 0.15);
-    color: #01b4e4;
-    border: 1px solid rgba(1, 180, 228, 0.3);
+    background: linear-gradient(90deg, #90cea1 0%, #01b4e4 100%);
+    color: #032541;
+    border: none;
+    font-weight: bold;
 }
 
 .film-score-rt-fresh {
-    background: rgba(250, 87, 12, 0.12);
-    color: #fa570c;
-    border: 1px solid rgba(250, 87, 12, 0.3);
+    background: rgba(255, 36, 0, 0.12);
+    color: #ff2400;
+    border: 1px solid rgba(255, 36, 0, 0.3);
 }
 
 .film-score-rt-rotten {
