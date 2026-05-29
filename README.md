@@ -155,12 +155,6 @@ Exécutez le script Python d'invalidation à la racine du projet :
 ```bash
 python3 scripts/bump_pwa_version.py
 ```
-Ce script détecte les versions actuelles de vos fichiers statiques et les incrémente tous de manière cohérente en une seule fois. Pensez ensuite à commiter et pousser vos modifications :
-```bash
-git add static/sw.js templates/base.html templates/index.html templates/film.html
-git commit -m "chore: bump PWA version"
-git push
-```
 
 ##### B. Via GitHub Actions
 Un workflow manuel `.github/workflows/bump-version.yml` est disponible. Vous pouvez le déclencher :
