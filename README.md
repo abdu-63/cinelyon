@@ -181,6 +181,14 @@ Le projet inclut trois workflows principaux :
 
 ---
 
+## Licence
+
+Ce projet est sous droit d'auteur. Les modifications et ajouts apportés par **abdu-63** sont sa propriété intellectuelle exclusive et ne peuvent être exploités commercialement sans autorisation préalable.
+
+Pour plus de détails, veuillez consulter le fichier [LICENSE.md](LICENSE.md).
+
+---
+
 <div align="center">
 
 **CinéLyon** - Parce que le cinéma lyonnais mérite plus d'attention !
