@@ -167,9 +167,20 @@ def hashed_url_for_static_file(endpoint, values):
 
 
 def optimize_poster_url(url: str, width: int = 200) -> str:
-    """Optimise l'URL d'une affiche via le proxy wsrv.nl."""
+    """Optimise l'URL d'une affiche via le CDN d'origine ou wsrv.nl en repli."""
     if not url or url.startswith("/static"):
         return url
+        
+    # Si c'est une image TMDB, on utilise directement les tailles optimisées du CDN de TMDB
+    if "image.tmdb.org" in url:
+        size = "w185" if width <= 185 else ("w342" if width <= 342 else "w500")
+        return re.sub(r"/t/p/[^/]+/", f"/t/p/{size}/", url)
+        
+    # Si c'est une image Allociné (Akamai CDN), on la charge en direct car le CDN est très rapide
+    if "acsta.net" in url:
+        return url
+        
+    # Pour d'autres images externes (si existantes), on utilise wsrv.nl
     return f"https://wsrv.nl/?url={quote(url)}&w={width}&q=80&output=webp"
 
 
