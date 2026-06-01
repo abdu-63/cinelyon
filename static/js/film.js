@@ -286,9 +286,37 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     let preloadedFile = null;
-    let isPreloading = false;
+    let preloadPromise = null;  // Shared promise — prevents duplicate fetches
 
-    // Dynamically create the fallback share modal markup
+    const getStoryUrl = () => window.location.pathname.endsWith('/') 
+        ? window.location.pathname + 'story.png' 
+        : window.location.pathname + '/story.png';
+
+    const loadStoryImage = () => {
+        if (preloadedFile) return Promise.resolve(preloadedFile);
+        if (preloadPromise) return preloadPromise;
+
+        preloadPromise = (async () => {
+            try {
+                const response = await fetch(getStoryUrl());
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const blob = await response.blob();
+                preloadedFile = new File([blob], 'cinelyon_share.png', { type: 'image/png' });
+                return preloadedFile;
+            } catch (e) {
+                console.warn('Error loading story image:', e);
+                preloadPromise = null; // Allow retry on next click
+                return null;
+            }
+        })();
+
+        return preloadPromise;
+    };
+
+    // Start preloading immediately in the background (non-blocking)
+    loadStoryImage();
+
+
     let storyModalOverlay = document.getElementById('storyModalOverlay');
     if (!storyModalOverlay) {
         storyModalOverlay = document.createElement('div');
@@ -338,88 +366,86 @@ document.addEventListener('DOMContentLoaded', () => {
         const img = storyModalOverlay.querySelector('.story-modal-img');
         const spinner = storyModalOverlay.querySelector('.story-modal-spinner');
         const downloadBtn = storyModalOverlay.querySelector('.story-modal-btn-download');
+        const container = storyModalOverlay.querySelector('.story-modal-img-container');
+
+        // Reset previous state to avoid stale event handlers and error messages
+        img.onload = null;
+        img.onerror = null;
+        img.src = '';
+        img.style.display = 'none';
+        spinner.style.display = 'block';
+        downloadBtn.href = '#';
+        // Remove any previous error messages
+        container.querySelectorAll('.story-error-msg').forEach(el => el.remove());
 
         storyModalOverlay.classList.add('show');
 
-        if (imageSrcOrBlobUrl) {
-            img.src = imageSrcOrBlobUrl;
-            img.style.display = 'block';
-            spinner.style.display = 'none';
-            downloadBtn.href = imageSrcOrBlobUrl;
-        } else {
-            img.style.display = 'none';
-            spinner.style.display = 'block';
-            downloadBtn.href = '#';
-
-            const storyUrl = window.location.pathname.endsWith('/') 
-                ? window.location.pathname + 'story.png' 
-                : window.location.pathname + '/story.png';
-            
-            img.src = storyUrl;
+        const displayImage = (src) => {
             img.onload = () => {
                 img.style.display = 'block';
                 spinner.style.display = 'none';
-                downloadBtn.href = storyUrl;
             };
             img.onerror = () => {
                 spinner.style.display = 'none';
-                alert("Erreur lors de la génération de l'image de story.");
-                storyModalOverlay.classList.remove('show');
+                const errMsg = document.createElement('p');
+                errMsg.className = 'story-error-msg';
+                errMsg.textContent = "Impossible d'afficher l'image. Veuillez réessayer.";
+                errMsg.style.cssText = 'color:#ff6b81; font-size:0.9rem; text-align:center; padding:16px;';
+                container.appendChild(errMsg);
             };
+            img.src = src;
+            downloadBtn.href = src;
+        };
+
+        if (imageSrcOrBlobUrl) {
+            // We already have a blob URL — display immediately
+            displayImage(imageSrcOrBlobUrl);
+        } else {
+            // Use the shared promise to avoid duplicate fetches
+            loadStoryImage().then(file => {
+                if (!file) {
+                    spinner.style.display = 'none';
+                    const errMsg = document.createElement('p');
+                    errMsg.className = 'story-error-msg';
+                    errMsg.textContent = "Impossible de générer l'image de story. Veuillez réessayer.";
+                    errMsg.style.cssText = 'color:#ff6b81; font-size:0.9rem; text-align:center; padding:16px;';
+                    container.appendChild(errMsg);
+                    return;
+                }
+                const blobUrl = URL.createObjectURL(file);
+                displayImage(blobUrl);
+            });
         }
     };
 
-    const preloadStoryImage = async () => {
-        if (isPreloading || preloadedFile) return;
-        isPreloading = true;
-        try {
-            const storyUrl = window.location.pathname.endsWith('/') 
-                ? window.location.pathname + 'story.png' 
-                : window.location.pathname + '/story.png';
-            const response = await fetch(storyUrl);
-            if (!response.ok) throw new Error('Failed to load story image');
-            const blob = await response.blob();
-            
-            const titleNode = document.querySelector('.film-title').childNodes[0];
-            const title = titleNode ? titleNode.textContent.trim() : document.title;
-            preloadedFile = new File([blob], 'cinelyon_share.png', { type: 'image/png' });
-        } catch (e) {
-            console.warn('Error preloading story image:', e);
-        } finally {
-            isPreloading = false;
-        }
-    };
 
-    // Start preloading immediately on DOM ready
-    preloadStoryImage();
+
 
     if (shareImgBtn) {
-        shareImgBtn.addEventListener('click', async () => {
-            if (preloadedFile) {
-                // On iOS, combining text/title with files can fail or result in only sharing text.
-                // We omit title/text when sharing files to maximize native sharing success.
-                const shareData = {
-                    files: [preloadedFile]
-                };
-                if (navigator.canShare && navigator.canShare(shareData)) {
-                    try {
-                        await navigator.share(shareData);
-                        return; // Shared successfully
-                    } catch (err) {
-                        if (err.name === 'AbortError') {
-                            console.log('Share cancelled by user');
-                            return; // User cancelled, do not trigger fallback modal
-                        }
-                        console.warn('Native share failed, falling back:', err);
-                    }
-                }
-            }
+        shareImgBtn.addEventListener('click', () => {
+            // CRITICAL for iOS 15: navigator.share() MUST be called synchronously within the
+            // click handler — any await before it breaks the user gesture context.
+            // Strategy: if already preloaded → share natively; otherwise → open modal.
 
-            // Fallback: show the dynamic premium preview modal
             if (preloadedFile) {
+                // File is ready — attempt native share synchronously
+                const shareData = { files: [preloadedFile] };
+                if (navigator.canShare && navigator.canShare(shareData)) {
+                    navigator.share(shareData)
+                        .then(() => { /* shared successfully */ })
+                        .catch(err => {
+                            if (err.name === 'AbortError') return; // user cancelled
+                            console.warn('Native share failed, showing modal:', err);
+                            const blobUrl = URL.createObjectURL(preloadedFile);
+                            showStoryModal(blobUrl);
+                        });
+                    return; // Don't open modal — native share sheet is open
+                }
+                // Native share not supported (desktop) — show modal
                 const blobUrl = URL.createObjectURL(preloadedFile);
                 showStoryModal(blobUrl);
             } else {
+                // Image not ready yet — open modal which handles loading internally via loadStoryImage()
                 showStoryModal(null);
             }
         });
