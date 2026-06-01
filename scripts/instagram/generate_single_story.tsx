@@ -9,7 +9,7 @@ import sharp from 'sharp';
 import * as cheerio from 'cheerio';
 
 const dirname = process.cwd();
-dotenv.config({ path: path.join(dirname, '.env') });
+dotenv.config({ path: path.join(dirname, '.env'), quiet: true });
 
 // ─── Design tokens ────────────────────────────────────────────────────────────
 const BG_COLOR = '#EFEBE6'; // Eggshell beige
@@ -506,8 +506,9 @@ process.stdin.on('end', async () => {
   try {
     const film = JSON.parse(inputData);
     const buffer = await generateSingleStory(film);
-    process.stdout.write(buffer);
-    process.exit(0);
+    process.stdout.write(buffer, () => {
+      process.exit(0);
+    });
   } catch (err) {
     console.error('Error generating single story:', err);
     process.exit(1);
