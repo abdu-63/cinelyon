@@ -628,64 +628,6 @@ def film_detail(slug):
     )
 
 
-@app.route("/film/<slug>/story.png")
-def film_story_image(slug):
-    """Génère l'image de story Instagram pour un film en appelant le script Satori Node."""
-    import subprocess
-    import json
-    
-    data = load_movies_data()
-    showtimes = data["showtimes"]
-    num_days = data["num_days"]
-
-    # Trouver le film correspondant au slug
-    film_data = None
-    for day_index in range(num_days):
-        if day_index >= len(showtimes):
-            continue
-        for film in showtimes[day_index]:
-            film_slug = slugify(film["title"], film.get("release_year", ""))
-            if film_slug == slug:
-                film_data = {
-                    "title": film["title"],
-                    "year": film.get("release_year") or film.get("year"),
-                    "director": film.get("director") or film.get("realisateur") or "INCONNU",
-                    "poster_url": film.get("affiche"),
-                    "synopsis": film.get("synopsis") or "",
-                    "tmdb_id": film.get("tmdb_id"),
-                }
-                break
-        if film_data:
-            break
-
-    if not film_data:
-        abort(404)
-
-    try:
-        env = os.environ.copy()
-        proc = subprocess.Popen(
-            ["npx", "ts-node", "scripts/instagram/generate_single_story.tsx"],
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            env=env
-        )
-        
-        input_json = json.dumps(film_data).encode("utf-8")
-        stdout_data, stderr_data = proc.communicate(input=input_json)
-        
-        if proc.returncode != 0:
-            app.logger.error(f"Satori story generator error: {stderr_data.decode('utf-8')}")
-            abort(500)
-            
-        response = make_response(stdout_data)
-        response.headers.set("Content-Type", "image/png")
-        response.headers.set("Cache-Control", "public, max-age=86400")
-        return response
-    except Exception as e:
-        app.logger.error(f"Exception during single story generation: {str(e)}")
-        abort(500)
-
 
 @app.route("/suggestions")
 def suggestions():
