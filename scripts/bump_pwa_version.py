@@ -6,6 +6,7 @@ Incrémente en une seule passe toutes les versions de cache du site PWA :
   - ?v=X.Y dans les 4 balises asset HTML  (+0.1)
   - "Version X.Y" dans la modale settings (+0.1, suit settings.js)
 """
+
 import re
 import sys
 from pathlib import Path
@@ -13,10 +14,10 @@ from typing import Optional, Tuple
 
 ROOT = Path(__file__).parent.parent  # racine du projet
 
-SW_PATH    = ROOT / "static" / "sw.js"
-BASE_HTML  = ROOT / "templates" / "base.html"
+SW_PATH = ROOT / "static" / "sw.js"
+BASE_HTML = ROOT / "templates" / "base.html"
 INDEX_HTML = ROOT / "templates" / "index.html"
-FILM_HTML  = ROOT / "templates" / "film.html"
+FILM_HTML = ROOT / "templates" / "film.html"
 
 
 def bump_minor(version_str: str) -> str:
@@ -32,10 +33,7 @@ def bump_sw_version() -> Tuple[int, int]:
     if not m:
         raise RuntimeError(f"CACHE_VERSION introuvable dans {SW_PATH}")
     old, new = int(m.group(1)), int(m.group(1)) + 1
-    SW_PATH.write_text(content.replace(
-        f"const CACHE_VERSION = 'v{old}';",
-        f"const CACHE_VERSION = 'v{new}';"
-    ))
+    SW_PATH.write_text(content.replace(f"const CACHE_VERSION = 'v{old}';", f"const CACHE_VERSION = 'v{new}';"))
     return old, new
 
 
@@ -76,10 +74,10 @@ def main() -> None:
     print(f"OK sw.js CACHE_VERSION : v{old_sw} -> v{new_sw}")
 
     # 2. Lire les versions courantes
-    cur_css      = read_asset_version(BASE_HTML,  "css/main.css")
-    cur_settings = read_asset_version(BASE_HTML,  "js/settings.js")
-    cur_index    = read_asset_version(INDEX_HTML, "js/index.js")
-    cur_film     = read_asset_version(FILM_HTML,  "js/film.js")
+    cur_css = read_asset_version(BASE_HTML, "css/main.css")
+    cur_settings = read_asset_version(BASE_HTML, "js/settings.js")
+    cur_index = read_asset_version(INDEX_HTML, "js/index.js")
+    cur_film = read_asset_version(FILM_HTML, "js/film.js")
 
     print(
         f"Versions detectees -> main.css:{cur_css}  settings.js:{cur_settings}  "
@@ -102,22 +100,22 @@ def main() -> None:
         sys.exit(1)
 
     # 3. Incrémenter
-    new_css      = bump_minor(cur_css)
+    new_css = bump_minor(cur_css)
     new_settings = bump_minor(cur_settings)
-    new_index    = bump_minor(cur_index)
-    new_film     = bump_minor(cur_film)
+    new_index = bump_minor(cur_index)
+    new_film = bump_minor(cur_film)
 
-    bump_asset(BASE_HTML,  "css/main.css",   cur_css,      new_css)
+    bump_asset(BASE_HTML, "css/main.css", cur_css, new_css)
     print(f"OK main.css?v      : {cur_css} -> {new_css}")
 
-    bump_asset(BASE_HTML,  "js/settings.js", cur_settings, new_settings)
+    bump_asset(BASE_HTML, "js/settings.js", cur_settings, new_settings)
     bump_version_display(cur_settings, new_settings)
     print(f"OK settings.js?v   : {cur_settings} -> {new_settings}")
 
-    bump_asset(INDEX_HTML, "js/index.js",    cur_index,    new_index)
+    bump_asset(INDEX_HTML, "js/index.js", cur_index, new_index)
     print(f"OK index.js?v      : {cur_index} -> {new_index}")
 
-    bump_asset(FILM_HTML,  "js/film.js",     cur_film,     new_film)
+    bump_asset(FILM_HTML, "js/film.js", cur_film, new_film)
     print(f"OK film.js?v       : {cur_film} -> {new_film}")
 
     print("\nBump PWA version termine avec succes.")
