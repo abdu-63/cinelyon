@@ -294,146 +294,39 @@ document.addEventListener('DOMContentLoaded', () => {
             shareImgBtn.style.pointerEvents = 'none';
 
             try {
-                // Get data from DOM
+                const storyUrl = window.location.pathname.endsWith('/') 
+                    ? window.location.pathname + 'story.png' 
+                    : window.location.pathname + '/story.png';
+
+                const response = await fetch(storyUrl);
+                if (!response.ok) {
+                    throw new Error('Erreur réseau lors de la génération de l\'image');
+                }
+
+                const blob = await response.blob();
                 const titleNode = document.querySelector('.film-title').childNodes[0];
                 const title = titleNode ? titleNode.textContent.trim() : document.title;
-                const posterImg = document.querySelector('.film-hero-poster');
-                
-                // Create offscreen canvas
-                const canvas = document.createElement('canvas');
-                canvas.width = 1080;
-                canvas.height = 1440;
-                const ctx = canvas.getContext('2d');
 
-                // Load poster image with CORS
-                const img = new Image();
-                img.crossOrigin = 'Anonymous';
-                
-                // Use the wsrv.nl proxy URL to get high-res if possible
-                let posterSrc = posterImg.src;
-                if(posterSrc.includes('wsrv.nl')) {
-                    posterSrc = posterSrc.replace('q=80', 'q=100').replace('w=300', 'w=1080');
+                const file = new File([blob], 'cinelyon_share.png', { type: 'image/png' });
+                const shareData = {
+                    files: [file],
+                    title: title,
+                    text: `Séances pour ${title} à Lyon`
+                };
+
+                if (navigator.canShare && navigator.canShare(shareData)) {
+                    await navigator.share(shareData);
+                } else {
+                    // Fallback: open image in new tab
+                    const url = URL.createObjectURL(blob);
+                    window.open(url, '_blank');
                 }
-                
-                await new Promise((resolve, reject) => {
-                    img.onload = resolve;
-                    img.onerror = () => {
-                        // Fallback without CORS if it fails
-                        img.crossOrigin = '';
-                        img.src = posterImg.src;
-                        img.onload = resolve;
-                        img.onerror = reject;
-                    };
-                    img.src = posterSrc;
-                });
-
-                // Draw background
-                ctx.fillStyle = '#0a0a0a';
-                ctx.fillRect(0, 0, 1080, 1440);
-
-                // Draw poster (cover)
-                const scale = Math.max(1080 / img.width, 1440 / img.height);
-                const w = img.width * scale;
-                const h = img.height * scale;
-                const x = (1080 - w) / 2;
-                const y = (1440 - h) / 2;
-                ctx.drawImage(img, x, y, w, h);
-
-                // Draw gradient (bottom 70%)
-                const grad = ctx.createLinearGradient(0, 1440 * 0.3, 0, 1440);
-                grad.addColorStop(0, 'rgba(0,0,0,0)');
-                grad.addColorStop(1, 'rgba(0,0,0,0.95)');
-                ctx.fillStyle = grad;
-                ctx.fillRect(0, 1440 * 0.3, 1080, 1440 * 0.7);
-
-                // Draw text
-                ctx.fillStyle = '#ffffff';
-                ctx.textAlign = 'left';
-                
-                // Title
-                ctx.font = 'italic bold 52px "Helvetica Neue", Helvetica, Arial, sans-serif';
-                if('letterSpacing' in ctx) ctx.letterSpacing = '-2px';
-                
-                // Wrap text manually since canvas doesn't support multiline
-                const words = title.split(' ');
-                let line = '';
-                let lines = [];
-                const maxWidth = 1080 - 240; // 120px padding each side
-                
-                for(let n = 0; n < words.length; n++) {
-                    const testLine = line + words[n] + ' ';
-                    const metrics = ctx.measureText(testLine);
-                    if (metrics.width > maxWidth && n > 0) {
-                        lines.push(line);
-                        line = words[n] + ' ';
-                    } else {
-                        line = testLine;
-                    }
-                }
-                lines.push(line);
-                
-                let textY = 1440 - 220 - (lines.length * 60) + 60;
-                for(let i = 0; i < lines.length; i++) {
-                    ctx.fillText(lines[i], 120, textY);
-                    textY += 60;
-                }
-
-                // Subtitle (first cinema if any)
-                let subtitle = "À l'affiche aujourd'hui";
-                const firstCinema = document.querySelector('.film-cinema-name');
-                if (firstCinema) subtitle = firstCinema.textContent;
-                
-                ctx.font = '46px "Helvetica Neue", Helvetica, Arial, sans-serif';
-                if('letterSpacing' in ctx) ctx.letterSpacing = '0px';
-                ctx.fillText(subtitle, 120, textY + 20);
-
-                // Branding
-                ctx.font = 'bold 28px "Helvetica Neue", Helvetica, Arial, sans-serif';
-                ctx.textAlign = 'center';
-                if('letterSpacing' in ctx) ctx.letterSpacing = '2.8px';
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-                ctx.fillText('CINELYON.FR', 1080 / 2, 1440 - 70);
-
-                // Logo
-                const logoImg = new Image();
-                logoImg.crossOrigin = 'Anonymous';
-                await new Promise((resolve) => {
-                    logoImg.onload = resolve;
-                    logoImg.onerror = resolve; // Continue even if logo fails
-                    logoImg.src = '/static/images/icon-192x192-rond.png';
-                });
-                if (logoImg.width > 0) {
-                    ctx.drawImage(logoImg, 1080 - 130, 1440 - 130, 80, 80);
-                }
-
-                // Convert to blob and share
-                canvas.toBlob(async (blob) => {
-                    const file = new File([blob], 'cinelyon_share.png', { type: 'image/png' });
-                    const shareData = {
-                        files: [file],
-                        title: title,
-                        text: `Séances pour ${title} à Lyon`
-                    };
-
-                    if (navigator.canShare && navigator.canShare(shareData)) {
-                        await navigator.share(shareData);
-                    } else {
-                        // Fallback: open image in new tab
-                        const url = URL.createObjectURL(blob);
-                        window.open(url, '_blank');
-                    }
-                    
-                    shareImgBtn.innerHTML = originalHTML;
-                    shareImgBtn.style.pointerEvents = 'auto';
-                }, 'image/png');
-
             } catch (err) {
                 console.error('Erreur génération image:', err);
                 if(shareImgText) shareImgText.textContent = 'Erreur';
-                setTimeout(() => {
-                    shareImgBtn.innerHTML = originalHTML;
-                    shareImgBtn.style.pointerEvents = 'auto';
-                }, 2000);
+            } finally {
+                shareImgBtn.innerHTML = originalHTML;
+                shareImgBtn.style.pointerEvents = 'auto';
             }
         });
     }

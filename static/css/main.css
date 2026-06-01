@@ -74,6 +74,12 @@
     font-display: swap;
 }
 
+@font-face {
+    font-family: 'Impact';
+    src: url("../font/impact.ttf");
+    font-display: swap;
+}
+
 body {
     margin: 0;
     font-family: 'healTheWebA', sans-serif;
