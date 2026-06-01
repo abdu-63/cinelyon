@@ -265,23 +265,186 @@ if (shareImgBtn) {
 
 ### 4. Styles CSS — `static/css/main.css`
 
-Les classes suivantes existent déjà dans `main.css` (ne pas les supprimer, elles sont préservées) :
-- `.story-modal-overlay`
-- `.story-modal`
-- `.story-modal-close`
-- `.story-modal-title`
-- `.story-modal-img-container`
-- `.story-modal-spinner`
-- `.story-modal-img`
-- `.story-modal-instructions`
-- `.story-modal-actions`
-- `.story-modal-btn`
-- `.story-modal-btn-download`
-- `.story-modal-btn-close`
+Les classes suivantes **existent toujours** dans `main.css` (L3289–3462) et n'ont pas été supprimées car elles seront réutilisées telles quelles lors de la réimplémentation :
+
+```css
+/* --- Story Share Fallback Modal --- */
+.story-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 10100;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.story-modal-overlay.show {
+    display: flex;
+    opacity: 1;
+}
+
+.story-modal {
+    background: var(--card-solid);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 24px;
+    max-width: 440px;
+    width: 90%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+    transform: translateY(30px) scale(0.95);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-sizing: border-box;
+}
+
+.story-modal-overlay.show .story-modal {
+    transform: translateY(0) scale(1);
+}
+
+.story-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: rgba(120, 120, 120, 0.15);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-main);
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 10;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.story-modal-close:hover {
+    background: rgba(120, 120, 120, 0.3);
+    transform: scale(1.08);
+}
+
+.story-modal-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0 0 12px 0;
+    text-align: center;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.story-modal-img-container {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border: 1px solid var(--border-light);
+}
+
+.story-modal-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.story-modal-spinner {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-top: 4px solid var(--primary);
+    border-radius: 50%;
+    animation: storySpin 1s linear infinite;
+    z-index: 2;
+}
+
+@keyframes storySpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.story-modal-instructions {
+    margin-top: 16px;
+    text-align: center;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: var(--text-muted);
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    padding: 0 8px;
+}
+
+.story-modal-instructions strong {
+    color: var(--primary);
+}
+
+.story-modal-actions {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.story-modal-btn {
+    flex: 1;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.story-modal-btn-download {
+    background: var(--primary);
+    color: white;
+    border: none;
+}
+
+.story-modal-btn-download:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(68, 76, 247, 0.2);
+}
+
+.story-modal-btn-close {
+    background: var(--border-light);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+}
+
+.story-modal-btn-close:hover {
+    background: var(--border-color);
+}
+```
 
 ### 5. Service Worker — `static/sw.js`
 
-La règle suivante existe déjà dans `sw.js` et doit être conservée (ligne ~62) :
+La règle suivante **existe toujours** dans `sw.js` (~L62) et doit être conservée :
 ```javascript
 // Ignorer les requêtes vers l'image de story dynamique (générée à la volée, non mise en cache)
 if (url.pathname.endsWith('/story.png')) return;
@@ -289,48 +452,413 @@ if (url.pathname.endsWith('/story.png')) return;
 
 ---
 
-## Script Node.js original (conservé dans le dépôt)
+## Script Node.js original — `scripts/instagram/generate_single_story.tsx`
 
-Le script complet est conservé à : `scripts/instagram/generate_single_story.tsx`
+> **Ce fichier est conservé dans le dépôt.** Il n'a pas été supprimé car il sert de référence pour la réimplémentation Python. Il est dans `scripts/instagram/` avec ses `node_modules` et son `package.json`.
 
-Ce script reçoit un JSON via `stdin` et écrit un PNG via `stdout`.
+### Configuration Node.js — `scripts/instagram/package.json`
 
-### Ce que fait le script
-
-1. **Charge les fonts** depuis `static/font/` :
-   - `HelveticaNeue_Helvetica Neue_Regular.ttf`
-   - `HelveticaNeue_Helvetica Neue_Bold.ttf`
-   - `HelveticaNeue_Helvetica Neue_Bold Italic.ttf`
-   - `impact.ttf`
-
-2. **Récupère les images du film** via :
-   - [film-grab.com](https://film-grab.com) (scraping Cheerio) — images de scènes HD
-   - TMDB API (backdrops textless) — fallback si film-grab ne trouve rien
-   - Filtrage dHash pour éliminer les doublons et images trop blanches/noires
-
-3. **Calcule la couleur dominante** du titre via `node-vibrant` sur l'image principale
-
-4. **Génère le SVG** avec [Satori](https://github.com/vercel/satori) (JSX → SVG, dimensions 1080×1350px)
-
-5. **Convertit en PNG** avec `@resvg/resvg-js`
-
-### Design de l'image générée
-
-- Fond : `#EFEBE6` (beige crème)
-- Texte : `#2B2B2B` (gris anthracite)
-- Dimensions : **1080 × 1350 px** (format 4:5 Instagram Story/Post)
-- Layout : collage 3 images en 2 colonnes + synopsis uppercase + titre Impact + "DIRECTED BY X (YEAR)" + "CINELYON.FR"
-
+```json
+{
+  "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "@supabase/supabase-js": "^2.101.1",
+    "@types/react": "^19.2.14",
+    "cheerio": "^1.2.0",
+    "dotenv": "^17.4.1",
+    "node-vibrant": "^4.0.4",
+    "playwright": "^1.59.1",
+    "react": "^19.2.4",
+    "satori": "^0.26.0",
+    "sharp": "^0.34.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.2"
+  }
+}
 ```
-┌─────────────────────────────┐
-│  [Image 1 55%] [Image 3 45%]│
-│  [Image 1 55%] [Synopsis   ]│  ← 920px de haut
-│  [Image 2 55%] [           ]│
-├─────────────────────────────┤
-│         TITRE DU FILM       │  ← Police Impact, couleur dynamique
-│   DIRECTED BY X (ANNÉE)     │  ← Impact, uppercase
-│        CINELYON.FR          │  ← Petite police, opacité 50%
-└─────────────────────────────┘
+
+### `scripts/instagram/tsconfig.json`
+
+```json
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": false,
+    "skipLibCheck": true,
+    "jsx": "react",
+    "types": ["node"]
+  }
+}
+```
+
+### Code complet — `generate_single_story.tsx`
+
+```tsx
+import * as fs from 'fs';
+import * as path from 'path';
+import satori from 'satori';
+import { Resvg } from '@resvg/resvg-js';
+import React from 'react';
+import * as dotenv from 'dotenv';
+import { Vibrant } from 'node-vibrant/node';
+import sharp from 'sharp';
+import * as cheerio from 'cheerio';
+
+const dirname = process.cwd();
+dotenv.config({ path: path.join(dirname, '.env'), quiet: true });
+
+// ─── Design tokens ────────────────────────────────────────────────────────────
+const BG_COLOR = '#EFEBE6'; // Eggshell beige
+const TEXT_DARK = '#2B2B2B'; // Anthracite gray
+const ACCENT_RED_COVER = '#B22222'; // Dynamic color fallback
+const SLIDE = { width: 1080, height: 1350 } as const;
+
+// ─── Interfaces ───────────────────────────────────────────────────────────────
+interface EnrichedFilm {
+  title: string;
+  year?: number | string | null;
+  director?: string | null;
+  poster_url?: string | null;
+  synopsis?: string | null;
+  tmdb_id?: number | string | null;
+  overview?: string | null;
+  description?: string | null;
+}
+
+// ─── Helpers : Font loading ────────────────────────────────────────────────────
+async function loadHelveticaNeue(variant: string) {
+  return fs.promises.readFile(path.join(dirname, `static/font/HelveticaNeue_Helvetica Neue_${variant}.ttf`));
+}
+
+async function loadImpact() {
+  return fs.promises.readFile(path.join(dirname, 'static/font/impact.ttf'));
+}
+
+// ─── Helpers : Image quality and hashing ──────────────────────────────────────
+async function getDHashAndStats(imageUrl: string): Promise<{ hash: string; whitePercent: number; blackPercent: number; satPercent: number } | null> {
+  try {
+    const downloadUrl = imageUrl.includes('image.tmdb.org/t/p/original/')
+      ? imageUrl.replace('/t/p/original/', '/t/p/w300/')
+      : imageUrl;
+
+    const res = await fetch(downloadUrl);
+    if (!res.ok) return null;
+    const buffer = Buffer.from(await res.arrayBuffer());
+
+    const resizedRaw = await sharp(buffer)
+      .grayscale()
+      .resize(9, 8, { fit: 'fill' })
+      .raw()
+      .toBuffer();
+
+    let hash = '';
+    for (let y = 0; y < 8; y++) {
+      for (let x = 0; x < 8; x++) {
+        const left = resizedRaw[y * 9 + x];
+        const right = resizedRaw[y * 9 + x + 1];
+        hash += (left > right ? '1' : '0');
+      }
+    }
+
+    const rgbRaw = await sharp(buffer)
+      .resize(100, 100, { fit: 'fill' })
+      .raw()
+      .toBuffer();
+
+    let whiteCount = 0;
+    let blackCount = 0;
+    let highSatCount = 0;
+    const totalPixels = 10000;
+    for (let i = 0; i < totalPixels; i++) {
+      const r = rgbRaw[i * 3];
+      const g = rgbRaw[i * 3 + 1];
+      const b = rgbRaw[i * 3 + 2];
+      const brightness = (r + g + b) / 3;
+      if (brightness > 240) whiteCount++;
+      else if (brightness < 15) blackCount++;
+      const max = Math.max(r, g, b);
+      const min = Math.min(r, g, b);
+      const sat = max === 0 ? 0 : (max - min) / max;
+      if (sat > 0.7 && max > 100) highSatCount++;
+    }
+
+    return {
+      hash,
+      whitePercent: (whiteCount / totalPixels) * 100,
+      blackPercent: (blackCount / totalPixels) * 100,
+      satPercent: (highSatCount / totalPixels) * 100
+    };
+  } catch (e) {
+    return null;
+  }
+}
+
+function getHammingDistance(h1: string, h2: string): number {
+  let dist = 0;
+  for (let i = 0; i < h1.length; i++) {
+    if (h1[i] !== h2[i]) dist++;
+  }
+  return dist;
+}
+
+async function filterUniqueScenes(urls: string[]): Promise<string[]> {
+  const accepted: { url: string; hash: string }[] = [];
+  for (const url of urls) {
+    const stats = await getDHashAndStats(url);
+    if (!stats) continue;
+    const { hash, whitePercent, blackPercent, satPercent } = stats;
+    if (whitePercent > 40) continue;
+    if (blackPercent > 75) continue;
+    if (satPercent > 35) continue;
+    let isDuplicate = false;
+    for (const acc of accepted) {
+      if (getHammingDistance(hash, acc.hash) < 15) { isDuplicate = true; break; }
+    }
+    if (isDuplicate) continue;
+    accepted.push({ url, hash });
+    if (accepted.length === 3) break;
+  }
+  return accepted.map(a => a.url);
+}
+
+async function getFilmGrabImages(title: string, year?: number | null, director?: string | null): Promise<string[]> {
+  try {
+    const url = `https://film-grab.com/?s=${encodeURIComponent(title)}`;
+    const res = await fetch(url);
+    if (!res.ok) return [];
+    const html = await res.text();
+    const $ = cheerio.load(html);
+
+    const results: { href: string; entryTitle: string }[] = [];
+    $('.entry-title a').each((_, el) => {
+      const href = $(el).attr('href');
+      const entryTitle = $(el).text().trim();
+      if (href) results.push({ href, entryTitle });
+    });
+    if (results.length === 0) return [];
+
+    let bestResult = results[0];
+    if (year || director) {
+      const yearStr = year ? String(year) : null;
+      const directorTokens = director
+        ? director.toLowerCase().split(/\s+/).filter(t => t.length > 2)
+        : [];
+      let bestScore = -1;
+      for (const r of results) {
+        const haystack = (r.entryTitle + ' ' + r.href).toLowerCase();
+        let score = 0;
+        if (yearStr && haystack.includes(yearStr)) score += 2;
+        if (directorTokens.some(t => haystack.includes(t))) score += 1;
+        if (score > bestScore) { bestScore = score; bestResult = r; }
+      }
+    }
+
+    const postRes = await fetch(bestResult.href);
+    if (!postRes.ok) return [];
+    const $post = cheerio.load(await postRes.text());
+    const images: string[] = [];
+    $post('.bwg-masonry-thumb, .bwg-item img, img.size-full, .gallery-item img, figure img').each((i, el) => {
+      let src = $post(el).closest('a').attr('href') || $post(el).attr('src') || $post(el).attr('data-src');
+      if (src) {
+        if (src.includes('/thumb/')) src = src.replace('/thumb/', '/').split('?')[0];
+        images.push(src);
+      }
+    });
+    if (images.length === 0) {
+      $post('.entry-content img').each((i, el) => {
+        const src = $post(el).closest('a').attr('href') || $post(el).attr('src');
+        if (src) images.push(src);
+      });
+    }
+    return images;
+  } catch (e) {
+    return [];
+  }
+}
+
+function getShortSynopsis(text: string, maxLength = 220): string {
+  if (!text) return '';
+  let clean = text.replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ').trim();
+  if (clean.length <= maxLength) return clean;
+  const sentenceEndings = /([.!?])\s+/g;
+  let match;
+  const sentenceEnds: number[] = [];
+  while ((match = sentenceEndings.exec(clean)) !== null) sentenceEnds.push(match.index + match[1].length);
+  if (clean.length > (sentenceEnds[sentenceEnds.length - 1] ?? 0)) sentenceEnds.push(clean.length);
+  let bestEnd = -1;
+  for (const endIdx of sentenceEnds) {
+    if (endIdx <= maxLength) bestEnd = endIdx; else break;
+  }
+  if (bestEnd > 0) return clean.slice(0, bestEnd).trim();
+  if (sentenceEnds.length > 0 && sentenceEnds[0] <= maxLength + 40) return clean.slice(0, sentenceEnds[0]).trim();
+  const lastSpace = clean.lastIndexOf(' ', maxLength - 3);
+  return lastSpace > 0 ? clean.slice(0, lastSpace).trim() + '...' : clean.slice(0, maxLength - 3) + '...';
+}
+
+async function getMovieBackdrops(film: EnrichedFilm): Promise<{ scenes: string[]; posterUrl: string | null; synopsis: string | null }> {
+  const apiKey = process.env.TMDB_API_KEY;
+  const posterUrl = film.poster_url || null;
+  if (!apiKey) return { scenes: [], posterUrl, synopsis: null };
+
+  try {
+    let tmdbId: number | null = film.tmdb_id ? Number(film.tmdb_id) : null;
+    let tmdbOverview: string | null = null;
+    let originalTitle: string = film.title;
+    let fallbackTmdbScenes: string[] = [];
+
+    if (!tmdbId) {
+      const searchRes = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(film.title.trim())}${film.year ? `&year=${film.year}` : ''}&language=fr-FR`);
+      const searchData = await searchRes.json();
+      if (searchData.results?.length > 0) tmdbId = searchData.results[0].id;
+    }
+
+    if (tmdbId) {
+      const movieDetails = await (await fetch(`https://api.themoviedb.org/3/movie/${tmdbId}?api_key=${apiKey}&language=fr-FR`)).json();
+      tmdbOverview = movieDetails.overview || null;
+      if (movieDetails.original_title) originalTitle = movieDetails.original_title;
+      if (!tmdbOverview) {
+        const enDetails = await (await fetch(`https://api.themoviedb.org/3/movie/${tmdbId}?api_key=${apiKey}&language=en-US`)).json();
+        tmdbOverview = enDetails.overview || null;
+      }
+      const imagesData = await (await fetch(`https://api.themoviedb.org/3/movie/${tmdbId}/images?api_key=${apiKey}`)).json();
+      if (imagesData.backdrops?.length > 0) {
+        fallbackTmdbScenes = imagesData.backdrops
+          .filter((b: any) => b.iso_639_1 === null && (b.aspect_ratio || 0) >= 1.3)
+          .map((b: any) => `https://image.tmdb.org/t/p/original${b.file_path}`);
+      }
+    }
+
+    let fgScenes = await getFilmGrabImages(originalTitle, film.year ? Number(film.year) : null, film.director || null);
+    if (fgScenes.length === 0 && originalTitle !== film.title)
+      fgScenes = await getFilmGrabImages(film.title, film.year ? Number(film.year) : null, film.director || null);
+
+    let backdrops: string[] = fgScenes.length > 0 ? await filterUniqueScenes(fgScenes) : [];
+    if (backdrops.length < 3 && fallbackTmdbScenes.length > 0) {
+      const tmdbFiltered = await filterUniqueScenes(fallbackTmdbScenes);
+      if (tmdbFiltered.length >= 3 || tmdbFiltered.length > backdrops.length) backdrops = tmdbFiltered;
+    }
+
+    return { scenes: backdrops.slice(0, 3), posterUrl, synopsis: tmdbOverview || film.synopsis || null };
+  } catch (e) {}
+
+  return { scenes: [], posterUrl, synopsis: film.synopsis || null };
+}
+
+const TRANSPARENT_PIXEL = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+
+async function getBase64Image(imageUrl: string): Promise<string> {
+  if (!imageUrl) return TRANSPARENT_PIXEL;
+  try {
+    const downloadUrl = imageUrl.includes('image.tmdb.org/t/p/original/')
+      ? imageUrl.replace('/t/p/original/', '/t/p/w780/')
+      : imageUrl;
+    const buffer = Buffer.from(await (await fetch(downloadUrl)).arrayBuffer());
+    return `data:image/jpeg;base64,${(await sharp(buffer).jpeg({ quality: 85 }).toBuffer()).toString('base64')}`;
+  } catch (e) {
+    return TRANSPARENT_PIXEL;
+  }
+}
+
+async function getDominantColor(imageUrl: string): Promise<string> {
+  try {
+    const base64 = await getBase64Image(imageUrl);
+    if (!base64 || base64 === TRANSPARENT_PIXEL) return ACCENT_RED_COVER;
+    const buffer = Buffer.from(base64.replace(/^data:image\/\w+;base64,/, ''), 'base64');
+    const palette = await Vibrant.from(buffer).getPalette();
+    return palette.DarkVibrant?.hex || palette.Vibrant?.hex || ACCENT_RED_COVER;
+  } catch {
+    return ACCENT_RED_COVER;
+  }
+}
+
+// ─── Main Generation Function ──────────────────────────────────────────────────
+async function generateSingleStory(film: EnrichedFilm): Promise<Buffer> {
+  const [fontReg, fontBold, fontBoldItalic, fontImpact] = await Promise.all([
+    loadHelveticaNeue('Regular'),
+    loadHelveticaNeue('Bold'),
+    loadHelveticaNeue('Bold Italic'),
+    loadImpact()
+  ]);
+
+  const FONTS = [
+    { name: 'Helvetica Neue', data: fontReg, weight: 400 as const, style: 'normal' as const },
+    { name: 'Helvetica Neue', data: fontBold, weight: 700 as const, style: 'normal' as const },
+    { name: 'Helvetica Neue', data: fontBoldItalic, weight: 700 as const, style: 'italic' as const },
+    { name: 'Impact', data: fontImpact, weight: 400 as const, style: 'normal' as const },
+  ];
+
+  const { scenes, posterUrl, synopsis: fetchedSynopsis } = await getMovieBackdrops(film);
+  const rawMainImage   = scenes[0] ?? posterUrl ?? '';
+  const rawSecondImage = scenes.length >= 2 ? scenes[1] : (scenes.length === 1 ? posterUrl : null);
+  const rawThirdImage  = scenes.length >= 3 ? scenes[2] : (scenes.length === 2 ? posterUrl : null);
+
+  const dynamicTitleColor = await getDominantColor(rawMainImage);
+  const mainImage   = await getBase64Image(rawMainImage);
+  const secondImage = rawSecondImage ? await getBase64Image(rawSecondImage) : null;
+  const thirdImage  = rawThirdImage ? await getBase64Image(rawThirdImage) : null;
+
+  const synopsis = getShortSynopsis(fetchedSynopsis || film.synopsis || film.overview || film.description || '', 220);
+  const formattedTitle = film.title.toUpperCase();
+  const directorName = film.director || 'INCONNU';
+  const releaseYear = film.year ?? new Date().getFullYear();
+
+  const synopsisStyle = {
+    display: '-webkit-box' as const, WebkitLineClamp: 10, WebkitBoxOrient: 'vertical' as const,
+    overflow: 'hidden', textOverflow: 'ellipsis', fontSize: 38, fontWeight: 700,
+    color: TEXT_DARK, lineHeight: 1.12, textTransform: 'uppercase' as const,
+    fontFamily: 'Impact', letterSpacing: '-0.02em', transformOrigin: 'top left',
+    paddingLeft: '5px', paddingRight: '5px'
+  };
+
+  const slideSvg = await satori(
+    <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', backgroundColor: BG_COLOR, padding: '50px 50px 30px 50px', boxSizing: 'border-box' }}>
+      <div style={{ display: 'flex', flexDirection: 'row', width: '100%', height: '920px' }}>
+        <div style={{ display: 'flex', width: '55%', flexDirection: 'column', paddingRight: '15px' }}>
+          <img src={mainImage} style={{ width: '100%', height: secondImage ? '600px' : '920px', objectFit: 'cover', marginBottom: secondImage ? '30px' : '0', border: '2px solid #2B2B2B', boxSizing: 'border-box' }} />
+          {secondImage && <img src={secondImage} style={{ width: '100%', height: '290px', objectFit: 'cover', border: '2px solid #2B2B2B', boxSizing: 'border-box' }} />}
+        </div>
+        <div style={{ display: 'flex', width: '45%', flexDirection: 'column', paddingLeft: '15px' }}>
+          {thirdImage ? <img src={thirdImage} style={{ width: '100%', height: '430px', objectFit: 'cover', marginBottom: '30px', border: '2px solid #2B2B2B', boxSizing: 'border-box' }} /> : null}
+          <div style={{ ...synopsisStyle, height: '460px' }}>{synopsis}</div>
+        </div>
+      </div>
+      <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center', paddingBottom: '5px' }}>
+        <h1 style={{ display: 'flex', fontFamily: 'Impact', color: dynamicTitleColor, fontSize: formattedTitle.length >= 20 ? 95 : formattedTitle.length >= 14 ? 115 : formattedTitle.length >= 10 ? 135 : 160, fontWeight: 400, lineHeight: 0.9, margin: 0, letterSpacing: '-0.03em', textAlign: 'center', transform: 'scaleY(1.4)' }}>
+          {formattedTitle}
+        </h1>
+        <span style={{ display: 'flex', color: TEXT_DARK, fontSize: 32, fontWeight: 700, marginTop: '40px', letterSpacing: '0.02em', textTransform: 'uppercase', textAlign: 'center', fontFamily: 'Impact', transform: 'scaleY(1.4)' }}>
+          DIRECTED BY {directorName} ({releaseYear})
+        </span>
+        <span style={{ display: 'flex', color: TEXT_DARK, fontSize: 22, fontWeight: 400, marginTop: '20px', letterSpacing: '0.15em', opacity: 0.5, textTransform: 'uppercase', fontFamily: 'Helvetica Neue' }}>
+          CINELYON.FR
+        </span>
+      </div>
+    </div>,
+    { width: SLIDE.width, height: SLIDE.height, fonts: FONTS }
+  );
+
+  return new Resvg(slideSvg, { fitTo: { mode: 'width', value: SLIDE.width } }).render().asPng();
+}
+
+// ─── Process Stdin ─────────────────────────────────────────────────────────────
+let inputData = '';
+process.stdin.on('data', chunk => { inputData += chunk; });
+process.stdin.on('end', async () => {
+  try {
+    const film = JSON.parse(inputData);
+    const buffer = await generateSingleStory(film);
+    process.stdout.write(buffer, () => process.exit(0));
+  } catch (err) {
+    console.error('Error generating single story:', err);
+    process.exit(1);
+  }
+});
 ```
 
 ---
@@ -363,20 +891,19 @@ colorthief>=0.2.1
 4. **Composer l'image** :
    ```python
    from PIL import Image, ImageDraw, ImageFont
-   
+
    SLIDE_W, SLIDE_H = 1080, 1350
    BG_COLOR = "#EFEBE6"
    TEXT_DARK = "#2B2B2B"
-   
+
    canvas = Image.new("RGB", (SLIDE_W, SLIDE_H), BG_COLOR)
    draw = ImageDraw.Draw(canvas)
-   
+
    # Coller les 3 images de scènes (collage)
    # Dessiner le synopsis en uppercase (gestion wrapping manuel)
    # Dessiner le titre avec Impact (grande taille)
    # Dessiner "DIRECTED BY X (YEAR)" + "CINELYON.FR"
-   
-   # Retourner en PNG
+
    import io
    buf = io.BytesIO()
    canvas.save(buf, format="PNG")
@@ -408,3 +935,4 @@ colorthief>=0.2.1
 ```
 
 Ces données sont disponibles dans `app.py` via `load_movies_data()` et la recherche par `slug`.
+
