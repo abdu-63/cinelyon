@@ -1,6 +1,6 @@
 // ⚠️ Pour invalider le cache sur tous les appareils, modifiez ce numéro de version.
 // Il suffit d'incrémenter CACHE_VERSION à chaque déploiement majeur.
-const CACHE_VERSION = 'v33';
+const CACHE_VERSION = 'v35';
 const CACHE_NAME = `cinelyon-${CACHE_VERSION}`;
 
 // Assets statiques préchargés à l'installation (images uniquement — ne changent pas)
@@ -57,6 +57,9 @@ self.addEventListener('fetch', (event) => {
 
     // Ignorer sw.js et manifest.json : ils doivent toujours être récupérés depuis le réseau
     if (url.pathname === '/static/sw.js' || url.pathname === '/static/manifest.json') return;
+
+    // Ignorer les requêtes vers l'image de story dynamique (générée à la volée, non mise en cache)
+    if (url.pathname.endsWith('/story.png')) return;
 
     const isHTMLPage = event.request.headers.get('accept')?.includes('text/html');
     const isStaticAsset = url.pathname.startsWith('/static/');

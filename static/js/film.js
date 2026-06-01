@@ -285,48 +285,142 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    let preloadedFile = null;
+    let isPreloading = false;
+
+    // Dynamically create the fallback share modal markup
+    let storyModalOverlay = document.getElementById('storyModalOverlay');
+    if (!storyModalOverlay) {
+        storyModalOverlay = document.createElement('div');
+        storyModalOverlay.id = 'storyModalOverlay';
+        storyModalOverlay.className = 'story-modal-overlay';
+        storyModalOverlay.innerHTML = `
+            <div class="story-modal">
+                <button class="story-modal-close" aria-label="Fermer">&times;</button>
+                <h3 class="story-modal-title">Partager la Story</h3>
+                <div class="story-modal-img-container">
+                    <div class="story-modal-spinner"></div>
+                    <img class="story-modal-img" alt="Aperçu Story" style="display: none;" />
+                </div>
+                <p class="story-modal-instructions">
+                    Appuyez longuement sur l'image pour <strong>l'enregistrer</strong> ou la <strong>copier</strong>, puis partagez-la sur Instagram.
+                </p>
+                <div class="story-modal-actions">
+                    <a class="story-modal-btn story-modal-btn-download" download="cinelyon_story.png" href="#">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16" style="display: inline-block; vertical-align: middle;">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                        </svg>
+                        Télécharger
+                    </a>
+                    <button class="story-modal-btn story-modal-btn-close">Fermer</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(storyModalOverlay);
+
+        const closeBtn = storyModalOverlay.querySelector('.story-modal-close');
+        const actionCloseBtn = storyModalOverlay.querySelector('.story-modal-btn-close');
+        
+        const closeStoryModal = () => {
+            storyModalOverlay.classList.remove('show');
+        };
+
+        closeBtn.addEventListener('click', closeStoryModal);
+        actionCloseBtn.addEventListener('click', closeStoryModal);
+        storyModalOverlay.addEventListener('click', (e) => {
+            if (e.target === storyModalOverlay) {
+                closeStoryModal();
+            }
+        });
+    }
+
+    const showStoryModal = (imageSrcOrBlobUrl) => {
+        const img = storyModalOverlay.querySelector('.story-modal-img');
+        const spinner = storyModalOverlay.querySelector('.story-modal-spinner');
+        const downloadBtn = storyModalOverlay.querySelector('.story-modal-btn-download');
+
+        storyModalOverlay.classList.add('show');
+
+        if (imageSrcOrBlobUrl) {
+            img.src = imageSrcOrBlobUrl;
+            img.style.display = 'block';
+            spinner.style.display = 'none';
+            downloadBtn.href = imageSrcOrBlobUrl;
+        } else {
+            img.style.display = 'none';
+            spinner.style.display = 'block';
+            downloadBtn.href = '#';
+
+            const storyUrl = window.location.pathname.endsWith('/') 
+                ? window.location.pathname + 'story.png' 
+                : window.location.pathname + '/story.png';
+            
+            img.src = storyUrl;
+            img.onload = () => {
+                img.style.display = 'block';
+                spinner.style.display = 'none';
+                downloadBtn.href = storyUrl;
+            };
+            img.onerror = () => {
+                spinner.style.display = 'none';
+                alert("Erreur lors de la génération de l'image de story.");
+                storyModalOverlay.classList.remove('show');
+            };
+        }
+    };
+
+    const preloadStoryImage = async () => {
+        if (isPreloading || preloadedFile) return;
+        isPreloading = true;
+        try {
+            const storyUrl = window.location.pathname.endsWith('/') 
+                ? window.location.pathname + 'story.png' 
+                : window.location.pathname + '/story.png';
+            const response = await fetch(storyUrl);
+            if (!response.ok) throw new Error('Failed to load story image');
+            const blob = await response.blob();
+            
+            const titleNode = document.querySelector('.film-title').childNodes[0];
+            const title = titleNode ? titleNode.textContent.trim() : document.title;
+            preloadedFile = new File([blob], 'cinelyon_share.png', { type: 'image/png' });
+        } catch (e) {
+            console.warn('Error preloading story image:', e);
+        } finally {
+            isPreloading = false;
+        }
+    };
+
+    // Start preloading immediately on DOM ready
+    preloadStoryImage();
+
     if (shareImgBtn) {
         shareImgBtn.addEventListener('click', async () => {
-            const originalHTML = shareImgBtn.innerHTML;
-            if(shareImgText) shareImgText.textContent = 'Génération...';
-            const icon = shareImgBtn.querySelector('svg');
-            if(icon) icon.classList.add('spin-icon');
-            shareImgBtn.style.pointerEvents = 'none';
-
-            try {
-                const storyUrl = window.location.pathname.endsWith('/') 
-                    ? window.location.pathname + 'story.png' 
-                    : window.location.pathname + '/story.png';
-
-                const response = await fetch(storyUrl);
-                if (!response.ok) {
-                    throw new Error('Erreur réseau lors de la génération de l\'image');
-                }
-
-                const blob = await response.blob();
-                const titleNode = document.querySelector('.film-title').childNodes[0];
-                const title = titleNode ? titleNode.textContent.trim() : document.title;
-
-                const file = new File([blob], 'cinelyon_share.png', { type: 'image/png' });
+            if (preloadedFile) {
+                // On iOS, combining text/title with files can fail or result in only sharing text.
+                // We omit title/text when sharing files to maximize native sharing success.
                 const shareData = {
-                    files: [file],
-                    title: title,
-                    text: `Séances pour ${title} à Lyon`
+                    files: [preloadedFile]
                 };
-
                 if (navigator.canShare && navigator.canShare(shareData)) {
-                    await navigator.share(shareData);
-                } else {
-                    // Fallback: open image in new tab
-                    const url = URL.createObjectURL(blob);
-                    window.open(url, '_blank');
+                    try {
+                        await navigator.share(shareData);
+                        return; // Shared successfully
+                    } catch (err) {
+                        if (err.name === 'AbortError') {
+                            console.log('Share cancelled by user');
+                            return; // User cancelled, do not trigger fallback modal
+                        }
+                        console.warn('Native share failed, falling back:', err);
+                    }
                 }
-            } catch (err) {
-                console.error('Erreur génération image:', err);
-                if(shareImgText) shareImgText.textContent = 'Erreur';
-            } finally {
-                shareImgBtn.innerHTML = originalHTML;
-                shareImgBtn.style.pointerEvents = 'auto';
+            }
+
+            // Fallback: show the dynamic premium preview modal
+            if (preloadedFile) {
+                const blobUrl = URL.createObjectURL(preloadedFile);
+                showStoryModal(blobUrl);
+            } else {
+                showStoryModal(null);
             }
         });
     }

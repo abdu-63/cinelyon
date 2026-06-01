@@ -3285,3 +3285,177 @@ input:checked + .slider:before {
 .provider-logo-wrapper:hover {
     transform: scale(1.1);
 }
+
+/* --- Story Share Fallback Modal --- */
+.story-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 10100;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.story-modal-overlay.show {
+    display: flex;
+    opacity: 1;
+}
+
+.story-modal {
+    background: var(--card-solid);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 24px;
+    max-width: 440px;
+    width: 90%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+    transform: translateY(30px) scale(0.95);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-sizing: border-box;
+}
+
+.story-modal-overlay.show .story-modal {
+    transform: translateY(0) scale(1);
+}
+
+.story-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: rgba(120, 120, 120, 0.15);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-main);
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 10;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.story-modal-close:hover {
+    background: rgba(120, 120, 120, 0.3);
+    transform: scale(1.08);
+}
+
+.story-modal-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0 0 12px 0;
+    text-align: center;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.story-modal-img-container {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border: 1px solid var(--border-light);
+}
+
+.story-modal-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.story-modal-spinner {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-top: 4px solid var(--primary);
+    border-radius: 50%;
+    animation: storySpin 1s linear infinite;
+    z-index: 2;
+}
+
+@keyframes storySpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.story-modal-instructions {
+    margin-top: 16px;
+    text-align: center;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: var(--text-muted);
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    padding: 0 8px;
+}
+
+.story-modal-instructions strong {
+    color: var(--primary);
+}
+
+.story-modal-actions {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.story-modal-btn {
+    flex: 1;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.story-modal-btn-download {
+    background: var(--primary);
+    color: white;
+    border: none;
+}
+
+.story-modal-btn-download:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(68, 76, 247, 0.2);
+}
+
+.story-modal-btn-close {
+    background: var(--border-light);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+}
+
+.story-modal-btn-close:hover {
+    background: var(--border-color);
+}
+
