@@ -442,14 +442,47 @@ async function getMovieBackdrops(film: EnrichedFilm): Promise<{ scenes: string[]
   return { scenes: [], posterUrl, synopsis: null };
 }
 
-// ─── Helpers : Extraction de Couleur (Point 4) ────────────────────────────────
+// Helpers : Encodage Base64 & Extraction de Couleur
+
+const TRANSPARENT_PIXEL = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+const imageCache = new Map<string, string>();
+
+async function getBase64Image(imageUrl: string): Promise<string> {
+  if (!imageUrl) return TRANSPARENT_PIXEL;
+  if (imageCache.has(imageUrl)) return imageCache.get(imageUrl)!;
+
+  try {
+    // Utilise la version de taille intermédiaire w780 (qui existe sur TMDB, contrairement à w800)
+    const downloadUrl = imageUrl.includes('image.tmdb.org/t/p/original/')
+      ? imageUrl.replace('/t/p/original/', '/t/p/w780/')
+      : imageUrl;
+
+    const res = await fetch(downloadUrl);
+    if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
+    const buffer = Buffer.from(await res.arrayBuffer());
+
+    // Convertit en JPEG avec sharp pour éviter tout problème avec le format WebP sous Jimp/Satori
+    const convertedBuffer = await sharp(buffer)
+      .jpeg({ quality: 85 })
+      .toBuffer();
+
+    const base64 = `data:image/jpeg;base64,${convertedBuffer.toString('base64')}`;
+    imageCache.set(imageUrl, base64);
+    return base64;
+  } catch (e) {
+    console.warn(`[getBase64Image] Erreur de conversion pour ${imageUrl}:`, e);
+    return TRANSPARENT_PIXEL;
+  }
+}
 
 async function getDominantColor(imageUrl: string): Promise<string> {
   try {
-    // Télécharge l'image en buffer pour que Node Vibrant puisse l'analyser
-    const response = await fetch(imageUrl);
-    const buffer = await response.arrayBuffer();
-    const palette = await Vibrant.from(Buffer.from(buffer)).getPalette();
+    const base64 = await getBase64Image(imageUrl);
+    if (!base64 || base64 === TRANSPARENT_PIXEL) return ACCENT_RED_COVER;
+
+    const base64Data = base64.replace(/^data:image\/\w+;base64,/, "");
+    const buffer = Buffer.from(base64Data, 'base64');
+    const palette = await Vibrant.from(buffer).getPalette();
     
     // On privilégie la couleur vibrante sombre pour garantir la lisibilité sur fond clair
     if (palette.DarkVibrant) return palette.DarkVibrant.hex;
@@ -461,14 +494,15 @@ async function getDominantColor(imageUrl: string): Promise<string> {
   }
 }
 
-// ─── Export SVG to PNG ────────────────────────────────────────────────────────
+
+// Export SVG to PNG
 
 function renderToFile(svg: string, outPath: string) {
   const buffer = new Resvg(svg, { fitTo: { mode: 'width', value: SLIDE.width } }).render().asPng();
   fs.writeFileSync(outPath, buffer);
 }
 
-// ─── Main Generation ──────────────────────────────────────────────────────────
+// Main Generation
 
 export async function generateCarousel(): Promise<string[]> {
   const inputPath = path.join(dirname, 'output', 'enriched_films.json');
@@ -554,9 +588,11 @@ export async function generateCarousel(): Promise<string[]> {
   // SLIDE 0 — COUVERTURE
   // ══════════════════════════════════════════════════════════════
   // Utilisation de la scène principale du premier film sélectionné
-  const backdropUrl = (finalFilmsReady.length > 0 && finalFilmsReady[0].scenes.length > 0)
+  const rawBackdropUrl = (finalFilmsReady.length > 0 && finalFilmsReady[0].scenes.length > 0)
     ? finalFilmsReady[0].scenes[0]
     : await getRandomMovieScene();
+
+  const backdropUrl = await getBase64Image(rawBackdropUrl);
 
   const coverSvg = await satori(
     <div style={{ display: 'flex', width: '100%', height: '100%', backgroundColor: '#000', position: 'relative', overflow: 'hidden' }}>
@@ -686,14 +722,19 @@ export async function generateCarousel(): Promise<string[]> {
     // 1 scène  : mainImage = scène1, secondImage = affiche, thirdImage = null
     // 2 scènes : mainImage = scène1, secondImage = scène2,  thirdImage = affiche
     // 3 scènes : mainImage = scène1, secondImage = scène2,  thirdImage = scène3
-    const mainImage   = scenes[0] ?? posterUrl ?? '';
-    const secondImage = scenes.length >= 2 ? scenes[1] : (scenes.length === 1 ? posterUrl : null);
-    const thirdImage  = scenes.length >= 3 ? scenes[2] : (scenes.length === 2 ? posterUrl : null);
+    const rawMainImage   = scenes[0] ?? posterUrl ?? '';
+    const rawSecondImage = scenes.length >= 2 ? scenes[1] : (scenes.length === 1 ? posterUrl : null);
+    const rawThirdImage  = scenes.length >= 3 ? scenes[2] : (scenes.length === 2 ? posterUrl : null);
 
-    console.log(`📸 Scènes pour "${film.title}": ${scenes.length} — 2e: ${secondImage ? '✓' : '✗'} — 3e: ${thirdImage ? '✓' : '✗'}`);
+    console.log(`📸 Scènes pour "${film.title}": ${scenes.length} — 2e: ${rawSecondImage ? '✓' : '✗'} — 3e: ${rawThirdImage ? '✓' : '✗'}`);
 
     // (Point 4) Extraction de la palette dominante à partir du photogramme principal
-    const dynamicTitleColor = await getDominantColor(mainImage);
+    const dynamicTitleColor = await getDominantColor(rawMainImage);
+
+    // Convert to base64 to avoid network fetches and WebP decoder errors in Satori
+    const mainImage   = await getBase64Image(rawMainImage);
+    const secondImage = rawSecondImage ? await getBase64Image(rawSecondImage) : null;
+    const thirdImage  = rawThirdImage ? await getBase64Image(rawThirdImage) : null;
     
     // Données dynamiques
     const synopsis = film.synopsis || film.overview || film.description || "";
