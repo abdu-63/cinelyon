@@ -1,0 +1,213 @@
+// app/(tabs)/index.tsx
+// Écran principal — liste des films + sélecteur de jours + filtres
+
+import React, { useState, useCallback, useMemo } from 'react';
+import {
+  FlatList,
+  View,
+  Text,
+  StyleSheet,
+  RefreshControl,
+  ListRenderItemInfo,
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useShowtimes } from '../../src/hooks/useShowtimes';
+import { useFavorites } from '../../src/hooks/useFavorites';
+import { useFriends } from '../../src/hooks/useFriends';
+import { filterFilms, extractFilterOptions } from '../../src/utils/showtimes';
+import { FilmCard } from '../../src/components/ui/FilmCard';
+import { DaySelector } from '../../src/components/ui/DaySelector';
+import { FilterBar } from '../../src/components/ui/FilterBar';
+import { FilmListSkeleton } from '../../src/components/skeletons/FilmCardSkeleton';
+import { COLORS, PAGE_SIZE } from '../../src/lib/constants';
+import { Film, FiltersState } from '../../src/types';
+
+const DEFAULT_FILTERS: FiltersState = {
+  titleQuery: '',
+  genre: '',
+  director: '',
+  cinema: '',
+  dayIndex: null,
+  format: '',
+  timeSlot: null,
+  showOnlyFavorites: false,
+  favTab: 'perso',
+};
+
+export default function HomeScreen() {
+  const [selectedDelta, setSelectedDelta] = useState<number | null>(null);
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const [filterState, setFilterState] = useState<FiltersState>(DEFAULT_FILTERS);
+
+  const { films, dates, isLoading, isFetching, isError, refetch } = useShowtimes(selectedDelta);
+  const { favorites, isFavorite, toggleFavorite, syncId } = useFavorites();
+  const { friendFavorites } = useFriends(syncId);
+
+  const filterOptions = useMemo(() => extractFilterOptions(films), [films]);
+
+  const filteredFilms = useMemo(
+    () =>
+      filterFilms(films, {
+        titleQuery: filterState.titleQuery,
+        genre: filterState.genre,
+        director: filterState.director,
+        cinema: filterState.cinema,
+        format: filterState.format,
+        timeSlot: filterState.timeSlot,
+        favorites,
+        friendFavorites,
+      }),
+    [films, filterState, favorites, friendFavorites]
+  );
+
+  const paginatedFilms = useMemo(
+    () => filteredFilms.slice(0, visibleCount),
+    [filteredFilms, visibleCount]
+  );
+
+  const handleDayChange = useCallback((delta: number | null) => {
+    setSelectedDelta(delta);
+    setVisibleCount(PAGE_SIZE);
+  }, []);
+
+  const handleFiltersChange = useCallback((partial: Partial<FiltersState>) => {
+    setFilterState((prev) => ({ ...prev, ...partial }));
+    setVisibleCount(PAGE_SIZE);
+  }, []);
+
+  const handleEndReached = useCallback(() => {
+    setVisibleCount((prev) => Math.min(prev + PAGE_SIZE, filteredFilms.length));
+  }, [filteredFilms.length]);
+
+  const renderItem = useCallback(
+    ({ item }: ListRenderItemInfo<Film>) => (
+      <FilmCard
+        film={item}
+        isFavorite={isFavorite(item.slug)}
+        onToggleFavorite={toggleFavorite}
+        hasFriendFavorited={friendFavorites.includes(item.slug)}
+      />
+    ),
+    [isFavorite, toggleFavorite, friendFavorites]
+  );
+
+  const keyExtractor = useCallback((item: Film) => item.slug, []);
+
+  const ListHeader = useCallback(
+    () => (
+      <>
+        <DaySelector
+          dates={dates}
+          selectedDelta={selectedDelta}
+          onSelect={handleDayChange}
+        />
+        <FilterBar
+          filters={filterState}
+          options={filterOptions}
+          onFiltersChange={handleFiltersChange}
+          totalCount={films.length}
+          filteredCount={filteredFilms.length}
+        />
+      </>
+    ),
+    [dates, selectedDelta, handleDayChange, filterState, filterOptions, handleFiltersChange, films.length, filteredFilms.length]
+  );
+
+  const ListEmpty = useCallback(
+    () => (
+      <View style={styles.emptyContainer}>
+        {isLoading ? (
+          <FilmListSkeleton count={6} />
+        ) : isError ? (
+          <Text style={styles.errorText}>
+            Impossible de charger les séances.{'\n'}Vérifiez votre connexion.
+          </Text>
+        ) : (
+          <Text style={styles.emptyText}>Aucun film pour cette sélection.</Text>
+        )}
+      </View>
+    ),
+    [isLoading, isError]
+  );
+
+  const ListFooter = useCallback(
+    () =>
+      visibleCount < filteredFilms.length ? (
+        <View style={styles.footerLoader}>
+          <Text style={styles.footerText}>Chargement…</Text>
+        </View>
+      ) : null,
+    [visibleCount, filteredFilms.length]
+  );
+
+  if (isLoading) {
+    return (
+      <SafeAreaView style={styles.safe} edges={['bottom']}>
+        <DaySelector dates={[]} selectedDelta={null} onSelect={() => {}} />
+        <FilmListSkeleton count={6} />
+      </SafeAreaView>
+    );
+  }
+
+  return (
+    <SafeAreaView style={styles.safe} edges={['bottom']}>
+      <FlatList
+        data={paginatedFilms}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
+        ListHeaderComponent={ListHeader}
+        ListEmptyComponent={ListEmpty}
+        ListFooterComponent={ListFooter}
+        onEndReached={handleEndReached}
+        onEndReachedThreshold={0.5}
+        refreshControl={
+          <RefreshControl
+            refreshing={isFetching && !isLoading}
+            onRefresh={refetch}
+            tintColor={COLORS.primary}
+            colors={[COLORS.primary]}
+          />
+        }
+        contentContainerStyle={styles.listContent}
+        removeClippedSubviews
+        maxToRenderPerBatch={10}
+        windowSize={10}
+        initialNumToRender={PAGE_SIZE}
+      />
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  safe: {
+    flex: 1,
+    backgroundColor: COLORS.background,
+  },
+  listContent: {
+    paddingBottom: 24,
+  },
+  emptyContainer: {
+    flex: 1,
+  },
+  emptyText: {
+    textAlign: 'center',
+    color: COLORS.textMuted,
+    marginTop: 60,
+    fontSize: 15,
+  },
+  errorText: {
+    textAlign: 'center',
+    color: COLORS.warning,
+    marginTop: 60,
+    fontSize: 15,
+    lineHeight: 24,
+  },
+  footerLoader: {
+    padding: 16,
+    alignItems: 'center',
+  },
+  footerText: {
+    color: COLORS.textSubtle,
+    fontSize: 12,
+  },
+});

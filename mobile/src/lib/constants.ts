@@ -1,0 +1,249 @@
+// src/lib/constants.ts
+// Portage exact des constantes de app.py et index.js
+
+import { CinemaInfo } from '../types';
+
+// ── Ordre des enseignes (app.py lines 559–572) ────────────────────────────────
+
+export const BRAND_ORDER = [
+  'Pathé',
+  'UGC',
+  'Lumière',
+  'Institut Lumière',
+  'Comoedia',
+  'CGR',
+  'Ciné Meyzieu',
+  'Ciné Toboggan',
+  'Cinéma Saint-Denis',
+  'Cinéma Les Amphis',
+  'Gérard-Philipe',
+  'Autre',
+] as const;
+
+export type Brand = (typeof BRAND_ORDER)[number];
+
+/**
+ * Portage exact de app.py::get_brand()
+ * Ordre des conditions identique pour éviter les collisions (ex: "Institut Lumière" avant "Lumière")
+ */
+export function getBrand(cinemaName: string): Brand {
+  const name = cinemaName.toLowerCase();
+  if (name.startsWith('pathé') || name.startsWith('pathe')) return 'Pathé';
+  if (name.startsWith('ugc')) return 'UGC';
+  if (name.includes('institut lumière') || name.includes('institut lumiere')) return 'Institut Lumière';
+  if (name.includes('lumière') || name.includes('lumiere')) return 'Lumière';
+  if (name.startsWith('cgr')) return 'CGR';
+  if (name.includes('comoedia')) return 'Comoedia';
+  if (name.includes('amphis')) return 'Cinéma Les Amphis';
+  if (name.includes('gerard-philipe') || name.includes('gérard-philipe')) return 'Gérard-Philipe';
+  if (name.includes('meyzieu')) return 'Ciné Meyzieu';
+  if (name.includes('toboggan')) return 'Ciné Toboggan';
+  if (name.includes('saint-denis')) return 'Cinéma Saint-Denis';
+  return 'Autre';
+}
+
+// ── Traductions jours/mois (app.py lines 199–221) ────────────────────────────
+
+/** Jours de la semaine en français abrégé (getDay() : 0=Dim, 1=Lun…) */
+export const DAYS_FR: Record<number, string> = {
+  0: 'Dim',
+  1: 'Lun',
+  2: 'Mar',
+  3: 'Mer',
+  4: 'Jeu',
+  5: 'Ven',
+  6: 'Sam',
+};
+
+/** Mois en français abrégé (getMonth()+1 : 1=janv…) */
+export const MONTHS_FR: Record<number, string> = {
+  1: 'janv',
+  2: 'févr',
+  3: 'mars',
+  4: 'avr',
+  5: 'mai',
+  6: 'juin',
+  7: 'juil',
+  8: 'août',
+  9: 'sept',
+  10: 'oct',
+  11: 'nov',
+  12: 'déc',
+};
+
+// ── URLs & adresses des cinémas (index.js lines 644–695) ─────────────────────
+
+export const CINEMAS: CinemaInfo[] = [
+  {
+    name: 'Pathé Carré de Soie',
+    address: 'Place Jacques Monod, Carré de Soie, 69120 Vaulx-en-Velin',
+    latitude: 45.7641958,
+    longitude: 4.9212527,
+    url: 'https://www.pathe.fr/cinemas/cinema-pathe-carre-de-soie',
+  },
+  {
+    name: 'Pathé Bellecour',
+    address: '79 Rue de la République, 69002 Lyon',
+    latitude: 45.7587566,
+    longitude: 4.8348411,
+    url: 'https://www.pathe.fr/cinemas/cinema-pathe-bellecour',
+  },
+  {
+    name: 'Pathé Vaise',
+    address: '33 Rue des Docks, 69009 Lyon',
+    latitude: 45.7733587,
+    longitude: 4.8560867,
+    url: 'https://www.pathe.fr/cinemas/cinema-pathe-vaise',
+  },
+  {
+    name: 'UGC Part-Dieu',
+    address: 'Centre Commercial Part-Dieu, 69003 Lyon',
+    latitude: 45.7620499,
+    longitude: 4.8544994,
+    url: 'https://www.ugc.fr/cinema-ugc-cine-cite-part-dieu.html',
+  },
+  {
+    name: 'UGC Confluence',
+    address: '112 Cours Charlemagne, 69002 Lyon',
+    latitude: 45.7407344,
+    longitude: 4.8181753,
+    url: 'https://www.ugc.fr/cinema-ugc-cine-cite-confluence.html',
+  },
+  {
+    name: 'UGC Internationale',
+    address: 'Cité Internationale, 80 Quai Charles de Gaulle, 69006 Lyon',
+    latitude: 45.7845498,
+    longitude: 4.8520202,
+    url: 'https://www.ugc.fr/cinema-ugc-cine-cite-internationale-lyon.html',
+  },
+  {
+    name: 'UGC Astoria',
+    address: '31 Rue de la République, 69002 Lyon',
+    latitude: 45.7733587,
+    longitude: 4.8767983,
+    url: 'https://www.ugc.fr/cinema-ugc-astoria.html',
+  },
+  {
+    name: 'CGR Brignais',
+    address: '330 Route de Givors, 69530 Brignais',
+    latitude: 45.7319408,
+    longitude: 4.7699954,
+    url: 'https://www.cgrcinemas.fr/films-a-l-affiche/',
+  },
+  {
+    name: 'Ciné Meyzieu',
+    address: '24 Rue Louis Saulnier, 69330 Meyzieu',
+    latitude: 45.7649601,
+    longitude: 5.0028814,
+    url: 'https://cinemeyzieu.fr/',
+  },
+  {
+    name: 'Ciné Toboggan',
+    address: '14 Avenue Jean Macé, 69150 Décines-Charpieu',
+    latitude: 45.7687615,
+    longitude: 4.955623,
+    url: 'https://www.letoboggan.com/cinema/',
+  },
+  {
+    name: 'Cinéma Saint-Denis',
+    address: '77 Gd Rue de la Croix-Rousse, 69004 Lyon',
+    latitude: 45.7800456,
+    longitude: 4.8293649,
+    url: 'https://www.cinema-saint-denis.fr/',
+  },
+  {
+    name: 'Lumière Bellecour',
+    address: '12 Rue de la Barre, 69002 Lyon',
+    latitude: 45.7320296,
+    longitude: 4.8438138,
+    url: 'https://www.cinemas-lumiere.com/programmation/bellecour.html',
+  },
+  {
+    name: 'Lumière La Fourmi',
+    address: '8 Grande Rue de la Guillotière, 69007 Lyon',
+    latitude: 45.7320296,
+    longitude: 4.8579623,
+    url: 'https://www.cinemas-lumiere.com/programmation/fourmi.html',
+  },
+  {
+    name: 'Lumière Terreaux',
+    address: '40 Rue du Président Édouard Herriot, 69001 Lyon',
+    latitude: 45.7733587,
+    longitude: 4.8673231,
+    url: 'https://www.cinemas-lumiere.com/programmation/terreaux.html',
+  },
+  {
+    name: 'Institut Lumière',
+    address: '25 Rue du Premier-Film, 69008 Lyon',
+    latitude: 45.7344678,
+    longitude: 4.9027159,
+    url: 'https://www.institut-lumiere.org/',
+  },
+  {
+    name: 'Cinéma Comoedia',
+    address: '13 Avenue Berthelot, 69007 Lyon',
+    latitude: 45.747503,
+    longitude: 4.8307605,
+    url: 'https://www.allocine.fr/seance/salle_gen_csalle=P3757.html',
+  },
+  {
+    name: 'Les Amphis',
+    address: '12 Rue Pierre Cot, 69120 Vaulx-en-Velin',
+    latitude: 45.78833,
+    longitude: 4.9153971,
+    url: 'https://www.allocine.fr/seance/salle_gen_csalle=P0013.html',
+  },
+  {
+    name: 'Cinéma Gerard-Philipe',
+    address: '12 Rue Émile Zola, 69200 Vénissieux',
+    latitude: 45.6969889,
+    longitude: 4.8666958,
+    url: 'https://www.allocine.fr/seance/salle_gen_csalle=P0003.html',
+  },
+  {
+    name: 'Ciné Saint-Denis',
+    address: '77 Gd Rue de la Croix-Rousse, 69004 Lyon',
+    latitude: 45.7800456,
+    longitude: 4.8293649,
+    url: 'https://www.allocine.fr/seance/salle_gen_csalle=P0261.html',
+  },
+];
+
+/** Lookup rapide nom → CinemaInfo */
+export const CINEMA_MAP: Record<string, CinemaInfo> = Object.fromEntries(
+  CINEMAS.map((c) => [c.name, c])
+);
+
+// ── Couleurs de l'application ─────────────────────────────────────────────────
+
+export const COLORS = {
+  primary: '#626afc',
+  primaryDark: '#4a52e8',
+  background: '#0d0d14',
+  surface: '#16161f',
+  surfaceElevated: '#1e1e2e',
+  border: '#2a2a3d',
+  text: '#e8e8f0',
+  textMuted: '#888899',
+  textSubtle: '#555566',
+  voBadge: '#3a6bc4',
+  vfBadge: '#2d4a2d',
+  favActive: '#e25555',
+  success: '#3ecf8e',
+  warning: '#f59e0b',
+} as const;
+
+// ── Clés SecureStore ──────────────────────────────────────────────────────────
+
+export const SECURE_KEYS = {
+  syncId: 'cinelyon_sync_id',
+  deviceId: 'cinelyon_device_id',
+  deviceName: 'cinelyon_device_name',
+  localUpdatedAt: 'cinelyon_local_updated_at',
+} as const;
+
+// ── Cache / réseau ────────────────────────────────────────────────────────────
+
+export const STALE_TIME_MS = 5 * 60 * 1000;     // 5 min — identique au TTL Flask
+export const GC_TIME_MS = 24 * 60 * 60 * 1000;  // 24h en cache disque
+export const PAGE_SIZE = 20;                      // films par batch (infinite scroll)

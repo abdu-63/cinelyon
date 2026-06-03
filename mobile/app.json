@@ -1,0 +1,65 @@
+{
+  "expo": {
+    "name": "CinéLyon",
+    "slug": "cinelyon",
+    "owner": "abdu-default",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "cinelyon",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0d0d14"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "fr.cinelyon.app",
+      "infoPlist": {
+        "NSCalendarsUsageDescription": "CinéLyon a besoin d'accéder à votre calendrier pour ajouter vos séances."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundColor": "#0d0d14"
+      },
+      "package": "fr.cinelyon.app",
+      "permissions": ["WRITE_CALENDAR", "READ_CALENDAR"]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      "expo-calendar",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#0d0d14"
+        }
+      ],
+      "expo-notifications",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "deploymentTarget": "15.1"
+          }
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "00000000-0000-0000-0000-000000000000"
+      }
+    }
+
+  }
+}
