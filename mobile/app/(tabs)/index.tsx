@@ -96,9 +96,11 @@ export default function HomeScreen() {
         isFavorite={isFavorite(item.slug)}
         onToggleFavorite={toggleFavorite}
         hasFriendFavorited={friendFavorites.includes(item.slug)}
+        showFriendBadge={filterState.showFriendFavorites}
+        dates={dates}
       />
     ),
-    [isFavorite, toggleFavorite, friendFavorites]
+    [isFavorite, toggleFavorite, friendFavorites, filterState.showFriendFavorites, dates]
   );
 
   const keyExtractor = useCallback((item: Film) => item.slug, []);

@@ -20,7 +20,7 @@ import { Film, Seance } from '../../types';
 import { COLORS } from '../../lib/constants';
 import { optimizePosterUrl, PLACEHOLDER_POSTER } from '../../utils/imageUtils';
 import { isPastSeance } from '../../utils/showtimes';
-import { getDeltaForDate, formatTime } from '../../utils/dateUtils';
+import { getDeltaForDate, formatTime, formatDayLabel } from '../../utils/dateUtils';
 import { useCalendar } from '../../hooks/useCalendar';
 
 // Dimensions exactes du site web sur mobile (.affiche mobile: 100px × 144px)
@@ -33,6 +33,7 @@ interface FilmCardProps {
   onToggleFavorite: (slug: string) => void;
   hasFriendFavorited?: boolean;
   showFriendBadge?: boolean;
+  dates: DateLabel[];
 }
 
 export const FilmCard = memo(function FilmCard({
@@ -41,6 +42,7 @@ export const FilmCard = memo(function FilmCard({
   onToggleFavorite,
   hasFriendFavorited = false,
   showFriendBadge = false,
+  dates,
 }: FilmCardProps) {
   const router = useRouter();
   const posterUrl = optimizePosterUrl(film.affiche, POSTER_WIDTH * 2);
@@ -65,11 +67,9 @@ export const FilmCard = memo(function FilmCard({
     : {};
 
   // Date ISO pour le jour sélectionné (pour le filtre séances passées + calendrier)
-  const today = new Date();
-  const selectedIsoDate = selectedDayIdx !== null ? (() => {
-    const d = new Date(today);
-    d.setDate(today.getDate() + selectedDayIdx);
-    return d.toISOString().split('T')[0];
+  const selectedIsoDate = selectedDayLabel ? (() => {
+    const dObj = dates.find((d) => formatDayLabel(d) === selectedDayLabel);
+    return dObj ? dObj.isoDate : '';
   })() : '';
 
   return (
