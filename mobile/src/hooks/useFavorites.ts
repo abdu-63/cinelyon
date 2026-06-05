@@ -59,7 +59,7 @@ export function useFavorites() {
     queryFn: async () => {
       const { data } = await supabase
         .from('favorites')
-        .select('films, updated_at')
+        .select('films, updated_at, pseudo')
         .eq('user_id', syncId!)
         .maybeSingle();
       return data as FavoriteRecord | null;
@@ -70,6 +70,7 @@ export function useFavorites() {
   });
 
   const favorites: string[] = remoteRecord?.films ?? [];
+  const pseudo: string = remoteRecord?.pseudo ?? '';
 
   // 3. Upsert vers Supabase (portage syncToSupabase — debounced via useMutation)
   const upsertMutation = useMutation({
@@ -79,6 +80,25 @@ export function useFavorites() {
         {
           user_id: syncId,
           films,
+          updated_at: new Date().toISOString(),
+        },
+        { onConflict: 'user_id' }
+      );
+      if (error) throw new Error(error.message);
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['favorites', syncId] });
+    },
+  });
+
+  const updatePseudoMutation = useMutation({
+    mutationFn: async (newPseudo: string) => {
+      if (!syncId) throw new Error('syncId non disponible');
+      const { error } = await supabase.from('favorites').upsert(
+        {
+          user_id: syncId,
+          films: favorites,
+          pseudo: newPseudo,
           updated_at: new Date().toISOString(),
         },
         { onConflict: 'user_id' }
@@ -100,7 +120,15 @@ export function useFavorites() {
     upsertMutation.mutate(next);
     // Mise à jour optimiste du cache local
     qc.setQueryData<FavoriteRecord | null>(['favorites', syncId], (old) =>
-      old ? { ...old, films: next } : { user_id: syncId, films: next, updated_at: new Date().toISOString() }
+      old ? { ...old, films: next } : { user_id: syncId, films: next, updated_at: new Date().toISOString(), pseudo }
+    );
+  };
+
+  const updatePseudo = (newPseudo: string) => {
+    if (!syncId) return;
+    updatePseudoMutation.mutate(newPseudo);
+    qc.setQueryData<FavoriteRecord | null>(['favorites', syncId], (old) =>
+      old ? { ...old, pseudo: newPseudo } : { user_id: syncId, films: favorites, updated_at: new Date().toISOString(), pseudo: newPseudo }
     );
   };
 
@@ -150,13 +178,15 @@ export function useFavorites() {
 
   return {
     favorites,
+    pseudo,
     syncId: syncId ?? '',
     deviceId: deviceId ?? '',
     syncCode: syncId ? getSyncCode(syncId) : '',
     isFavorite: (slug: string) => favorites.includes(slug),
     toggleFavorite,
+    updatePseudo,
     linkDevice,
     unlinkDevice,
-    isSyncing: upsertMutation.isPending,
+    isSyncing: upsertMutation.isPending || updatePseudoMutation.isPending,
   };
 }

@@ -26,6 +26,7 @@ interface ShowtimeRowProps {
   filmTitle?: string;
   filmDuree?: string;
   onCalendarPress?: (seance: Seance) => void;
+  hidePastSessions?: boolean;
 }
 
 export function ShowtimeRow({
@@ -35,11 +36,12 @@ export function ShowtimeRow({
   filmTitle,
   filmDuree,
   onCalendarPress,
+  hidePastSessions = true,
 }: ShowtimeRowProps) {
   const isToday = getDeltaForDate(isoDate) === 0;
   const { addToCalendar } = useCalendar();
 
-  const visibleSeances = isToday
+  const visibleSeances = isToday && hidePastSessions
     ? seances.filter((s) => !isPastSeance(s.time))
     : seances;
 
@@ -56,11 +58,20 @@ export function ShowtimeRow({
   return (
     // .seance_container du site — flex row avec cinéma + horaires
     <View style={styles.container}>
-      {/* .cinema du site — badge bleu primary avec texte blanc */}
-      <View style={styles.cinemaLabel}>
-        <Text style={styles.cinemaText} numberOfLines={3}>
-          {cinemaName}
-        </Text>
+      {/* .cinema du site — badge bleu primary avec texte blanc et bouton GPS */}
+      <View style={styles.cinemaLabelContainer}>
+        <View style={styles.cinemaLabel}>
+          <Text style={styles.cinemaText} numberOfLines={3}>
+            {cinemaName}
+          </Text>
+        </View>
+        <TouchableOpacity
+          style={styles.gpsBtn}
+          onPress={() => Linking.openURL(`maps://?q=${encodeURIComponent('Cinéma ' + cinemaName + ' Lyon')}`)}
+          accessibilityLabel="Ouvrir dans Maps"
+        >
+          <Ionicons name="navigate" size={14} color={COLORS.primary} />
+        </TouchableOpacity>
       </View>
 
       {/* .horaires_container du site — scroll horizontal */}
@@ -152,19 +163,31 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
 
-  // .cinema du site: background primary, hauteur 42px, width 100px, texte blanc
+  cinemaLabelContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    width: 130,
+    minWidth: 130,
+    flexShrink: 0,
+  },
   cinemaLabel: {
     backgroundColor: COLORS.primary,
     borderRadius: 5,
     height: 48,
-    width: 130,
-    minWidth: 130,
-    flexShrink: 0,
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 8,
+    paddingHorizontal: 6,
     paddingVertical: 5,
-    // Fond solid primary suffit, pas besoin d'ombre
+  },
+  gpsBtn: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: COLORS.primary + '1A',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   cinemaText: {
     fontFamily: 'healTheWebA',

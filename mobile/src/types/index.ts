@@ -70,6 +70,7 @@ export interface FavoriteRecord {
   user_id: string;
   films: string[];     // slugs de films favoris
   updated_at: string;
+  pseudo?: string | null;
 }
 
 /** Table `sync_devices` */
@@ -102,6 +103,7 @@ export interface FiltersState {
   format: string;
   timeSlot: TimeSlot | null;
   showOnlyFavorites: boolean;
+  showFriendFavorites: boolean;
   favTab: FavTab;
 }
 

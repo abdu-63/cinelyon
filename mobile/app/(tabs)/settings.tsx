@@ -1,7 +1,7 @@
 // app/(tabs)/settings.tsx
-// Réglages : sync appareils, code de partage, amis
+// Réglages : sync appareils, code de partage, amis, et options
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ScrollView,
   View,
@@ -10,24 +10,66 @@ import {
   TouchableOpacity,
   TextInput,
   Alert,
+  Switch,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
+import * as Linking from 'expo-linking';
+import { Ionicons } from '@expo/vector-icons';
 import { useFavorites } from '../../src/hooks/useFavorites';
 import { useFriends } from '../../src/hooks/useFriends';
 import { COLORS } from '../../src/lib/constants';
+import { secureStore } from '../../src/lib/secureStore';
+import { TwitterLogo, InstagramLogo, GithubLogo, LetterboxdLogo } from '../../src/components/ui/SocialIcons';
 
 export default function SettingsScreen() {
-  const { syncCode, syncId, linkDevice, unlinkDevice } = useFavorites();
+  const { syncCode, syncId, pseudo, linkDevice, unlinkDevice, updatePseudo } = useFavorites();
   const { follows, addFriend, removeFriend } = useFriends(syncId);
 
   const [linkCode, setLinkCode] = useState('');
   const [friendCode, setFriendCode] = useState('');
   const [friendNickname, setFriendNickname] = useState('');
   const [isLinking, setIsLinking] = useState(false);
+  const [localPseudo, setLocalPseudo] = useState('');
+  const [isCodeHidden, setIsCodeHidden] = useState(false);
+
+  // Settings
+  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+  const [hidePastSessions, setHidePastSessions] = useState(true);
+
+  // Hidden Friends (masquer les amis)
+  const [hiddenFriends, setHiddenFriends] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (pseudo) {
+      setLocalPseudo(pseudo);
+    }
+  }, [pseudo]);
+
+  useEffect(() => {
+    // Load settings
+    const loadSettings = async () => {
+      const notifs = await secureStore.getItemAsync('notificationsEnabled');
+      const hidePast = await secureStore.getItemAsync('hidePastSessions');
+      const hiddenF = await secureStore.getItemAsync('hiddenFriends');
+      if (notifs !== null) setNotificationsEnabled(notifs === 'true');
+      if (hidePast !== null) setHidePastSessions(hidePast === 'true');
+      if (hiddenF !== null) setHiddenFriends(JSON.parse(hiddenF));
+    };
+    loadSettings();
+  }, []);
+
+  const toggleNotifications = async (val: boolean) => {
+    setNotificationsEnabled(val);
+    await secureStore.setItemAsync('notificationsEnabled', val ? 'true' : 'false');
+  };
+
+  const toggleHidePastSessions = async (val: boolean) => {
+    setHidePastSessions(val);
+    await secureStore.setItemAsync('hidePastSessions', val ? 'true' : 'false');
+  };
 
   const handleCopyCode = () => {
-    // Clipboard.setStringAsync(syncCode); — sera ajouté en Phase 5
     Toast.show({ type: 'success', text1: `Code copié : ${syncCode}` });
   };
 
@@ -50,37 +92,42 @@ export default function SettingsScreen() {
     }
   };
 
-  const handleUnlink = () => {
+  const handleRegenerateCode = () => {
     Alert.alert(
-      'Déconnecter cet appareil',
-      'Vos favoris resteront, mais cet appareil ne sera plus synchronisé.',
+      'Changer de code',
+      'Vos favoris resteront, mais votre code actuel sera supprimé. Les autres appareils ne pourront plus se lier avec l\'ancien code.',
       [
         { text: 'Annuler', style: 'cancel' },
         {
-          text: 'Déconnecter',
+          text: 'Changer',
           style: 'destructive',
           onPress: async () => {
             await unlinkDevice();
-            Toast.show({ type: 'success', text1: 'Appareil déconnecté 🔌' });
+            Toast.show({ type: 'success', text1: 'Code mis à jour 🔄' });
           },
         },
       ]
     );
   };
 
+  const handleUpdatePseudo = () => {
+    updatePseudo(localPseudo);
+    Toast.show({ type: 'success', text1: 'Pseudo mis à jour !' });
+  };
+
   const handleAddFriend = async () => {
-    if (friendCode.length < 6) {
-      Toast.show({ type: 'error', text1: 'Code ami trop court' });
+    if (friendCode.trim() === '') {
+      Toast.show({ type: 'error', text1: 'Veuillez entrer un code ou pseudo' });
       return;
     }
     try {
-      await addFriend(friendCode.toUpperCase(), friendNickname || 'Ami');
-      Toast.show({ type: 'success', text1: `Ami ajouté : ${friendNickname || 'Ami'} ✅` });
+      await addFriend(friendCode.trim(), friendNickname || 'Ami');
+      Toast.show({ type: 'success', text1: `Ami ajouté ! ✅` });
       setFriendCode('');
       setFriendNickname('');
     } catch (e: any) {
       if (e.message === 'not_found') {
-        Toast.show({ type: 'error', text1: 'Code ami introuvable' });
+        Toast.show({ type: 'error', text1: 'Utilisateur introuvable' });
       } else {
         Toast.show({ type: 'error', text1: 'Erreur lors de l\'ajout' });
       }
@@ -91,16 +138,41 @@ export default function SettingsScreen() {
     <SafeAreaView style={styles.safe} edges={['bottom']}>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
 
-        {/* Section Synchronisation */}
-        <SectionHeader title="Synchronisation multi-appareils" />
+        {/* Section Profil */}
+        <SectionHeader title="Mon Profil (Amis & Sync)" />
+
+        <View style={styles.card}>
+          <Text style={styles.label}>Votre Nom / Pseudo</Text>
+          <View style={styles.pseudoRow}>
+            <TextInput
+              style={[styles.input, { flex: 1 }]}
+              placeholder="Ex: cinefan69"
+              placeholderTextColor={COLORS.textSubtle}
+              value={localPseudo}
+              onChangeText={setLocalPseudo}
+            />
+            <TouchableOpacity style={styles.saveBtn} onPress={handleUpdatePseudo}>
+              <Text style={styles.saveBtnText}>Enregistrer</Text>
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.hint}>Vos amis pourront vous trouver via ce pseudo.</Text>
+        </View>
 
         <View style={styles.card}>
           <Text style={styles.label}>Votre code de sync</Text>
           <View style={styles.codeRow}>
-            <Text style={styles.syncCode}>{syncCode}</Text>
-            <TouchableOpacity style={styles.copyBtn} onPress={handleCopyCode}>
-              <Text style={styles.copyBtnText}>Copier</Text>
-            </TouchableOpacity>
+            <Text style={styles.syncCode}>{isCodeHidden ? '••••••' : syncCode}</Text>
+            <View style={{ flexDirection: 'row', gap: 8 }}>
+              <TouchableOpacity style={styles.iconBtn} onPress={() => setIsCodeHidden(!isCodeHidden)}>
+                <Ionicons name={isCodeHidden ? "eye" : "eye-off"} size={20} color={COLORS.primary} />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.iconBtn} onPress={handleRegenerateCode}>
+                <Ionicons name="refresh" size={20} color={COLORS.primary} />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.copyBtn} onPress={handleCopyCode}>
+                <Text style={styles.copyBtnText}>Copier</Text>
+              </TouchableOpacity>
+            </View>
           </View>
           <Text style={styles.hint}>
             Partagez ce code avec un autre appareil pour synchroniser vos favoris.
@@ -108,7 +180,7 @@ export default function SettingsScreen() {
         </View>
 
         <View style={styles.card}>
-          <Text style={styles.label}>Lier un appareil</Text>
+          <Text style={styles.label}>Lier un appareil existant</Text>
           <TextInput
             style={styles.input}
             placeholder="Code 6 caractères"
@@ -127,60 +199,110 @@ export default function SettingsScreen() {
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styles.unlinkBtn} onPress={handleUnlink}>
-          <Text style={styles.unlinkText}>Déconnecter cet appareil</Text>
-        </TouchableOpacity>
-
         {/* Section Amis */}
-        <SectionHeader title="Amis" />
+        <SectionHeader title="Amis suivis" />
 
         <View style={styles.card}>
-          <Text style={styles.label}>Suivre un ami</Text>
+          <Text style={styles.label}>Ajouter un ami</Text>
           <TextInput
             style={styles.input}
-            placeholder="Code sync de l'ami (6 car.)"
+            placeholder="Code sync ou pseudo de l'ami"
             placeholderTextColor={COLORS.textSubtle}
             value={friendCode}
-            onChangeText={(t) => setFriendCode(t.toUpperCase().replace(/[^A-Z0-9]/g, ''))}
-            maxLength={6}
-            autoCapitalize="characters"
+            onChangeText={setFriendCode}
+            autoCapitalize="none"
           />
           <TextInput
             style={[styles.input, { marginTop: 8 }]}
-            placeholder="Surnom (optionnel)"
+            placeholder="Surnom local (optionnel)"
             placeholderTextColor={COLORS.textSubtle}
             value={friendNickname}
             onChangeText={setFriendNickname}
           />
           <TouchableOpacity style={styles.btn} onPress={handleAddFriend}>
-            <Text style={styles.btnText}>Ajouter</Text>
+            <Text style={styles.btnText}>Ajouter l'ami</Text>
           </TouchableOpacity>
         </View>
 
         {follows.length > 0 ? (
           <View style={styles.card}>
-            <Text style={styles.label}>Amis suivis</Text>
-            {follows.map((f) => (
-              <View key={f.followed_id} style={styles.friendRow}>
-                <View style={styles.friendAvatar}>
-                  <Text style={styles.friendInitials}>
-                    {(f.followed_name || 'A').substring(0, 2).toUpperCase()}
-                  </Text>
-                </View>
-                <Text style={styles.friendName}>{f.followed_name}</Text>
-                <TouchableOpacity onPress={() => removeFriend(f.followed_id)}>
-                  <Text style={styles.removeText}>Retirer</Text>
-                </TouchableOpacity>
-              </View>
+            {follows.map((f, i) => (
+              <FriendRowItem
+                key={f.followed_id}
+                friend={f}
+                isLast={i === follows.length - 1}
+                isHidden={hiddenFriends.includes(f.followed_id)}
+                onToggleHidden={async () => {
+                  let newHiddens = [...hiddenFriends];
+                  if (newHiddens.includes(f.followed_id)) {
+                    newHiddens = newHiddens.filter(id => id !== f.followed_id);
+                  } else {
+                    newHiddens.push(f.followed_id);
+                  }
+                  setHiddenFriends(newHiddens);
+                  await secureStore.setItemAsync('hiddenFriends', JSON.stringify(newHiddens));
+                }}
+                onRemove={() => removeFriend(f.followed_id)}
+                onUpdate={async (newCode, newName) => {
+                  try {
+                    await removeFriend(f.followed_id);
+                    await addFriend(newCode, newName);
+                    Toast.show({ type: 'success', text1: 'Ami mis à jour !' });
+                  } catch (e) {
+                    Toast.show({ type: 'error', text1: 'Erreur lors de la mise à jour' });
+                  }
+                }}
+              />
             ))}
           </View>
-        ) : (
-          <View style={styles.card}>
-            <Text style={styles.hint}>
-              Vous ne suivez aucun ami pour le moment. Ajoutez le code d'un ami ci-dessus pour voir ses films favoris !
-            </Text>
+        ) : null}
+
+        {/* Section Options */}
+        <SectionHeader title="Options" />
+        
+        <View style={styles.card}>
+          <View style={styles.switchRow}>
+            <Text style={styles.switchLabel}>Afficher les notifications</Text>
+            <Switch
+              value={notificationsEnabled}
+              onValueChange={toggleNotifications}
+              trackColor={{ false: COLORS.border, true: COLORS.primary }}
+            />
           </View>
-        )}
+          <View style={[styles.switchRow, { borderBottomWidth: 0, paddingBottom: 0 }]}>
+            <Text style={styles.switchLabel}>Masquer les séances passées</Text>
+            <Switch
+              value={hidePastSessions}
+              onValueChange={toggleHidePastSessions}
+              trackColor={{ false: COLORS.border, true: COLORS.primary }}
+            />
+          </View>
+        </View>
+
+        {/* Section Contact & Réseaux */}
+        <SectionHeader title="À Propos" />
+
+        <View style={styles.card}>
+          <TouchableOpacity style={styles.contactRow} onPress={() => Linking.openURL('mailto:contact@cinelyon.fr?subject=Signaler un bug / Suggérer un ajout')}>
+            <Ionicons name="bug-outline" size={20} color={COLORS.text} />
+            <Text style={styles.contactText}>Signaler un bug / Suggérer un ajout</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.socialsRow}>
+          <TouchableOpacity style={styles.socialBtn} onPress={() => Linking.openURL('https://x.com/abduplt?s=21')}>
+            <TwitterLogo size={24} color={COLORS.textSubtle} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.socialBtn} onPress={() => Linking.openURL('https://www.instagram.com/_u/cinelyon.fr/')}>
+            <InstagramLogo size={24} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.socialBtn} onPress={() => Linking.openURL('https://github.com/abdu-63')}>
+            <GithubLogo size={24} color={COLORS.textSubtle} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.socialBtn} onPress={() => Linking.openURL('https://boxd.it/6GBU5')}>
+            <LetterboxdLogo size={24} />
+          </TouchableOpacity>
+        </View>
 
         {/* Version */}
         <View style={styles.versionContainer}>
@@ -188,6 +310,75 @@ export default function SettingsScreen() {
         </View>
       </ScrollView>
     </SafeAreaView>
+  );
+}
+
+function FriendRowItem({ friend, isLast, isHidden, onToggleHidden, onRemove, onUpdate }: {
+  friend: any;
+  isLast: boolean;
+  isHidden: boolean;
+  onToggleHidden: () => void;
+  onRemove: () => void;
+  onUpdate: (newCode: string, newName: string) => void;
+}) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editName, setEditName] = useState(friend.followed_name);
+  const [editCode, setEditCode] = useState(friend.followed_id);
+
+  if (isEditing) {
+    return (
+      <View style={[styles.friendRowEditing, isLast && { borderBottomWidth: 0 }]}>
+        <TextInput
+          style={[styles.input, { marginBottom: 8 }]}
+          value={editName}
+          onChangeText={setEditName}
+          placeholder="Nouveau nom"
+        />
+        <TextInput
+          style={[styles.input, { marginBottom: 8 }]}
+          value={editCode}
+          onChangeText={setEditCode}
+          placeholder="Nouveau code ou pseudo"
+          autoCapitalize="none"
+        />
+        <View style={{ flexDirection: 'row', gap: 8 }}>
+          <TouchableOpacity style={[styles.btn, { flex: 1, backgroundColor: COLORS.border }]} onPress={() => setIsEditing(false)}>
+            <Text style={[styles.btnText, { color: COLORS.text }]}>Annuler</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.btn, { flex: 1 }]} onPress={() => { setIsEditing(false); onUpdate(editCode, editName); }}>
+            <Text style={styles.btnText}>Sauvegarder</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
+
+  return (
+    <View style={[styles.friendRow, isLast && { borderBottomWidth: 0 }]}>
+      <View style={[styles.friendAvatar, isHidden && { opacity: 0.5 }]}>
+        <Text style={styles.friendInitials}>
+          {(friend.followed_name || 'A').substring(0, 2).toUpperCase()}
+        </Text>
+      </View>
+      <View style={{ flex: 1 }}>
+        <Text style={[styles.friendName, isHidden && { color: COLORS.textMuted }]}>
+          {friend.followed_name} {isHidden && '(Masqué)'}
+        </Text>
+        <Text style={styles.friendCodeText}>Code : {friend.followed_id.substring(0, 6)}</Text>
+      </View>
+      
+      <View style={{ flexDirection: 'row', gap: 12 }}>
+        <TouchableOpacity onPress={onToggleHidden} hitSlop={8}>
+          <Ionicons name={isHidden ? "eye-off" : "eye"} size={20} color={COLORS.textSubtle} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setIsEditing(true)} hitSlop={8}>
+          <Ionicons name="pencil" size={18} color={COLORS.primary} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onRemove} hitSlop={8}>
+          <Ionicons name="trash" size={18} color={COLORS.warning} />
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 }
 
@@ -241,14 +432,21 @@ const styles = StyleSheet.create({
   codeRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    justifyContent: 'space-between',
     marginBottom: 4,
   },
   syncCode: {
-    fontSize: 28,
+    fontSize: 26,
     fontWeight: '800',
     color: COLORS.primary,
-    letterSpacing: 4,
+    letterSpacing: 3,
+  },
+  iconBtn: {
+    padding: 6,
+    backgroundColor: COLORS.primary + '11',
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   copyBtn: {
     backgroundColor: COLORS.primary + '33',
@@ -257,9 +455,27 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     borderWidth: 1,
     borderColor: COLORS.primary,
+    justifyContent: 'center',
   },
   copyBtnText: {
     color: COLORS.primary,
+    fontWeight: '700',
+    fontSize: 13,
+  },
+
+  pseudoRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  saveBtn: {
+    backgroundColor: COLORS.primary,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 8,
+  },
+  saveBtnText: {
+    color: '#FFF',
     fontWeight: '700',
     fontSize: 13,
   },
@@ -284,25 +500,18 @@ const styles = StyleSheet.create({
   btnDisabled: { opacity: 0.5 },
   btnText: { color: '#fff', fontWeight: '700', fontSize: 14 },
 
-  unlinkBtn: {
-    marginHorizontal: 16,
-    marginTop: 4,
-    padding: 12,
-    alignItems: 'center',
-  },
-  unlinkText: {
-    color: COLORS.warning,
-    fontSize: 13,
-    fontWeight: '600',
-  },
-
   friendRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 8,
+    paddingVertical: 12,
     borderBottomWidth: 1,
     borderBottomColor: COLORS.border,
-    gap: 10,
+    gap: 12,
+  },
+  friendRowEditing: {
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.border,
   },
   friendAvatar: {
     width: 36,
@@ -318,14 +527,52 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
   friendName: {
-    flex: 1,
     color: COLORS.text,
-    fontSize: 14,
-  },
-  removeText: {
-    color: COLORS.warning,
-    fontSize: 12,
+    fontSize: 15,
     fontWeight: '600',
+    marginBottom: 2,
+  },
+  friendCodeText: {
+    color: COLORS.textSubtle,
+    fontSize: 12,
+  },
+
+  switchRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.border,
+  },
+  switchLabel: {
+    fontSize: 15,
+    color: COLORS.text,
+  },
+
+  contactRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  contactText: {
+    fontSize: 15,
+    color: COLORS.text,
+  },
+
+  socialsRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 16,
+    marginTop: 16,
+    marginBottom: 8,
+  },
+  socialBtn: {
+    padding: 8,
+    backgroundColor: COLORS.surface,
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: COLORS.border,
   },
 
   versionContainer: {
@@ -335,10 +582,5 @@ const styles = StyleSheet.create({
   versionText: {
     color: COLORS.textSubtle,
     fontSize: 13,
-  },
-  versionHint: {
-    color: COLORS.textSubtle,
-    fontSize: 11,
-    marginTop: 2,
   },
 });

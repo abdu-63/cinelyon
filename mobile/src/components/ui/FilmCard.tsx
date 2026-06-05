@@ -16,7 +16,7 @@ import {
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { Film, Seance } from '../../types';
+import { Film, Seance, DateLabel } from '../../types';
 import { COLORS } from '../../lib/constants';
 import { optimizePosterUrl, PLACEHOLDER_POSTER } from '../../utils/imageUtils';
 import { isPastSeance } from '../../utils/showtimes';

@@ -102,6 +102,12 @@ export function FilterBar({
               onRemove={() => onFiltersChange({ format: '' })}
             />
           ) : null}
+          {filters.director ? (
+            <FilterChip
+              label={filters.director}
+              onRemove={() => onFiltersChange({ director: '' })}
+            />
+          ) : null}
           {filters.timeSlot ? (
             <FilterChip
               label={TIME_SLOT_LABELS[filters.timeSlot]}
@@ -149,10 +155,10 @@ function FilterChip({ label, onRemove }: { label: string; onRemove: () => void }
 }
 
 const TIME_SLOT_LABELS: Record<TimeSlot, string> = {
-  morning: '🌅 Matin',
-  afternoon: '☀️ Après-midi',
-  evening: '🌆 Soirée',
-  night: '🌙 Nuit',
+  morning: 'Matin (avant 13h)',
+  afternoon: 'Après-midi (13h-18h)',
+  evening: 'Soirée (18h-22h)',
+  night: 'Nuit (après 22h)',
 };
 
 interface FilterModalProps {
@@ -239,6 +245,22 @@ function FilterModal({ visible, onClose, filters, options, onFiltersChange }: Fi
                     label={g}
                     isSelected={filters.genre === g}
                     onPress={() => onFiltersChange({ genre: filters.genre === g ? '' : g })}
+                  />
+                ))}
+              </View>
+            </FilterSection>
+          )}
+
+          {/* Réalisateur */}
+          {options.directors && options.directors.length > 0 && (
+            <FilterSection title="Réalisateur">
+              <View style={styles.pillsGrid}>
+                {options.directors.map((d) => (
+                  <SelectPill
+                    key={d}
+                    label={d}
+                    isSelected={filters.director === d}
+                    onPress={() => onFiltersChange({ director: filters.director === d ? '' : d })}
                   />
                 ))}
               </View>

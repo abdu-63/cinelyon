@@ -263,7 +263,7 @@ export function checkTimeSlot(timeStr: string, slot: TimeSlot): boolean {
  * Vérifie si le film a au moins une séance visible pour le jour donné.
  * Si c'est aujourd'hui, on exclut les séances passées.
  */
-export function hasVisibleSeances(film: Film, isoDate: string, dates: DateLabel[]): boolean {
+export function hasVisibleSeances(film: Film, isoDate: string, dates: DateLabel[], hidePast: boolean = true): boolean {
   const dateObj = dates.find((d) => d.isoDate === isoDate);
   if (!dateObj) return false;
 
@@ -279,7 +279,7 @@ export function hasVisibleSeances(film: Film, isoDate: string, dates: DateLabel[
   for (const seances of Object.values(cinemas)) {
     for (const s of seances) {
       if (isToday) {
-        if (!isPastSeance(s.time)) return true;
+        if (!hidePast || !isPastSeance(s.time)) return true;
       } else {
         return true;
       }

@@ -1,7 +1,7 @@
 // app/film/[slug].tsx
 // Page détail d'un film — séances groupées par enseigne + trailer + streaming
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import {
   ScrollView,
   View,
@@ -14,30 +14,57 @@ import {
 import { useLocalSearchParams } from 'expo-router';
 import { Image } from 'expo-image';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useFocusEffect } from '@react-navigation/native';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import * as Sharing from 'expo-sharing';
 import { Ionicons } from '@expo/vector-icons';
 import { useShowtimes } from '../../src/hooks/useShowtimes';
 import { useFavorites } from '../../src/hooks/useFavorites';
-import { findFilmBySlug } from '../../src/utils/showtimes';
+import { secureStore } from '../../src/lib/secureStore';
+import { findFilmBySlug, formatTime, hasVisibleSeances, isPastSeance } from '../../src/utils/showtimes';
 import { ShowtimeRow } from '../../src/components/ui/ShowtimeRow';
 import { COLORS } from '../../src/lib/constants';
 import { optimizePosterUrl, extractYoutubeId } from '../../src/utils/imageUtils';
 import { LetterboxdLogo, AllocineLogo, TmdbLogo, RtLogo } from '../../src/components/ui/BrandIcons';
+import { CinemaBrand } from '../../src/components/ui/CinemaBrand';
+import { DaySelector } from '../../src/components/ui/DaySelector';
+import { formatDayLabel } from '../../src/utils/dateUtils';
+
+const STREAMING_LINKS: Record<string, { appUrl: string; webUrl: string }> = {
+  'Netflix': { appUrl: 'nflx://', webUrl: 'https://www.netflix.com' },
+  'Amazon Prime Video': { appUrl: 'primevideo://', webUrl: 'https://www.primevideo.com' },
+  'Disney Plus': { appUrl: 'disneyplus://', webUrl: 'https://www.disneyplus.com' },
+  'Canal+': { appUrl: 'mycanal://', webUrl: 'https://www.canalplus.com' },
+  'Apple TV Plus': { appUrl: 'tv://', webUrl: 'https://tv.apple.com' },
+};
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 export default function FilmDetailScreen() {
   const { slug } = useLocalSearchParams<{ slug: string }>();
+  const [selectedDelta, setSelectedDelta] = useState<number | null>(null);
+  const [hidePastSessions, setHidePastSessions] = useState(true);
 
+  useFocusEffect(
+    useCallback(() => {
+      secureStore.getItemAsync('hidePastSessions').then((val) => {
+        if (val !== null) setHidePastSessions(val === 'true');
+      });
+    }, [])
+  );
 
-  const { rawRows, isLoading } = useShowtimes(null);
+  const { rawRows, isLoading, dates } = useShowtimes(null);
   const { isFavorite, toggleFavorite } = useFavorites();
 
   const film = useMemo(
     () => (rawRows.length ? findFilmBySlug(rawRows, slug) : null),
     [rawRows, slug]
   );
+
+  const availableDates = useMemo(() => {
+    if (!film) return [];
+    return dates.filter(d => hasVisibleSeances(film, d.isoDate, dates, hidePastSessions));
+  }, [film, dates, hidePastSessions]);
 
   if (isLoading || !film) {
     return (
@@ -120,17 +147,7 @@ export default function FilmDetailScreen() {
             <Text style={styles.genres}>{film.genres}</Text>
           )}
 
-          {/* Trailer YouTube — affiché par défaut si disponible */}
-          {youtubeId ? (
-            <View style={styles.trailerContainer}>
-              <YoutubePlayer
-                height={Math.round((SCREEN_WIDTH - 32) * 0.5625)}
-                width={SCREEN_WIDTH - 32}
-                videoId={youtubeId}
-                play={false}
-              />
-            </View>
-          ) : null}
+          {/* Trailer YouTube moved down below */}
 
           {/* Notes & Boutons action web */}
           <View style={styles.actionsRow}>
@@ -197,27 +214,53 @@ export default function FilmDetailScreen() {
           </View>
         )}
 
+        {/* Trailer YouTube */}
+        {youtubeId ? (
+          <View style={[styles.section, { borderTopWidth: 0, paddingBottom: 0 }]}>
+            <View style={styles.trailerContainer}>
+              <YoutubePlayer
+                height={Math.round((SCREEN_WIDTH - 32) * 0.5625)}
+                width={SCREEN_WIDTH - 32}
+                videoId={youtubeId}
+                play={false}
+              />
+            </View>
+          </View>
+        ) : null}
+
         {/* Streaming */}
         {film.watch_providers.length > 0 && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Disponible sur</Text>
             <View style={styles.providersRow}>
-              {film.watch_providers.map((p) => (
-                <TouchableOpacity 
-                  key={p.name} 
-                  style={styles.provider}
-                  onPress={() => {
-                    const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(`${film.title} ${p.name} streaming`)}`;
-                    Linking.openURL(searchUrl);
-                  }}
-                  activeOpacity={0.7}
-                >
-                  {p.logo_path && (
-                    <Image source={p.logo_path} style={styles.providerLogo} contentFit="cover" />
-                  )}
-                  <Text style={styles.providerName} numberOfLines={1}>{p.name}</Text>
-                </TouchableOpacity>
-              ))}
+              {film.watch_providers.map((p) => {
+                const links = STREAMING_LINKS[p.name];
+                return (
+                  <TouchableOpacity
+                    key={p.name}
+                    style={styles.provider}
+                    onPress={async () => {
+                      if (links) {
+                        const canOpenApp = await Linking.canOpenURL(links.appUrl).catch(() => false);
+                        if (canOpenApp) {
+                          Linking.openURL(links.appUrl);
+                        } else {
+                          Linking.openURL(links.webUrl);
+                        }
+                      } else {
+                        const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(`${film.title} ${p.name} streaming`)}`;
+                        Linking.openURL(searchUrl);
+                      }
+                    }}
+                    activeOpacity={0.7}
+                  >
+                    {p.logo_path && (
+                      <Image source={p.logo_path} style={styles.providerLogo} contentFit="cover" />
+                    )}
+                    <Text style={styles.providerName} numberOfLines={1}>{p.name}</Text>
+                  </TouchableOpacity>
+                );
+              })}
             </View>
           </View>
         )}
@@ -226,31 +269,72 @@ export default function FilmDetailScreen() {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Séances</Text>
 
-          {dayLabels.map((dayLabel, dayIdx) => {
-            // Calculer la vraie date ISO à partir du delta (index du jour)
-            const today = new Date();
-            const targetDate = new Date(today);
-            targetDate.setDate(today.getDate() + dayIdx);
-            const isoDate = targetDate.toISOString().split('T')[0];
+          <View style={{ marginHorizontal: -16, marginBottom: 12 }}>
+            <DaySelector
+              dates={availableDates}
+              selectedDelta={selectedDelta}
+              onSelect={setSelectedDelta}
+            />
+          </View>
+
+          {availableDates.length === 0 ? (
+            <Text style={{ color: COLORS.textMuted, marginTop: 20, textAlign: 'center' }}>Aucune séance disponible</Text>
+          ) : dayLabels
+            .filter((dayLabel) => {
+              if (selectedDelta === null) return true;
+              const dateObj = availableDates.find(d => d.index === selectedDelta);
+              return dateObj && dayLabel === formatDayLabel(dateObj);
+            })
+            .map((dayLabel) => {
+            const matchedDate = dates.find(d => formatDayLabel(d) === dayLabel);
+            const isoDate = matchedDate ? matchedDate.isoDate : new Date().toISOString().split('T')[0];
+            const isToday = matchedDate ? matchedDate.index === 0 : false;
+
+            let hasVisibleBrand = false;
+            const brandSections: React.ReactNode[] = [];
+
+            Object.entries(film.seancesByDayGrouped[dayLabel]).forEach(([brand, cinemas]) => {
+              let hasVisibleCinema = false;
+              const cinemaRows: React.ReactNode[] = [];
+
+              Object.entries(cinemas).forEach(([cinemaName, seances]) => {
+                const visibleSeances = isToday && hidePastSessions
+                  ? seances.filter((s) => !isPastSeance(s.time))
+                  : seances;
+
+                if (visibleSeances.length > 0) {
+                  hasVisibleCinema = true;
+                  cinemaRows.push(
+                    <ShowtimeRow
+                      key={cinemaName}
+                      cinemaName={cinemaName}
+                      seances={seances}
+                      isoDate={isoDate}
+                      filmTitle={film.title}
+                      filmDuree={film.duree}
+                      hidePastSessions={hidePastSessions}
+                    />
+                  );
+                }
+              });
+
+              if (hasVisibleCinema) {
+                hasVisibleBrand = true;
+                brandSections.push(
+                  <View key={brand} style={styles.brandSection}>
+                    <CinemaBrand brandName={brand} />
+                    {cinemaRows}
+                  </View>
+                );
+              }
+            });
+
+            if (!hasVisibleBrand) return null;
 
             return (
               <View key={dayLabel} style={styles.daySection}>
                 <Text style={styles.dayLabel}>{dayLabel}</Text>
-                {Object.entries(film.seancesByDayGrouped[dayLabel]).map(([brand, cinemas]) => (
-                  <View key={brand} style={styles.brandSection}>
-                    <Text style={styles.brandLabel}>{brand}</Text>
-                    {Object.entries(cinemas).map(([cinemaName, seances]) => (
-                      <ShowtimeRow
-                        key={cinemaName}
-                        cinemaName={cinemaName}
-                        seances={seances}
-                        isoDate={isoDate}
-                        filmTitle={film.title}
-                        filmDuree={film.duree}
-                      />
-                    ))}
-                  </View>
-                ))}
+                {brandSections}
               </View>
             );
           })}

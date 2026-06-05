@@ -5,7 +5,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../lib/supabase';
 import { FriendFollow, FavoriteRecord } from '../types';
 
-export function useFriends(syncId: string) {
+export function useFriends(syncId: string, hiddenFriends: string[] = []) {
   const qc = useQueryClient();
 
   // Charge la liste des amis suivis
@@ -27,7 +27,7 @@ export function useFriends(syncId: string) {
   const friendIds = follows.map((f) => f.followed_id);
 
   const { data: friendFavoritesMap = {} } = useQuery<Record<string, string[]>>({
-    queryKey: ['friendFavoritesMap', ...friendIds.sort()],
+    queryKey: ['friendFavoritesMap', ...friendIds.sort(), ...hiddenFriends.sort()],
     queryFn: async () => {
       if (!friendIds.length) return {};
       const { data } = await supabase
@@ -37,6 +37,8 @@ export function useFriends(syncId: string) {
       
       const map: Record<string, string[]> = {};
       (data ?? []).forEach((row: { user_id: string; films: string[] }) => {
+        if (hiddenFriends.includes(row.user_id)) return; // Masquer cet ami
+        
         const friend = follows.find((f) => f.followed_id === row.user_id);
         const name = friend?.followed_name || 'Ami';
         row.films?.forEach((f) => {
@@ -52,24 +54,25 @@ export function useFriends(syncId: string) {
 
   const friendFavorites = Object.keys(friendFavoritesMap);
 
-  // Ajouter un ami par syncId
+  // Ajouter un ami par syncId ou pseudo
   const addFriend = useMutation({
-    mutationFn: async ({ followedId, nickname }: { followedId: string; nickname: string }) => {
-      // Vérifier que le user_id existe dans favorites
+    mutationFn: async ({ searchKey, nickname }: { searchKey: string; nickname: string }) => {
+      // Vérifier que le user_id ou pseudo existe dans favorites
       const { data: check } = await supabase
         .from('favorites')
-        .select('user_id')
-        .ilike('user_id', `${followedId.substring(0, 6).toLowerCase()}%`)
+        .select('user_id, pseudo')
+        .or(`user_id.ilike.${searchKey.substring(0, 6).toLowerCase()}%,pseudo.ilike.${searchKey}`)
         .limit(1);
 
       if (!check?.length) throw new Error('not_found');
 
       const realId = check[0].user_id;
+      const actualNickname = check[0].pseudo || nickname;
 
       const { error } = await supabase.from('friend_follows').upsert({
         follower_id: syncId,
         followed_id: realId,
-        followed_name: nickname,
+        followed_name: actualNickname,
         created_at: new Date().toISOString(),
       });
       if (error) throw new Error(error.message);
@@ -95,8 +98,8 @@ export function useFriends(syncId: string) {
     friendFavorites,
     hasFriendFavorited: (slug: string) => friendFavorites.includes(slug),
     getFriendsWhoFavorited: (slug: string) => friendFavoritesMap[slug] || [],
-    addFriend: (followedId: string, nickname: string) =>
-      addFriend.mutateAsync({ followedId, nickname }),
+    addFriend: (searchKey: string, nickname: string) =>
+      addFriend.mutateAsync({ searchKey, nickname }),
     removeFriend: (followedId: string) => removeFriend.mutateAsync(followedId),
     isLoading: addFriend.isPending || removeFriend.isPending,
   };
