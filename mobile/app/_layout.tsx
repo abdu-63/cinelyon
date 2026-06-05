@@ -20,6 +20,7 @@ export default function RootLayout() {
     <GestureHandlerRootView style={styles.root}>
       <QueryClientProvider client={queryClient}>
         <StatusBar style="dark" />
+        {/* Fond identique au site: #f5f6f8 */}
         <View style={[StyleSheet.absoluteFillObject, { backgroundColor: '#f5f6f8' }]} />
         <Stack
           screenOptions={{

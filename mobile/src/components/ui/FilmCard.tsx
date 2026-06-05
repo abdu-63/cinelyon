@@ -1,7 +1,8 @@
 // src/components/ui/FilmCard.tsx
 // Carte film principale — fidèle au design glassmorphism du site web
+// Structure EXACTE du site : card + seances-wrapper séparés
 
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import {
   View,
   Text,
@@ -9,15 +10,20 @@ import {
   StyleSheet,
   Pressable,
   Platform,
+  ScrollView,
+  Linking,
 } from 'react-native';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { Film } from '../../types';
+import { Film, Seance } from '../../types';
 import { COLORS } from '../../lib/constants';
 import { optimizePosterUrl, PLACEHOLDER_POSTER } from '../../utils/imageUtils';
+import { isPastSeance } from '../../utils/showtimes';
+import { getDeltaForDate, formatTime } from '../../utils/dateUtils';
+import { useCalendar } from '../../hooks/useCalendar';
 
-// Dimensions identiques au site web en mobile (affiche: 100px × 144px)
+// Dimensions exactes du site web sur mobile (.affiche mobile: 100px × 144px)
 const POSTER_WIDTH = 100;
 const POSTER_HEIGHT = 144;
 
@@ -39,6 +45,12 @@ export const FilmCard = memo(function FilmCard({
   const router = useRouter();
   const posterUrl = optimizePosterUrl(film.affiche, POSTER_WIDTH * 2);
 
+  // Jours disponibles pour ce film (identique à film.seances_by_day.keys())
+  const dayLabels = Object.keys(film.seancesByDay);
+
+  // Premier jour sélectionné par défaut (comme le site: premier bouton .mini-cal-btn actif)
+  const [selectedDayIdx, setSelectedDayIdx] = useState<number>(0);
+
   const handlePress = () => {
     router.push(`/film/${film.slug}`);
   };
@@ -46,138 +58,338 @@ export const FilmCard = memo(function FilmCard({
   const ratingDisplay =
     film.rating !== 'Note inconnue' ? film.rating.replace('/5', '★') : null;
 
+  // Séances du jour sélectionné (seancesByDay[dayLabel] = { cinemaName: Seance[] })
+  const selectedDayLabel = dayLabels[selectedDayIdx] ?? null;
+  const seancesForDay: Record<string, Seance[]> = selectedDayLabel
+    ? film.seancesByDay[selectedDayLabel] ?? {}
+    : {};
+
+  // Date ISO pour le jour sélectionné (pour le filtre séances passées + calendrier)
+  const today = new Date();
+  const selectedIsoDate = (() => {
+    const d = new Date(today);
+    d.setDate(today.getDate() + selectedDayIdx);
+    return d.toISOString().split('T')[0];
+  })();
+
   return (
-    <Pressable
-      style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
-      onPress={handlePress}
-      accessibilityRole={Platform.OS === 'web' ? undefined : 'button'}
-      accessibilityLabel={`Voir les séances de ${film.title}`}
-    >
-      {/* Affiche — identique au site: width 100px height 144px, border-radius 15px 0 0 15px */}
-      <View style={styles.posterContainer}>
-        <Image
-          source={posterUrl || PLACEHOLDER_POSTER}
-          style={styles.poster}
-          contentFit="cover"
-          transition={200}
-          placeholder={{ uri: PLACEHOLDER_POSTER }}
-        />
-        {/* Badge format (VO/VF etc.) en bas à gauche de l'affiche */}
-        {film.formats ? (
-          <View style={styles.formatBadge}>
-            <Text style={styles.formatBadgeText}>
-              {film.formats.split(',')[0].toUpperCase()}
+    <View style={styles.filmBlock}>
+      {/* ── .container_infoFilm du site : card avec glassmorphism ── */}
+      <Pressable
+        style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
+        onPress={handlePress}
+        accessibilityRole={Platform.OS === 'web' ? undefined : 'button'}
+        accessibilityLabel={`Voir les séances de ${film.title}`}
+      >
+        {/* .blur-background sur mobile: rgba(255,255,255,0.3) + blur(20px) */}
+        <View style={styles.blurBackground} />
+
+        {/* .affiche mobile: 100px × 144px, border-radius 15px 0 0 15px */}
+        <View style={styles.posterContainer}>
+          <Image
+            source={posterUrl || PLACEHOLDER_POSTER}
+            style={styles.poster}
+            contentFit="cover"
+            transition={200}
+            placeholder={{ uri: PLACEHOLDER_POSTER }}
+          />
+        </View>
+
+        {/* .infoFilm du site: padding-right 15px, padding-bottom 15px */}
+        <View style={styles.infoFilm}>
+          {/* .titreFilm: font-size 14px sur mobile */}
+          <View style={styles.titleRow}>
+            <Text style={styles.title} numberOfLines={2}>
+              {film.title}
+              {film.release_year !== 'inconnue' ? (
+                <Text style={styles.releaseYear}> ({film.release_year})</Text>
+              ) : null}
             </Text>
-          </View>
-        ) : null}
-      </View>
-
-      {/* Infos film — zone avec fond semi-transparent (glassmorphism) */}
-      <View style={styles.info}>
-        {/* Titre + bouton favori */}
-        <View style={styles.titleRow}>
-          <Text style={styles.title} numberOfLines={2}>
-            {film.title}
-            {film.release_year !== 'inconnue' ? (
-              <Text style={styles.releaseYear}> ({film.release_year})</Text>
-            ) : null}
-          </Text>
-          <TouchableOpacity
-            style={styles.favoriteBtn}
-            onPress={() => onToggleFavorite(film.slug)}
-            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-            accessibilityLabel={isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'}
-            accessibilityRole={Platform.OS === 'web' ? undefined : 'button'}
-          >
-            <Ionicons
-              name={isFavorite ? 'heart' : 'heart-outline'}
-              size={20}
-              color={isFavorite ? COLORS.favActive : COLORS.textSubtle}
-            />
-          </TouchableOpacity>
-        </View>
-
-        {/* Réalisateur */}
-        {film.director !== 'Inconnu' ? (
-          <Text style={styles.meta} numberOfLines={1}>
-            Réalisateur : {film.director}
-          </Text>
-        ) : null}
-
-        {/* Genre */}
-        {film.genres ? (
-          <Text style={styles.genre} numberOfLines={1}>
-            Genre : {film.genres}
-          </Text>
-        ) : null}
-
-        {/* Durée */}
-        {film.duree ? (
-          <Text style={styles.meta}>Durée : {film.duree}</Text>
-        ) : null}
-
-        {/* Notes */}
-        <View style={styles.ratingsRow}>
-          {ratingDisplay ? (
-            <View style={styles.ratingBadge}>
-              <Text style={styles.ratingText}>Note : {ratingDisplay}</Text>
-            </View>
-          ) : null}
-          {film.tmdb_score !== null ? (
-            <View style={[styles.ratingBadge, styles.tmdbBadge]}>
-              <Text style={styles.ratingText}>TMDB {film.tmdb_score}</Text>
-            </View>
-          ) : null}
-          {film.rt_score ? (
-            <View style={[styles.ratingBadge, styles.rtBadge]}>
-              <Text style={styles.ratingText}>🍅 {film.rt_score}</Text>
-            </View>
-          ) : null}
-        </View>
-
-        {/* Watch providers */}
-        {film.watch_providers && film.watch_providers.length > 0 ? (
-          <View style={styles.providersRow}>
-            {film.watch_providers.slice(0, 4).map((p) => (
-              <Image
-                key={p.name}
-                source={p.logo_path ?? ''}
-                style={styles.providerLogo}
-                contentFit="cover"
+            {/* .favorite-btn identique au site */}
+            <TouchableOpacity
+              style={styles.favoriteBtn}
+              onPress={() => onToggleFavorite(film.slug)}
+              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+              accessibilityLabel={isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'}
+              accessibilityRole={Platform.OS === 'web' ? undefined : 'button'}
+            >
+              <Ionicons
+                name={isFavorite ? 'heart' : 'heart-outline'}
+                size={22}
+                color={isFavorite ? COLORS.favActive : COLORS.textSubtle}
               />
-            ))}
+            </TouchableOpacity>
           </View>
-        ) : null}
 
-        {/* Badge amis */}
-        {showFriendBadge && hasFriendFavorited ? (
-          <View style={styles.friendBadge}>
-            <Ionicons name="people" size={12} color={COLORS.primary} style={styles.friendBadgeIcon} />
-            <Text style={styles.friendBadgeText}>Un ami aime ce film</Text>
+          {/* .info-content — .realisateur, .genre, .duree, .rating: font-size 10px mobile */}
+          <View style={styles.infoContent}>
+            {film.director !== 'Inconnu' ? (
+              <Text style={styles.metaText} numberOfLines={1}>
+                Réalisateur : {film.director}
+              </Text>
+            ) : null}
+            {film.genres ? (
+              <Text style={styles.metaText} numberOfLines={1}>
+                Genre : {film.genres}
+              </Text>
+            ) : null}
+            {film.duree ? (
+              <Text style={styles.metaText}>Durée : {film.duree}</Text>
+            ) : null}
+
+            {/* Notes — badges identiques au site */}
+            <View style={styles.ratingsRow}>
+              {ratingDisplay ? (
+                <View style={styles.ratingBadge}>
+                  <Text style={styles.ratingText}>Note : {ratingDisplay}</Text>
+                </View>
+              ) : null}
+              {film.tmdb_score !== null ? (
+                <View style={[styles.ratingBadge, styles.tmdbBadge]}>
+                  <Text style={styles.ratingText}>TMDB {film.tmdb_score}</Text>
+                </View>
+              ) : null}
+              {film.rt_score ? (
+                <View style={[styles.ratingBadge, styles.rtBadge]}>
+                  <Text style={styles.ratingText}>🍅 {film.rt_score}</Text>
+                </View>
+              ) : null}
+            </View>
+
+            {/* Watch providers */}
+            {film.watch_providers && film.watch_providers.length > 0 ? (
+              <View style={styles.providersRow}>
+                {film.watch_providers.slice(0, 4).map((p) => (
+                  <Image
+                    key={p.name}
+                    source={p.logo_path ?? ''}
+                    style={styles.providerLogo}
+                    contentFit="cover"
+                  />
+                ))}
+              </View>
+            ) : null}
+
+            {/* Badge amis */}
+            {showFriendBadge && hasFriendFavorited ? (
+              <View style={styles.friendBadge}>
+                <Ionicons name="people" size={11} color={COLORS.primary} />
+                <Text style={styles.friendBadgeText}> Un ami aime ce film</Text>
+              </View>
+            ) : null}
           </View>
-        ) : null}
-      </View>
+        </View>
 
-      {/* Chevron navigation identique au site */}
-      <View style={styles.chevronContainer}>
-        <Ionicons name="chevron-forward" size={16} color={COLORS.textMuted} />
-      </View>
-    </Pressable>
+        {/* .chevron-nav du site — positionné en bas à droite */}
+        <View style={styles.chevronNav}>
+          <Ionicons name="chevron-forward" size={16} color={COLORS.textMuted} />
+        </View>
+      </Pressable>
+
+      {/* ── div height:10px séparateur identique au site ── */}
+      <View style={styles.spacer} />
+
+      {/* ── .seances-wrapper du site : mini-calendar + day-seances ── */}
+      {dayLabels.length > 0 ? (
+        <View style={styles.seancesWrapper}>
+          {/* .mini-calendar : flex row, gap 5px sur mobile */}
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.miniCalendar}
+          >
+            {dayLabels.map((dayLabel, idx) => {
+              // Détecter avant-premières pour le point rouge (.has-notification)
+              const cinemas = film.seancesByDay[dayLabel] ?? {};
+              const hasAvantPremiere = Object.values(cinemas).some((seances) =>
+                seances.some(
+                  (s) => s.format && s.format.toLowerCase().includes('première')
+                )
+              );
+              const isActive = selectedDayIdx === idx;
+
+              return (
+                <TouchableOpacity
+                  key={dayLabel}
+                  style={[styles.miniCalBtn, isActive && styles.miniCalBtnActive]}
+                  onPress={() => setSelectedDayIdx(idx)}
+                  accessibilityRole="button"
+                  accessibilityState={{ selected: isActive }}
+                >
+                  {/* Point rouge avant-première */}
+                  {hasAvantPremiere ? (
+                    <View style={styles.notifDot} />
+                  ) : null}
+                  <Text style={[styles.miniCalBtnText, isActive && styles.miniCalBtnTextActive]}>
+                    {dayLabel}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
+
+          {/* .day-seances.show : séances du jour actif */}
+          {selectedDayLabel ? (
+            <DaySeances
+              cinemas={seancesForDay}
+              isoDate={selectedIsoDate}
+              filmTitle={film.title}
+              filmDuree={film.duree}
+            />
+          ) : null}
+        </View>
+      ) : null}
+
+      {/* ── .responsive-div (height: 10px sur mobile) ── */}
+      <View style={styles.responsiveDiv} />
+    </View>
   );
 });
 
+// ── Composant DaySeances — portage exact de .day-seances ────────────────────
+
+interface DaySeancesProps {
+  cinemas: Record<string, Seance[]>;
+  isoDate: string;
+  filmTitle: string;
+  filmDuree?: string;
+}
+
+function DaySeances({ cinemas, isoDate, filmTitle, filmDuree }: DaySeancesProps) {
+  const isToday = getDeltaForDate(isoDate) === 0;
+  const { addToCalendar } = useCalendar();
+
+  return (
+    <View style={styles.daySeances}>
+      {Object.entries(cinemas).map(([cinemaName, seances]) => {
+        const visibleSeances = isToday
+          ? seances.filter((s) => !isPastSeance(s.time))
+          : seances;
+
+        if (!visibleSeances.length) return null;
+
+        return (
+          <View key={cinemaName}>
+            {/* .seance_container : flex row, cinema + horaires */}
+            <View style={styles.seanceContainer}>
+              {/* .cinema mobile: height 42px, width 100px, background primary */}
+              <View style={styles.cinema}>
+                <Text style={styles.cinemaText} numberOfLines={3}>
+                  {cinemaName}
+                </Text>
+              </View>
+
+              {/* .horaires_container : scroll horizontal */}
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.horairesContainer}
+              >
+                {visibleSeances.map((seance, idx) => (
+                  <SeancePill
+                    key={`${seance.time}-${idx}`}
+                    seance={seance}
+                    onCalendarPress={() =>
+                      addToCalendar(filmTitle, cinemaName, seance, isoDate, filmDuree)
+                    }
+                  />
+                ))}
+              </ScrollView>
+            </View>
+
+            {/* .responsive-petite-div (height: 5px sur mobile) */}
+            <View style={styles.petiteDiv} />
+          </View>
+        );
+      })}
+    </View>
+  );
+}
+
+// ── Composant SeancePill — portage exact de .horaire ────────────────────────
+
+interface SeancePillProps {
+  seance: Seance;
+  onCalendarPress: () => void;
+}
+
+function SeancePill({ seance, onCalendarPress }: SeancePillProps) {
+  const isAvantPremiere =
+    seance.format && seance.format.toLowerCase().includes('première');
+
+  const handlePress = () => {
+    if (seance.ticketing_url) {
+      Linking.openURL(seance.ticketing_url);
+    }
+  };
+
+  return (
+    // .horaire-wrapper
+    <View style={styles.horaireWrapper}>
+      <TouchableOpacity
+        style={[
+          styles.horaire,
+          isAvantPremiere && styles.horaireAvantPremiere,
+          seance.ticketing_url && styles.horaireClickable,
+        ]}
+        onPress={seance.ticketing_url ? handlePress : undefined}
+        activeOpacity={seance.ticketing_url ? 0.7 : 1}
+        accessibilityRole={seance.ticketing_url ? 'link' : 'text'}
+        accessibilityLabel={`${seance.time} ${seance.lang}${seance.format ? ' ' + seance.format : ''}`}
+      >
+        {/* .horaire-top : lang-badge + format-badge */}
+        <View style={styles.horaireTop}>
+          <Text style={styles.langBadge}>{seance.lang}</Text>
+          {seance.format ? (
+            <Text style={styles.formatBadge} numberOfLines={1}>
+              {seance.format.split(', ')[0]}
+            </Text>
+          ) : null}
+        </View>
+
+        {/* .horaire-bottom : .seance-time + .calendar-btn */}
+        <View style={styles.horaireBottom}>
+          {/* .seance-time : font-size 13px, bold, color primary */}
+          <Text style={styles.seanceTime}>{formatTime(seance.time)}</Text>
+          {seance.ticketing_url ? <Text style={styles.ticketEmoji}>🎟</Text> : null}
+          {/* .calendar-btn — icône calendrier (visible sur desktop, masqué mobile sur le site mais on le garde en petit) */}
+          <TouchableOpacity
+            onPress={onCalendarPress}
+            style={styles.calendarBtn}
+            accessibilityLabel="Ajouter au calendrier"
+            hitSlop={{ top: 6, bottom: 6, left: 4, right: 4 }}
+          >
+            <Ionicons name="calendar-outline" size={13} color="#999" />
+          </TouchableOpacity>
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+// ── Styles — portage pixel-perfect du CSS web (mobile breakpoint ≤576px) ─────
+
 const styles = StyleSheet.create({
-  // ── Carte principale — glassmorphism identique au site ────────────────
+  // Bloc complet film (card + seances-wrapper)
+  filmBlock: {
+    marginBottom: 0,
+  },
+
+  // ── .container_infoFilm mobile ──────────────────────────────────────
+  // background: var(--card-bg) = rgba(255,255,255,0.6)
+  // border-radius: 15px
+  // box-shadow: 0 8px 32px var(--shadow-lg) = rgba(0,0,0,0.1)
+  // margin: 0 5% (mobile) → ~10px horizontal
   card: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    // --card-bg: rgba(255,255,255,0.6) + border-radius 15px + box-shadow
-    backgroundColor: 'rgba(255,255,255,0.75)',
+    backgroundColor: '#ffffff', // fond solide pour iOS shadow (site: rgba(255,255,255,0.6))
     borderRadius: 15,
-    marginHorizontal: 10,      // margin-left/right 10% sur mobile → 10px environ
-    marginBottom: 10,
+    marginHorizontal: '5%',
+    marginBottom: 0,
     overflow: 'hidden',
-    // box-shadow: 0 8px 32px rgba(0,0,0,0.1) — identique au site
+    position: 'relative',
+    // box-shadow: 0 8px 32px rgba(0,0,0,0.1)
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.1,
@@ -185,47 +397,39 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
   cardPressed: {
-    opacity: 0.85,
+    opacity: 0.9,
     transform: [{ scale: 0.99 }],
   },
 
-  // ── Affiche — identique au site mobile: 100×144, radius 15px 0 0 15px ──
+  // .blur-background mobile: rgba(255,255,255,0.3) + backdrop-filter: blur(20px)
+  // En React Native on simule avec une View semi-transparente
+  blurBackground: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(255,255,255,0.3)',
+    zIndex: -1,
+  },
+
+  // ── .affiche mobile: 100×144, border-radius 15px 0 0 15px ──────────
   posterContainer: {
-    position: 'relative',
     flexShrink: 0,
   },
   poster: {
-    width: POSTER_WIDTH,
-    height: POSTER_HEIGHT,
+    width: POSTER_WIDTH,       // 100px identique au site mobile
+    height: POSTER_HEIGHT,     // 144px identique au site mobile
     borderTopLeftRadius: 15,
     borderBottomLeftRadius: 15,
   },
-  formatBadge: {
-    position: 'absolute',
-    bottom: 4,
-    left: 4,
-    backgroundColor: 'rgba(0,0,0,0.7)',
-    borderRadius: 4,
-    paddingHorizontal: 4,
-    paddingVertical: 2,
-  },
-  formatBadgeText: {
-    color: '#fff',
-    fontSize: 9,
-    fontWeight: '700',
-  },
 
-  // ── Zone info film ─────────────────────────────────────────────────────
-  info: {
+  // ── .infoFilm : padding-right 15px, padding-bottom 15px ─────────────
+  infoFilm: {
     flex: 1,
-    padding: 10,
-    paddingRight: 6,
-    justifyContent: 'flex-start',
-    // padding-right identique à .infoFilm du site
-    paddingBottom: 15,
+    paddingTop: 8,
+    paddingLeft: 8,
+    paddingRight: 15,   // padding-right: 15px identique au site
+    paddingBottom: 15,  // padding-bottom: 15px identique au site
   },
 
-  // Titre + année + bouton favori
+  // .titreFilm mobile: font-size 14px
   titleRow: {
     flexDirection: 'row',
     alignItems: 'flex-start',
@@ -234,46 +438,45 @@ const styles = StyleSheet.create({
   },
   title: {
     flex: 1,
-    // h3.titreFilm du site: font-size 14px sur mobile
-    fontSize: 14,
+    fontSize: 14,        // .titreFilm mobile: font-size 14px
     fontWeight: '700',
     color: COLORS.text,
     lineHeight: 18,
     marginRight: 4,
+    marginTop: 3,
   },
   releaseYear: {
     fontWeight: '400',
     color: COLORS.textMuted,
-    fontSize: 12,
+    fontSize: 13,
   },
 
-  // Bouton favori — identique au site
+  // .favorite-btn
   favoriteBtn: {
     padding: 2,
     marginTop: 1,
   },
 
-  // Métadonnées — .realisateur, .duree, .genre du site: font-size 10px mobile
-  meta: {
-    fontSize: 10,
-    color: COLORS.text,
-    marginBottom: 0,
-    lineHeight: 14,
-  },
-  genre: {
-    fontSize: 10,
-    color: COLORS.text,
-    marginBottom: 0,
-    lineHeight: 14,
+  // .info-content
+  infoContent: {
+    position: 'relative',
   },
 
-  // Badges de notes
+  // .realisateur, .duree, .rating, .genre mobile: font-size 10px
+  metaText: {
+    fontSize: 10,          // font-size: 10px sur mobile
+    color: COLORS.text,
+    lineHeight: 14,
+    marginBottom: 0,
+  },
+
+  // Notes — badges
   ratingsRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 4,
     marginTop: 6,
-    marginBottom: 4,
+    marginBottom: 3,
   },
   ratingBadge: {
     backgroundColor: 'rgba(68,76,247,0.08)',
@@ -301,7 +504,7 @@ const styles = StyleSheet.create({
   providersRow: {
     flexDirection: 'row',
     gap: 4,
-    marginTop: 6,
+    marginTop: 4,
   },
   providerLogo: {
     width: 20,
@@ -311,28 +514,227 @@ const styles = StyleSheet.create({
 
   // Badge amis
   friendBadge: {
-    marginTop: 6,
-    backgroundColor: 'rgba(68,76,247,0.08)',
-    borderRadius: 6,
-    paddingHorizontal: 6,
-    paddingVertical: 3,
-    alignSelf: 'flex-start',
+    marginTop: 5,
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  friendBadgeIcon: {
-    marginRight: 4,
   },
   friendBadgeText: {
     fontSize: 10,
     color: COLORS.primary,
   },
 
-  // Chevron navigation — .chevron-nav du site: position absolute bas droite
-  chevronContainer: {
+  // .chevron-nav: position absolute, bas-droite
+  chevronNav: {
     position: 'absolute',
     bottom: 10,
     right: 10,
-    opacity: 0.7,
+    opacity: 0.6,
+  },
+
+  // ── div height:10px entre card et seances-wrapper ────────────────────
+  spacer: {
+    height: 10,
+  },
+
+  // ── .seances-wrapper mobile: margin 0 5% ─────────────────────────────
+  seancesWrapper: {
+    marginHorizontal: '5%',
+  },
+
+  // ── .mini-calendar mobile: gap 5px, margin-left 0 ───────────────────
+  miniCalendar: {
+    flexDirection: 'row',
+    gap: 5,                    // gap: 5px sur mobile
+    paddingVertical: 2,
+    marginBottom: 10,          // margin-bottom: 15px (légèrement réduit)
+  },
+
+  // ── .mini-cal-btn mobile: padding 4px 8px, font-size 11px ───────────
+  // border-radius: 20px, border: 1px solid var(--border-color), transparent bg
+  miniCalBtn: {
+    paddingHorizontal: 8,      // padding: 4px 8px sur mobile
+    paddingVertical: 4,
+    borderRadius: 20,          // border-radius: 20px
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: COLORS.border, // border: 1px solid var(--border-color) = #ddd
+    position: 'relative',
+  },
+  miniCalBtnActive: {
+    backgroundColor: COLORS.primary, // .mini-cal-btn.active: background var(--primary)
+    borderColor: COLORS.primary,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.15,
+    shadowRadius: 10,
+    elevation: 4,
+  },
+  miniCalBtnText: {
+    fontSize: 11,              // font-size: 11px sur mobile (text-transform: capitalize)
+    color: COLORS.textMuted,   // color: var(--text-muted) = #666
+    fontWeight: '600',
+    textTransform: 'capitalize',
+  },
+  miniCalBtnTextActive: {
+    color: '#ffffff',           // .active: color var(--card-solid) = #fff
+  },
+
+  // Point rouge avant-première (.has-notification::after)
+  notifDot: {
+    position: 'absolute',
+    top: -2,
+    right: 2,
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#ff3b30',
+    borderWidth: 1.5,
+    borderColor: '#fff',
+    zIndex: 1,
+  },
+
+  // ── .day-seances : affiché quand .show ───────────────────────────────
+  daySeances: {
+    // Pas de style particulier — affiché via state
+  },
+
+  // ── .seance_container mobile: flex row, overflow scroll ─────────────
+  seanceContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    overflow: 'hidden',
+  },
+
+  // ── .cinema mobile: height 42px, width 100px, background primary ─────
+  cinema: {
+    backgroundColor: COLORS.primary,   // background-color: var(--primary)
+    borderRadius: 5,
+    height: 42,                         // height: 42px sur mobile
+    width: 100,                         // width: 100px sur mobile
+    minWidth: 100,
+    flexShrink: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 8,               // padding: 5px 8px sur mobile
+    paddingVertical: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.15,               // box-shadow: 0 6px 20px var(--shadow-md)
+    shadowRadius: 10,
+    elevation: 4,
+  },
+  cinemaText: {
+    color: '#ffffff',                   // color: var(--card-solid)
+    fontSize: 12,                       // font-size: 12px sur mobile
+    fontWeight: '600',
+    lineHeight: 14,                     // line-height: 1.2
+    textAlign: 'center',
+  },
+
+  // ── .horaires_container: flex row scroll horizontal ──────────────────
+  horairesContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: 6,
+    gap: 6,
+  },
+
+  // ── .horaire-wrapper mobile: margin-left 5px ─────────────────────────
+  horaireWrapper: {
+    flexShrink: 0,
+    marginLeft: 0,
+  },
+
+  // ── .horaire mobile: height 42px, min-width 72px, border-radius 6px ─
+  // background: var(--card-solid) = #fff, color: var(--primary)
+  // padding: 4px 8px, box-shadow: 0 6px 20px var(--shadow-md)
+  horaire: {
+    backgroundColor: '#ffffff',       // background: var(--card-solid)
+    borderRadius: 6,                   // border-radius: 6px sur mobile
+    height: 42,                        // height: 42px sur mobile
+    minWidth: 72,                      // min-width: 72px sur mobile
+    paddingHorizontal: 8,              // padding: 4px 8px
+    paddingVertical: 4,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'stretch',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.15,              // box-shadow: 0 6px 20px rgba(0,0,0,0.15)
+    shadowRadius: 10,
+    elevation: 4,
+    flexShrink: 0,
+  },
+  horaireClickable: {
+    borderWidth: 1,
+    borderColor: 'rgba(68,76,247,0.25)',
+  },
+  horaireAvantPremiere: {
+    borderWidth: 1,
+    borderColor: 'rgba(255,107,107,0.5)',
+    backgroundColor: 'rgba(255,107,107,0.06)',
+  },
+
+  // ── .horaire-top : lang + format, gap: 3px, height: 14px ─────────────
+  horaireTop: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 3,
+    height: 14,
+    overflow: 'hidden',
+  },
+
+  // ── .lang-badge mobile: font-size 9px, color grey ────────────────────
+  langBadge: {
+    fontSize: 9,
+    fontWeight: '700',
+    color: '#999',           // color: grey
+    marginRight: 0,
+  },
+
+  // ── .format-badge mobile: font-size 8px, uppercase ───────────────────
+  formatBadge: {
+    fontSize: 8,
+    fontWeight: '700',
+    color: '#999',
+    textTransform: 'uppercase',
+    flexShrink: 1,
+  },
+
+  // ── .horaire-bottom: gap 3px, justify-content space-between ──────────
+  horaireBottom: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 3,
+  },
+
+  // ── .seance-time mobile: font-size 13px, bold, color primary ─────────
+  seanceTime: {
+    fontSize: 13,           // font-size: 13px sur mobile
+    fontWeight: '700',
+    color: COLORS.primary,  // color: var(--primary) = #444cf7
+    lineHeight: 16,
+    margin: 0,
+  },
+  ticketEmoji: {
+    fontSize: 10,
+  },
+
+  // .calendar-btn: icône calendrier (discret sur mobile)
+  calendarBtn: {
+    padding: 1,
+    opacity: 0.75,
+    marginLeft: 'auto',
+  },
+
+  // ── .responsive-petite-div (height: 5px) ─────────────────────────────
+  petiteDiv: {
+    height: 5,
+  },
+
+  // ── .responsive-div (height: 10px sur mobile) ────────────────────────
+  responsiveDiv: {
+    height: 10,
   },
 });

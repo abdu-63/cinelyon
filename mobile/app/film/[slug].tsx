@@ -1,7 +1,7 @@
 // app/film/[slug].tsx
 // Page détail d'un film — séances groupées par enseigne + trailer + streaming
 
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import {
   ScrollView,
   View,
@@ -11,7 +11,7 @@ import {
   Linking,
   Dimensions,
 } from 'react-native';
-import { useLocalSearchParams, useNavigation } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import { Image } from 'expo-image';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import YoutubePlayer from 'react-native-youtube-iframe';
@@ -23,15 +23,12 @@ import { findFilmBySlug } from '../../src/utils/showtimes';
 import { ShowtimeRow } from '../../src/components/ui/ShowtimeRow';
 import { COLORS } from '../../src/lib/constants';
 import { optimizePosterUrl, extractYoutubeId } from '../../src/utils/imageUtils';
-import { formatDayLabel } from '../../src/utils/dateUtils';
-import { Film, Seance } from '../../src/types';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 export default function FilmDetailScreen() {
   const { slug } = useLocalSearchParams<{ slug: string }>();
-  const navigation = useNavigation();
-  const [showTrailer, setShowTrailer] = useState(false);
+
 
   const { rawRows, isLoading } = useShowtimes(null);
   const { isFavorite, toggleFavorite } = useFavorites();
@@ -141,52 +138,42 @@ export default function FilmDetailScreen() {
             <Text style={styles.genres}>{film.genres}</Text>
           )}
 
-          {/* Boutons action */}
-          <View style={styles.actionsRow}>
-            {youtubeId && (
-              <TouchableOpacity
-                style={styles.actionBtn}
-                onPress={() => setShowTrailer((v) => !v)}
-              >
-                <Text style={styles.actionBtnText}>
-                  {showTrailer ? '✕ Fermer' : '▶ Bande-annonce'}
-                </Text>
-              </TouchableOpacity>
-            )}
-            <TouchableOpacity
-              style={[styles.actionBtn, styles.actionBtnSecondary]}
-              onPress={handleShare}
-            >
-              <Ionicons name="share-outline" size={16} color={COLORS.text} style={{ marginRight: 4 }} />
-              <Text style={styles.actionBtnText}>Partager</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.actionBtn, styles.actionBtnSecondary]}
-              onPress={() => Linking.openURL(film.url)}
-            >
-              <Text style={styles.actionBtnText}>Letterboxd</Text>
-            </TouchableOpacity>
-            {film.allocine_url && (
-              <TouchableOpacity
-                style={[styles.actionBtn, styles.actionBtnSecondary]}
-                onPress={() => Linking.openURL(film.allocine_url)}
-              >
-                <Text style={styles.actionBtnText}>Allociné</Text>
-              </TouchableOpacity>
-            )}
-          </View>
-
-          {/* Trailer YouTube */}
-          {showTrailer && youtubeId && (
+          {/* Trailer YouTube — affiché par défaut si disponible */}
+          {youtubeId ? (
             <View style={styles.trailerContainer}>
               <YoutubePlayer
                 height={Math.round((SCREEN_WIDTH - 32) * 0.5625)}
                 width={SCREEN_WIDTH - 32}
                 videoId={youtubeId}
-                play={showTrailer}
+                play={false}
               />
             </View>
-          )}
+          ) : null}
+
+          {/* Boutons action */}
+          <View style={styles.actionsRow}>
+            <TouchableOpacity
+              style={[styles.actionBtn, styles.actionBtnSecondary]}
+              onPress={handleShare}
+            >
+              <Ionicons name="share-outline" size={16} color={COLORS.text} style={{ marginRight: 4 }} />
+              <Text style={[styles.actionBtnText, { color: COLORS.text }]}>Partager</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.actionBtn, styles.actionBtnSecondary]}
+              onPress={() => Linking.openURL(film.url)}
+            >
+              <Text style={[styles.actionBtnText, { color: COLORS.text }]}>Letterboxd</Text>
+            </TouchableOpacity>
+            {film.allocine_url ? (
+              <TouchableOpacity
+                style={[styles.actionBtn, styles.actionBtnSecondary]}
+                onPress={() => Linking.openURL(film.allocine_url)}
+              >
+                <Text style={[styles.actionBtnText, { color: COLORS.text }]}>Allociné</Text>
+              </TouchableOpacity>
+            ) : null}
+          </View>
         </View>
 
         {/* Synopsis */}
@@ -218,31 +205,34 @@ export default function FilmDetailScreen() {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Séances</Text>
 
-          {dayLabels.map((dayLabel) => (
-            <View key={dayLabel} style={styles.daySection}>
-              <Text style={styles.dayLabel}>{dayLabel}</Text>
-              {Object.entries(film.seancesByDayGrouped[dayLabel]).map(([brand, cinemas]) => (
-                <View key={brand} style={styles.brandSection}>
-                  <Text style={styles.brandLabel}>{brand}</Text>
-                  {Object.entries(cinemas).map(([cinemaName, seances]) => {
-                    // Trouver l'isoDate correspondant
-                    const isoDate = Object.keys(film.seancesByDay).find(
-                      (k) => formatDayLabel({ jour: dayLabel.split(' ')[0], chiffre: 0, mois: '', index: 0, isoDate: k, fullDate: '' }) === dayLabel
-                    ) ?? new Date().toISOString().split('T')[0];
+          {dayLabels.map((dayLabel, dayIdx) => {
+            // Calculer la vraie date ISO à partir du delta (index du jour)
+            const today = new Date();
+            const targetDate = new Date(today);
+            targetDate.setDate(today.getDate() + dayIdx);
+            const isoDate = targetDate.toISOString().split('T')[0];
 
-                    return (
+            return (
+              <View key={dayLabel} style={styles.daySection}>
+                <Text style={styles.dayLabel}>{dayLabel}</Text>
+                {Object.entries(film.seancesByDayGrouped[dayLabel]).map(([brand, cinemas]) => (
+                  <View key={brand} style={styles.brandSection}>
+                    <Text style={styles.brandLabel}>{brand}</Text>
+                    {Object.entries(cinemas).map(([cinemaName, seances]) => (
                       <ShowtimeRow
                         key={cinemaName}
                         cinemaName={cinemaName}
                         seances={seances}
                         isoDate={isoDate}
+                        filmTitle={film.title}
+                        filmDuree={film.duree}
                       />
-                    );
-                  })}
-                </View>
-              ))}
-            </View>
-          ))}
+                    ))}
+                  </View>
+                ))}
+              </View>
+            );
+          })}
         </View>
       </ScrollView>
     </SafeAreaView>
