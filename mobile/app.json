@@ -26,7 +26,10 @@
         "backgroundColor": "#0d0d14"
       },
       "package": "fr.cinelyon.app",
-      "permissions": ["WRITE_CALENDAR", "READ_CALENDAR"]
+      "permissions": [
+        "WRITE_CALENDAR",
+        "READ_CALENDAR"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -53,13 +56,13 @@
             "deploymentTarget": "15.1"
           }
         }
-      ]
+      ],
+      "expo-font"
     ],
     "extra": {
       "eas": {
         "projectId": "00000000-0000-0000-0000-000000000000"
       }
     }
-
   }
 }

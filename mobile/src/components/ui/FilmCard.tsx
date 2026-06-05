@@ -48,8 +48,8 @@ export const FilmCard = memo(function FilmCard({
   // Jours disponibles pour ce film (identique à film.seances_by_day.keys())
   const dayLabels = Object.keys(film.seancesByDay);
 
-  // Premier jour sélectionné par défaut (comme le site: premier bouton .mini-cal-btn actif)
-  const [selectedDayIdx, setSelectedDayIdx] = useState<number>(0);
+  // Fermé par défaut
+  const [selectedDayIdx, setSelectedDayIdx] = useState<number | null>(null);
 
   const handlePress = () => {
     router.push(`/film/${film.slug}`);
@@ -59,18 +59,18 @@ export const FilmCard = memo(function FilmCard({
     film.rating !== 'Note inconnue' ? film.rating.replace('/5', '★') : null;
 
   // Séances du jour sélectionné (seancesByDay[dayLabel] = { cinemaName: Seance[] })
-  const selectedDayLabel = dayLabels[selectedDayIdx] ?? null;
+  const selectedDayLabel = selectedDayIdx !== null ? dayLabels[selectedDayIdx] ?? null : null;
   const seancesForDay: Record<string, Seance[]> = selectedDayLabel
     ? film.seancesByDay[selectedDayLabel] ?? {}
     : {};
 
   // Date ISO pour le jour sélectionné (pour le filtre séances passées + calendrier)
   const today = new Date();
-  const selectedIsoDate = (() => {
+  const selectedIsoDate = selectedDayIdx !== null ? (() => {
     const d = new Date(today);
     d.setDate(today.getDate() + selectedDayIdx);
     return d.toISOString().split('T')[0];
-  })();
+  })() : '';
 
   return (
     <View style={styles.filmBlock}>
@@ -212,7 +212,7 @@ export const FilmCard = memo(function FilmCard({
                 <TouchableOpacity
                   key={dayLabel}
                   style={[styles.miniCalBtn, isActive && styles.miniCalBtnActive]}
-                  onPress={() => setSelectedDayIdx(idx)}
+                  onPress={() => setSelectedDayIdx(isActive ? null : idx)}
                   accessibilityRole="button"
                   accessibilityState={{ selected: isActive }}
                 >
@@ -351,7 +351,6 @@ function SeancePill({ seance, onCalendarPress }: SeancePillProps) {
         <View style={styles.horaireBottom}>
           {/* .seance-time : font-size 13px, bold, color primary */}
           <Text style={styles.seanceTime}>{formatTime(seance.time)}</Text>
-          {seance.ticketing_url ? <Text style={styles.ticketEmoji}>🎟</Text> : null}
           {/* .calendar-btn — icône calendrier (visible sur desktop, masqué mobile sur le site mais on le garde en petit) */}
           <TouchableOpacity
             onPress={onCalendarPress}
@@ -437,6 +436,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   title: {
+    fontFamily: 'healTheWebA',
     flex: 1,
     fontSize: 14,        // .titreFilm mobile: font-size 14px
     fontWeight: '700',
@@ -446,6 +446,7 @@ const styles = StyleSheet.create({
     marginTop: 3,
   },
   releaseYear: {
+    fontFamily: 'healTheWebA',
     fontWeight: '400',
     color: COLORS.textMuted,
     fontSize: 13,
@@ -464,6 +465,7 @@ const styles = StyleSheet.create({
 
   // .realisateur, .duree, .rating, .genre mobile: font-size 10px
   metaText: {
+    fontFamily: 'healTheWebA',
     fontSize: 10,          // font-size: 10px sur mobile
     color: COLORS.text,
     lineHeight: 14,
@@ -495,6 +497,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(250,82,15,0.08)',
   },
   ratingText: {
+    fontFamily: 'healTheWebA',
     fontSize: 10,
     color: COLORS.textMuted,
     fontWeight: '600',
@@ -519,6 +522,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   friendBadgeText: {
+    fontFamily: 'healTheWebA',
     fontSize: 10,
     color: COLORS.primary,
   },
@@ -570,6 +574,7 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   miniCalBtnText: {
+    fontFamily: 'healTheWebA',
     fontSize: 11,              // font-size: 11px sur mobile (text-transform: capitalize)
     color: COLORS.textMuted,   // color: var(--text-muted) = #666
     fontWeight: '600',
@@ -624,6 +629,7 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   cinemaText: {
+    fontFamily: 'healTheWebA',
     color: '#ffffff',                   // color: var(--card-solid)
     fontSize: 12,                       // font-size: 12px sur mobile
     fontWeight: '600',
@@ -686,6 +692,7 @@ const styles = StyleSheet.create({
 
   // ── .lang-badge mobile: font-size 9px, color grey ────────────────────
   langBadge: {
+    fontFamily: 'healTheWebA',
     fontSize: 9,
     fontWeight: '700',
     color: '#999',           // color: grey
@@ -694,6 +701,7 @@ const styles = StyleSheet.create({
 
   // ── .format-badge mobile: font-size 8px, uppercase ───────────────────
   formatBadge: {
+    fontFamily: 'healTheWebA',
     fontSize: 8,
     fontWeight: '700',
     color: '#999',
@@ -711,6 +719,7 @@ const styles = StyleSheet.create({
 
   // ── .seance-time mobile: font-size 13px, bold, color primary ─────────
   seanceTime: {
+    fontFamily: 'healTheWebA',
     fontSize: 13,           // font-size: 13px sur mobile
     fontWeight: '700',
     color: COLORS.primary,  // color: var(--primary) = #444cf7

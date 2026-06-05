@@ -125,9 +125,6 @@ function SeancePill({ seance, onCalendarPress }: SeancePillProps) {
           style={styles.timeTouch}
         >
           <Text style={styles.time}>{formatTime(seance.time)}</Text>
-          {hasTicket ? (
-            <Text style={styles.ticketIcon}>🎟</Text>
-          ) : null}
         </TouchableOpacity>
 
         {/* Bouton calendrier */}
@@ -160,8 +157,8 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
     borderRadius: 5,
     height: 48,
-    width: 100,
-    minWidth: 100,
+    width: 130,
+    minWidth: 130,
     flexShrink: 0,
     alignItems: 'center',
     justifyContent: 'center',
@@ -175,6 +172,7 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   cinemaText: {
+    fontFamily: 'healTheWebA',
     color: '#ffffff',
     fontSize: 11,
     fontWeight: '600',
@@ -226,11 +224,13 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   langBadge: {
+    fontFamily: 'healTheWebA',
     fontSize: 9,
     fontWeight: '700',
     color: '#999', // identique à .lang-badge du site
   },
   formatBadge: {
+    fontFamily: 'healTheWebA',
     fontSize: 8,
     fontWeight: '700',
     color: '#999', // identique à .format-badge du site
@@ -252,6 +252,7 @@ const styles = StyleSheet.create({
   },
   // .seance-time: font-size 13px bold, color primary (#444cf7)
   time: {
+    fontFamily: 'healTheWebA',
     fontSize: 13,
     fontWeight: '700',
     color: COLORS.primary, // identique au site: color var(--primary)

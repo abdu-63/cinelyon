@@ -197,16 +197,16 @@ function FilterModal({ visible, onClose, filters, options, onFiltersChange }: Fi
             </View>
           </FilterSection>
 
-          {/* Genre */}
-          {options.genres.length > 0 && (
-            <FilterSection title="Genre">
+          {/* Cinéma */}
+          {options.cinemas.length > 0 && (
+            <FilterSection title="Cinéma">
               <View style={styles.pillsGrid}>
-                {options.genres.map((g) => (
+                {options.cinemas.map((c) => (
                   <SelectPill
-                    key={g}
-                    label={g}
-                    isSelected={filters.genre === g}
-                    onPress={() => onFiltersChange({ genre: filters.genre === g ? '' : g })}
+                    key={c}
+                    label={c}
+                    isSelected={filters.cinema === c}
+                    onPress={() => onFiltersChange({ cinema: filters.cinema === c ? '' : c })}
                   />
                 ))}
               </View>
@@ -229,16 +229,16 @@ function FilterModal({ visible, onClose, filters, options, onFiltersChange }: Fi
             </FilterSection>
           )}
 
-          {/* Cinéma */}
-          {options.cinemas.length > 0 && (
-            <FilterSection title="Cinéma">
+          {/* Genre */}
+          {options.genres.length > 0 && (
+            <FilterSection title="Genre">
               <View style={styles.pillsGrid}>
-                {options.cinemas.map((c) => (
+                {options.genres.map((g) => (
                   <SelectPill
-                    key={c}
-                    label={c}
-                    isSelected={filters.cinema === c}
-                    onPress={() => onFiltersChange({ cinema: filters.cinema === c ? '' : c })}
+                    key={g}
+                    label={g}
+                    isSelected={filters.genre === g}
+                    onPress={() => onFiltersChange({ genre: filters.genre === g ? '' : g })}
                   />
                 ))}
               </View>
@@ -305,6 +305,7 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
   },
   searchInput: {
+    fontFamily: 'healTheWebA',
     flex: 1,
     // .search-input du site: border 2px #ddd, border-radius 8px, padding 12px 15px
     backgroundColor: '#ffffff',
@@ -357,12 +358,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.primary + '66',
   },
-  chipText: { color: COLORS.primary, fontSize: 12, fontWeight: '600' },
-  chipRemove: { color: COLORS.primary, fontSize: 12, fontWeight: '700' },
+  chipText: { fontFamily: 'healTheWebA', color: COLORS.primary, fontSize: 12, fontWeight: '600' },
+  chipRemove: { fontFamily: 'healTheWebA', color: COLORS.primary, fontSize: 12, fontWeight: '700' },
   clearAllBtn: { paddingHorizontal: 8 },
-  clearAllText: { color: COLORS.textSubtle, fontSize: 12 },
+  clearAllText: { fontFamily: 'healTheWebA', color: COLORS.textSubtle, fontSize: 12 },
 
   resultCount: {
+    fontFamily: 'healTheWebA',
     fontSize: 11,
     color: COLORS.textSubtle,
     paddingHorizontal: 16,
@@ -384,18 +386,19 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: COLORS.border,
   },
-  modalTitle: { fontSize: 18, fontWeight: '700', color: COLORS.text },
+  modalTitle: { fontFamily: 'healTheWebA', fontSize: 18, fontWeight: '700', color: COLORS.text },
   modalCloseBtn: {
     backgroundColor: COLORS.surfaceElevated,
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 6,
   },
-  modalCloseBtnText: { color: COLORS.primary, fontWeight: '600' },
+  modalCloseBtnText: { fontFamily: 'healTheWebA', color: COLORS.primary, fontWeight: '600' },
   modalContent: { padding: 16, paddingBottom: 48 },
 
   filterSection: { marginBottom: 24 },
   filterSectionTitle: {
+    fontFamily: 'healTheWebA',
     fontSize: 13,
     fontWeight: '700',
     color: COLORS.textMuted,
@@ -420,6 +423,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary + '33',
     borderColor: COLORS.primary,
   },
-  selectPillText: { fontSize: 13, color: COLORS.textMuted },
-  selectPillTextActive: { color: COLORS.primary, fontWeight: '600' },
+  selectPillText: { fontFamily: 'healTheWebA', fontSize: 13, color: COLORS.textMuted },
+  selectPillTextActive: { fontFamily: 'healTheWebA', color: COLORS.primary, fontWeight: '600' },
 });
