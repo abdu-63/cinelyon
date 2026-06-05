@@ -567,11 +567,7 @@ const styles = StyleSheet.create({
   miniCalBtnActive: {
     backgroundColor: COLORS.primary, // .mini-cal-btn.active: background var(--primary)
     borderColor: COLORS.primary,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.15,
-    shadowRadius: 10,
-    elevation: 4,
+    // Pas d'ombre iOS (overflow: hidden sur parent bloque le rendu)
   },
   miniCalBtnText: {
     fontFamily: 'healTheWebA',
@@ -622,11 +618,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 8,               // padding: 5px 8px sur mobile
     paddingVertical: 5,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.15,               // box-shadow: 0 6px 20px var(--shadow-md)
-    shadowRadius: 10,
-    elevation: 4,
+    // Ombre supprimée (remplacée par fond solid primary)
   },
   cinemaText: {
     fontFamily: 'healTheWebA',
@@ -664,11 +656,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'stretch',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.15,              // box-shadow: 0 6px 20px rgba(0,0,0,0.15)
-    shadowRadius: 10,
-    elevation: 4,
+    // Bordure légère au lieu d'ombre (iOS shadow warning avec overflow: hidden)
+    borderWidth: 1,
+    borderColor: 'rgba(0,0,0,0.06)',
     flexShrink: 0,
   },
   horaireClickable: {

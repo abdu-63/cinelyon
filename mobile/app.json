@@ -2,7 +2,6 @@
   "expo": {
     "name": "CinéLyon",
     "slug": "cinelyon",
-    "owner": "abdu-default",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

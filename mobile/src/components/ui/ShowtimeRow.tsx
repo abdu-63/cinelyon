@@ -164,12 +164,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 8,
     paddingVertical: 5,
-    // box-shadow: 0 6px 20px rgba(0,0,0,0.15)
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.15,
-    shadowRadius: 10,
-    elevation: 4,
+    // Fond solid primary suffit, pas besoin d'ombre
   },
   cinemaText: {
     fontFamily: 'healTheWebA',
@@ -198,12 +193,10 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     flexShrink: 0,
     justifyContent: 'space-between',
-    // box-shadow: 0 6px 20px rgba(0,0,0,0.15)
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.12,
-    shadowRadius: 8,
-    elevation: 3,
+    // Bordure légère au lieu d'ombre (iOS shadow warning)
+    borderWidth: 1,
+    borderColor: 'rgba(0,0,0,0.06)',
+    elevation: 2,
   },
   pillClickable: {
     // Légère bordure primary pour les billets disponibles
