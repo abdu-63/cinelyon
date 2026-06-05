@@ -61,7 +61,7 @@ export function useFriends(syncId: string) {
       const { error } = await supabase.from('friend_follows').upsert({
         follower_id: syncId,
         followed_id: realId,
-        nickname,
+        followed_name: nickname,
         created_at: new Date().toISOString(),
       });
       if (error) throw new Error(error.message);

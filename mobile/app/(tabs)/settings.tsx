@@ -157,7 +157,7 @@ export default function SettingsScreen() {
           </TouchableOpacity>
         </View>
 
-        {follows.length > 0 && (
+        {follows.length > 0 ? (
           <View style={styles.card}>
             <Text style={styles.label}>Amis suivis</Text>
             {follows.map((f) => (
@@ -173,6 +173,12 @@ export default function SettingsScreen() {
                 </TouchableOpacity>
               </View>
             ))}
+          </View>
+        ) : (
+          <View style={styles.card}>
+            <Text style={styles.hint}>
+              Vous ne suivez aucun ami pour le moment. Ajoutez le code d'un ami ci-dessus pour voir ses films favoris !
+            </Text>
           </View>
         )}
 

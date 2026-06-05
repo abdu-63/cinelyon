@@ -60,7 +60,7 @@ export default function TabLayout() {
         headerStyle: { backgroundColor: 'transparent' },
         headerTintColor: COLORS.text,
         headerTitleStyle: {
-          fontWeight: '800',
+          fontFamily: 'healTheWebA',
           fontSize: 24,
           color: COLORS.text,
         },
@@ -102,7 +102,7 @@ export default function TabLayout() {
         name="reservation"
         options={{
           title: 'Réservations',
-          tabBarLabel: 'Réservation',
+          tabBarLabel: 'Réservations',
           tabBarIcon: ({ color, size }) => (
             <TabIcon name="ticket" color={color} size={size} />
           ),
@@ -146,8 +146,8 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   headerTitle: {
+    fontFamily: 'healTheWebA',
     fontSize: 26,
-    fontWeight: '800',
     color: COLORS.text,
     letterSpacing: -0.5,
   },

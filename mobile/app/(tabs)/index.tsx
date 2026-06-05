@@ -108,17 +108,17 @@ export default function HomeScreen() {
   const ListHeader = useCallback(
     () => (
       <>
-        <DaySelector
-          dates={dates}
-          selectedDelta={selectedDelta}
-          onSelect={handleDayChange}
-        />
         <FilterBar
           filters={filterState}
           options={filterOptions}
           onFiltersChange={handleFiltersChange}
           totalCount={films.length}
           filteredCount={filteredFilms.length}
+        />
+        <DaySelector
+          dates={dates}
+          selectedDelta={selectedDelta}
+          onSelect={handleDayChange}
         />
       </>
     ),

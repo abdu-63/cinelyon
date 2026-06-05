@@ -79,8 +79,8 @@ export default function FavoritesScreen() {
               {isLoading
                 ? 'Chargement…'
                 : activeTab === 'perso'
-                ? 'Aucun favori pour le moment.\nAppuyez sur ❤️ sur une fiche film !'
-                : 'Aucun ami suivi ou aucun favori commun.'}
+                ? 'Aucun favori pour le moment.\nAppuyez sur le ❤️ d\'un film pour l\'ajouter.'
+                : 'Aucun ami suivi ou aucun favori commun.\nAllez dans Réglages pour ajouter un ami avec son code !'}
             </Text>
           </View>
         }

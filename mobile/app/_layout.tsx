@@ -7,7 +7,7 @@ import { StatusBar } from 'expo-status-bar';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { StyleSheet, View } from 'react-native';
-import Toast from 'react-native-toast-message';
+import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
 import { queryClient } from '../src/lib/queryClient';
 import { COLORS } from '../src/lib/constants';
 import { usePushNotifications } from '../src/hooks/usePushNotifications';
@@ -17,6 +17,34 @@ import 'react-native-gesture-handler';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
+
+const toastConfig = {
+  success: (props: any) => (
+    <BaseToast
+      {...props}
+      style={{ borderLeftWidth: 0, borderRadius: 12, backgroundColor: COLORS.surfaceElevated, elevation: 4, shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1, shadowRadius: 8 }}
+      contentContainerStyle={{ paddingHorizontal: 15 }}
+      text1Style={{
+        fontSize: 15,
+        fontFamily: 'healTheWebA',
+        color: COLORS.text,
+        textAlign: 'center'
+      }}
+    />
+  ),
+  error: (props: any) => (
+    <ErrorToast
+      {...props}
+      style={{ borderLeftWidth: 0, borderRadius: 12, backgroundColor: COLORS.surfaceElevated, elevation: 4, shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1, shadowRadius: 8 }}
+      text1Style={{
+        fontSize: 15,
+        fontFamily: 'healTheWebA',
+        color: COLORS.warning,
+        textAlign: 'center'
+      }}
+    />
+  )
+};
 
 export default function RootLayout() {
   usePushNotifications(); // Initialise les écouteurs et demande la permission
@@ -93,7 +121,7 @@ export default function RootLayout() {
             }}
           />
         </Stack>
-        <Toast />
+        <Toast config={toastConfig} />
       </QueryClientProvider>
     </GestureHandlerRootView>
   );

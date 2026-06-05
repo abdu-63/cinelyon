@@ -66,6 +66,7 @@ export function useFavorites() {
     },
     enabled: !!syncId,
     staleTime: 30_000, // 30 sec — les favoris changent moins souvent
+    refetchInterval: 10_000, // Polling toutes les 10s pour mise à jour en temps réel
   });
 
   const favorites: string[] = remoteRecord?.films ?? [];
