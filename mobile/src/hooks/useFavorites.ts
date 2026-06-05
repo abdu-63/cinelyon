@@ -7,13 +7,14 @@ import { secureStore } from '../lib/secureStore';
 import { supabase } from '../lib/supabase';
 import { SECURE_KEYS } from '../lib/constants';
 import { FavoriteRecord } from '../types';
+import { generateUUID } from '../utils/uuid';
 
 // ── Helpers UUID sécurisé ────────────────────────────────────────────────────
 
 async function getOrCreateSyncId(): Promise<string> {
   let id = await secureStore.getItemAsync(SECURE_KEYS.syncId);
   if (!id) {
-    id = crypto.randomUUID();
+    id = generateUUID();
     await secureStore.setItemAsync(SECURE_KEYS.syncId, id);
   }
   return id;
@@ -22,7 +23,7 @@ async function getOrCreateSyncId(): Promise<string> {
 async function getOrCreateDeviceId(): Promise<string> {
   let id = await secureStore.getItemAsync(SECURE_KEYS.deviceId);
   if (!id) {
-    id = crypto.randomUUID();
+    id = generateUUID();
     await secureStore.setItemAsync(SECURE_KEYS.deviceId, id);
   }
   return id;
@@ -90,13 +91,15 @@ export function useFavorites() {
 
   // 4. Toggle favori
   const toggleFavorite = (slug: string) => {
+    if (!syncId) return; // Protection
+
     const next = favorites.includes(slug)
       ? favorites.filter((f) => f !== slug)
       : [...favorites, slug];
     upsertMutation.mutate(next);
     // Mise à jour optimiste du cache local
     qc.setQueryData<FavoriteRecord | null>(['favorites', syncId], (old) =>
-      old ? { ...old, films: next } : { user_id: syncId!, films: next, updated_at: new Date().toISOString() }
+      old ? { ...old, films: next } : { user_id: syncId, films: next, updated_at: new Date().toISOString() }
     );
   };
 
@@ -122,8 +125,9 @@ export function useFavorites() {
         { onConflict: 'user_id' }
       );
 
-      qc.invalidateQueries({ queryKey: ['syncId'] });
-      qc.invalidateQueries({ queryKey: ['favorites'] });
+      // Invalider les queries pour forcer un refetch immédiat
+      await qc.invalidateQueries({ queryKey: ['syncId'] });
+      await qc.invalidateQueries({ queryKey: ['favorites'] });
       return 'success';
     } catch {
       return 'error';
@@ -132,7 +136,7 @@ export function useFavorites() {
 
   // 6. Déconnexion d'appareil (génère un nouveau syncId)
   const unlinkDevice = async () => {
-    const newId = crypto.randomUUID();
+    const newId = generateUUID();
     await secureStore.setItemAsync(SECURE_KEYS.syncId, newId);
     // Push les favoris existants vers le nouveau ID
     await supabase.from('favorites').upsert(

@@ -79,6 +79,16 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="favorites"
+        options={{
+          title: 'Favoris',
+          tabBarLabel: 'Favoris',
+          tabBarIcon: ({ color, size }) => (
+            <TabIcon name="heart" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="map"
         options={{
           title: 'Cinémas',
@@ -89,12 +99,12 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="favorites"
+        name="reservation"
         options={{
-          title: 'Favoris',
-          tabBarLabel: 'Favoris',
+          title: 'Réservations',
+          tabBarLabel: 'Réservation',
           tabBarIcon: ({ color, size }) => (
-            <TabIcon name="heart" color={color} size={size} />
+            <TabIcon name="ticket" color={color} size={size} />
           ),
         }}
       />

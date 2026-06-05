@@ -97,58 +97,65 @@ const styles = StyleSheet.create({
   // Wrapper du mini-calendar
   container: {
     backgroundColor: 'transparent',
-    paddingTop: 4,
-    paddingBottom: 4,
+    paddingTop: 8,
+    paddingBottom: 12,
   },
   scrollContent: {
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    gap: 6,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    gap: 10,
     flexDirection: 'row',
     alignItems: 'center',
   },
 
-  // .mini-cal-btn : padding 4px 8px, border-radius 20px, border 1px, fond transparent
+  // .mini-cal-btn : premium style
   dayBtn: {
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 20,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 24,
     alignItems: 'center',
-    backgroundColor: 'transparent',
+    backgroundColor: '#ffffff',
     borderWidth: 1,
-    borderColor: COLORS.border,    // --border-color: #ddd
-    minWidth: 56,
+    borderColor: 'rgba(0,0,0,0.04)',
+    minWidth: 64,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.04,
+    shadowRadius: 4,
+    elevation: 2,
   },
   // .mini-cal-btn.active : background primary, texte blanc
   dayBtnActive: {
     backgroundColor: COLORS.primary,
     borderColor: COLORS.primary,
-    // box-shadow: 0 6px 20px rgba(0,0,0,0.15)
-    shadowColor: '#000',
+    shadowColor: COLORS.primary,
     shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.15,
+    shadowOpacity: 0.25,
     shadowRadius: 10,
-    elevation: 4,
+    elevation: 6,
+    transform: [{ scale: 1.02 }],
   },
   // Bouton aujourd'hui — bordure primary sans fond
   dayBtnToday: {
     borderColor: COLORS.primary,
+    backgroundColor: 'rgba(68,76,247,0.05)',
   },
   dayLabel: {
-    fontSize: 11,                  // identique .mini-cal-btn: font-size 11px
-    fontWeight: '700',
-    color: COLORS.textMuted,       // --text-muted: #666
+    fontSize: 13,
+    fontWeight: '800',
+    color: COLORS.text,
     textTransform: 'capitalize',
   },
   dayLabelActive: {
-    color: '#ffffff',              // --card-solid: #fff
+    color: '#ffffff',
   },
   daySubLabel: {
-    fontSize: 10,
-    color: COLORS.textSubtle,     // --text-light: #999
-    marginTop: 1,
+    fontSize: 11,
+    fontWeight: '500',
+    color: COLORS.textMuted,
+    marginTop: 2,
   },
   daySubLabelActive: {
-    color: 'rgba(255,255,255,0.85)',
+    color: 'rgba(255,255,255,0.9)',
   },
 });

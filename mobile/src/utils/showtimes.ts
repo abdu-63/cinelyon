@@ -258,6 +258,36 @@ export function checkTimeSlot(timeStr: string, slot: TimeSlot): boolean {
   }
 }
 
+/**
+ * Vérifie si le film a au moins une séance visible pour le jour donné.
+ * Si c'est aujourd'hui, on exclut les séances passées.
+ */
+export function hasVisibleSeances(film: Film, isoDate: string, dates: DateLabel[]): boolean {
+  const dateObj = dates.find((d) => d.isoDate === isoDate);
+  if (!dateObj) return false;
+
+  const dayLabel = dateObj.index === 0 ? 'Auj.' : dateObj.jour;
+  
+  // Utilise dayLabel car c'est ce qui a été construit par buildFilmList (formatDayLabel)
+  // Wait! Dans buildFilmList, on utilise formatDayLabel(dates[dayIndex])
+  // On peut juste récupérer la date en utilisant le index.
+  
+  const cinemas = film.seancesByDay[formatDayLabel(dateObj)] ?? {};
+  const isToday = dateObj.index === 0;
+
+  for (const seances of Object.values(cinemas)) {
+    for (const s of seances) {
+      if (isToday) {
+        if (!isPastSeance(s.time)) return true;
+      } else {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
 // ── Extraction des filtres disponibles ───────────────────────────────────────
 
 export interface FilmFilterOptions {

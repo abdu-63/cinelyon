@@ -14,7 +14,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useShowtimes } from '../../src/hooks/useShowtimes';
 import { useFavorites } from '../../src/hooks/useFavorites';
 import { useFriends } from '../../src/hooks/useFriends';
-import { filterFilms, extractFilterOptions } from '../../src/utils/showtimes';
+import { filterFilms, extractFilterOptions, hasVisibleSeances } from '../../src/utils/showtimes';
 import { FilmCard } from '../../src/components/ui/FilmCard';
 import { DaySelector } from '../../src/components/ui/DaySelector';
 import { FilterBar } from '../../src/components/ui/FilterBar';
@@ -45,20 +45,30 @@ export default function HomeScreen() {
 
   const filterOptions = useMemo(() => extractFilterOptions(films), [films]);
 
-  const filteredFilms = useMemo(
-    () =>
-      filterFilms(films, {
-        titleQuery: filterState.titleQuery,
-        genre: filterState.genre,
-        director: filterState.director,
-        cinema: filterState.cinema,
-        format: filterState.format,
-        timeSlot: filterState.timeSlot,
-        favorites,
-        friendFavorites,
-      }),
-    [films, filterState, favorites, friendFavorites]
-  );
+  const filteredFilms = useMemo(() => {
+    let result = filterFilms(films, {
+      titleQuery: filterState.titleQuery,
+      genre: filterState.genre,
+      director: filterState.director,
+      cinema: filterState.cinema,
+      format: filterState.format,
+      timeSlot: filterState.timeSlot,
+      favorites,
+      friendFavorites,
+    });
+
+    if (selectedDelta !== null) {
+      const selectedDateObj = dates.find(d => d.index === selectedDelta);
+      if (selectedDateObj) {
+        result = result.filter(f => hasVisibleSeances(f, selectedDateObj.isoDate, dates));
+      }
+    } else {
+      // In "Tous" mode, a film must have at least one visible seance on ANY available day.
+      result = result.filter(f => dates.some(d => hasVisibleSeances(f, d.isoDate, dates)));
+    }
+
+    return result;
+  }, [films, filterState, favorites, friendFavorites, selectedDelta, dates]);
 
   const paginatedFilms = useMemo(
     () => filteredFilms.slice(0, visibleCount),
