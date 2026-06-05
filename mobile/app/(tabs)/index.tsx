@@ -41,7 +41,7 @@ export default function HomeScreen() {
 
   const { films, dates, isLoading, isFetching, isError, refetch } = useShowtimes(selectedDelta);
   const { favorites, isFavorite, toggleFavorite, syncId } = useFavorites();
-  const { friendFavorites } = useFriends(syncId);
+  const { friendFavorites, getFriendsWhoFavorited } = useFriends(syncId);
 
   const filterOptions = useMemo(() => extractFilterOptions(films), [films]);
 
@@ -93,14 +93,14 @@ export default function HomeScreen() {
     ({ item }: ListRenderItemInfo<Film>) => (
       <FilmCard
         film={item}
-        isFavorite={isFavorite(item.slug)}
+        isFavorite={isFavorite(item.filmId)}
         onToggleFavorite={toggleFavorite}
-        hasFriendFavorited={friendFavorites.includes(item.slug)}
+        friendsWhoFavorited={getFriendsWhoFavorited(item.filmId)}
         showFriendBadge={filterState.showFriendFavorites}
         dates={dates}
       />
     ),
-    [isFavorite, toggleFavorite, friendFavorites, filterState.showFriendFavorites, dates]
+    [isFavorite, toggleFavorite, getFriendsWhoFavorited, filterState.showFriendFavorites, dates]
   );
 
   const keyExtractor = useCallback((item: Film) => item.slug, []);

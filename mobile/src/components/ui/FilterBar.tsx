@@ -283,7 +283,7 @@ function SelectPill({
 const styles = StyleSheet.create({
   // .search-container du site: background rgba(255,255,255,0.8) + backdrop-filter + border-radius 15px
   container: {
-    backgroundColor: 'rgba(255,255,255,0.85)',
+    backgroundColor: '#ffffff', // solid color to avoid shadow warning on iOS
     borderRadius: 15,
     marginHorizontal: 10,
     marginBottom: 8,

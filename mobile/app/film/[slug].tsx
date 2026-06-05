@@ -23,6 +23,7 @@ import { findFilmBySlug } from '../../src/utils/showtimes';
 import { ShowtimeRow } from '../../src/components/ui/ShowtimeRow';
 import { COLORS } from '../../src/lib/constants';
 import { optimizePosterUrl, extractYoutubeId } from '../../src/utils/imageUtils';
+import { LetterboxdLogo, AllocineLogo, TmdbLogo, RtLogo } from '../../src/components/ui/BrandIcons';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -50,7 +51,7 @@ export default function FilmDetailScreen() {
 
   const posterUrl = optimizePosterUrl(film.affiche, 300);
   const youtubeId = film.trailer_url ? extractYoutubeId(film.trailer_url) : null;
-  const fav = isFavorite(film.slug);
+  const fav = isFavorite(film.filmId);
 
   const dayLabels = Object.keys(film.seancesByDayGrouped);
 
@@ -97,7 +98,7 @@ export default function FilmDetailScreen() {
             <Text style={styles.title}>{film.title}</Text>
             <TouchableOpacity
               style={[styles.favBtn, fav && styles.favBtnActive]}
-              onPress={() => toggleFavorite(film.slug)}
+              onPress={() => toggleFavorite(film.filmId)}
               accessibilityLabel={fav ? 'Retirer des favoris' : 'Ajouter aux favoris'}
             >
               <Ionicons 
@@ -113,25 +114,6 @@ export default function FilmDetailScreen() {
             {film.release_year !== 'inconnue' ? `${film.release_year} · ` : ''}
             {film.duree}
           </Text>
-
-          {/* Notes */}
-          <View style={styles.ratingsRow}>
-            {film.rating !== 'Note inconnue' && (
-              <View style={styles.badge}>
-                <Text style={styles.badgeText}>⭐ {film.rating}</Text>
-              </View>
-            )}
-            {film.tmdb_score !== null && (
-              <View style={[styles.badge, styles.tmdbBadge]}>
-                <Text style={styles.badgeText}>TMDB {film.tmdb_score}/10</Text>
-              </View>
-            )}
-            {film.rt_score && (
-              <View style={[styles.badge, styles.rtBadge]}>
-                <Text style={styles.badgeText}>🍅 {film.rt_score}</Text>
-              </View>
-            )}
-          </View>
 
           {/* Genres */}
           {film.genres && (
@@ -150,8 +132,13 @@ export default function FilmDetailScreen() {
             </View>
           ) : null}
 
-          {/* Boutons action */}
+          {/* Notes & Boutons action web */}
           <View style={styles.actionsRow}>
+            {film.rating !== 'Note inconnue' && (
+              <View style={[styles.actionBtn, styles.actionBtnSecondary]}>
+                <Text style={[styles.actionBtnText, { color: COLORS.text }]}>⭐ {film.rating}</Text>
+              </View>
+            )}
             <TouchableOpacity
               style={[styles.actionBtn, styles.actionBtnSecondary]}
               onPress={handleShare}
@@ -159,18 +146,44 @@ export default function FilmDetailScreen() {
               <Ionicons name="share-outline" size={16} color={COLORS.text} style={{ marginRight: 4 }} />
               <Text style={[styles.actionBtnText, { color: COLORS.text }]}>Partager</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.actionBtn, styles.actionBtnSecondary]}
-              onPress={() => Linking.openURL(film.url)}
-            >
-              <Text style={[styles.actionBtnText, { color: COLORS.text }]}>Letterboxd</Text>
-            </TouchableOpacity>
+            
+            {film.url ? (
+              <TouchableOpacity
+                style={[styles.actionBtn, styles.actionBtnLetterboxd]}
+                onPress={() => Linking.openURL(film.url)}
+              >
+                <LetterboxdLogo width={16} height={16} />
+                <Text style={[styles.actionBtnText, { color: '#fff', marginLeft: 6 }]}>Letterboxd</Text>
+              </TouchableOpacity>
+            ) : null}
+
             {film.allocine_url ? (
               <TouchableOpacity
-                style={[styles.actionBtn, styles.actionBtnSecondary]}
+                style={[styles.actionBtn, styles.actionBtnAllocine]}
                 onPress={() => Linking.openURL(film.allocine_url)}
               >
-                <Text style={[styles.actionBtnText, { color: COLORS.text }]}>Allociné</Text>
+                <AllocineLogo width={16} height={16} />
+                <Text style={[styles.actionBtnText, { color: '#000', marginLeft: 6 }]}>AlloCiné</Text>
+              </TouchableOpacity>
+            ) : null}
+
+            {film.tmdb_score !== null ? (
+              <TouchableOpacity
+                style={[styles.actionBtn, styles.actionBtnTmdb]}
+                onPress={() => Linking.openURL(`https://www.themoviedb.org/search?query=${encodeURIComponent(film.title)}`)}
+              >
+                <TmdbLogo width={24} height={16} />
+                <Text style={[styles.actionBtnText, { color: '#01B4E4', marginLeft: 6 }]}>{film.tmdb_score}/10</Text>
+              </TouchableOpacity>
+            ) : null}
+
+            {film.rt_score ? (
+              <TouchableOpacity
+                style={[styles.actionBtn, styles.actionBtnRt]}
+                onPress={() => Linking.openURL(`https://www.rottentomatoes.com/search?search=${encodeURIComponent(film.title)}`)}
+              >
+                <RtLogo width={16} height={16} />
+                <Text style={[styles.actionBtnText, { color: '#FA320A', marginLeft: 6 }]}>{film.rt_score}</Text>
               </TouchableOpacity>
             ) : null}
           </View>
@@ -190,12 +203,20 @@ export default function FilmDetailScreen() {
             <Text style={styles.sectionTitle}>Disponible sur</Text>
             <View style={styles.providersRow}>
               {film.watch_providers.map((p) => (
-                <View key={p.name} style={styles.provider}>
+                <TouchableOpacity 
+                  key={p.name} 
+                  style={styles.provider}
+                  onPress={() => {
+                    const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(`${film.title} ${p.name} streaming`)}`;
+                    Linking.openURL(searchUrl);
+                  }}
+                  activeOpacity={0.7}
+                >
                   {p.logo_path && (
                     <Image source={p.logo_path} style={styles.providerLogo} contentFit="cover" />
                   )}
                   <Text style={styles.providerName} numberOfLines={1}>{p.name}</Text>
-                </View>
+                </TouchableOpacity>
               ))}
             </View>
           </View>
@@ -271,6 +292,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.6,
     shadowRadius: 16,
     elevation: 12,
+    backgroundColor: '#000',
   },
 
   // Titre
@@ -348,6 +370,26 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.surfaceElevated,
     borderWidth: 1,
     borderColor: COLORS.border,
+  },
+  actionBtnLetterboxd: {
+    backgroundColor: '#14181c', // fond sombre typique de LB
+    borderWidth: 1,
+    borderColor: '#2c3440',
+  },
+  actionBtnAllocine: {
+    backgroundColor: '#fecc00', // jaune allocine
+    borderWidth: 1,
+    borderColor: '#e5b800',
+  },
+  actionBtnTmdb: {
+    backgroundColor: 'rgba(1, 180, 228, 0.1)',
+    borderWidth: 1,
+    borderColor: '#01B4E4',
+  },
+  actionBtnRt: {
+    backgroundColor: 'rgba(250, 50, 10, 0.1)',
+    borderWidth: 1,
+    borderColor: 'rgba(250, 50, 10, 0.3)',
   },
   actionBtnText: { color: '#fff', fontSize: 13, fontWeight: '700' },
   trailerContainer: {

@@ -54,7 +54,7 @@ export default function TabLayout() {
         tabBarActiveTintColor: COLORS.primary,
         tabBarInactiveTintColor: COLORS.textMuted,
         tabBarLabelStyle: {
-          fontSize: 11,
+          fontSize: 10,
           fontWeight: '600',
         },
         headerStyle: { backgroundColor: 'transparent' },
@@ -102,7 +102,7 @@ export default function TabLayout() {
         name="reservation"
         options={{
           title: 'Réservations',
-          tabBarLabel: 'Réservations',
+          tabBarLabel: 'Billets',
           tabBarIcon: ({ color, size }) => (
             <TabIcon name="ticket" color={color} size={size} />
           ),

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Dimensions, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Dimensions, Text, TouchableOpacity, Linking, Platform, Alert } from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
 import { CINEMAS, COLORS } from '../../src/lib/constants';
@@ -50,20 +50,52 @@ export default function MapScreen() {
       >
         {displayedCinemas.map((cinema) => {
           const isFav = isCinemaFavorite(cinema.name);
+
+          const handleCalloutPress = () => {
+            Alert.alert(
+              cinema.name,
+              cinema.address,
+              [
+                {
+                  text: 'S\'y rendre (GPS)',
+                  onPress: () => {
+                    const scheme = Platform.select({ ios: 'maps://0,0?q=', android: 'geo:0,0?q=' });
+                    const latLng = `${cinema.latitude},${cinema.longitude}`;
+                    const label = encodeURIComponent(cinema.name);
+                    const url = Platform.select({
+                      ios: `${scheme}${label}@${latLng}`,
+                      android: `${scheme}${latLng}(${label})`
+                    });
+                    if (url) Linking.openURL(url);
+                  }
+                },
+                {
+                  text: isFav ? 'Retirer des favoris' : 'Ajouter aux favoris',
+                  onPress: () => toggleCinemaFavorite(cinema.name)
+                },
+                { text: 'Annuler', style: 'cancel' }
+              ],
+              { cancelable: true }
+            );
+          };
+
           return (
             <Marker
-              key={cinema.name}
+              key={`${cinema.name}-${isFav}`}
               coordinate={{
                 latitude: cinema.latitude,
                 longitude: cinema.longitude,
               }}
+              tracksViewChanges={false} // optimise les perfs des marqueurs custom
             >
-              <Ionicons 
-                name={isFav ? "heart" : "location"} 
-                size={32} 
-                color={isFav ? COLORS.favActive : COLORS.primary} 
-              />
-              <Callout tooltip onPress={() => toggleCinemaFavorite(cinema.name)}>
+              <View style={styles.markerContainer}>
+                <Ionicons 
+                  name={isFav ? "heart" : "location"} 
+                  size={32} 
+                  color={isFav ? COLORS.favActive : COLORS.primary} 
+                />
+              </View>
+              <Callout tooltip onPress={handleCalloutPress}>
                 <View style={styles.calloutContainer}>
                   <Text style={styles.calloutTitle}>{cinema.name}</Text>
                   <Text style={styles.calloutDesc}>{cinema.address}</Text>
@@ -73,8 +105,8 @@ export default function MapScreen() {
                       size={14} 
                       color={isFav ? COLORS.favActive : COLORS.textMuted} 
                     />
-                    <Text style={[styles.favActionText, isFav && { color: COLORS.favActive }]}>
-                      {isFav ? 'Retirer des favoris' : 'Ajouter aux favoris'}
+                    <Text style={[styles.favActionText, { color: COLORS.text }]}>
+                      Options (GPS, Favoris...)
                     </Text>
                   </View>
                 </View>
@@ -129,13 +161,19 @@ const styles = StyleSheet.create({
     flex: 1,
     width,
   },
+  markerContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 36,
+    height: 36,
+  },
   calloutContainer: {
     backgroundColor: COLORS.surfaceElevated,
     padding: 12,
     borderRadius: 8,
     borderWidth: 1,
     borderColor: COLORS.border,
-    minWidth: 220,
+    minWidth: 200,
     alignItems: 'center',
   },
   calloutTitle: {

@@ -164,10 +164,10 @@ export default function SettingsScreen() {
               <View key={f.followed_id} style={styles.friendRow}>
                 <View style={styles.friendAvatar}>
                   <Text style={styles.friendInitials}>
-                    {(f.nickname || 'A').substring(0, 2).toUpperCase()}
+                    {(f.followed_name || 'A').substring(0, 2).toUpperCase()}
                   </Text>
                 </View>
-                <Text style={styles.friendName}>{f.nickname}</Text>
+                <Text style={styles.friendName}>{f.followed_name}</Text>
                 <TouchableOpacity onPress={() => removeFriend(f.followed_id)}>
                   <Text style={styles.removeText}>Retirer</Text>
                 </TouchableOpacity>

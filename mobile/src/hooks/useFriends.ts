@@ -26,23 +26,31 @@ export function useFriends(syncId: string) {
   // Charge les favoris de tous les amis
   const friendIds = follows.map((f) => f.followed_id);
 
-  const { data: friendFavorites = [] } = useQuery<string[]>({
-    queryKey: ['friendFavorites', ...friendIds.sort()],
+  const { data: friendFavoritesMap = {} } = useQuery<Record<string, string[]>>({
+    queryKey: ['friendFavoritesMap', ...friendIds.sort()],
     queryFn: async () => {
-      if (!friendIds.length) return [];
+      if (!friendIds.length) return {};
       const { data } = await supabase
         .from('favorites')
-        .select('films')
+        .select('user_id, films')
         .in('user_id', friendIds);
-      const allFilms = new Set<string>();
-      (data ?? []).forEach((row: { films: string[] }) => {
-        row.films?.forEach((f) => allFilms.add(f));
+      
+      const map: Record<string, string[]> = {};
+      (data ?? []).forEach((row: { user_id: string; films: string[] }) => {
+        const friend = follows.find((f) => f.followed_id === row.user_id);
+        const name = friend?.followed_name || 'Ami';
+        row.films?.forEach((f) => {
+          if (!map[f]) map[f] = [];
+          if (!map[f].includes(name)) map[f].push(name);
+        });
       });
-      return Array.from(allFilms);
+      return map;
     },
     enabled: friendIds.length > 0,
     staleTime: 60_000,
   });
+
+  const friendFavorites = Object.keys(friendFavoritesMap);
 
   // Ajouter un ami par syncId
   const addFriend = useMutation({
@@ -86,6 +94,7 @@ export function useFriends(syncId: string) {
     follows,
     friendFavorites,
     hasFriendFavorited: (slug: string) => friendFavorites.includes(slug),
+    getFriendsWhoFavorited: (slug: string) => friendFavoritesMap[slug] || [],
     addFriend: (followedId: string, nickname: string) =>
       addFriend.mutateAsync({ followedId, nickname }),
     removeFriend: (followedId: string) => removeFriend.mutateAsync(followedId),

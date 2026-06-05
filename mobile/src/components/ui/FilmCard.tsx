@@ -31,7 +31,7 @@ interface FilmCardProps {
   film: Film;
   isFavorite: boolean;
   onToggleFavorite: (slug: string) => void;
-  hasFriendFavorited?: boolean;
+  friendsWhoFavorited?: string[];
   showFriendBadge?: boolean;
   dates: DateLabel[];
 }
@@ -40,7 +40,7 @@ export const FilmCard = memo(function FilmCard({
   film,
   isFavorite,
   onToggleFavorite,
-  hasFriendFavorited = false,
+  friendsWhoFavorited = [],
   showFriendBadge = false,
   dates,
 }: FilmCardProps) {
@@ -108,7 +108,7 @@ export const FilmCard = memo(function FilmCard({
             {/* .favorite-btn identique au site */}
             <TouchableOpacity
               style={styles.favoriteBtn}
-              onPress={() => onToggleFavorite(film.slug)}
+              onPress={() => onToggleFavorite(film.filmId)}
               hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
               accessibilityLabel={isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'}
               accessibilityRole={Platform.OS === 'web' ? undefined : 'button'}
@@ -171,10 +171,14 @@ export const FilmCard = memo(function FilmCard({
             ) : null}
 
             {/* Badge amis */}
-            {showFriendBadge && hasFriendFavorited ? (
+            {showFriendBadge && friendsWhoFavorited && friendsWhoFavorited.length > 0 ? (
               <View style={styles.friendBadge}>
-                <Ionicons name="people" size={11} color={COLORS.primary} />
-                <Text style={styles.friendBadgeText}> Un ami aime ce film</Text>
+                <Ionicons name="people" size={11} color={COLORS.primary} style={{ marginRight: 2 }} />
+                <Text style={styles.friendBadgeText} numberOfLines={1}>
+                  {friendsWhoFavorited.length === 1
+                    ? `${friendsWhoFavorited[0]} aime ce film`
+                    : `${friendsWhoFavorited.slice(0, 2).join(', ')}${friendsWhoFavorited.length > 2 ? '...' : ''} aiment ce film`}
+                </Text>
               </View>
             ) : null}
           </View>

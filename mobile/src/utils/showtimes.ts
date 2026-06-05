@@ -44,6 +44,7 @@ export function buildFilmList(
           ...raw,
           affiche: optimizePosterUrl(raw.affiche, 200),
           slug: slugify(raw.title, raw.release_year),
+          filmId: raw.title.toLowerCase().replace(/ /g, '-'),
           formats: '',
           seancesByDay: {},
           seancesByDayGrouped: {},
@@ -206,9 +207,9 @@ export function filterFilms(films: Film[], filters: FilmFilters): Film[] {
     // Filtre favoris
     if (showOnlyFavorites) {
       if (showFriendFavorites) {
-        if (!friendFavorites.includes(film.slug)) return false;
+        if (!friendFavorites.includes(film.filmId)) return false;
       } else {
-        if (!favorites.includes(film.slug)) return false;
+        if (!favorites.includes(film.filmId)) return false;
       }
     }
 

@@ -18,13 +18,15 @@ import { filterFilms } from '../../src/utils/showtimes';
 import { FilmCard } from '../../src/components/ui/FilmCard';
 import { COLORS } from '../../src/lib/constants';
 import { Film, FavTab } from '../../src/types';
+import { useRouter } from 'expo-router';
 
 export default function FavoritesScreen() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<FavTab>('perso');
 
-  const { films, isLoading } = useShowtimes(null);
+  const { films, dates, isLoading } = useShowtimes(null);
   const { favorites, isFavorite, toggleFavorite, syncId } = useFavorites();
-  const { friendFavorites } = useFriends(syncId);
+  const { friendFavorites, getFriendsWhoFavorited } = useFriends(syncId);
 
   const displayedFilms =
     activeTab === 'perso'
@@ -38,10 +40,11 @@ export default function FavoritesScreen() {
   const renderItem = ({ item }: ListRenderItemInfo<Film>) => (
     <FilmCard
       film={item}
-      isFavorite={isFavorite(item.slug)}
+      isFavorite={isFavorite(item.filmId)}
       onToggleFavorite={toggleFavorite}
-      hasFriendFavorited={friendFavorites.includes(item.slug)}
+      friendsWhoFavorited={getFriendsWhoFavorited(item.filmId)}
       showFriendBadge={activeTab === 'amis'}
+      dates={dates}
     />
   );
 
@@ -80,8 +83,16 @@ export default function FavoritesScreen() {
                 ? 'Chargement…'
                 : activeTab === 'perso'
                 ? 'Aucun favori pour le moment.\nAppuyez sur le ❤️ d\'un film pour l\'ajouter.'
-                : 'Aucun ami suivi ou aucun favori commun.\nAllez dans Réglages pour ajouter un ami avec son code !'}
+                : 'Aucun ami suivi ou aucun favori commun.\nAjoutez un ami pour voir ses favoris !'}
             </Text>
+            {activeTab === 'amis' && !isLoading && (
+              <TouchableOpacity
+                style={styles.addFriendBtn}
+                onPress={() => router.push('/(tabs)/settings')}
+              >
+                <Text style={styles.addFriendBtnText}>Ajouter un ami</Text>
+              </TouchableOpacity>
+            )}
           </View>
         }
       />
@@ -138,5 +149,17 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textAlign: 'center',
     lineHeight: 24,
+  },
+  addFriendBtn: {
+    marginTop: 20,
+    backgroundColor: COLORS.primary,
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 8,
+  },
+  addFriendBtnText: {
+    color: '#fff',
+    fontWeight: '700',
+    fontSize: 14,
   },
 });

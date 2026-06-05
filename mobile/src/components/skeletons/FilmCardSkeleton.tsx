@@ -53,7 +53,7 @@ const SKELETON_COLOR = COLORS.surfaceElevated;
 const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
-    backgroundColor: 'rgba(255,255,255,0.85)',
+    backgroundColor: '#ffffff',
     borderRadius: 15,
     marginHorizontal: '5%',  // Identique à FilmCard
     marginBottom: 0,

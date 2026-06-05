@@ -55,6 +55,7 @@ export interface FilmRaw {
 /** Film après transformation par buildFilmList() */
 export interface Film extends Omit<FilmRaw, 'seances'> {
   slug: string;
+  filmId: string;
   formats: string;                     // "imax,3d" (lowercase, concat)
   seancesByDay: Record<string, Record<string, Seance[]>>;
   // { dayLabel: { cinemaName: Seance[] } }
@@ -83,7 +84,7 @@ export interface SyncDevice {
 export interface FriendFollow {
   follower_id: string;
   followed_id: string;
-  nickname: string;
+  followed_name: string;
   created_at: string;
 }
 
