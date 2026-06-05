@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Dimensions, Text, TouchableOpacity, Linking, Platform, Alert } from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
-import { CINEMAS, COLORS } from '../../src/lib/constants';
-import { useCinemaFavorites } from '../../src/hooks/useCinemaFavorites';
+import { CINEMAS, COLORS } from '@/lib/constants';
+import { useCinemaFavorites } from '@/hooks/useCinemaFavorites';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const { width, height } = Dimensions.get('window');

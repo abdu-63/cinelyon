@@ -185,7 +185,6 @@ export default function SettingsScreen() {
         {/* Version */}
         <View style={styles.versionContainer}>
           <Text style={styles.versionText}>CinéLyon Mobile · v1.0.0</Text>
-          <Text style={styles.versionHint}>fr.cinelyon.app</Text>
         </View>
       </ScrollView>
     </SafeAreaView>
