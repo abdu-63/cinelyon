@@ -181,10 +181,11 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: COLORS.background, // #f5f6f8 identique au site
   },
   listContent: {
     paddingBottom: 24,
+    paddingTop: 4,
   },
   emptyContainer: {
     flex: 1,

@@ -1,5 +1,5 @@
 // src/components/ui/DaySelector.tsx
-// Sélecteur de jours horizontal — équivalent de la mini-calendar web
+// Sélecteur de jours horizontal — portage fidèle des .mini-cal-btn du site web
 
 import React, { useRef } from 'react';
 import {
@@ -23,13 +23,13 @@ export function DaySelector({ dates, selectedDelta, onSelect }: DaySelectorProps
 
   const handleSelect = (delta: number | null) => {
     onSelect(delta);
-    // Auto-scroll vers le bouton sélectionné
     if (delta !== null && scrollRef.current) {
-      scrollRef.current.scrollTo({ x: delta * 68, animated: true });
+      scrollRef.current.scrollTo({ x: delta * 80, animated: true });
     }
   };
 
   return (
+    // Container du mini-calendar — même padding que .search-container du site
     <View style={styles.container}>
       <ScrollView
         ref={scrollRef}
@@ -37,7 +37,7 @@ export function DaySelector({ dates, selectedDelta, onSelect }: DaySelectorProps
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
       >
-        {/* Bouton "Tous" */}
+        {/* Bouton "Tous" — identique à .mini-cal-btn */}
         <DayButton
           label="Tous"
           sublabel=""
@@ -70,6 +70,7 @@ interface DayButtonProps {
 
 function DayButton({ label, sublabel, isSelected, onPress, isToday }: DayButtonProps) {
   return (
+    // .mini-cal-btn du site: padding 4px 8px, border-radius 20px, font-size 11px
     <TouchableOpacity
       style={[
         styles.dayBtn,
@@ -93,46 +94,58 @@ function DayButton({ label, sublabel, isSelected, onPress, isToday }: DayButtonP
 }
 
 const styles = StyleSheet.create({
+  // Wrapper du mini-calendar
   container: {
-    backgroundColor: COLORS.surface,
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.border,
+    backgroundColor: 'transparent',
+    paddingTop: 4,
+    paddingBottom: 4,
   },
   scrollContent: {
-    paddingHorizontal: 12,
-    paddingVertical: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
     gap: 6,
     flexDirection: 'row',
     alignItems: 'center',
   },
+
+  // .mini-cal-btn : padding 4px 8px, border-radius 20px, border 1px, fond transparent
   dayBtn: {
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 20,
     alignItems: 'center',
-    minWidth: 56,
-    backgroundColor: COLORS.surfaceElevated,
+    backgroundColor: 'transparent',
     borderWidth: 1,
-    borderColor: COLORS.border,
+    borderColor: COLORS.border,    // --border-color: #ddd
+    minWidth: 56,
   },
+  // .mini-cal-btn.active : background primary, texte blanc
   dayBtnActive: {
     backgroundColor: COLORS.primary,
     borderColor: COLORS.primary,
+    // box-shadow: 0 6px 20px rgba(0,0,0,0.15)
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.15,
+    shadowRadius: 10,
+    elevation: 4,
   },
+  // Bouton aujourd'hui — bordure primary sans fond
   dayBtnToday: {
     borderColor: COLORS.primary,
   },
   dayLabel: {
-    fontSize: 12,
+    fontSize: 11,                  // identique .mini-cal-btn: font-size 11px
     fontWeight: '700',
-    color: COLORS.textMuted,
+    color: COLORS.textMuted,       // --text-muted: #666
+    textTransform: 'capitalize',
   },
   dayLabelActive: {
-    color: '#fff',
+    color: '#ffffff',              // --card-solid: #fff
   },
   daySubLabel: {
     fontSize: 10,
-    color: COLORS.textSubtle,
+    color: COLORS.textSubtle,     // --text-light: #999
     marginTop: 1,
   },
   daySubLabelActive: {

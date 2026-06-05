@@ -217,18 +217,25 @@ export const CINEMA_MAP: Record<string, CinemaInfo> = Object.fromEntries(
 // ── Couleurs de l'application ─────────────────────────────────────────────────
 
 export const COLORS = {
-  primary: '#626afc',
-  primaryDark: '#4a52e8',
-  background: '#0d0d14',
-  surface: '#16161f',
-  surfaceElevated: '#1e1e2e',
-  border: '#2a2a3d',
-  text: '#e8e8f0',
-  textMuted: '#888899',
-  textSubtle: '#555566',
-  voBadge: '#3a6bc4',
-  vfBadge: '#2d4a2d',
-  favActive: '#e25555',
+  primary: '#444cf7',         // Identique au site web (--primary)
+  primaryHover: '#3339c4',    // --primary-hover
+  primaryDark: '#3339c4',
+  background: '#f5f6f8',      // --bg-main identique au site
+  surface: '#ffffff',         // --card-solid
+  surfaceElevated: '#f8f9fa', // légèrement surélevé
+  cardBg: 'rgba(255,255,255,0.6)',  // --card-bg glassmorphism
+  cardBlur: 'rgba(255,255,255,0.5)', // --card-blur
+  border: '#dddddd',          // --border-color identique au site
+  borderLight: '#eeeeee',     // --border-light
+  text: '#111111',            // --text-main identique au site
+  textMuted: '#666666',       // --text-muted identique
+  textSubtle: '#999999',      // --text-light identique
+  shadowSm: 'rgba(0,0,0,0.05)',
+  shadowMd: 'rgba(0,0,0,0.15)',
+  shadowLg: 'rgba(0,0,0,0.1)',
+  voBadge: '#444cf7',         // Bleu primary comme le site
+  vfBadge: '#444cf7',         // Bleu primary comme le site
+  favActive: '#ff6b6b',       // Rouge favori comme le site (#ff6b6b)
   success: '#3ecf8e',
   warning: '#f59e0b',
 } as const;

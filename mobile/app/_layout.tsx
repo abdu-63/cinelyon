@@ -6,7 +6,7 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { queryClient } from '../src/lib/queryClient';
 import { COLORS } from '../src/lib/constants';
@@ -19,14 +19,16 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView style={styles.root}>
       <QueryClientProvider client={queryClient}>
-        <StatusBar style="light" />
+        <StatusBar style="dark" />
+        <View style={[StyleSheet.absoluteFillObject, { backgroundColor: '#f5f6f8' }]} />
         <Stack
           screenOptions={{
-            headerStyle: { backgroundColor: COLORS.background },
+            headerStyle: { backgroundColor: 'transparent' },
             headerTintColor: COLORS.text,
             headerTitleStyle: { fontWeight: '700', color: COLORS.text },
-            contentStyle: { backgroundColor: COLORS.background },
+            contentStyle: { backgroundColor: 'transparent' },
             animation: 'fade_from_bottom',
+            headerShadowVisible: false,
           }}
         >
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
@@ -36,6 +38,7 @@ export default function RootLayout() {
               title: '',
               headerTransparent: true,
               headerBackTitle: 'Retour',
+              headerTintColor: COLORS.text,
             }}
           />
         </Stack>

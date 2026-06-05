@@ -281,41 +281,52 @@ function SelectPill({
 }
 
 const styles = StyleSheet.create({
+  // .search-container du site: background rgba(255,255,255,0.8) + backdrop-filter + border-radius 15px
   container: {
-    backgroundColor: COLORS.surface,
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.border,
-    paddingBottom: 4,
+    backgroundColor: 'rgba(255,255,255,0.85)',
+    borderRadius: 15,
+    marginHorizontal: 10,
+    marginBottom: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 4,
+    // box-shadow: 0 4px 16px rgba(0,0,0,0.08)
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 3,
   },
   searchRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
     paddingHorizontal: 12,
-    paddingTop: 10,
-    paddingBottom: 6,
+    paddingTop: 0,
+    paddingBottom: 8,
   },
   searchInput: {
     flex: 1,
-    backgroundColor: COLORS.surfaceElevated,
-    borderRadius: 10,
-    borderWidth: 1,
+    // .search-input du site: border 2px #ddd, border-radius 8px, padding 12px 15px
+    backgroundColor: '#ffffff',
+    borderRadius: 8,
+    borderWidth: 2,
     borderColor: COLORS.border,
     color: COLORS.text,
-    fontSize: 15,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
+    fontSize: 14,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
   },
   filterToggleBtn: {
-    padding: 8,
-    borderRadius: 10,
-    backgroundColor: COLORS.surfaceElevated,
-    borderWidth: 1,
+    padding: 10,
+    borderRadius: 8,
+    backgroundColor: '#ffffff',
+    borderWidth: 2,
     borderColor: COLORS.border,
     position: 'relative',
   },
   filterToggleBtnActive: {
     borderColor: COLORS.primary,
+    backgroundColor: COLORS.primary + '10',
   },
   filterToggleIcon: { fontSize: 18 },
   filterActiveDot: {
@@ -355,7 +366,8 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: COLORS.textSubtle,
     paddingHorizontal: 16,
-    paddingBottom: 6,
+    paddingTop: 4,
+    paddingBottom: 2,
   },
 
   // Modal

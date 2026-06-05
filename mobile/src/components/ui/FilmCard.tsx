@@ -1,5 +1,5 @@
 // src/components/ui/FilmCard.tsx
-// Carte film principale — affiche + métadonnées + bouton favori
+// Carte film principale — fidèle au design glassmorphism du site web
 
 import React, { memo } from 'react';
 import {
@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   Pressable,
-  Dimensions,
   Platform,
 } from 'react-native';
 import { Image } from 'expo-image';
@@ -18,10 +17,9 @@ import { Film } from '../../types';
 import { COLORS } from '../../lib/constants';
 import { optimizePosterUrl, PLACEHOLDER_POSTER } from '../../utils/imageUtils';
 
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
-const CARD_PADDING = 16;
-const POSTER_WIDTH = 90;
-const POSTER_HEIGHT = 135;
+// Dimensions identiques au site web en mobile (affiche: 100px × 144px)
+const POSTER_WIDTH = 100;
+const POSTER_HEIGHT = 144;
 
 interface FilmCardProps {
   film: Film;
@@ -45,7 +43,6 @@ export const FilmCard = memo(function FilmCard({
     router.push(`/film/${film.slug}`);
   };
 
-  // Raccourcir la note Allociné pour l'affichage compact
   const ratingDisplay =
     film.rating !== 'Note inconnue' ? film.rating.replace('/5', '★') : null;
 
@@ -56,7 +53,7 @@ export const FilmCard = memo(function FilmCard({
       accessibilityRole={Platform.OS === 'web' ? undefined : 'button'}
       accessibilityLabel={`Voir les séances de ${film.title}`}
     >
-      {/* Affiche */}
+      {/* Affiche — identique au site: width 100px height 144px, border-radius 15px 0 0 15px */}
       <View style={styles.posterContainer}>
         <Image
           source={posterUrl || PLACEHOLDER_POSTER}
@@ -65,7 +62,7 @@ export const FilmCard = memo(function FilmCard({
           transition={200}
           placeholder={{ uri: PLACEHOLDER_POSTER }}
         />
-        {/* Badge VO/VF (premier format disponible) */}
+        {/* Badge format (VO/VF etc.) en bas à gauche de l'affiche */}
         {film.formats ? (
           <View style={styles.formatBadge}>
             <Text style={styles.formatBadgeText}>
@@ -75,13 +72,16 @@ export const FilmCard = memo(function FilmCard({
         ) : null}
       </View>
 
-      {/* Infos film */}
+      {/* Infos film — zone avec fond semi-transparent (glassmorphism) */}
       <View style={styles.info}>
+        {/* Titre + bouton favori */}
         <View style={styles.titleRow}>
           <Text style={styles.title} numberOfLines={2}>
             {film.title}
+            {film.release_year !== 'inconnue' ? (
+              <Text style={styles.releaseYear}> ({film.release_year})</Text>
+            ) : null}
           </Text>
-          {/* Bouton favori */}
           <TouchableOpacity
             style={styles.favoriteBtn}
             onPress={() => onToggleFavorite(film.slug)}
@@ -89,30 +89,38 @@ export const FilmCard = memo(function FilmCard({
             accessibilityLabel={isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'}
             accessibilityRole={Platform.OS === 'web' ? undefined : 'button'}
           >
-            <Ionicons 
-              name={isFavorite ? "heart" : "heart-outline"} 
-              size={22} 
-              color={isFavorite ? COLORS.favActive : COLORS.textMuted} 
+            <Ionicons
+              name={isFavorite ? 'heart' : 'heart-outline'}
+              size={20}
+              color={isFavorite ? COLORS.favActive : COLORS.textSubtle}
             />
           </TouchableOpacity>
         </View>
 
-        {/* Réalisateur + année */}
-        <Text style={styles.meta} numberOfLines={1}>
-          {film.director !== 'Inconnu' ? film.director : ''}
-          {film.release_year !== 'inconnue' ? ` · ${film.release_year}` : ''}
-        </Text>
+        {/* Réalisateur */}
+        {film.director !== 'Inconnu' ? (
+          <Text style={styles.meta} numberOfLines={1}>
+            Réalisateur : {film.director}
+          </Text>
+        ) : null}
+
+        {/* Genre */}
+        {film.genres ? (
+          <Text style={styles.genre} numberOfLines={1}>
+            Genre : {film.genres}
+          </Text>
+        ) : null}
 
         {/* Durée */}
         {film.duree ? (
-          <Text style={styles.duration}>{film.duree}</Text>
+          <Text style={styles.meta}>Durée : {film.duree}</Text>
         ) : null}
 
         {/* Notes */}
         <View style={styles.ratingsRow}>
           {ratingDisplay ? (
             <View style={styles.ratingBadge}>
-              <Text style={styles.ratingText}>{ratingDisplay}</Text>
+              <Text style={styles.ratingText}>Note : {ratingDisplay}</Text>
             </View>
           ) : null}
           {film.tmdb_score !== null ? (
@@ -126,13 +134,6 @@ export const FilmCard = memo(function FilmCard({
             </View>
           ) : null}
         </View>
-
-        {/* Genres */}
-        {film.genres ? (
-          <Text style={styles.genres} numberOfLines={1}>
-            {film.genres}
-          </Text>
-        ) : null}
 
         {/* Watch providers */}
         {film.watch_providers && film.watch_providers.length > 0 ? (
@@ -156,37 +157,54 @@ export const FilmCard = memo(function FilmCard({
           </View>
         ) : null}
       </View>
+
+      {/* Chevron navigation identique au site */}
+      <View style={styles.chevronContainer}>
+        <Ionicons name="chevron-forward" size={16} color={COLORS.textMuted} />
+      </View>
     </Pressable>
   );
 });
 
 const styles = StyleSheet.create({
+  // ── Carte principale — glassmorphism identique au site ────────────────
   card: {
     flexDirection: 'row',
-    backgroundColor: COLORS.surface,
-    borderRadius: 12,
-    marginHorizontal: CARD_PADDING,
-    marginVertical: 6,
+    alignItems: 'flex-start',
+    // --card-bg: rgba(255,255,255,0.6) + border-radius 15px + box-shadow
+    backgroundColor: 'rgba(255,255,255,0.75)',
+    borderRadius: 15,
+    marginHorizontal: 10,      // margin-left/right 10% sur mobile → 10px environ
+    marginBottom: 10,
     overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: COLORS.border,
+    // box-shadow: 0 8px 32px rgba(0,0,0,0.1) — identique au site
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.1,
+    shadowRadius: 16,
+    elevation: 6,
   },
   cardPressed: {
     opacity: 0.85,
     transform: [{ scale: 0.99 }],
   },
+
+  // ── Affiche — identique au site mobile: 100×144, radius 15px 0 0 15px ──
   posterContainer: {
     position: 'relative',
+    flexShrink: 0,
   },
   poster: {
     width: POSTER_WIDTH,
     height: POSTER_HEIGHT,
+    borderTopLeftRadius: 15,
+    borderBottomLeftRadius: 15,
   },
   formatBadge: {
     position: 'absolute',
     bottom: 4,
     left: 4,
-    backgroundColor: 'rgba(0,0,0,0.75)',
+    backgroundColor: 'rgba(0,0,0,0.7)',
     borderRadius: 4,
     paddingHorizontal: 4,
     paddingVertical: 2,
@@ -196,11 +214,18 @@ const styles = StyleSheet.create({
     fontSize: 9,
     fontWeight: '700',
   },
+
+  // ── Zone info film ─────────────────────────────────────────────────────
   info: {
     flex: 1,
     padding: 10,
+    paddingRight: 6,
     justifyContent: 'flex-start',
+    // padding-right identique à .infoFilm du site
+    paddingBottom: 15,
   },
+
+  // Titre + année + bouton favori
   titleRow: {
     flexDirection: 'row',
     alignItems: 'flex-start',
@@ -209,62 +234,70 @@ const styles = StyleSheet.create({
   },
   title: {
     flex: 1,
-    fontSize: 15,
+    // h3.titreFilm du site: font-size 14px sur mobile
+    fontSize: 14,
     fontWeight: '700',
     color: COLORS.text,
-    lineHeight: 20,
-    marginRight: 6,
+    lineHeight: 18,
+    marginRight: 4,
   },
+  releaseYear: {
+    fontWeight: '400',
+    color: COLORS.textMuted,
+    fontSize: 12,
+  },
+
+  // Bouton favori — identique au site
   favoriteBtn: {
     padding: 2,
+    marginTop: 1,
   },
-  favoriteIcon: {
-    fontSize: 18,
-  },
-  favoriteBtnActive: {
-    // cœur rouge déjà via l'emoji ❤️
-  },
+
+  // Métadonnées — .realisateur, .duree, .genre du site: font-size 10px mobile
   meta: {
-    fontSize: 12,
-    color: COLORS.textMuted,
-    marginBottom: 2,
+    fontSize: 10,
+    color: COLORS.text,
+    marginBottom: 0,
+    lineHeight: 14,
   },
-  duration: {
-    fontSize: 11,
-    color: COLORS.textSubtle,
-    marginBottom: 6,
+  genre: {
+    fontSize: 10,
+    color: COLORS.text,
+    marginBottom: 0,
+    lineHeight: 14,
   },
+
+  // Badges de notes
   ratingsRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 4,
+    marginTop: 6,
     marginBottom: 4,
   },
   ratingBadge: {
-    backgroundColor: COLORS.surfaceElevated,
-    borderRadius: 6,
-    paddingHorizontal: 6,
+    backgroundColor: 'rgba(68,76,247,0.08)',
+    borderRadius: 4,
+    paddingHorizontal: 5,
     paddingVertical: 2,
     borderWidth: 1,
-    borderColor: COLORS.border,
+    borderColor: 'rgba(68,76,247,0.2)',
   },
   tmdbBadge: {
     borderColor: '#01b4e4',
+    backgroundColor: 'rgba(1,180,228,0.08)',
   },
   rtBadge: {
     borderColor: '#fa520f',
+    backgroundColor: 'rgba(250,82,15,0.08)',
   },
   ratingText: {
     fontSize: 10,
     color: COLORS.textMuted,
     fontWeight: '600',
   },
-  genres: {
-    fontSize: 11,
-    color: COLORS.textSubtle,
-    fontStyle: 'italic',
-    marginTop: 2,
-  },
+
+  // Watch providers
   providersRow: {
     flexDirection: 'row',
     gap: 4,
@@ -275,9 +308,11 @@ const styles = StyleSheet.create({
     height: 20,
     borderRadius: 4,
   },
+
+  // Badge amis
   friendBadge: {
     marginTop: 6,
-    backgroundColor: COLORS.surfaceElevated,
+    backgroundColor: 'rgba(68,76,247,0.08)',
     borderRadius: 6,
     paddingHorizontal: 6,
     paddingVertical: 3,
@@ -291,5 +326,13 @@ const styles = StyleSheet.create({
   friendBadgeText: {
     fontSize: 10,
     color: COLORS.primary,
+  },
+
+  // Chevron navigation — .chevron-nav du site: position absolute bas droite
+  chevronContainer: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    opacity: 0.7,
   },
 });

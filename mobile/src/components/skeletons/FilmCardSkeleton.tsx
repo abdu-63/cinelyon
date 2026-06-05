@@ -53,17 +53,20 @@ const SKELETON_COLOR = COLORS.surfaceElevated;
 const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
-    backgroundColor: COLORS.surface,
-    borderRadius: 12,
-    marginHorizontal: 16,
-    marginVertical: 6,
+    backgroundColor: 'rgba(255,255,255,0.75)',
+    borderRadius: 15,
+    marginHorizontal: 10,
+    marginBottom: 10,
     overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: COLORS.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.1,
+    shadowRadius: 16,
+    elevation: 6,
   },
   poster: {
-    width: 90,
-    height: 135,
+    width: 100,
+    height: 144,
     backgroundColor: SKELETON_COLOR,
   },
   info: {

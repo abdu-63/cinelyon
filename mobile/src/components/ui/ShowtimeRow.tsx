@@ -1,5 +1,6 @@
 // src/components/ui/ShowtimeRow.tsx
-// Rangée de séances pour un cinéma donné
+// Rangée de séances — fidèle au design web
+// .cinema = badge bleu primary | .horaire = carte blanche avec ombre
 
 import React from 'react';
 import {
@@ -18,7 +19,7 @@ import { getDeltaForDate, formatTime } from '../../utils/dateUtils';
 interface ShowtimeRowProps {
   cinemaName: string;
   seances: Seance[];
-  isoDate: string;  // pour déterminer si c'est aujourd'hui
+  isoDate: string;
   onCalendarPress?: (seance: Seance) => void;
 }
 
@@ -37,10 +38,16 @@ export function ShowtimeRow({
   if (!visibleSeances.length) return null;
 
   return (
+    // .seance_container du site — flex row avec cinéma + horaires
     <View style={styles.container}>
-      <Text style={styles.cinemaName} numberOfLines={1}>
-        {cinemaName}
-      </Text>
+      {/* .cinema du site — badge bleu primary avec texte blanc */}
+      <View style={styles.cinemaLabel}>
+        <Text style={styles.cinemaText} numberOfLines={3}>
+          {cinemaName}
+        </Text>
+      </View>
+
+      {/* .horaires_container du site — scroll horizontal */}
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -71,114 +78,152 @@ function SeancePill({ seance, onCalendarPress }: SeancePillProps) {
   };
 
   const hasTicket = !!seance.ticketing_url;
+  const isAvantPremiere = seance.format && seance.format.toLowerCase().includes('première');
 
   return (
+    // .horaire du site — carte blanche avec ombre, couleur primary pour le texte
     <TouchableOpacity
-      style={[styles.pill, hasTicket && styles.pillClickable]}
+      style={[
+        styles.pill,
+        hasTicket && styles.pillClickable,
+        isAvantPremiere && styles.pillAvantPremiere,
+      ]}
       onPress={hasTicket ? handleTicketPress : undefined}
-      activeOpacity={hasTicket ? 0.7 : 1}
+      activeOpacity={hasTicket ? 0.75 : 1}
       accessibilityRole={hasTicket ? 'link' : 'text'}
       accessibilityLabel={`${seance.time} ${seance.lang}${seance.format ? ' ' + seance.format : ''}`}
     >
-      {/* Heure */}
-      <Text style={styles.time}>{formatTime(seance.time)}</Text>
-
-      {/* Badges lang + format */}
-      <View style={styles.badgesRow}>
-        <View style={[styles.langBadge, seance.lang === 'VO' ? styles.voBadge : styles.vfBadge]}>
-          <Text style={styles.langText}>{seance.lang}</Text>
-        </View>
-        {seance.format && (
-          <View style={styles.formatBadge}>
-            <Text style={styles.formatText}>{seance.format.split(', ')[0]}</Text>
-          </View>
-        )}
+      {/* .horaire-top : lang-badge + format-badge */}
+      <View style={styles.pillTop}>
+        <Text style={styles.langBadge}>{seance.lang}</Text>
+        {seance.format ? (
+          <Text style={styles.formatBadge} numberOfLines={1}>
+            {seance.format.split(', ')[0]}
+          </Text>
+        ) : null}
       </View>
 
-      {/* Icône billet si URL disponible */}
-      {hasTicket && (
-        <Text style={styles.ticketIcon}>🎟</Text>
-      )}
+      {/* .horaire-bottom : heure en grand + icône calendrier */}
+      <View style={styles.pillBottom}>
+        {/* .seance-time: font-size 13px, bold, color primary */}
+        <Text style={styles.time}>{formatTime(seance.time)}</Text>
+        {/* Icône billet si URL disponible */}
+        {hasTicket ? (
+          <Text style={styles.ticketIcon}>🎟</Text>
+        ) : null}
+      </View>
     </TouchableOpacity>
   );
 }
 
-
-
 const styles = StyleSheet.create({
+  // .seance_container du site: flex row
   container: {
-    paddingVertical: 8,
-    paddingHorizontal: 4,
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.border,
-  },
-  cinemaName: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: COLORS.textMuted,
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 6,
-    paddingLeft: 4,
+    overflow: 'hidden',
   },
+
+  // .cinema du site: background primary, hauteur 42px, width 100px, texte blanc
+  cinemaLabel: {
+    backgroundColor: COLORS.primary,
+    borderRadius: 5,
+    height: 42,
+    width: 100,
+    minWidth: 100,
+    flexShrink: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 8,
+    paddingVertical: 5,
+    // box-shadow: 0 6px 20px rgba(0,0,0,0.15)
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.15,
+    shadowRadius: 10,
+    elevation: 4,
+  },
+  cinemaText: {
+    color: '#ffffff',
+    fontSize: 12,
+    fontWeight: '600',
+    lineHeight: 14,
+    textAlign: 'center',
+  },
+
+  // .horaires_container: scroll horizontal
   seancesRow: {
     flexDirection: 'row',
-    gap: 8,
-    paddingHorizontal: 4,
-  },
-  pill: {
-    backgroundColor: COLORS.surfaceElevated,
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: COLORS.border,
-    minWidth: 68,
+    paddingLeft: 6,
+    gap: 6,
+  },
+
+  // .horaire du site: carte blanche, border-radius 6px, height 42px, min-width 72px
+  pill: {
+    backgroundColor: '#ffffff',
+    borderRadius: 6,
+    height: 42,
+    minWidth: 72,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    flexShrink: 0,
+    justifyContent: 'space-between',
+    // box-shadow: 0 6px 20px rgba(0,0,0,0.15)
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.15,
+    shadowRadius: 10,
+    elevation: 4,
   },
   pillClickable: {
-    borderColor: COLORS.primary + '66',
+    // Légère bordure primary pour les billets disponibles
+    borderWidth: 1,
+    borderColor: 'rgba(68,76,247,0.25)',
   },
-  time: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: COLORS.text,
-    marginBottom: 4,
+  pillAvantPremiere: {
+    borderWidth: 1,
+    borderColor: 'rgba(255,107,107,0.5)',
+    backgroundColor: 'rgba(255,107,107,0.06)',
   },
-  badgesRow: {
+
+  // .horaire-top : lang-badge + format-badge en petits textes gris
+  pillTop: {
     flexDirection: 'row',
-    gap: 4,
     alignItems: 'center',
+    gap: 4,
+    height: 14,
+    overflow: 'hidden',
   },
   langBadge: {
-    borderRadius: 4,
-    paddingHorizontal: 5,
-    paddingVertical: 2,
-  },
-  voBadge: {
-    backgroundColor: COLORS.voBadge,
-  },
-  vfBadge: {
-    backgroundColor: COLORS.vfBadge,
-  },
-  langText: {
     fontSize: 9,
     fontWeight: '700',
-    color: '#fff',
+    color: '#999',   // identique à .lang-badge du site
   },
   formatBadge: {
-    backgroundColor: COLORS.surface,
-    borderRadius: 4,
-    paddingHorizontal: 4,
-    paddingVertical: 2,
-    borderWidth: 1,
-    borderColor: COLORS.border,
+    fontSize: 8,
+    fontWeight: '700',
+    color: '#999',   // identique à .format-badge du site
+    textTransform: 'uppercase',
+    flexShrink: 1,
   },
-  formatText: {
-    fontSize: 9,
-    fontWeight: '600',
-    color: COLORS.textMuted,
+
+  // .horaire-bottom : heure + icône billet
+  pillBottom: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  // .seance-time: font-size 13px bold, color primary (#444cf7)
+  time: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: COLORS.primary,   // identique au site: color var(--primary)
+    lineHeight: 15,
   },
   ticketIcon: {
-    fontSize: 11,
-    marginTop: 3,
+    fontSize: 10,
+    marginLeft: 3,
   },
 });
