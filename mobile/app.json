@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "CinéLyon",
+    "name": "CineLyon",
     "slug": "cinelyon",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -16,6 +16,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "fr.cinelyon.app",
       "infoPlist": {
+        "CFBundleDisplayName": "CinéLyon",
         "NSCalendarsUsageDescription": "CinéLyon a besoin d'accéder à votre calendrier pour ajouter vos séances."
       }
     },
@@ -47,7 +48,6 @@
           "backgroundColor": "#0d0d14"
         }
       ],
-      "expo-notifications",
       [
         "expo-build-properties",
         {

@@ -38,3 +38,8 @@ ios/
 
 expo-env.d.ts
 # @end expo-cli
+
+# Fichiers de build temporaires
+hermes-engine/
+.last_build_configuration
+temp_log.gz
