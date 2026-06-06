@@ -121,7 +121,7 @@ export default function RootLayout() {
             }}
           />
         </Stack>
-        <Toast config={toastConfig} />
+        <Toast config={toastConfig} topOffset={60} />
       </QueryClientProvider>
     </GestureHandlerRootView>
   );

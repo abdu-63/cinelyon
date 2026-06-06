@@ -105,7 +105,7 @@ Si vous compilez localement avec un compte Apple Developer gratuit, vous pouvez 
 **Symptôme :** Xcode échoue lors du build (`Error code 65`) avec une erreur indiquant que votre profil de provisioning ne supporte pas la capacité "Push Notifications" ou que `aps-environment` n'est pas enregistré pour le profil.
 **Cause :** Vous utilisez un compte Apple Developer gratuit qui ne supporte pas les notifications Push natives, mais les configurations natives du projet les requièrent.
 **Résolution :** 
-Ouvrez le fichier [CineLyon.entitlements](file:///Users/abdu/Documents/Projets/cinelyon/mobile/ios/CineLyon/CineLyon.entitlements) et retirez la clé `aps-environment` pour n'avoir qu'un dictionnaire vide :
+Ouvrez le fichier [CineLyon.entitlements](ios/CineLyon/CineLyon.entitlements) et retirez la clé `aps-environment` pour n'avoir qu'un dictionnaire vide :
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">

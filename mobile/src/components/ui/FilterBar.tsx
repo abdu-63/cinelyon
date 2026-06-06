@@ -12,6 +12,7 @@ import {
   StyleSheet,
   Modal,
   Pressable,
+  Keyboard,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../../lib/constants';
@@ -82,6 +83,7 @@ export function FilterBar({
           onChangeText={setLocalTitleQuery}
           clearButtonMode="while-editing"
           returnKeyType="search"
+          onSubmitEditing={() => Keyboard.dismiss()}
           accessibilityLabel="Rechercher un film"
         />
         <TouchableOpacity

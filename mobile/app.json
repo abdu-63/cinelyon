@@ -56,7 +56,21 @@
           }
         }
       ],
-      "expo-font"
+      "expo-font",
+      [
+        "@howincodes/expo-dynamic-app-icon",
+        {
+          "Blue": { "image": "./assets/icons/Blue.png", "ios": "./assets/icons/Blue.png" },
+          "BlueGradiant": { "image": "./assets/icons/BlueGradiant.png", "ios": "./assets/icons/BlueGradiant.png" },
+          "ClearDark": { "image": "./assets/icons/ClearDark.png", "ios": "./assets/icons/ClearDark.png" },
+          "DarkBlue": { "image": "./assets/icons/DarkBlue.png", "ios": "./assets/icons/DarkBlue.png" },
+          "DarkPurple": { "image": "./assets/icons/DarkPurple.png", "ios": "./assets/icons/DarkPurple.png" },
+          "PupleBlueGradiant": { "image": "./assets/icons/PupleBlueGradiant.png", "ios": "./assets/icons/PupleBlueGradiant.png" },
+          "PuprpleGradiant": { "image": "./assets/icons/PuprpleGradiant.png", "ios": "./assets/icons/PuprpleGradiant.png" },
+          "Purple": { "image": "./assets/icons/Purple.png", "ios": "./assets/icons/Purple.png" },
+          "TintedDark": { "image": "./assets/icons/TintedDark.png", "ios": "./assets/icons/TintedDark.png" }
+        }
+      ]
     ],
     "extra": {
       "eas": {

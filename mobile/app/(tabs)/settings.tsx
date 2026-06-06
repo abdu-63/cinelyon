@@ -12,15 +12,29 @@ import {
   Alert,
   Switch,
 } from 'react-native';
+import { Image } from 'expo-image';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
 import * as Linking from 'expo-linking';
 import { Ionicons } from '@expo/vector-icons';
+import { setAppIcon, getAppIcon } from '@howincodes/expo-dynamic-app-icon';
 import { useFavorites } from '../../src/hooks/useFavorites';
 import { useFriends } from '../../src/hooks/useFriends';
 import { COLORS } from '../../src/lib/constants';
 import { secureStore } from '../../src/lib/secureStore';
 import { TwitterLogo, InstagramLogo, GithubLogo, LetterboxdLogo } from '../../src/components/ui/SocialIcons';
+
+const APP_ICONS = [
+  { id: 'DEFAULT', label: 'Défaut', source: require('../../assets/icon.png') },
+  { id: 'BlueGradiant', label: 'Bleu Dégradé', source: require('../../assets/icons/BlueGradiant.png') },
+  { id: 'ClearDark', label: 'Clair Sombre', source: require('../../assets/icons/ClearDark.png') },
+  { id: 'DarkBlue', label: 'Bleu Sombre', source: require('../../assets/icons/DarkBlue.png') },
+  { id: 'DarkPurple', label: 'Violet Sombre', source: require('../../assets/icons/DarkPurple.png') },
+  { id: 'PupleBlueGradiant', label: 'Violet Bleu', source: require('../../assets/icons/PupleBlueGradiant.png') },
+  { id: 'PuprpleGradiant', label: 'Violet Dégradé', source: require('../../assets/icons/PuprpleGradiant.png') },
+  { id: 'Purple', label: 'Violet', source: require('../../assets/icons/Purple.png') },
+  { id: 'TintedDark', label: 'Teinté', source: require('../../assets/icons/TintedDark.png') },
+];
 
 export default function SettingsScreen() {
   const { syncCode, syncId, pseudo, linkDevice, unlinkDevice, updatePseudo } = useFavorites();
@@ -40,6 +54,9 @@ export default function SettingsScreen() {
   // Hidden Friends (masquer les amis)
   const [hiddenFriends, setHiddenFriends] = useState<string[]>([]);
 
+  // App Icon
+  const [currentIcon, setCurrentIcon] = useState<string>('DEFAULT');
+
   useEffect(() => {
     if (pseudo) {
       setLocalPseudo(pseudo);
@@ -55,6 +72,14 @@ export default function SettingsScreen() {
       if (notifs !== null) setNotificationsEnabled(notifs === 'true');
       if (hidePast !== null) setHidePastSessions(hidePast === 'true');
       if (hiddenF !== null) setHiddenFriends(JSON.parse(hiddenF));
+
+      // load icon
+      try {
+        const icon = await getAppIcon();
+        setCurrentIcon(icon || 'DEFAULT');
+      } catch (e) {
+        // ignore
+      }
     };
     loadSettings();
   }, []);
@@ -131,6 +156,20 @@ export default function SettingsScreen() {
       } else {
         Toast.show({ type: 'error', text1: 'Erreur lors de l\'ajout' });
       }
+    }
+  };
+
+  const handleChangeIcon = async (iconId: string) => {
+    try {
+      const result = await setAppIcon(iconId === 'DEFAULT' ? null : (iconId as any));
+      if (result !== false) {
+        setCurrentIcon(iconId);
+        Toast.show({ type: 'success', text1: 'Icône mise à jour !' });
+      } else {
+        Toast.show({ type: 'error', text1: 'L\'icône n\'a pas pu être changée.' });
+      }
+    } catch (e) {
+      Toast.show({ type: 'error', text1: 'Erreur lors du changement d\'icône' });
     }
   };
 
@@ -257,6 +296,32 @@ export default function SettingsScreen() {
           </View>
         ) : null}
 
+        {/* Section Apparence */}
+        <SectionHeader title="Apparence" />
+        
+        <View style={styles.card}>
+          <Text style={styles.label}>Icône de l'application</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 16, paddingVertical: 8 }}>
+            {APP_ICONS.map(icon => (
+              <TouchableOpacity
+                key={icon.id}
+                style={[
+                  styles.iconPickerBtn,
+                  currentIcon === icon.id && styles.iconPickerBtnActive
+                ]}
+                onPress={() => handleChangeIcon(icon.id)}
+              >
+                <Image
+                  source={icon.source}
+                  style={[styles.iconPreviewImg, currentIcon === icon.id && styles.iconPreviewImgActive]}
+                  contentFit="cover"
+                />
+                <Text style={[styles.iconPickerLabel, currentIcon === icon.id && styles.iconPickerLabelActive]}>{icon.label}</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
+
         {/* Section Options */}
         <SectionHeader title="Options" />
         
@@ -267,7 +332,7 @@ export default function SettingsScreen() {
               value={notificationsEnabled}
               onValueChange={toggleNotifications}
               trackColor={{ false: COLORS.border, true: COLORS.primary }}
-              style={{ marginRight: 14 }}
+              style={{ marginRight: 8 }}
             />
           </View>
           <View style={[styles.switchRow, { borderBottomWidth: 0, paddingBottom: 0 }]}>
@@ -276,7 +341,7 @@ export default function SettingsScreen() {
               value={hidePastSessions}
               onValueChange={toggleHidePastSessions}
               trackColor={{ false: COLORS.border, true: COLORS.primary }}
-              style={{ marginRight: 14 }}
+              style={{ marginRight: 8 }}
             />
           </View>
         </View>
@@ -584,5 +649,32 @@ const styles = StyleSheet.create({
   versionText: {
     color: COLORS.textSubtle,
     fontSize: 13,
+  },
+  
+  iconPickerBtn: {
+    alignItems: 'center',
+    gap: 8,
+    opacity: 0.5,
+  },
+  iconPickerBtnActive: {
+    opacity: 1,
+  },
+  iconPreviewImg: {
+    width: 60,
+    height: 60,
+    borderRadius: 14,
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  iconPreviewImgActive: {
+    borderColor: COLORS.primary,
+  },
+  iconPickerLabel: {
+    fontSize: 12,
+    color: COLORS.textSubtle,
+  },
+  iconPickerLabelActive: {
+    color: COLORS.primary,
+    fontWeight: '700',
   },
 });
