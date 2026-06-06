@@ -2,6 +2,7 @@
 // Hook React Query pour charger et transformer les séances depuis Supabase
 
 import { useQuery } from '@tanstack/react-query';
+import React from 'react';
 import { supabase } from '../lib/supabase';
 import { buildFilmList } from '../utils/showtimes';
 import { FilmRaw } from '../types';
@@ -41,9 +42,11 @@ export function useShowtimes(delta: number | null = null) {
   });
 
   // Transformation côté client — équivalent de app.py::home()
-  const { films, dates } = query.data
-    ? buildFilmList(query.data, delta)
-    : { films: [], dates: [] };
+  const { films, dates } = React.useMemo(() => {
+    return query.data
+      ? buildFilmList(query.data, delta)
+      : { films: [], dates: [] };
+  }, [query.data, delta]);
 
   return {
     // Données

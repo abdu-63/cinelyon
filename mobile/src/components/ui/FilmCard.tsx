@@ -76,12 +76,13 @@ export const FilmCard = memo(function FilmCard({
   return (
     <View style={styles.filmBlock}>
       {/* ── .container_infoFilm du site : card avec glassmorphism ── */}
-      <Pressable
-        style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
-        onPress={handlePress}
-        accessibilityRole={Platform.OS === 'web' ? undefined : 'button'}
-        accessibilityLabel={`Voir les séances de ${film.title}`}
-      >
+      <View style={styles.cardShadow}>
+        <Pressable
+          style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
+          onPress={handlePress}
+          accessibilityRole={Platform.OS === 'web' ? undefined : 'button'}
+          accessibilityLabel={`Voir les séances de ${film.title}`}
+        >
         {/* .blur-background sur mobile: rgba(255,255,255,0.3) + blur(20px) */}
         <View style={styles.blurBackground} />
 
@@ -189,7 +190,8 @@ export const FilmCard = memo(function FilmCard({
         <View style={styles.chevronNav}>
           <Ionicons name="chevron-forward" size={16} color={COLORS.textMuted} />
         </View>
-      </Pressable>
+        </Pressable>
+      </View>
 
       {/* ── div height:10px séparateur identique au site ── */}
       <View style={styles.spacer} />
@@ -384,21 +386,24 @@ const styles = StyleSheet.create({
   // border-radius: 15px
   // box-shadow: 0 8px 32px var(--shadow-lg) = rgba(0,0,0,0.1)
   // margin: 0 5% (mobile) → ~10px horizontal
-  card: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    backgroundColor: '#ffffff', // fond solide pour iOS shadow (site: rgba(255,255,255,0.6))
-    borderRadius: 15,
+  cardShadow: {
     marginHorizontal: '5%',
     marginBottom: 0,
-    overflow: 'hidden',
-    position: 'relative',
-    // box-shadow: 0 8px 32px rgba(0,0,0,0.1)
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.1,
     shadowRadius: 16,
     elevation: 6,
+    borderRadius: 15,
+    backgroundColor: '#ffffff', // fond solide pour optimisation shadow iOS
+  },
+  card: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    backgroundColor: 'transparent', // le wrapper a la couleur de fond
+    borderRadius: 15,
+    overflow: 'hidden',
+    position: 'relative',
   },
   cardPressed: {
     opacity: 0.9,

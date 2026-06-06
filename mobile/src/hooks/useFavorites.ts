@@ -3,6 +3,7 @@
 // Portage de la logique index.js lines 924–1220 (syncToSupabase, syncFromSupabase, toggleFavorite)
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import React from 'react';
 import { secureStore } from '../lib/secureStore';
 import { supabase } from '../lib/supabase';
 import { SECURE_KEYS } from '../lib/constants';
@@ -69,8 +70,8 @@ export function useFavorites() {
     refetchInterval: 10_000, // Polling toutes les 10s pour mise à jour en temps réel
   });
 
-  const favorites: string[] = remoteRecord?.films ?? [];
-  const pseudo: string = remoteRecord?.pseudo ?? '';
+  const favorites: string[] = React.useMemo(() => remoteRecord?.films ?? [], [remoteRecord?.films]);
+  const pseudo: string = React.useMemo(() => remoteRecord?.pseudo ?? '', [remoteRecord?.pseudo]);
 
   // 3. Upsert vers Supabase (portage syncToSupabase — debounced via useMutation)
   const upsertMutation = useMutation({
@@ -111,7 +112,7 @@ export function useFavorites() {
   });
 
   // 4. Toggle favori
-  const toggleFavorite = (slug: string) => {
+  const toggleFavorite = React.useCallback((slug: string) => {
     if (!syncId) return; // Protection
 
     const next = favorites.includes(slug)
@@ -122,7 +123,7 @@ export function useFavorites() {
     qc.setQueryData<FavoriteRecord | null>(['favorites', syncId], (old) =>
       old ? { ...old, films: next } : { user_id: syncId, films: next, updated_at: new Date().toISOString(), pseudo }
     );
-  };
+  }, [syncId, favorites, pseudo, qc, upsertMutation]);
 
   const updatePseudo = (newPseudo: string) => {
     if (!syncId) return;
@@ -182,7 +183,7 @@ export function useFavorites() {
     syncId: syncId ?? '',
     deviceId: deviceId ?? '',
     syncCode: syncId ? getSyncCode(syncId) : '',
-    isFavorite: (slug: string) => favorites.includes(slug),
+    isFavorite: React.useCallback((slug: string) => favorites.includes(slug), [favorites]),
     toggleFavorite,
     updatePseudo,
     linkDevice,

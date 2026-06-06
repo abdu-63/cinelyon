@@ -2,6 +2,7 @@
 // Système amis — portage de la section Friends Feature de index.js (lines 1344–1700)
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import React from 'react';
 import { supabase } from '../lib/supabase';
 import { FriendFollow, FavoriteRecord } from '../types';
 
@@ -52,7 +53,8 @@ export function useFriends(syncId: string, hiddenFriends: string[] = []) {
     staleTime: 60_000,
   });
 
-  const friendFavorites = Object.keys(friendFavoritesMap);
+  const friendFavorites = React.useMemo(() => Object.keys(friendFavoritesMap), [friendFavoritesMap]);
+  const EMPTY_ARRAY = React.useMemo<string[]>(() => [], []);
 
   // Ajouter un ami par syncId ou pseudo
   const addFriend = useMutation({
@@ -96,8 +98,8 @@ export function useFriends(syncId: string, hiddenFriends: string[] = []) {
   return {
     follows,
     friendFavorites,
-    hasFriendFavorited: (slug: string) => friendFavorites.includes(slug),
-    getFriendsWhoFavorited: (slug: string) => friendFavoritesMap[slug] || [],
+    hasFriendFavorited: React.useCallback((slug: string) => friendFavorites.includes(slug), [friendFavorites]),
+    getFriendsWhoFavorited: React.useCallback((slug: string) => friendFavoritesMap[slug] || EMPTY_ARRAY, [friendFavoritesMap, EMPTY_ARRAY]),
     addFriend: (searchKey: string, nickname: string) =>
       addFriend.mutateAsync({ searchKey, nickname }),
     removeFriend: (followedId: string) => removeFriend.mutateAsync(followedId),

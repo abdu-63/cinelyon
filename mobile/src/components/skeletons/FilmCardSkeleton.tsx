@@ -22,17 +22,19 @@ function Shimmer({ style }: { style: object }) {
 
 export function FilmCardSkeleton() {
   return (
-    <View style={styles.card}>
-      <Shimmer style={styles.poster} />
-      <View style={styles.info}>
-        <Shimmer style={styles.titleLine} />
-        <Shimmer style={styles.metaLine} />
-        <Shimmer style={styles.smallLine} />
-        <View style={styles.ratingsRow}>
-          <Shimmer style={styles.badge} />
-          <Shimmer style={styles.badge} />
+    <View style={styles.cardShadow}>
+      <View style={styles.card}>
+        <Shimmer style={styles.poster} />
+        <View style={styles.info}>
+          <Shimmer style={styles.titleLine} />
+          <Shimmer style={styles.metaLine} />
+          <Shimmer style={styles.smallLine} />
+          <View style={styles.ratingsRow}>
+            <Shimmer style={styles.badge} />
+            <Shimmer style={styles.badge} />
+          </View>
+          <Shimmer style={styles.genreLine} />
         </View>
-        <Shimmer style={styles.genreLine} />
       </View>
     </View>
   );
@@ -51,18 +53,22 @@ export function FilmListSkeleton({ count = 5 }: { count?: number }) {
 const SKELETON_COLOR = COLORS.surfaceElevated;
 
 const styles = StyleSheet.create({
-  card: {
-    flexDirection: 'row',
-    backgroundColor: '#ffffff',
-    borderRadius: 15,
-    marginHorizontal: '5%',  // Identique à FilmCard
+  cardShadow: {
+    marginHorizontal: '5%',
     marginBottom: 0,
-    overflow: 'hidden',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.1,
     shadowRadius: 16,
     elevation: 6,
+    borderRadius: 15,
+    backgroundColor: '#ffffff', // fond solide pour optimisation shadow iOS
+  },
+  card: {
+    flexDirection: 'row',
+    backgroundColor: 'transparent',
+    borderRadius: 15,
+    overflow: 'hidden',
   },
   poster: {
     width: 100,
