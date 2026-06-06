@@ -5,7 +5,7 @@ import { COLORS } from '../../src/lib/constants';
 
 export default function ReservationScreen() {
   return (
-    <SafeAreaView style={styles.safe} edges={['bottom']}>
+    <SafeAreaView style={styles.safe} edges={[]}>
       <View style={styles.container}>
         <Text style={styles.title}>Mes Réservations</Text>
         <Text style={styles.description}>

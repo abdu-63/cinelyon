@@ -49,7 +49,7 @@ export default function FavoritesScreen() {
   );
 
   return (
-    <SafeAreaView style={styles.safe} edges={['bottom']}>
+    <SafeAreaView style={styles.safe} edges={[]}>
       {/* Onglets perso / amis */}
       <View style={styles.tabs}>
         {(['perso', 'amis'] as FavTab[]).map((tab) => (

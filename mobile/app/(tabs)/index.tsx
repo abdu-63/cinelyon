@@ -183,7 +183,7 @@ export default function HomeScreen() {
 
   if (isLoading) {
     return (
-      <SafeAreaView style={styles.safe} edges={['bottom']}>
+      <SafeAreaView style={styles.safe} edges={[]}>
         <DaySelector dates={[]} selectedDelta={null} onSelect={() => {}} />
         <FilmListSkeleton count={6} />
       </SafeAreaView>
@@ -191,7 +191,7 @@ export default function HomeScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.safe} edges={['bottom']}>
+    <SafeAreaView style={styles.safe} edges={[]}>
       <FlatList
         ref={flatListRef}
         onScroll={handleScroll}

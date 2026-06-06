@@ -26,7 +26,7 @@ export default function MapScreen() {
     : CINEMAS.filter(c => isCinemaFavorite(c.name));
 
   return (
-    <SafeAreaView style={styles.container} edges={['bottom']}>
+    <SafeAreaView style={styles.container} edges={[]}>
       <View style={styles.tabs}>
         {(['tous', 'favoris'] as MapTab[]).map((tab) => (
           <TouchableOpacity
