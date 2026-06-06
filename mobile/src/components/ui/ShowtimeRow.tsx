@@ -58,20 +58,13 @@ export function ShowtimeRow({
   return (
     // .seance_container du site — flex row avec cinéma + horaires
     <View style={styles.container}>
-      {/* .cinema du site — badge bleu primary avec texte blanc et bouton GPS */}
+      {/* .cinema du site — badge bleu primary avec texte blanc */}
       <View style={styles.cinemaLabelContainer}>
         <View style={styles.cinemaLabel}>
           <Text style={styles.cinemaText} numberOfLines={3}>
             {cinemaName}
           </Text>
         </View>
-        <TouchableOpacity
-          style={styles.gpsBtn}
-          onPress={() => Linking.openURL(`maps://?q=${encodeURIComponent('Cinéma ' + cinemaName + ' Lyon')}`)}
-          accessibilityLabel="Ouvrir dans Maps"
-        >
-          <Ionicons name="navigate" size={14} color={COLORS.primary} />
-        </TouchableOpacity>
       </View>
 
       {/* .horaires_container du site — scroll horizontal */}
