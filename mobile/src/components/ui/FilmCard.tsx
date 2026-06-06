@@ -59,8 +59,7 @@ export const FilmCard = memo(function FilmCard({
   };
 
   const ratingDisplay =
-    film.rating !== 'Note inconnue' ? film.rating.replace('/5', '★') : null;
-
+    film.rating !== 'Note inconnue' ? film.rating.replace('/5','') : null;
   // Séances du jour sélectionné (seancesByDay[dayLabel] = { cinemaName: Seance[] })
   const selectedDayLabel = selectedDayIdx !== null ? dayLabels[selectedDayIdx] ?? null : null;
   const seancesForDay: Record<string, Seance[]> = selectedDayLabel
@@ -139,24 +138,12 @@ export const FilmCard = memo(function FilmCard({
               <Text style={styles.metaText}>Durée : {film.duree}</Text>
             ) : null}
 
-            {/* Notes — badges identiques au site */}
-            <View style={styles.ratingsRow}>
-              {ratingDisplay ? (
-                <View style={styles.ratingBadge}>
-                  <Text style={styles.ratingText}>Note : {ratingDisplay}</Text>
-                </View>
-              ) : null}
-              {film.tmdb_score !== null ? (
-                <View style={[styles.ratingBadge, styles.tmdbBadge]}>
-                  <Text style={styles.ratingText}>TMDB {film.tmdb_score}</Text>
-                </View>
-              ) : null}
-              {film.rt_score ? (
-                <View style={[styles.ratingBadge, styles.rtBadge]}>
-                  <Text style={styles.ratingText}>🍅 {film.rt_score}</Text>
-                </View>
-              ) : null}
-            </View>
+            {/* Note simplifiée sans badge */}
+            {ratingDisplay ? (
+              <Text style={styles.metaText} numberOfLines={1}>
+                Note : {ratingDisplay}
+              </Text>
+            ) : null}
 
             {/* Watch providers */}
             {film.watch_providers && film.watch_providers.length > 0 ? (
@@ -482,36 +469,7 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
 
-  // Notes — badges
-  ratingsRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 4,
-    marginTop: 6,
-    marginBottom: 3,
-  },
-  ratingBadge: {
-    backgroundColor: 'rgba(68,76,247,0.08)',
-    borderRadius: 4,
-    paddingHorizontal: 5,
-    paddingVertical: 2,
-    borderWidth: 1,
-    borderColor: 'rgba(68,76,247,0.2)',
-  },
-  tmdbBadge: {
-    borderColor: '#01b4e4',
-    backgroundColor: 'rgba(1,180,228,0.08)',
-  },
-  rtBadge: {
-    borderColor: '#fa520f',
-    backgroundColor: 'rgba(250,82,15,0.08)',
-  },
-  ratingText: {
-    fontFamily: 'healTheWebA',
-    fontSize: 10,
-    color: COLORS.textMuted,
-    fontWeight: '600',
-  },
+
 
   // Watch providers
   providersRow: {

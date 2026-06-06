@@ -350,7 +350,26 @@ export default function SettingsScreen() {
         <SectionHeader title="À Propos" />
 
         <View style={styles.card}>
-          <TouchableOpacity style={styles.contactRow} onPress={() => Linking.openURL('mailto:contact@cinelyon.fr?subject=Signaler un bug / Suggérer un ajout')}>
+          <TouchableOpacity style={styles.contactRow} onPress={() => {
+            Alert.alert(
+              'Aidez-nous à améliorer CinéLyon !',
+              'Choisissez une option :',
+              [
+                {
+                  text: 'Signaler un bug',
+                  onPress: () => Linking.openURL(`mailto:cinelyon.fr@gmail.com?subject=${encodeURIComponent('[Bug] Signalement sur CinéLyon')}&body=${encodeURIComponent('Description du bug :\n\nÉtapes pour reproduire :\n\nAppareil/Navigateur :')}`)
+                },
+                {
+                  text: 'Suggérer un ajout',
+                  onPress: () => Linking.openURL(`mailto:cinelyon.fr@gmail.com?subject=${encodeURIComponent('[Idée] Nouvelle fonctionnalité CinéLyon')}&body=${encodeURIComponent('Mon idée :\n\nPourquoi ce serait utile :')}`)
+                },
+                {
+                  text: 'Annuler',
+                  style: 'cancel'
+                }
+              ]
+            );
+          }}>
             <Ionicons name="bug-outline" size={20} color={COLORS.text} />
             <Text style={styles.contactText}>Signaler un bug / Suggérer un ajout</Text>
           </TouchableOpacity>
@@ -373,7 +392,7 @@ export default function SettingsScreen() {
 
         {/* Version */}
         <View style={styles.versionContainer}>
-          <Text style={styles.versionText}>CinéLyon Mobile · v1.0.0</Text>
+          <Text style={styles.versionText}>CinéLyon Mobile · v1.0</Text>
         </View>
       </ScrollView>
     </SafeAreaView>

@@ -4,6 +4,7 @@
 import { useCallback } from 'react';
 import * as Calendar from 'expo-calendar';
 import { Alert, Platform } from 'react-native';
+import { useRouter } from 'expo-router';
 import { Seance } from '../types';
 import { parseDuration } from '../utils/dateUtils';
 
@@ -12,6 +13,8 @@ import { parseDuration } from '../utils/dateUtils';
  * Utilisé dans ShowtimeRow pour le bouton "Ajouter au calendrier".
  */
 export function useCalendar() {
+  const router = useRouter();
+
   const addToCalendar = useCallback(
     async (
       filmTitle: string,
@@ -105,7 +108,10 @@ export function useCalendar() {
           Alert.alert(
             '✅ Ajouté au calendrier',
             `"${filmTitle}" le ${formatDisplayDate(isoDate)} à ${seance.time} a été ajouté à votre calendrier CinéLyon.`,
-            [{ text: 'Super !', style: 'default' }]
+            [
+              { text: 'Mes réservations', onPress: () => router.push('/reservation') },
+              { text: 'Fermer', style: 'cancel' }
+            ]
           );
         }
       } catch (error) {

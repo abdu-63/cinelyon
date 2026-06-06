@@ -48,7 +48,7 @@ export default function MapScreen() {
         showsMyLocationButton={true}
         userInterfaceStyle="dark"
       >
-        {displayedCinemas.map((cinema) => {
+        {displayedCinemas.map((cinema, index) => {
           const isFav = isCinemaFavorite(cinema.name);
 
           const handleCalloutPress = () => {
@@ -81,7 +81,7 @@ export default function MapScreen() {
 
           return (
             <Marker
-              key={`${cinema.name}-${isFav}`}
+              key={`${cinema.name}-${index}`}
               coordinate={{
                 latitude: cinema.latitude,
                 longitude: cinema.longitude,

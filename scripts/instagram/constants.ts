@@ -65,10 +65,10 @@ export const CINEMA_ADDRESSES: Record<string, string> = {
   "Ciné Toboggan": "14 Av. Jean Macé, 69150 Décines",
   "Cinéma Saint-Denis": "77 Gd Rue de la Croix-Rousse, 69004 Lyon",
   "Lumière Bellecour": "12 Rue de la Barre, 69002 Lyon",
-  "Lumière La Fourmi": "68 Rue Pierre Corneille, 69003 Lyon",
+  "Lumière Fourmi": "68 Rue Pierre Corneille, 69003 Lyon",
   "Lumière Terreaux": "40 Rue du Pdt Édouard Herriot, 69001 Lyon",
   "Institut Lumière": "25 Rue du Premier-Film, 69008 Lyon",
-  "Cinéma Comoedia": "13 Av. Berthelot, 69007 Lyon",
+  "Le Comoedia": "13 Av. Berthelot, 69007 Lyon",
   "Cinéma Les Amphis": "12 Rue Pierre Cot, 69120 Vaulx-en-Velin",
   "Cinéma Gerard-Philipe": "12 Av. Jean Cagne, 69200 Vénissieux",
   "Cinéma Opéra": "6 Rue Joseph Serlin, 69001 Lyon"

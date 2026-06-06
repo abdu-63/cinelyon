@@ -11,6 +11,7 @@ import {
   Linking,
   Dimensions,
 } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams } from 'expo-router';
 import { Image } from 'expo-image';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -103,20 +104,17 @@ export default function FilmDetailScreen() {
     <SafeAreaView style={styles.safe} edges={['bottom']}>
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
 
-        {/* Hero : affiche + gradient */}
+        {/* Hero : affiche format paysage style Letterboxd */}
         <View style={styles.hero}>
           <Image
-            source={posterUrl}
+            source={youtubeId ? `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg` : posterUrl}
             style={styles.backdrop}
             contentFit="cover"
-            blurRadius={20}
-          />
-          <View style={styles.heroOverlay} />
-          <Image
-            source={posterUrl}
-            style={styles.poster}
-            contentFit="cover"
             transition={200}
+          />
+          <LinearGradient
+            colors={['transparent', COLORS.background]}
+            style={styles.heroOverlay}
           />
         </View>
 
@@ -187,21 +185,31 @@ export default function FilmDetailScreen() {
 
             {film.tmdb_score !== null ? (
               <TouchableOpacity
-                style={[styles.actionBtn, styles.actionBtnTmdb]}
                 onPress={() => Linking.openURL(`https://www.themoviedb.org/search?query=${encodeURIComponent(film.title)}`)}
               >
-                <TmdbLogo width={24} height={16} />
-                <Text style={[styles.actionBtnText, { color: '#01B4E4', marginLeft: 6 }]}>{film.tmdb_score}/10</Text>
+                <LinearGradient
+                  colors={['#90cea1', '#01b4e4']}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  style={[styles.actionBtn, { borderWidth: 0, paddingHorizontal: 12, paddingVertical: 6, borderRadius: 20 }]}
+                >
+                  <Text style={{ fontSize: 13 }}>🍿</Text>
+                  <Text style={[styles.actionBtnText, { color: '#032541', marginLeft: 6 }]}>{film.tmdb_score}/10</Text>
+                </LinearGradient>
               </TouchableOpacity>
             ) : null}
 
             {film.rt_score ? (
               <TouchableOpacity
-                style={[styles.actionBtn, styles.actionBtnRt]}
+                style={[styles.actionBtn, styles.actionBtnRt, {
+                  backgroundColor: parseInt(film.rt_score.replace('%', ''), 10) >= 60 ? 'rgba(255, 36, 0, 0.12)' : 'rgba(100, 100, 100, 0.12)',
+                  borderColor: parseInt(film.rt_score.replace('%', ''), 10) >= 60 ? 'rgba(255, 36, 0, 0.3)' : COLORS.border,
+                  paddingHorizontal: 12, paddingVertical: 6, borderRadius: 20
+                }]}
                 onPress={() => Linking.openURL(`https://www.rottentomatoes.com/search?search=${encodeURIComponent(film.title)}`)}
               >
-                <RtLogo width={16} height={16} />
-                <Text style={[styles.actionBtnText, { color: '#FA320A', marginLeft: 6 }]}>{film.rt_score}</Text>
+                <Text style={{ fontSize: 13 }}>🍅</Text>
+                <Text style={[styles.actionBtnText, { color: parseInt(film.rt_score.replace('%', ''), 10) >= 60 ? '#ff2400' : COLORS.textMuted, marginLeft: 6 }]}>{film.rt_score}</Text>
               </TouchableOpacity>
             ) : null}
           </View>
@@ -361,23 +369,9 @@ const styles = StyleSheet.create({
   },
   backdrop: {
     ...StyleSheet.absoluteFillObject,
-    opacity: 0.3,
   },
   heroOverlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(13,13,20,0.6)',
-  },
-  poster: {
-    width: 130,
-    height: 195,
-    borderRadius: 10,
-    marginBottom: -48,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.6,
-    shadowRadius: 16,
-    elevation: 12,
-    backgroundColor: '#000',
   },
 
   // Titre
