@@ -31,7 +31,7 @@ export default function SettingsScreen() {
   const [friendNickname, setFriendNickname] = useState('');
   const [isLinking, setIsLinking] = useState(false);
   const [localPseudo, setLocalPseudo] = useState('');
-  const [isCodeHidden, setIsCodeHidden] = useState(false);
+  const [isCodeHidden, setIsCodeHidden] = useState(true);
 
   // Settings
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);

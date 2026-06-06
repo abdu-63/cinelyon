@@ -18,6 +18,7 @@ import { COLORS } from '../../lib/constants';
 import { isPastSeance } from '../../utils/showtimes';
 import { getDeltaForDate, formatTime } from '../../utils/dateUtils';
 import { useCalendar } from '../../hooks/useCalendar';
+import { safeOpenURL } from '../../utils/urlUtils';
 
 interface ShowtimeRowProps {
   cinemaName: string;
@@ -93,7 +94,7 @@ interface SeancePillProps {
 function SeancePill({ seance, onCalendarPress }: SeancePillProps) {
   const handleTicketPress = () => {
     if (seance.ticketing_url) {
-      Linking.openURL(seance.ticketing_url);
+      safeOpenURL(seance.ticketing_url);
     }
   };
 

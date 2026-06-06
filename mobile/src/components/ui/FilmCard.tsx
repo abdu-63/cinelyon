@@ -22,6 +22,7 @@ import { optimizePosterUrl, PLACEHOLDER_POSTER } from '../../utils/imageUtils';
 import { isPastSeance } from '../../utils/showtimes';
 import { getDeltaForDate, formatTime, formatDayLabel } from '../../utils/dateUtils';
 import { useCalendar } from '../../hooks/useCalendar';
+import { safeOpenURL } from '../../utils/urlUtils';
 
 // Dimensions exactes du site web sur mobile (.affiche mobile: 100px × 144px)
 const POSTER_WIDTH = 100;
@@ -323,7 +324,7 @@ function SeancePill({ seance, onCalendarPress }: SeancePillProps) {
 
   const handlePress = () => {
     if (seance.ticketing_url) {
-      Linking.openURL(seance.ticketing_url);
+      safeOpenURL(seance.ticketing_url);
     }
   };
 

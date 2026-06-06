@@ -29,6 +29,7 @@ import { LetterboxdLogo, AllocineLogo, TmdbLogo, RtLogo } from '../../src/compon
 import { CinemaBrand } from '../../src/components/ui/CinemaBrand';
 import { DaySelector } from '../../src/components/ui/DaySelector';
 import { formatDayLabel } from '../../src/utils/dateUtils';
+import { safeOpenURL } from '../../src/utils/urlUtils';
 
 const STREAMING_LINKS: Record<string, { appUrl: string; webUrl: string }> = {
   'Netflix': { appUrl: 'nflx://', webUrl: 'https://www.netflix.com' },
@@ -167,7 +168,7 @@ export default function FilmDetailScreen() {
             {film.url ? (
               <TouchableOpacity
                 style={[styles.actionBtn, styles.actionBtnLetterboxd]}
-                onPress={() => Linking.openURL(film.url)}
+                onPress={() => safeOpenURL(film.url)}
               >
                 <LetterboxdLogo width={16} height={16} />
                 <Text style={[styles.actionBtnText, { color: '#fff', marginLeft: 6 }]}>Letterboxd</Text>
@@ -177,7 +178,7 @@ export default function FilmDetailScreen() {
             {film.allocine_url ? (
               <TouchableOpacity
                 style={[styles.actionBtn, styles.actionBtnAllocine]}
-                onPress={() => Linking.openURL(film.allocine_url)}
+                onPress={() => safeOpenURL(film.allocine_url)}
               >
                 <AllocineLogo width={16} height={16} />
                 <Text style={[styles.actionBtnText, { color: '#000', marginLeft: 6 }]}>AlloCiné</Text>

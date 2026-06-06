@@ -2,7 +2,7 @@
 // Barre de recherche + filtres rapides pour la liste des films
 // Portage de la section filters de index.js
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -34,6 +34,23 @@ export function FilterBar({
   filteredCount,
 }: FilterBarProps) {
   const [showFilters, setShowFilters] = useState(false);
+  const [localTitleQuery, setLocalTitleQuery] = useState(filters.titleQuery);
+
+  // Sync with parent filters when cleared or changed externally
+  useEffect(() => {
+    setLocalTitleQuery(filters.titleQuery);
+  }, [filters.titleQuery]);
+
+  // Debounce the text inputs to avoid database/API overloading on every keystroke
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      if (localTitleQuery !== filters.titleQuery) {
+        onFiltersChange({ titleQuery: localTitleQuery });
+      }
+    }, 300); // 300ms debounce window
+
+    return () => clearTimeout(handler);
+  }, [localTitleQuery]);
 
   const hasActiveFilters =
     filters.genre ||
@@ -61,8 +78,8 @@ export function FilterBar({
           style={styles.searchInput}
           placeholder="Rechercher un film…"
           placeholderTextColor={COLORS.textSubtle}
-          value={filters.titleQuery}
-          onChangeText={(t) => onFiltersChange({ titleQuery: t })}
+          value={localTitleQuery}
+          onChangeText={setLocalTitleQuery}
           clearButtonMode="while-editing"
           returnKeyType="search"
           accessibilityLabel="Rechercher un film"
