@@ -267,6 +267,7 @@ export default function SettingsScreen() {
               value={notificationsEnabled}
               onValueChange={toggleNotifications}
               trackColor={{ false: COLORS.border, true: COLORS.primary }}
+              style={{ marginRight: 14 }}
             />
           </View>
           <View style={[styles.switchRow, { borderBottomWidth: 0, paddingBottom: 0 }]}>
@@ -275,6 +276,7 @@ export default function SettingsScreen() {
               value={hidePastSessions}
               onValueChange={toggleHidePastSessions}
               trackColor={{ false: COLORS.border, true: COLORS.primary }}
+              style={{ marginRight: 14 }}
             />
           </View>
         </View>
@@ -290,6 +292,9 @@ export default function SettingsScreen() {
         </View>
 
         <View style={styles.socialsRow}>
+          <TouchableOpacity style={styles.socialBtn} onPress={() => Linking.openURL('https://boxd.it/6GBU5')}>
+            <LetterboxdLogo size={24} />
+          </TouchableOpacity>
           <TouchableOpacity style={styles.socialBtn} onPress={() => Linking.openURL('https://x.com/abduplt?s=21')}>
             <TwitterLogo size={24} color={COLORS.textSubtle} />
           </TouchableOpacity>
@@ -298,9 +303,6 @@ export default function SettingsScreen() {
           </TouchableOpacity>
           <TouchableOpacity style={styles.socialBtn} onPress={() => Linking.openURL('https://github.com/abdu-63')}>
             <GithubLogo size={24} color={COLORS.textSubtle} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.socialBtn} onPress={() => Linking.openURL('https://boxd.it/6GBU5')}>
-            <LetterboxdLogo size={24} />
           </TouchableOpacity>
         </View>
 
