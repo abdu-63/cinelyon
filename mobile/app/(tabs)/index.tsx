@@ -220,9 +220,11 @@ export default function HomeScreen() {
       />
       
       {showScrollTop && (
-        <TouchableOpacity style={styles.fab} onPress={scrollToTop} accessibilityLabel="Revenir en haut">
-          <Ionicons name="arrow-up" size={24} color="#FFF" />
-        </TouchableOpacity>
+        <View style={styles.fabShadow}>
+          <TouchableOpacity style={styles.fab} onPress={scrollToTop} accessibilityLabel="Revenir en haut">
+            <Ionicons name="arrow-up" size={24} color="#FFF" />
+          </TouchableOpacity>
+        </View>
       )}
     </SafeAreaView>
   );
@@ -261,20 +263,24 @@ const styles = StyleSheet.create({
     color: COLORS.textSubtle,
     fontSize: 12,
   },
-  fab: {
+  fabShadow: {
     position: 'absolute',
     bottom: 24,
     right: 24,
-    width: 56,
-    height: 56,
     borderRadius: 28,
     backgroundColor: COLORS.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 6,
+  },
+  fab: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

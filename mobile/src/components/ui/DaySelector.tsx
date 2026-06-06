@@ -71,25 +71,27 @@ interface DayButtonProps {
 function DayButton({ label, sublabel, isSelected, onPress, isToday }: DayButtonProps) {
   return (
     // .mini-cal-btn du site: padding 4px 8px, border-radius 20px, font-size 11px
-    <TouchableOpacity
-      style={[
-        styles.dayBtn,
-        isSelected && styles.dayBtnActive,
-        isToday && !isSelected && styles.dayBtnToday,
-      ]}
-      onPress={onPress}
-      accessibilityRole="button"
-      accessibilityState={{ selected: isSelected }}
-    >
-      <Text style={[styles.dayLabel, isSelected && styles.dayLabelActive]}>
-        {label}
-      </Text>
-      {sublabel ? (
-        <Text style={[styles.daySubLabel, isSelected && styles.daySubLabelActive]}>
-          {sublabel}
+    <View style={[styles.dayBtnShadow, isSelected && styles.dayBtnActiveShadow]}>
+      <TouchableOpacity
+        style={[
+          styles.dayBtn,
+          isSelected && styles.dayBtnActive,
+          isToday && !isSelected && styles.dayBtnToday,
+        ]}
+        onPress={onPress}
+        accessibilityRole="button"
+        accessibilityState={{ selected: isSelected }}
+      >
+        <Text style={[styles.dayLabel, isSelected && styles.dayLabelActive]}>
+          {label}
         </Text>
-      ) : null}
-    </TouchableOpacity>
+        {sublabel ? (
+          <Text style={[styles.daySubLabel, isSelected && styles.daySubLabelActive]}>
+            {sublabel}
+          </Text>
+        ) : null}
+      </TouchableOpacity>
+    </View>
   );
 }
 
@@ -109,31 +111,37 @@ const styles = StyleSheet.create({
   },
 
   // .mini-cal-btn : premium style
-  dayBtn: {
-    paddingHorizontal: 14,
-    paddingVertical: 8,
+  dayBtnShadow: {
     borderRadius: 24,
-    alignItems: 'center',
     backgroundColor: '#ffffff',
-    borderWidth: 1,
-    borderColor: 'rgba(0,0,0,0.04)',
-    minWidth: 64,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.04,
     shadowRadius: 4,
     elevation: 2,
   },
-  // .mini-cal-btn.active : background primary, texte blanc
-  dayBtnActive: {
-    backgroundColor: COLORS.primary,
-    borderColor: COLORS.primary,
+  dayBtnActiveShadow: {
     shadowColor: COLORS.primary,
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.25,
     shadowRadius: 10,
     elevation: 6,
     transform: [{ scale: 1.02 }],
+  },
+  dayBtn: {
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 24,
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: 'rgba(0,0,0,0.04)',
+    minWidth: 64,
+  },
+  // .mini-cal-btn.active : background primary, texte blanc
+  dayBtnActive: {
+    backgroundColor: COLORS.primary,
+    borderColor: COLORS.primary,
   },
   // Bouton aujourd'hui — bordure primary sans fond
   dayBtnToday: {

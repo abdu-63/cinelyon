@@ -23,13 +23,15 @@ function HomeHeader() {
         <Text style={styles.headerTitle}>CinéLyon</Text>
         <Text style={styles.headerSubtitle}>Toutes les séances à Lyon, en un seul endroit !</Text>
       </View>
-      <TouchableOpacity
-        style={styles.settingsBtn}
-        onPress={() => router.push('/(tabs)/settings')}
-        accessibilityLabel="Paramètres"
-      >
-        <Ionicons name="settings-outline" size={22} color={COLORS.text} />
-      </TouchableOpacity>
+      <View style={styles.settingsBtnShadow}>
+        <TouchableOpacity
+          style={styles.settingsBtn}
+          onPress={() => router.push('/(tabs)/settings')}
+          accessibilityLabel="Paramètres"
+        >
+          <Ionicons name="settings-outline" size={22} color={COLORS.text} />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -156,19 +158,23 @@ const styles = StyleSheet.create({
     color: COLORS.textMuted,
     fontWeight: '400',
   },
-  settingsBtn: {
-    width: 40,
-    height: 40,
+  settingsBtnShadow: {
     borderRadius: 20,
     backgroundColor: COLORS.surface,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-    alignItems: 'center',
-    justifyContent: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.06,
     shadowRadius: 4,
     elevation: 2,
+  },
+  settingsBtn: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
