@@ -7,6 +7,7 @@ import { Alert, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Seance } from '../types';
 import { parseDuration } from '../utils/dateUtils';
+import { secureStore } from '../lib/secureStore';
 
 /**
  * Demande les permissions et ajoute un événement au calendrier natif.
@@ -105,6 +106,9 @@ export function useCalendar() {
         }
 
         // 5. Créer l'événement
+        const notifsEnabled = await secureStore.getItemAsync('notificationsEnabled');
+        const shouldAddAlarms = notifsEnabled !== 'false';
+
         const eventId = await Calendar.createEventAsync(calendarId, {
           title: eventTitle,
           startDate,
@@ -112,10 +116,10 @@ export function useCalendar() {
           location: cinemaName,
           notes,
           url: safeTicketingUrl,
-          alarms: [
+          alarms: shouldAddAlarms ? [
             { relativeOffset: -60 }, // Rappel 1h avant
             { relativeOffset: -30 }, // Rappel 30min avant
-          ],
+          ] : [],
         });
 
         if (eventId) {

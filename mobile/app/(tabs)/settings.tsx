@@ -423,7 +423,7 @@ function FriendRowItem({ friend, isLast, isHidden, favoritesCount, onToggleHidde
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState(friend.followed_name);
-  const [editCode, setEditCode] = useState(friend.followed_id);
+  const [editCode, setEditCode] = useState(friend.followed_id.substring(0, 6).toUpperCase());
 
   if (isEditing) {
     return (
