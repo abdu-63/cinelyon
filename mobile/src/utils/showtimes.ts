@@ -152,6 +152,13 @@ export function findFilmBySlug(
 
 // ── Filtres (portage de filterFilms() — index.js lines 345–620) ─────────────
 
+const normalizeString = (str: string): string => {
+  return str
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase();
+};
+
 export interface FilmFilters {
   titleQuery?: string;
   genre?: string;
@@ -187,18 +194,22 @@ export function filterFilms(films: Film[], filters: FilmFilters): Film[] {
     showFriendFavorites = false,
   } = filters;
 
+  const normalizedTitleQuery = normalizeString(titleQuery);
+  const normalizedGenre = normalizeString(genre);
+  const normalizedDirector = normalizeString(director);
+
   return films.filter((film) => {
     // Filtre nouveauté
     if (showOnlyNew && !film.isNew) return false;
 
     // Filtre titre
-    if (titleQuery && !film.title.toLowerCase().includes(titleQuery.toLowerCase())) return false;
+    if (titleQuery && !normalizeString(film.title).includes(normalizedTitleQuery)) return false;
 
     // Filtre genre
-    if (genre && !film.genres.toLowerCase().includes(genre.toLowerCase())) return false;
+    if (genre && !normalizeString(film.genres).includes(normalizedGenre)) return false;
 
     // Filtre réalisateur
-    if (director && !film.director.toLowerCase().includes(director.toLowerCase())) return false;
+    if (director && !normalizeString(film.director).includes(normalizedDirector)) return false;
 
     // Filtre cinéma (avec groupes)
     if (cinema) {

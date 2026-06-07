@@ -343,7 +343,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function filterFilms() {
-        const titleQuery = searchTitle.value.toLowerCase();
+        const removeAccents = str => str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        const titleQuery = removeAccents(searchTitle.value.toLowerCase());
         const genreQuery = filterGenre.value.toLowerCase();
         const directorQuery = filterDirector.value.toLowerCase();
         const cinemaQuery = filterCinema.value.toLowerCase();
@@ -450,7 +451,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 sibling = sibling.nextElementSibling;
             }
 
-            const matchTitle = title.includes(titleQuery);
+            const matchTitle = removeAccents(title).includes(titleQuery);
             const matchGenre = !genreQuery || genres.includes(genreQuery);
             const matchDirector = !directorQuery || director.includes(directorQuery);
 

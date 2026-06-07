@@ -227,7 +227,6 @@ const styles = StyleSheet.create({
   pillAvantPremiere: {
     borderWidth: 1,
     borderColor: 'rgba(255,107,107,0.5)',
-    backgroundColor: 'rgba(255,107,107,0.06)',
   },
 
   // .horaire-top : lang-badge + format-badge en petits textes gris
