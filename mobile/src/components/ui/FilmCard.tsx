@@ -94,6 +94,11 @@ export const FilmCard = memo(function FilmCard({
             transition={200}
             placeholder={{ uri: PLACEHOLDER_POSTER }}
           />
+          {film.isNew ? (
+            <View style={styles.newBadge}>
+              <Text style={styles.newBadgeText}>NOUVEAU</Text>
+            </View>
+          ) : null}
         </View>
 
         {/* .infoFilm du site: padding-right 15px, padding-bottom 15px */}
@@ -420,6 +425,27 @@ const styles = StyleSheet.create({
     minHeight: POSTER_HEIGHT,
     borderTopLeftRadius: 15,
     borderBottomLeftRadius: 15,
+  },
+  newBadge: {
+    position: 'absolute',
+    top: 6,
+    left: 6,
+    backgroundColor: COLORS.primary,
+    paddingHorizontal: 6,
+    paddingVertical: 3,
+    borderRadius: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  newBadgeText: {
+    fontFamily: 'healTheWebA',
+    color: '#ffffff',
+    fontSize: 9,
+    fontWeight: '700',
+    letterSpacing: 0.5,
   },
 
   // ── .infoFilm : padding-right 15px, padding-bottom 15px ─────────────

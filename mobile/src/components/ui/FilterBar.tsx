@@ -58,7 +58,8 @@ export function FilterBar({
     filters.director ||
     filters.cinema ||
     filters.format ||
-    filters.timeSlot;
+    filters.timeSlot ||
+    filters.showOnlyNew;
 
   const clearAll = () => {
     onFiltersChange({
@@ -68,6 +69,7 @@ export function FilterBar({
       cinema: '',
       format: '',
       timeSlot: null,
+      showOnlyNew: false,
     });
   };
 
@@ -75,17 +77,28 @@ export function FilterBar({
     <View style={styles.container}>
       {/* Barre de recherche */}
       <View style={styles.searchRow}>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Rechercher un film…"
-          placeholderTextColor={COLORS.textSubtle}
-          value={localTitleQuery}
-          onChangeText={setLocalTitleQuery}
-          clearButtonMode="while-editing"
-          returnKeyType="search"
-          onSubmitEditing={() => Keyboard.dismiss()}
-          accessibilityLabel="Rechercher un film"
-        />
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Rechercher un film…"
+            placeholderTextColor={COLORS.textSubtle}
+            value={localTitleQuery}
+            onChangeText={setLocalTitleQuery}
+            returnKeyType="search"
+            onSubmitEditing={() => Keyboard.dismiss()}
+            accessibilityLabel="Rechercher un film"
+          />
+          {localTitleQuery ? (
+            <TouchableOpacity
+              style={styles.clearInputBtn}
+              onPress={() => setLocalTitleQuery('')}
+              accessibilityLabel="Effacer la recherche"
+              hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
+            >
+              <Ionicons name="close-circle" size={22} color={COLORS.textSubtle} />
+            </TouchableOpacity>
+          ) : null}
+        </View>
         <TouchableOpacity
           style={[styles.filterToggleBtn, hasActiveFilters && styles.filterToggleBtnActive]}
           onPress={() => setShowFilters(true)}
@@ -102,11 +115,18 @@ export function FilterBar({
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.chipsRow}
+          keyboardShouldPersistTaps="handled"
         >
           {filters.genre ? (
             <FilterChip
               label={filters.genre}
               onRemove={() => onFiltersChange({ genre: '' })}
+            />
+          ) : null}
+          {filters.showOnlyNew ? (
+            <FilterChip
+              label="Nouveautés"
+              onRemove={() => onFiltersChange({ showOnlyNew: false })}
             />
           ) : null}
           {filters.cinema ? (
@@ -206,6 +226,17 @@ function FilterModal({ visible, onClose, filters, options, onFiltersChange }: Fi
         </View>
 
         <ScrollView contentContainerStyle={styles.modalContent}>
+          {/* Nouveautés */}
+          <FilterSection title="Sélection">
+            <View style={styles.pillsGrid}>
+              <SelectPill
+                label="Nouveaux films"
+                isSelected={filters.showOnlyNew}
+                onPress={() => onFiltersChange({ showOnlyNew: !filters.showOnlyNew })}
+              />
+            </View>
+          </FilterSection>
+
           {/* Créneau horaire */}
           <FilterSection title="Créneau horaire">
             <View style={styles.pillsGrid}>
@@ -345,9 +376,14 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     paddingBottom: 8,
   },
+  inputContainer: {
+    flex: 1,
+    position: 'relative',
+    justifyContent: 'center',
+  },
   searchInput: {
     fontFamily: 'healTheWebA',
-    flex: 1,
+    width: '100%',
     // .search-input du site: border 2px #ddd, border-radius 8px, padding 12px 15px
     backgroundColor: '#ffffff',
     borderRadius: 8,
@@ -355,8 +391,17 @@ const styles = StyleSheet.create({
     borderColor: COLORS.border,
     color: COLORS.text,
     fontSize: 14,
-    paddingHorizontal: 15,
+    paddingLeft: 15,
+    paddingRight: 52, // Extra right padding to avoid text overlapping the wider button
     paddingVertical: 10,
+  },
+  clearInputBtn: {
+    position: 'absolute',
+    right: 0, // Flush to the right edge
+    width: 50, // Even wider touch area
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   filterToggleBtn: {
     padding: 10,

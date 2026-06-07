@@ -39,6 +39,17 @@ export function buildFilmList(
 
     for (const raw of movies) {
       if (!allFilms.has(raw.title)) {
+        // Déterminer si le film est "nouveau" (ajouté il y a moins de 24h)
+        let isNew = false;
+        if (raw.added_at) {
+          const addedAtDate = new Date(raw.added_at);
+          const now = new Date();
+          const diffMs = now.getTime() - addedAtDate.getTime();
+          if (diffMs < 24 * 60 * 60 * 1000) {
+            isNew = true;
+          }
+        }
+
         // Initialiser le film — portage de app.py lines 381–400
         allFilms.set(raw.title, {
           ...raw,
@@ -48,6 +59,7 @@ export function buildFilmList(
           formats: '',
           seancesByDay: {},
           seancesByDayGrouped: {},
+          isNew,
         });
       }
 
@@ -149,6 +161,7 @@ export interface FilmFilters {
   format?: string;
   timeSlot?: TimeSlot | null;
   showOnlyFavorites?: boolean;
+  showOnlyNew?: boolean;
   favorites?: string[];
   friendFavorites?: string[];
   showFriendFavorites?: boolean;
@@ -168,12 +181,16 @@ export function filterFilms(films: Film[], filters: FilmFilters): Film[] {
     format = '',
     timeSlot = null,
     showOnlyFavorites = false,
+    showOnlyNew = false,
     favorites = [],
     friendFavorites = [],
     showFriendFavorites = false,
   } = filters;
 
   return films.filter((film) => {
+    // Filtre nouveauté
+    if (showOnlyNew && !film.isNew) return false;
+
     // Filtre titre
     if (titleQuery && !film.title.toLowerCase().includes(titleQuery.toLowerCase())) return false;
 

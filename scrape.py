@@ -387,9 +387,25 @@ def main():
 
         try:
             movies = get_showtimes(theaters_for_date, date)
+            # Fetch existing added_at data
+            existing_movies_for_day = next((day["movies"] for day in existing_data.get("days", []) if day["date"] == date_str), [])
+            existing_added_at = {m["title"]: m.get("added_at") for m in existing_movies_for_day if m.get("added_at")}
+            
             # Calcul du diff pour cette date
             existing_titles = existing_titles_by_date.get(date_str, set())
             new_titles = [m["title"] for m in movies if m["title"] not in existing_titles]
+            
+            today_iso = datetime.now(PARIS_TZ).isoformat()
+            
+            # Set added_at for movies
+            for m in movies:
+                if m["title"] in existing_added_at:
+                    m["added_at"] = existing_added_at[m["title"]]
+                elif m["title"] in new_titles and len(existing_titles) > 0:
+                    m["added_at"] = today_iso
+                else:
+                    m["added_at"] = None
+
             if new_titles:
                 new_films_report[date_str] = new_titles
                 logger.info(f"   🆕 {len(new_titles)} nouveau(x) film(s) : {', '.join(new_titles)}")

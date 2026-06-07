@@ -48,6 +48,7 @@ export interface FilmRaw {
   tmdb_score: number | null;           // /10
   rt_score: string | null;             // "87%"
   seances: Record<string, Seance[]>;   // { cinemaName: Seance[] }
+  added_at: string | null;             // Date d'ajout au scraping
 }
 
 // ── Modèle enrichi côté client ────────────────────────────────────────────────
@@ -61,6 +62,7 @@ export interface Film extends Omit<FilmRaw, 'seances'> {
   // { dayLabel: { cinemaName: Seance[] } }
   seancesByDayGrouped: Record<string, Record<string, Record<string, Seance[]>>>;
   // { dayLabel: { brand: { cinemaName: Seance[] } } }
+  isNew: boolean;                      // Récemment ajouté (<= 24h)
 }
 
 // ── Authentification & sync ───────────────────────────────────────────────────
@@ -103,6 +105,7 @@ export interface FiltersState {
   format: string;
   timeSlot: TimeSlot | null;
   showOnlyFavorites: boolean;
+  showOnlyNew: boolean;
   showFriendFavorites: boolean;
   favTab: FavTab;
 }

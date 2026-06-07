@@ -35,6 +35,7 @@ const DEFAULT_FILTERS: FiltersState = {
   format: '',
   timeSlot: null,
   showOnlyFavorites: false,
+  showOnlyNew: false,
   showFriendFavorites: false,
   favTab: 'perso',
 };
@@ -73,6 +74,7 @@ export default function HomeScreen() {
       cinema: filterState.cinema,
       format: filterState.format,
       timeSlot: filterState.timeSlot,
+      showOnlyNew: filterState.showOnlyNew,
       favorites,
       friendFavorites,
     });
@@ -200,6 +202,7 @@ export default function HomeScreen() {
         ref={flatListRef}
         onScroll={handleScroll}
         scrollEventThrottle={16}
+        keyboardShouldPersistTaps="handled"
         data={paginatedFilms}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
