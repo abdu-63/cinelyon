@@ -121,3 +121,8 @@ Le système de sécurité de macOS (Gatekeeper) peut saturer le CPU à 100% en v
 ```bash
 sudo killall -9 syspolicyd
 ```
+
+Arrêtez le terminal avec le serveur
+```bash
+sudo kill -9 numéro_du_processus
+```
