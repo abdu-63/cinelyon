@@ -1,0 +1,316 @@
+env: load .env
+env: export EXPO_PUBLIC_SUPABASE_URL EXPO_PUBLIC_SUPABASE_ANON_KEY EXPO_PUBLIC_TMDB_API_KEY
+
+{
+  name: [32m'CineLyon'[39m,
+  slug: [32m'cinelyon'[39m,
+  version: [32m'1.0.0'[39m,
+  orientation: [32m'portrait'[39m,
+  icon: [32m'./assets/icon.png'[39m,
+  scheme: [32m'cinelyon'[39m,
+  userInterfaceStyle: [32m'dark'[39m,
+  plugins: [
+    [32m'expo-router'[39m,
+    [32m'expo-secure-store'[39m,
+    [32m'expo-calendar'[39m,
+    [
+      [32m'expo-splash-screen'[39m,
+      {
+        image: [32m'./assets/splash-icon.png'[39m,
+        imageWidth: [33m200[39m,
+        resizeMode: [32m'contain'[39m,
+        backgroundColor: [32m'#0d0d14'[39m
+      }
+    ],
+    [
+      [32m'expo-build-properties'[39m,
+      {
+        ios: {
+          deploymentTarget: [32m'15.1'[39m
+        }
+      }
+    ],
+    [32m'expo-font'[39m,
+    [
+      [32m'@howincodes/expo-dynamic-app-icon'[39m,
+      {
+        blue: {
+          image: [32m'./assets/icons/Blue.png'[39m,
+          ios: [32m'./assets/icons/Blue.png'[39m,
+          android: [32m'./assets/icons/Blue.png'[39m
+        },
+        bluegradiant: {
+          image: [32m'./assets/icons/BlueGradiant.png'[39m,
+          ios: [32m'./assets/icons/BlueGradiant.png'[39m,
+          android: [32m'./assets/icons/BlueGradiant.png'[39m
+        },
+        cleardark: {
+          image: [32m'./assets/icons/ClearDark.png'[39m,
+          ios: [32m'./assets/icons/ClearDark.png'[39m,
+          android: [32m'./assets/icons/ClearDark.png'[39m
+        },
+        darkblue: {
+          image: [32m'./assets/icons/DarkBlue.png'[39m,
+          ios: [32m'./assets/icons/DarkBlue.png'[39m,
+          android: [32m'./assets/icons/DarkBlue.png'[39m
+        },
+        darkpurple: {
+          image: [32m'./assets/icons/DarkPurple.png'[39m,
+          ios: [32m'./assets/icons/DarkPurple.png'[39m,
+          android: [32m'./assets/icons/DarkPurple.png'[39m
+        },
+        puplebluegradiant: {
+          image: [32m'./assets/icons/PupleBlueGradiant.png'[39m,
+          ios: [32m'./assets/icons/PupleBlueGradiant.png'[39m,
+          android: [32m'./assets/icons/PupleBlueGradiant.png'[39m
+        },
+        puprplegradiant: {
+          image: [32m'./assets/icons/PuprpleGradiant.png'[39m,
+          ios: [32m'./assets/icons/PuprpleGradiant.png'[39m,
+          android: [32m'./assets/icons/PuprpleGradiant.png'[39m
+        },
+        purple: {
+          image: [32m'./assets/icons/Purple.png'[39m,
+          ios: [32m'./assets/icons/Purple.png'[39m,
+          android: [32m'./assets/icons/Purple.png'[39m
+        },
+        tinteddark: {
+          image: [32m'./assets/icons/TintedDark.png'[39m,
+          ios: [32m'./assets/icons/TintedDark.png'[39m,
+          android: [32m'./assets/icons/TintedDark.png'[39m
+        }
+      }
+    ]
+  ],
+  description: [90mundefined[39m,
+  sdkVersion: [32m'52.0.0'[39m,
+  platforms: [
+    [32m'ios'[39m,
+    [32m'android'[39m,
+    [32m'web'[39m
+  ],
+  splash: {
+    image: [32m'./assets/splash-icon.png'[39m,
+    resizeMode: [32m'contain'[39m,
+    backgroundColor: [32m'#0d0d14'[39m
+  },
+  ios: {
+    supportsTablet: [33mtrue[39m,
+    bundleIdentifier: [32m'fr.cinelyon.app'[39m,
+    infoPlist: {
+      CFBundleDisplayName: [32m'CinéLyon'[39m,
+      NSCalendarsUsageDescription: [32m"CinéLyon a besoin d'accéder à votre calendrier pour ajouter vos séances."[39m
+    }
+  },
+  android: {
+    package: [32m'fr.cinelyon.app'[39m,
+    permissions: [
+      [32m'WRITE_CALENDAR'[39m,
+      [32m'READ_CALENDAR'[39m,
+      [32m'android.permission.READ_CALENDAR'[39m,
+      [32m'android.permission.WRITE_CALENDAR'[39m,
+      [32m'android.permission.READ_EXTERNAL_STORAGE'[39m,
+      [32m'android.permission.WRITE_EXTERNAL_STORAGE'[39m,
+      [32m'android.permission.INTERNET'[39m
+    ],
+    adaptiveIcon: {
+      foregroundImage: [32m'./assets/android-icon-foreground.png'[39m,
+      backgroundColor: [32m'#0d0d14'[39m
+    },
+    config: {
+      googleMaps: {
+        apiKey: [32m'AIzaSyDummyKeyToPreventCrash1234567890'[39m
+      }
+    }
+  },
+  web: {
+    favicon: [32m'./assets/favicon.png'[39m,
+    bundler: [32m'metro'[39m
+  },
+  extra: {
+    eas: {
+      projectId: [32m'00000000-0000-0000-0000-000000000000'[39m
+    },
+    router: {
+      origin: [33mfalse[39m
+    }
+  },
+  _internal: {
+    isDebug: [33mfalse[39m,
+    projectRoot: [32m'/Users/abdu/Documents/Projets/cinelyon/mobile'[39m,
+    staticConfigPath: [32m'/Users/abdu/Documents/Projets/cinelyon/mobile/app.json'[39m,
+    packageJsonPath: [32m'/Users/abdu/Documents/Projets/cinelyon/mobile/package.json'[39m,
+    autolinkedModules: [
+      [32m'@howincodes/expo-dynamic-app-icon'[39m,
+      [32m'expo'[39m,
+      [32m'expo-application'[39m,
+      [32m'expo-asset'[39m,
+      [32m'expo-calendar'[39m,
+      [32m'expo-constants'[39m,
+      [32m'expo-crypto'[39m,
+      [32m'expo-dev-client'[39m,
+      [32m'expo-dev-launcher'[39m,
+      [32m'expo-dev-menu'[39m,
+      [32m'expo-dev-menu-interface'[39m,
+      [32m'expo-device'[39m,
+      [32m'expo-file-system'[39m,
+      [32m'expo-font'[39m,
+      [32m'expo-image'[39m,
+      [32m'expo-json-utils'[39m,
+      [32m'expo-keep-awake'[39m,
+      [32m'expo-linear-gradient'[39m,
+      [32m'expo-linking'[39m,
+      [32m'expo-manifests'[39m,
+      [32m'expo-modules-core'[39m,
+      [32m'expo-notifications'[39m,
+      [32m'expo-router'[39m,
+      [32m'expo-secure-store'[39m,
+      [32m'expo-sharing'[39m,
+      [32m'expo-splash-screen'[39m,
+      [32m'expo-updates-interface'[39m,
+      [32m'expo-web-browser'[39m
+    ],
+    dynamicConfigPath: {},
+    pluginHistory: {
+      [32m'expo-secure-store'[39m: {
+        name: [32m'expo-secure-store'[39m,
+        version: [32m'14.0.1'[39m
+      },
+      [32m'expo-calendar'[39m: {
+        name: [32m'expo-calendar'[39m,
+        version: [32m'14.0.6'[39m
+      },
+      [32m'expo-splash-screen'[39m: {
+        name: [32m'expo-splash-screen'[39m,
+        version: [32m'0.29.24'[39m
+      },
+      [32m'expo-font'[39m: {
+        name: [32m'expo-font'[39m,
+        version: [32m'13.0.4'[39m
+      },
+      [32m'react-native-maps'[39m: {
+        name: [32m'react-native-maps'[39m,
+        version: [32m'UNVERSIONED'[39m
+      },
+      [32m'expo-ads-admob'[39m: {
+        name: [32m'expo-ads-admob'[39m,
+        version: [32m'UNVERSIONED'[39m
+      },
+      [32m'expo-apple-authentication'[39m: {
+        name: [32m'expo-apple-authentication'[39m,
+        version: [32m'UNVERSIONED'[39m
+      },
+      [32m'expo-contacts'[39m: {
+        name: [32m'expo-contacts'[39m,
+        version: [32m'UNVERSIONED'[39m
+      },
+      [32m'expo-notifications'[39m: {
+        name: [32m'expo-notifications'[39m,
+        version: [32m'0.29.14'[39m
+      },
+      [32m'expo-updates'[39m: {
+        name: [32m'expo-updates'[39m,
+        version: [32m'UNVERSIONED'[39m
+      },
+      [32m'expo-document-picker'[39m: {
+        name: [32m'expo-document-picker'[39m,
+        version: [32m'UNVERSIONED'[39m
+      },
+      [32m'expo-system-ui'[39m: {
+        name: [32m'expo-system-ui'[39m,
+        version: [32m'UNVERSIONED'[39m
+      },
+      [32m'expo-navigation-bar'[39m: {
+        name: [32m'expo-navigation-bar'[39m,
+        version: [32m'UNVERSIONED'[39m
+      },
+      [32m'expo-dev-menu'[39m: {
+        name: [32m'expo-dev-menu'[39m,
+        version: [32m'6.0.25'[39m
+      },
+      [32m'expo-dev-launcher'[39m: {
+        name: [32m'expo-dev-launcher'[39m,
+        version: [32m'5.0.35'[39m
+      },
+      [32m'expo-dev-client'[39m: {
+        name: [32m'expo-dev-client'[39m,
+        version: [32m'5.0.20'[39m
+      },
+      [32m'expo-file-system'[39m: {
+        name: [32m'expo-file-system'[39m,
+        version: [32m'18.0.12'[39m
+      }
+    }
+  },
+  mods: {
+    ios: {
+      infoPlist: [AsyncFunction: interceptingMod] {
+        isProvider: [33mfalse[39m
+      },
+      dangerous: [AsyncFunction: interceptingMod] {
+        isProvider: [33mfalse[39m
+      },
+      splashScreenStoryboard: [AsyncFunction: interceptingMod] {
+        isProvider: [33mtrue[39m,
+        isIntrospective: [33mtrue[39m
+      },
+      xcodeproj: [AsyncFunction: interceptingMod] {
+        isProvider: [33mfalse[39m
+      },
+      podfileProperties: [AsyncFunction: interceptingMod] {
+        isProvider: [33mfalse[39m
+      },
+      podfile: [AsyncFunction: interceptingMod] {
+        isProvider: [33mfalse[39m
+      },
+      appDelegate: [AsyncFunction: interceptingMod] {
+        isProvider: [33mfalse[39m
+      },
+      entitlements: [AsyncFunction: interceptingMod] {
+        isProvider: [33mfalse[39m
+      },
+      expoPlist: [AsyncFunction: interceptingMod] {
+        isProvider: [33mfalse[39m
+      }
+    },
+    android: {
+      manifest: [AsyncFunction: interceptingMod] {
+        isProvider: [33mfalse[39m
+      },
+      mainActivity: [AsyncFunction: interceptingMod] {
+        isProvider: [33mfalse[39m
+      },
+      dangerous: [AsyncFunction: interceptingMod] {
+        isProvider: [33mfalse[39m
+      },
+      colors: [AsyncFunction: interceptingMod] {
+        isProvider: [33mfalse[39m
+      },
+      colorsNight: [AsyncFunction: interceptingMod] {
+        isProvider: [33mfalse[39m
+      },
+      styles: [AsyncFunction: interceptingMod] {
+        isProvider: [33mfalse[39m
+      },
+      strings: [AsyncFunction: interceptingMod] {
+        isProvider: [33mfalse[39m
+      },
+      gradleProperties: [AsyncFunction: interceptingMod] {
+        isProvider: [33mfalse[39m
+      },
+      settingsGradle: [AsyncFunction: interceptingMod] {
+        isProvider: [33mfalse[39m
+      },
+      projectBuildGradle: [AsyncFunction: interceptingMod] {
+        isProvider: [33mfalse[39m
+      },
+      appBuildGradle: [AsyncFunction: interceptingMod] {
+        isProvider: [33mfalse[39m
+      }
+    }
+  },
+  androidStatusBar: {
+    backgroundColor: [32m'#0d0d14'[39m
+  }
+}
+

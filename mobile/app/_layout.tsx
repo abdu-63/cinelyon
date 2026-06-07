@@ -14,9 +14,29 @@ import { usePushNotifications } from '../src/hooks/usePushNotifications';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import 'react-native-gesture-handler';
+import LottieView from 'lottie-react-native';
+import Animated, { FadeOut } from 'react-native-reanimated';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
+
+function AnimatedSplashScreen({ onFinish }: { onFinish: () => void }) {
+  return (
+    <Animated.View 
+      exiting={FadeOut.duration(300)} 
+      style={[StyleSheet.absoluteFillObject, { backgroundColor: '#f5f6f8', zIndex: 9999, justifyContent: 'center', alignItems: 'center' }]}
+    >
+      <LottieView
+        source={require('../assets/lottie/splash.json')}
+        autoPlay
+        loop={false}
+        onAnimationFinish={onFinish}
+        style={{ width: '100%', height: '100%' }}
+        resizeMode="contain"
+      />
+    </Animated.View>
+  );
+}
 
 const toastConfig = {
   success: (props: any) => (
@@ -47,6 +67,7 @@ const toastConfig = {
 };
 
 export default function RootLayout() {
+  const [isSplashAnimationComplete, setSplashAnimationComplete] = React.useState(false);
   usePushNotifications(); // Initialise les écouteurs et demande la permission
 
   const [loaded, error] = useFonts({
@@ -122,6 +143,9 @@ export default function RootLayout() {
           />
         </Stack>
         <Toast config={toastConfig} topOffset={60} />
+        {!isSplashAnimationComplete && (
+          <AnimatedSplashScreen onFinish={() => setSplashAnimationComplete(true)} />
+        )}
       </QueryClientProvider>
     </GestureHandlerRootView>
   );

@@ -29,7 +29,12 @@
       "permissions": [
         "WRITE_CALENDAR",
         "READ_CALENDAR"
-      ]
+      ],
+      "config": {
+        "googleMaps": {
+          "apiKey": ""
+        }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -60,15 +65,51 @@
       [
         "@howincodes/expo-dynamic-app-icon",
         {
-          "Blue": { "image": "./assets/icons/Blue.png", "ios": "./assets/icons/Blue.png" },
-          "BlueGradiant": { "image": "./assets/icons/BlueGradiant.png", "ios": "./assets/icons/BlueGradiant.png" },
-          "ClearDark": { "image": "./assets/icons/ClearDark.png", "ios": "./assets/icons/ClearDark.png" },
-          "DarkBlue": { "image": "./assets/icons/DarkBlue.png", "ios": "./assets/icons/DarkBlue.png" },
-          "DarkPurple": { "image": "./assets/icons/DarkPurple.png", "ios": "./assets/icons/DarkPurple.png" },
-          "PupleBlueGradiant": { "image": "./assets/icons/PupleBlueGradiant.png", "ios": "./assets/icons/PupleBlueGradiant.png" },
-          "PuprpleGradiant": { "image": "./assets/icons/PuprpleGradiant.png", "ios": "./assets/icons/PuprpleGradiant.png" },
-          "Purple": { "image": "./assets/icons/Purple.png", "ios": "./assets/icons/Purple.png" },
-          "TintedDark": { "image": "./assets/icons/TintedDark.png", "ios": "./assets/icons/TintedDark.png" }
+          "blue": {
+            "image": "./assets/icons/Blue.png",
+            "ios": "./assets/icons/Blue.png",
+            "android": "./assets/icons/Blue.png"
+          },
+          "bluegradiant": {
+            "image": "./assets/icons/BlueGradiant.png",
+            "ios": "./assets/icons/BlueGradiant.png",
+            "android": "./assets/icons/BlueGradiant.png"
+          },
+          "cleardark": {
+            "image": "./assets/icons/ClearDark.png",
+            "ios": "./assets/icons/ClearDark.png",
+            "android": "./assets/icons/ClearDark.png"
+          },
+          "darkblue": {
+            "image": "./assets/icons/DarkBlue.png",
+            "ios": "./assets/icons/DarkBlue.png",
+            "android": "./assets/icons/DarkBlue.png"
+          },
+          "darkpurple": {
+            "image": "./assets/icons/DarkPurple.png",
+            "ios": "./assets/icons/DarkPurple.png",
+            "android": "./assets/icons/DarkPurple.png"
+          },
+          "puplebluegradiant": {
+            "image": "./assets/icons/PupleBlueGradiant.png",
+            "ios": "./assets/icons/PupleBlueGradiant.png",
+            "android": "./assets/icons/PupleBlueGradiant.png"
+          },
+          "puprplegradiant": {
+            "image": "./assets/icons/PuprpleGradiant.png",
+            "ios": "./assets/icons/PuprpleGradiant.png",
+            "android": "./assets/icons/PuprpleGradiant.png"
+          },
+          "purple": {
+            "image": "./assets/icons/Purple.png",
+            "ios": "./assets/icons/Purple.png",
+            "android": "./assets/icons/Purple.png"
+          },
+          "tinteddark": {
+            "image": "./assets/icons/TintedDark.png",
+            "ios": "./assets/icons/TintedDark.png",
+            "android": "./assets/icons/TintedDark.png"
+          }
         }
       ]
     ],

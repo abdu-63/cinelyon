@@ -26,14 +26,14 @@ import { TwitterLogo, InstagramLogo, GithubLogo, LetterboxdLogo } from '../../sr
 
 const APP_ICONS = [
   { id: 'DEFAULT', label: 'Défaut', source: require('../../assets/icon.png') },
-  { id: 'BlueGradiant', label: 'Bleu Dégradé', source: require('../../assets/icons/BlueGradiant.png') },
-  { id: 'ClearDark', label: 'Clair Sombre', source: require('../../assets/icons/ClearDark.png') },
-  { id: 'DarkBlue', label: 'Bleu Sombre', source: require('../../assets/icons/DarkBlue.png') },
-  { id: 'DarkPurple', label: 'Violet Sombre', source: require('../../assets/icons/DarkPurple.png') },
-  { id: 'PupleBlueGradiant', label: 'Violet Bleu', source: require('../../assets/icons/PupleBlueGradiant.png') },
-  { id: 'PuprpleGradiant', label: 'Violet Dégradé', source: require('../../assets/icons/PuprpleGradiant.png') },
-  { id: 'Purple', label: 'Violet', source: require('../../assets/icons/Purple.png') },
-  { id: 'TintedDark', label: 'Teinté', source: require('../../assets/icons/TintedDark.png') },
+  { id: 'bluegradiant', label: 'Bleu Dégradé', source: require('../../assets/icons/BlueGradiant.png') },
+  { id: 'cleardark', label: 'Clair Sombre', source: require('../../assets/icons/ClearDark.png') },
+  { id: 'darkblue', label: 'Bleu Sombre', source: require('../../assets/icons/DarkBlue.png') },
+  { id: 'darkpurple', label: 'Violet Sombre', source: require('../../assets/icons/DarkPurple.png') },
+  { id: 'puplebluegradiant', label: 'Violet Bleu', source: require('../../assets/icons/PupleBlueGradiant.png') },
+  { id: 'puprplegradiant', label: 'Violet Dégradé', source: require('../../assets/icons/PuprpleGradiant.png') },
+  { id: 'purple', label: 'Violet', source: require('../../assets/icons/Purple.png') },
+  { id: 'tinteddark', label: 'Teinté', source: require('../../assets/icons/TintedDark.png') },
 ];
 
 export default function SettingsScreen() {
