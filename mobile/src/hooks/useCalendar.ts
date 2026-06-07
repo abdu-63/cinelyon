@@ -21,7 +21,9 @@ export function useCalendar() {
       cinemaName: string,
       seance: Seance,
       isoDate: string,
-      duree?: string
+      duree?: string,
+      letterboxdUrl?: string,
+      filmYear?: string
     ) => {
       try {
         // 1. Demander les permissions
@@ -38,18 +40,15 @@ export function useCalendar() {
         const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT);
         let calendarId: string | undefined;
 
-        // Chercher un calendrier existant "CinéLyon"
         const existingCal = calendars.find((c) => c.title === 'CinéLyon');
         if (existingCal) {
           calendarId = existingCal.id;
         } else {
-          // Trouver le calendrier par défaut de l'appareil
           const defaultCal =
             Platform.OS === 'ios'
-              ? calendars.find((c) => c.allowsModifications && c.source?.name === 'iCloud')
+              ? calendars.find((c) => c.allowsModifications && c.source?.name === 'iCloud') || calendars.find((c) => c.allowsModifications)
               : calendars.find((c) => c.allowsModifications);
 
-          // Créer le calendrier CinéLyon
           calendarId = await Calendar.createCalendarAsync({
             title: 'CinéLyon',
             color: '#444cf7',
@@ -60,6 +59,11 @@ export function useCalendar() {
             ownerAccount: 'CinéLyon',
             accessLevel: Calendar.CalendarAccessLevel.OWNER,
           });
+        }
+
+        if (!calendarId) {
+          Alert.alert('Erreur', 'Aucun calendrier modifiable trouvé sur cet appareil.');
+          return;
         }
 
         // 3. Calculer les dates de début et fin
@@ -78,17 +82,27 @@ export function useCalendar() {
         }
 
         // 4. Construire le titre et les notes de l'événement
-        const langLabel = seance.lang === 'VO' ? ' (VO)' : ' (VF)';
-        const formatLabel = seance.format ? ` · ${seance.format}` : '';
-        const eventTitle = `🎬 ${filmTitle}${langLabel}${formatLabel}`;
+        const yearStr = filmYear && filmYear !== 'inconnue' ? ` (${filmYear})` : '';
+        const eventTitle = `${filmTitle}${yearStr} - ${cinemaName}`;
+        
+        const safeTicketingUrl = seance.ticketing_url ? decodeURIComponent(seance.ticketing_url) : undefined;
 
-        const notes = [
-          `🎭 ${cinemaName}`,
-          `🕐 ${seance.time} → ${formatEndTime(endDate)}`,
-          seance.ticketing_url ? `🎟 Réservation : ${seance.ticketing_url}` : '',
-        ]
-          .filter(Boolean)
-          .join('\n');
+        let notes = `\nFilm : ${filmTitle}${yearStr} \nLangue : ${seance.lang} \nDurée : ${duree || 'inconnue'}`;
+        if (safeTicketingUrl) {
+          notes += `\n\nRéserver : ${safeTicketingUrl}`;
+        }
+        if (letterboxdUrl) {
+          notes += `\n\nLetterboxd : ${letterboxdUrl}`;
+        }
+
+        // Vérifier les doublons
+        const existingEvents = await Calendar.getEventsAsync([calendarId], startDate, endDate);
+        const alreadyExists = existingEvents.some(e => e.title === eventTitle);
+        
+        if (alreadyExists) {
+          Alert.alert('Déjà ajouté', 'Cet événement est déjà présent dans votre calendrier.');
+          return;
+        }
 
         // 5. Créer l'événement
         const eventId = await Calendar.createEventAsync(calendarId, {
@@ -97,7 +111,7 @@ export function useCalendar() {
           endDate,
           location: cinemaName,
           notes,
-          url: seance.ticketing_url ?? undefined,
+          url: safeTicketingUrl,
           alarms: [
             { relativeOffset: -60 }, // Rappel 1h avant
             { relativeOffset: -30 }, // Rappel 30min avant

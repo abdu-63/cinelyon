@@ -134,7 +134,7 @@ export default function HomeScreen() {
 
   const keyExtractor = useCallback((item: Film) => item.slug, []);
 
-  const ListHeader = useCallback(
+  const listHeaderElement = useMemo(
     () => (
       <>
         <FilterBar
@@ -177,6 +177,10 @@ export default function HomeScreen() {
         <View style={styles.footerLoader}>
           <Text style={styles.footerText}>Chargement…</Text>
         </View>
+      ) : filteredFilms.length > 0 ? (
+        <View style={styles.footerLoader}>
+          <Text style={styles.footerText}>🎉 Vous avez atteint la fin ! 🍿</Text>
+        </View>
       ) : null,
     [visibleCount, filteredFilms.length]
   );
@@ -199,7 +203,7 @@ export default function HomeScreen() {
         data={paginatedFilms}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
-        ListHeaderComponent={ListHeader}
+        ListHeaderComponent={listHeaderElement}
         ListEmptyComponent={ListEmpty}
         ListFooterComponent={ListFooter}
         onEndReached={handleEndReached}

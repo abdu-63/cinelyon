@@ -38,7 +38,7 @@ const APP_ICONS = [
 
 export default function SettingsScreen() {
   const { syncCode, syncId, pseudo, linkDevice, unlinkDevice, updatePseudo } = useFavorites();
-  const { follows, addFriend, removeFriend } = useFriends(syncId);
+  const { follows, addFriend, removeFriend, friendFavoritesCountMap } = useFriends(syncId);
 
   const [linkCode, setLinkCode] = useState('');
   const [friendCode, setFriendCode] = useState('');
@@ -269,6 +269,7 @@ export default function SettingsScreen() {
               <FriendRowItem
                 key={f.followed_id}
                 friend={f}
+                favoritesCount={friendFavoritesCountMap[f.followed_id] || 0}
                 isLast={i === follows.length - 1}
                 isHidden={hiddenFriends.includes(f.followed_id)}
                 onToggleHidden={async () => {
@@ -327,21 +328,25 @@ export default function SettingsScreen() {
         
         <View style={styles.card}>
           <View style={styles.switchRow}>
-            <Text style={styles.switchLabel}>Afficher les notifications</Text>
+            <View style={{ flex: 1, paddingRight: 16 }}>
+              <Text style={styles.switchLabel}>Afficher les notifications</Text>
+              <Text style={[styles.hint, { marginTop: 4 }]}>Recevoir des rappels pour vos séances réservées dans votre calendrier.</Text>
+            </View>
             <Switch
               value={notificationsEnabled}
               onValueChange={toggleNotifications}
               trackColor={{ false: COLORS.border, true: COLORS.primary }}
-              style={{ marginRight: 8 }}
             />
           </View>
-          <View style={[styles.switchRow, { borderBottomWidth: 0, paddingBottom: 0 }]}>
-            <Text style={styles.switchLabel}>Masquer les séances passées</Text>
+          <View style={[styles.switchRow, { borderBottomWidth: 0 }]}>
+            <View style={{ flex: 1, paddingRight: 16 }}>
+              <Text style={styles.switchLabel}>Masquer les séances passées</Text>
+              <Text style={[styles.hint, { marginTop: 4 }]}>Ne plus afficher les films dont l'horaire est déjà dépassé aujourd'hui.</Text>
+            </View>
             <Switch
               value={hidePastSessions}
               onValueChange={toggleHidePastSessions}
               trackColor={{ false: COLORS.border, true: COLORS.primary }}
-              style={{ marginRight: 8 }}
             />
           </View>
         </View>
@@ -382,7 +387,15 @@ export default function SettingsScreen() {
           <TouchableOpacity style={styles.socialBtn} onPress={() => Linking.openURL('https://x.com/abduplt?s=21')}>
             <TwitterLogo size={24} color={COLORS.textSubtle} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.socialBtn} onPress={() => Linking.openURL('https://www.instagram.com/_u/cinelyon.fr/')}>
+          <TouchableOpacity style={styles.socialBtn} onPress={async () => {
+            const appUrl = 'instagram://user?username=cinelyon.fr';
+            const webUrl = 'https://www.instagram.com/_u/cinelyon.fr/';
+            try {
+              await Linking.openURL(appUrl);
+            } catch {
+              Linking.openURL(webUrl);
+            }
+          }}>
             <InstagramLogo size={24} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.socialBtn} onPress={() => Linking.openURL('https://github.com/abdu-63')}>
@@ -399,10 +412,11 @@ export default function SettingsScreen() {
   );
 }
 
-function FriendRowItem({ friend, isLast, isHidden, onToggleHidden, onRemove, onUpdate }: {
+function FriendRowItem({ friend, isLast, isHidden, favoritesCount, onToggleHidden, onRemove, onUpdate }: {
   friend: any;
   isLast: boolean;
   isHidden: boolean;
+  favoritesCount: number;
   onToggleHidden: () => void;
   onRemove: () => void;
   onUpdate: (newCode: string, newName: string) => void;
@@ -450,7 +464,9 @@ function FriendRowItem({ friend, isLast, isHidden, onToggleHidden, onRemove, onU
         <Text style={[styles.friendName, isHidden && { color: COLORS.textMuted }]}>
           {friend.followed_name} {isHidden && '(Masqué)'}
         </Text>
-        <Text style={styles.friendCodeText}>Code : {friend.followed_id.substring(0, 6)}</Text>
+        <Text style={styles.friendCodeText}>
+          Code : {friend.followed_id.substring(0, 6)} • {favoritesCount} favori{favoritesCount > 1 ? 's' : ''}
+        </Text>
       </View>
       
       <View style={{ flexDirection: 'row', gap: 12 }}>

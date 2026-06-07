@@ -26,6 +26,8 @@ interface ShowtimeRowProps {
   isoDate: string;
   filmTitle?: string;
   filmDuree?: string;
+  filmUrl?: string;
+  filmYear?: string;
   onCalendarPress?: (seance: Seance) => void;
   hidePastSessions?: boolean;
 }
@@ -36,6 +38,8 @@ export function ShowtimeRow({
   isoDate,
   filmTitle,
   filmDuree,
+  filmUrl,
+  filmYear,
   onCalendarPress,
   hidePastSessions = true,
 }: ShowtimeRowProps) {
@@ -52,7 +56,7 @@ export function ShowtimeRow({
     if (onCalendarPress) {
       onCalendarPress(seance);
     } else if (filmTitle) {
-      addToCalendar(filmTitle, cinemaName, seance, isoDate, filmDuree);
+      addToCalendar(filmTitle, cinemaName, seance, isoDate, filmDuree, filmUrl, filmYear);
     }
   };
 

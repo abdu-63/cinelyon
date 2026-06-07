@@ -149,6 +149,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(68,76,247,0.05)',
   },
   dayLabel: {
+    fontFamily: 'healTheWebA',
     fontSize: 13,
     fontWeight: '800',
     color: COLORS.text,
@@ -158,6 +159,7 @@ const styles = StyleSheet.create({
     color: '#ffffff',
   },
   daySubLabel: {
+    fontFamily: 'healTheWebA',
     fontSize: 11,
     fontWeight: '500',
     color: COLORS.textMuted,

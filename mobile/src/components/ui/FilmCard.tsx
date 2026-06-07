@@ -165,8 +165,8 @@ export const FilmCard = memo(function FilmCard({
                 <Ionicons name="people" size={11} color={COLORS.primary} style={{ marginRight: 2 }} />
                 <Text style={styles.friendBadgeText} numberOfLines={1}>
                   {friendsWhoFavorited.length === 1
-                    ? `${friendsWhoFavorited[0]} aime ce film`
-                    : `${friendsWhoFavorited.slice(0, 2).join(', ')}${friendsWhoFavorited.length > 2 ? '...' : ''} aiment ce film`}
+                    ? `${friendsWhoFavorited[0]} a aimé ce film`
+                    : `${friendsWhoFavorited.slice(0, 2).join(', ')}${friendsWhoFavorited.length > 2 ? '...' : ''} ont aimé ce film`}
                 </Text>
               </View>
             ) : null}
@@ -229,6 +229,8 @@ export const FilmCard = memo(function FilmCard({
               isoDate={selectedIsoDate}
               filmTitle={film.title}
               filmDuree={film.duree}
+              filmUrl={film.url}
+              filmYear={film.release_year}
             />
           ) : null}
         </View>
@@ -247,9 +249,11 @@ interface DaySeancesProps {
   isoDate: string;
   filmTitle: string;
   filmDuree?: string;
+  filmUrl?: string;
+  filmYear?: string;
 }
 
-function DaySeances({ cinemas, isoDate, filmTitle, filmDuree }: DaySeancesProps) {
+function DaySeances({ cinemas, isoDate, filmTitle, filmDuree, filmUrl, filmYear }: DaySeancesProps) {
   const isToday = getDeltaForDate(isoDate) === 0;
   const { addToCalendar } = useCalendar();
 
@@ -284,7 +288,7 @@ function DaySeances({ cinemas, isoDate, filmTitle, filmDuree }: DaySeancesProps)
                     key={`${seance.time}-${idx}`}
                     seance={seance}
                     onCalendarPress={() =>
-                      addToCalendar(filmTitle, cinemaName, seance, isoDate, filmDuree)
+                      addToCalendar(filmTitle, cinemaName, seance, isoDate, filmDuree, filmUrl, filmYear)
                     }
                   />
                 ))}
@@ -408,10 +412,12 @@ const styles = StyleSheet.create({
   // ── .affiche mobile: 100×144, border-radius 15px 0 0 15px ──────────
   posterContainer: {
     flexShrink: 0,
+    width: POSTER_WIDTH,
   },
   poster: {
-    width: POSTER_WIDTH,       // 100px identique au site mobile
-    height: POSTER_HEIGHT,     // 144px identique au site mobile
+    width: '100%',
+    flex: 1,
+    minHeight: POSTER_HEIGHT,
     borderTopLeftRadius: 15,
     borderBottomLeftRadius: 15,
   },

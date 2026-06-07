@@ -54,10 +54,34 @@ export default function ReservationScreen() {
     setRefreshing(false);
   };
 
-  const handleOpenCalendar = (eventId: string) => {
-    // Il n'y a pas d'API directe pour ouvrir un événement spécifique dans l'app calendrier
-    // sur iOS, mais on peut ouvrir le calendrier en général.
-    Linking.openURL('calshow://');
+  const handleOpenCalendar = (eventId: string, startDate: Date) => {
+    // calshow:[timestamp] ouvre à la date spécifique sur iOS
+    // iOS Calendar timestamp is based on Jan 1, 2001 (Apple Epoch)
+    const appleEpoch = Date.UTC(2001, 0, 1);
+    const appleTimestamp = (startDate.getTime() - appleEpoch) / 1000;
+    Linking.openURL(`calshow:${appleTimestamp}`);
+  };
+
+  const handleDeleteEvent = (eventId: string, eventTitle: string) => {
+    Alert.alert(
+      'Supprimer la réservation',
+      `Voulez-vous vraiment supprimer "${eventTitle}" de votre calendrier ?`,
+      [
+        { text: 'Annuler', style: 'cancel' },
+        {
+          text: 'Supprimer',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await Calendar.deleteEventAsync(eventId);
+              fetchEvents();
+            } catch (error) {
+              Alert.alert('Erreur', 'Impossible de supprimer la réservation.');
+            }
+          }
+        }
+      ]
+    );
   };
 
   return (
@@ -102,7 +126,7 @@ export default function ReservationScreen() {
             <TouchableOpacity 
               key={event.id} 
               style={styles.eventCard}
-              onPress={() => handleOpenCalendar(event.id)}
+              onPress={() => handleOpenCalendar(event.id, startDate)}
             >
               <View style={styles.eventDateBox}>
                 <Text style={styles.eventDay}>{startDate.getDate()}</Text>
@@ -123,6 +147,13 @@ export default function ReservationScreen() {
                   </View>
                 ) : null}
               </View>
+              <TouchableOpacity
+                style={styles.deleteBtn}
+                onPress={() => handleDeleteEvent(event.id, event.title)}
+                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+              >
+                <Ionicons name="trash-outline" size={20} color={COLORS.warning} />
+              </TouchableOpacity>
             </TouchableOpacity>
           );
         })}
@@ -229,5 +260,10 @@ const styles = StyleSheet.create({
   eventMeta: {
     fontSize: 13,
     color: COLORS.textMuted,
+  },
+  deleteBtn: {
+    paddingLeft: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

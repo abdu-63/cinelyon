@@ -46,6 +46,7 @@ export default function FilmDetailScreen() {
   const { slug } = useLocalSearchParams<{ slug: string }>();
   const [selectedDelta, setSelectedDelta] = useState<number | null>(null);
   const [hidePastSessions, setHidePastSessions] = useState(true);
+  const [backdropUrl, setBackdropUrl] = useState<string | null>(null);
 
   useFocusEffect(
     useCallback(() => {
@@ -62,6 +63,27 @@ export default function FilmDetailScreen() {
     () => (rawRows.length ? findFilmBySlug(rawRows, slug) : null),
     [rawRows, slug]
   );
+
+  React.useEffect(() => {
+    if (!film) return;
+    const fetchTmdbBackdrop = async () => {
+      const apiKey = process.env.EXPO_PUBLIC_TMDB_API_KEY;
+      if (!apiKey) return;
+      try {
+        const query = encodeURIComponent(film.title);
+        const yearMatch = film.release_year !== 'inconnue' ? `&year=${film.release_year}` : '';
+        const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}&language=fr-FR${yearMatch}`;
+        const res = await fetch(url);
+        const json = await res.json();
+        if (json.results && json.results.length > 0 && json.results[0].backdrop_path) {
+          setBackdropUrl(`https://image.tmdb.org/t/p/w780${json.results[0].backdrop_path}`);
+        }
+      } catch (e) {
+        console.log('Error fetching TMDB backdrop', e);
+      }
+    };
+    fetchTmdbBackdrop();
+  }, [film]);
 
   const availableDates = useMemo(() => {
     if (!film) return [];
@@ -107,7 +129,7 @@ export default function FilmDetailScreen() {
         {/* Hero : affiche format paysage style Letterboxd */}
         <View style={styles.hero}>
           <Image
-            source={youtubeId ? `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg` : posterUrl}
+            source={backdropUrl ? backdropUrl : (youtubeId ? `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg` : posterUrl)}
             style={styles.backdrop}
             contentFit="cover"
             transition={200}
@@ -166,7 +188,15 @@ export default function FilmDetailScreen() {
             {film.url ? (
               <TouchableOpacity
                 style={[styles.actionBtn, styles.actionBtnLetterboxd]}
-                onPress={() => safeOpenURL(film.url)}
+                onPress={async () => {
+                  const url = film.url;
+                  const deepLink = url.replace('https://letterboxd.com/', 'letterboxd://');
+                  try {
+                    await Linking.openURL(deepLink);
+                  } catch {
+                    safeOpenURL(url);
+                  }
+                }}
               >
                 <LetterboxdLogo width={16} height={16} />
                 <Text style={[styles.actionBtnText, { color: '#fff', marginLeft: 6 }]}>Letterboxd</Text>
@@ -321,6 +351,8 @@ export default function FilmDetailScreen() {
                       isoDate={isoDate}
                       filmTitle={film.title}
                       filmDuree={film.duree}
+                      filmUrl={film.url}
+                      filmYear={film.release_year}
                       hidePastSessions={hidePastSessions}
                     />
                   );

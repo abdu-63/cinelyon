@@ -5,9 +5,14 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 import { supabase } from '../lib/supabase';
 import { FriendFollow, FavoriteRecord } from '../types';
+import { useShowtimes } from './useShowtimes';
 
 export function useFriends(syncId: string, hiddenFriends: string[] = []) {
   const qc = useQueryClient();
+  const { films: activeFilms } = useShowtimes();
+  const activeFilmIds = React.useMemo(() => activeFilms.map(f => f.filmId), [activeFilms]);
+  // Use a string representation or length for query key to avoid deep comparison issues
+  const activeFilmIdsKey = activeFilmIds.join(',');
 
   // Charge la liste des amis suivis
   const { data: follows = [] } = useQuery<FriendFollow[]>({
@@ -28,7 +33,7 @@ export function useFriends(syncId: string, hiddenFriends: string[] = []) {
   const friendIds = follows.map((f) => f.followed_id);
 
   const { data: friendFavoritesMap = {} } = useQuery<Record<string, string[]>>({
-    queryKey: ['friendFavoritesMap', ...friendIds.sort(), ...hiddenFriends.sort()],
+    queryKey: ['friendFavoritesMap', ...friendIds.sort(), ...hiddenFriends.sort(), activeFilmIdsKey],
     queryFn: async () => {
       if (!friendIds.length) return {};
       const { data } = await supabase
@@ -43,13 +48,40 @@ export function useFriends(syncId: string, hiddenFriends: string[] = []) {
         const friend = follows.find((f) => f.followed_id === row.user_id);
         const name = friend?.followed_name || 'Ami';
         row.films?.forEach((f) => {
-          if (!map[f]) map[f] = [];
-          if (!map[f].includes(name)) map[f].push(name);
+          if (activeFilmIds.includes(f)) {
+            if (!map[f]) map[f] = [];
+            if (!map[f].includes(name)) map[f].push(name);
+          }
         });
       });
       return map;
     },
-    enabled: friendIds.length > 0,
+    enabled: friendIds.length > 0 && activeFilmIds.length > 0,
+    staleTime: 60_000,
+  });
+
+  const { data: friendFavoritesCountMap = {} } = useQuery<Record<string, number>>({
+    queryKey: ['friendFavoritesCountMap', ...friendIds.sort(), activeFilmIdsKey],
+    queryFn: async () => {
+      if (!friendIds.length) return {};
+      const { data } = await supabase
+        .from('favorites')
+        .select('user_id, films')
+        .in('user_id', friendIds);
+      
+      const map: Record<string, number> = {};
+      (data ?? []).forEach((row) => {
+        let count = 0;
+        row.films?.forEach((filmId: string) => {
+          if (activeFilmIds.includes(filmId)) {
+            count++;
+          }
+        });
+        map[row.user_id] = count;
+      });
+      return map;
+    },
+    enabled: friendIds.length > 0 && activeFilmIds.length > 0,
     staleTime: 60_000,
   });
 
@@ -98,6 +130,7 @@ export function useFriends(syncId: string, hiddenFriends: string[] = []) {
   return {
     follows,
     friendFavorites,
+    friendFavoritesCountMap,
     hasFriendFavorited: React.useCallback((slug: string) => friendFavorites.includes(slug), [friendFavorites]),
     getFriendsWhoFavorited: React.useCallback((slug: string) => friendFavoritesMap[slug] || EMPTY_ARRAY, [friendFavoritesMap, EMPTY_ARRAY]),
     addFriend: (searchKey: string, nickname: string) =>
