@@ -14,26 +14,64 @@ import { usePushNotifications } from '../src/hooks/usePushNotifications';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import 'react-native-gesture-handler';
-import LottieView from 'lottie-react-native';
-import Animated, { FadeOut } from 'react-native-reanimated';
+import Svg, { Path } from 'react-native-svg';
+import Animated, { 
+  FadeOut, 
+  useSharedValue, 
+  useAnimatedStyle, 
+  withRepeat, 
+  withTiming, 
+  Easing,
+  cancelAnimation
+} from 'react-native-reanimated';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
 
 function AnimatedSplashScreen({ onFinish }: { onFinish: () => void }) {
+  const rotation = useSharedValue(0);
+
+  useEffect(() => {
+    rotation.value = withRepeat(
+      withTiming(360, {
+        duration: 1200,
+        easing: Easing.linear,
+      }),
+      -1,
+      false
+    );
+
+    const timer = setTimeout(() => {
+      onFinish();
+    }, 1500);
+
+    return () => {
+      cancelAnimation(rotation);
+      clearTimeout(timer);
+    };
+  }, [onFinish]);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ rotate: `${rotation.value}deg` }],
+    };
+  });
+
   return (
     <Animated.View 
       exiting={FadeOut.duration(300)} 
       style={[StyleSheet.absoluteFillObject, { backgroundColor: '#f5f6f8', zIndex: 9999, justifyContent: 'center', alignItems: 'center' }]}
     >
-      <LottieView
-        source={require('../assets/lottie/splash.json')}
-        autoPlay
-        loop={false}
-        onAnimationFinish={onFinish}
-        style={{ width: '100%', height: '100%' }}
-        resizeMode="contain"
-      />
+      <Animated.View style={animatedStyle}>
+        <Svg width={80} height={80} viewBox="0 0 24 24" fill="none">
+          <Path 
+            d="M20.0001 12C20.0001 13.3811 19.6425 14.7386 18.9623 15.9405C18.282 17.1424 17.3022 18.1477 16.1182 18.8587C14.9341 19.5696 13.5862 19.9619 12.2056 19.9974C10.825 20.0328 9.45873 19.7103 8.23975 19.0612" 
+            stroke={COLORS.primary} 
+            strokeWidth={3.55556} 
+            strokeLinecap="round"
+          />
+        </Svg>
+      </Animated.View>
     </Animated.View>
   );
 }
