@@ -63,9 +63,64 @@ async function uploadToImgBB(filePath: string): Promise<string> {
   return data.data.url;
 }
 
+async function ensureBucketExists(bucketName: string): Promise<void> {
+  try {
+    const { data: buckets, error } = await supabase.storage.listBuckets();
+    if (error) {
+      console.warn("⚠️ Impossible de lister les buckets Supabase:", error.message);
+      return;
+    }
+    const exists = buckets.some(b => b.name === bucketName);
+    if (!exists) {
+      console.log(`- Création du bucket Supabase public '${bucketName}'...`);
+      const { error: createError } = await supabase.storage.createBucket(bucketName, {
+        public: true,
+        allowedMimeTypes: ['image/png', 'image/jpeg'],
+        fileSizeLimit: 10485760
+      });
+      if (createError) {
+        console.error(`⚠️ Erreur lors de la création du bucket '${bucketName}':`, createError.message);
+      } else {
+        console.log(`✅ Bucket '${bucketName}' créé avec succès.`);
+      }
+    }
+  } catch (err: any) {
+    console.error("⚠️ Exception lors de la vérification/création du bucket:", err.message);
+  }
+}
+
+async function uploadToSupabase(filePath: string): Promise<string> {
+  const fileBuffer = fs.readFileSync(filePath);
+  const fileName = path.basename(filePath);
+  const dateStr = new Date().toISOString().split('T')[0];
+  const storagePath = `${dateStr}/${fileName}`;
+
+  const { data, error } = await supabase.storage
+    .from('instagram')
+    .upload(storagePath, fileBuffer, {
+      contentType: 'image/png',
+      upsert: true
+    });
+
+  if (error) {
+    throw new Error(`Erreur d'upload Supabase: ${error.message}`);
+  }
+
+  const { data: { publicUrl } } = supabase.storage
+    .from('instagram')
+    .getPublicUrl(storagePath);
+
+  return publicUrl;
+}
+
 export async function publishInstagram(): Promise<void> {
-  if (!IMGBB_API_KEY || !INSTAGRAM_ACCOUNT_ID || !INSTAGRAM_ACCESS_TOKEN) {
-    throw new Error("⚠️ Variables d'environnement manquantes pour l'API Instagram ou ImgBB.");
+  if (!INSTAGRAM_ACCOUNT_ID || !INSTAGRAM_ACCESS_TOKEN) {
+    throw new Error("⚠️ Variables d'environnement manquantes pour l'API Instagram.");
+  }
+  if (!supabaseUrl || !supabaseKey) {
+    if (!IMGBB_API_KEY) {
+      throw new Error("⚠️ Variables d'environnement manquantes : Supabase ou ImgBB doit être configuré.");
+    }
   }
 
   const slidesDir = path.join(dirname, 'output', 'slides');
@@ -93,15 +148,44 @@ export async function publishInstagram(): Promise<void> {
 
   console.log(`📤 Préparation de la publication de ${files.length} images...`);
 
-  // 1. Upload sur ImgBB
+  // 1. Upload des images
   const imageUrls: string[] = [];
+  const useSupabase = !!(supabaseUrl && supabaseKey);
+  
+  if (useSupabase) {
+    await ensureBucketExists('instagram');
+  }
+
   for (const file of files) {
-    console.log(`- Upload de ${file} sur ImgBB...`);
-    const url = await uploadToImgBB(path.join(slidesDir, file));
+    const fullPath = path.join(slidesDir, file);
+    let url = '';
+    
+    if (useSupabase) {
+      try {
+        console.log(`- Upload de ${file} sur Supabase Storage...`);
+        url = await uploadToSupabase(fullPath);
+        console.log(`  URL Supabase: ${url}`);
+      } catch (err: any) {
+        console.warn(`⚠️ Échec de l'upload Supabase pour ${file}: ${err.message}. Repli sur ImgBB...`);
+        if (IMGBB_API_KEY) {
+          url = await uploadToImgBB(fullPath);
+          console.log(`  URL ImgBB (repli): ${url}`);
+        } else {
+          throw err;
+        }
+      }
+    } else if (IMGBB_API_KEY) {
+      console.log(`- Upload de ${file} sur ImgBB...`);
+      url = await uploadToImgBB(fullPath);
+      console.log(`  URL ImgBB: ${url}`);
+    } else {
+      throw new Error("⚠️ Aucun moyen d'hébergement d'images (Supabase ou ImgBB) n'est configuré.");
+    }
+    
     imageUrls.push(url);
   }
 
-  console.log(`✅ ${imageUrls.length} images uploadées sur ImgBB avec succès.`);
+  console.log(`✅ ${imageUrls.length} images hébergées avec succès.`);
 
   // 2. Créer les media containers individuels
   const childrenIds: string[] = [];
