@@ -51,3 +51,21 @@ jobs:
           if [ "${{ github.event.inputs.force }}" = "true" ]; then FLAGS="$FLAGS --force"; fi
           python scrape.py $FLAGS
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4.4.0
+        with:
+          node-version: '22'
+
+      - name: Installer les dépendances TS
+        working-directory: ./scripts/instagram
+        run: npm ci
+
+      - name: Mettre à jour les données du Widget iOS
+        working-directory: ./scripts/instagram
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: npx ts-node 06_update_widget.ts
+
+
+
