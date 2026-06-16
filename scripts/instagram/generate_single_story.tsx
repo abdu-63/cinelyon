@@ -38,6 +38,25 @@ async function loadImpact() {
   return fs.promises.readFile(path.join(dirname, 'static/font/impact.ttf'));
 }
 
+async function fetchWithRetry(url: string, retries = 2, delay = 2000): Promise<Response> {
+  try {
+    const res = await fetch(url);
+    if (res.status === 429 && retries > 0) {
+      console.warn(`   ⚠️  Rate limit (429) sur ${url.split('?')[0]}. Pause de ${delay}ms...`);
+      await new Promise(resolve => setTimeout(resolve, delay));
+      return fetchWithRetry(url, retries - 1, delay * 1.5);
+    }
+    return res;
+  } catch (e) {
+    if (retries > 0) {
+      console.warn(`   ⚠️  Erreur réseau pour ${url.split('?')[0]}. Réessai dans ${delay}ms...`);
+      await new Promise(resolve => setTimeout(resolve, delay));
+      return fetchWithRetry(url, retries - 1, delay * 1.5);
+    }
+    throw e;
+  }
+}
+
 // ─── Helpers : Image quality and hashing ──────────────────────────────────────
 async function getDHashAndStats(imageUrl: string): Promise<{ hash: string; whitePercent: number; blackPercent: number; satPercent: number } | null> {
   try {
@@ -45,7 +64,7 @@ async function getDHashAndStats(imageUrl: string): Promise<{ hash: string; white
       ? imageUrl.replace('/t/p/original/', '/t/p/w300/')
       : imageUrl;
 
-    const res = await fetch(downloadUrl);
+    const res = await fetchWithRetry(downloadUrl);
     if (!res.ok) return null;
     const buffer = Buffer.from(await res.arrayBuffer());
 
@@ -143,7 +162,7 @@ async function filterUniqueScenes(urls: string[]): Promise<string[]> {
 async function getFilmGrabImages(title: string, year?: number | null, director?: string | null): Promise<string[]> {
   try {
     const url = `https://film-grab.com/?s=${encodeURIComponent(title)}`;
-    const res = await fetch(url);
+    const res = await fetchWithRetry(url);
     if (!res.ok) return [];
     const html = await res.text();
     const $ = cheerio.load(html);
@@ -158,13 +177,13 @@ async function getFilmGrabImages(title: string, year?: number | null, director?:
     if (results.length === 0) return [];
 
     let bestResult = results[0];
+    let bestScore = -1;
     if (year || director) {
       const yearStr = year ? String(year) : null;
       const directorTokens = director
         ? director.toLowerCase().split(/\s+/).filter(t => t.length > 2)
         : [];
 
-      let bestScore = -1;
       for (const r of results) {
         const haystack = (r.entryTitle + ' ' + r.href).toLowerCase();
         let score = 0;
@@ -175,16 +194,35 @@ async function getFilmGrabImages(title: string, year?: number | null, director?:
           bestResult = r;
         }
       }
-
-      if (bestScore <= 0) {
-        return [];
-      }
     }
 
-    const postRes = await fetch(bestResult.href);
+    const postRes = await fetchWithRetry(bestResult.href);
     if (!postRes.ok) return [];
     const postHtml = await postRes.text();
     const $post = cheerio.load(postHtml);
+
+    // Si on a des critères (year ou director) mais que le score de la recherche était <= 0,
+    // on valide l'identité du film par le contenu textuel de la page.
+    if ((year || director) && bestScore <= 0) {
+      const pageText = $post('body').text().toLowerCase();
+      const yearStr = year ? String(year) : null;
+      const directorTokens = director
+        ? director.toLowerCase().split(/\s+/).filter(t => t.length > 2)
+        : [];
+
+      let confirmed = false;
+      if (yearStr && pageText.includes(yearStr)) {
+        confirmed = true;
+      }
+      if (directorTokens.length > 0 && directorTokens.some(t => pageText.includes(t))) {
+        confirmed = true;
+      }
+
+      if (!confirmed) {
+        console.warn(`   ⚠️  Film-Grab : Page trouvée pour "${bestResult.entryTitle}" mais le contenu ne correspond pas à l'année/réalisateur (${year ?? '?'} / ${director ?? '?'}). Rejet.`);
+        return [];
+      }
+    }
 
     const images: string[] = [];
     $post('.bwg-masonry-thumb, .bwg-item img, img.size-full, .gallery-item img, figure img').each((i, el) => {
@@ -255,6 +293,29 @@ function getShortSynopsis(text: string, maxLength: number = 220): string {
   return clean.slice(0, maxLength - 3).trim() + '...';
 }
 
+function cleanText(text: string): string {
+  return text.toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9\s]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function getTitleSimilarity(t1: string, t2: string): number {
+  const t1n = cleanText(t1);
+  const t2n = cleanText(t2);
+  if (!t1n || !t2n) return 0;
+  if (t1n === t2n) return 1.0;
+  
+  const w1 = new Set(t1n.split(" "));
+  const w2 = new Set(t2n.split(" "));
+  
+  const intersection = new Set([...w1].filter(x => w2.has(x)));
+  const union = new Set([...w1, ...w2]);
+  
+  return intersection.size / union.size;
+}
+
 async function getMovieBackdrops(film: EnrichedFilm): Promise<{ scenes: string[]; posterUrl: string | null; synopsis: string | null }> {
   const apiKey = process.env.TMDB_API_KEY;
   const posterUrl = film.poster_url || null;
@@ -270,28 +331,68 @@ async function getMovieBackdrops(film: EnrichedFilm): Promise<{ scenes: string[]
     if (!tmdbId) {
       const query = encodeURIComponent(film.title.trim());
       const yearParam = film.year ? `&year=${film.year}` : '';
-      const searchRes = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}${yearParam}&language=fr-FR`);
-      const searchData = await searchRes.json();
+      let searchRes = await fetchWithRetry(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}${yearParam}&language=fr-FR`);
+      let searchData = await searchRes.json();
+      
+      let bestCandidate = null;
+      let bestScore = 0;
+
       if (searchData.results && searchData.results.length > 0) {
-        tmdbId = searchData.results[0].id;
+        for (const candidate of searchData.results.slice(0, 5)) {
+          const score = Math.max(
+            getTitleSimilarity(film.title, candidate.title || ''),
+            getTitleSimilarity(film.title, candidate.original_title || '')
+          );
+          if (score > bestScore) {
+            bestScore = score;
+            bestCandidate = candidate;
+          }
+        }
+      }
+
+      // Si aucun candidat valide avec l'année, on tente sans l'année
+      if ((!bestCandidate || bestScore < 0.5) && yearParam) {
+        searchRes = await fetchWithRetry(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}&language=fr-FR`);
+        searchData = await searchRes.json();
+        
+        bestCandidate = null;
+        bestScore = 0;
+        if (searchData.results && searchData.results.length > 0) {
+          for (const candidate of searchData.results.slice(0, 5)) {
+            const score = Math.max(
+              getTitleSimilarity(film.title, candidate.title || ''),
+              getTitleSimilarity(film.title, candidate.original_title || '')
+            );
+            if (score > bestScore) {
+              bestScore = score;
+              bestCandidate = candidate;
+            }
+          }
+        }
+      }
+
+      if (bestCandidate && bestScore >= 0.5) {
+        tmdbId = bestCandidate.id;
+      } else {
+        console.warn(`   ⚠️  TMDB search : Aucun candidat valide (similarité) pour "${film.title}"`);
       }
     }
 
     if (tmdbId) {
       try {
-        const movieDetailsRes = await fetch(`https://api.themoviedb.org/3/movie/${tmdbId}?api_key=${apiKey}&language=fr-FR`);
+        const movieDetailsRes = await fetchWithRetry(`https://api.themoviedb.org/3/movie/${tmdbId}?api_key=${apiKey}&language=fr-FR`);
         const movieDetails = await movieDetailsRes.json();
         tmdbOverview = movieDetails.overview || null;
         if (movieDetails.original_title) {
           originalTitle = movieDetails.original_title;
         }
         if (!tmdbOverview) {
-          const enDetailsRes = await fetch(`https://api.themoviedb.org/3/movie/${tmdbId}?api_key=${apiKey}&language=en-US`);
+          const enDetailsRes = await fetchWithRetry(`https://api.themoviedb.org/3/movie/${tmdbId}?api_key=${apiKey}&language=en-US`);
           const enDetails = await enDetailsRes.json();
           tmdbOverview = enDetails.overview || null;
         }
 
-        const imagesRes = await fetch(`https://api.themoviedb.org/3/movie/${tmdbId}/images?api_key=${apiKey}`);
+        const imagesRes = await fetchWithRetry(`https://api.themoviedb.org/3/movie/${tmdbId}/images?api_key=${apiKey}`);
         const imagesData = await imagesRes.json();
         if (imagesData.backdrops && imagesData.backdrops.length > 0) {
           let textless = imagesData.backdrops.filter((b: any) => b.iso_639_1 === null && (b.aspect_ratio || 0) >= 1.3);
@@ -340,7 +441,7 @@ async function getBase64Image(imageUrl: string): Promise<string> {
       ? imageUrl.replace('/t/p/original/', '/t/p/w780/')
       : imageUrl;
 
-    const res = await fetch(downloadUrl);
+    const res = await fetchWithRetry(downloadUrl);
     if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
     const buffer = Buffer.from(await res.arrayBuffer());
 

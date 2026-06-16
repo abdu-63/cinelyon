@@ -630,7 +630,7 @@ async function filterUniqueScenes(urls: string[]): Promise<string[]> {
 async function getFilmGrabImages(title: string, year?: number | null, director?: string | null): Promise<string[]> {
   try {
     const url = `https://film-grab.com/?s=${encodeURIComponent(title)}`;
-    const res = await fetch(url);
+    const res = await fetchWithRetry(url);
     if (!res.ok) return [];
     const html = await res.text();
     const $ = cheerio.load(html);
@@ -644,12 +644,12 @@ async function getFilmGrabImages(title: string, year?: number | null, director?:
     if (results.length === 0) return [];
 
     let bestResult = results[0];
+    let bestScore = -1;
     if (year || director) {
       const yearStr = year ? String(year) : null;
       const directorTokens = director
         ? director.toLowerCase().split(/\s+/).filter(t => t.length > 2)
         : [];
-      let bestScore = -1;
       for (const r of results) {
         const haystack = (r.entryTitle + ' ' + r.href).toLowerCase();
         let score = 0;
@@ -657,12 +657,30 @@ async function getFilmGrabImages(title: string, year?: number | null, director?:
         if (directorTokens.some(t => haystack.includes(t))) score += 1;
         if (score > bestScore) { bestScore = score; bestResult = r; }
       }
-      if (bestScore <= 0) return [];
     }
 
-    const postRes = await fetch(bestResult.href);
+    const postRes = await fetchWithRetry(bestResult.href);
     if (!postRes.ok) return [];
     const $post = cheerio.load(await postRes.text());
+
+    // Si on a des critères (year ou director) mais que le score de la recherche était <= 0,
+    // on valide l'identité du film par le contenu textuel de la page.
+    if ((year || director) && bestScore <= 0) {
+      const pageText = $post('body').text().toLowerCase();
+      const yearStr = year ? String(year) : null;
+      const directorTokens = director
+        ? director.toLowerCase().split(/\s+/).filter(t => t.length > 2)
+        : [];
+
+      let confirmed = false;
+      if (yearStr && pageText.includes(yearStr)) confirmed = true;
+      if (directorTokens.length > 0 && directorTokens.some(t => pageText.includes(t))) confirmed = true;
+
+      if (!confirmed) {
+        console.warn(`   ⚠️  Film-Grab : Page trouvée pour "${bestResult.entryTitle}" mais le contenu ne correspond pas à l'année/réalisateur (${year ?? '?'} / ${director ?? '?'}). Rejet.`);
+        return [];
+      }
+    }
     const images: string[] = [];
     $post('.bwg-masonry-thumb, .bwg-item img, img.size-full, .gallery-item img, figure img').each((i, el) => {
       let src = $post(el).closest('a').attr('href') || $post(el).attr('src') || $post(el).attr('data-src');

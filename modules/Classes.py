@@ -154,6 +154,7 @@ class Movie:
         self.tmdb_score = tmdb_data.get("tmdb_score")  # Note TMDB sur 10
         self.rt_score = tmdb_data.get("rt_score")  # Note Rotten Tomatoes (ex: "87%")
         self.reviews = tmdb_data.get("reviews", [])
+        self.backdrop = tmdb_data.get("tmdb_backdrop")
 
         # Affiche TMDB trouvée en premier, sinon fallback sur Allociné, sinon image par défaut
         try:
@@ -285,8 +286,8 @@ class Movie:
 
         if cache_key in _tmdb_cache:
             cached_data = _tmdb_cache[cache_key]
-            # Si l'ancienne entrée de cache n'a pas l'affiche TMDB ou les watch_providers, on force un refetch
-            if "tmdb_poster" in cached_data and "watch_providers" in cached_data and "tmdb_score" in cached_data:
+            # Si l'ancienne entrée de cache n'a pas l'affiche TMDB, le backdrop ou les watch_providers, on force un refetch
+            if "tmdb_poster" in cached_data and "watch_providers" in cached_data and "tmdb_score" in cached_data and "tmdb_backdrop" in cached_data:
                 # Si "reviews" n'est pas dans le cache, on récupère et ajoute les critiques spectateurs AlloCiné
                 if "reviews" not in cached_data:
                     cached_data["reviews"] = self._scrape_allocine_reviews()
@@ -297,6 +298,7 @@ class Movie:
             "trailer_url": None,
             "english_title": self.original_title,
             "tmdb_poster": None,
+            "tmdb_backdrop": None,
             "watch_providers": [],
             "tmdb_score": None,
             "rt_score": None,
@@ -321,71 +323,76 @@ class Movie:
             search_data = tmdb_request(search_url, params)
             results = search_data.get("results", [])
 
-            # Si aucun résultat avec l'année, retenter sans (ressorties)
-            if not results and self.release_year and self.release_year != "inconnue":
-                params_no_year = {k: v for k, v in params.items() if k != "year"}
-                search_data = tmdb_request(search_url, params_no_year)
-                results = search_data.get("results", [])
-
             movie = None
 
-            if results:
+            def find_match(candidates):
                 # Matcher par réalisateur si disponible
                 if self.director and self.director != "Inconnu":
                     director_names = [d.strip().lower() for d in self.director.split(",")]
-                    for result in results[:5]:
+                    for result in candidates[:5]:
                         movie_id = result.get("id")
                         credits_url = f"https://api.themoviedb.org/3/movie/{movie_id}/credits"
                         credits_data = tmdb_request(credits_url, {"api_key": TMDB_API_KEY})
                         crew = credits_data.get("crew", [])
                         tmdb_directors = [c.get("name", "").lower() for c in crew if c.get("job") == "Director"]
                         if any(dn in td or td in dn for dn in director_names for td in tmdb_directors):
-                            movie = result
-                            break
+                            return result
 
                 # Fallback : matcher par similarité de titre (évite les fausses associations de posters)
-                if not movie:
+                def _title_sim(t1, t2):
+                    """Score de similarité entre 0 et 1 basé sur les mots communs (Jaccard)."""
+                    import unicodedata as _ud
 
-                    def _title_sim(t1, t2):
-                        """Score de similarité entre 0 et 1 basé sur les mots communs (Jaccard)."""
-                        import unicodedata as _ud
+                    t1n = _ud.normalize("NFD", t1.lower()).encode("ascii", "ignore").decode()
+                    t2n = _ud.normalize("NFD", t2.lower()).encode("ascii", "ignore").decode()
+                    t1n = re.sub(r"[^a-z0-9 ]", "", t1n).strip()
+                    t2n = re.sub(r"[^a-z0-9 ]", "", t2n).strip()
+                    if not t1n or not t2n:
+                        return 0.0
+                    if t1n == t2n:
+                        return 1.0
+                    w1 = set(t1n.split())
+                    w2 = set(t2n.split())
+                    union = w1 | w2
+                    return len(w1 & w2) / len(union) if union else 0.0
 
-                        t1n = _ud.normalize("NFD", t1.lower()).encode("ascii", "ignore").decode()
-                        t2n = _ud.normalize("NFD", t2.lower()).encode("ascii", "ignore").decode()
-                        t1n = re.sub(r"[^a-z0-9 ]", "", t1n).strip()
-                        t2n = re.sub(r"[^a-z0-9 ]", "", t2n).strip()
-                        if not t1n or not t2n:
-                            return 0.0
-                        if t1n == t2n:
-                            return 1.0
-                        w1 = set(t1n.split())
-                        w2 = set(t2n.split())
-                        union = w1 | w2
-                        return len(w1 & w2) / len(union) if union else 0.0
+                best_score = 0.0
+                best_candidate = None
+                for candidate in candidates[:5]:
+                    score = max(
+                        _title_sim(self.title, candidate.get("title", "")),
+                        _title_sim(self.title, candidate.get("original_title", "")),
+                    )
+                    # Bonus si l'année correspond
+                    tmdb_year = (candidate.get("release_date") or "")[:4]
+                    if tmdb_year and self.release_year and tmdb_year == str(self.release_year):
+                        score = min(score + 0.2, 1.0)
+                    if score > best_score:
+                        best_score = score
+                        best_candidate = candidate
 
-                    best_score = 0.0
-                    best_candidate = None
-                    for candidate in results[:5]:
-                        score = max(
-                            _title_sim(self.title, candidate.get("title", "")),
-                            _title_sim(self.title, candidate.get("original_title", "")),
-                        )
-                        # Bonus si l'année correspond
-                        tmdb_year = (candidate.get("release_date") or "")[:4]
-                        if tmdb_year and self.release_year and tmdb_year == str(self.release_year):
-                            score = min(score + 0.2, 1.0)
-                        if score > best_score:
-                            best_score = score
-                            best_candidate = candidate
+                # Seuil de 0.5 pour éviter les fausses correspondances
+                if best_candidate and best_score >= 0.5:
+                    return best_candidate
+                return None
 
-                    # Seuil de 0.5 pour éviter les fausses correspondances
-                    if best_candidate and best_score >= 0.5:
-                        movie = best_candidate
+            if results:
+                movie = find_match(results)
+
+            # Si aucun film trouvé avec l'année, retenter sans (ressorties ou incohérence de dates)
+            if not movie and self.release_year and self.release_year != "inconnue":
+                params_no_year = {k: v for k, v in params.items() if k != "year"}
+                search_data = tmdb_request(search_url, params_no_year)
+                results_no_year = search_data.get("results", [])
+                if results_no_year:
+                    movie = find_match(results_no_year)
 
             if movie:
                 movie_id = movie["id"]
                 poster_path = movie.get("poster_path")
                 tmdb_poster = f"https://image.tmdb.org/t/p/w500{poster_path}" if poster_path else None
+                backdrop_path = movie.get("backdrop_path")
+                tmdb_backdrop = f"https://image.tmdb.org/t/p/w780{backdrop_path}" if backdrop_path else None
 
                 # Bande-annonce YouTube
                 trailer_url = None
@@ -467,6 +474,7 @@ class Movie:
                     "trailer_url": trailer_url,
                     "english_title": english_title,
                     "tmdb_poster": tmdb_poster,
+                    "tmdb_backdrop": tmdb_backdrop,
                     "watch_providers": watch_providers,
                     "tmdb_score": tmdb_score,
                     "rt_score": rt_score,
