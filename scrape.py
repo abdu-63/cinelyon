@@ -107,6 +107,7 @@ def get_showtimes(theaters: list[Theater], date: datetime) -> list[dict]:
                 "watch_providers": movie.watch_providers,
                 "tmdb_score": movie.tmdb_score,
                 "rt_score": movie.rt_score,
+                "reviews": getattr(movie, "reviews", []),
                 "seances": {},
             }
 

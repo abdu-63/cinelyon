@@ -153,6 +153,7 @@ class Movie:
         self.watch_providers = tmdb_data.get("watch_providers", [])
         self.tmdb_score = tmdb_data.get("tmdb_score")  # Note TMDB sur 10
         self.rt_score = tmdb_data.get("rt_score")  # Note Rotten Tomatoes (ex: "87%")
+        self.reviews = tmdb_data.get("reviews", [])
 
         # Affiche TMDB trouvée en premier, sinon fallback sur Allociné, sinon image par défaut
         try:
@@ -209,6 +210,73 @@ class Movie:
         search_query = self.english_title
         return f"https://letterboxd.com/search/{quote(search_query)}/"
 
+    def _scrape_allocine_reviews(self) -> list[dict]:
+        """Scrape max 3 critiques spectateurs courtes depuis Allociné pour ce film."""
+        if not self.id:
+            return []
+
+        url = f"https://www.allocine.fr/film/fichefilm-{self.id}/critiques/spectateurs/"
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        }
+
+        try:
+            r = requests.get(url, headers=headers, timeout=10)
+            if r.status_code != 200:
+                return []
+
+            html_text = r.text
+            cards = html_text.split('<div class="hred review-card cf"')
+            parsed_reviews = []
+
+            for card in cards[1:]:
+                try:
+                    # Pseudo de l'auteur dans l'attribut alt de la classe thumbnail-img
+                    author_match = re.search(r'class="thumbnail-img"[^>]*alt="([^"]+)"', card)
+                    author = author_match.group(1) if author_match else "Anonyme"
+                    author = author.replace("Critique spectateur de ", "").strip()
+
+                    # Note sur 5
+                    rating_match = re.search(r'<span class="stareval-note">([^<]+)</span>', card)
+                    rating_str = rating_match.group(1).replace(",", ".") if rating_match else "0.0"
+                    rating = float(rating_str)
+
+                    # Date
+                    date_match = re.search(r'<span class="review-card-meta-date[^"]*">([^<]+)</span>', card)
+                    date = date_match.group(1).replace("Publiée le", "").strip() if date_match else ""
+
+                    # Texte du commentaire
+                    text_match = re.search(r'<div class="content-txt review-card-content">\s*(.*?)\s*</div>', card, re.DOTALL)
+                    text = text_match.group(1).strip() if text_match else ""
+                    text = re.sub(r'<[^>]+>', '', text)  # Nettoyer le HTML
+                    from html import unescape
+                    text = unescape(text)
+
+                    parsed_reviews.append({
+                        "author": author,
+                        "rating": rating,
+                        "date": date,
+                        "text": text
+                    })
+                except Exception as e:
+                    print(f"⚠️ Erreur parsing d'une critique pour '{self.title}': {e}")
+
+            # Filtrer pour préférer les critiques courtes (entre 40 et 230 caractères)
+            filtered_reviews = [r for r in parsed_reviews if 40 <= len(r["text"]) <= 230]
+            # Trier par longueur croissante
+            filtered_reviews.sort(key=lambda r: len(r["text"]))
+
+            # Si on en a moins de 3, compléter avec les plus courtes parmi le reste
+            if len(filtered_reviews) < 3:
+                remaining = [r for r in parsed_reviews if r not in filtered_reviews and len(r["text"]) >= 40]
+                remaining.sort(key=lambda r: len(r["text"]))
+                filtered_reviews.extend(remaining)
+
+            return filtered_reviews[:3]
+        except Exception as e:
+            print(f"❌ Erreur scraping critiques Allociné pour '{self.title}': {e}")
+            return []
+
     def _get_tmdb_extras(self):
         """Récupère le trailer YouTube et le titre anglais depuis TMDB (avec cache)."""
         global _tmdb_cache
@@ -219,6 +287,10 @@ class Movie:
             cached_data = _tmdb_cache[cache_key]
             # Si l'ancienne entrée de cache n'a pas l'affiche TMDB ou les watch_providers, on force un refetch
             if "tmdb_poster" in cached_data and "watch_providers" in cached_data and "tmdb_score" in cached_data:
+                # Si "reviews" n'est pas dans le cache, on récupère et ajoute les critiques spectateurs AlloCiné
+                if "reviews" not in cached_data:
+                    cached_data["reviews"] = self._scrape_allocine_reviews()
+                    save_tmdb_cache_entry(cache_key, cached_data)
                 return cached_data
 
         default = {
@@ -228,6 +300,7 @@ class Movie:
             "watch_providers": [],
             "tmdb_score": None,
             "rt_score": None,
+            "reviews": [],
         }
 
         if not TMDB_API_KEY:
@@ -397,6 +470,7 @@ class Movie:
                     "watch_providers": watch_providers,
                     "tmdb_score": tmdb_score,
                     "rt_score": rt_score,
+                    "reviews": self._scrape_allocine_reviews(),
                 }
                 _tmdb_cache[cache_key] = result
                 save_tmdb_cache_entry(cache_key, result)

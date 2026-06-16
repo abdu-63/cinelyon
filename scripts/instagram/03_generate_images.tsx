@@ -274,7 +274,8 @@ async function getFilmGrabImages(title: string, year?: number | null, director?:
       if (bestScore > 0) {
         console.log(`   🎯 Film-Grab : meilleure correspondance (score=${bestScore}) → "${bestResult.entryTitle}" (${bestResult.href})`);
       } else {
-        console.warn(`   ⚠️  Film-Grab : aucune correspondance année/réalisateur pour "${title}" (${year ?? '?'} / ${director ?? '?'}). Premier résultat utilisé : "${results[0].entryTitle}"`);
+        console.warn(`   ⚠️  Film-Grab : aucune correspondance année/réalisateur pour "${title}" (${year ?? '?'} / ${director ?? '?'}).`);
+        return [];
       }
     }
 

@@ -657,6 +657,7 @@ async function getFilmGrabImages(title: string, year?: number | null, director?:
         if (directorTokens.some(t => haystack.includes(t))) score += 1;
         if (score > bestScore) { bestScore = score; bestResult = r; }
       }
+      if (bestScore <= 0) return [];
     }
 
     const postRes = await fetch(bestResult.href);

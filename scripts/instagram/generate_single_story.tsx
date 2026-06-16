@@ -175,6 +175,10 @@ async function getFilmGrabImages(title: string, year?: number | null, director?:
           bestResult = r;
         }
       }
+
+      if (bestScore <= 0) {
+        return [];
+      }
     }
 
     const postRes = await fetch(bestResult.href);
