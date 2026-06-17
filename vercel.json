@@ -8,9 +8,29 @@
                 { "key": "X-Frame-Options", "value": "DENY" },
                 { "key": "X-XSS-Protection", "value": "1; mode=block" }
             ]
+        },
+        {
+            "source": "/.well-known/apple-app-site-association",
+            "headers": [
+                { "key": "Content-Type", "value": "application/json" }
+            ]
+        },
+        {
+            "source": "/.well-known/assetlinks.json",
+            "headers": [
+                { "key": "Content-Type", "value": "application/json" }
+            ]
         }
     ],
     "routes": [
+        {
+            "src": "/.well-known/apple-app-site-association",
+            "dest": "/static/.well-known/apple-app-site-association"
+        },
+        {
+            "src": "/.well-known/assetlinks.json",
+            "dest": "/static/.well-known/assetlinks.json"
+        },
         {
             "src": "/static/(.*)",
             "dest": "/static/$1"
