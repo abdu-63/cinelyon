@@ -69,20 +69,26 @@ def load_movies_data(force_reload=False):
         if _showtimes_data is not None:
             print("   Utilisation du cache précédent.")
             return _showtimes_data
-        return {"showtimes": [], "num_days": 0}
+        return {"showtimes": [], "num_days": 0, "slug_index": {}}
 
     showtimes = [row["movies"] for row in rows]
     num_days = len(showtimes)
 
     print(f"✅ {num_days} jour(s) chargés depuis Supabase")
 
-    _showtimes_data = {"showtimes": showtimes, "num_days": num_days}
+    # Pré-construire l'index slug → [(day_index, film)] pour film_detail() en O(1)
+    slug_index = {}
+    for day_index, day_movies in enumerate(showtimes):
+        for film in day_movies:
+            film_slug = slugify(film["title"], film.get("release_year", ""))
+            if film_slug not in slug_index:
+                slug_index[film_slug] = []
+            slug_index[film_slug].append((day_index, film))
+
+    _showtimes_data = {"showtimes": showtimes, "num_days": num_days, "slug_index": slug_index}
     _last_load_time = now
 
     return _showtimes_data
-
-
-load_movies_data()
 
 app = Flask(__name__)
 
@@ -131,13 +137,16 @@ def add_cache_headers(response):
         else:
             response.headers["Cache-Control"] = "public, max-age=604800"
     elif response.content_type and "text/html" in response.content_type:
-        # Les pages HTML ne doivent jamais être mises en cache :
-        # elles contiennent des URLs versionnées vers les CSS/JS, et si une
-        # vieille page est servie depuis le cache, le navigateur utilisera
-        # les anciens assets (même si le SW a été mis à jour).
-        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-        response.headers["Pragma"] = "no-cache"
-        response.headers["Expires"] = "0"
+        if response.status_code == 200:
+            # CDN (s-maxage) : cache 1h côté Vercel Edge pour éviter les cold starts.
+            # Le CDN est automatiquement purgé à chaque déploiement Vercel.
+            # Browser (max-age=0) : le navigateur revalide toujours avec le CDN.
+            response.headers["Cache-Control"] = "public, s-maxage=3600, stale-while-revalidate=86400, max-age=0, must-revalidate"
+        else:
+            # Ne pas cacher les erreurs (404, 500, etc.)
+            response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+            response.headers["Pragma"] = "no-cache"
+            response.headers["Expires"] = "0"
     return response
 
 
@@ -322,20 +331,17 @@ def sitemap_xml():
     content += f"  <url>\n    <loc>{base_url}</loc>\n"
     content += "    <changefreq>daily</changefreq>\n    <priority>1.0</priority>\n  </url>\n"
 
-    # Ajouter les pages individuelles des films
+    # Utiliser le slug_index pré-calculé pour éviter de recalculer les slugs
     data = load_movies_data()
-    seen_slugs = set()
-    for day_movies in data["showtimes"]:
-        for film in day_movies:
-            film_slug = slugify(film["title"], film.get("release_year", ""))
-            if film_slug not in seen_slugs:
-                seen_slugs.add(film_slug)
-                content += f"  <url>\n    <loc>{base_url}/film/{film_slug}</loc>\n"
-                content += "    <changefreq>daily</changefreq>\n    <priority>0.8</priority>\n  </url>\n"
+    slug_index = data.get("slug_index", {})
+    for film_slug in slug_index:
+        content += f"  <url>\n    <loc>{base_url}/film/{film_slug}</loc>\n"
+        content += "    <changefreq>daily</changefreq>\n    <priority>0.8</priority>\n  </url>\n"
 
     content += "</urlset>"
     response = make_response(content)
     response.headers["Content-Type"] = "application/xml"
+    response.headers["Cache-Control"] = "public, s-maxage=3600, stale-while-revalidate=86400"
     return response
 
 
@@ -462,7 +468,6 @@ def home():
 def film_detail(slug):
     """Page de détail d'un film."""
     data = load_movies_data()
-    showtimes = data["showtimes"]
     num_days = data["num_days"]
 
     # Construire la liste des dates
@@ -479,48 +484,51 @@ def film_detail(slug):
             }
         )
 
-    # Trouver le film correspondant au slug
+    # Lookup direct par slug via l'index pré-calculé (O(1) au lieu de O(n×m))
+    slug_index = data.get("slug_index", {})
+    film_entries = slug_index.get(slug)
+
+    if not film_entries:
+        abort(404)
+
     film_data = None
     seances_by_day = {}
 
-    for day_index in range(num_days):
-        if day_index >= len(showtimes):
+    for day_index, film in film_entries:
+        if day_index >= len(dates):
             continue
         day_label = f"{dates[day_index]['jour']} {dates[day_index]['chiffre']} {dates[day_index]['mois']}"
-        for film in showtimes[day_index]:
-            film_slug = slugify(film["title"], film.get("release_year", ""))
-            if film_slug == slug:
-                if film_data is None:
-                    film_data = {
-                        "title": film["title"],
-                        "release_year": film["release_year"],
-                        "duree": film["duree"],
-                        "rating": film["rating"],
-                        "genres": film["genres"],
-                        "realisateur": film["realisateur"],
-                        "synopsis": film["synopsis"],
-                        "affiche": optimize_poster_url(film["affiche"], width=300),
-                        "director": film["director"],
-                        "wantToSee": film["wantToSee"],
-                        "url": film["url"],
-                        "allocine_url": film.get("allocine_url", ""),
-                        "trailer_url": film.get("trailer_url"),
-                        "watch_providers": film.get("watch_providers", []),
-                        "tmdb_score": film.get("tmdb_score"),
-                        "rt_score": film.get("rt_score"),
-                        "slug": film_slug,
-                    }
 
-                if day_label not in seances_by_day:
-                    seances_by_day[day_label] = {}
+        if film_data is None:
+            film_data = {
+                "title": film["title"],
+                "release_year": film["release_year"],
+                "duree": film["duree"],
+                "rating": film["rating"],
+                "genres": film["genres"],
+                "realisateur": film["realisateur"],
+                "synopsis": film["synopsis"],
+                "affiche": optimize_poster_url(film["affiche"], width=300),
+                "director": film["director"],
+                "wantToSee": film["wantToSee"],
+                "url": film["url"],
+                "allocine_url": film.get("allocine_url", ""),
+                "trailer_url": film.get("trailer_url"),
+                "watch_providers": film.get("watch_providers", []),
+                "tmdb_score": film.get("tmdb_score"),
+                "rt_score": film.get("rt_score"),
+                "slug": slug,
+            }
 
-                for cinema, seances in sorted(film["seances"].items()):
-                    if cinema not in seances_by_day[day_label]:
-                        seances_by_day[day_label][cinema] = []
-                    seances_by_day[day_label][cinema].extend(seances)
-                    # Sort seances by time
-                    seances_by_day[day_label][cinema].sort(key=lambda x: x["time"])
-                seances_by_day[day_label] = dict(sorted(seances_by_day[day_label].items()))
+        if day_label not in seances_by_day:
+            seances_by_day[day_label] = {}
+
+        for cinema, seances in sorted(film["seances"].items()):
+            if cinema not in seances_by_day[day_label]:
+                seances_by_day[day_label][cinema] = []
+            seances_by_day[day_label][cinema].extend(seances)
+            seances_by_day[day_label][cinema].sort(key=lambda x: x["time"])
+        seances_by_day[day_label] = dict(sorted(seances_by_day[day_label].items()))
 
     if film_data is None:
         abort(404)
