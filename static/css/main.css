@@ -943,6 +943,20 @@ a {
     justify-content: center;
     box-shadow: 0 6px 20px var(--shadow-md);
     z-index: 9801;
+    font-size: 22px;
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+.goTop p {
+    margin: 0;
+}
+
+.goTop:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 28px var(--shadow-md);
+    cursor: pointer;
 }
 
 html {
@@ -1268,16 +1282,16 @@ html {
         z-index: 9801;
         bottom: 86px;
         right: 10px;
-        width: 50px;
-        height: 50px;
+        width: 55px;
+        height: 55px;
         background-color: var(--primary);
         border: var(--card-solid) solid 4px;
+        font-size: 20px;
     }
 
     .goTop p {
-        font-size: 20px;
-        margin-block-start: 1em;
-        margin-block-end: 1em;
+        font-size: 24px;
+        margin: 0;
     }
 
     body::before {
