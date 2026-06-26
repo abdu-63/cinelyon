@@ -13,7 +13,12 @@
     --shadow-sm: rgba(0, 0, 0, 0.05);
     --shadow-md: rgba(0, 0, 0, 0.15);
     --shadow-lg: rgba(0, 0, 0, 0.1);
-    --bg-gradient: radial-gradient(ellipse at 80% 80%, rgba(130, 44, 247, 0.35) 0%, rgba(68, 76, 247, 0.18) 40%, transparent 70%);
+    --bg-gradient: radial-gradient(
+        ellipse at 80% 80%,
+        rgba(130, 44, 247, 0.35) 0%,
+        rgba(68, 76, 247, 0.18) 40%,
+        transparent 70%
+    );
 }
 
 /* ── View Transitions (navigation liste ↔ film) ── */
@@ -36,7 +41,6 @@
     view-transition-name: var(--poster-vt-name, none);
 }
 
-
 [data-theme="dark"] {
     --bg-main: #121212;
     --text-main: #e0e0e0;
@@ -52,37 +56,42 @@
     --shadow-sm: rgba(0, 0, 0, 0.3);
     --shadow-md: rgba(0, 0, 0, 0.5);
     --shadow-lg: rgba(0, 0, 0, 0.6);
-    --bg-gradient: radial-gradient(ellipse at 80% 80%, rgba(130, 44, 247, 0.15) 0%, rgba(68, 76, 247, 0.08) 40%, transparent 70%);
+    --bg-gradient: radial-gradient(
+        ellipse at 80% 80%,
+        rgba(130, 44, 247, 0.15) 0%,
+        rgba(68, 76, 247, 0.08) 40%,
+        transparent 70%
+    );
     --logo-filter: brightness(0) invert(1);
 }
 
 @font-face {
-    font-family: 'healTheWebA';
+    font-family: "healTheWebA";
     src: url("../font/HealTheWebA-Regular.otf");
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'healTheWebB';
+    font-family: "healTheWebB";
     src: url("../font/HealTheWebB-Regular.otf");
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Montserrat-ExtraBold';
+    font-family: "Montserrat-ExtraBold";
     src: url("../font/montserrat_extrabold.ttf");
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Impact';
+    font-family: "Impact";
     src: url("../font/impact.ttf");
     font-display: swap;
 }
 
 body {
     margin: 0;
-    font-family: 'healTheWebA', sans-serif;
+    font-family: "healTheWebA", sans-serif;
 }
 
 h3 {
@@ -91,7 +100,7 @@ h3 {
 }
 
 body::before {
-    content: '';
+    content: "";
     position: fixed;
     bottom: -20%;
     right: -20%;
@@ -102,7 +111,6 @@ body::before {
     z-index: -2;
     pointer-events: none;
 }
-
 
 p {
     font-size: 20;
@@ -117,9 +125,6 @@ p {
     justify-content: space-between;
 }
 
-
-
-
 .container_titrePlanning,
 .container_infoFilm {
     margin-left: 10%;
@@ -129,7 +134,12 @@ p {
 .line {
     width: 100%;
     height: 2px;
-    background-image: linear-gradient(90deg, rgba(68, 76, 247, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(2, 0, 36, 1) 100%);
+    background-image: linear-gradient(
+        90deg,
+        rgba(68, 76, 247, 1) 0%,
+        rgba(9, 9, 121, 1) 35%,
+        rgba(2, 0, 36, 1) 100%
+    );
     margin-top: 10px;
     margin-bottom: 20px;
 }
@@ -159,7 +169,7 @@ p {
     border: 1px solid var(--border-color);
     border-radius: 20px;
     cursor: pointer;
-    font-family: 'healTheWebA', sans-serif;
+    font-family: "healTheWebA", sans-serif;
     font-size: 13px;
     text-transform: capitalize;
     transition: all 0.2s;
@@ -177,13 +187,14 @@ p {
 }
 
 /* Notification dot for day buttons */
-.mini-cal-btn, .film-cal-btn {
+.mini-cal-btn,
+.film-cal-btn {
     position: relative;
 }
 
-.mini-cal-btn.has-notification::after, 
+.mini-cal-btn.has-notification::after,
 .film-cal-btn.has-notification::after {
-    content: '';
+    content: "";
     position: absolute;
     top: -2px;
     right: 2px;
@@ -194,7 +205,6 @@ p {
     border: 1.5px solid var(--card-solid, #fff);
     box-shadow: 0 0 4px rgba(255, 59, 48, 0.4);
 }
-
 
 /* Quick Filter Badges */
 .quick-filters {
@@ -213,17 +223,17 @@ p {
     border: 1px solid var(--border-color, #ddd);
     border-radius: 20px;
     cursor: pointer;
-    font-family: 'healTheWebA', sans-serif;
+    font-family: "healTheWebA", sans-serif;
     font-size: 14px;
     font-weight: 600;
     color: var(--text-main, #333);
     transition: all 0.2s ease;
-    box-shadow: 0 2px 8px var(--shadow-sm, rgba(0,0,0,0.05));
+    box-shadow: 0 2px 8px var(--shadow-sm, rgba(0, 0, 0, 0.05));
 }
 
 .quick-filter-badge:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px var(--shadow-md, rgba(0,0,0,0.1));
+    box-shadow: 0 4px 12px var(--shadow-md, rgba(0, 0, 0, 0.1));
     border-color: var(--primary, #444cf7);
 }
 
@@ -246,7 +256,7 @@ p {
 }
 
 .day-seances .seance_container,
-.seances-wrapper>.seance_container {
+.seances-wrapper > .seance_container {
     margin-left: 0;
     margin-right: 0;
 }
@@ -352,7 +362,7 @@ p {
 }
 
 .tous-label {
-    font-family: 'Montserrat-ExtraBold', sans-serif;
+    font-family: "Montserrat-ExtraBold", sans-serif;
     font-size: 22px;
     margin: 0;
 }
@@ -370,7 +380,7 @@ p {
 }
 
 .chiffre {
-    font-family: 'Montserrat-ExtraBold';
+    font-family: "Montserrat-ExtraBold";
     font-size: 42px;
     margin-top: -20px;
     margin-bottom: -20px;
@@ -425,7 +435,6 @@ p {
 .horaires_container::-webkit-scrollbar {
     display: none;
 }
-
 
 .horaire {
     background-color: var(--card-solid);
@@ -491,12 +500,12 @@ p {
     color: inherit;
 }
 
-
 .horaire-link .horaire {
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s;
 }
-
 
 .horaire-link:hover .horaire {
     box-shadow: 0 4px 12px rgba(68, 76, 247, 0.3);
@@ -521,7 +530,7 @@ p {
     padding: 12px 15px;
     border: 2px solid var(--border-color);
     border-radius: 8px;
-    font-family: 'healTheWebA', sans-serif;
+    font-family: "healTheWebA", sans-serif;
     font-size: 14px;
     color: var(--text-main);
     transition: border-color 0.3s;
@@ -568,7 +577,7 @@ p {
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    font-family: 'healTheWebA', sans-serif;
+    font-family: "healTheWebA", sans-serif;
     font-size: 14px;
     transition: background-color 0.3s;
 }
@@ -711,7 +720,7 @@ footer {
 }
 
 .synopsis::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 0;
     left: 0;
@@ -745,7 +754,7 @@ footer {
     border: none;
     color: var(--primary);
     cursor: pointer;
-    font-family: 'healTheWebA', sans-serif;
+    font-family: "healTheWebA", sans-serif;
     font-size: 14px;
     padding: 5px 0;
 }
@@ -764,7 +773,7 @@ footer {
     background: none;
     color: var(--primary);
     border: none;
-    font-family: 'healTheWebA', sans-serif;
+    font-family: "healTheWebA", sans-serif;
     font-size: 13px;
     text-decoration: none;
     cursor: pointer;
@@ -833,7 +842,6 @@ a {
     position: absolute;
     background: var(--primary);
     height: 3rem;
-    ;
     width: 3rem;
     border-radius: 50%;
     animation: move 1s ease alternate infinite;
@@ -907,8 +915,16 @@ a {
 }
 
 @keyframes lazy-dot-pulse {
-    0%, 80%, 100% { opacity: 0.3; transform: scale(1); }
-    40%           { opacity: 1;   transform: scale(1.4); }
+    0%,
+    80%,
+    100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    40% {
+        opacity: 1;
+        transform: scale(1.4);
+    }
 }
 /* ── Fin chargement progressif ───────────────────────────────────────── */
 
@@ -932,7 +948,6 @@ html {
     scroll-behavior: smooth;
 }
 
-
 .responsive-div {
     height: 60px;
 }
@@ -950,8 +965,6 @@ html {
         display: flex;
         flex-direction: column;
     }
-
-
 
     body {
         margin: 0;
@@ -1273,7 +1286,6 @@ html {
         left: auto;
     }
 
-
     .blur-background {
         background: rgba(255, 255, 255, 0.3);
         backdrop-filter: blur(20px);
@@ -1281,8 +1293,6 @@ html {
         z-index: -1;
         border-radius: 15px;
     }
-
-
 
     *:not(.affiche) {
         box-sizing: border-box;
@@ -1293,8 +1303,6 @@ html {
         height: 50px;
     }
 }
-
-
 
 .favorite-btn {
     background: none;
@@ -1381,7 +1389,7 @@ html {
 }
 
 .favorites-toggle.active .favorites-heart,
-.favorites-toggle input[type="checkbox"]:checked~.favorites-heart {
+.favorites-toggle input[type="checkbox"]:checked ~ .favorites-heart {
     fill: #ff4d4d !important;
     stroke: #ff4d4d !important;
 }
@@ -1391,7 +1399,7 @@ html {
     stroke: #ff4d4d !important;
 }
 
-.favorites-toggle input[type="checkbox"]:checked~.favorites-label,
+.favorites-toggle input[type="checkbox"]:checked ~ .favorites-label,
 .favorites-toggle.active .favorites-label {
     color: #ff4d4d;
     font-weight: bold;
@@ -1408,7 +1416,7 @@ html {
 }
 
 .favorites-label {
-    font-family: 'healTheWebA', sans-serif;
+    font-family: "healTheWebA", sans-serif;
     font-size: 14px;
     color: var(--text-muted);
     user-select: none;
@@ -1426,7 +1434,7 @@ html {
 
     /* Expand the clickable area of the favorite button on homepage movie cards for better mobile touch usability */
     .container_infoFilm .favorite-btn::after {
-        content: '';
+        content: "";
         position: absolute;
         top: -13px;
         bottom: -13px;
@@ -1474,7 +1482,7 @@ html {
     background: transparent;
     border: 2px solid var(--border-color);
     transition: all 0.2s ease;
-    font-family: 'healTheWebA', sans-serif;
+    font-family: "healTheWebA", sans-serif;
     font-size: 14px;
     color: var(--text-muted);
     cursor: pointer;
@@ -1529,7 +1537,7 @@ html {
     background: transparent;
     border: 2px solid var(--border-color);
     transition: all 0.3s ease;
-    font-family: 'healTheWebA', sans-serif;
+    font-family: "healTheWebA", sans-serif;
     font-size: 14px;
     color: var(--text-muted);
 }
@@ -1621,7 +1629,7 @@ html {
 .sync-modal-tab {
     background: transparent;
     border: none;
-    font-family: 'healTheWebA', sans-serif;
+    font-family: "healTheWebA", sans-serif;
     font-size: 16px;
     color: var(--text-light);
     cursor: pointer;
@@ -1692,7 +1700,7 @@ html {
 }
 
 .sync-modal-label {
-    font-family: 'healTheWebA', sans-serif;
+    font-family: "healTheWebA", sans-serif;
     font-size: 13px;
     color: var(--text-muted);
     margin: 0 0 8px;
@@ -1709,7 +1717,7 @@ html {
 }
 
 .sync-code-display span {
-    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-family: "SF Mono", "Fira Code", monospace;
     font-size: 28px;
     font-weight: bold;
     color: var(--primary);
@@ -1749,14 +1757,14 @@ html {
 
 .sync-modal-divider::before,
 .sync-modal-divider::after {
-    content: '';
+    content: "";
     flex: 1;
     height: 1px;
     background: var(--border-color);
 }
 
 .sync-modal-divider span {
-    font-family: 'healTheWebA', sans-serif;
+    font-family: "healTheWebA", sans-serif;
     font-size: 13px;
     color: var(--text-light);
 }
@@ -1768,7 +1776,7 @@ html {
 
 .sync-code-input {
     flex: 1;
-    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-family: "SF Mono", "Fira Code", monospace;
     font-size: 18px;
     letter-spacing: 4px;
     text-align: center;
@@ -1790,7 +1798,7 @@ html {
     color: var(--card-solid);
     border: none;
     border-radius: 10px;
-    font-family: 'healTheWebA', sans-serif;
+    font-family: "healTheWebA", sans-serif;
     font-size: 14px;
     cursor: pointer;
     transition: background 0.2s;
@@ -1802,7 +1810,7 @@ html {
 }
 
 .sync-modal-hint {
-    font-family: 'healTheWebA', sans-serif;
+    font-family: "healTheWebA", sans-serif;
     font-size: 12px;
     color: var(--text-light);
     text-align: center;
@@ -1855,7 +1863,7 @@ html {
     border: 1px solid #ff6b6b;
     color: #ff6b6b;
     border-radius: 10px;
-    font-family: 'healTheWebA', sans-serif;
+    font-family: "healTheWebA", sans-serif;
     font-size: 14px;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -2064,7 +2072,7 @@ html {
     flex: 1;
     background: transparent;
     border: none;
-    font-family: 'healTheWebA', sans-serif;
+    font-family: "healTheWebA", sans-serif;
     font-size: 13px;
     color: var(--text-muted);
     cursor: pointer;
@@ -2078,7 +2086,7 @@ html {
     background: var(--card-solid);
     color: var(--primary);
     font-weight: 700;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 }
 
 .friend-add-panel {
@@ -2096,7 +2104,7 @@ html {
     border: 2px solid var(--border-color);
     border-radius: 10px;
     font-size: 14px;
-    font-family: 'healTheWebA', sans-serif;
+    font-family: "healTheWebA", sans-serif;
     outline: none;
     transition: border-color 0.2s;
     background: var(--card-solid);
@@ -2197,7 +2205,7 @@ body.show-friend-badges .friend-badge {
 .toast {
     padding: 12px 24px;
     border-radius: 12px;
-    font-family: 'healTheWebA', sans-serif;
+    font-family: "healTheWebA", sans-serif;
     font-size: 14px;
     color: var(--card-solid);
     background: var(--primary);
@@ -2254,8 +2262,6 @@ body.show-friend-badges .friend-badge {
     bottom: 2px;
 }
 
-
-
 @media (max-width: 576px) {
     .horaire-wrapper {
         margin-left: 5px;
@@ -2305,7 +2311,7 @@ body.show-friend-badges .friend-badge {
     border: none;
     background: none;
     cursor: pointer;
-    font-family: 'healTheWebA', sans-serif;
+    font-family: "healTheWebA", sans-serif;
     font-size: 13px;
     color: var(--text-main);
     border-radius: 6px;
@@ -2349,7 +2355,7 @@ body.show-friend-badges .friend-badge {
     background: none;
     border: none;
     color: var(--text-main);
-    font-family: 'healTheWebA', sans-serif;
+    font-family: "healTheWebA", sans-serif;
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
@@ -2455,7 +2461,9 @@ body.show-friend-badges .friend-badge {
 }
 
 .container_infoFilm {
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
 }
 
 .container_infoFilm:hover {
@@ -2489,7 +2497,7 @@ body.show-friend-badges .friend-badge {
     backdrop-filter: blur(10px);
     color: var(--text-main);
     text-decoration: none;
-    font-family: 'healTheWebA', sans-serif;
+    font-family: "healTheWebA", sans-serif;
     font-size: 14px;
     border: 1px solid var(--border-color);
     transition: all 0.2s;
@@ -2577,7 +2585,7 @@ body.show-friend-badges .friend-badge {
     border-radius: 20px;
     font-size: 13px;
     font-weight: 700;
-    font-family: 'healTheWebA', sans-serif;
+    font-family: "healTheWebA", sans-serif;
     transition: transform 0.15s ease;
 }
 
@@ -2616,7 +2624,6 @@ body.show-friend-badges .friend-badge {
     height: 14px;
     object-fit: contain;
 }
-
 
 .film-genres {
     display: flex;
@@ -2659,7 +2666,7 @@ body.show-friend-badges .friend-badge {
     gap: 8px;
     padding: 10px 20px;
     border-radius: 10px;
-    font-family: 'healTheWebA', sans-serif;
+    font-family: "healTheWebA", sans-serif;
     font-size: 14px;
     font-weight: 600;
     text-decoration: none;
@@ -2675,7 +2682,7 @@ body.show-friend-badges .friend-badge {
 }
 
 .film-link-letterboxd {
-    background: #1F2831;
+    background: #1f2831;
     color: #fff;
 }
 
@@ -2720,7 +2727,9 @@ body.show-friend-badges .friend-badge {
 }
 
 @keyframes shareImgSpin {
-    to { transform: rotate(360deg); }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .spin-icon {
@@ -2736,7 +2745,7 @@ body.show-friend-badges .friend-badge {
     display: flex;
     align-items: center;
     gap: 10px;
-    font-family: 'healTheWebA', sans-serif;
+    font-family: "healTheWebA", sans-serif;
     font-size: 22px;
     margin: 0 0 20px;
     color: var(--text-main);
@@ -2781,7 +2790,7 @@ body.show-friend-badges .friend-badge {
     border: 1.5px solid var(--border-color);
     border-radius: 20px;
     cursor: pointer;
-    font-family: 'healTheWebA', sans-serif;
+    font-family: "healTheWebA", sans-serif;
     font-size: 14px;
     transition: all 0.2s;
 }
@@ -2838,7 +2847,7 @@ body.show-friend-badges .friend-badge {
     background: var(--card-solid);
     color: var(--text-muted);
     font-size: 12px;
-    font-family: 'healTheWebA', sans-serif;
+    font-family: "healTheWebA", sans-serif;
     font-weight: 600;
     text-decoration: none;
     border: 1px solid var(--border-color);
@@ -2911,7 +2920,7 @@ body.show-friend-badges .friend-badge {
 }
 
 .film-brand-count {
-    font-family: 'healTheWebA', sans-serif;
+    font-family: "healTheWebA", sans-serif;
     font-size: 16px;
     color: var(--text-muted);
 }
@@ -3062,7 +3071,7 @@ body.show-friend-badges .friend-badge {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0.95);
-    background-color: #F1F1F1;
+    background-color: #f1f1f1;
     border-radius: 16px;
     z-index: 10001;
     width: 90%;
@@ -3087,7 +3096,7 @@ body.show-friend-badges .friend-badge {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding-bottom: 10px;
 }
 .settings-header h2 {
@@ -3106,7 +3115,7 @@ body.show-friend-badges .friend-badge {
 }
 .close-settings-btn:hover {
     color: #fff;
-    background-color: rgba(255,255,255,0.1);
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .settings-body {
@@ -3152,7 +3161,7 @@ body.show-friend-badges .friend-badge {
     right: 0;
     bottom: 0;
     background-color: #444;
-    transition: .4s;
+    transition: 0.4s;
 }
 .slider:before {
     position: absolute;
@@ -3162,7 +3171,7 @@ body.show-friend-badges .friend-badge {
     left: 4px;
     bottom: 4px;
     background-color: white;
-    transition: .4s;
+    transition: 0.4s;
 }
 input:checked + .slider {
     background-color: var(--accent-color, #626afc);
@@ -3181,7 +3190,7 @@ input:checked + .slider:before {
     justify-content: center;
     margin-top: 10px;
     padding-top: 15px;
-    border-top: 1px solid rgba(255,255,255,0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 .suggestion-link {
     display: flex;
@@ -3207,7 +3216,7 @@ input:checked + .slider:before {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.6);
+    background-color: rgba(0, 0, 0, 0.6);
     z-index: 10000;
     backdrop-filter: blur(3px);
 }
@@ -3230,15 +3239,21 @@ input:checked + .slider:before {
     justify-content: center;
     align-items: center;
     gap: 15px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     font-weight: 500;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family:
+        -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+        sans-serif;
     animation: slideDown 0.3s ease-out;
 }
 
 @keyframes slideDown {
-    from { transform: translateY(-100%); }
-    to { transform: translateY(0); }
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(0);
+    }
 }
 
 .update-banner .update-btn {
@@ -3344,7 +3359,9 @@ input:checked + .slider:before {
     font-size: 20px;
     cursor: pointer;
     z-index: 10;
-    transition: background 0.2s, transform 0.2s;
+    transition:
+        background 0.2s,
+        transform 0.2s;
 }
 
 .story-modal-close:hover {
@@ -3395,8 +3412,12 @@ input:checked + .slider:before {
 }
 
 @keyframes storySpin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .story-modal-instructions {
@@ -3459,3 +3480,231 @@ input:checked + .slider:before {
     background: var(--border-color);
 }
 
+/* ── Chatbot IA ───────────────────────────────────────────── */
+.cinelyon-chat-toggle {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    border: 0;
+    cursor: pointer;
+    color: #fff;
+    background: linear-gradient(135deg, var(--primary), #7c3aed);
+    box-shadow: 0 12px 30px rgba(68, 76, 247, 0.3);
+    font-size: 24px;
+    z-index: 9800;
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+.cinelyon-chat-toggle:hover,
+.cinelyon-chat-toggle.active {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 16px 34px rgba(68, 76, 247, 0.42);
+}
+
+.cinelyon-chat-panel {
+    position: fixed;
+    right: 22px;
+    bottom: 94px;
+    width: min(390px, calc(100vw - 24px));
+    height: 560px;
+    max-height: calc(100vh - 130px);
+    display: flex;
+    flex-direction: column;
+    background: var(--card-solid);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 22px 48px var(--shadow-md);
+    overflow: hidden;
+    transform: translateY(10px) scale(0.98);
+    opacity: 0;
+    pointer-events: none;
+    transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+    z-index: 9799;
+}
+
+.cinelyon-chat-panel.open {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.cinelyon-chat-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border-light);
+    background: linear-gradient(
+        135deg,
+        rgba(68, 76, 247, 0.12),
+        rgba(124, 58, 237, 0.08)
+    );
+}
+
+.cinelyon-chat-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    background: linear-gradient(135deg, var(--primary), #7c3aed);
+}
+
+.cinelyon-chat-title,
+.cinelyon-chat-subtitle {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.cinelyon-chat-title {
+    font-size: 14px;
+    color: var(--text-main);
+    font-weight: 700;
+}
+
+.cinelyon-chat-subtitle {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.cinelyon-chat-close {
+    margin-left: auto;
+    border: 0;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    font-size: 24px;
+    line-height: 1;
+}
+
+.cinelyon-chat-close:hover {
+    background: var(--border-light);
+    color: var(--text-main);
+}
+
+.cinelyon-chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cinelyon-chat-message {
+    max-width: 86%;
+    border-radius: 12px;
+    padding: 9px 12px;
+    white-space: pre-wrap;
+    line-height: 1.45;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 13.5px;
+}
+
+.cinelyon-chat-message.bot {
+    align-self: flex-start;
+    background: rgba(68, 76, 247, 0.12);
+    border: 1px solid rgba(68, 76, 247, 0.3);
+    color: var(--text-main);
+    border-bottom-left-radius: 4px;
+}
+
+.cinelyon-chat-message.user {
+    align-self: flex-end;
+    background: linear-gradient(135deg, var(--primary), #7c3aed);
+    color: #fff;
+    border-bottom-right-radius: 4px;
+}
+
+.cinelyon-chat-message.typing {
+    opacity: 0.85;
+    font-style: italic;
+}
+
+.cinelyon-chat-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0 14px 10px;
+}
+
+.cinelyon-chat-chip {
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    color: var(--text-main);
+    border-radius: 20px;
+    font-size: 12px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.cinelyon-chat-chip:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.cinelyon-chat-form {
+    display: flex;
+    gap: 8px;
+    padding: 12px;
+    border-top: 1px solid var(--border-light);
+    background: var(--card-bg);
+}
+
+.cinelyon-chat-form input {
+    flex: 1;
+    min-width: 0;
+    border-radius: 9px;
+    border: 1px solid var(--border-color);
+    background: var(--card-solid);
+    padding: 9px 11px;
+    color: var(--text-main);
+    outline: none;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.cinelyon-chat-form input:focus {
+    border-color: var(--primary);
+}
+
+.cinelyon-chat-form button {
+    width: 40px;
+    border: 0;
+    border-radius: 9px;
+    cursor: pointer;
+    color: #fff;
+    background: linear-gradient(135deg, var(--primary), #7c3aed);
+}
+
+.cinelyon-chat-form button:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+@media (max-width: 640px) {
+    .cinelyon-chat-toggle {
+        right: 14px;
+        bottom: 14px;
+    }
+
+    .cinelyon-chat-panel {
+        right: 12px;
+        left: 12px;
+        width: auto;
+        bottom: 84px;
+        max-height: calc(100vh - 100px);
+    }
+}

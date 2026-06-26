@@ -7,6 +7,7 @@ from urllib.parse import quote
 from zoneinfo import ZoneInfo
 
 import dotenv
+import requests
 from flask import Flask, abort, make_response, render_template, request
 from flask_compress import Compress
 from flask_talisman import Talisman
@@ -18,6 +19,10 @@ WEBSITE_TITLE = os.environ.get("WEBSITE_TITLE", "CinéLyon")
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "")
 SUPABASE_ANON_KEY = os.environ.get("SUPABASE_ANON_KEY", "")
+
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
+GROQ_MODEL = os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile")
+GROQ_CHAT_URL = "https://api.groq.com/openai/v1/chat/completions"
 
 _supabase_client: Client = None
 
@@ -90,6 +95,74 @@ def load_movies_data(force_reload=False):
 
     return _showtimes_data
 
+
+def build_chatbot_context(max_movies: int = 60):
+    """Construit un contexte compact des films/cinémas pour le chatbot."""
+    data = load_movies_data()
+    films_by_title = {}
+    cinemas = set()
+
+    for day_movies in data.get("showtimes", []):
+        for film in day_movies:
+            title = film.get("title")
+            if not title:
+                continue
+
+            if title not in films_by_title:
+                films_by_title[title] = {
+                    "title": title,
+                    "release_year": film.get("release_year") or "",
+                    "genres": film.get("genres") or "",
+                    "director": film.get("director") or "Inconnu",
+                    "want_to_see": film.get("wantToSee") or 0,
+                }
+
+            for cinema_name in (film.get("seances") or {}).keys():
+                cinemas.add(cinema_name)
+
+    films_sorted = sorted(
+        films_by_title.values(),
+        key=lambda x: (x["want_to_see"], x["title"]),
+        reverse=True,
+    )
+
+    selected = films_sorted[:max_movies]
+    catalog = [f"- {f['title']} ({f['release_year']}) · {f['genres']} · réal. {f['director']}" for f in selected]
+
+    return {
+        "catalog_text": "\n".join(catalog) if catalog else "Aucun film disponible actuellement.",
+        "cinemas_text": ", ".join(sorted(cinemas)) if cinemas else "Aucun cinéma disponible.",
+        "total_movies": len(films_by_title),
+    }
+
+
+def local_chatbot_reply(user_message: str, context: dict) -> str:
+    """Fallback local si la clé GROQ n'est pas définie ou si l'API échoue."""
+    message = (user_message or "").lower()
+
+    if any(keyword in message for keyword in ["cinéma", "cinemas", "salle", "salles", "ugc", "pathé", "pathe"]):
+        return (
+            "Voici les cinémas actuellement présents sur CinéLyon :\n"
+            f"{context['cinemas_text']}\n\n"
+            "👉 Pour les horaires exacts et la réservation, ouvre cinelyon.fr."
+        )
+
+    if any(keyword in message for keyword in ["affiche", "films", "film", "recommande", "conseil"]):
+        films = context["catalog_text"].split("\n")[:12]
+        films_text = "\n".join(films)
+        return (
+            f"Voici une sélection de films à l'affiche ({context['total_movies']} au total) :\n"
+            f"{films_text}\n\n"
+            "👉 Pour filtrer par genre/cinéma et réserver, va sur cinelyon.fr."
+        )
+
+    return (
+        "Je peux t'aider sur les films à l'affiche, les cinémas lyonnais et te recommander une séance. "
+        "Pose-moi une question comme “Quoi voir ce soir ?” ou “Quels films d'action sont disponibles ?”.\n\n"
+        "👉 Pour les horaires exacts et la réservation, ouvre cinelyon.fr."
+    )
+
+
 app = Flask(__name__)
 
 Compress(app)
@@ -141,7 +214,9 @@ def add_cache_headers(response):
             # CDN (s-maxage) : cache 1h côté Vercel Edge pour éviter les cold starts.
             # Le CDN est automatiquement purgé à chaque déploiement Vercel.
             # Browser (max-age=0) : le navigateur revalide toujours avec le CDN.
-            response.headers["Cache-Control"] = "public, s-maxage=3600, stale-while-revalidate=86400, max-age=0, must-revalidate"
+            response.headers["Cache-Control"] = (
+                "public, s-maxage=3600, stale-while-revalidate=86400, max-age=0, must-revalidate"
+            )
         else:
             # Ne pas cacher les erreurs (404, 500, etc.)
             response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
@@ -639,6 +714,65 @@ def film_detail(slug):
 @app.route("/suggestions")
 def suggestions():
     return render_template("suggestions.html", website_title=WEBSITE_TITLE)
+
+
+@app.route("/api/chat", methods=["POST"])
+def chatbot_reply():
+    payload = request.get_json(silent=True) or {}
+    user_message = (payload.get("message") or "").strip()
+
+    if not user_message:
+        return {"reply": "Écris-moi un message et je te réponds 🍿"}, 400
+
+    if len(user_message) > 1200:
+        return {"reply": "Ton message est trop long. Essaie avec une question plus courte 🙂"}, 400
+
+    context = build_chatbot_context()
+
+    if not GROQ_API_KEY:
+        return {"reply": local_chatbot_reply(user_message, context)}
+
+    system_prompt = (
+        "Tu es CinéBot, l'assistant de cinelyon.fr. "
+        "Tu réponds uniquement sur les films, les séances et les cinémas de Lyon et alentours. "
+        "Tu restes précis, bienveillant et bref (3 à 6 phrases). "
+        "Si l'utilisateur sort du sujet, indique que tu es spécialisé cinéma lyonnais. "
+        "N'invente pas d'horaire précis si tu n'en as pas. "
+        "Termine toujours par inviter à vérifier/réserver sur cinelyon.fr.\n\n"
+        f"Films à l'affiche (catalogue partiel, {context['total_movies']} au total) :\n{context['catalog_text']}\n\n"
+        f"Cinémas disponibles : {context['cinemas_text']}"
+    )
+
+    try:
+        response = requests.post(
+            GROQ_CHAT_URL,
+            headers={
+                "Authorization": f"Bearer {GROQ_API_KEY}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "model": GROQ_MODEL,
+                "messages": [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_message},
+                ],
+                "temperature": 0.6,
+                "max_tokens": 400,
+            },
+            timeout=20,
+        )
+        data = response.json()
+        if response.status_code >= 400:
+            raise RuntimeError(data.get("error", {}).get("message", f"Groq error {response.status_code}"))
+
+        reply = data.get("choices", [{}])[0].get("message", {}).get("content", "").strip()
+        if not reply:
+            raise RuntimeError("Réponse vide de Groq")
+
+        return {"reply": reply}
+    except Exception as e:
+        print(f"⚠️ Erreur chatbot GROQ: {e}")
+        return {"reply": local_chatbot_reply(user_message, context)}
 
 
 @app.errorhandler(404)
