@@ -935,13 +935,14 @@ a {
     border: var(--card-solid) solid 5px;
     border-radius: 50%;
     position: fixed;
-    bottom: 20px;
+    bottom: 96px;
     right: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     box-shadow: 0 6px 20px var(--shadow-md);
+    z-index: 9801;
 }
 
 html {
@@ -1264,8 +1265,8 @@ html {
     }
 
     .goTop {
-        z-index: 2;
-        bottom: 10px;
+        z-index: 9801;
+        bottom: 86px;
         right: 10px;
         width: 50px;
         height: 50px;
@@ -3483,27 +3484,30 @@ input:checked + .slider:before {
 /* ── Chatbot IA ───────────────────────────────────────────── */
 .cinelyon-chat-toggle {
     position: fixed;
-    right: 22px;
-    bottom: 22px;
-    width: 58px;
-    height: 58px;
+    right: 20px;
+    bottom: 20px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    border: 0;
+    border: var(--card-solid) solid 5px;
     cursor: pointer;
     color: #fff;
-    background: linear-gradient(135deg, var(--primary), #7c3aed);
-    box-shadow: 0 12px 30px rgba(68, 76, 247, 0.3);
-    font-size: 24px;
+    background-color: var(--primary);
+    box-shadow: 0 6px 20px var(--shadow-md);
+    font-size: 26px;
     z-index: 9800;
     transition:
         transform 0.18s ease,
         box-shadow 0.18s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .cinelyon-chat-toggle:hover,
 .cinelyon-chat-toggle.active {
-    transform: translateY(-2px) scale(1.03);
-    box-shadow: 0 16px 34px rgba(68, 76, 247, 0.42);
+    transform: scale(1.05);
+    box-shadow: 0 10px 28px var(--shadow-md);
 }
 
 .cinelyon-chat-panel {
@@ -3696,8 +3700,8 @@ input:checked + .slider:before {
 
 @media (max-width: 640px) {
     .cinelyon-chat-toggle {
-        right: 14px;
-        bottom: 14px;
+        right: 10px;
+        bottom: 10px;
     }
 
     .cinelyon-chat-panel {
