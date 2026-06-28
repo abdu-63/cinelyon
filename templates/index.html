@@ -1,26 +1,33 @@
-{% extends 'base.html' %}
-
-{% block head %}
-
-{% endblock %}
-
-{% block body %}
+{% extends 'base.html' %} {% block head %} {% endblock %} {% block body %}
 
 <a href="#headerTop">
     <div class="goTop">
-        <p>🍿</p>
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+        >
+            <polyline points="18 15 12 9 6 15" />
+        </svg>
     </div>
 </a>
 
-
-
-
 <div class="planning">
-
     <div class="search-container">
         <div class="search-row">
-            <input type="text" id="search-title" placeholder="🔍 Rechercher par titre..."
-                class="search-input search-main">
+            <input
+                type="text"
+                id="search-title"
+                placeholder="🔍 Rechercher par titre..."
+                class="search-input search-main"
+            />
         </div>
         <div class="search-row search-filters">
             <select id="filter-genre" class="search-input">
@@ -48,8 +55,11 @@
             <select id="filter-day" class="search-input">
                 <option value="">Tous les jours</option>
                 {% for date in dates %}
-                <option value="{{ date.jour }} {{ date.chiffre }} {{ date.mois }}">{{ date.jour }} {{ date.chiffre }} {{
-                    date.mois }}</option>
+                <option
+                    value="{{ date.jour }} {{ date.chiffre }} {{ date.mois }}"
+                >
+                    {{ date.jour }} {{ date.chiffre }} {{ date.mois }}
+                </option>
                 {% endfor %}
             </select>
             <select id="filter-format" class="search-input">
@@ -66,29 +76,56 @@
                 <option value="night">Nuit (après 22h)</option>
             </select>
             <div class="actions-row">
-                <button id="reset-filters" class="reset-btn">Réinitialiser</button>
+                <button id="reset-filters" class="reset-btn">
+                    Réinitialiser
+                </button>
                 <label class="favorites-toggle">
-                    <input type="checkbox" id="filter-favorites">
-                    <svg class="favorites-heart" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <input type="checkbox" id="filter-favorites" />
+                    <svg
+                        class="favorites-heart"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
                         <path
-                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                        />
                     </svg>
                     <span class="favorites-label">Favoris</span>
                 </label>
-                <button id="sync-favorites" class="sync-btn" title="Synchroniser mes favoris & Amis">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                <button
+                    id="sync-favorites"
+                    class="sync-btn"
+                    title="Synchroniser mes favoris & Amis"
+                >
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        width="18"
+                        height="18"
+                    >
                         <path
-                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                        />
                     </svg>
                     <span class="sync-label">Sync</span>
                 </button>
             </div>
 
             <!-- Nouveau menu d'onglets pour Favoris -->
-            <div id="favorites-tabs-container" class="favorites-tabs-container" style="display: none;">
+            <div
+                id="favorites-tabs-container"
+                class="favorites-tabs-container"
+                style="display: none"
+            >
                 <div class="favorites-tabs">
-                    <button class="fav-tab active" data-tab="perso">Mes Favoris</button>
-                    <button class="fav-tab" data-tab="amis">Favoris Amis</button>
+                    <button class="fav-tab active" data-tab="perso">
+                        Mes Favoris
+                    </button>
+                    <button class="fav-tab" data-tab="amis">
+                        Favoris Amis
+                    </button>
                 </div>
             </div>
         </div>
@@ -96,31 +133,65 @@
 
     <div id="films-container">
         {% for film in films %}
-        <div class="container_infoFilm film-card" data-title="{{ film.title|lower }}"
-            data-genres="{{ film.genres|lower }}" data-director="{{ film.director|lower }}"
-            data-rating="{{ film.rating }}" data-year="{{ film.release_year }}"
+        <div
+            class="container_infoFilm film-card"
+            data-title="{{ film.title|lower }}"
+            data-genres="{{ film.genres|lower }}"
+            data-director="{{ film.director|lower }}"
+            data-rating="{{ film.rating }}"
+            data-year="{{ film.release_year }}"
             data-film-id="{{ film.title|lower|replace(' ', '-') }}"
             data-cinemas="{% for day_data in film.seances_by_day.values() %}{% for cinema in day_data.keys() %}{{ cinema|lower }},{% endfor %}{% endfor %}"
             data-days="{% for day_label in film.seances_by_day.keys() %}{{ day_label|lower }}||{% endfor %}"
-            data-formats="{{ film.formats }}">
-            <a href="/film/{{ film.slug }}" class="film-card-link" aria-hidden="true" tabindex="-1"></a>
-            <img src="{{film.affiche}}" class="affiche" loading="lazy" decoding="async" width="200" height="288"
-                alt="Affiche de {{ film.title }}" style="--poster-vt-name: poster-{{ film.slug }}" />
+            data-formats="{{ film.formats }}"
+        >
+            <a
+                href="/film/{{ film.slug }}"
+                class="film-card-link"
+                aria-hidden="true"
+                tabindex="-1"
+            ></a>
+            <img
+                src="{{film.affiche}}"
+                class="affiche"
+                loading="lazy"
+                decoding="async"
+                width="200"
+                height="288"
+                alt="Affiche de {{ film.title }}"
+                style="--poster-vt-name: poster-{{ film.slug }}"
+            />
             <div class="infoFilm">
                 <div class="blur-background"></div>
                 <div>
-                    <h3 class="titreFilm"><a href="/film/{{ film.slug }}"
-                            style="color: inherit; text-decoration: none;">{{film.title}}</a> <span
-                            class="release_year">({{ film.release_year }})</span>
-                        <button class="favorite-btn" title="Ajouter aux favoris">
-                            <svg class="favorite-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <h3 class="titreFilm">
+                        <a
+                            href="/film/{{ film.slug }}"
+                            style="color: inherit; text-decoration: none"
+                            >{{film.title}}</a
+                        >
+                        <span class="release_year"
+                            >({{ film.release_year }})</span
+                        >
+                        <button
+                            class="favorite-btn"
+                            title="Ajouter aux favoris"
+                        >
+                            <svg
+                                class="favorite-icon"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
                                 <path
-                                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                                />
                             </svg>
                         </button>
                     </h3>
                     <div class="info-content">
-                        <p class="realisateur">Réalisateur : {{film.director}}</p>
+                        <p class="realisateur">
+                            Réalisateur : {{film.director}}
+                        </p>
                         <p class="genre">Genre : {{ film.genres }}</p>
                         <p class="duree">Durée : {{film.duree}}</p>
                         <p class="rating">Note : {{ film.rating }}</p>
@@ -130,31 +201,43 @@
                             <p>{{film.synopsis}}</p>
                         </div>
                         <div class="synopsis-actions">
-                            <button class="synopsis-toggle" type="button">Lire plus</button>
+                            <button class="synopsis-toggle" type="button">
+                                Lire plus
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-            <svg class="chevron-nav" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <svg
+                class="chevron-nav"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+            >
                 <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
         </div>
 
-        <div style="height: 10px;"></div>
+        <div style="height: 10px"></div>
 
         <div class="seances-wrapper">
             {% if show_all %}
             <div class="mini-calendar">
-                {% for day_label, cinemas in film.seances_by_day.items() %}
-                {% set has_avant_premiere = [false] %}
-                {% for cinename, seances in cinemas.items() %}
-                    {% for seance in seances %}
-                        {% if seance.format and 'première' in seance.format|lower %}
-                            {% if has_avant_premiere.append(true) %}{% endif %}
-                        {% endif %}
-                    {% endfor %}
-                {% endfor %}
-                <button class="mini-cal-btn{% if true in has_avant_premiere %} has-notification{% endif %}" type="button" data-day="{{ loop.index0 }}">
+                {% for day_label, cinemas in film.seances_by_day.items() %} {%
+                set has_avant_premiere = [false] %} {% for cinename, seances in
+                cinemas.items() %} {% for seance in seances %} {% if
+                seance.format and 'première' in seance.format|lower %} {% if
+                has_avant_premiere.append(true) %}{% endif %} {% endif %} {%
+                endfor %} {% endfor %}
+                <button
+                    class="mini-cal-btn{% if true in has_avant_premiere %} has-notification{% endif %}"
+                    type="button"
+                    data-day="{{ loop.index0 }}"
+                >
                     {{ day_label }}
                 </button>
                 {% endfor %}
@@ -165,63 +248,151 @@
                 {% for cinename, seances in cinemas.items() %}
                 <div class="seance_container">
                     <div class="cinema">
-                        <a href="#" class="cinema-link" data-cinema="{{cinename}}" target="_blank" rel="noopener">
+                        <a
+                            href="#"
+                            class="cinema-link"
+                            data-cinema="{{cinename}}"
+                            target="_blank"
+                            rel="noopener"
+                        >
                             <p>{{cinename}}</p>
                         </a>
                     </div>
                     <div class="horaires_container">
                         {% for seance in seances %}
-                        <div class="horaire-wrapper" data-format="{{ seance.format|default('')|lower }}" data-time="{{ seance.time }}">
+                        <div
+                            class="horaire-wrapper"
+                            data-format="{{ seance.format|default('')|lower }}"
+                            data-time="{{ seance.time }}"
+                        >
                             {% if seance.ticketing_url %}
-                            <a href="{{ seance.ticketing_url }}" target="_blank" rel="noopener" class="horaire-link">
-                                <div class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}{% if seance.format and 'première' in seance.format|lower %} horaire-avant-premiere{% endif %}">
+                            <a
+                                href="{{ seance.ticketing_url }}"
+                                target="_blank"
+                                rel="noopener"
+                                class="horaire-link"
+                            >
+                                <div
+                                    class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}{% if seance.format and 'première' in seance.format|lower %} horaire-avant-premiere{% endif %}"
+                                >
                                     <div class="horaire-top">
-                                        <span class="lang-badge">{{ seance.lang }}</span>
+                                        <span class="lang-badge"
+                                            >{{ seance.lang }}</span
+                                        >
                                         {% if seance.format %}
-                                        <span class="format-badge">{{ seance.format }}</span>
+                                        <span class="format-badge"
+                                            >{{ seance.format }}</span
+                                        >
                                         {% endif %}
                                     </div>
                                     <div class="horaire-bottom">
-                                        <p class="seance-time">{{ seance.time }}</p>
-                                        <button class="calendar-btn" data-title="{{ film.title }}"
-                                            data-year="{{ film.release_year }}" data-cinema="{{ cinename }}"
-                                            data-duree="{{ film.duree }}" data-letterboxd="{{ film.url }}"
-                                            data-time="{{ seance.time }}" data-lang="{{ seance.lang }}"
+                                        <p class="seance-time">
+                                            {{ seance.time }}
+                                        </p>
+                                        <button
+                                            class="calendar-btn"
+                                            data-title="{{ film.title }}"
+                                            data-year="{{ film.release_year }}"
+                                            data-cinema="{{ cinename }}"
+                                            data-duree="{{ film.duree }}"
+                                            data-letterboxd="{{ film.url }}"
+                                            data-time="{{ seance.time }}"
+                                            data-lang="{{ seance.lang }}"
                                             data-day="{{ day_label }}"
                                             data-ticket="{{ seance.ticketing_url|default('', true) }}"
-                                            title="Ajouter au calendrier">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                                <rect x="3" y="4" width="18" height="18" rx="2" />
-                                                <line x1="3" y1="10" x2="21" y2="10" />
-                                                <line x1="8" y1="2" x2="8" y2="6" />
-                                                <line x1="16" y1="2" x2="16" y2="6" />
+                                            title="Ajouter au calendrier"
+                                        >
+                                            <svg
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="1.5"
+                                            >
+                                                <rect
+                                                    x="3"
+                                                    y="4"
+                                                    width="18"
+                                                    height="18"
+                                                    rx="2"
+                                                />
+                                                <line
+                                                    x1="3"
+                                                    y1="10"
+                                                    x2="21"
+                                                    y2="10"
+                                                />
+                                                <line
+                                                    x1="8"
+                                                    y1="2"
+                                                    x2="8"
+                                                    y2="6"
+                                                />
+                                                <line
+                                                    x1="16"
+                                                    y1="2"
+                                                    x2="16"
+                                                    y2="6"
+                                                />
                                             </svg>
                                         </button>
                                     </div>
                                 </div>
                             </a>
                             {% else %}
-                            <div class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}{% if seance.format and 'première' in seance.format|lower %} horaire-avant-premiere{% endif %}">
+                            <div
+                                class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}{% if seance.format and 'première' in seance.format|lower %} horaire-avant-premiere{% endif %}"
+                            >
                                 <div class="horaire-top">
-                                    <span class="lang-badge">{{ seance.lang }}</span>
+                                    <span class="lang-badge"
+                                        >{{ seance.lang }}</span
+                                    >
                                     {% if seance.format %}
-                                    <span class="format-badge">{{ seance.format }}</span>
+                                    <span class="format-badge"
+                                        >{{ seance.format }}</span
+                                    >
                                     {% endif %}
                                 </div>
                                 <div class="horaire-bottom">
                                     <p class="seance-time">{{ seance.time }}</p>
-                                    <button class="calendar-btn" data-title="{{ film.title }}"
-                                        data-year="{{ film.release_year }}" data-cinema="{{ cinename }}"
-                                        data-duree="{{ film.duree }}" data-letterboxd="{{ film.url }}"
-                                        data-time="{{ seance.time }}" data-lang="{{ seance.lang }}"
+                                    <button
+                                        class="calendar-btn"
+                                        data-title="{{ film.title }}"
+                                        data-year="{{ film.release_year }}"
+                                        data-cinema="{{ cinename }}"
+                                        data-duree="{{ film.duree }}"
+                                        data-letterboxd="{{ film.url }}"
+                                        data-time="{{ seance.time }}"
+                                        data-lang="{{ seance.lang }}"
                                         data-day="{{ day_label }}"
                                         data-ticket="{{ seance.ticketing_url|default('', true) }}"
-                                        title="Ajouter au calendrier">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                            <rect x="3" y="4" width="18" height="18" rx="2" />
-                                            <line x1="3" y1="10" x2="21" y2="10" />
+                                        title="Ajouter au calendrier"
+                                    >
+                                        <svg
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="1.5"
+                                        >
+                                            <rect
+                                                x="3"
+                                                y="4"
+                                                width="18"
+                                                height="18"
+                                                rx="2"
+                                            />
+                                            <line
+                                                x1="3"
+                                                y1="10"
+                                                x2="21"
+                                                y2="10"
+                                            />
                                             <line x1="8" y1="2" x2="8" y2="6" />
-                                            <line x1="16" y1="2" x2="16" y2="6" />
+                                            <line
+                                                x1="16"
+                                                y1="2"
+                                                x2="16"
+                                                y2="6"
+                                            />
                                         </svg>
                                     </button>
                                 </div>
@@ -234,46 +405,87 @@
                 <div class="responsive-petite-div"></div>
                 {% endfor %}
             </div>
-            {% endfor %}
-            {% else %}
-            {% for day_label, cinemas in film.seances_by_day.items() %}
-            {% for cinename, seances in cinemas.items() %}
+            {% endfor %} {% else %} {% for day_label, cinemas in
+            film.seances_by_day.items() %} {% for cinename, seances in
+            cinemas.items() %}
             <div class="seance_container">
                 <div class="cinema">
-                    <a href="#" class="cinema-link" data-cinema="{{cinename}}" target="_blank" rel="noopener">
+                    <a
+                        href="#"
+                        class="cinema-link"
+                        data-cinema="{{cinename}}"
+                        target="_blank"
+                        rel="noopener"
+                    >
                         <p>{{cinename}}</p>
                     </a>
                 </div>
                 <div class="horaires_container">
                     {% for seance in seances %}
-                    <div class="horaire-wrapper" data-format="{{ seance.format|default('')|lower }}">
+                    <div
+                        class="horaire-wrapper"
+                        data-format="{{ seance.format|default('')|lower }}"
+                    >
                         {% if seance.ticketing_url %}
-                        <a href="{{ seance.ticketing_url }}" target="_blank" rel="noopener" class="horaire-link">
+                        <a
+                            href="{{ seance.ticketing_url }}"
+                            target="_blank"
+                            rel="noopener"
+                            class="horaire-link"
+                        >
                             <div
-                                class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}{% if seance.format and 'première' in seance.format|lower %} horaire-avant-premiere{% endif %}">
-                                <span class="lang-badge">{{ seance.lang }}</span>
+                                class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}{% if seance.format and 'première' in seance.format|lower %} horaire-avant-premiere{% endif %}"
+                            >
+                                <span class="lang-badge"
+                                    >{{ seance.lang }}</span
+                                >
                                 {% if seance.format %}
-                                <span class="format-badge">{{ seance.format }}</span>
+                                <span class="format-badge"
+                                    >{{ seance.format }}</span
+                                >
                                 {% endif %}
                                 <p class="seance-time">{{ seance.time }}</p>
                             </div>
                         </a>
                         {% else %}
                         <div
-                            class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}{% if seance.format and 'première' in seance.format|lower %} horaire-avant-premiere{% endif %}">
+                            class="horaire horaire-{{ seance.lang|lower }}{% if seance.format %} horaire-special{% endif %}{% if seance.format and 'première' in seance.format|lower %} horaire-avant-premiere{% endif %}"
+                        >
                             <span class="lang-badge">{{ seance.lang }}</span>
                             {% if seance.format %}
-                            <span class="format-badge">{{ seance.format }}</span>
+                            <span class="format-badge"
+                                >{{ seance.format }}</span
+                            >
                             {% endif %}
                             <p>{{ seance.time }}</p>
                         </div>
                         {% endif %}
-                        <button class="calendar-btn" data-title="{{ film.title }}" data-year="{{ film.release_year }}"
-                            data-cinema="{{ cinename }}" data-duree="{{ film.duree }}" data-letterboxd="{{ film.url }}"
-                            data-time="{{ seance.time }}" data-lang="{{ seance.lang }}" data-day="{{ day_label }}"
-                            data-ticket="{{ seance.ticketing_url|default('', true) }}" title="Ajouter au calendrier">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <rect x="3" y="4" width="18" height="18" rx="2" />
+                        <button
+                            class="calendar-btn"
+                            data-title="{{ film.title }}"
+                            data-year="{{ film.release_year }}"
+                            data-cinema="{{ cinename }}"
+                            data-duree="{{ film.duree }}"
+                            data-letterboxd="{{ film.url }}"
+                            data-time="{{ seance.time }}"
+                            data-lang="{{ seance.lang }}"
+                            data-day="{{ day_label }}"
+                            data-ticket="{{ seance.ticketing_url|default('', true) }}"
+                            title="Ajouter au calendrier"
+                        >
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                            >
+                                <rect
+                                    x="3"
+                                    y="4"
+                                    width="18"
+                                    height="18"
+                                    rx="2"
+                                />
                                 <line x1="3" y1="10" x2="21" y2="10" />
                                 <line x1="8" y1="2" x2="8" y2="6" />
                                 <line x1="16" y1="2" x2="16" y2="6" />
@@ -284,14 +496,13 @@
                 </div>
             </div>
             <div class="responsive-petite-div"></div>
-            {% endfor %}
-            {% endfor %}
-            {% endif %}
+            {% endfor %} {% endfor %} {% endif %}
         </div>
-        <div class="responsive-div{% if show_all %} responsive-div-compact{% endif %}"></div>
+        <div
+            class="responsive-div{% if show_all %} responsive-div-compact{% endif %}"
+        ></div>
         {% endfor %}
     </div>
-
 </div>
 
 <!-- Device Link Modal -->
@@ -299,8 +510,12 @@
     <div class="sync-modal">
         <button class="sync-modal-close" id="sync-modal-close">&times;</button>
         <div class="sync-modal-tabs">
-            <button class="sync-modal-tab active" data-target="sync-tab-device">Mes Appareils</button>
-            <button class="sync-modal-tab" data-target="sync-tab-friends">Mes Amis</button>
+            <button class="sync-modal-tab active" data-target="sync-tab-device">
+                Mes Appareils
+            </button>
+            <button class="sync-modal-tab" data-target="sync-tab-friends">
+                Mes Amis
+            </button>
         </div>
 
         <!-- TAB 1 : DEVICE -->
@@ -309,11 +524,23 @@
                 <p class="sync-modal-label">Votre code de sync :</p>
                 <div class="sync-code-display">
                     <span id="sync-code">------</span>
-                    <button id="copy-sync-code" class="sync-copy-btn" title="Copier">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16"
-                            height="16">
+                    <button
+                        id="copy-sync-code"
+                        class="sync-copy-btn"
+                        title="Copier"
+                    >
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            width="16"
+                            height="16"
+                        >
                             <rect x="9" y="9" width="13" height="13" rx="2" />
-                            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+                            <path
+                                d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"
+                            />
                         </svg>
                     </button>
                 </div>
@@ -324,19 +551,37 @@
             </div>
 
             <div class="sync-modal-section">
-                <p class="sync-modal-label">Entrer un code pour lier cet appareil :</p>
+                <p class="sync-modal-label">
+                    Entrer un code pour lier cet appareil :
+                </p>
                 <div class="sync-input-row">
-                    <input type="text" id="sync-code-input" class="sync-code-input" maxlength="6" placeholder="ABC123"
-                        autocomplete="off" spellcheck="false">
-                    <button id="sync-link-btn" class="sync-link-btn">Lier</button>
+                    <input
+                        type="text"
+                        id="sync-code-input"
+                        class="sync-code-input"
+                        maxlength="6"
+                        placeholder="ABC123"
+                        autocomplete="off"
+                        spellcheck="false"
+                    />
+                    <button id="sync-link-btn" class="sync-link-btn">
+                        Lier
+                    </button>
                 </div>
             </div>
-            <p class="sync-modal-hint">Utilisez le même code sur vos appareils pour synchroniser vos favoris
-                automatiquement.</p>
+            <p class="sync-modal-hint">
+                Utilisez le même code sur vos appareils pour synchroniser vos
+                favoris automatiquement.
+            </p>
 
             <div class="sync-modal-divider"></div>
-            <button id="unlink-device-btn" class="sync-unlink-btn" style="display:none;">Déconnecter cet
-                appareil</button>
+            <button
+                id="unlink-device-btn"
+                class="sync-unlink-btn"
+                style="display: none"
+            >
+                Déconnecter cet appareil
+            </button>
 
             <div class="sync-modal-divider"></div>
             <p class="sync-modal-label">Appareils synchronisés :</p>
@@ -352,28 +597,60 @@
 
                 <!-- Mode selector -->
                 <div class="friend-add-mode-tabs">
-                    <button class="friend-mode-tab active" data-mode="code">Par code</button>
-                    <button class="friend-mode-tab" data-mode="name">Par nom</button>
+                    <button class="friend-mode-tab active" data-mode="code">
+                        Par code
+                    </button>
+                    <button class="friend-mode-tab" data-mode="name">
+                        Par nom
+                    </button>
                 </div>
 
                 <!-- Panel : Par code -->
                 <div id="friend-add-by-code" class="friend-add-panel">
                     <div class="sync-input-row friends-add-row">
-                        <input type="text" id="friend-code-input" class="sync-code-input" maxlength="6" placeholder="ABC123"
-                            autocomplete="off" spellcheck="false">
-                        <input type="text" id="friend-name-input" class="friend-name-input" maxlength="20"
-                            placeholder="Prénom (optionnel)" autocomplete="off">
-                        <button id="friend-add-btn" class="sync-link-btn">Ajouter</button>
+                        <input
+                            type="text"
+                            id="friend-code-input"
+                            class="sync-code-input"
+                            maxlength="6"
+                            placeholder="ABC123"
+                            autocomplete="off"
+                            spellcheck="false"
+                        />
+                        <input
+                            type="text"
+                            id="friend-name-input"
+                            class="friend-name-input"
+                            maxlength="20"
+                            placeholder="Prénom (optionnel)"
+                            autocomplete="off"
+                        />
+                        <button id="friend-add-btn" class="sync-link-btn">
+                            Ajouter
+                        </button>
                     </div>
                 </div>
 
                 <!-- Panel : Par nom -->
-                <div id="friend-add-by-name" class="friend-add-panel" style="display:none">
+                <div
+                    id="friend-add-by-name"
+                    class="friend-add-panel"
+                    style="display: none"
+                >
                     <div class="friend-name-search-wrap">
-                        <input type="text" id="friend-search-input" class="friend-name-search-input"
-                            placeholder="Rechercher un ami par son prénom…" autocomplete="off" spellcheck="false">
+                        <input
+                            type="text"
+                            id="friend-search-input"
+                            class="friend-name-search-input"
+                            placeholder="Rechercher un ami par son prénom…"
+                            autocomplete="off"
+                            spellcheck="false"
+                        />
                     </div>
-                    <div id="friend-search-results" class="friend-search-results"></div>
+                    <div
+                        id="friend-search-results"
+                        class="friend-search-results"
+                    ></div>
                 </div>
             </div>
 
@@ -382,7 +659,9 @@
             <div id="friends-list-section" class="sync-modal-section">
                 <p class="sync-modal-label">Mes amis :</p>
                 <div id="friends-list">
-                    <p class="friends-empty">Aucun ami ajouté pour l'instant.</p>
+                    <p class="friends-empty">
+                        Aucun ami ajouté pour l'instant.
+                    </p>
                 </div>
             </div>
         </div>
@@ -393,17 +672,25 @@
 <div id="trailer-overlay" class="trailer-overlay">
     <div class="trailer-modal">
         <button class="trailer-close-btn" aria-label="Fermer">&times;</button>
-        <iframe id="trailer-iframe" class="trailer-iframe" src="" allow="autoplay; encrypted-media"
-            allowfullscreen></iframe>
+        <iframe
+            id="trailer-iframe"
+            class="trailer-iframe"
+            src=""
+            allow="autoplay; encrypted-media"
+            allowfullscreen
+        ></iframe>
     </div>
 </div>
 
 <script>
     window._cinelyon = {
-        supabaseUrl: '{{ supabase_url }}',
-        supabaseKey: '{{ supabase_anon_key }}'
+        supabaseUrl: "{{ supabase_url }}",
+        supabaseKey: "{{ supabase_anon_key }}",
     };
 </script>
-<script src="{{ url_for('static', filename='js/index.js') }}?v=1.20" defer></script>
+<script
+    src="{{ url_for('static', filename='js/index.js') }}?v=1.20"
+    defer
+></script>
 
 {% endblock %}
