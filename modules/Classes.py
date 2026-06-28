@@ -217,9 +217,7 @@ class Movie:
             return []
 
         url = f"https://www.allocine.fr/film/fichefilm-{self.id}/critiques/spectateurs/"
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-        }
+        headers = {"User-Agent": "Mozilla/5.0 (Macintosh) AppleWebKit/537.36 Chrome/120 Safari/537.36"}
 
         try:
             r = requests.get(url, headers=headers, timeout=10)
@@ -247,18 +245,18 @@ class Movie:
                     date = date_match.group(1).replace("Publiée le", "").strip() if date_match else ""
 
                     # Texte du commentaire
-                    text_match = re.search(r'<div class="content-txt review-card-content">\s*(.*?)\s*</div>', card, re.DOTALL)
+                    pattern = (
+                        r'<div class="content-txt review-card-content">'
+                        r"\s*(.*?)\s*</div>"
+                    )
+                    text_match = re.search(pattern, card, re.DOTALL)
                     text = text_match.group(1).strip() if text_match else ""
-                    text = re.sub(r'<[^>]+>', '', text)  # Nettoyer le HTML
+                    text = re.sub(r"<[^>]+>", "", text)  # Nettoyer le HTML
                     from html import unescape
+
                     text = unescape(text)
 
-                    parsed_reviews.append({
-                        "author": author,
-                        "rating": rating,
-                        "date": date,
-                        "text": text
-                    })
+                    parsed_reviews.append({"author": author, "rating": rating, "date": date, "text": text})
                 except Exception as e:
                     print(f"⚠️ Erreur parsing d'une critique pour '{self.title}': {e}")
 
@@ -286,8 +284,9 @@ class Movie:
 
         if cache_key in _tmdb_cache:
             cached_data = _tmdb_cache[cache_key]
-            # Si l'ancienne entrée de cache n'a pas l'affiche TMDB, le backdrop ou les watch_providers, on force un refetch
-            if "tmdb_poster" in cached_data and "watch_providers" in cached_data and "tmdb_score" in cached_data and "tmdb_backdrop" in cached_data:
+            # Si l'ancienne entrée de cache possède les champs essentiels, on peut la réutiliser.
+            essential_keys = ("tmdb_poster", "watch_providers", "tmdb_score", "tmdb_backdrop")
+            if all(k in cached_data for k in essential_keys):
                 # Si "reviews" n'est pas dans le cache, on récupère et ajoute les critiques spectateurs AlloCiné
                 if "reviews" not in cached_data:
                     cached_data["reviews"] = self._scrape_allocine_reviews()
