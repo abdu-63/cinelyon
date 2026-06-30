@@ -1,0 +1,70 @@
+{
+    "name": "CinéLyon",
+    "short_name": "CinéLyon",
+    "description": "Découvrez les séances de cinéma à Lyon et ses alentours",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#444cf7",
+    "orientation": "portrait-primary",
+    "scope": "/",
+    "icons": [
+        {
+            "src": "/static/images/apple-touch-icon.png",
+            "sizes": "180x180",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/static/images/favicon.png",
+            "sizes": "32x32",
+            "type": "image/png"
+        },
+        {
+            "src": "/static/images/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/static/images/icon-192x192-rond.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/static/images/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Aujourd'hui",
+            "short_name": "Aujourd'hui",
+            "url": "/",
+            "icons": [
+                {
+                    "src": "/static/images/favicon.png",
+                    "sizes": "32x32"
+                }
+            ]
+        },
+        {
+            "name": "Favoris",
+            "short_name": "Favoris",
+            "url": "/?filter=favorites",
+            "icons": [
+                {
+                    "src": "/static/images/favicon.png",
+                    "sizes": "32x32"
+                }
+            ]
+        }
+    ],
+    "categories": [
+        "entertainment",
+        "lifestyle"
+    ],
+    "lang": "fr-FR"
+}
