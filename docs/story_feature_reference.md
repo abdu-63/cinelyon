@@ -44,7 +44,7 @@ def film_story_image(slug):
     """Génère l'image de story Instagram pour un film en appelant le script Satori Node."""
     import subprocess
     import json
-    
+
     data = load_movies_data()
     showtimes = data["showtimes"]
     num_days = data["num_days"]
@@ -79,16 +79,16 @@ def film_story_image(slug):
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            env=env
+            env=env,
         )
-        
+
         input_json = json.dumps(film_data).encode("utf-8")
         stdout_data, stderr_data = proc.communicate(input=input_json)
-        
+
         if proc.returncode != 0:
             app.logger.error(f"Satori story generator error: {stderr_data.decode('utf-8')}")
             abort(500)
-            
+
         response = make_response(stdout_data)
         response.headers.set("Content-Type", "image/png")
         response.headers.set("Cache-Control", "public, max-age=86400")
@@ -924,6 +924,7 @@ colorthief>=0.2.1
    # Dessiner "DIRECTED BY X (YEAR)" + "CINELYON.FR"
 
    import io
+
    buf = io.BytesIO()
    canvas.save(buf, format="PNG")
    return buf.getvalue()
