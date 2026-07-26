@@ -27,7 +27,34 @@
 
 ## Le projet
 
-CinéLyon est une plateforme moderne conçue pour les cinéphiles lyonnais. Elle agrège les séances de 20 cinémas (indépendants et grands circuits) tout en mettant l'accent sur la richesse éditoriale : reprises cultes, films d'auteur et ressorties patrimoniales.
+CinéLyon est une plateforme moderne conçue pour les cinéphiles lyonnais. Elle agrège les séances de 19 cinémas (indépendants et grands circuits) tout en mettant l'accent sur la richesse éditoriale : reprises cultes, films d'auteur et ressorties patrimoniales.
+
+## Cinémas référencés (19 établissements)
+
+CinéLyon agrège les horaires et séances de **19 cinémas** de la métropole lyonnaise :
+
+### Grands circuits
+- **Pathé Bellecour** (Lyon 2e)
+- **Pathé Carré de Soie** (Vaulx-en-Velin)
+- **Pathé Vaise** (Lyon 9e)
+- **UGC Astoria** (Lyon 6e)
+- **UGC Confluence** (Lyon 2e)
+- **UGC Internationale** (Lyon 6e)
+- **UGC Part-Dieu** (Lyon 3e)
+- **CGR Brignais** (Brignais)
+
+### Cinémas indépendants, d'art & essai et patrimoniaux
+- **Cinéma Les Amphis** (Vaulx-en-Velin)
+- **Cinéma Gerard-Philipe** (Vénissieux)
+- **Cinéma Opéra** (Lyon 1er)
+- **Cinéma Saint-Denis** (Lyon 4e)
+- **Ciné Meyzieu** (Meyzieu)
+- **Ciné Toboggan** (Décines-Charpieu)
+- **Institut Lumière** (Lyon 8e)
+- **Le Comoedia** (Lyon 7e)
+- **Lumière Bellecour** (Lyon 2e)
+- **Lumière Fourmi** (Lyon 3e)
+- **Lumière Terreaux** (Lyon 1er)
 
 ## Fonctionnalités clés
 
