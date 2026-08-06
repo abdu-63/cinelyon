@@ -781,7 +781,6 @@ def chatbot_reply():
         return {"reply": local_chatbot_reply(user_message, context)}
 
 
-
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html", website_title=WEBSITE_TITLE), 404
