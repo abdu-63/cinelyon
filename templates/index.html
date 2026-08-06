@@ -177,15 +177,7 @@
                             class="favorite-btn"
                             title="Ajouter aux favoris"
                         >
-                            <svg
-                                class="favorite-icon"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
-                                />
-                            </svg>
+                            <svg class="favorite-icon"><use href="#icon-heart"/></svg>
                         </button>
                     </h3>
                     <div class="info-content">
@@ -208,18 +200,7 @@
                     </div>
                 </div>
             </div>
-            <svg
-                class="chevron-nav"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                aria-hidden="true"
-            >
-                <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
+            <svg class="chevron-nav" aria-hidden="true"><use href="#icon-chevron"/></svg>
         </div>
 
         <div style="height: 10px"></div>
@@ -244,6 +225,7 @@
             </div>
 
             {% for day_label, cinemas in film.seances_by_day.items() %}
+            {% if not loop.first %}<template class="day-seances-template" data-day="{{ loop.index0 }}">{% endif %}
             <div class="day-seances" data-day="{{ loop.index0 }}">
                 {% for cinename, seances in cinemas.items() %}
                 <div class="seance_container">
@@ -302,38 +284,7 @@
                                             data-ticket="{{ seance.ticketing_url|default('', true) }}"
                                             title="Ajouter au calendrier"
                                         >
-                                            <svg
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                stroke-width="1.5"
-                                            >
-                                                <rect
-                                                    x="3"
-                                                    y="4"
-                                                    width="18"
-                                                    height="18"
-                                                    rx="2"
-                                                />
-                                                <line
-                                                    x1="3"
-                                                    y1="10"
-                                                    x2="21"
-                                                    y2="10"
-                                                />
-                                                <line
-                                                    x1="8"
-                                                    y1="2"
-                                                    x2="8"
-                                                    y2="6"
-                                                />
-                                                <line
-                                                    x1="16"
-                                                    y1="2"
-                                                    x2="16"
-                                                    y2="6"
-                                                />
-                                            </svg>
+                                            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-calendar"/></svg>
                                         </button>
                                     </div>
                                 </div>
@@ -367,33 +318,7 @@
                                         data-ticket="{{ seance.ticketing_url|default('', true) }}"
                                         title="Ajouter au calendrier"
                                     >
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="1.5"
-                                        >
-                                            <rect
-                                                x="3"
-                                                y="4"
-                                                width="18"
-                                                height="18"
-                                                rx="2"
-                                            />
-                                            <line
-                                                x1="3"
-                                                y1="10"
-                                                x2="21"
-                                                y2="10"
-                                            />
-                                            <line x1="8" y1="2" x2="8" y2="6" />
-                                            <line
-                                                x1="16"
-                                                y1="2"
-                                                x2="16"
-                                                y2="6"
-                                            />
-                                        </svg>
+                                        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-calendar"/></svg>
                                     </button>
                                 </div>
                             </div>
@@ -405,6 +330,7 @@
                 <div class="responsive-petite-div"></div>
                 {% endfor %}
             </div>
+            {% if not loop.first %}</template>{% endif %}
             {% endfor %} {% else %} {% for day_label, cinemas in
             film.seances_by_day.items() %} {% for cinename, seances in
             cinemas.items() %}
@@ -473,23 +399,7 @@
                             data-ticket="{{ seance.ticketing_url|default('', true) }}"
                             title="Ajouter au calendrier"
                         >
-                            <svg
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="1.5"
-                            >
-                                <rect
-                                    x="3"
-                                    y="4"
-                                    width="18"
-                                    height="18"
-                                    rx="2"
-                                />
-                                <line x1="3" y1="10" x2="21" y2="10" />
-                                <line x1="8" y1="2" x2="8" y2="6" />
-                                <line x1="16" y1="2" x2="16" y2="6" />
-                            </svg>
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-calendar"/></svg>
                         </button>
                     </div>
                     {% endfor %}

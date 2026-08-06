@@ -107,7 +107,6 @@ body::before {
     width: 130vw;
     height: 130vh;
     background: var(--bg-gradient);
-    filter: blur(80px);
     z-index: -2;
     pointer-events: none;
 }
@@ -289,8 +288,6 @@ p {
     right: 0;
     bottom: 0;
     background: var(--card-blur);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     z-index: -1;
     border-radius: 15px;
 }
@@ -1292,8 +1289,6 @@ html {
 
     .blur-background {
         background: rgba(255, 255, 255, 0.3);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
         z-index: -1;
         border-radius: 15px;
     }

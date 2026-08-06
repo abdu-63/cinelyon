@@ -11,7 +11,6 @@ function escapeHtml(str) {
 
 document.querySelectorAll('.seances-wrapper').forEach(wrapper => {
     const buttons = wrapper.querySelectorAll('.mini-cal-btn');
-    const daySeances = wrapper.querySelectorAll('.day-seances');
 
     buttons.forEach(btn => {
         btn.addEventListener('click', function () {
@@ -19,11 +18,18 @@ document.querySelectorAll('.seances-wrapper').forEach(wrapper => {
             const isActive = this.classList.contains('active');
 
             buttons.forEach(b => b.classList.remove('active'));
-            daySeances.forEach(d => d.classList.remove('show'));
+            wrapper.querySelectorAll('.day-seances').forEach(d => d.classList.remove('show'));
 
             if (!isActive) {
                 this.classList.add('active');
-                const targetSeances = wrapper.querySelector(`.day-seances[data-day="${dayIndex}"]`);
+                let targetSeances = wrapper.querySelector(`.day-seances[data-day="${dayIndex}"]`);
+                if (!targetSeances) {
+                    const tmpl = wrapper.querySelector(`.day-seances-template[data-day="${dayIndex}"]`);
+                    if (tmpl) {
+                        wrapper.appendChild(tmpl.content.cloneNode(true));
+                        targetSeances = wrapper.querySelector(`.day-seances[data-day="${dayIndex}"]`);
+                    }
+                }
                 if (targetSeances) {
                     targetSeances.classList.add('show');
                 }
@@ -179,6 +185,9 @@ document.addEventListener('DOMContentLoaded', function () {
         return groups;
     }
 
+    // Cache initial unique des groupes DOM (évite de rescanner le DOM à chaque filtrage)
+    const cachedAllGroups = collectFilmGroups();
+
     // Sentinel (élément observé pour déclencher le chargement suivant)
     const sentinel = document.createElement('div');
     sentinel.id = 'lazy-sentinel';
@@ -193,6 +202,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let visibleGroups = [];  // groupes filtrés et potentiellement visibles
     let revealedCount = 0;   // combien ont déjà été révélés
+    let isBatchLoading = false;
 
     /** Cache un groupe complet (film + séances) */
     function hideGroup(group) {
@@ -205,25 +215,31 @@ document.addEventListener('DOMContentLoaded', function () {
     function revealGroup(group) {
         group.forEach(el => {
             el.classList.remove('lazy-hidden');
-            if (el.classList.contains('film-card')) {
-                el.classList.add('lazy-reveal');
+            if (el.classList.contains('film-card') && !el.classList.contains('lazy-revealed')) {
+                el.classList.add('lazy-reveal', 'lazy-revealed');
                 el.addEventListener('animationend', () => el.classList.remove('lazy-reveal'), { once: true });
             }
         });
     }
 
-    /** Révèle le prochain lot de films */
+    /** Révèle le prochain lot de films avec verrou et requestAnimationFrame */
     function revealNextBatch() {
-        const end = Math.min(revealedCount + PAGE_SIZE, visibleGroups.length);
-        if (revealedCount >= visibleGroups.length) {
-            lazyLoader.style.display = 'none';
+        if (isBatchLoading || revealedCount >= visibleGroups.length) {
+            if (revealedCount >= visibleGroups.length) {
+                lazyLoader.style.display = 'none';
+            }
             return;
         }
-        for (let i = revealedCount; i < end; i++) {
-            revealGroup(visibleGroups[i]);
-        }
-        revealedCount = end;
-        lazyLoader.style.display = revealedCount < visibleGroups.length ? 'flex' : 'none';
+        isBatchLoading = true;
+        requestAnimationFrame(() => {
+            const end = Math.min(revealedCount + PAGE_SIZE, visibleGroups.length);
+            for (let i = revealedCount; i < end; i++) {
+                revealGroup(visibleGroups[i]);
+            }
+            revealedCount = end;
+            lazyLoader.style.display = revealedCount < visibleGroups.length ? 'flex' : 'none';
+            isBatchLoading = false;
+        });
     }
 
     /**
@@ -231,9 +247,8 @@ document.addEventListener('DOMContentLoaded', function () {
      * groups = liste des groupes qui doivent être visibles
      */
     function resetPagination(groups) {
-        // Masquer tous les groupes d'abord
-        const allGroups = collectFilmGroups();
-        allGroups.forEach(g => hideGroup(g));
+        // Masquer tous les groupes mémorisés d'abord
+        cachedAllGroups.forEach(g => hideGroup(g));
 
         visibleGroups = groups;
         revealedCount = 0;
@@ -242,22 +257,35 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // IntersectionObserver sur le sentinel
     const observer = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && revealedCount < visibleGroups.length) {
+        if (entries[0].isIntersecting && revealedCount < visibleGroups.length && !isBatchLoading) {
             lazyLoader.style.display = 'flex';
-            // Petit délai pour montrer le loader
-            setTimeout(revealNextBatch, 100);
+            revealNextBatch();
         }
     }, { rootMargin: '200px' });
     observer.observe(sentinel);
 
     // Pagination initiale (tous les films visibles au départ)
-    const allGroups = collectFilmGroups();
-    resetPagination(allGroups);
+    resetPagination(cachedAllGroups);
     // ── Fin Pagination ────────────────────────────────────────────────────
 
+    function debounce(fn, delay) {
+        let timer = null;
+        return function (...args) {
+            clearTimeout(timer);
+            timer = setTimeout(() => fn.apply(this, args), delay);
+        };
+    }
+
+    const debouncedFilterFilms = debounce(filterFilms, 150);
+
     [searchTitle, filterGenre, filterDirector, filterCinema, filterDay, filterFormat, filterTime].forEach(el => {
-        if (el) el.addEventListener('change', filterFilms);
-        if (el && el.id === 'search-title') el.addEventListener('input', filterFilms);
+        if (el) {
+            if (el.id === 'search-title') {
+                el.addEventListener('input', debouncedFilterFilms);
+            } else {
+                el.addEventListener('change', filterFilms);
+            }
+        }
     });
 
     const favTabsContainer = document.getElementById('favorites-tabs-container');
@@ -373,19 +401,10 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
 
-        function matchesTimeFilter(filmElement, targetDayQuery) {
+        function matchesTimeFilter(relatedElements, targetDayQuery) {
             if (!timeQuery) return true;
 
-            let sibling = filmElement.nextElementSibling;
-            let seancesWrapper = null;
-            while (sibling && !sibling.classList.contains('film-card')) {
-                if (sibling.classList.contains('seances-wrapper')) {
-                    seancesWrapper = sibling;
-                    break;
-                }
-                sibling = sibling.nextElementSibling;
-            }
-
+            const seancesWrapper = relatedElements.find(el => el.classList.contains('seances-wrapper'));
             if (!seancesWrapper) return false;
 
             let targetIndex = -1;
@@ -430,7 +449,10 @@ document.addEventListener('DOMContentLoaded', function () {
         // Collecter les groupes filtrés pour la pagination
         const filteredGroups = [];
 
-        films.forEach(film => {
+        cachedAllGroups.forEach(group => {
+            const film = group[0];
+            const relatedElements = group.slice(1);
+
             const title = film.dataset.title;
             const genres = film.dataset.genres;
             const director = film.dataset.director;
@@ -438,18 +460,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const days = film.dataset.days || '';
             const formats = film.dataset.formats || '';
             const filmId = film.dataset.filmId;
-
-            let sibling = film.nextElementSibling;
-            const relatedElements = [];
-            while (
-                sibling &&
-                !sibling.classList.contains('film-card') &&
-                sibling.id !== 'lazy-sentinel' &&
-                sibling.id !== 'lazy-loader'
-            ) {
-                relatedElements.push(sibling);
-                sibling = sibling.nextElementSibling;
-            }
 
             const matchTitle = removeAccents(title).includes(titleQuery);
             const matchGenre = !genreQuery || genres.includes(genreQuery);
@@ -459,12 +469,12 @@ document.addEventListener('DOMContentLoaded', function () {
             let matchCinema = true;
             if (cinemaQuery) {
                 if (cinemaQuery.startsWith('group:')) {
-                    const group = cinemaQuery.split(':')[1];
-                    if (group === 'pathe') {
+                    const groupName = cinemaQuery.split(':')[1];
+                    if (groupName === 'pathe') {
                         matchCinema = cinemas.includes('pathé');
-                    } else if (group === 'ugc') {
+                    } else if (groupName === 'ugc') {
                         matchCinema = cinemas.includes('ugc');
-                    } else if (group === 'lumiere') {
+                    } else if (groupName === 'lumiere') {
                         matchCinema = cinemas.includes('lumière') || cinemas.includes('institut lumière');
                     }
                 } else {
@@ -475,7 +485,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const matchFormat = !formatQuery || formats.includes(formatQuery);
 
             const matchFavorites = !showOnlyFavorites || (currentFavTab === 'perso' ? isFavorite(filmId) : (window.hasFriendFavorited && window.hasFriendFavorited(filmId)));
-            const matchTime = matchesTimeFilter(film, effectiveDayQuery);
+            const matchTime = matchesTimeFilter(relatedElements, effectiveDayQuery);
 
             const show = matchTitle && matchGenre && matchDirector && matchCinema && matchDay && matchFormat && matchFavorites && matchTime;
 
@@ -486,7 +496,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 film.classList.add('lazy-hidden');
                 relatedElements.forEach(el => el.classList.add('lazy-hidden'));
             } else {
-                filteredGroups.push([film, ...relatedElements]);
+                filteredGroups.push(group);
             }
 
             // Filter seances in the mini-calendar and day-seances based on cinema and day filters
@@ -499,15 +509,26 @@ document.addEventListener('DOMContentLoaded', function () {
                     const miniCalendar = seancesWrapper.querySelector('.mini-calendar');
 
                     // Case 1: With mini-calendar (show_all mode)
-                    if (daySeancesDivs.length > 0) {
+                    if (btns.length > 0) {
                         let firstVisibleDayIndex = -1;
 
-                        daySeancesDivs.forEach((dayDiv, index) => {
-                            const btn = btns[index];
+                        btns.forEach((btn, index) => {
                             const btnText = btn ? btn.textContent.toLowerCase() : '';
                             const isTargetDay = btnText.includes(effectiveDayQuery);
-
                             const dayMatches = !effectiveDayQuery || btnText.includes(effectiveDayQuery);
+
+                            let dayDiv = seancesWrapper.querySelector(`.day-seances[data-day="${index}"]`);
+
+                            // Instantiate template lazily if filters match
+                            if (!dayDiv && (dayMatches || cinemaQuery || formatQuery || timeQuery)) {
+                                const tmpl = seancesWrapper.querySelector(`.day-seances-template[data-day="${index}"]`);
+                                if (tmpl) {
+                                    seancesWrapper.appendChild(tmpl.content.cloneNode(true));
+                                    dayDiv = seancesWrapper.querySelector(`.day-seances[data-day="${index}"]`);
+                                }
+                            }
+
+                            if (!dayDiv) return;
 
                             const seanceContainers = dayDiv.querySelectorAll('.seance_container');
                             let hasVisibleSeance = false;
