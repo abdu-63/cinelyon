@@ -20,9 +20,10 @@ WEBSITE_TITLE = os.environ.get("WEBSITE_TITLE", "CinéLyon")
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "")
 SUPABASE_ANON_KEY = os.environ.get("SUPABASE_ANON_KEY", "")
 
-GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
-GROQ_MODEL = os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile")
-GROQ_CHAT_URL = "https://api.groq.com/openai/v1/chat/completions"
+NVIDIA_API_KEY = os.environ.get("NVIDIA_API_KEY", "")
+NVIDIA_MODEL = os.environ.get("NVIDIA_MODEL", "nvidia/nemotron-3-super-120b-a12b")
+NVIDIA_CHAT_URL = "https://integrate.api.nvidia.com/v1/chat/completions"
+
 
 _supabase_client: Client = None
 
@@ -729,7 +730,7 @@ def chatbot_reply():
 
     context = build_chatbot_context()
 
-    if not GROQ_API_KEY:
+    if not NVIDIA_API_KEY:
         return {"reply": local_chatbot_reply(user_message, context)}
 
     system_prompt = (
@@ -745,34 +746,40 @@ def chatbot_reply():
 
     try:
         response = requests.post(
-            GROQ_CHAT_URL,
+            NVIDIA_CHAT_URL,
             headers={
-                "Authorization": f"Bearer {GROQ_API_KEY}",
+                "Authorization": f"Bearer {NVIDIA_API_KEY}",
                 "Content-Type": "application/json",
             },
             json={
-                "model": GROQ_MODEL,
+                "model": NVIDIA_MODEL,
                 "messages": [
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_message},
                 ],
-                "temperature": 0.6,
-                "max_tokens": 400,
+                "temperature": 0.7,
+                "top_p": 0.95,
+                "max_tokens": 1024,
+                "extra_body": {
+                    "chat_template_kwargs": {"enable_thinking": True},
+                    "reasoning_budget": 2048,
+                },
             },
-            timeout=20,
+            timeout=25,
         )
         data = response.json()
         if response.status_code >= 400:
-            raise RuntimeError(data.get("error", {}).get("message", f"Groq error {response.status_code}"))
+            raise RuntimeError(data.get("error", {}).get("message", f"NVIDIA API error {response.status_code}"))
 
         reply = data.get("choices", [{}])[0].get("message", {}).get("content", "").strip()
         if not reply:
-            raise RuntimeError("Réponse vide de Groq")
+            raise RuntimeError("Réponse vide de NVIDIA API")
 
         return {"reply": reply}
     except Exception as e:
-        print(f"⚠️ Erreur chatbot GROQ: {e}")
+        print(f"⚠️ Erreur chatbot NVIDIA Nemotron: {e}")
         return {"reply": local_chatbot_reply(user_message, context)}
+
 
 
 @app.errorhandler(404)
