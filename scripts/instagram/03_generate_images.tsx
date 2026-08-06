@@ -715,58 +715,58 @@ export async function generateCarousel(): Promise<string[]> {
       }} />
 
       {/* ── TOP TEXT ── */}
-      <div style={{ display: 'flex', position: 'absolute', top: 250, left: 0, right: 0, flexDirection: 'column', alignItems: 'center' }}>
+      <div style={{ display: 'flex', position: 'absolute', top: 140, left: 0, right: 0, flexDirection: 'column', alignItems: 'center' }}>
 
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'baseline' }}>
-          <span style={{ display: 'flex', fontSize: 56, fontWeight: 400, color: WHITE }}>on</span>
-          <span style={{ display: 'flex', fontSize: 56, fontWeight: 800, color: WHITE, marginLeft: '16px', marginRight: '16px' }}>regarde</span>
-          <span style={{ display: 'flex', fontSize: 56, fontWeight: 400, color: WHITE }}>quoi à lyon</span>
+          <span style={{ display: 'flex', fontSize: 54, fontWeight: 400, color: WHITE }}>on</span>
+          <span style={{ display: 'flex', fontSize: 54, fontWeight: 800, color: WHITE, marginLeft: '16px', marginRight: '16px' }}>regarde</span>
+          <span style={{ display: 'flex', fontSize: 54, fontWeight: 400, color: WHITE }}>quoi à lyon</span>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: 16 }}>
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: 14 }}>
           <div style={{ display: 'flex', position: 'relative', paddingLeft: 10, paddingRight: 10 }}>
             {/* The half-highlight background */}
             <div style={{
               display: 'flex', position: 'absolute', bottom: '-4px', left: 0, right: 0, height: '45%', backgroundColor: ACCENT
             }} />
-            <span style={{ display: 'flex', fontSize: 64, fontWeight: 800, color: WHITE }}>
+            <span style={{ display: 'flex', fontSize: 60, fontWeight: 800, color: WHITE }}>
               {dayName} {dayNum} {monthName}
             </span>
           </div>
-          <span style={{ display: 'flex', fontSize: 64, fontWeight: 800, color: WHITE, marginLeft: 12 }}>?</span>
+          <span style={{ display: 'flex', fontSize: 60, fontWeight: 800, color: WHITE, marginLeft: 12 }}>?</span>
         </div>
       </div>
 
       {/* ── CALENDAR ── */}
-      <div style={{ display: 'flex', position: 'absolute', bottom: 200, left: 0, right: 0, flexDirection: 'column', alignItems: 'center' }}>
+      <div style={{ display: 'flex', position: 'absolute', bottom: 110, left: 0, right: 0, flexDirection: 'column', alignItems: 'center' }}>
 
-        <div style={{ display: 'flex', width: 700, justifyContent: 'flex-end', marginBottom: 24 }}>
-          <span style={{ display: 'flex', fontSize: 56, fontWeight: 800, color: WHITE, paddingRight: 25 }}>
+        <div style={{ display: 'flex', width: 700, justifyContent: 'flex-end', marginBottom: 14 }}>
+          <span style={{ display: 'flex', fontSize: 48, fontWeight: 800, color: WHITE, paddingRight: 15 }}>
             {cal.monthName}
           </span>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'row', marginBottom: 10 }}>
+        <div style={{ display: 'flex', flexDirection: 'row', marginBottom: 8 }}>
           {DAY_LETTERS.map((d, i) => (
-            <div key={i} style={{ display: 'flex', width: 100, height: 50, alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ display: 'flex', fontSize: 36, fontWeight: 400, color: MUTED }}>{d}</span>
+            <div key={i} style={{ display: 'flex', width: 100, height: 40, alignItems: 'center', justifyContent: 'center' }}>
+              <span style={{ display: 'flex', fontSize: 32, fontWeight: 400, color: MUTED }}>{d}</span>
             </div>
           ))}
         </div>
 
         {/* Week rows avec le cercle fait main */}
         {cal.weeks.map((week, wi) => (
-          <div key={wi} style={{ display: 'flex', flexDirection: 'row', marginBottom: 8 }}>
+          <div key={wi} style={{ display: 'flex', flexDirection: 'row', marginBottom: 6 }}>
             {week.map((day, di) => {
               const isTarget = day === cal.targetDay;
               return (
                 <div key={di} style={{
-                  display: 'flex', width: 100, height: 100,
+                  display: 'flex', width: 100, height: 72,
                   alignItems: 'center', justifyContent: 'center',
                   position: 'relative' // Requis pour positionner le SVG pardessus
                 }}>
                   {isTarget && (
-                    <svg width="120" height="120" viewBox="0 0 100 100" style={{ display: 'flex', position: 'absolute', top: '-10px', left: '-10px' }}>
+                    <svg width="90" height="90" viewBox="0 0 100 100" style={{ display: 'flex', position: 'absolute', top: '-9px', left: '5px' }}>
                       <path
                         d="M50,15 C25,10 10,30 10,50 C10,75 25,90 50,85 C75,80 90,65 85,45 C80,25 65,15 50,20"
                         fill="none" stroke={ACCENT} strokeWidth="5" strokeLinecap="round" strokeDasharray="12,4"
@@ -775,7 +775,7 @@ export async function generateCarousel(): Promise<string[]> {
                   )}
 
                   <span style={{
-                    display: 'flex', fontSize: 44,
+                    display: 'flex', fontSize: 38,
                     fontWeight: isTarget ? 800 : 400,
                     color: day !== null ? WHITE : 'transparent',
                   }}>{day !== null ? String(day) : '0'}</span>
