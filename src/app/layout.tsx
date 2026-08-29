@@ -3,7 +3,6 @@
 
 import type { Metadata, Viewport } from 'next';
 import '@/styles/globals.css';
-import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { ChatBot } from '@/components/ui/ChatBot';
 import { SettingsModal } from '@/components/ui/SettingsModal';
@@ -68,9 +67,6 @@ export default function RootLayout({
         <QueryClientProvider>
           <ThemeProvider>
             <I18nProvider>
-              {/* Header Desktop */}
-              <Header />
-
               {/* Main Content */}
               <div className="flex-1 pb-16 md:pb-0">{children}</div>
 

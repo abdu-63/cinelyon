@@ -113,7 +113,7 @@ export function FilmsList({ initialFilms = [], initialDates = [] }: FilmsListPro
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto px-3 sm:px-4 py-2">
+    <div className="w-full max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto px-3 sm:px-4 py-2">
       {/* Barre de Recherche et Filtres */}
       <FilterBar
         filters={filters}

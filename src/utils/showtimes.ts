@@ -145,7 +145,7 @@ export function buildFilmList(
       if (!allFilms.has(raw.title)) {
         allFilms.set(raw.title, {
           ...raw,
-          affiche: optimizePosterUrl(raw.affiche, 200),
+          affiche: optimizePosterUrl(raw.affiche, 500),
           slug: slugify(raw.title, raw.release_year),
           filmId: raw.title.toLowerCase().replace(/ /g, '-'),
           formats: '',

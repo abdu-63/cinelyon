@@ -1,11 +1,12 @@
 // src/components/ui/FilterBar.tsx
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, SlidersHorizontal, X, Dices, Shuffle, RotateCcw } from 'lucide-react';
+import { Search, SlidersHorizontal, X, Dices, Shuffle, RotateCcw, Globe, Sun, Moon, Settings } from 'lucide-react';
 import { FiltersState, TimeSlot, FilmFilterOptions } from '@/types';
-import { useTranslation } from '@/i18n';
+import { useTranslation, SUPPORTED_LANGUAGES, SupportedLocale } from '@/i18n';
+import { useTheme } from '@/context/ThemeContext';
 import { formatLocalizedGenres } from '@/utils/filmLocalizationUtils';
 
 interface FilterBarProps {
@@ -27,9 +28,28 @@ export function FilterBar({
   onOpenDoubleFeature,
   onOpenRoulette,
 }: FilterBarProps) {
-  const { locale } = useTranslation();
+  const { locale, setLocale, t } = useTranslation();
+  const { isDark, setMode } = useTheme();
+  const [langDropdownOpen, setLangDropdownOpen] = useState(false);
+  const langDropdownRef = useRef<HTMLDivElement>(null);
   const [showFiltersModal, setShowFiltersModal] = useState(false);
   const [localQuery, setLocalQuery] = useState(filters.titleQuery || '');
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (langDropdownRef.current && !langDropdownRef.current.contains(e.target as Node)) {
+        setLangDropdownOpen(false);
+      }
+    };
+    if (langDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [langDropdownOpen]);
+
+  const openSettings = () => {
+    window.dispatchEvent(new CustomEvent('cinelyon:open-settings'));
+  };
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -100,14 +120,76 @@ export function FilterBar({
 
   return (
     <div className="w-full space-y-1.5 pb-1">
-      {/* ── 1. Titre & Sous-Titre CinéLyon (identique au screenshot 3) ── */}
-      <div className="pt-2 pb-2">
-        <h1 className="text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
-          CinéLyon
-        </h1>
-        <p className="text-xs text-neutral-500 mt-0.5">
-          Toutes les séances à Lyon, en un seul endroit !
-        </p>
+      {/* ── 1. Titre & Sous-Titre CinéLyon + Contrôles (Langue, Thème, Réglages) ── */}
+      <div className="pt-2 pb-2 flex items-center justify-between gap-3">
+        <div>
+          <h1 className="text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
+            CinéLyon
+          </h1>
+          <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
+            {t('header.subtitle')}
+          </p>
+        </div>
+
+        {/* Contrôles & Actions : Langue, Mode Sombre/Clair, Réglages */}
+        <div className="flex items-center gap-2 shrink-0">
+          {/* Sélecteur de Langue */}
+          <div className="relative" ref={langDropdownRef}>
+            <button
+              type="button"
+              onClick={() => setLangDropdownOpen(!langDropdownOpen)}
+              className="px-2.5 py-1.5 rounded-xl bg-white dark:bg-[#1e1e1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-300 hover:border-neutral-400 transition-colors flex items-center gap-1 text-xs font-bold shadow-sm"
+              title="Changer de langue"
+            >
+              <Globe size={14} />
+              <span className="uppercase">{locale}</span>
+            </button>
+
+            {langDropdownOpen && (
+              <div className="absolute right-0 mt-2 w-44 rounded-2xl bg-white dark:bg-[#1e1e1e] border border-black/10 dark:border-white/15 shadow-2xl py-1 z-50 animate-in fade-in zoom-in-95 duration-150">
+                {SUPPORTED_LANGUAGES.map((l) => (
+                  <button
+                    key={l.code}
+                    type="button"
+                    onClick={() => {
+                      setLocale(l.code as SupportedLocale);
+                      setLangDropdownOpen(false);
+                    }}
+                    className={`w-full px-3 py-2 text-left text-xs flex items-center justify-between hover:bg-neutral-100 dark:hover:bg-white/10 transition-colors ${
+                      locale === l.code ? 'font-bold text-[#444cf7]' : 'text-neutral-700 dark:text-neutral-300'
+                    }`}
+                  >
+                    <span className="flex items-center gap-2">
+                      <span>{l.flag}</span>
+                      <span>{l.nativeName}</span>
+                    </span>
+                    {locale === l.code && <span className="text-[#444cf7]">✓</span>}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Bascule Thème Sombre / Clair */}
+          <button
+            type="button"
+            onClick={() => setMode(isDark ? 'light' : 'dark')}
+            className="p-2 rounded-xl bg-white dark:bg-[#1e1e1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-300 hover:border-neutral-400 transition-colors shadow-sm active:scale-95"
+            title={isDark ? 'Mode clair' : 'Mode sombre'}
+          >
+            {isDark ? <Sun size={15} className="text-amber-400" /> : <Moon size={15} />}
+          </button>
+
+          {/* Bouton Réglages */}
+          <button
+            type="button"
+            onClick={openSettings}
+            className="p-2 rounded-xl bg-white dark:bg-[#1e1e1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-300 hover:border-neutral-400 transition-colors shadow-sm active:scale-95"
+            title="Paramètres"
+          >
+            <Settings size={15} />
+          </button>
+        </div>
       </div>
 
       {/* ── 2. Barre de recherche Apple + 3 Boutons carrés arrondis ── */}

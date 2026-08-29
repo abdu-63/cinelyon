@@ -140,7 +140,7 @@ export default async function FilmPage({ params }: PageProps) {
 
   return (
     <div className="min-h-screen pb-24 bg-[#f5f6f8] dark:bg-[#121212] text-neutral-900 dark:text-white">
-      <div className="max-w-2xl mx-auto px-3 sm:px-4 space-y-4">
+      <div className="max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto px-3 sm:px-4 space-y-4">
         {/* ── 1. Hero Backdrop Banner avec Boutons Flottants ── */}
         <div className="relative w-full h-[280px] sm:h-[320px] rounded-[24px] overflow-hidden shadow-md mt-2 bg-neutral-900">
           <img

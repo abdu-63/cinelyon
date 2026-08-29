@@ -39,7 +39,7 @@ export default function Header() {
           : 'bg-transparent py-3'
       }`}
     >
-      <div className="max-w-2xl mx-auto px-3 sm:px-4 flex items-center justify-between">
+      <div className="max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto px-3 sm:px-4 flex items-center justify-between">
         {/* Logo CinéLyon */}
         <Link href="/" className="flex items-center gap-2.5 group select-none">
           <div className="w-8 h-8 rounded-xl bg-[#444cf7] flex items-center justify-center shadow-md shadow-[#444cf7]/20 group-hover:scale-105 transition-transform">
