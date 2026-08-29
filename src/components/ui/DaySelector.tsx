@@ -22,14 +22,14 @@ export function DaySelector({ dates = [], selectedDelta, onSelect }: DaySelector
         ref={scrollRef}
         className="flex items-center gap-2 overflow-x-auto no-scrollbar px-1 py-1"
       >
-        {/* Bouton "Tous" (exactement comme le screenshot 3) */}
+        {/* Bouton "Tous" (exactement comme le screenshot 2) */}
         <button
           type="button"
           onClick={() => onSelect(null)}
-          className={`h-12 min-w-[70px] px-4 rounded-[24px] flex items-center justify-center font-bold text-xs transition-all shrink-0 border ${
+          className={`h-12 min-w-[70px] px-4 rounded-[24px] flex items-center justify-center font-bold text-xs transition-all shrink-0 border active:scale-95 ${
             selectedDelta === null
               ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-md shadow-[#444cf7]/25'
-              : 'bg-white dark:bg-[#1e1e1e] border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-300 hover:border-neutral-300'
+              : 'bg-white dark:bg-[#1c1c1e] border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/25'
           }`}
         >
           Tous
@@ -48,12 +48,12 @@ export function DaySelector({ dates = [], selectedDelta, onSelect }: DaySelector
               key={date.isoDate}
               type="button"
               onClick={() => onSelect(date.index)}
-              className={`h-12 min-w-[70px] px-3.5 rounded-[24px] flex flex-col items-center justify-center transition-all shrink-0 border ${
+              className={`h-12 min-w-[70px] px-3.5 rounded-[24px] flex flex-col items-center justify-center transition-all shrink-0 border active:scale-95 ${
                 isSelected
                   ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-md shadow-[#444cf7]/25'
                   : isToday
-                  ? 'bg-white dark:bg-[#1e1e1e] border-2 border-[#444cf7] text-neutral-900 dark:text-white shadow-sm'
-                  : 'bg-white dark:bg-[#1e1e1e] border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-300 hover:border-neutral-300'
+                  ? 'bg-white dark:bg-[#1c1c1e] border-2 border-[#444cf7] text-neutral-900 dark:text-white shadow-sm'
+                  : 'bg-white dark:bg-[#1c1c1e] border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/25'
               }`}
             >
               <span
@@ -66,7 +66,7 @@ export function DaySelector({ dates = [], selectedDelta, onSelect }: DaySelector
               {sublabel && (
                 <span
                   className={`text-[10px] font-medium leading-tight mt-0.5 ${
-                    isSelected ? 'text-white/90' : 'text-neutral-500'
+                    isSelected ? 'text-white/90' : 'text-neutral-500 dark:text-neutral-400'
                   }`}
                 >
                   {sublabel}

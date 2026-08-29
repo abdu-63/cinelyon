@@ -139,7 +139,7 @@ export default async function FilmPage({ params }: PageProps) {
   const validDays = Object.keys(film.seancesByDay || {});
 
   return (
-    <div className="min-h-screen pb-24 bg-[#f5f6f8] dark:bg-[#121212] text-neutral-900 dark:text-white">
+    <div className="min-h-screen pb-24 bg-[#f5f6f8] dark:bg-[#121214] text-neutral-900 dark:text-white">
       <div className="max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto px-3 sm:px-4 space-y-4">
         {/* ── 1. Hero Backdrop Banner avec Boutons Flottants ── */}
         <div className="relative w-full h-[280px] sm:h-[320px] rounded-[24px] overflow-hidden shadow-md mt-2 bg-neutral-900">
@@ -149,9 +149,9 @@ export default async function FilmPage({ params }: PageProps) {
             className="w-full h-full object-cover"
           />
           {/* Gradient fade to bottom */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#f5f6f8] dark:from-[#121212] via-transparent to-black/40" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#f5f6f8] dark:from-[#121214] via-transparent to-black/50" />
 
-          {/* Navigation Bar over Hero */}
+          {/* Navigation Bar over Hero (Screenshot 3 Exact) */}
           <div className="absolute top-4 inset-x-4 flex items-center justify-between z-10">
             <Link
               href="/"
@@ -164,14 +164,14 @@ export default async function FilmPage({ params }: PageProps) {
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                className="w-9 h-9 rounded-full bg-white/90 dark:bg-[#1e1e1e]/90 backdrop-blur-md text-neutral-800 dark:text-white flex items-center justify-center shadow-sm border border-black/10 dark:border-white/10 hover:scale-105 active:scale-95 transition-all"
+                className="w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md text-white flex items-center justify-center shadow-sm border border-white/20 hover:scale-105 active:scale-95 transition-all"
                 title="Partager"
               >
                 <Share2 size={16} />
               </button>
               <button
                 type="button"
-                className="w-9 h-9 rounded-full bg-white/90 dark:bg-[#1e1e1e]/90 backdrop-blur-md text-neutral-800 dark:text-white flex items-center justify-center shadow-sm border border-black/10 dark:border-white/10 hover:scale-105 active:scale-95 transition-all"
+                className="w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md text-white flex items-center justify-center shadow-sm border border-white/20 hover:scale-105 active:scale-95 transition-all"
                 title="Favori"
               >
                 <Heart size={16} />
@@ -200,7 +200,7 @@ export default async function FilmPage({ params }: PageProps) {
               {genresList.map((g) => (
                 <span
                   key={g}
-                  className="px-3 py-1 rounded-full bg-white dark:bg-[#1e1e1e] border border-black/[0.08] dark:border-white/10 text-xs font-medium text-neutral-700 dark:text-neutral-300 shadow-sm"
+                  className="px-3 py-1 rounded-full bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-xs font-medium text-neutral-700 dark:text-neutral-300 shadow-sm"
                 >
                   {g}
                 </span>
@@ -208,37 +208,37 @@ export default async function FilmPage({ params }: PageProps) {
             </div>
           )}
 
-          {/* ── 3. Scorecards (3 Cartes Blanches comme sur le screenshot) ── */}
+          {/* ── 3. Scorecards (3 Cartes Blanches / Sombre Apple - Screenshot 3) ── */}
           <div className="grid grid-cols-3 gap-2 pt-2">
             {/* Note Spectateurs */}
-            <div className="p-3 rounded-[18px] bg-white dark:bg-[#1e1e1e] border border-black/[0.06] dark:border-white/10 shadow-sm text-center flex flex-col justify-center items-center">
+            <div className="p-3 rounded-[18px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm text-center flex flex-col justify-center items-center">
               <div className="flex items-center gap-1 font-bold text-sm text-neutral-900 dark:text-white">
                 <Star size={14} className="fill-amber-400 text-amber-400" />
                 <span>{film.rating && film.rating !== 'Note inconnue' ? `${film.rating}/5` : '2.3/5'}</span>
               </div>
-              <span className="text-[10px] text-neutral-500 mt-0.5 font-medium">
+              <span className="text-[10px] text-neutral-500 dark:text-neutral-400 mt-0.5 font-medium">
                 Critiques Spectateurs
               </span>
             </div>
 
             {/* Rotten Tomatoes */}
-            <div className="p-3 rounded-[18px] bg-white dark:bg-[#1e1e1e] border border-black/[0.06] dark:border-white/10 shadow-sm text-center flex flex-col justify-center items-center">
+            <div className="p-3 rounded-[18px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm text-center flex flex-col justify-center items-center">
               <div className="flex items-center gap-1 font-bold text-sm text-neutral-900 dark:text-white">
                 <span className="text-sm">🍅</span>
                 <span>{film.rt_score || '59%'}</span>
               </div>
-              <span className="text-[10px] text-neutral-500 mt-0.5 font-medium">
+              <span className="text-[10px] text-neutral-500 dark:text-neutral-400 mt-0.5 font-medium">
                 Rotten Tomatoes
               </span>
             </div>
 
             {/* TMDB */}
-            <div className="p-3 rounded-[18px] bg-white dark:bg-[#1e1e1e] border border-black/[0.06] dark:border-white/10 shadow-sm text-center flex flex-col justify-center items-center">
+            <div className="p-3 rounded-[18px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm text-center flex flex-col justify-center items-center">
               <div className="flex items-center gap-1 font-bold text-sm text-[#01B4E4]">
                 <Star size={14} className="fill-[#01B4E4] text-[#01B4E4]" />
                 <span>{film.tmdb_score || '7'}</span>
               </div>
-              <span className="text-[10px] text-neutral-500 mt-0.5 font-medium">
+              <span className="text-[10px] text-neutral-500 dark:text-neutral-400 mt-0.5 font-medium">
                 TMDB
               </span>
             </div>
@@ -250,7 +250,7 @@ export default async function FilmPage({ params }: PageProps) {
               href={film.url || `https://letterboxd.com/search/${encodeURIComponent(film.title)}/`}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3.5 py-1.5 rounded-full bg-white dark:bg-[#1e1e1e] border border-black/[0.08] dark:border-white/10 text-xs font-semibold text-neutral-800 dark:text-white flex items-center gap-1.5 shadow-sm hover:border-neutral-400 transition-colors"
+              className="px-3.5 py-1.5 rounded-full bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-xs font-semibold text-neutral-800 dark:text-white flex items-center gap-1.5 shadow-sm hover:border-neutral-400 dark:hover:border-white/25 transition-colors"
             >
               <span className="text-emerald-500 text-sm leading-none">●●●</span>
               <span>Letterboxd</span>
@@ -261,7 +261,7 @@ export default async function FilmPage({ params }: PageProps) {
               href={film.allocine_url || `https://www.allocine.fr/recherche/?q=${encodeURIComponent(film.title)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3.5 py-1.5 rounded-full bg-white dark:bg-[#1e1e1e] border border-black/[0.08] dark:border-white/10 text-xs font-semibold text-neutral-800 dark:text-white flex items-center gap-1.5 shadow-sm hover:border-neutral-400 transition-colors"
+              className="px-3.5 py-1.5 rounded-full bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-xs font-semibold text-neutral-800 dark:text-white flex items-center gap-1.5 shadow-sm hover:border-neutral-400 dark:hover:border-white/25 transition-colors"
             >
               <span className="text-amber-500 font-bold text-xs">A</span>
               <span>AlloCiné</span>
@@ -272,7 +272,7 @@ export default async function FilmPage({ params }: PageProps) {
 
         <div className="border-t border-black/[0.06] dark:border-white/10 pt-3" />
 
-        {/* ── 4. Synopsis ── */}
+        {/* ── 4. Synopsis (Screenshot 3 Exact) ── */}
         {film.synopsis && film.synopsis !== 'Synopsis non disponible' && (
           <div className="space-y-2 px-1">
             <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-bold text-sm">
@@ -287,14 +287,14 @@ export default async function FilmPage({ params }: PageProps) {
 
         <div className="border-t border-black/[0.06] dark:border-white/10 pt-3" />
 
-        {/* ── 5. Classification & Sensibilité ── */}
+        {/* ── 5. Classification & Sensibilité (Screenshot 3 Exact) ── */}
         <div className="space-y-1.5 px-1">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-bold text-sm">
               <ShieldCheck size={16} className="text-[#444cf7]" />
-              <span>Classification & Sensibilité</span>
+              <span>Classification &amp; Sensibilité</span>
             </div>
-            <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 text-[11px] font-semibold">
+            <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 text-[11px] font-semibold">
               Tous publics
             </span>
           </div>
@@ -305,13 +305,13 @@ export default async function FilmPage({ params }: PageProps) {
 
         <div className="border-t border-black/[0.06] dark:border-white/10 pt-3" />
 
-        {/* ── 6. Scènes Post-Générique ── */}
+        {/* ── 6. Scènes Post-Générique (Screenshot 3 Exact) ── */}
         <div className="space-y-1.5 px-1">
           <div className="flex items-center justify-between">
             <h3 className="font-bold text-sm text-neutral-900 dark:text-white">
               Scènes Post-Générique
             </h3>
-            <span className="px-2.5 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800 text-[11px] font-semibold flex items-center gap-1">
+            <span className="px-2.5 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800/60 text-[11px] font-semibold flex items-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
               <span>1 Scène milieu</span>
             </span>
@@ -338,7 +338,7 @@ export default async function FilmPage({ params }: PageProps) {
             <div className="flex items-center gap-4 overflow-x-auto no-scrollbar pb-1">
               {cast.map((actor) => (
                 <div key={actor.id} className="flex flex-col items-center text-center shrink-0 w-20">
-                  <div className="w-16 h-16 rounded-full overflow-hidden border border-black/10 dark:border-white/15 bg-neutral-200 dark:bg-neutral-800 mb-1.5 shadow-sm">
+                  <div className="w-16 h-16 rounded-full overflow-hidden border border-black/10 dark:border-white/15 bg-neutral-200 dark:bg-[#1c1c1e] mb-1.5 shadow-sm">
                     {actor.profile_path ? (
                       <img
                         src={actor.profile_path}
@@ -355,7 +355,7 @@ export default async function FilmPage({ params }: PageProps) {
                   <span className="text-xs font-bold text-neutral-900 dark:text-white line-clamp-1 leading-tight">
                     {actor.name}
                   </span>
-                  <span className="text-[10px] text-neutral-500 line-clamp-1 mt-0.5 leading-tight">
+                  <span className="text-[10px] text-neutral-500 dark:text-neutral-400 line-clamp-1 mt-0.5 leading-tight">
                     {actor.character}
                   </span>
                 </div>
@@ -373,7 +373,7 @@ export default async function FilmPage({ params }: PageProps) {
               <PlayCircle size={16} className="text-[#444cf7]" />
               <span>Bande-annonce</span>
             </div>
-            <div className="relative w-full aspect-video rounded-[20px] overflow-hidden shadow-md border border-black/10 dark:border-white/10">
+            <div className="relative w-full aspect-video rounded-[20px] overflow-hidden shadow-md border border-black/10 dark:border-white/10 bg-neutral-900">
               <iframe
                 src={`https://www.youtube-nocookie.com/embed/${youtubeId}?rel=0&modestbranding=1`}
                 title={`${film.title} Bande-annonce`}
@@ -404,7 +404,7 @@ export default async function FilmPage({ params }: PageProps) {
                       className="w-11 h-11 rounded-[14px] object-cover border border-black/10 dark:border-white/10 shadow-sm"
                     />
                   )}
-                  <span className="text-[10px] text-neutral-500 mt-1 max-w-[70px] truncate">
+                  <span className="text-[10px] text-neutral-500 dark:text-neutral-400 mt-1 max-w-[70px] truncate">
                     {p.name}
                   </span>
                 </div>
@@ -422,7 +422,7 @@ export default async function FilmPage({ params }: PageProps) {
             <span>Critiques Spectateurs</span>
           </div>
 
-          <div className="p-4 rounded-[20px] bg-white dark:bg-[#1e1e1e] border border-black/[0.06] dark:border-white/10 shadow-sm space-y-2">
+          <div className="p-4 rounded-[20px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm space-y-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/50 text-[#444cf7] flex items-center justify-center font-bold text-xs">
@@ -435,7 +435,7 @@ export default async function FilmPage({ params }: PageProps) {
               </div>
               <div className="flex items-center text-amber-400">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={12} className={i < 3 ? 'fill-amber-400' : 'text-neutral-300'} />
+                  <Star key={i} size={12} className={i < 3 ? 'fill-amber-400' : 'text-neutral-300 dark:text-neutral-600'} />
                 ))}
               </div>
             </div>
@@ -477,9 +477,9 @@ export default async function FilmPage({ params }: PageProps) {
                             {seances.map((seance, idx) => (
                               <div
                                 key={`${seance.time}-${idx}`}
-                                className="shrink-0 h-[44px] min-w-[76px] px-2 py-1 rounded-[12px] bg-white dark:bg-[#1e1e1e] border border-black/[0.08] dark:border-white/10 flex flex-col justify-between shadow-sm"
+                                className="shrink-0 h-[44px] min-w-[76px] px-2 py-1 rounded-[12px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 flex flex-col justify-between shadow-sm"
                               >
-                                <div className="flex items-center justify-between text-[9px] font-bold text-neutral-500">
+                                <div className="flex items-center justify-between text-[9px] font-bold text-neutral-500 dark:text-neutral-400">
                                   <span>{seance.lang || 'VF'}</span>
                                   {seance.format && (
                                     <span className="text-[8px] uppercase text-neutral-400 truncate max-w-[36px]">
@@ -527,14 +527,14 @@ export default async function FilmPage({ params }: PageProps) {
                   {similarMovies.length}
                 </span>
               </div>
-              <p className="text-[11px] text-neutral-500 -mt-1">
+              <p className="text-[11px] text-neutral-500 dark:text-neutral-400 -mt-1">
                 Actuellement en salle cette semaine
               </p>
 
               <div className="flex items-start gap-3 overflow-x-auto no-scrollbar pb-2">
                 {similarMovies.map((m) => (
                   <div key={m.id} className="shrink-0 w-32 space-y-1.5">
-                    <div className="relative aspect-[2/3] rounded-[18px] overflow-hidden shadow-sm border border-black/10 dark:border-white/10 bg-neutral-200">
+                    <div className="relative aspect-[2/3] rounded-[18px] overflow-hidden shadow-sm border border-black/10 dark:border-white/10 bg-neutral-200 dark:bg-[#1c1c1e]">
                       {m.poster && (
                         <img src={m.poster} alt={m.title} className="w-full h-full object-cover" />
                       )}
@@ -551,7 +551,7 @@ export default async function FilmPage({ params }: PageProps) {
                     <h4 className="text-xs font-bold text-neutral-900 dark:text-white truncate">
                       {m.title}
                     </h4>
-                    <p className="text-[10px] text-neutral-500 truncate">
+                    <p className="text-[10px] text-neutral-500 dark:text-neutral-400 truncate">
                       {m.cinema}
                     </p>
                   </div>

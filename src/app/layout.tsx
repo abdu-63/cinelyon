@@ -9,9 +9,10 @@ import { SettingsModal } from '@/components/ui/SettingsModal';
 import { ThemeProvider } from '@/context/ThemeContext';
 import { I18nProvider } from '@/i18n';
 import { QueryClientProvider } from '@/context/QueryClientProvider';
+import { ThemeScript } from '@/components/layout/ThemeScript';
 
 export const viewport: Viewport = {
-  themeColor: '#121212',
+  themeColor: '#121214',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
@@ -56,14 +57,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" data-theme="dark" data-primary="violet" suppressHydrationWarning>
+    <html lang="fr" className="dark" data-theme="dark" data-primary="violet" suppressHydrationWarning>
       <head>
+        <ThemeScript />
         <link rel="preconnect" href="https://wsrv.nl" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://fr.web.img4.acsta.net" />
         <link rel="dns-prefetch" href="https://fr.web.img6.acsta.net" />
         <link rel="dns-prefetch" href="https://image.tmdb.org" />
       </head>
-      <body className="min-h-screen flex flex-col bg-[#121212] text-white selection:bg-[#444cf7] selection:text-white">
+      <body className="min-h-screen flex flex-col bg-[#f5f6f8] dark:bg-[#121214] text-neutral-900 dark:text-white selection:bg-[#444cf7] selection:text-white antialiased transition-colors duration-150">
         <QueryClientProvider>
           <ThemeProvider>
             <I18nProvider>

@@ -62,7 +62,7 @@ export function DoubleFeatureModal({ films = [], dates = [] }: DoubleFeatureModa
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-lg max-h-[88vh] bg-white dark:bg-[#1e1e1e] rounded-[28px] p-5 shadow-2xl border border-black/10 dark:border-white/10 z-10 flex flex-col my-auto space-y-3"
+            className="relative w-full max-w-lg max-h-[88vh] bg-white dark:bg-[#1c1c1e] rounded-[28px] p-5 shadow-2xl border border-black/10 dark:border-white/10 z-10 flex flex-col my-auto space-y-3"
           >
             {/* Header */}
             <div className="flex items-center justify-between">
@@ -70,14 +70,14 @@ export function DoubleFeatureModal({ films = [], dates = [] }: DoubleFeatureModa
                 <h3 className="font-bold text-lg text-neutral-900 dark:text-white">
                   Double Programme
                 </h3>
-                <p className="text-xs text-neutral-500">
+                <p className="text-xs text-neutral-500 dark:text-neutral-400">
                   2 séances consécutives · 10 à 30 min de pause
                 </p>
               </div>
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="w-8 h-8 rounded-full bg-neutral-100 dark:bg-white/10 text-neutral-600 dark:text-white flex items-center justify-center hover:bg-neutral-200 transition-colors"
+                className="w-8 h-8 rounded-full bg-neutral-100 dark:bg-white/10 text-neutral-600 dark:text-white flex items-center justify-center hover:bg-neutral-200 dark:hover:bg-white/20 transition-colors"
               >
                 <X size={16} />
               </button>
@@ -90,10 +90,10 @@ export function DoubleFeatureModal({ films = [], dates = [] }: DoubleFeatureModa
                   key={d.isoDate}
                   type="button"
                   onClick={() => setSelectedDayIdx(i)}
-                  className={`h-11 min-w-[64px] px-3 rounded-[20px] flex flex-col items-center justify-center text-xs font-bold shrink-0 border transition-all ${
+                  className={`h-11 min-w-[64px] px-3 rounded-[20px] flex flex-col items-center justify-center text-xs font-bold shrink-0 border transition-all active:scale-95 ${
                     selectedDayIdx === i
                       ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
-                      : 'bg-neutral-100 dark:bg-white/5 border-transparent text-neutral-700 dark:text-neutral-300'
+                      : 'bg-neutral-100 dark:bg-[#242428] border-transparent text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/20'
                   }`}
                 >
                   <span className="leading-tight">{i === 0 ? 'Auj.' : d.jour}</span>
@@ -107,23 +107,23 @@ export function DoubleFeatureModal({ films = [], dates = [] }: DoubleFeatureModa
             {/* Filtres : Film prioritaire & Créneau */}
             <div className="flex items-center gap-2">
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-2.5 text-neutral-400" size={15} />
+                <Search className="absolute left-3 top-2.5 text-neutral-400 pointer-events-none" size={15} />
                 <input
                   type="text"
                   placeholder="Film prioritaire"
                   value={priorityFilmQuery}
                   onChange={(e) => setPriorityFilmQuery(e.target.value)}
-                  className="w-full pl-9 pr-3 py-2 rounded-xl bg-neutral-100 dark:bg-white/5 border border-transparent focus:border-[#444cf7] text-xs text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-none"
+                  className="w-full pl-9 pr-3 py-2 rounded-xl bg-neutral-100 dark:bg-[#242428] border border-black/[0.06] dark:border-white/10 focus:border-[#444cf7] text-xs text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-none"
                 />
               </div>
 
               {/* Segmented Control Midi / Soir / Tout */}
-              <div className="flex items-center bg-neutral-100 dark:bg-white/5 p-0.5 rounded-xl text-xs font-semibold text-neutral-600 dark:text-neutral-300">
+              <div className="flex items-center bg-neutral-100 dark:bg-[#242428] p-0.5 rounded-xl text-xs font-semibold text-neutral-600 dark:text-neutral-300">
                 <button
                   type="button"
                   onClick={() => setTimePeriod('afternoon')}
                   className={`px-2.5 py-1.5 rounded-lg transition-all ${
-                    timePeriod === 'afternoon' ? 'bg-white dark:bg-[#1e1e1e] text-[#444cf7] shadow-sm' : ''
+                    timePeriod === 'afternoon' ? 'bg-white dark:bg-[#1c1c1e] text-[#444cf7] shadow-sm font-bold' : ''
                   }`}
                 >
                   Midi
@@ -132,7 +132,7 @@ export function DoubleFeatureModal({ films = [], dates = [] }: DoubleFeatureModa
                   type="button"
                   onClick={() => setTimePeriod('evening')}
                   className={`px-2.5 py-1.5 rounded-lg transition-all ${
-                    timePeriod === 'evening' ? 'bg-white dark:bg-[#1e1e1e] text-[#444cf7] shadow-sm' : ''
+                    timePeriod === 'evening' ? 'bg-white dark:bg-[#1c1c1e] text-[#444cf7] shadow-sm font-bold' : ''
                   }`}
                 >
                   Soir
@@ -141,7 +141,7 @@ export function DoubleFeatureModal({ films = [], dates = [] }: DoubleFeatureModa
                   type="button"
                   onClick={() => setTimePeriod('all')}
                   className={`px-2.5 py-1.5 rounded-lg transition-all ${
-                    timePeriod === 'all' ? 'bg-white dark:bg-[#1e1e1e] text-[#444cf7] shadow-sm' : ''
+                    timePeriod === 'all' ? 'bg-white dark:bg-[#1c1c1e] text-[#444cf7] shadow-sm font-bold' : ''
                   }`}
                 >
                   Tout
@@ -156,8 +156,8 @@ export function DoubleFeatureModal({ films = [], dates = [] }: DoubleFeatureModa
                 onClick={() => setSameCinemaOnly(!sameCinemaOnly)}
                 className={`px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 border transition-all ${
                   sameCinemaOnly
-                    ? 'bg-blue-50 dark:bg-blue-950/40 border-blue-200 dark:border-blue-800 text-[#444cf7]'
-                    : 'bg-neutral-100 dark:bg-white/5 border-transparent text-neutral-600 dark:text-neutral-400'
+                    ? 'bg-blue-50 dark:bg-blue-950/50 border-blue-200 dark:border-blue-800 text-[#444cf7]'
+                    : 'bg-neutral-100 dark:bg-[#242428] border-transparent text-neutral-600 dark:text-neutral-400'
                 }`}
               >
                 <MapPin size={12} />
@@ -189,7 +189,7 @@ export function DoubleFeatureModal({ films = [], dates = [] }: DoubleFeatureModa
                   return (
                     <div
                       key={pair.id}
-                      className="p-3.5 rounded-[22px] bg-white dark:bg-[#1e1e1e] border border-black/[0.06] dark:border-white/10 shadow-sm space-y-2 transition-all hover:border-neutral-300"
+                      className="p-3.5 rounded-[22px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm space-y-2 transition-all hover:border-neutral-300 dark:hover:border-white/20"
                     >
                       <div
                         onClick={() => setExpandedPairId(isExpanded ? null : pair.id)}
@@ -201,12 +201,12 @@ export function DoubleFeatureModal({ films = [], dates = [] }: DoubleFeatureModa
                             <img
                               src={pair.filmA.affiche || '/images/nocontent.png'}
                               alt={pair.filmA.title}
-                              className="absolute top-0 left-0 w-10 h-14 rounded-lg object-cover shadow-sm border border-white"
+                              className="absolute top-0 left-0 w-10 h-14 rounded-lg object-cover shadow-sm border border-white dark:border-[#1c1c1e]"
                             />
                             <img
                               src={pair.filmB.affiche || '/images/nocontent.png'}
                               alt={pair.filmB.title}
-                              className="absolute bottom-0 right-0 w-10 h-14 rounded-lg object-cover shadow-md border border-white z-10"
+                              className="absolute bottom-0 right-0 w-10 h-14 rounded-lg object-cover shadow-md border border-white dark:border-[#1c1c1e] z-10"
                             />
                           </div>
 
@@ -217,7 +217,7 @@ export function DoubleFeatureModal({ films = [], dates = [] }: DoubleFeatureModa
                             <p className="text-xs font-bold text-neutral-900 dark:text-white truncate">
                               2. {pair.filmB.title}
                             </p>
-                            <p className="text-[11px] text-neutral-500">
+                            <p className="text-[11px] text-neutral-500 dark:text-neutral-400">
                               Dès {firstSlot.first.startTimeFormatted} · {pair.slots.length} options
                             </p>
                           </div>
@@ -237,13 +237,13 @@ export function DoubleFeatureModal({ films = [], dates = [] }: DoubleFeatureModa
                           {pair.slots.slice(0, 3).map((slot) => (
                             <div
                               key={slot.id}
-                              className="p-2.5 rounded-xl bg-neutral-50 dark:bg-black/20 space-y-1.5"
+                              className="p-2.5 rounded-xl bg-neutral-50 dark:bg-[#161618] border border-black/[0.04] dark:border-white/5 space-y-1.5"
                             >
                               <div className="flex items-center justify-between text-xs font-semibold">
                                 <span className="text-neutral-800 dark:text-neutral-200">
                                   {slot.first.startTimeFormatted} ➔ {slot.first.endTimeFormatted} : {slot.first.film.title}
                                 </span>
-                                <span className="text-neutral-500">{slot.cinema1}</span>
+                                <span className="text-neutral-500 dark:text-neutral-400">{slot.cinema1}</span>
                               </div>
 
                               <div className="text-center text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
@@ -254,7 +254,7 @@ export function DoubleFeatureModal({ films = [], dates = [] }: DoubleFeatureModa
                                 <span className="text-neutral-800 dark:text-neutral-200">
                                   {slot.second.startTimeFormatted} ➔ {slot.second.endTimeFormatted} : {slot.second.film.title}
                                 </span>
-                                <span className="text-neutral-500">{slot.cinema2}</span>
+                                <span className="text-neutral-500 dark:text-neutral-400">{slot.cinema2}</span>
                               </div>
                             </div>
                           ))}

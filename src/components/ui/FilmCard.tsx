@@ -94,8 +94,8 @@ export const FilmCard = memo(function FilmCard({
 
   return (
     <div className="w-full mb-3 sm:mb-3.5">
-      {/* ── 1. Carte Blanche Apple (Portage exact de cinelyon-app) ── */}
-      <div className="relative rounded-[18px] sm:rounded-[22px] overflow-hidden bg-white dark:bg-[#1e1e1e] border border-black/[0.06] dark:border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.03)] hover:shadow-lg transition-all">
+      {/* ── 1. Carte Blanche Apple / Sombre Apple (Portage exact de cinelyon-app) ── */}
+      <div className="relative rounded-[18px] sm:rounded-[22px] overflow-hidden bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.03)] hover:shadow-lg dark:hover:border-white/20 transition-all">
         <div
           onClick={() => router.push(`/film/${film.slug}`)}
           className="flex items-start cursor-pointer group select-none"
@@ -123,7 +123,7 @@ export const FilmCard = memo(function FilmCard({
                 <h3 className="font-bold text-[14px] sm:text-[16px] md:text-[18px] leading-[18px] sm:leading-[22px] md:leading-[24px] text-neutral-900 dark:text-white group-hover:text-[#444cf7] transition-colors line-clamp-2 pr-1">
                   {film.title}
                   {film.release_year && film.release_year !== 'inconnue' && (
-                    <span className="font-normal text-neutral-500 text-[13px] sm:text-[14px] md:text-[15px]"> ({film.release_year})</span>
+                    <span className="font-normal text-neutral-500 dark:text-neutral-400 text-[13px] sm:text-[14px] md:text-[15px]"> ({film.release_year})</span>
                   )}
                 </h3>
 
@@ -139,7 +139,7 @@ export const FilmCard = memo(function FilmCard({
                 >
                   <Heart
                     size={21}
-                    className={`transition-colors ${isFavorite ? 'fill-[#ff6b6b] text-[#ff6b6b]' : 'text-neutral-400'}`}
+                    className={`transition-colors ${isFavorite ? 'fill-[#ff6b6b] text-[#ff6b6b]' : 'text-neutral-400 dark:text-neutral-400'}`}
                   />
                 </button>
               </div>
@@ -148,22 +148,22 @@ export const FilmCard = memo(function FilmCard({
               <div className="space-y-0.5 sm:space-y-1 text-[11px] sm:text-[12px] md:text-[13px] leading-[15px] sm:leading-[18px] md:leading-[19px] text-neutral-700 dark:text-neutral-300 mt-1">
                 {film.director && film.director !== 'Inconnu' && (
                   <p className="truncate">
-                    <span className="text-neutral-500">Réalisateur :</span> {film.director}
+                    <span className="text-neutral-500 dark:text-neutral-400">Réalisateur :</span> <span className="text-neutral-800 dark:text-neutral-200">{film.director}</span>
                   </p>
                 )}
                 {localizedGenres && (
                   <p className="truncate">
-                    <span className="text-neutral-500">Genre :</span> {localizedGenres}
+                    <span className="text-neutral-500 dark:text-neutral-400">Genre :</span> <span className="text-neutral-800 dark:text-neutral-200">{localizedGenres}</span>
                   </p>
                 )}
                 {localizedDuration && (
                   <p className="truncate">
-                    <span className="text-neutral-500">Durée :</span> {localizedDuration}
+                    <span className="text-neutral-500 dark:text-neutral-400">Durée :</span> <span className="text-neutral-800 dark:text-neutral-200">{localizedDuration}</span>
                   </p>
                 )}
                 {cleanRating && (
                   <p className="truncate font-semibold text-neutral-800 dark:text-neutral-200">
-                    <span className="text-neutral-500 font-normal">Note :</span> {cleanRating}/5
+                    <span className="text-neutral-500 dark:text-neutral-400 font-normal">Note :</span> {cleanRating}/5
                   </p>
                 )}
               </div>
@@ -195,9 +195,9 @@ export const FilmCard = memo(function FilmCard({
               )}
 
               {/* Chevron nav */}
-              <div className="opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-neutral-600 dark:text-neutral-400 flex items-center gap-1 text-xs font-semibold text-[#444cf7]">
+              <div className="opacity-70 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-neutral-600 dark:text-neutral-400 flex items-center gap-1 text-xs font-semibold text-[#444cf7]">
                 <span className="hidden sm:inline text-[11px] font-bold">Détails</span>
-                <ChevronRight size={16} className="sm:w-4 sm:h-4" />
+                <ChevronRight size={16} className="sm:w-4 sm:h-4 text-[#444cf7]" />
               </div>
             </div>
           </div>
@@ -231,10 +231,10 @@ export const FilmCard = memo(function FilmCard({
                       setUserSelectedDayIdx(isActive ? null : idxInAll);
                     }
                   }}
-                  className={`relative px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-[16px] text-[11px] sm:text-[12px] font-semibold tracking-tight transition-all shrink-0 border ${
+                  className={`relative px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-[16px] text-[11px] sm:text-[12px] font-semibold tracking-tight transition-all shrink-0 border active:scale-95 ${
                     isActive
                       ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
-                      : 'bg-white dark:bg-[#1e1e1e] border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-300 hover:border-neutral-300'
+                      : 'bg-white dark:bg-[#1c1c1e] border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/25'
                   }`}
                 >
                   {hasAvantPremiere && (
@@ -272,9 +272,9 @@ export const FilmCard = memo(function FilmCard({
                       {visibleSeances.map((seance, idx) => (
                         <div
                           key={`${seance.time}-${idx}`}
-                          className="shrink-0 h-[42px] sm:h-[48px] min-w-[72px] sm:min-w-[84px] px-2 sm:px-2.5 py-1 rounded-[10px] sm:rounded-[12px] bg-white dark:bg-[#1e1e1e] border border-black/[0.08] dark:border-white/10 hover:border-[#444cf7]/60 flex flex-col justify-between transition-colors group/pill"
+                          className="shrink-0 h-[42px] sm:h-[48px] min-w-[72px] sm:min-w-[84px] px-2 sm:px-2.5 py-1 rounded-[10px] sm:rounded-[12px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 hover:border-[#444cf7]/60 dark:hover:border-[#444cf7]/60 flex flex-col justify-between transition-colors group/pill"
                         >
-                          <div className="flex items-center justify-between gap-1 text-[9px] sm:text-[10px] font-bold text-neutral-500 leading-tight">
+                          <div className="flex items-center justify-between gap-1 text-[9px] sm:text-[10px] font-bold text-neutral-500 dark:text-neutral-400 leading-tight">
                             <span>{seance.lang || 'VF'}</span>
                             {seance.format && (
                               <span className="text-[8px] sm:text-[9px] uppercase text-neutral-400 truncate max-w-[48px]">

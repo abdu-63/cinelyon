@@ -144,7 +144,7 @@ export function ChatBot() {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-lg h-[640px] max-h-[90vh] bg-white dark:bg-[#1e1e1e] rounded-[28px] shadow-2xl border border-black/10 dark:border-white/10 z-10 flex flex-col overflow-hidden my-auto"
+              className="relative w-full max-w-lg h-[640px] max-h-[90vh] bg-white dark:bg-[#1c1c1e] rounded-[28px] shadow-2xl border border-black/10 dark:border-white/10 z-10 flex flex-col overflow-hidden my-auto"
             >
               {/* Header */}
               <div className="p-4 border-b border-black/[0.06] dark:border-white/10 flex items-center justify-between">
@@ -154,7 +154,7 @@ export function ChatBot() {
                   </div>
                   <div>
                     <h3 className="font-bold text-sm text-neutral-900 dark:text-white">CinéBot</h3>
-                    <p className="text-[11px] text-neutral-500 flex items-center gap-1.5">
+                    <p className="text-[11px] text-neutral-500 dark:text-neutral-400 flex items-center gap-1.5">
                       <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" />
                       <span>Assistant IA • En direct</span>
                     </p>
@@ -165,7 +165,7 @@ export function ChatBot() {
                   <button
                     type="button"
                     onClick={clearHistory}
-                    className="w-8 h-8 rounded-full bg-neutral-100 dark:bg-white/10 text-neutral-600 dark:text-neutral-300 flex items-center justify-center hover:bg-neutral-200 transition-colors"
+                    className="w-8 h-8 rounded-full bg-neutral-100 dark:bg-white/10 text-neutral-600 dark:text-neutral-300 flex items-center justify-center hover:bg-neutral-200 dark:hover:bg-white/20 transition-colors"
                     title="Effacer l'historique"
                   >
                     <Trash2 size={15} />
@@ -173,7 +173,7 @@ export function ChatBot() {
                   <button
                     type="button"
                     onClick={() => setIsOpen(false)}
-                    className="w-8 h-8 rounded-full bg-neutral-100 dark:bg-white/10 text-neutral-600 dark:text-neutral-300 flex items-center justify-center hover:bg-neutral-200 transition-colors"
+                    className="w-8 h-8 rounded-full bg-neutral-100 dark:bg-white/10 text-neutral-600 dark:text-neutral-300 flex items-center justify-center hover:bg-neutral-200 dark:hover:bg-white/20 transition-colors"
                   >
                     <X size={16} />
                   </button>
@@ -191,7 +191,7 @@ export function ChatBot() {
                     <h2 className="text-xl font-extrabold text-neutral-900 dark:text-white">
                       CinéBot IA
                     </h2>
-                    <p className="text-xs text-neutral-500 max-w-xs mx-auto leading-relaxed">
+                    <p className="text-xs text-neutral-500 dark:text-neutral-400 max-w-xs mx-auto leading-relaxed">
                       Votre assistant cinéma à Lyon. Posez une question, cherchez une séance ou laissez-vous guider.
                     </p>
 
@@ -202,13 +202,13 @@ export function ChatBot() {
                           key={i}
                           type="button"
                           onClick={() => sendMessage(card.query)}
-                          className="p-3.5 rounded-[20px] bg-neutral-50 dark:bg-black/30 border border-black/[0.06] dark:border-white/10 hover:border-[#444cf7] transition-all text-left shadow-sm group"
+                          className="p-3.5 rounded-[20px] bg-neutral-50 dark:bg-[#242428] border border-black/[0.06] dark:border-white/10 hover:border-[#444cf7] transition-all text-left shadow-sm group"
                         >
                           <span className="text-xl block mb-1">{card.icon}</span>
                           <h4 className="text-xs font-bold text-neutral-900 dark:text-white group-hover:text-[#444cf7] transition-colors">
                             {card.title}
                           </h4>
-                          <p className="text-[10px] text-neutral-500 mt-0.5 line-clamp-1">
+                          <p className="text-[10px] text-neutral-500 dark:text-neutral-400 mt-0.5 line-clamp-1">
                             {card.desc}
                           </p>
                         </button>
@@ -234,7 +234,7 @@ export function ChatBot() {
                       className={`max-w-[82%] px-4 py-3 rounded-[20px] text-xs sm:text-sm leading-relaxed shadow-sm ${
                         m.role === 'user'
                           ? 'bg-[#444cf7] text-white rounded-br-none'
-                          : 'bg-neutral-100 dark:bg-white/10 text-neutral-900 dark:text-white rounded-bl-none'
+                          : 'bg-neutral-100 dark:bg-[#242428] text-neutral-900 dark:text-white rounded-bl-none border border-transparent dark:border-white/5'
                       }`}
                     >
                       {m.content}
@@ -247,7 +247,7 @@ export function ChatBot() {
                     <div className="w-7 h-7 rounded-full bg-[#444cf7] text-white flex items-center justify-center shrink-0">
                       <Sparkles size={13} />
                     </div>
-                    <div className="px-4 py-3 rounded-[20px] bg-neutral-100 dark:bg-white/10 text-neutral-500 text-xs flex items-center gap-1.5">
+                    <div className="px-4 py-3 rounded-[20px] bg-neutral-100 dark:bg-[#242428] text-neutral-500 text-xs flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-neutral-400 animate-bounce" />
                       <span className="w-1.5 h-1.5 rounded-full bg-neutral-400 animate-bounce [animation-delay:0.2s]" />
                       <span className="w-1.5 h-1.5 rounded-full bg-neutral-400 animate-bounce [animation-delay:0.4s]" />
@@ -264,7 +264,7 @@ export function ChatBot() {
                     key={i}
                     type="button"
                     onClick={() => sendMessage(p.query)}
-                    className="px-3 py-1.5 rounded-full bg-neutral-100 dark:bg-white/5 hover:bg-neutral-200 text-[11px] font-semibold text-neutral-700 dark:text-neutral-300 flex items-center gap-1.5 shrink-0 border border-black/[0.04] dark:border-white/5 transition-colors"
+                    className="px-3 py-1.5 rounded-full bg-neutral-100 dark:bg-[#242428] hover:bg-neutral-200 dark:hover:bg-white/10 text-[11px] font-semibold text-neutral-700 dark:text-neutral-300 flex items-center gap-1.5 shrink-0 border border-black/[0.04] dark:border-white/5 transition-colors"
                   >
                     <span>{p.icon}</span>
                     <span>{p.text}</span>
@@ -273,8 +273,8 @@ export function ChatBot() {
               </div>
 
               {/* Input Bar */}
-              <div className="p-3 bg-neutral-50/80 dark:bg-black/30 border-t border-black/[0.06] dark:border-white/10">
-                <div className="flex items-center gap-2 bg-white dark:bg-[#1e1e1e] border border-black/[0.08] dark:border-white/10 rounded-full px-3.5 py-1.5 shadow-sm focus-within:border-[#444cf7]">
+              <div className="p-3 bg-neutral-50/80 dark:bg-[#161618] border-t border-black/[0.06] dark:border-white/10">
+                <div className="flex items-center gap-2 bg-white dark:bg-[#242428] border border-black/[0.08] dark:border-white/10 rounded-full px-3.5 py-1.5 shadow-sm focus-within:border-[#444cf7]">
                   <input
                     type="text"
                     placeholder="Poser une question à CinéBot..."

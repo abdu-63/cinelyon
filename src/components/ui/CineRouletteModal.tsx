@@ -97,7 +97,7 @@ export function CineRouletteModal({ films = [] }: CineRouletteModalProps) {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-md bg-white dark:bg-[#1e1e1e] rounded-[28px] p-5 shadow-2xl border border-black/10 dark:border-white/10 z-10 space-y-4"
+            className="relative w-full max-w-md bg-white dark:bg-[#1c1c1e] rounded-[28px] p-5 shadow-2xl border border-black/10 dark:border-white/10 z-10 space-y-4"
           >
             {/* Header */}
             <div className="flex items-center justify-between">
@@ -107,7 +107,7 @@ export function CineRouletteModal({ films = [] }: CineRouletteModalProps) {
                   <h3 className="font-bold text-lg text-neutral-900 dark:text-white leading-tight">
                     Ciné-Roulette
                   </h3>
-                  <p className="text-xs text-neutral-500">
+                  <p className="text-xs text-neutral-500 dark:text-neutral-400">
                     Une séance au hasard ce soir à Lyon
                   </p>
                 </div>
@@ -115,7 +115,7 @@ export function CineRouletteModal({ films = [] }: CineRouletteModalProps) {
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="w-8 h-8 rounded-full bg-neutral-100 dark:bg-white/10 text-neutral-600 dark:text-white flex items-center justify-center hover:bg-neutral-200 transition-colors"
+                className="w-8 h-8 rounded-full bg-neutral-100 dark:bg-white/10 text-neutral-600 dark:text-white flex items-center justify-center hover:bg-neutral-200 dark:hover:bg-white/20 transition-colors"
               >
                 <X size={16} />
               </button>
@@ -129,10 +129,10 @@ export function CineRouletteModal({ films = [] }: CineRouletteModalProps) {
                   setOnlyEvening(!onlyEvening);
                   setTimeout(roll, 50);
                 }}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold shrink-0 transition-all flex items-center gap-1.5 border ${
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold shrink-0 transition-all flex items-center gap-1.5 border active:scale-95 ${
                   onlyEvening
                     ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
-                    : 'bg-white dark:bg-[#1e1e1e] border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-300'
+                    : 'bg-white dark:bg-[#242428] border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/25'
                 }`}
               >
                 <Moon size={12} />
@@ -145,10 +145,10 @@ export function CineRouletteModal({ films = [] }: CineRouletteModalProps) {
                   setOnlyVO(!onlyVO);
                   setTimeout(roll, 50);
                 }}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold shrink-0 transition-all flex items-center gap-1.5 border ${
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold shrink-0 transition-all flex items-center gap-1.5 border active:scale-95 ${
                   onlyVO
                     ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
-                    : 'bg-white dark:bg-[#1e1e1e] border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-300'
+                    : 'bg-white dark:bg-[#242428] border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/25'
                 }`}
               >
                 <Languages size={12} />
@@ -161,10 +161,10 @@ export function CineRouletteModal({ films = [] }: CineRouletteModalProps) {
                   setOnlyTopRated(!onlyTopRated);
                   setTimeout(roll, 50);
                 }}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold shrink-0 transition-all flex items-center gap-1.5 border ${
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold shrink-0 transition-all flex items-center gap-1.5 border active:scale-95 ${
                   onlyTopRated
                     ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
-                    : 'bg-white dark:bg-[#1e1e1e] border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-300'
+                    : 'bg-white dark:bg-[#242428] border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/25'
                 }`}
               >
                 <Star size={12} />
@@ -174,12 +174,12 @@ export function CineRouletteModal({ films = [] }: CineRouletteModalProps) {
 
             {/* Carte Résultat */}
             {selectedResult ? (
-              <div className="p-4 rounded-[24px] bg-neutral-50 dark:bg-black/30 border border-black/[0.06] dark:border-white/10 space-y-3">
+              <div className="p-4 rounded-[24px] bg-neutral-50 dark:bg-[#161618] border border-black/[0.06] dark:border-white/10 space-y-3">
                 <div className="flex items-start gap-3">
                   <img
                     src={selectedResult.film.affiche || '/images/nocontent.png'}
                     alt={selectedResult.film.title}
-                    className="w-20 h-28 object-cover rounded-[16px] shadow-sm border border-black/5 shrink-0"
+                    className="w-20 h-28 object-cover rounded-[16px] shadow-sm border border-black/5 dark:border-white/10 shrink-0"
                   />
                   <div className="space-y-1 min-w-0">
                     <h4 className="font-extrabold text-base text-neutral-900 dark:text-white line-clamp-2 leading-tight">
@@ -187,19 +187,19 @@ export function CineRouletteModal({ films = [] }: CineRouletteModalProps) {
                     </h4>
                     <div className="flex items-center gap-1.5 pt-0.5">
                       {selectedResult.film.duree && (
-                        <span className="px-2 py-0.5 rounded-full bg-neutral-200/80 dark:bg-white/10 text-[10px] font-bold text-neutral-700 dark:text-neutral-300">
+                        <span className="px-2 py-0.5 rounded-full bg-neutral-200/80 dark:bg-[#242428] text-[10px] font-bold text-neutral-700 dark:text-neutral-300">
                           {selectedResult.film.duree}
                         </span>
                       )}
                       {selectedResult.film.rating && selectedResult.film.rating !== 'Note inconnue' && (
-                        <span className="px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 text-[10px] font-bold flex items-center gap-1">
+                        <span className="px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 text-[10px] font-bold flex items-center gap-1">
                           <Star size={10} className="fill-amber-500 text-amber-500" />
                           <span>{selectedResult.film.rating}</span>
                         </span>
                       )}
                     </div>
 
-                    <div className="p-2.5 rounded-xl bg-white dark:bg-[#1e1e1e] border border-black/[0.06] dark:border-white/10 shadow-sm mt-2">
+                    <div className="p-2.5 rounded-xl bg-white dark:bg-[#242428] border border-black/[0.06] dark:border-white/10 shadow-sm mt-2">
                       <p className="text-xs font-semibold text-neutral-800 dark:text-neutral-200 truncate">
                         {selectedResult.cinema}
                       </p>

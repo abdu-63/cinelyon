@@ -100,7 +100,7 @@ export function ToiletBreaksSection({ info, film }: ToiletBreaksSectionProps) {
                   )}
 
                   {isExpanded && (
-                    <div className="p-3.5 rounded-[18px] bg-white dark:bg-[#1e1e1e] border border-black/[0.06] dark:border-white/10 shadow-sm space-y-1 animate-in fade-in duration-150">
+                    <div className="p-3.5 rounded-[18px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm space-y-1 animate-in fade-in duration-150">
                       <div className="flex items-center gap-1.5 text-xs font-bold text-neutral-900 dark:text-white">
                         <Sparkles size={13} className="text-[#444cf7]" />
                         <span>Pendant les {b.durationMinutes} min :</span>

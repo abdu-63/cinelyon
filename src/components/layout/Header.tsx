@@ -35,7 +35,7 @@ export default function Header() {
     <header
       className={`sticky top-0 z-40 w-full transition-all duration-200 ${
         isScrolled
-          ? 'bg-white/85 dark:bg-[#121212]/85 backdrop-blur-xl border-b border-black/[0.06] dark:border-white/10 shadow-sm py-2.5'
+          ? 'bg-white/85 dark:bg-[#121214]/85 backdrop-blur-xl border-b border-black/[0.06] dark:border-white/10 shadow-sm py-2.5'
           : 'bg-transparent py-3'
       }`}
     >
@@ -62,7 +62,7 @@ export default function Header() {
             <button
               type="button"
               onClick={() => setLangDropdownOpen(!langDropdownOpen)}
-              className="px-2.5 py-1.5 rounded-xl bg-white dark:bg-[#1e1e1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-300 hover:border-neutral-400 transition-colors flex items-center gap-1 text-xs font-bold shadow-sm"
+              className="px-2.5 py-1.5 rounded-xl bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/25 transition-colors flex items-center gap-1 text-xs font-bold shadow-sm active:scale-95"
               title="Changer de langue"
             >
               <Globe size={14} />
@@ -70,7 +70,7 @@ export default function Header() {
             </button>
 
             {langDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-44 rounded-2xl bg-white dark:bg-[#1e1e1e] border border-black/10 dark:border-white/15 shadow-2xl py-1 z-50 animate-in fade-in zoom-in-95 duration-150">
+              <div className="absolute right-0 mt-2 w-44 rounded-2xl bg-white dark:bg-[#1c1c1e] border border-black/10 dark:border-white/15 shadow-2xl py-1 z-50 animate-in fade-in zoom-in-95 duration-150">
                 {SUPPORTED_LANGUAGES.map((l) => (
                   <button
                     key={l.code}
@@ -98,7 +98,7 @@ export default function Header() {
           <button
             type="button"
             onClick={() => setMode(isDark ? 'light' : 'dark')}
-            className="p-2 rounded-xl bg-white dark:bg-[#1e1e1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-300 hover:border-neutral-400 transition-colors shadow-sm"
+            className="p-2 rounded-xl bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/25 transition-colors shadow-sm active:scale-95"
             title={isDark ? 'Mode clair' : 'Mode sombre'}
           >
             {isDark ? <Sun size={15} className="text-amber-400" /> : <Moon size={15} />}
@@ -108,7 +108,7 @@ export default function Header() {
           <button
             type="button"
             onClick={openSettings}
-            className="p-2 rounded-xl bg-white dark:bg-[#1e1e1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-300 hover:border-neutral-400 transition-colors shadow-sm"
+            className="p-2 rounded-xl bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/25 transition-colors shadow-sm active:scale-95"
             title="Paramètres"
           >
             <Settings size={15} />

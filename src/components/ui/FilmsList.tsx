@@ -133,9 +133,9 @@ export function FilmsList({ initialFilms = [], initialDates = [] }: FilmsListPro
       {/* Liste des Films (Feed Centré fidèle à l'application mobile) */}
       <div className="space-y-3 mt-2">
         {paginatedFilms.length === 0 ? (
-          <div className="text-center py-16 liquid-glass rounded-3xl border border-white/10 p-8 my-4">
-            <p className="text-sm font-semibold text-neutral-300">Aucun film ne correspond à vos filtres.</p>
-            <p className="text-xs text-neutral-400 mt-1">
+          <div className="text-center py-16 rounded-[24px] bg-white dark:bg-[#1c1c1e] border border-black/10 dark:border-white/10 p-8 my-4 shadow-sm">
+            <p className="text-sm font-semibold text-neutral-800 dark:text-neutral-200">Aucun film ne correspond à vos filtres.</p>
+            <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
               Essaie de réinitialiser la recherche ou de changer de jour.
             </p>
           </div>
@@ -160,7 +160,7 @@ export function FilmsList({ initialFilms = [], initialDates = [] }: FilmsListPro
           <button
             type="button"
             onClick={handleLoadMore}
-            className="px-6 py-3 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/15 text-white text-xs font-bold transition-all shadow-lg active:scale-95"
+            className="px-6 py-3 rounded-2xl bg-white dark:bg-[#1c1c1e] hover:bg-neutral-50 dark:hover:bg-white/10 border border-black/10 dark:border-white/15 text-neutral-900 dark:text-white text-xs font-bold transition-all shadow-md active:scale-95"
           >
             Afficher plus de films ({filteredFilms.length - visibleCount} restants)
           </button>

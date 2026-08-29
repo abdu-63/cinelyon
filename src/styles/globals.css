@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *, .dark, .dark *));
+
 /* ── Polices personnalisées CinéLyon ── */
 @font-face {
   font-family: 'HealTheWebA';
@@ -25,7 +27,7 @@
   font-display: swap;
 }
 
-/* ── Variables de Thème (Light par défaut comme sur les screenshots) ── */
+/* ── Variables de Thème (Mode Sombre par défaut comme sur l'application mobile) ── */
 :root {
   --bg-main: #f5f6f8;
   --bg-surface: #ffffff;
@@ -43,19 +45,20 @@
   --card-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
 }
 
-[data-theme='dark'] {
-  --bg-main: #121212;
-  --bg-surface: #1e1e1e;
-  --bg-surface-elevated: #282828;
+[data-theme='dark'],
+.dark {
+  --bg-main: #121214;
+  --bg-surface: #1c1c1e;
+  --bg-surface-elevated: #2c2c2e;
   --text-main: #ffffff;
-  --text-muted: #aaaaaa;
-  --text-subtle: #888888;
+  --text-muted: #8e8e93;
+  --text-subtle: #636366;
   --primary: #444cf7;
   --primary-hover: #3339c4;
   --primary-contrast: #ffffff;
   --border-color: rgba(255, 255, 255, 0.08);
   --border-light: rgba(255, 255, 255, 0.05);
-  --card-bg: #1e1e1e;
+  --card-bg: #1c1c1e;
   --card-border: rgba(255, 255, 255, 0.08);
   --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
@@ -77,6 +80,18 @@ body {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
   box-shadow: var(--card-shadow);
+}
+
+.liquid-glass-dock {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+:is(.dark, [data-theme="dark"]) .liquid-glass-dock {
+  background: rgba(28, 28, 30, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .no-scrollbar::-webkit-scrollbar {
