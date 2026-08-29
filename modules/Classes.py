@@ -164,11 +164,36 @@ class Movie:
 
         self.affiche = tmdb_data.get("tmdb_poster") or allocine_poster
 
+        # Cast & acteurs (Allociné et TMDB)
+        self.cast = self._extract_cast(data, tmdb_data)
+
         # URL Letterboxd
         self.letterboxd_url = self._generate_letterboxd_url()
 
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__} name={self.title}>"
+
+    def _extract_cast(self, data, tmdb_data=None):
+        """Extrait les acteurs principaux depuis les crédits Allocine ou TMDB."""
+        actors = []
+        for credit in data.get("credits", []) or []:
+            position = credit.get("position", {})
+            pos_name = (position.get("name") or "").upper() if position else ""
+            if pos_name in ["ACTOR", "ACTRESS", "INTERPRETE", "ACTEUR"]:
+                person = credit.get("person", {})
+                first = (person.get("firstName") or "").strip()
+                last = (person.get("lastName") or "").strip()
+                name = f"{first} {last}".strip()
+                if name and name not in actors:
+                    actors.append(name)
+
+        if tmdb_data and len(actors) < 3:
+            for item in tmdb_data.get("cast", []):
+                name = item.get("name") if isinstance(item, dict) else str(item)
+                if name and name not in actors:
+                    actors.append(name)
+
+        return actors[:10]
 
     def _extract_directors(self, data):
         """Extrait le(s) réalisateur(s) depuis les crédits Allocine."""
