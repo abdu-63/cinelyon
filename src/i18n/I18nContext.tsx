@@ -19,19 +19,18 @@ export interface LanguageOption {
   code: SupportedLocale;
   name: string;
   nativeName: string;
-  flag: string;
 }
 
 export const SUPPORTED_LANGUAGES: LanguageOption[] = [
-  { code: 'fr', name: 'Français', nativeName: 'Français', flag: '🇫🇷' },
-  { code: 'en', name: 'Anglais', nativeName: 'English', flag: '🇬🇧' },
-  { code: 'es', name: 'Espagnol', nativeName: 'Español', flag: '🇪🇸' },
-  { code: 'it', name: 'Italien', nativeName: 'Italiano', flag: '🇮🇹' },
-  { code: 'de', name: 'Allemand', nativeName: 'Deutsch', flag: '🇩🇪' },
-  { code: 'pt', name: 'Portugais', nativeName: 'Português', flag: '🇵🇹' },
-  { code: 'ja', name: 'Japonais', nativeName: '日本語', flag: '🇯🇵' },
-  { code: 'ar', name: 'Arabe', nativeName: 'العربية', flag: '🇸🇦' },
-  { code: 'tr', name: 'Turc', nativeName: 'Türkçe', flag: '🇹🇷' },
+  { code: 'fr', name: 'Français', nativeName: 'Français' },
+  { code: 'en', name: 'Anglais', nativeName: 'English' },
+  { code: 'es', name: 'Espagnol', nativeName: 'Español' },
+  { code: 'it', name: 'Italien', nativeName: 'Italiano' },
+  { code: 'de', name: 'Allemand', nativeName: 'Deutsch' },
+  { code: 'pt', name: 'Portugais', nativeName: 'Português' },
+  { code: 'ja', name: 'Japonais', nativeName: '日本語' },
+  { code: 'ar', name: 'Arabe', nativeName: 'العربية' },
+  { code: 'tr', name: 'Turc', nativeName: 'Türkçe' },
 ];
 
 const TRANSLATIONS: Record<SupportedLocale, Record<string, unknown>> = {

@@ -2,6 +2,13 @@
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *, .dark, .dark *));
 
+@theme {
+  --font-sans: 'HealTheWebA', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+  --font-montserrat: 'MontserratExtraBold', sans-serif;
+  --font-heal-a: 'HealTheWebA', sans-serif;
+  --font-heal-b: 'HealTheWebB', sans-serif;
+}
+
 /* ── Polices personnalisées CinéLyon ── */
 @font-face {
   font-family: 'HealTheWebA';
@@ -63,10 +70,32 @@
   --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
+html,
+body,
+input,
+button,
+select,
+textarea,
+optgroup {
+  font-family: 'HealTheWebA', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+}
+
+.font-montserrat,
+.font-title {
+  font-family: 'MontserratExtraBold', sans-serif !important;
+}
+
+.font-heal-a {
+  font-family: 'HealTheWebA', sans-serif !important;
+}
+
+.font-heal-b {
+  font-family: 'HealTheWebB', sans-serif !important;
+}
+
 body {
   background-color: var(--bg-main);
   color: var(--text-main);
-  font-family: 'HealTheWebA', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
   min-height: 100vh;
   margin: 0;
   padding: 0;

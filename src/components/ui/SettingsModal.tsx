@@ -20,9 +20,15 @@ import {
   Check,
   Camera,
   Plus,
+  Sun,
+  Moon,
+  CircleOff,
+  Droplets,
+  Sparkles,
 } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
 import { useTranslation, SUPPORTED_LANGUAGES, SupportedLocale } from '@/i18n';
+import { FlagIcon } from '@/components/ui/FlagIcon';
 
 interface FriendItem {
   id: string;
@@ -101,36 +107,39 @@ export function SettingsModal() {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-end justify-center pointer-events-none">
+          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsOpen(false)}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm pointer-events-auto"
           />
 
+          {/* Bottom Sheet Modal */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-lg max-h-[88vh] bg-[#f5f6f8] dark:bg-[#121214] rounded-[28px] shadow-2xl border border-black/10 dark:border-white/10 z-10 flex flex-col overflow-hidden my-auto"
+            initial={{ y: '100%' }}
+            animate={{ y: 0 }}
+            exit={{ y: '100%' }}
+            transition={{ type: 'spring', damping: 32, stiffness: 380 }}
+            className="pointer-events-auto relative w-full max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto bg-[#f5f6f8] dark:bg-[#121214] rounded-t-[32px] rounded-b-none border-t border-x border-black/10 dark:border-white/10 shadow-2xl z-10 flex flex-col max-h-[90vh] md:max-h-[85vh] overflow-hidden"
           >
-            {/* Header */}
-            <div className="p-4 bg-white dark:bg-[#1c1c1e] border-b border-black/[0.06] dark:border-white/10 flex items-center justify-between">
-              <h3 className="font-extrabold text-lg text-neutral-900 dark:text-white">Réglages</h3>
+            {/* Drag Handle & Bouton Fermer discret */}
+            <div className="relative pt-3 pb-1 shrink-0">
+              <div className="w-10 h-1 rounded-full bg-neutral-300 dark:bg-neutral-700 mx-auto" />
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="w-8 h-8 rounded-full bg-neutral-100 dark:bg-white/10 text-neutral-600 dark:text-white flex items-center justify-center hover:bg-neutral-200 dark:hover:bg-white/20 transition-colors"
+                className="absolute right-4 top-2.5 w-7 h-7 rounded-full bg-neutral-200/70 dark:bg-white/10 text-neutral-600 dark:text-neutral-300 flex items-center justify-center hover:bg-neutral-300 dark:hover:bg-white/20 transition-colors"
                 aria-label="Fermer"
               >
-                <X size={16} />
+                <X size={14} />
               </button>
             </div>
 
             {/* Contenu Réglages Scrollable */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 overscroll-contain">
               {/* ── 1. Carte Profil & Code de Sync (Screenshot 1 Exact) ── */}
               <div className="p-4 rounded-[24px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm space-y-3.5">
                 {/* Profil Header */}
@@ -389,14 +398,14 @@ export function SettingsModal() {
                 </p>
               </div>
 
-              {/* ── 3. Section GÉNÉRAL (Screenshot 1 Exact) ── */}
+              {/* ── 3. Section GÉNÉRAL (Langue avec SVG, Notifications, Masquer séances passées) ── */}
               <div className="space-y-1.5">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400 px-1">
                   Général
                 </span>
 
                 <div className="rounded-[24px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm divide-y divide-black/[0.06] dark:divide-white/10 overflow-hidden">
-                  {/* Langue */}
+                  {/* Langue avec drapeau SVG */}
                   <div className="p-3.5 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-xl bg-blue-500 text-white flex items-center justify-center shadow-sm">
@@ -407,17 +416,20 @@ export function SettingsModal() {
                       </span>
                     </div>
 
-                    <select
-                      value={locale}
-                      onChange={(e) => setLocale(e.target.value as SupportedLocale)}
-                      className="px-3 py-1.5 rounded-xl bg-neutral-100 dark:bg-[#242428] text-xs font-semibold text-neutral-900 dark:text-white border-none focus:outline-none cursor-pointer"
-                    >
-                      {SUPPORTED_LANGUAGES.map((l) => (
-                        <option key={l.code} value={l.code}>
-                          {l.flag} {l.nativeName}
-                        </option>
-                      ))}
-                    </select>
+                    <div className="flex items-center gap-2">
+                      <FlagIcon code={locale} size={18} />
+                      <select
+                        value={locale}
+                        onChange={(e) => setLocale(e.target.value as SupportedLocale)}
+                        className="px-3 py-1.5 rounded-xl bg-neutral-100 dark:bg-[#242428] text-xs font-semibold text-neutral-900 dark:text-white border-none focus:outline-none cursor-pointer"
+                      >
+                        {SUPPORTED_LANGUAGES.map((l) => (
+                          <option key={l.code} value={l.code}>
+                            {l.nativeName} ({l.name})
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
 
                   {/* Afficher les notifications */}
@@ -484,51 +496,54 @@ export function SettingsModal() {
                 </div>
               </div>
 
-              {/* ── 4. Section APPARENCE ── */}
+              {/* ── 4. Section APPARENCE (Thème clair/sombre/système avec icônes SVG) ── */}
               <div className="space-y-1.5">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400 px-1">
                   Apparence
                 </span>
 
                 <div className="p-4 rounded-[24px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm space-y-4">
-                  {/* Mode */}
+                  {/* Mode Sombre / Clair / Système */}
                   <div>
                     <label className="text-xs font-bold text-neutral-900 dark:text-white block mb-2">
-                      Mode
+                      Mode d&apos;affichage
                     </label>
                     <div className="grid grid-cols-3 gap-2 p-1 bg-neutral-100 dark:bg-[#242428] rounded-2xl">
                       <button
                         type="button"
                         onClick={() => setMode('system')}
-                        className={`py-2 rounded-xl text-xs font-semibold transition-all ${
+                        className={`py-2 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all ${
                           mode === 'system'
                             ? 'bg-white dark:bg-[#1c1c1e] text-[#444cf7] shadow-sm font-bold'
                             : 'text-neutral-600 dark:text-neutral-400'
                         }`}
                       >
-                        📱 Système
+                        <Smartphone size={14} />
+                        <span>Système</span>
                       </button>
                       <button
                         type="button"
                         onClick={() => setMode('light')}
-                        className={`py-2 rounded-xl text-xs font-semibold transition-all ${
+                        className={`py-2 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all ${
                           mode === 'light'
                             ? 'bg-white dark:bg-[#1c1c1e] text-[#444cf7] shadow-sm font-bold'
                             : 'text-neutral-600 dark:text-neutral-400'
                         }`}
                       >
-                        ☀️ Clair
+                        <Sun size={14} />
+                        <span>Clair</span>
                       </button>
                       <button
                         type="button"
                         onClick={() => setMode('dark')}
-                        className={`py-2 rounded-xl text-xs font-semibold transition-all ${
+                        className={`py-2 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all ${
                           mode === 'dark'
                             ? 'bg-white dark:bg-[#1c1c1e] text-[#444cf7] shadow-sm font-bold'
                             : 'text-neutral-600 dark:text-neutral-400'
                         }`}
                       >
-                        🌙 Sombre
+                        <Moon size={14} />
+                        <span>Sombre</span>
                       </button>
                     </div>
                   </div>
@@ -583,35 +598,38 @@ export function SettingsModal() {
                       <button
                         type="button"
                         onClick={() => setGlassEffect('disabled')}
-                        className={`py-2 rounded-xl text-xs font-semibold transition-all ${
+                        className={`py-2 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all ${
                           glassEffect === 'disabled'
                             ? 'bg-white dark:bg-[#1c1c1e] text-[#444cf7] shadow-sm font-bold'
                             : 'text-neutral-600 dark:text-neutral-400'
                         }`}
                       >
-                        ✕ Désactivé
+                        <CircleOff size={14} />
+                        <span>Désactivé</span>
                       </button>
                       <button
                         type="button"
                         onClick={() => setGlassEffect('blur')}
-                        className={`py-2 rounded-xl text-xs font-semibold transition-all ${
+                        className={`py-2 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all ${
                           glassEffect === 'blur'
                             ? 'bg-white dark:bg-[#1c1c1e] text-[#444cf7] shadow-sm font-bold'
                             : 'text-neutral-600 dark:text-neutral-400'
                         }`}
                       >
-                        💧 Dépoli
+                        <Droplets size={14} />
+                        <span>Dépoli</span>
                       </button>
                       <button
                         type="button"
                         onClick={() => setGlassEffect('crystal')}
-                        className={`py-2 rounded-xl text-xs font-semibold transition-all ${
+                        className={`py-2 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all ${
                           glassEffect === 'crystal'
                             ? 'bg-white dark:bg-[#1c1c1e] text-[#444cf7] shadow-sm font-bold'
                             : 'text-neutral-600 dark:text-neutral-400'
                         }`}
                       >
-                        ✨ Cristallin
+                        <Sparkles size={14} />
+                        <span>Cristallin</span>
                       </button>
                     </div>
                   </div>
@@ -619,7 +637,7 @@ export function SettingsModal() {
               </div>
 
               {/* ── 5. À PROPOS ── */}
-              <div className="p-4 rounded-[24px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm text-center space-y-1">
+              <div className="p-4 rounded-[24px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm text-center space-y-1 pb-6">
                 <p className="text-xs font-bold text-neutral-900 dark:text-white">
                   CinéLyon Web v2.0 (Build 69)
                 </p>

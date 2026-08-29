@@ -1,12 +1,11 @@
 // src/components/ui/FilterBar.tsx
 'use client';
 
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, SlidersHorizontal, X, Dices, Shuffle, RotateCcw, Globe, Sun, Moon, Settings } from 'lucide-react';
+import { Search, SlidersHorizontal, X, Dices, Shuffle, Settings, Heart, Sparkles, Check } from 'lucide-react';
 import { FiltersState, TimeSlot, FilmFilterOptions } from '@/types';
-import { useTranslation, SUPPORTED_LANGUAGES, SupportedLocale } from '@/i18n';
-import { useTheme } from '@/context/ThemeContext';
+import { useTranslation } from '@/i18n';
 import { formatLocalizedGenres } from '@/utils/filmLocalizationUtils';
 
 interface FilterBarProps {
@@ -28,24 +27,9 @@ export function FilterBar({
   onOpenDoubleFeature,
   onOpenRoulette,
 }: FilterBarProps) {
-  const { locale, setLocale, t } = useTranslation();
-  const { isDark, setMode } = useTheme();
-  const [langDropdownOpen, setLangDropdownOpen] = useState(false);
-  const langDropdownRef = useRef<HTMLDivElement>(null);
+  const { locale, t } = useTranslation();
   const [showFiltersModal, setShowFiltersModal] = useState(false);
   const [localQuery, setLocalQuery] = useState(filters.titleQuery || '');
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (langDropdownRef.current && !langDropdownRef.current.contains(e.target as Node)) {
-        setLangDropdownOpen(false);
-      }
-    };
-    if (langDropdownOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [langDropdownOpen]);
 
   const openSettings = () => {
     window.dispatchEvent(new CustomEvent('cinelyon:open-settings'));
@@ -120,7 +104,7 @@ export function FilterBar({
 
   return (
     <div className="w-full space-y-1.5 pb-1">
-      {/* ── 1. Titre & Sous-Titre CinéLyon + Contrôles (Langue, Thème, Réglages) ── */}
+      {/* ── 1. Titre & Sous-Titre CinéLyon + Contrôle Réglages (Thème/Langue dans Réglages) ── */}
       <div className="pt-2 pb-2 flex items-center justify-between gap-3">
         <div>
           <h1 className="text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
@@ -131,63 +115,16 @@ export function FilterBar({
           </p>
         </div>
 
-        {/* Contrôles & Actions : Langue, Mode Sombre/Clair, Réglages */}
+        {/* Contrôles & Actions : Bouton Réglages */}
         <div className="flex items-center gap-2 shrink-0">
-          {/* Sélecteur de Langue */}
-          <div className="relative" ref={langDropdownRef}>
-            <button
-              type="button"
-              onClick={() => setLangDropdownOpen(!langDropdownOpen)}
-              className="px-2.5 py-1.5 rounded-xl bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/25 transition-colors flex items-center gap-1 text-xs font-bold shadow-sm active:scale-95"
-              title="Changer de langue"
-            >
-              <Globe size={14} />
-              <span className="uppercase">{locale}</span>
-            </button>
-
-            {langDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-44 rounded-2xl bg-white dark:bg-[#1c1c1e] border border-black/10 dark:border-white/15 shadow-2xl py-1 z-50 animate-in fade-in zoom-in-95 duration-150">
-                {SUPPORTED_LANGUAGES.map((l) => (
-                  <button
-                    key={l.code}
-                    type="button"
-                    onClick={() => {
-                      setLocale(l.code as SupportedLocale);
-                      setLangDropdownOpen(false);
-                    }}
-                    className={`w-full px-3 py-2 text-left text-xs flex items-center justify-between hover:bg-neutral-100 dark:hover:bg-white/10 transition-colors ${
-                      locale === l.code ? 'font-bold text-[#444cf7]' : 'text-neutral-700 dark:text-neutral-300'
-                    }`}
-                  >
-                    <span className="flex items-center gap-2">
-                      <span>{l.flag}</span>
-                      <span>{l.nativeName}</span>
-                    </span>
-                    {locale === l.code && <span className="text-[#444cf7]">✓</span>}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Bascule Thème Sombre / Clair */}
-          <button
-            type="button"
-            onClick={() => setMode(isDark ? 'light' : 'dark')}
-            className="p-2 rounded-xl bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/25 transition-colors shadow-sm active:scale-95"
-            title={isDark ? 'Mode clair' : 'Mode sombre'}
-          >
-            {isDark ? <Sun size={15} className="text-amber-400" /> : <Moon size={15} />}
-          </button>
-
-          {/* Bouton Réglages */}
           <button
             type="button"
             onClick={openSettings}
-            className="p-2 rounded-xl bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/25 transition-colors shadow-sm active:scale-95"
+            className="p-2.5 rounded-xl bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/25 transition-colors shadow-sm active:scale-95 flex items-center justify-center"
             title="Paramètres"
+            aria-label="Ouvrir les paramètres"
           >
-            <Settings size={15} />
+            <Settings size={18} />
           </button>
         </div>
       </div>
@@ -269,38 +206,44 @@ export function FilterBar({
         {filteredCount} film{filteredCount > 1 ? 's' : ''}
       </div>
 
-      {/* ── 3. Modale Complète de Filtres ── */}
+      {/* ── 3. Modale Complète de Filtres (Bottom Sheet Apple : pleine largeur, ancrée en bas) ── */}
       <AnimatePresence>
         {showFiltersModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+          <div className="fixed inset-0 z-50 flex items-end justify-center pointer-events-none">
+            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setShowFiltersModal(false)}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm pointer-events-auto"
             />
 
+            {/* Bottom Sheet Modal */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.96, y: 15 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.96, y: 15 }}
-              className="relative w-full max-w-lg max-h-[85vh] bg-white dark:bg-[#1c1c1e] rounded-[24px] p-6 shadow-2xl border border-black/10 dark:border-white/10 z-10 flex flex-col my-auto"
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 32, stiffness: 380 }}
+              className="pointer-events-auto relative w-full max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto bg-white dark:bg-[#1c1c1e] rounded-t-[32px] rounded-b-none border-t border-x border-black/10 dark:border-white/10 shadow-2xl z-10 flex flex-col max-h-[90vh] md:max-h-[85vh] overflow-hidden"
             >
+              {/* Drag Handle Indicator */}
+              <div className="w-10 h-1 rounded-full bg-neutral-300 dark:bg-neutral-700 mx-auto mt-3 mb-1 shrink-0" />
+
               {/* Header Modale */}
-              <div className="flex items-center justify-between pb-3 border-b border-black/[0.06] dark:border-white/10">
+              <div className="flex items-center justify-between px-5 py-3 border-b border-black/[0.06] dark:border-white/10 shrink-0">
                 <div className="flex items-center gap-2">
                   <SlidersHorizontal size={18} className="text-[#444cf7]" />
                   <h3 className="font-bold text-base text-neutral-900 dark:text-white">Filtres de Séances</h3>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3">
                   {activeFilterCount > 0 && (
                     <button
                       type="button"
                       onClick={clearAll}
-                      className="text-xs text-rose-500 hover:underline"
+                      className="text-xs font-semibold text-rose-500 hover:underline"
                     >
-                      Effacer
+                      Effacer tout ({activeFilterCount})
                     </button>
                   )}
                   <button
@@ -313,12 +256,46 @@ export function FilterBar({
                 </div>
               </div>
 
-              {/* Contenu */}
-              <div className="flex-1 overflow-y-auto space-y-4 py-4 pr-1">
-                {/* Formats */}
+              {/* Contenu : Défilement Général Unique — Tous les filtres déployés directement sans sous-scrolls */}
+              <div className="flex-1 overflow-y-auto space-y-6 px-5 py-5 overscroll-contain">
+                {/* 1. Statuts & Sélections Rapides */}
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-neutral-400 mb-2">
-                    Formats
+                  <label className="block text-xs font-bold uppercase tracking-wider text-neutral-400 mb-2.5">
+                    Sélection rapide
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={() => onFiltersChange({ showOnlyFavorites: !filters.showOnlyFavorites })}
+                      className={`px-3.5 py-2 rounded-2xl text-xs font-semibold border flex items-center gap-1.5 transition-all ${
+                        filters.showOnlyFavorites
+                          ? 'bg-rose-500 border-rose-500 text-white shadow-sm'
+                          : 'bg-neutral-100 dark:bg-[#2c2c2e] border-transparent text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/15'
+                      }`}
+                    >
+                      <Heart size={14} className={filters.showOnlyFavorites ? 'fill-white' : ''} />
+                      <span>Favoris uniquement</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => onFiltersChange({ showOnlyNew: !filters.showOnlyNew })}
+                      className={`px-3.5 py-2 rounded-2xl text-xs font-semibold border flex items-center gap-1.5 transition-all ${
+                        filters.showOnlyNew
+                          ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
+                          : 'bg-neutral-100 dark:bg-[#2c2c2e] border-transparent text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/15'
+                      }`}
+                    >
+                      <Sparkles size={14} />
+                      <span>Nouveautés de la semaine</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* 2. Formats & Expériences */}
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-neutral-400 mb-2.5">
+                    Formats &amp; Expériences
                   </label>
                   <div className="flex flex-wrap gap-2">
                     {['IMAX', '3D', 'Dolby Cinema', '4DX', 'ScreenX', 'ICE', 'VOST', 'VF'].map((fmt) => (
@@ -326,7 +303,7 @@ export function FilterBar({
                         key={fmt}
                         type="button"
                         onClick={() => toggleFormat(fmt)}
-                        className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
+                        className={`px-3.5 py-2 rounded-2xl text-xs font-semibold border transition-all ${
                           filters.formats.includes(fmt)
                             ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
                             : 'bg-neutral-100 dark:bg-[#2c2c2e] border-transparent text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/15'
@@ -338,9 +315,9 @@ export function FilterBar({
                   </div>
                 </div>
 
-                {/* Créneaux Horaires */}
+                {/* 3. Créneaux Horaires */}
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-neutral-400 mb-2">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-neutral-400 mb-2.5">
                     Créneau Horaire
                   </label>
                   <div className="grid grid-cols-2 gap-2">
@@ -354,7 +331,7 @@ export function FilterBar({
                         key={slot.id}
                         type="button"
                         onClick={() => toggleTimeSlot(slot.id as TimeSlot)}
-                        className={`p-2.5 rounded-xl text-xs font-semibold text-left border transition-all ${
+                        className={`p-3 rounded-2xl text-xs font-semibold text-left border transition-all ${
                           filters.timeSlots.includes(slot.id as TimeSlot)
                             ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
                             : 'bg-neutral-100 dark:bg-[#2c2c2e] border-transparent text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/15'
@@ -366,19 +343,19 @@ export function FilterBar({
                   </div>
                 </div>
 
-                {/* Genres */}
+                {/* 4. Genres (Affichage continu sans sous-scrolls) */}
                 {options.genres && options.genres.length > 0 && (
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-neutral-400 mb-2">
+                    <label className="block text-xs font-bold uppercase tracking-wider text-neutral-400 mb-2.5">
                       Genres
                     </label>
-                    <div className="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto pr-1">
+                    <div className="flex flex-wrap gap-2">
                       {options.genres.map((g) => (
                         <button
                           key={g}
                           type="button"
                           onClick={() => toggleGenre(g)}
-                          className={`px-2.5 py-1 rounded-xl text-xs font-medium border transition-all ${
+                          className={`px-3 py-1.5 rounded-2xl text-xs font-medium border transition-all ${
                             filters.genres.includes(g)
                               ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
                               : 'bg-neutral-100 dark:bg-[#2c2c2e] border-transparent text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/15'
@@ -391,19 +368,19 @@ export function FilterBar({
                   </div>
                 )}
 
-                {/* Cinémas */}
+                {/* 5. Cinémas Lyonnais (Affichage continu sans sous-scrolls) */}
                 {options.cinemas && options.cinemas.length > 0 && (
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-neutral-400 mb-2">
+                    <label className="block text-xs font-bold uppercase tracking-wider text-neutral-400 mb-2.5">
                       Cinémas Lyonnais
                     </label>
-                    <div className="flex flex-wrap gap-1.5 max-h-44 overflow-y-auto pr-1">
+                    <div className="flex flex-wrap gap-2">
                       {options.cinemas.map((c) => (
                         <button
                           key={c}
                           type="button"
                           onClick={() => toggleCinema(c)}
-                          className={`px-2.5 py-1 rounded-xl text-xs font-medium border transition-all truncate max-w-[200px] ${
+                          className={`px-3 py-1.5 rounded-2xl text-xs font-medium border transition-all ${
                             filters.cinemas.includes(c)
                               ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
                               : 'bg-neutral-100 dark:bg-[#2c2c2e] border-transparent text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/15'
@@ -418,16 +395,16 @@ export function FilterBar({
               </div>
 
               {/* Footer */}
-              <div className="pt-3 border-t border-black/[0.06] dark:border-white/10 flex items-center justify-between">
-                <span className="text-xs text-neutral-400">
+              <div className="p-4 border-t border-black/[0.06] dark:border-white/10 flex items-center justify-between shrink-0 bg-white dark:bg-[#1c1c1e] pb-6 sm:pb-6">
+                <span className="text-xs font-medium text-neutral-500 dark:text-neutral-400">
                   {filteredCount} film{filteredCount > 1 ? 's' : ''} disponible{filteredCount > 1 ? 's' : ''}
                 </span>
                 <button
                   type="button"
                   onClick={() => setShowFiltersModal(false)}
-                  className="px-5 py-2 rounded-xl bg-[#444cf7] hover:bg-[#3339c4] text-white font-bold text-xs shadow-md shadow-[#444cf7]/25 transition-all active:scale-95"
+                  className="px-6 py-2.5 rounded-2xl bg-[#444cf7] hover:bg-[#3339c4] text-white font-bold text-xs shadow-md shadow-[#444cf7]/25 transition-all active:scale-95"
                 >
-                  Fermer
+                  Afficher les séances
                 </button>
               </div>
             </motion.div>

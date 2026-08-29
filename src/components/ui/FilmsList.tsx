@@ -6,6 +6,8 @@ import { Film, DateLabel, FiltersState } from '@/types';
 import { FilmCard } from '@/components/ui/FilmCard';
 import { DaySelector } from '@/components/ui/DaySelector';
 import { FilterBar } from '@/components/ui/FilterBar';
+import { CineRouletteModal } from '@/components/ui/CineRouletteModal';
+import { DoubleFeatureModal } from '@/components/ui/DoubleFeatureModal';
 import { filterFilms, extractFilterOptions, hasVisibleSeances } from '@/utils/showtimes';
 import { PAGE_SIZE } from '@/lib/constants';
 
@@ -166,6 +168,10 @@ export function FilmsList({ initialFilms = [], initialDates = [] }: FilmsListPro
           </button>
         </div>
       )}
+
+      {/* Modales Interactives (Ciné-Roulette & Double Programme) */}
+      <CineRouletteModal films={baseFilms} />
+      <DoubleFeatureModal films={baseFilms} dates={initialDates} />
     </div>
   );
 }

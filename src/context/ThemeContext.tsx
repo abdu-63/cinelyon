@@ -21,10 +21,10 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [mode, setModeState] = useState<ThemeMode>('dark');
+  const [mode, setModeState] = useState<ThemeMode>('light');
   const [primaryColor, setPrimaryColorState] = useState<PrimaryColorVariant>('violet');
   const [liquidGlassEnabled, setLiquidGlassEnabledState] = useState<boolean>(true);
-  const [systemIsDark, setSystemIsDark] = useState<boolean>(true);
+  const [systemIsDark, setSystemIsDark] = useState<boolean>(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

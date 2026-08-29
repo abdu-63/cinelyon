@@ -28,6 +28,7 @@ import { FilmRaw, CastMember, Film } from '@/types';
 import { getTodayIso, formatDayLabel, formatLocalizedDayLabel, formatTime } from '@/utils/dateUtils';
 import { PostCreditsBadge } from '@/components/ui/PostCreditsBadge';
 import { ToiletBreaksSection } from '@/components/ui/ToiletBreaksSection';
+import { RottenTomatoesIcon } from '@/components/ui/RottenTomatoesIcon';
 import { downloadICS } from '@/utils/calendarUtils';
 
 export const revalidate = 300;
@@ -223,8 +224,8 @@ export default async function FilmPage({ params }: PageProps) {
 
             {/* Rotten Tomatoes */}
             <div className="p-3 rounded-[18px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm text-center flex flex-col justify-center items-center">
-              <div className="flex items-center gap-1 font-bold text-sm text-neutral-900 dark:text-white">
-                <span className="text-sm">🍅</span>
+              <div className="flex items-center gap-1.5 font-bold text-sm text-neutral-900 dark:text-white">
+                <RottenTomatoesIcon size={16} />
                 <span>{film.rt_score || '59%'}</span>
               </div>
               <span className="text-[10px] text-neutral-500 dark:text-neutral-400 mt-0.5 font-medium">

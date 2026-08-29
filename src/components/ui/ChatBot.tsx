@@ -3,7 +3,8 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, X, ArrowUp, Trash2, MessageCircle } from 'lucide-react';
+import { Sparkles, X, ArrowUp, Trash2, Film, Landmark, Zap, Ticket } from 'lucide-react';
+import { PopcornIcon } from '@/components/ui/PopcornIcon';
 
 interface Message {
   id: string;
@@ -13,17 +14,17 @@ interface Message {
 }
 
 const SUGGESTION_CARDS = [
-  { icon: '🍿', title: 'Ce soir à Lyon', desc: 'Les pépites et séances...', query: 'Quels sont les meilleurs films à voir ce soir à Lyon ?' },
-  { icon: '🏛️', title: 'Art & Essai', desc: 'Comoedia, Lumière, etc.', query: 'Quels films Art et Essai passent actuellement au Comoedia ou aux cinémas Lumière ?' },
-  { icon: '⚡', title: 'Suspense & Frissons', desc: 'Thrillers et polars pren...', query: 'Recommande-moi des thrillers ou films à suspense à l\'affiche à Lyon.' },
-  { icon: '🎟️', title: 'Films en VOSTFR', desc: 'Séances en version orig...', query: 'Quelles sont les séances en VOSTFR aujourd\'hui à Lyon ?' },
+  { icon: PopcornIcon, title: 'Ce soir à Lyon', desc: 'Les pépites et séances...', query: 'Quels sont les meilleurs films à voir ce soir à Lyon ?' },
+  { icon: Landmark, title: 'Art & Essai', desc: 'Comoedia, Lumière, etc.', query: 'Quels films Art et Essai passent actuellement au Comoedia ou aux cinémas Lumière ?' },
+  { icon: Zap, title: 'Suspense & Frissons', desc: 'Thrillers et polars pren...', query: 'Recommande-moi des thrillers ou films à suspense à l\'affiche à Lyon.' },
+  { icon: Ticket, title: 'Films en VOSTFR', desc: 'Séances en version orig...', query: 'Quelles sont les séances en VOSTFR aujourd\'hui à Lyon ?' },
 ];
 
 const QUICK_PROMPTS = [
-  { icon: '🍿', text: 'Quoi voir ce soir ?', query: 'Quoi voir ce soir au cinéma à Lyon ?' },
-  { icon: '🏛️', text: 'Pépites Art & Essai', query: 'Donne-moi les pépites Art et Essai à l\'affiche.' },
-  { icon: '⚡', text: 'Suspense & Frissons', query: 'Quels thrillers sont à l\'affiche ?' },
-  { icon: '🎟️', text: 'Séances VOST', query: 'Quelles sont les séances en VOSTFR ?' },
+  { icon: PopcornIcon, text: 'Quoi voir ce soir ?', query: 'Quoi voir ce soir au cinéma à Lyon ?' },
+  { icon: Landmark, text: 'Pépites Art & Essai', query: 'Donne-moi les pépites Art et Essai à l\'affiche.' },
+  { icon: Zap, text: 'Suspense & Frissons', query: 'Quels thrillers sont à l\'affiche ?' },
+  { icon: Ticket, text: 'Séances VOST', query: 'Quelles sont les séances en VOSTFR ?' },
 ];
 
 export function ChatBot() {
@@ -32,7 +33,7 @@ export function ChatBot() {
     {
       id: 'welcome',
       role: 'bot',
-      content: 'Bonjour ! Je suis **CinéBot** 🍿, ton assistant IA cinéma à Lyon. Que souhaites-tu regarder ou savoir aujourd\'hui ?',
+      content: 'Bonjour ! Je suis **CinéBot**, ton assistant IA cinéma à Lyon. Que souhaites-tu regarder ou savoir aujourd\'hui ?',
       timestamp: new Date(),
     },
   ]);
@@ -108,7 +109,7 @@ export function ChatBot() {
       {
         id: 'welcome',
         role: 'bot',
-        content: 'Bonjour ! Je suis **CinéBot** 🍿, ton assistant IA cinéma à Lyon. Que souhaites-tu regarder ou savoir aujourd\'hui ?',
+        content: 'Bonjour ! Je suis **CinéBot**, ton assistant IA cinéma à Lyon. Que souhaites-tu regarder ou savoir aujourd\'hui ?',
         timestamp: new Date(),
       },
     ]);
@@ -116,7 +117,7 @@ export function ChatBot() {
 
   return (
     <>
-      {/* Floating Action Button (Exactement comme sur cinelyon-app screenshot) */}
+      {/* Floating Action Button */}
       <motion.button
         type="button"
         whileHover={{ scale: 1.08 }}
@@ -131,23 +132,29 @@ export function ChatBot() {
       {/* Modal Chat Bottom Sheet */}
       <AnimatePresence>
         {isOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+          <div className="fixed inset-0 z-50 flex items-end justify-center pointer-events-none">
+            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm pointer-events-auto"
             />
 
+            {/* Bottom Sheet Modal */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-lg h-[640px] max-h-[90vh] bg-white dark:bg-[#1c1c1e] rounded-[28px] shadow-2xl border border-black/10 dark:border-white/10 z-10 flex flex-col overflow-hidden my-auto"
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 32, stiffness: 380 }}
+              className="pointer-events-auto relative w-full max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto h-[680px] max-h-[90vh] md:max-h-[85vh] bg-white dark:bg-[#1c1c1e] rounded-t-[32px] rounded-b-none border-t border-x border-black/10 dark:border-white/10 shadow-2xl z-10 flex flex-col overflow-hidden"
             >
+              {/* Drag Handle */}
+              <div className="w-10 h-1 rounded-full bg-neutral-300 dark:bg-neutral-700 mx-auto mt-3 mb-1 shrink-0" />
+
               {/* Header */}
-              <div className="p-4 border-b border-black/[0.06] dark:border-white/10 flex items-center justify-between">
+              <div className="p-4 border-b border-black/[0.06] dark:border-white/10 flex items-center justify-between shrink-0">
                 <div className="flex items-center gap-2.5">
                   <div className="w-8 h-8 rounded-full bg-[#444cf7] text-white flex items-center justify-center shadow-sm">
                     <Sparkles size={16} />
@@ -181,7 +188,7 @@ export function ChatBot() {
               </div>
 
               {/* Contenu Messages & Suggestions */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              <div className="flex-1 overflow-y-auto p-4 space-y-4 overscroll-contain">
                 {/* Hero CinéBot IA si aucun message utilisateur */}
                 {messages.length <= 1 && (
                   <div className="text-center space-y-3 pt-2 pb-2">
@@ -197,22 +204,27 @@ export function ChatBot() {
 
                     {/* Grille 2x2 des 4 Cartes de Suggestions */}
                     <div className="grid grid-cols-2 gap-2.5 pt-2 text-left">
-                      {SUGGESTION_CARDS.map((card, i) => (
-                        <button
-                          key={i}
-                          type="button"
-                          onClick={() => sendMessage(card.query)}
-                          className="p-3.5 rounded-[20px] bg-neutral-50 dark:bg-[#242428] border border-black/[0.06] dark:border-white/10 hover:border-[#444cf7] transition-all text-left shadow-sm group"
-                        >
-                          <span className="text-xl block mb-1">{card.icon}</span>
-                          <h4 className="text-xs font-bold text-neutral-900 dark:text-white group-hover:text-[#444cf7] transition-colors">
-                            {card.title}
-                          </h4>
-                          <p className="text-[10px] text-neutral-500 dark:text-neutral-400 mt-0.5 line-clamp-1">
-                            {card.desc}
-                          </p>
-                        </button>
-                      ))}
+                      {SUGGESTION_CARDS.map((card, i) => {
+                        const IconComponent = card.icon;
+                        return (
+                          <button
+                            key={i}
+                            type="button"
+                            onClick={() => sendMessage(card.query)}
+                            className="p-3.5 rounded-[20px] bg-neutral-50 dark:bg-[#242428] border border-black/[0.06] dark:border-white/10 hover:border-[#444cf7] transition-all text-left shadow-sm group"
+                          >
+                            <div className="w-8 h-8 rounded-xl bg-[#444cf7]/10 text-[#444cf7] flex items-center justify-center mb-2">
+                              <IconComponent size={17} />
+                            </div>
+                            <h4 className="text-xs font-bold text-neutral-900 dark:text-white group-hover:text-[#444cf7] transition-colors">
+                              {card.title}
+                            </h4>
+                            <p className="text-[10px] text-neutral-500 dark:text-neutral-400 mt-0.5 line-clamp-1">
+                              {card.desc}
+                            </p>
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
                 )}
@@ -258,22 +270,25 @@ export function ChatBot() {
               </div>
 
               {/* Suggestions Pilules Rapides au dessus de l'input */}
-              <div className="px-3 pt-1 pb-1 flex items-center gap-1.5 overflow-x-auto no-scrollbar border-t border-black/[0.04] dark:border-white/5">
-                {QUICK_PROMPTS.map((p, i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    onClick={() => sendMessage(p.query)}
-                    className="px-3 py-1.5 rounded-full bg-neutral-100 dark:bg-[#242428] hover:bg-neutral-200 dark:hover:bg-white/10 text-[11px] font-semibold text-neutral-700 dark:text-neutral-300 flex items-center gap-1.5 shrink-0 border border-black/[0.04] dark:border-white/5 transition-colors"
-                  >
-                    <span>{p.icon}</span>
-                    <span>{p.text}</span>
-                  </button>
-                ))}
+              <div className="px-3 pt-1.5 pb-1.5 flex items-center gap-1.5 overflow-x-auto no-scrollbar border-t border-black/[0.04] dark:border-white/5">
+                {QUICK_PROMPTS.map((p, i) => {
+                  const IconComp = p.icon;
+                  return (
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() => sendMessage(p.query)}
+                      className="px-3 py-1.5 rounded-full bg-neutral-100 dark:bg-[#242428] hover:bg-neutral-200 dark:hover:bg-white/10 text-[11px] font-semibold text-neutral-700 dark:text-neutral-300 flex items-center gap-1.5 shrink-0 border border-black/[0.04] dark:border-white/5 transition-colors"
+                    >
+                      <IconComp size={12} className="text-[#444cf7]" />
+                      <span>{p.text}</span>
+                    </button>
+                  );
+                })}
               </div>
 
               {/* Input Bar */}
-              <div className="p-3 bg-neutral-50/80 dark:bg-[#161618] border-t border-black/[0.06] dark:border-white/10">
+              <div className="p-3 bg-neutral-50/80 dark:bg-[#161618] border-t border-black/[0.06] dark:border-white/10 pb-5 sm:pb-5">
                 <div className="flex items-center gap-2 bg-white dark:bg-[#242428] border border-black/[0.08] dark:border-white/10 rounded-full px-3.5 py-1.5 shadow-sm focus-within:border-[#444cf7]">
                   <input
                     type="text"

@@ -57,7 +57,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className="dark" data-theme="dark" data-primary="violet" suppressHydrationWarning>
+    <html lang="fr" suppressHydrationWarning>
       <head>
         <ThemeScript />
         <link rel="preconnect" href="https://wsrv.nl" crossOrigin="anonymous" />
