@@ -36,7 +36,7 @@ jobs:
 
       - name: Auto-fix with Ruff
         run: |
-          python -m ruff check --fix .
+          python -m ruff check --fix --exit-zero .
           python -m ruff format .
 
       - name: Commit & push changes

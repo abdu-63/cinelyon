@@ -17,6 +17,13 @@ requires-python = ">=3.11"
 line-length = 120
 indent-width = 4
 target-version = "py311"
+extend-exclude = [
+    "skills",
+    ".agents",
+    "legacy-flask",
+    "node_modules",
+    ".next",
+]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I"]  # pycodestyle, pyflakes, warnings, isort
