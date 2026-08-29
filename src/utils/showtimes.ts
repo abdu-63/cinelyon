@@ -1,20 +1,44 @@
 // src/utils/showtimes.ts
-// Portage de la logique métier de app.py::home() et app.py::film_detail()
-// Source: cinelyon-app/src/utils/showtimes.ts (portage web)
+// Portage de la logique métier de cinelyon-app et app.py
 
-import { FilmRaw, Film, Seance, DateLabel } from '@/types';
+import { FilmRaw, Film, Seance, DateLabel, FiltersState, TimeSlot, FilmFilterOptions } from '@/types';
 import { slugify } from './slugify';
-import { buildDateLabels, formatDayLabel } from './dateUtils';
+import { buildDateLabels, formatDayLabel, getDeltaForDate, formatTime } from './dateUtils';
 import { optimizePosterUrl } from './imageUtils';
 import { BRAND_ORDER, getBrand } from '@/lib/constants';
 
 export { formatTime } from './dateUtils';
 
-export function isPastSeance(timeStr: string): boolean {
-  const now = new Date();
-  const currentMinutes = now.getHours() * 60 + now.getMinutes();
-  const [h, m] = timeStr.split(':').map(Number);
-  return h * 60 + (m || 0) < currentMinutes;
+export function parseAddedAtDate(addedAtStr: string | null | undefined): Date | null {
+  if (!addedAtStr || typeof addedAtStr !== 'string') return null;
+  const trimmed = addedAtStr.trim();
+  if (!trimmed) return null;
+
+  const isoFormatted = trimmed.replace(/^(\d{4}-\d{2}-\d{2})\s+(\d{2}:\d{2}(?::\d{2})?)/, '$1T$2');
+  let parsed = new Date(isoFormatted);
+
+  if (isNaN(parsed.getTime())) {
+    parsed = new Date(isoFormatted + 'Z');
+  }
+
+  if (isNaN(parsed.getTime())) {
+    const timestamp = Date.parse(trimmed);
+    if (!isNaN(timestamp)) {
+      parsed = new Date(timestamp);
+    } else {
+      return null;
+    }
+  }
+
+  return parsed;
+}
+
+function isSameCalendarDay(d1: Date, d2: Date): boolean {
+  return (
+    d1.getFullYear() === d2.getFullYear() &&
+    d1.getMonth() === d2.getMonth() &&
+    d1.getDate() === d2.getDate()
+  );
 }
 
 export function isTimestampInAgeRange(
@@ -22,11 +46,33 @@ export function isTimestampInAgeRange(
   minHours: number,
   maxHours: number
 ): boolean {
-  if (!addedAtStr) return false;
-  const addedAtDate = new Date(addedAtStr);
+  const addedAtDate = parseAddedAtDate(addedAtStr);
+  if (!addedAtDate) return false;
+
   const now = new Date();
   const diffMs = now.getTime() - addedAtDate.getTime();
   const diffHours = diffMs / (60 * 60 * 1000);
+
+  if (minHours === 0) {
+    if (isSameCalendarDay(addedAtDate, now)) return true;
+    if (diffHours >= -2 && diffHours < 12 && addedAtDate.getTime() > now.getTime()) return true;
+    return false;
+  }
+
+  if (minHours === 24) {
+    const yesterday = new Date(now);
+    yesterday.setDate(yesterday.getDate() - 1);
+    if (isSameCalendarDay(addedAtDate, yesterday)) return true;
+    return false;
+  }
+
+  if (minHours === 48) {
+    const dayBefore = new Date(now);
+    dayBefore.setDate(dayBefore.getDate() - 2);
+    if (isSameCalendarDay(addedAtDate, dayBefore)) return true;
+    return false;
+  }
+
   return diffHours >= minHours && diffHours < maxHours;
 }
 
@@ -42,10 +88,43 @@ export function isTimestampDayBefore(addedAtStr: string | null | undefined): boo
   return isTimestampInAgeRange(addedAtStr, 48, 72);
 }
 
-/**
- * Transforme les lignes brutes Supabase en liste de films enrichis.
- * Portage exact de app.py::home()
- */
+export function isPastSeance(timeStr: string, dayLabel?: string, dates?: DateLabel[]): boolean {
+  if (dayLabel && dates && dates.length > 0) {
+    const dObj = dates.find((d) => formatDayLabel(d) === dayLabel);
+    if (!dObj) return false;
+
+    const delta = getDeltaForDate(dObj.isoDate);
+    if (delta < 0) return true;
+    if (delta > 0) return false;
+  }
+
+  const now = new Date();
+  const currentMinutes = now.getHours() * 60 + now.getMinutes();
+  const [h, m] = timeStr.split(':').map(Number);
+  return h * 60 + (m || 0) < currentMinutes;
+}
+
+export function hasVisibleSeances(
+  film: Film,
+  isoDate: string,
+  dates: DateLabel[],
+  hidePastSessions: boolean
+): boolean {
+  const dObj = dates.find((d) => d.isoDate === isoDate);
+  if (!dObj) return false;
+  const dayLabel = formatDayLabel(dObj);
+  const seancesForDay = film.seancesByDay[dayLabel];
+  if (!seancesForDay) return false;
+
+  if (!hidePastSessions) {
+    return Object.values(seancesForDay).some((arr) => arr.length > 0);
+  }
+
+  return Object.values(seancesForDay).some((seances) =>
+    seances.some((s) => !isPastSeance(s.time, dayLabel, dates))
+  );
+}
+
 export function buildFilmList(
   rows: { date: string; movies: FilmRaw[] }[],
   delta: number | null
@@ -155,7 +234,121 @@ export function findFilmBySlug(
   return result.films.find((f) => f.slug === slug) ?? null;
 }
 
-export function extractFilterOptions(films: Film[]) {
+function normalizeString(str: string): string {
+  return (str || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim();
+}
+
+function parseTimeToMinutes(timeStr: string): number {
+  const [h, m] = timeStr.split(':').map(Number);
+  return h * 60 + (m || 0);
+}
+
+function matchesTimeSlot(timeStr: string, slot: TimeSlot): boolean {
+  const mins = parseTimeToMinutes(timeStr);
+  switch (slot) {
+    case 'morning':
+      return mins < 12 * 60;
+    case 'afternoon':
+      return mins >= 12 * 60 && mins < 18 * 60;
+    case 'evening':
+    case 'night':
+      return mins >= 18 * 60;
+    default:
+      return false;
+  }
+}
+
+export function filterFilms(
+  films: Film[],
+  filters: FiltersState,
+  dates: DateLabel[],
+  favoriteIds: string[] = []
+): Film[] {
+  const {
+    titleQuery,
+    genres: activeGenres,
+    directors: activeDirectors,
+    cinemas: activeCinemas,
+    formats: activeFormats,
+    timeSlots: activeTimeSlots,
+    showOnlyFavorites,
+    showOnlyNew,
+    showOnlyYesterday,
+    showOnlyDayBefore,
+    dayIndex,
+  } = filters;
+
+  const normalizedTitleQuery = normalizeString(titleQuery);
+
+  return films.filter((film) => {
+    if (showOnlyFavorites && !favoriteIds.includes(film.filmId || film.slug)) {
+      return false;
+    }
+
+    if (showOnlyNew && !film.isNew) return false;
+    if (showOnlyYesterday && !film.isYesterday) return false;
+    if (showOnlyDayBefore && !film.isDayBefore) return false;
+
+    if (normalizedTitleQuery) {
+      const matchTitle = normalizeString(film.title).includes(normalizedTitleQuery);
+      const matchDirector = normalizeString(film.director || film.realisateur || '').includes(
+        normalizedTitleQuery
+      );
+      if (!matchTitle && !matchDirector) return false;
+    }
+
+    if (activeGenres.length > 0) {
+      const hasGenre = activeGenres.some((g) =>
+        normalizeString(film.genres).includes(normalizeString(g))
+      );
+      if (!hasGenre) return false;
+    }
+
+    if (activeDirectors.length > 0) {
+      const hasDirector = activeDirectors.some((d) =>
+        normalizeString(film.director || film.realisateur || '').includes(normalizeString(d))
+      );
+      if (!hasDirector) return false;
+    }
+
+    if (dayIndex !== null && dates[dayIndex]) {
+      const selectedDayLabel = formatDayLabel(dates[dayIndex]);
+      const seancesThisDay = film.seancesByDay[selectedDayLabel];
+      if (!seancesThisDay || Object.keys(seancesThisDay).length === 0) return false;
+    }
+
+    if (activeCinemas.length > 0) {
+      const playsInCinema = Object.values(film.seancesByDay).some((cinemaMap) =>
+        activeCinemas.some((c) => cinemaMap[c] && cinemaMap[c].length > 0)
+      );
+      if (!playsInCinema) return false;
+    }
+
+    if (activeFormats.length > 0) {
+      const hasFormat = activeFormats.some((fmt) =>
+        film.formats.toLowerCase().includes(fmt.toLowerCase())
+      );
+      if (!hasFormat) return false;
+    }
+
+    if (activeTimeSlots.length > 0) {
+      const hasSlot = Object.values(film.seancesByDay).some((cinemaMap) =>
+        Object.values(cinemaMap).some((seances) =>
+          seances.some((s) => activeTimeSlots.some((slot) => matchesTimeSlot(s.time, slot)))
+        )
+      );
+      if (!hasSlot) return false;
+    }
+
+    return true;
+  });
+}
+
+export function extractFilterOptions(films: Film[]): FilmFilterOptions {
   const genres = new Set<string>();
   const directors = new Set<string>();
   const cinemas = new Set<string>();
@@ -181,5 +374,6 @@ export function extractFilterOptions(films: Film[]) {
     directors: Array.from(directors).sort((a, b) => a.localeCompare(b, 'fr')),
     cinemas: Array.from(cinemas).sort((a, b) => a.localeCompare(b, 'fr')),
     formats: Array.from(formats).sort(),
+    actors: [],
   };
 }

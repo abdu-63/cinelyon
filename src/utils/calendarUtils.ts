@@ -1,146 +1,114 @@
 // src/utils/calendarUtils.ts
-// Utilitaires de génération d'événements de calendrier (.ics et Google Calendar)
-// Portage de index.js
+// Génération d'événements calendrier — Apple Calendar (.ics) et Google Calendar
+
+import { parseDuration } from './dateUtils';
 
 export interface CalendarEventData {
-  title: string;
-  releaseYear: string;
+  movieTitle?: string;
+  title?: string;
   cinema: string;
-  duree: string;
-  letterboxd: string;
-  time: string;
-  lang: string;
-  dayLabel: string;
+  date?: string; // "YYYY-MM-DD"
+  dayLabel?: string;
+  time: string; // "HH:MM"
+  duree?: string; // "2h 05min"
+  lang?: string; // "VF" | "VO"
   ticketUrl?: string;
+  letterboxdUrl?: string;
+  location?: string;
 }
 
-function parseDuration(dureeStr: string): { hours: number; minutes: number } {
-  let hours = 2; // Valeur par défaut
-  let minutes = 0;
-  if (!dureeStr || dureeStr === 'Inconnue') return { hours, minutes };
+export function computeEventDates(data: CalendarEventData): {
+  startDate: Date;
+  endDate: Date;
+} {
+  const dateStr = data.date || new Date().toISOString().split('T')[0];
+  const [year, month, day] = dateStr.split('-').map(Number);
+  const [hours, minutes] = data.time.split(':').map(Number);
 
-  const hourMatch = dureeStr.match(/(\d+)\s*h/);
-  const minMatch = dureeStr.match(/(\d+)\s*min/);
-  if (hourMatch) hours = parseInt(hourMatch[1]);
-  if (minMatch) minutes = parseInt(minMatch[1]);
-  return { hours, minutes };
+  const startDate = new Date(year, (month || 1) - 1, day || 1, hours || 0, minutes || 0, 0, 0);
+
+  const { hours: dh, minutes: dm } = parseDuration(data.duree || '2h 00min');
+  const endDate = new Date(startDate);
+  endDate.setHours(endDate.getHours() + (dh || 2));
+  endDate.setMinutes(endDate.getMinutes() + (dm || 0));
+
+  return { startDate, endDate };
 }
 
-function parseDayLabel(dayLabel: string): Date {
-  const monthAbbrevMap: Record<string, number> = {
-    janv: 0, févr: 1, mars: 2, avr: 3,
-    mai: 4, juin: 5, juil: 6, août: 7,
-    sept: 8, oct: 9, nov: 10, déc: 11
+export function buildEventTitle(data: CalendarEventData): string {
+  const filmTitle = data.movieTitle || data.title || 'Séance Cinéma';
+  return `${filmTitle} — ${data.cinema}`;
+}
+
+export function buildEventDescription(data: CalendarEventData): string {
+  const filmTitle = data.movieTitle || data.title || 'Film';
+  let desc = `Film : ${filmTitle}\nLangue : ${data.lang || 'VF'}\nDurée : ${data.duree || 'Inconnue'}`;
+  if (data.ticketUrl) desc += `\n\nRéserver : ${data.ticketUrl}`;
+  if (data.letterboxdUrl) desc += `\n\nLetterboxd : ${data.letterboxdUrl}`;
+  return desc;
+}
+
+export function generateICS(data: CalendarEventData): string {
+  const { startDate, endDate } = computeEventDates(data);
+
+  const formatICS = (d: Date): string => {
+    const pad = (n: number) => n.toString().padStart(2, '0');
+    return `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}T${pad(d.getHours())}${pad(d.getMinutes())}00`;
   };
 
-  // Format: "dim 18 janv"
-  const parts = dayLabel.toLowerCase().split(' ');
-  const dayNum = parseInt(parts[1], 10);
-  const monthAbbrev = parts[2];
+  const escapeICS = (s: string): string =>
+    s.replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
 
-  const today = new Date();
-  let year = today.getFullYear();
-  const monthNum = monthAbbrevMap[monthAbbrev];
+  const uid = `cinelyon-${Date.now()}-${Math.random().toString(36).slice(2, 9)}@cinelyon.fr`;
+  const title = escapeICS(buildEventTitle(data));
+  const desc = escapeICS(buildEventDescription(data));
+  const location = escapeICS(data.location || data.cinema);
 
-  if (monthNum !== undefined && monthNum < today.getMonth()) {
-    year++;
-  }
-
-  const targetDate = new Date(year, monthNum !== undefined ? monthNum : today.getMonth(), dayNum);
-  return targetDate;
-}
-
-function formatICSDate(date: Date): string {
-  const pad = (n: number) => n.toString().padStart(2, '0');
-  return `${date.getFullYear()}${pad(date.getMonth() + 1)}${pad(date.getDate())}T${pad(date.getHours())}${pad(date.getMinutes())}00`;
-}
-
-function escapeICS(str: string): string {
-  return str
-    .replace(/\\/g, '\\\\')
-    .replace(/;/g, '\\;')
-    .replace(/,/g, '\\,')
-    .replace(/\n/g, '\\n');
+  return [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//CineLyon//Web//FR',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'BEGIN:VEVENT',
+    `UID:${uid}`,
+    `DTSTAMP:${formatICS(new Date())}`,
+    `DTSTART:${formatICS(startDate)}`,
+    `DTEND:${formatICS(endDate)}`,
+    `SUMMARY:${title}`,
+    `LOCATION:${location}`,
+    `DESCRIPTION:${desc}`,
+    'END:VEVENT',
+    'END:VCALENDAR',
+  ].join('\r\n');
 }
 
 export function generateGoogleCalendarUrl(data: CalendarEventData): string {
-  const duration = parseDuration(data.duree);
-  const eventDate = parseDayLabel(data.dayLabel);
-  const [hours, minutes] = data.time.split(':').map(Number);
-  eventDate.setHours(hours, minutes, 0, 0);
+  const { startDate, endDate } = computeEventDates(data);
 
-  const endDate = new Date(eventDate);
-  endDate.setHours(endDate.getHours() + duration.hours);
-  endDate.setMinutes(endDate.getMinutes() + duration.minutes);
+  const formatGoogle = (d: Date): string => {
+    const pad = (n: number) => n.toString().padStart(2, '0');
+    return `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}T${pad(d.getHours())}${pad(d.getMinutes())}00`;
+  };
 
-  const movieTitle = `${data.title} (${data.releaseYear}) - ${data.cinema}`;
-  const location = `${data.cinema}, Lyon, France`;
+  const title = encodeURIComponent(buildEventTitle(data));
+  const details = encodeURIComponent(buildEventDescription(data));
+  const location = encodeURIComponent(data.location || data.cinema);
+  const dates = `${formatGoogle(startDate)}/${formatGoogle(endDate)}`;
 
-  let description = `Film: ${data.title} (${data.releaseYear})\nLangue: ${data.lang}\nDurée: ${data.duree}`;
-  if (data.ticketUrl) {
-    description += `\n\nRéserver: ${data.ticketUrl}`;
-  }
-  description += `\n\nLetterboxd: ${data.letterboxd}`;
-
-  const params = new URLSearchParams({
-    action: 'TEMPLATE',
-    text: movieTitle,
-    dates: `${formatICSDate(eventDate)}/${formatICSDate(endDate)}`,
-    details: description,
-    location: location,
-    sprop: `website:${data.letterboxd}`
-  });
-
-  return `https://calendar.google.com/calendar/render?${params.toString()}`;
+  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dates}&details=${details}&location=${location}`;
 }
 
-export function downloadICS(data: CalendarEventData) {
-  const duration = parseDuration(data.duree);
-  const eventDate = parseDayLabel(data.dayLabel);
-  const [hours, minutes] = data.time.split(':').map(Number);
-  eventDate.setHours(hours, minutes, 0, 0);
-
-  const endDate = new Date(eventDate);
-  endDate.setHours(endDate.getHours() + duration.hours);
-  endDate.setMinutes(endDate.getMinutes() + duration.minutes);
-
-  const movieTitle = `${data.title} (${data.releaseYear}) - ${data.cinema}`;
-  const location = `${data.cinema}, Lyon, France`;
-
-  let description = `Film: ${data.title} (${data.releaseYear})\nLangue: ${data.lang}\nDurée: ${data.duree}`;
-  if (data.ticketUrl) {
-    description += `\n\nRéserver: ${data.ticketUrl}`;
-  }
-  description += `\n\nLetterboxd: ${data.letterboxd}`;
-
-  const uid = `cinelyon-${Date.now()}@cinelyon.fr`;
-  const now = new Date();
-  
-  const icsContent = `BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//CineLyon//Calendar//FR
-CALSCALE:GREGORIAN
-METHOD:PUBLISH
-BEGIN:VEVENT
-UID:${uid}
-DTSTAMP:${formatICSDate(now)}
-DTSTART:${formatICSDate(eventDate)}
-DTEND:${formatICSDate(endDate)}
-SUMMARY:${escapeICS(movieTitle)}
-LOCATION:${escapeICS(location)}
-DESCRIPTION:${escapeICS(description)}
-URL:${data.letterboxd}
-END:VEVENT
-END:VCALENDAR`;
-
+export function downloadICS(data: CalendarEventData): void {
+  const icsContent = generateICS(data);
   const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-  const filename = `${data.title.replace(/[^a-z0-9]/gi, '_')}_${data.time.replace(':', 'h')}.ics`;
-  
-  const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
-  link.download = filename;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(link.href);
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  const filmTitle = (data.movieTitle || data.title || 'seance').replace(/[^a-zA-Z0-9]/g, '_');
+  a.download = `cinelyon_${filmTitle}.ics`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }

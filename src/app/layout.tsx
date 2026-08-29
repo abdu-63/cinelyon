@@ -1,29 +1,48 @@
 // src/app/layout.tsx
-// Layout racine — équivalent de base.html Flask
+// Layout racine — Providers, Navigation Hybride et Modales Globales
 
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import '@/styles/globals.css';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import { ThemeScript } from '@/components/layout/ThemeScript';
+import { ChatBot } from '@/components/ui/ChatBot';
+import { SettingsModal } from '@/components/ui/SettingsModal';
+import { ThemeProvider } from '@/context/ThemeContext';
+import { I18nProvider } from '@/i18n';
+import { QueryClientProvider } from '@/context/QueryClientProvider';
+
+export const viewport: Viewport = {
+  themeColor: '#121212',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+};
 
 export const metadata: Metadata = {
-  title: 'CinéLyon — Séances de cinéma à Lyon',
-  description: 'Découvrez toutes les séances de cinéma à Lyon et sa métropole. Horaires, films à l\'affiche, réservation en ligne.',
+  metadataBase: new URL('https://cinelyon.fr'),
+  title: 'CinéLyon — Toutes les séances de cinéma à Lyon',
+  description:
+    'Découvrez toutes les séances de cinéma à Lyon et sa métropole. Horaires, films à l\'affiche, formats IMAX/3D/Dolby, avis et itinéraires TCL.',
   manifest: '/manifest.json',
-  themeColor: '#444cf7',
   openGraph: {
     type: 'website',
     url: 'https://cinelyon.fr/',
-    title: 'CinéLyon',
-    description: 'Découvrez les séances de cinéma à Lyon et ses alentours. Horaires, films, salles et plus encore.',
-    images: ['/images/icon-512.png'],
+    title: 'CinéLyon — Séances de cinéma à Lyon',
+    description: '19 cinémas de la métropole lyonnaise, horaires en temps réel, filtres et pauses ciné.',
+    images: [
+      {
+        url: '/images/icon-512.png',
+        width: 512,
+        height: 512,
+        alt: 'CinéLyon',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     site: '@cinelyon',
-    title: 'CinéLyon',
-    description: 'Découvrez les séances de cinéma à Lyon et ses alentours.',
+    title: 'CinéLyon — Séances de cinéma à Lyon',
+    description: 'Découvrez toutes les séances de cinéma à Lyon et ses alentours.',
     images: ['/images/icon-512.png'],
   },
   icons: {
@@ -38,17 +57,32 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" suppressHydrationWarning>
+    <html lang="fr" data-theme="dark" data-primary="violet" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://wsrv.nl" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://fr.web.img4.acsta.net" />
         <link rel="dns-prefetch" href="https://fr.web.img6.acsta.net" />
-        <ThemeScript />
+        <link rel="dns-prefetch" href="https://image.tmdb.org" />
       </head>
-      <body>
-        <Header />
-        <main>{children}</main>
-        <Footer />
+      <body className="min-h-screen flex flex-col bg-[#121212] text-white selection:bg-[#444cf7] selection:text-white">
+        <QueryClientProvider>
+          <ThemeProvider>
+            <I18nProvider>
+              {/* Header Desktop */}
+              <Header />
+
+              {/* Main Content */}
+              <div className="flex-1 pb-16 md:pb-0">{children}</div>
+
+              {/* ChatBot AI & Settings Modal */}
+              <ChatBot />
+              <SettingsModal />
+
+              {/* Footer */}
+              <Footer />
+            </I18nProvider>
+          </ThemeProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );

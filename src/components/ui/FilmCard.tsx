@@ -1,487 +1,313 @@
-'use client';
 // src/components/ui/FilmCard.tsx
-// Carte film — portage fidèle avec synopsis interactif, bande-annonce et menu calendrier
+'use client';
 
-import React, { useState, memo, useRef, useEffect } from 'react';
-import Link from 'next/link';
-import { Film, Seance, DateLabel } from '@/types';
-import { formatDayLabel, formatTime, getDeltaForDate } from '@/utils/dateUtils';
-import { isPastSeance } from '@/utils/showtimes';
-import { downloadICS, generateGoogleCalendarUrl } from '@/utils/calendarUtils';
-import { decodeHtmlEntities } from '@/utils/textUtils';
+import React, { memo, useState, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
+import { Heart, ChevronRight, Calendar } from 'lucide-react';
+import { Film, DateLabel } from '@/types';
+import { useTranslation } from '@/i18n';
+import { formatDayLabel, formatLocalizedDayLabel, formatTime, getDeltaForDate } from '@/utils/dateUtils';
+import { isPastSeance, hasVisibleSeances } from '@/utils/showtimes';
+import { formatLocalizedGenres, formatLocalizedDuration } from '@/utils/filmLocalizationUtils';
+import { downloadICS } from '@/utils/calendarUtils';
 
 interface FilmCardProps {
   film: Film;
   isFavorite: boolean;
   onToggleFavorite: (filmId: string) => void;
   dates: DateLabel[];
-  friendsWhoFavorited?: string[];
-  hidePastShowtimes?: boolean;
+  selectedDelta?: number | null;
+  hidePastSessions?: boolean;
 }
 
 export const FilmCard = memo(function FilmCard({
   film,
   isFavorite,
   onToggleFavorite,
-  dates,
-  friendsWhoFavorited = [],
-  hidePastShowtimes = true,
+  dates = [],
+  selectedDelta = null,
+  hidePastSessions = true,
 }: FilmCardProps) {
-  const dayLabels = Object.keys(film.seancesByDay);
-  const [selectedDayIdx, setSelectedDayIdx] = useState<number | null>(null);
-  const [isSynopsisExpanded, setIsSynopsisExpanded] = useState(false);
-  const [isOverflowing, setIsOverflowing] = useState(true);
-  const synopsisRef = useRef<HTMLDivElement>(null);
+  const { locale } = useTranslation();
+  const router = useRouter();
 
-  const hasSynopsis = film.synopsis && film.synopsis !== 'Synopsis non disponible';
+  const localizedGenres = useMemo(
+    () => formatLocalizedGenres(film.genres, locale),
+    [film.genres, locale]
+  );
+  const localizedDuration = useMemo(
+    () => formatLocalizedDuration(film.duree, locale),
+    [film.duree, locale]
+  );
 
-  useEffect(() => {
-    if (!hasSynopsis) return;
+  // Jours ayant au moins une séance visible
+  const validDayLabels = useMemo(() => {
+    return Object.keys(film.seancesByDay || {}).filter((dayLabel) => {
+      const dObj = dates.find((d) => formatDayLabel(d) === dayLabel);
+      if (!dObj) return false;
+      return hasVisibleSeances(film, dObj.isoDate, dates, hidePastSessions);
+    });
+  }, [film, dates, hidePastSessions]);
 
-    const checkOverflow = () => {
-      const el = synopsisRef.current;
-      if (el) {
-        setIsOverflowing(el.scrollHeight > 110);
-      }
-    };
+  const selectedDayLabelFromDelta = useMemo(() => {
+    if (selectedDelta === null || selectedDelta === undefined) return null;
+    const dObj = dates.find((d) => d.index === selectedDelta);
+    return dObj ? formatDayLabel(dObj) : null;
+  }, [selectedDelta, dates]);
 
-    const frameId = requestAnimationFrame(checkOverflow);
-    window.addEventListener('resize', checkOverflow);
-    return () => {
-      cancelAnimationFrame(frameId);
-      window.removeEventListener('resize', checkOverflow);
-    };
-  }, [film.synopsis, hasSynopsis]);
+  const visibleDayLabels = useMemo(() => {
+    if (!selectedDayLabelFromDelta) return validDayLabels;
+    return validDayLabels.filter((label) => label === selectedDayLabelFromDelta);
+  }, [validDayLabels, selectedDayLabelFromDelta]);
 
-  const ratingDisplay =
-    film.rating !== 'Note inconnue' ? film.rating.replace('/5', '') : null;
+  const [userSelectedDayIdx, setUserSelectedDayIdx] = useState<number | null>(null);
+  const [isDeltaDayExpanded, setIsDeltaDayExpanded] = useState(false);
 
-  const selectedDayLabel = selectedDayIdx !== null ? (dayLabels[selectedDayIdx] ?? null) : null;
-  const seancesForDay: Record<string, Seance[]> = selectedDayLabel
-    ? (film.seancesByDay[selectedDayLabel] ?? {})
-    : {};
+  const [prevDelta, setPrevDelta] = useState(selectedDelta);
+  if (selectedDelta !== prevDelta) {
+    setPrevDelta(selectedDelta);
+    setUserSelectedDayIdx(null);
+    setIsDeltaDayExpanded(false);
+  }
 
-  const selectedIsoDate = selectedDayLabel
-    ? (() => {
-        const dObj = dates.find((d) => formatDayLabel(d) === selectedDayLabel);
-        return dObj ? dObj.isoDate : '';
-      })()
-    : '';
+  const selectedDayLabel =
+    selectedDayLabelFromDelta !== null
+      ? isDeltaDayExpanded
+        ? selectedDayLabelFromDelta
+        : null
+      : userSelectedDayIdx !== null
+        ? validDayLabels[userSelectedDayIdx]
+        : null;
+
+  const seancesForDay = selectedDayLabel ? film.seancesByDay[selectedDayLabel] ?? {} : {};
+
+  const selectedIsoDate = useMemo(() => {
+    if (!selectedDayLabel) return '';
+    const dObj = dates.find((d) => formatDayLabel(d) === selectedDayLabel);
+    return dObj?.isoDate || '';
+  }, [selectedDayLabel, dates]);
+
+  const ratingDisplay = film.rating && film.rating !== 'Note inconnue' ? film.rating : null;
 
   return (
-    <div className="film-block">
-      {/* ── .container_infoFilm du site : card glassmorphism ── */}
-      <div
-        className={`container_infoFilm${film.isNew ? ' film-new' : ''}`}
-        style={{ marginLeft: undefined, marginRight: undefined }}
-        data-title={film.title.toLowerCase()}
-        data-genres={(film.genres || '').toLowerCase()}
-        data-director={(film.director || '').toLowerCase()}
-        data-film-id={film.filmId}
-      >
-        {/* Lien de navigation transparent sur la card */}
-        <Link
-          href={`/film/${film.slug}`}
-          className="film-card-link"
-          aria-label={`Voir les séances de ${film.title}`}
-          style={{
-            position: 'absolute',
-            inset: 0,
-            zIndex: 1,
-          }}
-        />
-
-        <div className="blur-background" />
-
-        {/* .affiche */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={film.affiche || '/images/nocontent.png'}
-          className="affiche"
-          loading="lazy"
-          decoding="async"
-          width={200}
-          height={288}
-          alt={`Affiche de ${film.title}`}
-          style={{ viewTransitionName: `poster-${film.slug}` }}
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = '/images/nocontent.png';
-          }}
-        />
-
-        {film.isNew && <span className="new-badge">NOUVEAU</span>}
-
-        {/* .infoFilm */}
-        <div className="infoFilm">
-          <h3 className="titreFilm">
-            <span>
-              {film.title}
-              {film.release_year !== 'inconnue' && (
-                <span className="release_year"> ({film.release_year})</span>
-              )}
-            </span>
-            {/* Bouton favori — z-index supérieur au lien de la card */}
-            <button
-              className={`favorite-btn${isFavorite ? ' active' : ''}`}
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                onToggleFavorite(film.filmId);
-              }}
-              aria-label={isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'}
-              style={{ position: 'relative', zIndex: 2 }}
-            >
-              <svg className="favorite-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-              </svg>
-            </button>
-          </h3>
-
-          <div className="info-content">
-            {/* Badge d'amis qui aiment ce film */}
-            {friendsWhoFavorited.length > 0 && (
-              <div className="friend-badge" style={{ position: 'relative', zIndex: 2 }}>
-                <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" style={{ marginRight: 4, color: '#ff6b6b' }}>
-                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                </svg>
-                Favori de {friendsWhoFavorited.join(', ')}
-              </div>
-            )}
-
-            {film.director && film.director !== 'Inconnu' && (
-              <p className="realisateur">Réalisateur : {film.director}</p>
-            )}
-            {film.genres && <p className="genre">Genre : {film.genres}</p>}
-            {film.duree && <p className="duree">Durée : {film.duree}</p>}
-            {ratingDisplay && <p className="rating">Note : {ratingDisplay}</p>}
-
-            {/* Providers streaming */}
-            {film.watch_providers && film.watch_providers.length > 0 && (
-              <div className="providers-row">
-                {film.watch_providers.slice(0, 4).map((p) => (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    key={p.name}
-                    src={p.logo_path ?? ''}
-                    className="provider-logo"
-                    alt={p.name}
-                    width={22}
-                    height={22}
-                  />
-                ))}
-              </div>
-            )}
-
-            {/* Synopsis + Actions (Fidélité Desktop) */}
-            {hasSynopsis && (
-              <div className="synopsis_container" style={{ position: 'relative', zIndex: 2 }}>
-                <div
-                  ref={synopsisRef}
-                  className={`synopsis${isSynopsisExpanded ? ' expanded' : ''}${!isOverflowing ? ' no-gradient' : ''}`}
-                >
-                  <p>{decodeHtmlEntities(film.synopsis)}</p>
-                </div>
-                <div className="synopsis-actions">
-                  {isOverflowing && (
-                    <button
-                      className="synopsis-toggle"
-                      type="button"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        setIsSynopsisExpanded(!isSynopsisExpanded);
-                      }}
-                    >
-                      {isSynopsisExpanded ? 'Lire moins' : 'Lire plus'}
-                    </button>
-                  )}
-                  
-                  {film.trailer_url && (
-                    <a
-                      href={film.trailer_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="trailer-btn"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12">
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
-                      Bande-annonce
-                    </a>
-                  )}
-                </div>
+    <div className="w-full mb-3">
+      {/* ── 1. Carte Blanche Apple (Portage exact de cinelyon-app) ── */}
+      <div className="relative rounded-[20px] overflow-hidden bg-white dark:bg-[#1e1e1e] border border-black/[0.06] dark:border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.03)] hover:shadow-md transition-all">
+        <div
+          onClick={() => router.push(`/film/${film.slug}`)}
+          className="flex items-start cursor-pointer group select-none"
+        >
+          {/* Affiche (100px x 144px) */}
+          <div className="relative shrink-0 w-[100px] h-[144px]">
+            <img
+              src={film.affiche || '/images/nocontent.png'}
+              alt={film.title}
+              className="w-full h-full object-cover rounded-l-[20px]"
+              loading="lazy"
+            />
+            {film.isNew && (
+              <div className="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded bg-[#444cf7] text-[9px] font-bold tracking-wider text-white shadow-sm">
+                NOUVEAU
               </div>
             )}
           </div>
-        </div>
 
-        {/* Chevron */}
-        <svg
-          className="chevron-nav"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={2}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-        >
-          <polyline points="9 18 15 12 9 6" />
-        </svg>
+          {/* Info Film */}
+          <div className="flex-1 min-w-0 pt-2 pl-3 pr-3 pb-2 flex flex-col justify-between self-stretch">
+            {/* Ligne Titre + Favori */}
+            <div className="flex items-start justify-between gap-1">
+              <h3 className="font-bold text-[14px] leading-[18px] text-neutral-900 dark:text-white group-hover:text-[#444cf7] transition-colors line-clamp-2 pr-1">
+                {film.title}
+                {film.release_year && film.release_year !== 'inconnue' && (
+                  <span className="font-normal text-neutral-500 text-[13px]"> ({film.release_year})</span>
+                )}
+              </h3>
+
+              {/* Bouton Favori */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onToggleFavorite(film.filmId);
+                }}
+                className="p-1 -mr-1 -mt-0.5 text-neutral-400 hover:text-rose-500 transition-transform active:scale-90"
+                aria-label={isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'}
+              >
+                <Heart
+                  size={20}
+                  className={`transition-colors ${isFavorite ? 'fill-[#ff6b6b] text-[#ff6b6b]' : 'text-neutral-400'}`}
+                />
+              </button>
+            </div>
+
+            {/* Métadonnées (exactement comme le screenshot) */}
+            <div className="space-y-0.5 text-[11px] leading-[15px] text-neutral-700 dark:text-neutral-300 mt-1">
+              {film.director && film.director !== 'Inconnu' && (
+                <p className="truncate">
+                  <span className="text-neutral-500">Réalisateur :</span> {film.director}
+                </p>
+              )}
+              {localizedGenres && (
+                <p className="truncate">
+                  <span className="text-neutral-500">Genre :</span> {localizedGenres}
+                </p>
+              )}
+              {localizedDuration && (
+                <p className="truncate">
+                  <span className="text-neutral-500">Durée :</span> {localizedDuration}
+                </p>
+              )}
+              {ratingDisplay && (
+                <p className="truncate font-medium text-neutral-800 dark:text-neutral-200">
+                  <span className="text-neutral-500">Note :</span> {ratingDisplay}/5
+                </p>
+              )}
+
+              {/* Logos streaming */}
+              {film.watch_providers && film.watch_providers.length > 0 && (
+                <div className="flex items-center gap-1 pt-1">
+                  {film.watch_providers.slice(0, 4).map((p, i) => (
+                    <img
+                      key={i}
+                      src={p.logo_path || ''}
+                      alt={p.name}
+                      title={p.name}
+                      className="w-5 h-5 rounded object-cover border border-black/5 dark:border-white/10"
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Chevron nav */}
+            <div className="self-end opacity-40 group-hover:opacity-80 group-hover:translate-x-0.5 transition-all text-neutral-600 dark:text-neutral-400">
+              <ChevronRight size={16} />
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div className="film-spacer" />
-
-      {/* ── .seances-wrapper : mini-calendar + séances ── */}
-      {dayLabels.length > 0 && (
-        <div className="seances-wrapper">
-          <div className="mini-calendar">
-            {dayLabels.map((dayLabel, idx) => {
+      {/* ── 2. Bouton Jour & Séances dépliables sous la carte ── */}
+      {visibleDayLabels.length > 0 && (
+        <div className="mt-2 pl-2">
+          {/* Mini-calendrier du film */}
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1">
+            {visibleDayLabels.map((dayLabel) => {
+              const idxInAll = validDayLabels.indexOf(dayLabel);
               const cinemas = film.seancesByDay[dayLabel] ?? {};
               const hasAvantPremiere = Object.values(cinemas).some((seances) =>
-                seances.some(
-                  (s) => s.format && s.format.toLowerCase().includes('première')
-                )
+                seances.some((s) => s.format && s.format.toLowerCase().includes('première'))
               );
-              const isActive = selectedDayIdx === idx;
+              const isActive = selectedDayLabel === dayLabel;
+
+              const dObj = dates.find((d) => formatDayLabel(d) === dayLabel);
+              const buttonLabel = dObj ? formatLocalizedDayLabel(dObj.isoDate, locale) : dayLabel;
 
               return (
                 <button
                   key={dayLabel}
-                  className={`mini-cal-btn${isActive ? ' active' : ''}${hasAvantPremiere ? ' has-notification' : ''}`}
                   type="button"
-                  onClick={() => setSelectedDayIdx(isActive ? null : idx)}
-                  aria-pressed={isActive}
+                  onClick={() => {
+                    if (selectedDayLabelFromDelta !== null) {
+                      setIsDeltaDayExpanded(!isDeltaDayExpanded);
+                    } else {
+                      setUserSelectedDayIdx(isActive ? null : idxInAll);
+                    }
+                  }}
+                  className={`relative px-3 py-1 rounded-[16px] text-[11px] font-semibold tracking-tight transition-all shrink-0 border ${
+                    isActive
+                      ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
+                      : 'bg-white dark:bg-[#1e1e1e] border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-300 hover:border-neutral-300'
+                  }`}
                 >
-                  {dayLabel}
+                  {hasAvantPremiere && (
+                    <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-rose-500 border border-white" />
+                  )}
+                  <span>{buttonLabel}</span>
                 </button>
               );
             })}
           </div>
 
-          {/* Séances du jour sélectionné */}
+          {/* Déploiement des séances */}
           {selectedDayLabel && (
-            <DaySeances
-              film={film}
-              cinemas={seancesForDay}
-              isoDate={selectedIsoDate}
-              dayLabel={selectedDayLabel}
-              hidePastShowtimes={hidePastShowtimes}
-            />
+            <div className="mt-2 space-y-1.5 animate-in fade-in duration-150">
+              {Object.entries(seancesForDay).map(([cinemaName, seances]) => {
+                const isToday = getDeltaForDate(selectedIsoDate) === 0;
+                const visibleSeances =
+                  isToday && hidePastSessions
+                    ? seances.filter((s) => !isPastSeance(s.time))
+                    : seances;
+
+                if (visibleSeances.length === 0) return null;
+
+                return (
+                  <div key={cinemaName} className="flex items-center gap-1.5">
+                    {/* Badge Cinéma (100px de large, 42px de haut, violet #444cf7) */}
+                    <div className="w-[100px] min-w-[100px] h-[42px] shrink-0 rounded-[6px] bg-[#444cf7] text-white flex items-center justify-center p-1 text-center shadow-sm">
+                      <span className="text-[11px] font-bold leading-[13px] line-clamp-2">
+                        {cinemaName}
+                      </span>
+                    </div>
+
+                    {/* Horaires horizontaux */}
+                    <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 pr-2">
+                      {visibleSeances.map((seance, idx) => (
+                        <div
+                          key={`${seance.time}-${idx}`}
+                          className="shrink-0 h-[42px] min-w-[72px] px-2 py-1 rounded-[10px] bg-white dark:bg-[#1e1e1e] border border-black/[0.08] dark:border-white/10 hover:border-[#444cf7]/60 flex flex-col justify-between transition-colors group/pill"
+                        >
+                          <div className="flex items-center justify-between gap-1 text-[9px] font-bold text-neutral-500 leading-tight">
+                            <span>{seance.lang || 'VF'}</span>
+                            {seance.format && (
+                              <span className="text-[8px] uppercase text-neutral-400 truncate max-w-[40px]">
+                                {seance.format.split(', ')[0]}
+                              </span>
+                            )}
+                          </div>
+
+                          <div className="flex items-center justify-between gap-1">
+                            <a
+                              href={seance.ticketing_url || undefined}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className={`text-[13px] font-bold text-[#444cf7] group-hover/pill:underline leading-none ${
+                                !seance.ticketing_url ? 'cursor-default' : ''
+                              }`}
+                            >
+                              {formatTime(seance.time)}
+                            </a>
+
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                downloadICS({
+                                  movieTitle: film.title,
+                                  cinema: cinemaName,
+                                  date: selectedIsoDate,
+                                  time: seance.time,
+                                  duree: film.duree || '2h 00min',
+                                  lang: seance.lang,
+                                  ticketUrl: seance.ticketing_url || undefined,
+                                });
+                              }}
+                              className="text-neutral-400 hover:text-neutral-800 dark:hover:text-white p-0.5 transition-colors"
+                              title="Ajouter au calendrier"
+                            >
+                              <Calendar size={12} />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           )}
         </div>
       )}
-
-      <div className="responsive-div" />
     </div>
   );
 });
-
-// ── Composant DaySeances ─────────────────────────────────────────────────────
-
-interface DaySeancesProps {
-  film: Film;
-  cinemas: Record<string, Seance[]>;
-  isoDate: string;
-  dayLabel: string;
-  hidePastShowtimes: boolean;
-}
-
-function DaySeances({ film, cinemas, isoDate, dayLabel, hidePastShowtimes }: DaySeancesProps) {
-  const isToday = getDeltaForDate(isoDate) === 0;
-
-  return (
-    <div className="day-seances show">
-      {Object.entries(cinemas).map(([cinemaName, seances]) => {
-        const visibleSeances = isToday && hidePastShowtimes
-          ? seances.filter((s) => !isPastSeance(s.time))
-          : seances;
-
-        if (!visibleSeances.length) return null;
-
-        return (
-          <div key={cinemaName}>
-            <div className="seance_container" style={{ position: 'relative' }}>
-              <div className="cinema">
-                <a
-                  href="#"
-                  className="cinema-link"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  {cinemaName}
-                </a>
-              </div>
-              <div className="horaires_container">
-                {visibleSeances.map((seance, idx) => (
-                  <SeancePillWithCalendar
-                    key={`${seance.time}-${idx}`}
-                    film={film}
-                    seance={seance}
-                    cinema={cinemaName}
-                    dayLabel={dayLabel}
-                  />
-                ))}
-              </div>
-            </div>
-            <div style={{ height: 5 }} />
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
-// ── Composant SeancePillWithCalendar ─────────────────────────────────────────
-
-interface SeancePillWithCalendarProps {
-  film: Film;
-  seance: Seance;
-  cinema: string;
-  dayLabel: string;
-}
-
-function SeancePillWithCalendar({ film, seance, cinema, dayLabel }: SeancePillWithCalendarProps) {
-  const [showCalendarMenu, setShowCalendarMenu] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
-  const btnRef = useRef<HTMLButtonElement>(null);
-
-  const isAvantPremiere = seance.format && seance.format.toLowerCase().includes('première');
-
-  // Fermer le menu si clic en dehors
-  useEffect(() => {
-    if (!showCalendarMenu) return;
-    const onClickOutside = (e: MouseEvent) => {
-      if (
-        menuRef.current && !menuRef.current.contains(e.target as Node) &&
-        btnRef.current && !btnRef.current.contains(e.target as Node)
-      ) {
-        setShowCalendarMenu(false);
-      }
-    };
-    document.addEventListener('click', onClickOutside);
-    return () => document.removeEventListener('click', onClickOutside);
-  }, [showCalendarMenu]);
-
-  const handleCalendarClick = (e: React.MouseEvent, type: 'apple' | 'google') => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    const eventData = {
-      title: film.title,
-      releaseYear: film.release_year,
-      cinema: cinema,
-      duree: film.duree || '2h',
-      letterboxd: film.url || `https://letterboxd.com/search/${encodeURIComponent(film.title)}`,
-      time: seance.time,
-      lang: seance.lang,
-      dayLabel: dayLabel,
-      ticketUrl: seance.ticketing_url || undefined,
-    };
-
-    if (type === 'apple') {
-      downloadICS(eventData);
-    } else {
-      const url = generateGoogleCalendarUrl(eventData);
-      window.open(url, '_blank');
-    }
-
-    setShowCalendarMenu(false);
-  };
-
-  const pillClass = [
-    'horaire',
-    seance.ticketing_url ? 'clickable' : '',
-    isAvantPremiere ? 'avant-premiere' : '',
-  ]
-    .filter(Boolean)
-    .join(' ');
-
-  const content = (
-    <div className={pillClass}>
-      <div className="horaire-top">
-        <span className="lang-badge">{seance.lang}</span>
-        {seance.format && (
-          <span className="format-badge">{seance.format.split(', ')[0]}</span>
-        )}
-      </div>
-      <div className="horaire-bottom">
-        <p className="seance-time">{formatTime(seance.time)}</p>
-        
-        {/* Bouton calendrier */}
-        <button
-          ref={btnRef}
-          className="calendar-btn"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setShowCalendarMenu(!showCalendarMenu);
-          }}
-          title="Ajouter au calendrier"
-          aria-label="Ajouter au calendrier"
-          style={{ position: 'relative', zIndex: 3 }}
-        >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="12" height="12">
-            <rect x="3" y="4" width="18" height="18" rx="2" />
-            <line x1="3" y1="10" x2="21" y2="10" />
-            <line x1="8" y1="2" x2="8" y2="6" />
-            <line x1="16" y1="2" x2="16" y2="6" />
-          </svg>
-        </button>
-
-        {/* Menu calendrier déroulant */}
-        {showCalendarMenu && (
-          <div
-            ref={menuRef}
-            className="calendar-menu"
-            style={{
-              top: '52px',
-              left: '0px',
-            }}
-          >
-            <button
-              type="button"
-              className="calendar-menu-option"
-              onClick={(e) => handleCalendarClick(e, 'apple')}
-            >
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style={{ marginRight: 6 }}>
-                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-              </svg>
-              Apple Calendar
-            </button>
-            <button
-              type="button"
-              className="calendar-menu-option"
-              onClick={(e) => handleCalendarClick(e, 'google')}
-            >
-              <svg viewBox="0 0 24 24" width="14" height="14" style={{ marginRight: 6 }}>
-                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-              </svg>
-              Google Calendar
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-
-  if (seance.ticketing_url) {
-    return (
-      <a
-        href={seance.ticketing_url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="horaire-link"
-        aria-label={`Réserver ${seance.time} ${seance.lang}${seance.format ? ' ' + seance.format : ''}`}
-        style={{ position: 'relative' }}
-      >
-        {content}
-      </a>
-    );
-  }
-
-  return <div style={{ position: 'relative' }}>{content}</div>;
-}

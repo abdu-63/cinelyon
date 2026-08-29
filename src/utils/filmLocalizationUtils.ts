@@ -1,0 +1,358 @@
+// src/utils/filmLocalizationUtils.ts
+// Utilitaires de localisation des métadonnées des films (genres, durées, etc.)
+
+import { parseDuration } from './dateUtils';
+
+const GENRES_MAP: Record<string, Record<string, string>> = {
+  en: {
+    Action: 'Action',
+    Animation: 'Animation',
+    Aventure: 'Adventure',
+    Biopic: 'Biopic',
+    Comédie: 'Comedy',
+    'Comédie dramatique': 'Comedy Drama',
+    'Comédie musicale': 'Musical',
+    Documentaire: 'Documentary',
+    Drame: 'Drama',
+    'Épouvante-horreur': 'Horror',
+    'Epouvante-horreur': 'Horror',
+    Horreur: 'Horror',
+    Espionnage: 'Spy',
+    Famille: 'Family',
+    Fantastique: 'Fantasy',
+    Guerre: 'War',
+    Historique: 'Historical',
+    Judiciaire: 'Courtroom Drama',
+    Musical: 'Musical',
+    Musique: 'Music',
+    Policier: 'Crime / Police',
+    Romance: 'Romance',
+    'Science fiction': 'Sci-Fi',
+    'Science-Fiction': 'Sci-Fi',
+    'Science-fiction': 'Sci-Fi',
+    Thriller: 'Thriller',
+    Western: 'Western',
+    'Court métrage': 'Short Film',
+    'Court-métrage': 'Short Film',
+    Érotique: 'Erotic',
+    Expérimental: 'Experimental',
+    Concert: 'Concert',
+    Opéra: 'Opera',
+    Événement: 'Special Event',
+    Divers: 'Various',
+  },
+  es: {
+    Action: 'Acción',
+    Animation: 'Animación',
+    Aventure: 'Aventura',
+    Biopic: 'Biografía',
+    Comédie: 'Comedia',
+    'Comédie dramatique': 'Comedia dramática',
+    'Comédie musicale': 'Musical',
+    Documentaire: 'Documental',
+    Drame: 'Drama',
+    'Épouvante-horreur': 'Terror',
+    'Epouvante-horreur': 'Terror',
+    Horreur: 'Terror',
+    Espionnage: 'Espionaje',
+    Famille: 'Familiar',
+    Fantastique: 'Fantasía',
+    Guerre: 'Bélica',
+    Historique: 'Histórico',
+    Judiciaire: 'Judicial',
+    Musical: 'Musical',
+    Musique: 'Música',
+    Policier: 'Policíaco / Crimen',
+    Romance: 'Romance',
+    'Science fiction': 'Ciencia ficción',
+    'Science-Fiction': 'Ciencia ficción',
+    'Science-fiction': 'Ciencia ficción',
+    Thriller: 'Suspense',
+    Western: 'Wéstern',
+    'Court métrage': 'Cortometraje',
+    'Court-métrage': 'Cortometraje',
+    Érotique: 'Erótico',
+    Expérimental: 'Experimental',
+    Concert: 'Concierto',
+    Opéra: 'Ópera',
+    Événement: 'Evento especial',
+    Divers: 'Varios',
+  },
+  it: {
+    Action: 'Azione',
+    Animation: 'Animazione',
+    Aventure: 'Avventura',
+    Biopic: 'Biografico',
+    Comédie: 'Commedia',
+    'Comédie dramatique': 'Commedia drammatica',
+    'Comédie musicale': 'Musical',
+    Documentaire: 'Documentario',
+    Drame: 'Drammatico',
+    'Épouvante-horreur': 'Horror',
+    'Epouvante-horreur': 'Horror',
+    Horreur: 'Horror',
+    Espionnage: 'Spionaggio',
+    Famille: 'Famiglia',
+    Fantastique: 'Fantastico',
+    Guerre: 'Guerra',
+    Historique: 'Storico',
+    Judiciaire: 'Giudiziario',
+    Musical: 'Musical',
+    Musique: 'Musica',
+    Policier: 'Poliziesco',
+    Romance: 'Romantico',
+    'Science fiction': 'Fantascienza',
+    'Science-Fiction': 'Fantascienza',
+    'Science-fiction': 'Fantascienza',
+    Thriller: 'Thriller',
+    Western: 'Western',
+    'Court métrage': 'Cortometraggio',
+    'Court-métrage': 'Cortometraggio',
+    Érotique: 'Erotico',
+    Expérimental: 'Sperimentale',
+    Concert: 'Concerto',
+    Opéra: 'Opera',
+    Événement: 'Evento speciale',
+    Divers: 'Varie',
+  },
+  de: {
+    Action: 'Action',
+    Animation: 'Animation',
+    Aventure: 'Abenteuer',
+    Biopic: 'Biografie',
+    Comédie: 'Komödie',
+    'Comédie dramatique': 'Tragikomödie',
+    'Comédie musicale': 'Musical',
+    Documentaire: 'Dokumentarfilm',
+    Drame: 'Drama',
+    'Épouvante-horreur': 'Horror',
+    'Epouvante-horreur': 'Horror',
+    Horreur: 'Horror',
+    Espionnage: 'Spionage',
+    Famille: 'Familie',
+    Fantastique: 'Fantasy',
+    Guerre: 'Krieg',
+    Historique: 'Historie',
+    Judiciaire: 'Gerichtsdrama',
+    Musical: 'Musical',
+    Musique: 'Musik',
+    Policier: 'Krimi',
+    Romance: 'Liebesfilm',
+    'Science fiction': 'Science-Fiction',
+    'Science-Fiction': 'Science-Fiction',
+    'Science-fiction': 'Science-Fiction',
+    Thriller: 'Thriller',
+    Western: 'Western',
+    'Court métrage': 'Kurzfilm',
+    'Court-métrage': 'Kurzfilm',
+    Érotique: 'Erotik',
+    Expérimental: 'Experimental',
+    Concert: 'Konzert',
+    Opéra: 'Oper',
+    Événement: 'Sonderevent',
+    Divers: 'Verschiedenes',
+  },
+  pt: {
+    Action: 'Ação',
+    Animation: 'Animação',
+    Aventure: 'Aventura',
+    Biopic: 'Biografia',
+    Comédie: 'Comédia',
+    'Comédie dramatique': 'Comédia dramática',
+    'Comédie musicale': 'Musical',
+    Documentaire: 'Documentário',
+    Drame: 'Drama',
+    'Épouvante-horreur': 'Terror',
+    'Epouvante-horreur': 'Terror',
+    Horreur: 'Terror',
+    Espionnage: 'Espionagem',
+    Famille: 'Família',
+    Fantastique: 'Fantasia',
+    Guerre: 'Guerra',
+    Historique: 'Histórico',
+    Judiciaire: 'Judiciário',
+    Musical: 'Musical',
+    Musique: 'Música',
+    Policier: 'Policial',
+    Romance: 'Romance',
+    'Science fiction': 'Ficção Científica',
+    'Science-Fiction': 'Ficção Científica',
+    'Science-fiction': 'Ficção Científica',
+    Thriller: 'Suspense',
+    Western: 'Faroeste',
+    'Court métrage': 'Curta-metragem',
+    'Court-métrage': 'Curta-metragem',
+    Érotique: 'Erótico',
+    Expérimental: 'Experimental',
+    Concert: 'Show / Concerto',
+    Opéra: 'Ópera',
+    Événement: 'Evento Especial',
+    Divers: 'Diversos',
+  },
+  ja: {
+    Action: 'アクション',
+    Animation: 'アニメーション',
+    Aventure: 'アドベンチャー',
+    Biopic: '伝記',
+    Comédie: 'コメディ',
+    'Comédie dramatique': 'ドラマチックコメディ',
+    'Comédie musicale': 'ミュージカル',
+    Documentaire: 'ドキュメンタリー',
+    Drame: 'ドラマ',
+    'Épouvante-horreur': 'ホラー',
+    'Epouvante-horreur': 'ホラー',
+    Horreur: 'ホラー',
+    Espionnage: 'スパイ',
+    Famille: 'ファミリー',
+    Fantastique: 'ファンタジー',
+    Guerre: '戦争',
+    Historique: '歴史',
+    Judiciaire: '法廷劇',
+    Musical: 'ミュージカル',
+    Musique: '音楽',
+    Policier: 'サスペンス・警察',
+    Romance: 'ロマンス',
+    'Science fiction': 'SF',
+    'Science-Fiction': 'SF',
+    'Science-fiction': 'SF',
+    Thriller: 'スリラー',
+    Western: '西部劇',
+    'Court métrage': '短編映画',
+    'Court-métrage': '短編映画',
+    Érotique: 'エロティック',
+    Expérimental: '実験映画',
+    Concert: 'コンサート',
+    Opéra: 'オペラ',
+    Événement: '特別上映',
+    Divers: 'その他',
+  },
+  ar: {
+    Action: 'أكشن',
+    Animation: 'رسوم متحركة',
+    Aventure: 'مغامرة',
+    Biopic: 'سيرة ذاتية',
+    Comédie: 'كوميديا',
+    'Comédie dramatique': 'دراما كوميدية',
+    'Comédie musicale': 'موسيقي غنائي',
+    Documentaire: 'وثائقي',
+    Drame: 'دراما',
+    'Épouvante-horreur': 'رعب',
+    'Epouvante-horreur': 'رعب',
+    Horreur: 'رعب',
+    Espionnage: 'تجسس',
+    Famille: 'عائلي',
+    Fantastique: 'فانتازيا',
+    Guerre: 'حرب',
+    Historique: 'تاريخي',
+    Judiciaire: 'قانوني',
+    Musical: 'موسيقي',
+    Musique: 'موسيقى',
+    Policier: 'بوليسي وجريمة',
+    Romance: 'رومانسي',
+    'Science fiction': 'خيال علمي',
+    'Science-Fiction': 'خيال علمي',
+    'Science-fiction': 'خيال علمي',
+    Thriller: 'تشويق وإثارة',
+    Western: 'غرب أمريكي',
+    'Court métrage': 'فيلم قصير',
+    'Court-métrage': 'فيلم قصير',
+    Érotique: 'إباحي للكبار',
+    Expérimental: 'تجريبي',
+    Concert: 'حفل موسيقي',
+    Opéra: 'أوبرا',
+    Événement: 'حدث خاص',
+    Divers: 'متنوع',
+  },
+  tr: {
+    Action: 'Aksiyon',
+    Animation: 'Animasyon',
+    Aventure: 'Macera',
+    Biopic: 'Biyografi',
+    Comédie: 'Komedi',
+    'Comédie dramatique': 'Dramatik Komedi',
+    'Comédie musicale': 'Müzikal Komedi',
+    Documentaire: 'Belgesel',
+    Drame: 'Dram',
+    'Épouvante-horreur': 'Korku',
+    'Epouvante-horreur': 'Korku',
+    Horreur: 'Korku',
+    Espionnage: 'Casusluk',
+    Famille: 'Aile',
+    Fantastique: 'Fantastik',
+    Guerre: 'Savaş',
+    Historique: 'Tarih',
+    Judiciaire: 'Hukuk / Mahkeme',
+    Musical: 'Müzikal',
+    Musique: 'Müzik',
+    Policier: 'Polisiye / Suç',
+    Romance: 'Romantik',
+    'Science fiction': 'Bilim Kurgu',
+    'Science-Fiction': 'Bilim Kurgu',
+    'Science-fiction': 'Bilim Kurgu',
+    Thriller: 'Gerilim',
+    Western: 'Vahşi Batı',
+    'Court métrage': 'Kısa Film',
+    'Court-métrage': 'Kısa Film',
+    Érotique: 'Erotik',
+    Expérimental: 'Deneysel',
+    Concert: 'Konser',
+    Opéra: 'Opera',
+    Événement: 'Özel Etkinlik',
+    Divers: 'Çeşitli',
+  },
+};
+
+/**
+ * Traduit la liste des genres d'un film pour la locale courante.
+ * ex: "Animation, Comédie" -> "Animation, Comedy" (en), "アニメーション, コメディ" (ja)
+ */
+export function formatLocalizedGenres(genresStr?: string | null, locale = 'fr'): string {
+  if (!genresStr) return '';
+  if (locale === 'fr') return genresStr;
+
+  const mapping = GENRES_MAP[locale];
+  if (!mapping) return genresStr;
+
+  const parts = genresStr.split(',').map((g) => g.trim());
+  const translated = parts.map((genre) => mapping[genre] || genre);
+  return translated.join(', ');
+}
+
+/**
+ * Formate la durée d'un film pour la locale courante.
+ * ex: "1h 36min" -> "1h 36m" (en), "1時間36分" (ja), "1 Std. 36 Min." (de), "1 س 36 د" (ar)
+ */
+export function formatLocalizedDuration(dureeStr?: string | null, locale = 'fr'): string {
+  if (!dureeStr || dureeStr === 'inconnue') return dureeStr || '';
+  if (locale === 'fr') return dureeStr;
+
+  const { hours, minutes } = parseDuration(dureeStr);
+  if (hours === 0 && minutes === 0) return dureeStr;
+
+  switch (locale) {
+    case 'en':
+      if (hours > 0 && minutes > 0) return `${hours}h ${minutes}m`;
+      if (hours > 0) return `${hours}h`;
+      return `${minutes}m`;
+    case 'ja':
+      if (hours > 0 && minutes > 0) return `${hours}時間${minutes}分`;
+      if (hours > 0) return `${hours}時間`;
+      return `${minutes}分`;
+    case 'de':
+      if (hours > 0 && minutes > 0) return `${hours} Std. ${minutes} Min.`;
+      if (hours > 0) return `${hours} Std.`;
+      return `${minutes} Min.`;
+    case 'es':
+    case 'it':
+    case 'pt':
+      if (hours > 0 && minutes > 0) return `${hours}h ${minutes}min`;
+      if (hours > 0) return `${hours}h`;
+      return `${minutes}min`;
+    case 'ar':
+      if (hours > 0 && minutes > 0) return `${hours} س ${minutes} د`;
+      if (hours > 0) return `${hours} س`;
+      return `${minutes} د`;
+    default:
+      return dureeStr;
+  }
+}

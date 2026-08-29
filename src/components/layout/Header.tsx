@@ -1,98 +1,119 @@
-'use client';
 // src/components/layout/Header.tsx
-// En-tête de la page avec logo, navigation et bouton thème (icônes SVG uniquement)
+'use client';
 
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useCallback, useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
+import { Film, Sparkles, Moon, Sun, Settings, Globe } from 'lucide-react';
+import { useTheme } from '@/context/ThemeContext';
+import { useTranslation, SUPPORTED_LANGUAGES, SupportedLocale } from '@/i18n';
 
 export default function Header() {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const pathname = usePathname();
+  const { mode, setMode, isDark } = useTheme();
+  const { locale, setLocale } = useTranslation();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [langDropdownOpen, setLangDropdownOpen] = useState(false);
 
   useEffect(() => {
-    const root = document.documentElement;
-    const current = root.getAttribute('data-theme') as 'light' | 'dark' || 'light';
-    setTheme(current);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 15);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleTheme = useCallback(() => {
-    const root = document.documentElement;
-    const current = root.getAttribute('data-theme');
-    const next = current === 'dark' ? 'light' : 'dark';
-    root.setAttribute('data-theme', next);
-    setTheme(next);
-    try {
-      localStorage.setItem('cinelyon-theme', next);
-    } catch (e) { /* ignore */ }
-  }, []);
+  const openSettings = () => {
+    window.dispatchEvent(new CustomEvent('cinelyon:open-settings'));
+  };
+
+  const openCineBot = () => {
+    window.dispatchEvent(new CustomEvent('cinelyon:open-cinebot'));
+  };
 
   return (
-    <header>
-      <div className="header-inner">
-        <Link href="/" className="header-logo" id="headerTop">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/images/icon-192x192-rond.png"
-            alt="CinéLyon logo"
-            className="logo-img"
-            width={36}
-            height={36}
-          />
-          <span className="logo-title">CinéLyon</span>
+    <header
+      className={`sticky top-0 z-40 w-full transition-all duration-200 ${
+        isScrolled
+          ? 'bg-white/85 dark:bg-[#121212]/85 backdrop-blur-xl border-b border-black/[0.06] dark:border-white/10 shadow-sm py-2.5'
+          : 'bg-transparent py-3'
+      }`}
+    >
+      <div className="max-w-2xl mx-auto px-3 sm:px-4 flex items-center justify-between">
+        {/* Logo CinéLyon */}
+        <Link href="/" className="flex items-center gap-2.5 group select-none">
+          <div className="w-8 h-8 rounded-xl bg-[#444cf7] flex items-center justify-center shadow-md shadow-[#444cf7]/20 group-hover:scale-105 transition-transform">
+            <Film className="w-4 h-4 text-white" />
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span className="font-extrabold text-lg tracking-tight text-neutral-900 dark:text-white">
+              CinéLyon
+            </span>
+            <span className="px-1.5 py-0.2 rounded-md text-[10px] font-bold bg-[#444cf7]/15 text-[#444cf7]">
+              69
+            </span>
+          </div>
         </Link>
 
-        <nav className="header-nav">
-          <Link href="/suggestions" className="film-action-btn" style={{ padding: '8px 14px', fontSize: 13 }}>
-            Suggestions
-          </Link>
-          <button
-            onClick={() => window.dispatchEvent(new CustomEvent('open-settings'))}
-            className="film-action-btn"
-            style={{
-              padding: '8px 14px',
-              fontSize: 13,
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 6,
-              cursor: 'pointer',
-              background: 'var(--card-solid)',
-            }}
-            type="button"
-            aria-label="Réglages et synchronisation"
-          >
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="3" />
-              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-            </svg>
-            Réglages
-          </button>
-          <button
-            className="theme-btn"
-            onClick={toggleTheme}
-            aria-label="Changer le thème"
-            title="Changer le thème clair / sombre"
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-          >
-            {theme === 'dark' ? (
-              // Icône Soleil pour passer au thème clair
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="5" />
-                <line x1="12" y1="1" x2="12" y2="3" />
-                <line x1="12" y1="21" x2="12" y2="23" />
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                <line x1="1" y1="12" x2="3" y2="12" />
-                <line x1="21" y1="12" x2="23" y2="12" />
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-              </svg>
-            ) : (
-              // Icône Lune pour passer au thème sombre
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-              </svg>
+        {/* Contrôles & Actions */}
+        <div className="flex items-center gap-2">
+          {/* Sélecteur de Langue */}
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setLangDropdownOpen(!langDropdownOpen)}
+              className="px-2.5 py-1.5 rounded-xl bg-white dark:bg-[#1e1e1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-300 hover:border-neutral-400 transition-colors flex items-center gap-1 text-xs font-bold shadow-sm"
+              title="Changer de langue"
+            >
+              <Globe size={14} />
+              <span className="uppercase">{locale}</span>
+            </button>
+
+            {langDropdownOpen && (
+              <div className="absolute right-0 mt-2 w-44 rounded-2xl bg-white dark:bg-[#1e1e1e] border border-black/10 dark:border-white/15 shadow-2xl py-1 z-50 animate-in fade-in zoom-in-95 duration-150">
+                {SUPPORTED_LANGUAGES.map((l) => (
+                  <button
+                    key={l.code}
+                    type="button"
+                    onClick={() => {
+                      setLocale(l.code as SupportedLocale);
+                      setLangDropdownOpen(false);
+                    }}
+                    className={`w-full px-3 py-2 text-left text-xs flex items-center justify-between hover:bg-neutral-100 dark:hover:bg-white/10 transition-colors ${
+                      locale === l.code ? 'font-bold text-[#444cf7]' : 'text-neutral-700 dark:text-neutral-300'
+                    }`}
+                  >
+                    <span className="flex items-center gap-2">
+                      <span>{l.flag}</span>
+                      <span>{l.nativeName}</span>
+                    </span>
+                    {locale === l.code && <span className="text-[#444cf7]">✓</span>}
+                  </button>
+                ))}
+              </div>
             )}
+          </div>
+
+          {/* Bascule Thème Sombre / Clair */}
+          <button
+            type="button"
+            onClick={() => setMode(isDark ? 'light' : 'dark')}
+            className="p-2 rounded-xl bg-white dark:bg-[#1e1e1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-300 hover:border-neutral-400 transition-colors shadow-sm"
+            title={isDark ? 'Mode clair' : 'Mode sombre'}
+          >
+            {isDark ? <Sun size={15} className="text-amber-400" /> : <Moon size={15} />}
           </button>
-        </nav>
+
+          {/* Bouton Réglages */}
+          <button
+            type="button"
+            onClick={openSettings}
+            className="p-2 rounded-xl bg-white dark:bg-[#1e1e1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-300 hover:border-neutral-400 transition-colors shadow-sm"
+            title="Paramètres"
+          >
+            <Settings size={15} />
+          </button>
+        </div>
       </div>
     </header>
   );

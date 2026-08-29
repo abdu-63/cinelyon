@@ -1,141 +1,122 @@
 // src/app/suggestions/page.tsx
-// Page Suggestions — équivalent de /suggestions Flask
+'use client';
 
-import type { Metadata } from 'next';
+import React, { useState } from 'react';
 import Link from 'next/link';
-
-export const metadata: Metadata = {
-  title: 'Suggestions & Signalement — CinéLyon',
-  description: 'Suggérez un film, signalez une erreur ou contactez l\'équipe CinéLyon.',
-};
+import { ArrowLeft, MessageSquare, Send, CheckCircle2 } from 'lucide-react';
+import { InstagramIcon } from '@/components/ui/InstagramIcon';
 
 export default function SuggestionsPage() {
+  const [submitted, setSubmitted] = useState(false);
+
   return (
-    <div style={{ margin: '0 10%', padding: '40px 0 80px' }}>
-      <nav aria-label="Fil d'Ariane" style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 24 }}>
-        <Link href="/" style={{ color: 'var(--primary)' }}>Accueil</Link>
-        {' › '}
-        <span>Suggestions</span>
-      </nav>
-
-      <h1 style={{ fontSize: 28, fontWeight: 700, marginBottom: 8, color: 'var(--text-main)' }}>
-        Suggestions & Contact
-      </h1>
-      <p style={{ fontSize: 15, color: 'var(--text-muted)', marginBottom: 32 }}>
-        Tu as remarqué une erreur dans les horaires, un film manquant, ou tu as une idée pour améliorer CinéLyon ? Fais-le nous savoir !
-      </p>
-
-      <div
-        style={{
-          background: 'var(--card-bg)',
-          backdropFilter: 'blur(10px)',
-          WebkitBackdropFilter: 'blur(10px)',
-          borderRadius: 16,
-          padding: '28px 32px',
-          border: '1px solid var(--border-light)',
-          boxShadow: '0 8px 32px var(--shadow-sm)',
-          maxWidth: 600,
-        }}
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-6">
+      {/* Fil d'Ariane */}
+      <Link
+        href="/"
+        className="inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-400 hover:text-white transition-colors"
       >
-        <SuggestionForm />
-      </div>
+        <ArrowLeft size={14} />
+        <span>Retour aux séances</span>
+      </Link>
 
-      <div style={{ marginTop: 24, padding: '20px 24px', background: 'var(--card-solid)', borderRadius: 12, border: '1px solid var(--border-light)', maxWidth: 600 }}>
-        <h2 style={{ fontSize: 16, fontWeight: 700, marginBottom: 8 }}>Autres façons de nous contacter</h2>
-        <p style={{ fontSize: 14, color: 'var(--text-muted)', margin: '4px 0' }}>
-          📸 Instagram :{' '}
-          <a href="https://www.instagram.com/cinelyon.fr/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>
-            @cinelyon.fr
-          </a>
+      <div className="space-y-2">
+        <h1 className="text-3xl font-extrabold text-white tracking-tight flex items-center gap-2.5">
+          <MessageSquare className="text-[#444cf7]" size={28} />
+          <span>Suggestions & Contact</span>
+        </h1>
+        <p className="text-sm text-neutral-400 leading-relaxed">
+          Tu as remarqué une erreur dans les horaires, un film manquant, ou tu as une idée pour enrichir CinéLyon ?
+          Partage-la avec nous !
         </p>
       </div>
+
+      <div className="liquid-glass rounded-3xl p-6 sm:p-8 border border-white/15 shadow-2xl">
+        {submitted ? (
+          <div className="py-12 text-center space-y-3">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
+              <CheckCircle2 size={24} />
+            </div>
+            <h3 className="text-lg font-bold text-white">Merci pour ton retour !</h3>
+            <p className="text-xs text-neutral-400 max-w-sm mx-auto">
+              Ton message a bien été transmis. Nous l&apos;étudierons rapidement pour continuer d&apos;améliorer CinéLyon.
+            </p>
+          </div>
+        ) : (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              setSubmitted(true);
+            }}
+            className="space-y-5"
+          >
+            <div>
+              <label htmlFor="sugg-type" className="block text-xs font-semibold uppercase tracking-wider text-neutral-300 mb-2">
+                Type de message
+              </label>
+              <select
+                id="sugg-type"
+                name="type"
+                required
+                className="w-full px-4 py-3 rounded-2xl bg-black/40 border border-white/15 text-sm text-white focus:outline-none focus:border-[#444cf7]"
+              >
+                <option value="erreur">Erreur dans les horaires ou une salle</option>
+                <option value="film-manquant">Film ou séance manquante</option>
+                <option value="suggestion">Suggestion d&apos;amélioration ou de fonctionnalité</option>
+                <option value="autre">Autre remarque</option>
+              </select>
+            </div>
+
+            <div>
+              <label htmlFor="sugg-msg" className="block text-xs font-semibold uppercase tracking-wider text-neutral-300 mb-2">
+                Votre Message
+              </label>
+              <textarea
+                id="sugg-msg"
+                name="message"
+                rows={5}
+                required
+                placeholder="Décrivez votre idée, le cinéma concerné, ou le problème rencontré..."
+                className="w-full px-4 py-3 rounded-2xl bg-black/40 border border-white/15 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-[#444cf7] resize-vertical"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="sugg-email" className="block text-xs font-semibold uppercase tracking-wider text-neutral-300 mb-2">
+                Email (optionnel)
+              </label>
+              <input
+                type="email"
+                id="sugg-email"
+                name="email"
+                placeholder="Pour qu'on puisse vous répondre si besoin"
+                className="w-full px-4 py-3 rounded-2xl bg-black/40 border border-white/15 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-[#444cf7]"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="px-6 py-3 rounded-2xl bg-[#444cf7] hover:bg-[#3339c4] text-white font-bold text-sm shadow-lg shadow-[#444cf7]/25 transition-all flex items-center gap-2 active:scale-95"
+            >
+              <Send size={15} />
+              <span>Envoyer le message</span>
+            </button>
+          </form>
+        )}
+      </div>
+
+      <div className="p-5 rounded-2xl bg-black/30 border border-white/10 flex items-center justify-between text-xs text-neutral-400">
+        <span>Vous pouvez aussi nous écrire directement sur Instagram</span>
+        <a
+          href="https://www.instagram.com/cinelyon.fr/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-1.5 text-white font-semibold hover:text-[#e1306c] transition-colors"
+        >
+          <InstagramIcon size={14} />
+          <span>@cinelyon.fr</span>
+        </a>
+      </div>
     </div>
-  );
-}
-
-// Formulaire de suggestions (Client Component)
-function SuggestionForm() {
-  'use client';
-  return (
-    <form
-      action="https://formspree.io/f/cinelyon"
-      method="POST"
-      style={{ display: 'flex', flexDirection: 'column', gap: 16 }}
-    >
-      <div>
-        <label
-          htmlFor="sugg-type"
-          style={{ display: 'block', fontSize: 14, fontWeight: 600, marginBottom: 6 }}
-        >
-          Type de message
-        </label>
-        <select
-          id="sugg-type"
-          name="type"
-          className="search-input"
-          style={{ width: '100%' }}
-          required
-        >
-          <option value="">Choisir...</option>
-          <option value="erreur">Erreur dans les horaires</option>
-          <option value="film-manquant">Film manquant</option>
-          <option value="suggestion">Suggestion de fonctionnalité</option>
-          <option value="autre">Autre</option>
-        </select>
-      </div>
-
-      <div>
-        <label
-          htmlFor="sugg-msg"
-          style={{ display: 'block', fontSize: 14, fontWeight: 600, marginBottom: 6 }}
-        >
-          Message
-        </label>
-        <textarea
-          id="sugg-msg"
-          name="message"
-          rows={5}
-          placeholder="Décris ton problème ou ta suggestion..."
-          required
-          style={{
-            width: '100%',
-            padding: '12px 15px',
-            borderRadius: 8,
-            border: '2px solid var(--border-color)',
-            fontFamily: 'healTheWebA, sans-serif',
-            fontSize: 14,
-            background: 'var(--card-solid)',
-            color: 'var(--text-main)',
-            resize: 'vertical',
-            boxSizing: 'border-box',
-          }}
-        />
-      </div>
-
-      <div>
-        <label
-          htmlFor="sugg-email"
-          style={{ display: 'block', fontSize: 14, fontWeight: 600, marginBottom: 6 }}
-        >
-          Email (optionnel)
-        </label>
-        <input
-          type="email"
-          id="sugg-email"
-          name="email"
-          placeholder="pour te répondre"
-          className="search-input"
-          style={{ width: '100%', boxSizing: 'border-box' }}
-        />
-      </div>
-
-      <button
-        type="submit"
-        className="reset-btn"
-        style={{ alignSelf: 'flex-start', padding: '12px 28px' }}
-      >
-        Envoyer
-      </button>
-    </form>
   );
 }
