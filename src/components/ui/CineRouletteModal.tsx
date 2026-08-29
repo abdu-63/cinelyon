@@ -1,78 +1,84 @@
 // src/components/ui/CineRouletteModal.tsx
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Dices, Sparkles, MapPin, Clock, ArrowRight } from 'lucide-react';
-import confetti from 'canvas-confetti';
-import Link from 'next/link';
-import { Film, DateLabel } from '@/types';
-import { formatDayLabel } from '@/utils/dateUtils';
+import { X, Dices, ArrowRight, Star, Moon, Languages } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Film, Seance } from '@/types';
 
 interface CineRouletteModalProps {
-  films: Film[];
-  dates: DateLabel[];
+  films?: Film[];
 }
 
-export function CineRouletteModal({ films, dates }: CineRouletteModalProps) {
+export function CineRouletteModal({ films = [] }: CineRouletteModalProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isSpinning, setIsSpinning] = useState(false);
-  const [selectedFilm, setSelectedFilm] = useState<Film | null>(null);
-  const [selectedCinema, setSelectedCinema] = useState<string>('');
-  const [selectedTime, setSelectedTime] = useState<string>('');
+  const [onlyEvening, setOnlyEvening] = useState(true);
+  const [onlyVO, setOnlyVO] = useState(false);
+  const [onlyTopRated, setOnlyTopRated] = useState(false);
+  const [selectedResult, setSelectedResult] = useState<{
+    film: Film;
+    cinema: string;
+    seance: Seance;
+  } | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
-    const handleOpen = () => setIsOpen(true);
+    const handleOpen = () => {
+      setIsOpen(true);
+      roll();
+    };
     window.addEventListener('cinelyon:open-roulette', handleOpen);
     return () => window.removeEventListener('cinelyon:open-roulette', handleOpen);
-  }, []);
+  }, [films, onlyEvening, onlyVO, onlyTopRated]);
 
-  const spin = () => {
-    if (!films || films.length === 0 || isSpinning) return;
+  const roll = () => {
+    if (!films || films.length === 0) return;
 
-    setIsSpinning(true);
-    setSelectedFilm(null);
+    let pool: { film: Film; cinema: string; seance: Seance }[] = [];
 
-    let counter = 0;
-    const totalTicks = 24;
-    const interval = setInterval(() => {
-      const randomF = films[Math.floor(Math.random() * films.length)];
-      setSelectedFilm(randomF);
-      counter++;
+    films.forEach((f) => {
+      if (onlyTopRated) {
+        const rating = parseFloat(f.rating?.replace(',', '.') || '0');
+        if (isNaN(rating) || rating < 3.5) return;
+      }
 
-      if (counter >= totalTicks) {
-        clearInterval(interval);
-        // Sélection finale
-        const finalFilm = films[Math.floor(Math.random() * films.length)];
-        setSelectedFilm(finalFilm);
+      Object.values(f.seancesByDay || {}).forEach((cinemas) => {
+        Object.entries(cinemas).forEach(([cinemaName, seances]) => {
+          seances.forEach((s) => {
+            if (onlyVO && s.lang !== 'VO') return;
+            if (onlyEvening) {
+              const hour = parseInt(s.time.split(':')[0] || '0', 10);
+              if (hour < 19) return;
+            }
+            pool.push({ film: f, cinema: cinemaName, seance: s });
+          });
+        });
+      });
+    });
 
-        // Trouver une séance
-        const days = Object.keys(finalFilm.seancesByDay);
+    if (pool.length === 0) {
+      // Fallback
+      const f = films[Math.floor(Math.random() * films.length)];
+      if (f) {
+        const days = Object.values(f.seancesByDay || {});
         if (days.length > 0) {
           const firstDay = days[0];
-          const cinemas = Object.keys(finalFilm.seancesByDay[firstDay] || {});
-          if (cinemas.length > 0) {
-            const randomCin = cinemas[Math.floor(Math.random() * cinemas.length)];
-            const seances = finalFilm.seancesByDay[firstDay][randomCin] || [];
-            if (seances.length > 0) {
-              setSelectedCinema(randomCin);
-              setSelectedTime(seances[0].time);
+          const cinemaEntries = Object.entries(firstDay);
+          if (cinemaEntries.length > 0) {
+            const [cName, sList] = cinemaEntries[0];
+            if (sList.length > 0) {
+              setSelectedResult({ film: f, cinema: cName, seance: sList[0] });
+              return;
             }
           }
         }
-
-        setIsSpinning(false);
-        try {
-          confetti({
-            particleCount: 80,
-            spread: 70,
-            origin: { y: 0.6 },
-          });
-        } catch {
-          // Ignorer
-        }
       }
-    }, 80);
+      return;
+    }
+
+    const picked = pool[Math.floor(Math.random() * pool.length)];
+    setSelectedResult(picked);
   };
 
   return (
@@ -83,100 +89,154 @@ export function CineRouletteModal({ films, dates }: CineRouletteModalProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => !isSpinning && setIsOpen(false)}
-            className="fixed inset-0 bg-black/70 backdrop-blur-md"
+            onClick={() => setIsOpen(false)}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm"
           />
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 15 }}
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 15 }}
-            className="relative w-full max-w-md liquid-glass rounded-3xl p-6 sm:p-8 shadow-2xl border border-white/15 z-10 text-center"
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            className="relative w-full max-w-md bg-white dark:bg-[#1e1e1e] rounded-[28px] p-5 shadow-2xl border border-black/10 dark:border-white/10 z-10 space-y-4"
           >
-            <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/10">
-              <div className="flex items-center gap-2">
-                <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center">
-                  <Dices size={20} />
+            {/* Header */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <span className="text-2xl">🍿</span>
+                <div>
+                  <h3 className="font-bold text-lg text-neutral-900 dark:text-white leading-tight">
+                    Ciné-Roulette
+                  </h3>
+                  <p className="text-xs text-neutral-500">
+                    Une séance au hasard ce soir à Lyon
+                  </p>
                 </div>
-                <h3 className="font-bold text-lg text-white">CinéRoulette Lyon</h3>
               </div>
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                disabled={isSpinning}
-                className="p-1.5 rounded-full hover:bg-white/10 text-neutral-400 hover:text-white"
-                aria-label="Fermer"
+                className="w-8 h-8 rounded-full bg-neutral-100 dark:bg-white/10 text-neutral-600 dark:text-white flex items-center justify-center hover:bg-neutral-200 transition-colors"
               >
-                <X size={18} />
+                <X size={16} />
               </button>
             </div>
 
-            <p className="text-xs text-neutral-300 mb-6 leading-relaxed">
-              Indécis sur le film à voir ce soir ? Laisse la roulette cinéphile choisir au hasard parmi les séances de
-              Lyon !
-            </p>
+            {/* Filtres Pilules (comme sur le screenshot) */}
+            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-0.5">
+              <button
+                type="button"
+                onClick={() => {
+                  setOnlyEvening(!onlyEvening);
+                  setTimeout(roll, 50);
+                }}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold shrink-0 transition-all flex items-center gap-1.5 border ${
+                  onlyEvening
+                    ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
+                    : 'bg-white dark:bg-[#1e1e1e] border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-300'
+                }`}
+              >
+                <Moon size={12} />
+                <span>Ce soir (&gt; 19h)</span>
+              </button>
 
-            {/* Display Area */}
-            <div className="min-h-[220px] flex flex-col items-center justify-center p-4 bg-black/40 rounded-2xl border border-white/10 mb-6">
-              {selectedFilm ? (
-                <motion.div
-                  key={selectedFilm.filmId}
-                  initial={{ scale: 0.95, opacity: 0.8 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  className="flex flex-col items-center"
-                >
+              <button
+                type="button"
+                onClick={() => {
+                  setOnlyVO(!onlyVO);
+                  setTimeout(roll, 50);
+                }}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold shrink-0 transition-all flex items-center gap-1.5 border ${
+                  onlyVO
+                    ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
+                    : 'bg-white dark:bg-[#1e1e1e] border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-300'
+                }`}
+              >
+                <Languages size={12} />
+                <span>VOST uniquement</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setOnlyTopRated(!onlyTopRated);
+                  setTimeout(roll, 50);
+                }}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold shrink-0 transition-all flex items-center gap-1.5 border ${
+                  onlyTopRated
+                    ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
+                    : 'bg-white dark:bg-[#1e1e1e] border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-300'
+                }`}
+              >
+                <Star size={12} />
+                <span>Film bien noté</span>
+              </button>
+            </div>
+
+            {/* Carte Résultat */}
+            {selectedResult ? (
+              <div className="p-4 rounded-[24px] bg-neutral-50 dark:bg-black/30 border border-black/[0.06] dark:border-white/10 space-y-3">
+                <div className="flex items-start gap-3">
                   <img
-                    src={selectedFilm.affiche || '/images/nocontent.png'}
-                    alt={selectedFilm.title}
-                    className="w-24 h-36 object-cover rounded-xl shadow-lg mb-3 border border-white/20"
+                    src={selectedResult.film.affiche || '/images/nocontent.png'}
+                    alt={selectedResult.film.title}
+                    className="w-20 h-28 object-cover rounded-[16px] shadow-sm border border-black/5 shrink-0"
                   />
-                  <h4 className="font-bold text-base text-white line-clamp-1">{selectedFilm.title}</h4>
-                  <p className="text-xs text-neutral-400 mt-0.5">{selectedFilm.genres || 'Cinéma'}</p>
-
-                  {selectedCinema && (
-                    <div className="flex items-center gap-3 mt-3 text-xs text-neutral-300 bg-white/5 px-3 py-1.5 rounded-xl border border-white/10">
-                      <span className="flex items-center gap-1">
-                        <MapPin size={12} className="text-[#444cf7]" /> {selectedCinema}
-                      </span>
-                      {selectedTime && (
-                        <span className="flex items-center gap-1 font-semibold text-amber-400">
-                          <Clock size={12} /> {selectedTime}
+                  <div className="space-y-1 min-w-0">
+                    <h4 className="font-extrabold text-base text-neutral-900 dark:text-white line-clamp-2 leading-tight">
+                      {selectedResult.film.title}
+                    </h4>
+                    <div className="flex items-center gap-1.5 pt-0.5">
+                      {selectedResult.film.duree && (
+                        <span className="px-2 py-0.5 rounded-full bg-neutral-200/80 dark:bg-white/10 text-[10px] font-bold text-neutral-700 dark:text-neutral-300">
+                          {selectedResult.film.duree}
+                        </span>
+                      )}
+                      {selectedResult.film.rating && selectedResult.film.rating !== 'Note inconnue' && (
+                        <span className="px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 text-[10px] font-bold flex items-center gap-1">
+                          <Star size={10} className="fill-amber-500 text-amber-500" />
+                          <span>{selectedResult.film.rating}</span>
                         </span>
                       )}
                     </div>
-                  )}
-                </motion.div>
-              ) : (
-                <div className="text-neutral-500 text-sm flex flex-col items-center gap-2">
-                  <Sparkles size={28} className="text-amber-400/50" />
-                  <span>Prêt pour le tirage au sort ?</span>
+
+                    <div className="p-2.5 rounded-xl bg-white dark:bg-[#1e1e1e] border border-black/[0.06] dark:border-white/10 shadow-sm mt-2">
+                      <p className="text-xs font-semibold text-neutral-800 dark:text-neutral-200 truncate">
+                        {selectedResult.cinema}
+                      </p>
+                      <p className="text-base font-extrabold text-[#444cf7]">
+                        {selectedResult.seance.time}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              )}
-            </div>
 
-            {/* Actions */}
-            <div className="flex flex-col gap-2.5">
-              <button
-                type="button"
-                onClick={spin}
-                disabled={isSpinning}
-                className="w-full py-3 rounded-2xl bg-gradient-to-r from-amber-500 to-rose-500 hover:from-amber-600 hover:to-rose-600 text-white font-bold text-sm shadow-lg shadow-amber-500/20 transition-all flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50"
-              >
-                <Dices size={18} className={isSpinning ? 'animate-spin' : ''} />
-                <span>{isSpinning ? 'Tirage en cours...' : 'Lancer la Roulette !'}</span>
-              </button>
-
-              {selectedFilm && !isSpinning && (
-                <Link
-                  href={`/film/${selectedFilm.slug}`}
-                  onClick={() => setIsOpen(false)}
-                  className="w-full py-2.5 rounded-2xl bg-white/10 hover:bg-white/15 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors border border-white/10"
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsOpen(false);
+                    router.push(`/film/${selectedResult.film.slug}`);
+                  }}
+                  className="w-full py-3 rounded-2xl bg-[#444cf7] hover:bg-[#3339c4] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md shadow-[#444cf7]/20 transition-all active:scale-98"
                 >
-                  <span>Voir toutes les séances de ce film</span>
+                  <span>🎟️ Voir la fiche &amp; les séances</span>
                   <ArrowRight size={14} />
-                </Link>
-              )}
-            </div>
+                </button>
+              </div>
+            ) : (
+              <div className="py-8 text-center text-xs text-neutral-400">
+                Aucune séance trouvée avec ces critères.
+              </div>
+            )}
+
+            {/* Bouton Principal de Relance */}
+            <button
+              type="button"
+              onClick={roll}
+              className="w-full py-3.5 rounded-2xl bg-[#444cf7] hover:bg-[#3339c4] text-white font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-[#444cf7]/30 transition-all active:scale-98"
+            >
+              <Dices size={18} />
+              <span>Relancer la roulette</span>
+            </button>
           </motion.div>
         </div>
       )}

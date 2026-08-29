@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Clock, ChevronDown, ChevronUp, AlertCircle } from 'lucide-react';
+import { ChevronDown, ChevronUp, Sparkles } from 'lucide-react';
 import { ToiletBreaksInfo, ToiletBreak, Film } from '@/types';
 import { buildToiletBreaksInfo } from '@/utils/toiletBreakUtils';
 
@@ -12,7 +12,8 @@ interface ToiletBreaksSectionProps {
 }
 
 export function ToiletBreaksSection({ info, film }: ToiletBreaksSectionProps) {
-  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [isSectionOpen, setIsSectionOpen] = useState(true);
+  const [expandedBreakId, setExpandedBreakId] = useState<string | null>('break-0');
 
   const breaksInfo: ToiletBreaksInfo | null = info || (film ? buildToiletBreaksInfo(film) : null);
 
@@ -20,82 +21,102 @@ export function ToiletBreaksSection({ info, film }: ToiletBreaksSectionProps) {
     return null;
   }
 
+  const timesSummary = breaksInfo.breaks
+    .map((b) => b.timestamp || `${b.timestampMinutes} min`)
+    .join(' · ');
+
   return (
-    <div className="p-5 rounded-3xl liquid-glass border border-white/10 space-y-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl bg-blue-500/20 text-blue-400 border border-blue-500/30 flex items-center justify-center">
-            <Clock size={16} />
-          </div>
-          <div>
-            <h3 className="font-bold text-sm text-white">Pauses Conseillées (RunPee)</h3>
-            <p className="text-xs text-neutral-400">
-              Moments idéaux pour s&apos;absenter sans rater l&apos;intrigue
-            </p>
+    <div className="space-y-2 px-1">
+      {/* Header avec Titre + Badge horaire + Chevron d'ouverture */}
+      <button
+        type="button"
+        onClick={() => setIsSectionOpen(!isSectionOpen)}
+        className="w-full flex items-center justify-between text-left group select-none"
+      >
+        <h3 className="font-bold text-sm text-neutral-900 dark:text-white">
+          Pauses Toilettes
+        </h3>
+        <div className="flex items-center gap-2">
+          <span className="px-3 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950/50 text-[#444cf7] border border-blue-200 dark:border-blue-800 text-xs font-semibold">
+            {timesSummary}
+          </span>
+          {isSectionOpen ? (
+            <ChevronUp size={16} className="text-neutral-400" />
+          ) : (
+            <ChevronDown size={16} className="text-neutral-400" />
+          )}
+        </div>
+      </button>
+
+      {isSectionOpen && (
+        <div className="space-y-3 pt-1 animate-in fade-in duration-150">
+          <p className="text-xs text-neutral-600 dark:text-neutral-400">
+            Pauses de 3 min conseillées sans rater d&apos;élément clé de l&apos;intrigue :
+          </p>
+
+          <div className="space-y-3">
+            {breaksInfo.breaks.map((b: ToiletBreak, idx: number) => {
+              const breakId = b.id || `break-${idx}`;
+              const isExpanded = expandedBreakId === breakId;
+
+              return (
+                <div key={breakId} className="space-y-1.5">
+                  <div className="flex items-center justify-between text-xs">
+                    <div className="flex items-center gap-1.5">
+                      <span className="font-bold text-neutral-900 dark:text-white">
+                        {b.timestamp || `${b.timestampMinutes} min`}
+                      </span>
+                      <span className="text-neutral-500">
+                        ({b.durationMinutes} min)
+                      </span>
+                      <span className="text-neutral-400">•</span>
+                      {b.quality === 'best' ? (
+                        <span className="font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                          <span>Idéal</span>
+                        </span>
+                      ) : (
+                        <span className="font-semibold text-[#444cf7] flex items-center gap-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#444cf7]" />
+                          <span>Secondaire</span>
+                        </span>
+                      )}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setExpandedBreakId(isExpanded ? null : breakId)}
+                      className="text-xs font-semibold text-[#444cf7] hover:underline flex items-center gap-0.5"
+                    >
+                      <span>{isExpanded ? 'Masquer' : `Résumé ${b.durationMinutes} min`}</span>
+                      {isExpanded ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
+                    </button>
+                  </div>
+
+                  {b.cue && (
+                    <p className="text-xs text-neutral-700 dark:text-neutral-300">
+                      <span className="font-medium text-neutral-500">Départ :</span> {b.cue}
+                    </p>
+                  )}
+
+                  {isExpanded && (
+                    <div className="p-3.5 rounded-[18px] bg-white dark:bg-[#1e1e1e] border border-black/[0.06] dark:border-white/10 shadow-sm space-y-1 animate-in fade-in duration-150">
+                      <div className="flex items-center gap-1.5 text-xs font-bold text-neutral-900 dark:text-white">
+                        <Sparkles size={13} className="text-[#444cf7]" />
+                        <span>Pendant les {b.durationMinutes} min :</span>
+                      </div>
+                      <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                        {b.catchUpSummary ||
+                          "Pendant votre absence, l'intrigue secondaire progresse calmement sans événement ni rebondissement majeur."}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
-        <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">
-          {breaksInfo.breaks.length} pause{breaksInfo.breaks.length > 1 ? 's' : ''}
-        </span>
-      </div>
-
-      <div className="space-y-2.5">
-        {breaksInfo.breaks.map((b: ToiletBreak, i: number) => {
-          const isExpanded = expandedId === b.id || (expandedId === null && i === 0);
-          return (
-            <div
-              key={b.id || i}
-              className="rounded-2xl bg-black/30 border border-white/10 overflow-hidden transition-colors"
-            >
-              <button
-                type="button"
-                onClick={() => setExpandedId(isExpanded ? '' : b.id)}
-                className="w-full p-3.5 flex items-center justify-between text-left hover:bg-white/5 transition-colors"
-              >
-                <div className="flex items-center gap-3">
-                  <span className="text-xs font-bold text-blue-400 font-mono">
-                    {b.timestamp || `${b.timestampMinutes} min`}
-                  </span>
-                  <span className="text-xs font-medium text-white">
-                    Durée : {b.durationMinutes} min
-                  </span>
-                  {b.quality === 'best' && (
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                      Idéal
-                    </span>
-                  )}
-                </div>
-                {isExpanded ? (
-                  <ChevronUp size={16} className="text-neutral-400" />
-                ) : (
-                  <ChevronDown size={16} className="text-neutral-400" />
-                )}
-              </button>
-
-              {isExpanded && (
-                <div className="px-3.5 pb-3.5 pt-1 border-t border-white/5 space-y-2 text-xs text-neutral-300 animate-in fade-in duration-150">
-                  {b.cue && (
-                    <div className="p-2.5 rounded-xl bg-white/5 border border-white/5">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-blue-400 block mb-0.5">
-                        Signal de départ
-                      </span>
-                      <p>{b.cue}</p>
-                    </div>
-                  )}
-                  {b.catchUpSummary && (
-                    <div>
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 block mb-0.5">
-                        Ce qu&apos;il se passe pendant la pause
-                      </span>
-                      <p className="text-neutral-400 leading-relaxed">{b.catchUpSummary}</p>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
+      )}
     </div>
   );
 }

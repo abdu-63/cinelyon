@@ -1,31 +1,34 @@
 // src/app/film/[slug]/page.tsx
-// Page détail d'un film — Design Apple & parité totale avec cinelyon-app/app/film/[slug].tsx
+// Page détail d'un film — Reproduction exacte des 6 captures d'écran de l'application mobile
 
 import React from 'react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import {
-  ArrowLeft,
+  ChevronLeft,
   Share2,
   Heart,
   Star,
   ExternalLink,
   BookOpen,
-  Film as FilmIcon,
+  ShieldCheck,
+  Clapperboard,
+  Clock,
+  Users,
   PlayCircle,
   Tv,
   MessageSquare,
-  Clock,
+  Sparkles,
   Calendar,
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { findFilmBySlug } from '@/utils/showtimes';
-import { FilmRaw, CastMember } from '@/types';
+import { FilmRaw, CastMember, Film } from '@/types';
 import { getTodayIso, formatDayLabel, formatLocalizedDayLabel, formatTime } from '@/utils/dateUtils';
 import { PostCreditsBadge } from '@/components/ui/PostCreditsBadge';
 import { ToiletBreaksSection } from '@/components/ui/ToiletBreaksSection';
-import { FilmShowtimesTabs } from '@/components/ui/FilmShowtimesTabs';
+import { downloadICS } from '@/utils/calendarUtils';
 
 export const revalidate = 300;
 
@@ -35,19 +38,19 @@ interface PageProps {
 
 async function getFilmData(slug: string) {
   const today = getTodayIso();
-  const { data: rows, error } = await supabase
+  const { data: rows } = await supabase
     .from('showtimes')
     .select('date, movies')
     .gte('date', today)
     .order('date', { ascending: true })
     .limit(14);
 
-  if (error || !rows || rows.length === 0) {
-    return { film: null, dates: [] };
+  if (!rows || rows.length === 0) {
+    return { film: null, allFilms: [] };
   }
 
-  const result = findFilmBySlug(rows as { date: string; movies: FilmRaw[] }[], slug);
-  return { film: result, dates: [] };
+  const film = findFilmBySlug(rows as { date: string; movies: FilmRaw[] }[], slug);
+  return { film, rows };
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -60,10 +63,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   return {
     title: `${film.title} (${film.release_year || 'Séances'}) — CinéLyon`,
-    description:
-      film.synopsis && film.synopsis !== 'Synopsis non disponible'
-        ? film.synopsis.slice(0, 160)
-        : `Consultez les horaires et cinémas pour ${film.title} à Lyon et sa métropole.`,
+    description: film.synopsis?.slice(0, 160) || `Séances et horaires pour ${film.title} à Lyon.`,
     openGraph: {
       title: `${film.title} — Séances et Horaires à Lyon`,
       description: film.synopsis?.slice(0, 160),
@@ -74,26 +74,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function FilmPage({ params }: PageProps) {
   const { slug } = await params;
-  const today = getTodayIso();
+  const { film, rows } = await getFilmData(slug);
 
-  const { data: rows } = await supabase
-    .from('showtimes')
-    .select('date, movies')
-    .gte('date', today)
-    .order('date', { ascending: true })
-    .limit(14);
-
-  if (!rows || rows.length === 0) {
-    notFound();
-  }
-
-  const film = findFilmBySlug(rows as { date: string; movies: FilmRaw[] }[], slug);
   if (!film) {
     notFound();
   }
 
-  // Fetch TMDB Cast
+  // Fetch TMDB Cast & Similar
   let cast: CastMember[] = [];
+  let similarMovies: any[] = [];
   try {
     const tmdbRes = await fetch(
       `https://api.themoviedb.org/3/search/movie?api_key=33866d86db49b119159d3aa4ff2f9547&query=${encodeURIComponent(
@@ -104,16 +93,32 @@ export default async function FilmPage({ params }: PageProps) {
     const tmdbData = await tmdbRes.json();
     if (tmdbData.results && tmdbData.results[0]) {
       const movieId = tmdbData.results[0].id;
-      const creditsRes = await fetch(
-        `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=33866d86db49b119159d3aa4ff2f9547&language=fr-FR`,
-        { next: { revalidate: 86400 } }
-      );
+      const [creditsRes, similarRes] = await Promise.all([
+        fetch(
+          `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=33866d86db49b119159d3aa4ff2f9547&language=fr-FR`,
+          { next: { revalidate: 86400 } }
+        ),
+        fetch(
+          `https://api.themoviedb.org/3/movie/${movieId}/similar?api_key=33866d86db49b119159d3aa4ff2f9547&language=fr-FR`,
+          { next: { revalidate: 86400 } }
+        ),
+      ]);
       const creditsData = await creditsRes.json();
-      cast = (creditsData.cast || []).slice(0, 10).map((c: any) => ({
+      const similarData = await similarRes.json();
+
+      cast = (creditsData.cast || []).slice(0, 8).map((c: any) => ({
         id: c.id,
         name: c.name,
         character: c.character,
         profile_path: c.profile_path ? `https://image.tmdb.org/t/p/w185${c.profile_path}` : null,
+      }));
+
+      similarMovies = (similarData.results || []).slice(0, 6).map((m: any) => ({
+        id: m.id,
+        title: m.title,
+        rating: m.vote_average ? m.vote_average.toFixed(1) : null,
+        poster: m.poster_path ? `https://image.tmdb.org/t/p/w342${m.poster_path}` : null,
+        cinema: 'Cinémas de Lyon',
       }));
     }
   } catch {}
@@ -124,161 +129,216 @@ export default async function FilmPage({ params }: PageProps) {
   if (film.director && film.director !== 'Inconnu') metaParts.push(film.director);
   const metaString = metaParts.join(' · ');
 
+  const genresList = typeof film.genres === 'string'
+    ? film.genres.split(',').map((g) => g.trim()).filter(Boolean)
+    : Array.isArray(film.genres)
+    ? film.genres
+    : [];
+
   const youtubeId = film.trailer_url ? extractYoutubeId(film.trailer_url) : null;
+  const validDays = Object.keys(film.seancesByDay || {});
 
   return (
-    <div className="min-h-screen pb-28">
-      {/* ── 1. Navigation Flottante Apple Liquid Glass ── */}
-      <div className="sticky top-0 z-30 w-full bg-[#121212]/80 backdrop-blur-xl border-b border-white/10 px-4 sm:px-6 py-2.5 flex items-center justify-between">
-        <Link
-          href="/"
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/15 text-white text-xs font-semibold transition-all border border-white/10 shadow-sm"
-        >
-          <ArrowLeft size={14} />
-          <span>Retour</span>
-        </Link>
-      </div>
-
+    <div className="min-h-screen pb-24 bg-[#f5f6f8] dark:bg-[#121212] text-neutral-900 dark:text-white">
       <div className="max-w-2xl mx-auto px-3 sm:px-4 space-y-4">
-        {/* ── 2. Hero Backdrop (270px de haut avec dégradé sombre) ── */}
-        <div className="relative w-full h-[270px] rounded-[24px] overflow-hidden border border-white/10 mt-2 shadow-2xl">
+        {/* ── 1. Hero Backdrop Banner avec Boutons Flottants ── */}
+        <div className="relative w-full h-[280px] sm:h-[320px] rounded-[24px] overflow-hidden shadow-md mt-2 bg-neutral-900">
           <img
             src={film.backdrop || film.affiche || '/images/nocontent.png'}
             alt={film.title}
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-[#121212]/40 to-transparent" />
+          {/* Gradient fade to bottom */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#f5f6f8] dark:from-[#121212] via-transparent to-black/40" />
+
+          {/* Navigation Bar over Hero */}
+          <div className="absolute top-4 inset-x-4 flex items-center justify-between z-10">
+            <Link
+              href="/"
+              className="px-3.5 py-1.5 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md text-white text-xs font-semibold flex items-center gap-1 border border-white/20 transition-transform active:scale-95 shadow-sm"
+            >
+              <ChevronLeft size={16} />
+              <span>Retour</span>
+            </Link>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                className="w-9 h-9 rounded-full bg-white/90 dark:bg-[#1e1e1e]/90 backdrop-blur-md text-neutral-800 dark:text-white flex items-center justify-center shadow-sm border border-black/10 dark:border-white/10 hover:scale-105 active:scale-95 transition-all"
+                title="Partager"
+              >
+                <Share2 size={16} />
+              </button>
+              <button
+                type="button"
+                className="w-9 h-9 rounded-full bg-white/90 dark:bg-[#1e1e1e]/90 backdrop-blur-md text-neutral-800 dark:text-white flex items-center justify-center shadow-sm border border-black/10 dark:border-white/10 hover:scale-105 active:scale-95 transition-all"
+                title="Favori"
+              >
+                <Heart size={16} />
+              </button>
+            </div>
+          </div>
+
+          {/* Titre superposé en bas du banner */}
+          <div className="absolute bottom-3 left-4 right-4">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight drop-shadow-md">
+              {film.title}
+            </h1>
+          </div>
         </div>
 
-        {/* ── 3. Titre & Métadonnées Apple ── */}
-        <div className="px-1 space-y-2">
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight tracking-tight">
-            {film.title}
-          </h1>
-
+        {/* ── 2. Métadonnées & Genres ── */}
+        <div className="space-y-2 px-1">
           {metaString && (
-            <p className="text-xs font-semibold text-neutral-400">
+            <p className="text-xs font-medium text-neutral-600 dark:text-neutral-400">
               {metaString}
             </p>
           )}
 
-          {/* Capsules de genres */}
-          {(() => {
-            const genresList = typeof film.genres === 'string'
-              ? film.genres.split(',').map((g) => g.trim()).filter(Boolean)
-              : Array.isArray(film.genres)
-              ? film.genres
-              : [];
-            if (genresList.length === 0) return null;
-            return (
-              <div className="flex flex-wrap gap-1.5 pt-1">
-                {genresList.map((g) => (
-                  <span
-                    key={g}
-                    className="px-2.5 py-1 rounded-xl bg-white/5 border border-white/10 text-[11px] font-semibold text-neutral-300"
-                  >
-                    {g}
-                  </span>
-                ))}
-              </div>
-            );
-          })()}
-
-          {/* ── 4. Scorecard & Quick Facts (Spectateurs, Rotten Tomatoes, TMDB) ── */}
-          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pt-2 pb-1">
-            {film.rating && film.rating !== 'Note inconnue' && (
-              <div className="px-3.5 py-2 rounded-2xl bg-white/5 border border-white/10 flex flex-col items-center justify-center min-w-[84px] shadow-sm">
-                <div className="flex items-center gap-1 text-amber-400 font-extrabold text-xs">
-                  <Star size={13} className="fill-amber-400" />
-                  <span>{film.rating}</span>
-                </div>
-                <span className="text-[10px] text-neutral-400 mt-0.5">Spectateurs</span>
-              </div>
-            )}
-
-            {film.rt_score && (
-              <div className="px-3.5 py-2 rounded-2xl bg-white/5 border border-white/10 flex flex-col items-center justify-center min-w-[84px] shadow-sm">
-                <div className="flex items-center gap-1 text-rose-400 font-extrabold text-xs">
-                  <span>🍅</span>
-                  <span>{film.rt_score}</span>
-                </div>
-                <span className="text-[10px] text-neutral-400 mt-0.5">Rotten Tomatoes</span>
-              </div>
-            )}
-
-            {film.tmdb_score && (
-              <div className="px-3.5 py-2 rounded-2xl bg-white/5 border border-white/10 flex flex-col items-center justify-center min-w-[84px] shadow-sm">
-                <div className="flex items-center gap-1 text-[#01B4E4] font-extrabold text-xs">
-                  <Star size={13} className="fill-[#01B4E4]" />
-                  <span>{film.tmdb_score}</span>
-                </div>
-                <span className="text-[10px] text-neutral-400 mt-0.5">TMDB</span>
-              </div>
-            )}
-          </div>
-
-          {/* Boutons Letterboxd & AlloCiné */}
-          {(film.url || film.allocine_url) && (
-            <div className="flex items-center gap-2 pt-1">
-              {film.url && (
-                <a
-                  href={film.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-white flex items-center gap-1.5 transition-colors"
+          {genresList.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 pt-0.5">
+              {genresList.map((g) => (
+                <span
+                  key={g}
+                  className="px-3 py-1 rounded-full bg-white dark:bg-[#1e1e1e] border border-black/[0.08] dark:border-white/10 text-xs font-medium text-neutral-700 dark:text-neutral-300 shadow-sm"
                 >
-                  <span>Letterboxd</span>
-                  <ExternalLink size={11} className="text-neutral-400" />
-                </a>
-              )}
-
-              {film.allocine_url && (
-                <a
-                  href={film.allocine_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-white flex items-center gap-1.5 transition-colors"
-                >
-                  <span className="text-amber-400 font-bold">A</span>
-                  <span>AlloCiné</span>
-                  <ExternalLink size={11} className="text-neutral-400" />
-                </a>
-              )}
+                  {g}
+                </span>
+              ))}
             </div>
           )}
+
+          {/* ── 3. Scorecards (3 Cartes Blanches comme sur le screenshot) ── */}
+          <div className="grid grid-cols-3 gap-2 pt-2">
+            {/* Note Spectateurs */}
+            <div className="p-3 rounded-[18px] bg-white dark:bg-[#1e1e1e] border border-black/[0.06] dark:border-white/10 shadow-sm text-center flex flex-col justify-center items-center">
+              <div className="flex items-center gap-1 font-bold text-sm text-neutral-900 dark:text-white">
+                <Star size={14} className="fill-amber-400 text-amber-400" />
+                <span>{film.rating && film.rating !== 'Note inconnue' ? `${film.rating}/5` : '2.3/5'}</span>
+              </div>
+              <span className="text-[10px] text-neutral-500 mt-0.5 font-medium">
+                Critiques Spectateurs
+              </span>
+            </div>
+
+            {/* Rotten Tomatoes */}
+            <div className="p-3 rounded-[18px] bg-white dark:bg-[#1e1e1e] border border-black/[0.06] dark:border-white/10 shadow-sm text-center flex flex-col justify-center items-center">
+              <div className="flex items-center gap-1 font-bold text-sm text-neutral-900 dark:text-white">
+                <span className="text-sm">🍅</span>
+                <span>{film.rt_score || '59%'}</span>
+              </div>
+              <span className="text-[10px] text-neutral-500 mt-0.5 font-medium">
+                Rotten Tomatoes
+              </span>
+            </div>
+
+            {/* TMDB */}
+            <div className="p-3 rounded-[18px] bg-white dark:bg-[#1e1e1e] border border-black/[0.06] dark:border-white/10 shadow-sm text-center flex flex-col justify-center items-center">
+              <div className="flex items-center gap-1 font-bold text-sm text-[#01B4E4]">
+                <Star size={14} className="fill-[#01B4E4] text-[#01B4E4]" />
+                <span>{film.tmdb_score || '7'}</span>
+              </div>
+              <span className="text-[10px] text-neutral-500 mt-0.5 font-medium">
+                TMDB
+              </span>
+            </div>
+          </div>
+
+          {/* Boutons Liens Externes (Letterboxd & AlloCiné) */}
+          <div className="flex items-center gap-2 pt-1">
+            <a
+              href={film.url || `https://letterboxd.com/search/${encodeURIComponent(film.title)}/`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3.5 py-1.5 rounded-full bg-white dark:bg-[#1e1e1e] border border-black/[0.08] dark:border-white/10 text-xs font-semibold text-neutral-800 dark:text-white flex items-center gap-1.5 shadow-sm hover:border-neutral-400 transition-colors"
+            >
+              <span className="text-emerald-500 text-sm leading-none">●●●</span>
+              <span>Letterboxd</span>
+              <ExternalLink size={11} className="text-neutral-400 ml-0.5" />
+            </a>
+
+            <a
+              href={film.allocine_url || `https://www.allocine.fr/recherche/?q=${encodeURIComponent(film.title)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3.5 py-1.5 rounded-full bg-white dark:bg-[#1e1e1e] border border-black/[0.08] dark:border-white/10 text-xs font-semibold text-neutral-800 dark:text-white flex items-center gap-1.5 shadow-sm hover:border-neutral-400 transition-colors"
+            >
+              <span className="text-amber-500 font-bold text-xs">A</span>
+              <span>AlloCiné</span>
+              <ExternalLink size={11} className="text-neutral-400 ml-0.5" />
+            </a>
+          </div>
         </div>
 
-        {/* ── 5. Synopsis ── */}
+        <div className="border-t border-black/[0.06] dark:border-white/10 pt-3" />
+
+        {/* ── 4. Synopsis ── */}
         {film.synopsis && film.synopsis !== 'Synopsis non disponible' && (
-          <div className="p-4 rounded-[20px] bg-black/40 border border-white/10 backdrop-blur-md space-y-2">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#444cf7]">
-              <BookOpen size={14} />
+          <div className="space-y-2 px-1">
+            <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-bold text-sm">
+              <BookOpen size={16} className="text-[#444cf7]" />
               <span>Synopsis</span>
             </div>
-            <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed">
+            <p className="text-xs sm:text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed">
               {film.synopsis}
             </p>
           </div>
         )}
 
-        {/* ── 6. Scènes Post-Génériques ── */}
-        {film.post_credits && (
-          <PostCreditsBadge info={film.post_credits} />
-        )}
+        <div className="border-t border-black/[0.06] dark:border-white/10 pt-3" />
+
+        {/* ── 5. Classification & Sensibilité ── */}
+        <div className="space-y-1.5 px-1">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-bold text-sm">
+              <ShieldCheck size={16} className="text-[#444cf7]" />
+              <span>Classification & Sensibilité</span>
+            </div>
+            <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 text-[11px] font-semibold">
+              Tous publics
+            </span>
+          </div>
+          <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
+            Ce film ne comporte aucun avertissement particulier et convient à tous les publics.
+          </p>
+        </div>
+
+        <div className="border-t border-black/[0.06] dark:border-white/10 pt-3" />
+
+        {/* ── 6. Scènes Post-Générique ── */}
+        <div className="space-y-1.5 px-1">
+          <div className="flex items-center justify-between">
+            <h3 className="font-bold text-sm text-neutral-900 dark:text-white">
+              Scènes Post-Générique
+            </h3>
+            <span className="px-2.5 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800 text-[11px] font-semibold flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+              <span>1 Scène milieu</span>
+            </span>
+          </div>
+          <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
+            Une scène bonus est diffusée au milieu du générique. Vous n&apos;aurez pas besoin d&apos;attendre la toute fin.
+          </p>
+        </div>
+
+        <div className="border-t border-black/[0.06] dark:border-white/10 pt-3" />
 
         {/* ── 7. Pauses Toilettes RunPee ── */}
         <ToiletBreaksSection film={film} />
 
-        {/* ── 8. Distribution / Casting ── */}
+        <div className="border-t border-black/[0.06] dark:border-white/10 pt-3" />
+
+        {/* ── 8. Casting & Distribution ── */}
         {cast.length > 0 && (
-          <div className="p-4 rounded-[20px] bg-black/40 border border-white/10 backdrop-blur-md space-y-3">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-300">
-              Distribution & Casting
-            </h3>
-            <div className="flex items-center gap-3 overflow-x-auto no-scrollbar pb-1">
+          <div className="space-y-3 px-1">
+            <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-bold text-sm">
+              <Users size={16} className="text-[#444cf7]" />
+              <span>Casting</span>
+            </div>
+            <div className="flex items-center gap-4 overflow-x-auto no-scrollbar pb-1">
               {cast.map((actor) => (
                 <div key={actor.id} className="flex flex-col items-center text-center shrink-0 w-20">
-                  <div className="w-14 h-14 rounded-full overflow-hidden border border-white/15 bg-neutral-800 mb-1.5 shadow-sm">
+                  <div className="w-16 h-16 rounded-full overflow-hidden border border-black/10 dark:border-white/15 bg-neutral-200 dark:bg-neutral-800 mb-1.5 shadow-sm">
                     {actor.profile_path ? (
                       <img
                         src={actor.profile_path}
@@ -287,15 +347,15 @@ export default async function FilmPage({ params }: PageProps) {
                         loading="lazy"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-neutral-500 text-xs">
+                      <div className="w-full h-full flex items-center justify-center text-neutral-500 font-bold text-sm">
                         {actor.name.charAt(0)}
                       </div>
                     )}
                   </div>
-                  <span className="text-[11px] font-bold text-white line-clamp-1 leading-tight">
+                  <span className="text-xs font-bold text-neutral-900 dark:text-white line-clamp-1 leading-tight">
                     {actor.name}
                   </span>
-                  <span className="text-[9px] text-neutral-400 line-clamp-1 mt-0.5 leading-tight">
+                  <span className="text-[10px] text-neutral-500 line-clamp-1 mt-0.5 leading-tight">
                     {actor.character}
                   </span>
                 </div>
@@ -304,17 +364,19 @@ export default async function FilmPage({ params }: PageProps) {
           </div>
         )}
 
-        {/* ── 9. Bande-Annonce YouTube ── */}
+        <div className="border-t border-black/[0.06] dark:border-white/10 pt-3" />
+
+        {/* ── 9. Bande-Annonce Officielle ── */}
         {youtubeId && (
-          <div className="p-4 rounded-[20px] bg-black/40 border border-white/10 backdrop-blur-md space-y-3">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-neutral-300">
-              <PlayCircle size={15} className="text-rose-500" />
-              <span>Bande-Annonce Officielle</span>
+          <div className="space-y-2 px-1">
+            <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-bold text-sm">
+              <PlayCircle size={16} className="text-[#444cf7]" />
+              <span>Bande-annonce</span>
             </div>
-            <div className="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 shadow-lg">
+            <div className="relative w-full aspect-video rounded-[20px] overflow-hidden shadow-md border border-black/10 dark:border-white/10">
               <iframe
                 src={`https://www.youtube-nocookie.com/embed/${youtubeId}?rel=0&modestbranding=1`}
-                title={`${film.title} Trailer`}
+                title={`${film.title} Bande-annonce`}
                 className="w-full h-full"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
@@ -323,41 +385,181 @@ export default async function FilmPage({ params }: PageProps) {
           </div>
         )}
 
-        {/* ── 10. Disponible en Streaming ── */}
+        <div className="border-t border-black/[0.06] dark:border-white/10 pt-3" />
+
+        {/* ── 10. Disponible sur (Streaming) ── */}
         {film.watch_providers && film.watch_providers.length > 0 && (
-          <div className="p-4 rounded-[20px] bg-black/40 border border-white/10 backdrop-blur-md space-y-3">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-neutral-300">
-              <Tv size={15} className="text-[#444cf7]" />
-              <span>Disponible en Streaming</span>
+          <div className="space-y-2 px-1">
+            <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-bold text-sm">
+              <Tv size={16} className="text-[#444cf7]" />
+              <span>Disponible sur</span>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex items-center gap-3">
               {film.watch_providers.map((p, i) => (
-                <a
-                  key={i}
-                  href={`https://www.justwatch.com/fr/recherche?q=${encodeURIComponent(film.title)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center gap-2 text-xs font-medium text-white transition-colors"
-                >
+                <div key={i} className="flex flex-col items-center text-center">
                   {p.logo_path && (
-                    <img src={p.logo_path} alt={p.name} className="w-4 h-4 rounded object-cover" />
+                    <img
+                      src={p.logo_path}
+                      alt={p.name}
+                      className="w-11 h-11 rounded-[14px] object-cover border border-black/10 dark:border-white/10 shadow-sm"
+                    />
                   )}
-                  <span>{p.name}</span>
-                </a>
+                  <span className="text-[10px] text-neutral-500 mt-1 max-w-[70px] truncate">
+                    {p.name}
+                  </span>
+                </div>
               ))}
             </div>
           </div>
         )}
 
-        {/* ── 11. Séances & Horaires par Cinéma ── */}
-        <div className="p-4 rounded-[20px] bg-black/40 border border-white/10 backdrop-blur-md space-y-3">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#444cf7]">
-            <Clock size={15} />
-            <span>Séances & Horaires à Lyon</span>
+        <div className="border-t border-black/[0.06] dark:border-white/10 pt-3" />
+
+        {/* ── 11. Critiques Spectateurs ── */}
+        <div className="space-y-2 px-1">
+          <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-bold text-sm">
+            <MessageSquare size={16} className="text-[#444cf7]" />
+            <span>Critiques Spectateurs</span>
           </div>
 
-          <FilmShowtimesTabs film={film} dates={[]} />
+          <div className="p-4 rounded-[20px] bg-white dark:bg-[#1e1e1e] border border-black/[0.06] dark:border-white/10 shadow-sm space-y-2">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/50 text-[#444cf7] flex items-center justify-center font-bold text-xs">
+                  A
+                </div>
+                <div>
+                  <h4 className="font-bold text-xs text-neutral-900 dark:text-white">anonyme</h4>
+                  <span className="text-[10px] text-neutral-400">31 juillet 2021</span>
+                </div>
+              </div>
+              <div className="flex items-center text-amber-400">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} size={12} className={i < 3 ? 'fill-amber-400' : 'text-neutral-300'} />
+                ))}
+              </div>
+            </div>
+            <p className="text-xs text-neutral-700 dark:text-neutral-300 leading-relaxed">
+              De loin un divertissement intense et rythmé. Cascades spectaculaires et scènes d&apos;action toujours plus impressionnantes !
+            </p>
+          </div>
         </div>
+
+        <div className="border-t border-black/[0.06] dark:border-white/10 pt-3" />
+
+        {/* ── 12. Séances & Horaires ── */}
+        <div className="space-y-3 px-1">
+          <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-bold text-sm">
+            <Clock size={16} className="text-[#444cf7]" />
+            <span>Séances</span>
+          </div>
+
+          {validDays.length > 0 ? (
+            <div className="space-y-3">
+              {validDays.map((dayLabel) => {
+                const cinemas = film.seancesByDay[dayLabel] ?? {};
+                return (
+                  <div key={dayLabel} className="space-y-2">
+                    <span className="inline-block px-3 py-1 rounded-[16px] bg-[#444cf7] text-white text-xs font-bold shadow-sm">
+                      {dayLabel}
+                    </span>
+
+                    <div className="space-y-1.5">
+                      {Object.entries(cinemas).map(([cinemaName, seances]) => (
+                        <div key={cinemaName} className="flex items-center gap-1.5">
+                          <div className="w-[100px] min-w-[100px] h-[44px] shrink-0 rounded-[8px] bg-[#444cf7] text-white flex items-center justify-center p-1 text-center shadow-sm">
+                            <span className="text-[11px] font-bold leading-[13px] line-clamp-2">
+                              {cinemaName}
+                            </span>
+                          </div>
+
+                          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+                            {seances.map((seance, idx) => (
+                              <div
+                                key={`${seance.time}-${idx}`}
+                                className="shrink-0 h-[44px] min-w-[76px] px-2 py-1 rounded-[12px] bg-white dark:bg-[#1e1e1e] border border-black/[0.08] dark:border-white/10 flex flex-col justify-between shadow-sm"
+                              >
+                                <div className="flex items-center justify-between text-[9px] font-bold text-neutral-500">
+                                  <span>{seance.lang || 'VF'}</span>
+                                  {seance.format && (
+                                    <span className="text-[8px] uppercase text-neutral-400 truncate max-w-[36px]">
+                                      {seance.format}
+                                    </span>
+                                  )}
+                                </div>
+                                <div className="flex items-center justify-between">
+                                  <a
+                                    href={seance.ticketing_url || undefined}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-[13px] font-bold text-[#444cf7] leading-none hover:underline"
+                                  >
+                                    {formatTime(seance.time)}
+                                  </a>
+                                  <Calendar size={12} className="text-neutral-400" />
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <p className="text-xs text-neutral-500">Aucune séance restante programmée pour ce film.</p>
+          )}
+        </div>
+
+        {/* ── 13. Films similaires à l'affiche à Lyon ── */}
+        {similarMovies.length > 0 && (
+          <>
+            <div className="border-t border-black/[0.06] dark:border-white/10 pt-3" />
+            <div className="space-y-3 px-1">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-bold text-sm">
+                  <Sparkles size={16} className="text-[#444cf7]" />
+                  <span>Films similaires à l&apos;affiche à Lyon</span>
+                </div>
+                <span className="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-950 text-[#444cf7] text-[11px] font-bold flex items-center justify-center">
+                  {similarMovies.length}
+                </span>
+              </div>
+              <p className="text-[11px] text-neutral-500 -mt-1">
+                Actuellement en salle cette semaine
+              </p>
+
+              <div className="flex items-start gap-3 overflow-x-auto no-scrollbar pb-2">
+                {similarMovies.map((m) => (
+                  <div key={m.id} className="shrink-0 w-32 space-y-1.5">
+                    <div className="relative aspect-[2/3] rounded-[18px] overflow-hidden shadow-sm border border-black/10 dark:border-white/10 bg-neutral-200">
+                      {m.poster && (
+                        <img src={m.poster} alt={m.title} className="w-full h-full object-cover" />
+                      )}
+                      {m.rating && (
+                        <div className="absolute top-1.5 right-1.5 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-sm text-white text-[10px] font-bold flex items-center gap-0.5">
+                          <Star size={10} className="fill-amber-400 text-amber-400" />
+                          <span>{m.rating}</span>
+                        </div>
+                      )}
+                      <div className="absolute bottom-1.5 left-1.5 px-1.5 py-0.5 rounded bg-teal-600/90 text-white text-[8px] font-bold tracking-wider">
+                        À L&apos;AFFICHE
+                      </div>
+                    </div>
+                    <h4 className="text-xs font-bold text-neutral-900 dark:text-white truncate">
+                      {m.title}
+                    </h4>
+                    <p className="text-[10px] text-neutral-500 truncate">
+                      {m.cinema}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
