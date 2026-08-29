@@ -1,69 +1,92 @@
 ---
 name: cinelyon-mobile
 description: >-
-  Directives d'architecture, design system et implémentation pour l'application mobile native CinéLyon App (React Native 0.76+, Expo SDK 52, Expo Router v4, iOS 15.1, MMKV Offline-First, Supabase, Swift Widget).
-  À activer pour toute modification, nouvelle fonctionnalité ou optimisation sur le codebase mobile cinelyon-app.
+  Référentiel intégral d'architecture, design system et implémentation pour l'application mobile native CinéLyon App (React Native 0.76+, Expo SDK 52, Expo Router v4, iOS 15.1, MMKV Offline-First, Supabase, Swift Widget).
+  À activer systématiquement pour toute tâche UI/UX, refonte de composant ou modale afin de garantir la parité absolue avec les standards visuels et fonctionnels du projet mobile.
 ---
 
-# CinéLyon App — Directives de Développement Mobile & Design System
+# CinéLyon App — Guide de Référence UI/UX & Design System Mobile Absolu
 
-Ce skill rassemble l'ensemble des règles architecturales, directives de design et spécifications fonctionnelles pour le développement de l'application mobile native **CinéLyon App**.
+Ce document contient l'ensemble des directives de design, dimensions, couleurs, typographies et règles d'implémentation pour le développement de l'application mobile native **CinéLyon App**.
 
 ---
 
-## 📱 1. Architecture & Stack Technique
+## 🎨 1. Tokens de Design & Couleurs Officielles
 
-- **Framework** : React Native `0.76.9`, Expo SDK 52, Expo Router v4 (File-based routing avec Stack et Tabs).
-- **Langage** : TypeScript strict.
-- **Accès Données & Base** : Supabase (`@supabase/supabase-js`) pour l'authentification, les favoris, et la synchronisation sociale.
-- **Cache & Offline-First** : TanStack React Query (`@tanstack/react-query` v5) avec persistance disque via **MMKV** (`react-native-mmkv`).
-- **Stockage Sécurisé** : `expo-secure-store` chiffré (AES-256 Keychain iOS / EncryptedSharedPreferences Android).
-- **UI & Animations** : `react-native-reanimated` 3, `@gorhom/bottom-sheet`, `lottie-react-native`, `expo-image`, `expo-haptics`.
-- **Extension Native Widget iOS** : Widget natif écrit en Swift (`targets/widget/`) avec `@bacons/apple-targets` (App Group `group.fr.cinelyon.app`).
+| Token | Hex / Valeur | Usage |
+| :--- | :--- | :--- |
+| **`primary`** | `#444cf7` | Violet électrique CinéLyon (boutons actifs, badges cinémas, icônes actives, FAB). |
+| **`primary-hover`** | `#3339c4` | État pressé des boutons primaires. |
+| **`fav-active`** | `#ff6b6b` | Rouge cœur favori actif. |
+| **`bg-light`** | `#f5f6f8` | Fond d'écran en mode clair. |
+| **`card-light`** | `#ffffff` | Cartes blanches mode clair (`border: 1px solid rgba(0,0,0,0.06)`). |
+| **`bg-dark`** | `#121212` | Fond d'écran en mode sombre. |
+| **`card-dark`** | `#1e1e1e` / `rgba(30,30,30,0.65)` | Cartes mode sombre avec flou liquide (`backdrop-blur`). |
+| **`text-title`** | `#111111` / `#ffffff` | Titres principaux. |
+| **`text-meta`** | `#666666` / `#aaaaaa` | Métadonnées et sous-titres (10px à 13px). |
+| **`emerald-badge`**| `#10b981` / `bg-emerald-50` | Badge *Tous publics*, temps de pause Double Programme. |
+| **`amber-badge`**  | `#f59e0b` / `bg-amber-50`   | Badge Scènes Post-Générique, étoiles de notes. |
+| **`blue-badge`**   | `#3b82f6` / `bg-blue-50`    | Badge Pauses Toilettes RunPee, score TMDB. |
+
+---
+
+## 📱 2. Architecture & Contraintes Techniques
+
+- **Framework** : React Native `0.76.9`, Expo SDK 52, Expo Router v4 (Stack + Tabs).
+- **Cache Offline-First** : TanStack React Query v5 avec persistance disque via **MMKV** (`react-native-mmkv`).
+- **Base de données & Sync** : Supabase (`@supabase/supabase-js`) pour auth, favoris et synchronisation d'amis.
+- **Stockage Sécurisé** : `expo-secure-store` (Keychain iOS / EncryptedSharedPreferences Android).
+- **Extension Native Swift** : Widget iOS natif (`targets/widget/`) avec `@bacons/apple-targets` (App Group `group.fr.cinelyon.app`).
 
 > [!IMPORTANT]
-> **Compatibilité iOS 15.1 obligatoire** : L'application et son extension Widget doivent rester 100% compatibles avec **iOS 15.1** (notamment pour iPhone 13 mini sous iOS 15). Ne pas utiliser d'APIs Swift ou React Native exclusives à iOS 16/17+ sans garde-fous `#available`.
+> **Compatibilité iOS 15.1 obligatoire** : L'application et son extension Widget doivent impérativement fonctionner sans crash sur **iOS 15.1** (iPhone 13 mini). Toujours encadrer les APIs récentes avec des conditions `@available(iOS 16.0, *)` en Swift et des fallbacks appropriés en TypeScript.
 
 ---
 
-## 🎨 2. Design System "Liquid Glass" & Micro-Interactions
+## 🧩 3. Spécifications Exactes des Composants UI Mobiles
 
-### Palettes & Matériaux :
-- **Mode Sombre (Défaut)** : Fond `#121212`, surfaces `rgba(30, 30, 30, 0.65)` avec `backdrop-blur`, bordures subtiles `rgba(255, 255, 255, 0.08)`.
-- **Mode Clair** : Fond `#f5f6f8`, cartes `#ffffff` avec bordures `rgba(0, 0, 0, 0.06)`.
-- **Accent Primaire** : Violet électrique `#444cf7` (variantes bleu `#0161a7`, blanc, noir).
-- **Typographie** : `HealTheWebA` (corps et métadonnées), `MontserratExtraBold` (titres).
+### 1. En-tête & Recherche (`FilterBar.tsx`)
+- **Titre** : `CinéLyon` en `MontserratExtraBold` + sous-titre officiel *« Toutes les séances à Lyon, en un seul endroit ! »*.
+- **Champ de recherche Apple** : Détection avec debounce 250ms, icône loupe et bouton d'effacement.
+- **3 Boutons Compagnons Carrés Arrondis** (`width: 44, height: 44, borderRadius: 16, backgroundColor: '#ffffff'`):
+  - 🎲 **Ciné-Roulette** (icône dés).
+  - 🔀 **Double Programme** (icône shuffle).
+  - 🎛️ **Filtres** (icône sliders avec badge rouge compteur si actif).
+- **Compteur sous la barre** : `167 films` en gris discret `11px`.
 
-### Navigation & Ergonomie Mobile :
-- **Barre Flottante Basse (`FloatingLiquidGlassTabBar.tsx`)** : Barre d'onglets flottante avec icônes Lucide actives lumineuses, support haptique (`expo-haptics`) et flou liquide.
-- **Feuilles Inférieures (`BottomSheetModal`)** : Utilisées pour les filtres, la Ciné-Roulette, le Double Programme et les fiches d'options.
+### 2. Sélecteur de Jours Horizontal (`DaySelector.tsx`)
+- Défilement horizontal fluide de pilules de `48px` de hauteur (`borderRadius: 24`) :
+  - `Tous` : Fond plein `#444cf7`, texte blanc.
+  - `Auj. 29 août` : Fond blanc, **bordure violette `#444cf7` de 2px**, texte sombre.
+  - Autres jours (`Dim 30 août`, `Lun 31 août`...) : Fond blanc, bordure fine `rgba(0,0,0,0.08)`.
+
+### 3. Carte Film (`FilmCard.tsx`)
+- **Conteneur Supérieur** : Carte blanche `borderRadius: 20`, ombre douce `cardShadow`.
+  - **Affiche à gauche** : `POSTER_WIDTH = 100`, `POSTER_HEIGHT = 144`, `borderTopLeftRadius: 15`, `borderBottomLeftRadius: 15`, badge *NOUVEAU* violet `#444cf7`.
+  - **Infos à droite (`infoFilm`)** :
+    - Titre `14px` bold + Année `(2021)` grisée `13px`.
+    - Cœur de favori animé (`#ff6b6b` actif avec vibration haptique `expo-haptics`).
+    - Métadonnées verticales `10px` : *Réalisateur*, *Genre*, *Durée*, *Note*.
+    - Logos des plateformes de streaming (`Prime Video`, `Netflix`...).
+    - Chevron `›` en bas à droite.
+- **Mini-calendrier du film** sous la carte : Pilules de dates avec point rouge d'avant-première.
+- **Séances Dépliées (`DaySeances.tsx`)** :
+  - **Badge cinéma à gauche** : `width: 100`, `height: 42`, fond `#444cf7`, `borderRadius: 5`, texte blanc centré `11px` bold.
+  - **Pilules d'horaires à droite** : `minWidth: 72`, `height: 42`, `borderRadius: 10`, fond blanc, format en haut (`9px`), heure en gras (`14h00`) en `#444cf7` + logo calendrier 📅 en bas.
+
+### 4. Fiche Film Enrichie (`app/film/[slug].tsx`)
+- Hero backdrop 270px avec fondu sombre, scorecard (AlloCiné, Rotten Tomatoes, TMDB), liens Letterboxd/AlloCiné, synopsis dépliable, pauses RunPee, scènes post-générique, casting, bande-annonce, streaming et séances complètes.
+
+### 5. Fonctionnalités Exclusives Mobiles
+- **Barre Flottante Basse (`FloatingLiquidGlassTabBar.tsx`)** : Navigation fluide avec flou liquide et retours haptiques.
+- **Réservations & Scans de Billets** : Stockage local et affichage des billets avec horaires et QR code.
+- **Carte Interactive & TCL** : 19 cinémas avec stations et lignes TCL (`tclData.ts`).
+- **Synchronisation Sociale** : Code de partage `syncCode` et suivi d'amis.
+- **Widget iOS Natif** : Affichage en direct de la prochaine séance sur l'écran d'accueil.
 
 ---
 
-## 🧩 3. Composants Clés de l'Application
+## 🧪 4. Vérification & Tests
 
-1. **Carte Film (`FilmCard.tsx`)** :
-   - Affiche `POSTER_WIDTH = 100`, `POSTER_HEIGHT = 144`, coins arrondis `borderTopLeftRadius: 15`.
-   - Titre `14px` bold, année `13px` grisée, bouton favori animé (`#ff6b6b`).
-   - Métadonnées verticales `10px` (*De:*, *Genre:*, *Durée:*, *Note:*).
-   - Séparateur `10px` puis mini-calendrier horizontal de séances.
-2. **Séances par Cinéma (`DaySeances.tsx`)** :
-   - Badge cinéma : `width: 100`, `height: 42`, fond `#444cf7`, `borderRadius: 5`, texte blanc centré `11px` bold.
-   - Pilules d'horaires : `minWidth: 72`, `height: 42`, `borderRadius: 10`, format/langue en haut, heure `13px` bold + icône calendrier en bas.
-3. **Barre de Recherche (`FilterBar.tsx`)** :
-   - Champ de recherche Apple avec debounce 250ms, boutons Ciné-Roulette 🎲, Double Séance 🔀 et Filtres 🎛️ avec badge compteur.
-4. **Fiche Film (`app/film/[slug].tsx`)** :
-   - Hero backdrop 270px avec dégradé sombre, scorecard (AlloCiné, Rotten Tomatoes, TMDB), liens Letterboxd, RunPee pauses toilettes, scènes post-générique, casting, bande-annonce et séances complètes.
-5. **Fonctionnalités Exclusives Mobiles** :
-   - Réservations & scans de billets de cinéma (génération QR code / wallet).
-   - Carte interactive des 19 cinémas avec stations et lignes TCL (`tclData.ts`).
-   - Code de synchronisation de profil et amis (`syncCode`).
-   - Widget d'écran d'accueil iOS en temps réel.
-
----
-
-## 🧪 4. Vérification & Qualité
-
-- Vérifier les types TypeScript avec `npx tsc --noEmit`.
-- Lancer les tests unitaires avec `npm test`.
-- S'assurer que le cache MMKV persiste correctement les données hors-ligne.
+- TypeScript : `npx tsc --noEmit`.
+- Tests unitaires : `npm test`.
