@@ -1,25 +1,35 @@
 // src/components/ui/FilmShowtimesTabs.tsx
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Film, Seance, DateLabel } from '@/types';
-import { formatDayLabel, formatTime } from '@/utils/dateUtils';
+import { formatDayLabel, formatTime, formatLocalizedDayLabel } from '@/utils/dateUtils';
 import { downloadICS, generateGoogleCalendarUrl } from '@/utils/calendarUtils';
-import { Calendar, Clock, ExternalLink, Ticket, Download } from 'lucide-react';
+import { getDateLabelByDay, registerDateLabels } from '@/utils/showtimes';
+import { useTranslation } from '@/i18n';
+import { Ticket, Download } from 'lucide-react';
 
 interface FilmShowtimesTabsProps {
   film: Film;
   dates: DateLabel[];
 }
 
-export function FilmShowtimesTabs({ film, dates }: FilmShowtimesTabsProps) {
-  const dayLabels = Object.keys(film.seancesByDay);
+export function FilmShowtimesTabs({ film, dates = [] }: FilmShowtimesTabsProps) {
+  const { locale } = useTranslation();
+
+  useEffect(() => {
+    if (dates.length > 0) {
+      registerDateLabels(dates);
+    }
+  }, [dates]);
+
+  const dayLabels = Object.keys(film.seancesByDay || {});
   const [selectedDayLabel, setSelectedDayLabel] = useState<string>(dayLabels[0] || '');
 
-  const seancesForDay = film.seancesByDay[selectedDayLabel] || {};
+  const seancesForDay = (selectedDayLabel && film.seancesByDay?.[selectedDayLabel]) || {};
 
   const handleCalendarDownload = (seance: Seance, cinema: string) => {
-    const dObj = dates.find((d) => formatDayLabel(d) === selectedDayLabel);
+    const dObj = getDateLabelByDay(selectedDayLabel, dates);
     const isoDate = dObj ? dObj.isoDate : new Date().toISOString().split('T')[0];
 
     downloadICS({
@@ -34,7 +44,7 @@ export function FilmShowtimesTabs({ film, dates }: FilmShowtimesTabsProps) {
   };
 
   const handleGoogleCalendar = (seance: Seance, cinema: string) => {
-    const dObj = dates.find((d) => formatDayLabel(d) === selectedDayLabel);
+    const dObj = getDateLabelByDay(selectedDayLabel, dates);
     const isoDate = dObj ? dObj.isoDate : new Date().toISOString().split('T')[0];
 
     const url = generateGoogleCalendarUrl({
@@ -64,18 +74,21 @@ export function FilmShowtimesTabs({ film, dates }: FilmShowtimesTabsProps) {
       <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
         {dayLabels.map((dayLabel) => {
           const isSelected = selectedDayLabel === dayLabel;
+          const dObj = getDateLabelByDay(dayLabel, dates);
+          const tabLabel = dObj ? formatLocalizedDayLabel(dObj.isoDate, locale) : dayLabel;
+
           return (
             <button
               key={dayLabel}
               type="button"
               onClick={() => setSelectedDayLabel(dayLabel)}
-              className={`px-4 py-2 rounded-2xl text-xs font-semibold whitespace-nowrap border transition-all ${
+              className={`px-4 py-2 rounded-2xl text-xs font-semibold whitespace-nowrap border transition-all touch-manipulation select-none active:scale-95 ${
                 isSelected
                   ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-lg shadow-[#444cf7]/25'
                   : 'liquid-glass-subtle text-neutral-300 hover:text-white border-white/10 hover:border-white/20'
               }`}
             >
-              {dayLabel}
+              {tabLabel}
             </button>
           );
         })}
@@ -122,7 +135,7 @@ export function FilmShowtimesTabs({ film, dates }: FilmShowtimesTabsProps) {
                       type="button"
                       onClick={() => handleCalendarDownload(seance, cinemaName)}
                       title="Ajouter à Apple / Google Calendar"
-                      className="p-2 rounded-xl liquid-glass-subtle text-neutral-400 hover:text-white border border-white/10 hover:border-white/20 transition-all text-xs"
+                      className="p-2 rounded-xl liquid-glass-subtle text-neutral-400 hover:text-white border border-white/10 hover:border-white/20 transition-all text-xs touch-manipulation active:scale-90"
                       aria-label="Exporter séance"
                     >
                       <Download size={13} />

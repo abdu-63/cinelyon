@@ -1,6 +1,9 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
+  // Autorise l'iPhone sur le réseau local à accéder au serveur de dev
+  allowedDevOrigins: ['192.168.1.16'],
+
   // Optimisation des images depuis des domaines externes
   images: {
     remotePatterns: [
@@ -10,6 +13,10 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'img.youtube.com' },
     ],
   },
+
+  // Transpilation des packages ESM pour compatibilité iOS 15.1
+  transpilePackages: ['framer-motion', 'lucide-react'],
+
   // Headers de sécurité
   async headers() {
     return [
@@ -19,6 +26,7 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+
   // Redirections d'alias et compatibilité URLs
   async redirects() {
     return [

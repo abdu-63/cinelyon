@@ -1,13 +1,13 @@
 // src/components/ui/FilmCard.tsx
 'use client';
 
-import React, { memo, useState, useMemo } from 'react';
+import React, { memo, useState, useMemo, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Heart, ChevronRight, Calendar } from 'lucide-react';
 import { Film, DateLabel } from '@/types';
 import { useTranslation } from '@/i18n';
 import { formatDayLabel, formatLocalizedDayLabel, formatTime, getDeltaForDate } from '@/utils/dateUtils';
-import { isPastSeance, hasVisibleSeances } from '@/utils/showtimes';
+import { isPastSeance, hasVisibleSeances, getDateLabelByDay } from '@/utils/showtimes';
 import { formatLocalizedGenres, formatLocalizedDuration } from '@/utils/filmLocalizationUtils';
 import { formatSeanceLang } from '@/utils/languageUtils';
 import { downloadICS } from '@/utils/calendarUtils';
@@ -41,10 +41,11 @@ export const FilmCard = memo(function FilmCard({
     [film.duree, locale]
   );
 
-  // Jours ayant au moins une séance visible
+  // Jours ayant au moins une séance visible pour ce film
   const validDayLabels = useMemo(() => {
-    return Object.keys(film.seancesByDay || {}).filter((dayLabel) => {
-      const dObj = dates.find((d) => formatDayLabel(d) === dayLabel);
+    const seancesDays = Object.keys(film.seancesByDay || {});
+    return seancesDays.filter((dayLabel) => {
+      const dObj = getDateLabelByDay(dayLabel, dates);
       if (!dObj) return false;
       return hasVisibleSeances(film, dObj.isoDate, dates, hidePastSessions);
     });
@@ -61,37 +62,53 @@ export const FilmCard = memo(function FilmCard({
     return validDayLabels.filter((label) => label === selectedDayLabelFromDelta);
   }, [validDayLabels, selectedDayLabelFromDelta]);
 
-  const [userSelectedDayIdx, setUserSelectedDayIdx] = useState<number | null>(null);
-  const [isDeltaDayExpanded, setIsDeltaDayExpanded] = useState(false);
+  // État local du jour déplié par l'utilisateur
+  const [expandedDayLabel, setExpandedDayLabel] = useState<string | null>(null);
 
-  const [prevDelta, setPrevDelta] = useState(selectedDelta);
-  if (selectedDelta !== prevDelta) {
-    setPrevDelta(selectedDelta);
-    setUserSelectedDayIdx(null);
-    setIsDeltaDayExpanded(false);
-  }
+  // Jour actif effectif pour l'affichage des séances
+  const activeDayLabel = useMemo(() => {
+    if (selectedDayLabelFromDelta !== null) {
+      // Si un jour spécifique est sélectionné au niveau supérieur
+      return expandedDayLabel === selectedDayLabelFromDelta ? selectedDayLabelFromDelta : null;
+    }
+    // Si "Tous" est sélectionné, le jour cliqué par l'utilisateur est affiché
+    return expandedDayLabel && validDayLabels.includes(expandedDayLabel) ? expandedDayLabel : null;
+  }, [selectedDayLabelFromDelta, expandedDayLabel, validDayLabels]);
 
-  const selectedDayLabel =
-    selectedDayLabelFromDelta !== null
-      ? isDeltaDayExpanded
-        ? selectedDayLabelFromDelta
-        : null
-      : userSelectedDayIdx !== null
-        ? validDayLabels[userSelectedDayIdx]
-        : null;
+  const handleDayClick = useCallback((dayLabel: string) => {
+    setExpandedDayLabel((prev) => (prev === dayLabel ? null : dayLabel));
+  }, []);
 
-  const seancesForDay = selectedDayLabel ? film.seancesByDay[selectedDayLabel] ?? {} : {};
+  const seancesForDay = useMemo(() => {
+    if (!activeDayLabel) return {};
+    return film.seancesByDay[activeDayLabel] ?? {};
+  }, [film.seancesByDay, activeDayLabel]);
 
   const selectedIsoDate = useMemo(() => {
-    if (!selectedDayLabel) return '';
-    const dObj = dates.find((d) => formatDayLabel(d) === selectedDayLabel);
+    if (!activeDayLabel) return '';
+    const dObj = getDateLabelByDay(activeDayLabel, dates);
     return dObj?.isoDate || '';
-  }, [selectedDayLabel, dates]);
+  }, [activeDayLabel, dates]);
 
   const cleanRating = useMemo(() => {
     if (!film.rating || film.rating === 'Note inconnue') return null;
     return film.rating.replace(/\/5$/, '');
   }, [film.rating]);
+
+  // Calcul du nombre total de séances visibles
+  const totalVisibleSeances = useMemo(() => {
+    if (!activeDayLabel) return 0;
+    const isToday = getDeltaForDate(selectedIsoDate) === 0;
+    let count = 0;
+    for (const seances of Object.values(seancesForDay)) {
+      for (const s of seances) {
+        if (!isToday || !hidePastSessions || !isPastSeance(s.time)) {
+          count++;
+        }
+      }
+    }
+    return count;
+  }, [activeDayLabel, seancesForDay, selectedIsoDate, hidePastSessions]);
 
   return (
     <div className="w-full mb-3">
@@ -135,7 +152,7 @@ export const FilmCard = memo(function FilmCard({
                     e.stopPropagation();
                     onToggleFavorite(film.filmId);
                   }}
-                  className="p-1 -mr-1 -mt-0.5 text-neutral-400 hover:text-rose-500 transition-transform active:scale-90"
+                  className="p-1 -mr-1 -mt-0.5 text-neutral-400 hover:text-rose-500 transition-transform active:scale-90 touch-manipulation"
                   aria-label={isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'}
                 >
                   <Heart
@@ -211,28 +228,21 @@ export const FilmCard = memo(function FilmCard({
           {/* Mini-calendrier du film */}
           <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1">
             {visibleDayLabels.map((dayLabel) => {
-              const idxInAll = validDayLabels.indexOf(dayLabel);
               const cinemas = film.seancesByDay[dayLabel] ?? {};
               const hasAvantPremiere = Object.values(cinemas).some((seances) =>
                 seances.some((s) => s.format && s.format.toLowerCase().includes('première'))
               );
-              const isActive = selectedDayLabel === dayLabel;
+              const isActive = activeDayLabel === dayLabel;
 
-              const dObj = dates.find((d) => formatDayLabel(d) === dayLabel);
+              const dObj = getDateLabelByDay(dayLabel, dates);
               const buttonLabel = dObj ? formatLocalizedDayLabel(dObj.isoDate, locale) : dayLabel;
 
               return (
                 <button
                   key={dayLabel}
                   type="button"
-                  onClick={() => {
-                    if (selectedDayLabelFromDelta !== null) {
-                      setIsDeltaDayExpanded(!isDeltaDayExpanded);
-                    } else {
-                      setUserSelectedDayIdx(isActive ? null : idxInAll);
-                    }
-                  }}
-                  className={`relative px-3.5 py-1.5 rounded-[18px] text-[12px] font-normal tracking-tight transition-all shrink-0 active:scale-95 ${
+                  onClick={() => handleDayClick(dayLabel)}
+                  className={`relative px-3.5 py-1.5 rounded-[18px] text-[12px] font-normal tracking-tight transition-all shrink-0 active:scale-95 touch-manipulation select-none ${
                     isActive
                       ? 'bg-[#444cf7] text-white shadow-xs'
                       : 'bg-[#f0f2f5] dark:bg-[#252528] text-neutral-800 dark:text-neutral-200 hover:bg-neutral-200/80 dark:hover:bg-[#2e2e32]'
@@ -248,83 +258,90 @@ export const FilmCard = memo(function FilmCard({
           </div>
 
           {/* Déploiement des séances */}
-          {selectedDayLabel && (
+          {activeDayLabel && (
             <div className="mt-2 space-y-2 animate-in fade-in duration-150">
-              {Object.entries(seancesForDay).map(([cinemaName, seances]) => {
-                const isToday = getDeltaForDate(selectedIsoDate) === 0;
-                const visibleSeances =
-                  isToday && hidePastSessions
-                    ? seances.filter((s) => !isPastSeance(s.time))
-                    : seances;
+              {totalVisibleSeances === 0 ? (
+                <div className="py-2.5 px-3.5 rounded-[14px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 text-center text-xs text-neutral-500 dark:text-neutral-400 shadow-2xs">
+                  Toutes les séances de cette journée sont passées.
+                </div>
+              ) : (
+                Object.entries(seancesForDay).map(([cinemaName, seances]) => {
+                  const isToday = getDeltaForDate(selectedIsoDate) === 0;
+                  const visibleSeances =
+                    isToday && hidePastSessions
+                      ? seances.filter((s) => !isPastSeance(s.time))
+                      : seances;
 
-                if (visibleSeances.length === 0) return null;
+                  if (visibleSeances.length === 0) return null;
 
-                return (
-                  <div key={cinemaName} className="flex items-center gap-2">
-                    {/* Badge Cinéma compact (identique à l'application mobile : 82px, h-[44px], rounded-[14px]) */}
-                    <div className="w-[82px] min-w-[82px] max-w-[82px] h-[44px] shrink-0 rounded-[14px] bg-[#444cf7] text-white flex items-center justify-center px-1.5 py-1 text-center shadow-xs">
-                      <span className="text-[11px] font-normal leading-[13px] line-clamp-2 text-center">
-                        {cinemaName}
-                      </span>
-                    </div>
+                  return (
+                    <div key={cinemaName} className="flex items-center gap-2">
+                      {/* Badge Cinéma compact (identique à l'application mobile : 82px, h-[44px], rounded-[14px]) */}
+                      <div className="w-[82px] min-w-[82px] max-w-[82px] h-[44px] shrink-0 rounded-[14px] bg-[#444cf7] text-white flex items-center justify-center px-1.5 py-1 text-center shadow-xs">
+                        <span className="text-[11px] font-normal leading-[13px] line-clamp-2 text-center">
+                          {cinemaName}
+                        </span>
+                      </div>
 
-                    {/* Horaires horizontaux */}
-                    <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5 pr-2">
-                      {visibleSeances.map((seance, idx) => {
-                        const langBadge = formatSeanceLang(seance.lang, film.original_language);
-                        return (
-                          <div
-                            key={`${seance.time}-${idx}`}
-                            className="shrink-0 h-[44px] min-w-[66px] sm:min-w-[70px] px-2.5 py-1.5 rounded-[14px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 hover:border-[#444cf7]/60 dark:hover:border-[#444cf7]/60 flex flex-col justify-between transition-colors group/pill"
-                          >
-                            <div className="flex items-center justify-between gap-1 text-[9px] font-normal text-neutral-400 leading-none">
-                              <span>{langBadge}</span>
-                              {seance.format && (
-                                <span className="text-[8px] uppercase text-neutral-400 truncate max-w-[40px]">
-                                  {seance.format.split(', ')[0]}
-                                </span>
-                              )}
+                      {/* Horaires horizontaux */}
+                      <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5 pr-2">
+                        {visibleSeances.map((seance, idx) => {
+                          const langBadge = formatSeanceLang(seance.lang, film.original_language);
+                          return (
+                            <div
+                              key={`${seance.time}-${idx}`}
+                              className="shrink-0 h-[44px] min-w-[66px] sm:min-w-[70px] px-2.5 py-1.5 rounded-[14px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 hover:border-[#444cf7]/60 dark:hover:border-[#444cf7]/60 flex flex-col justify-between transition-colors group/pill"
+                            >
+                              <div className="flex items-center justify-between gap-1 text-[9px] font-normal text-neutral-400 leading-none">
+                                <span>{langBadge}</span>
+                                {seance.format && (
+                                  <span className="text-[8px] uppercase text-neutral-400 truncate max-w-[40px]">
+                                    {seance.format.split(', ')[0]}
+                                  </span>
+                                )}
+                              </div>
+
+                              <div className="flex items-center justify-between gap-1">
+                                <a
+                                  href={seance.ticketing_url || undefined}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className={`text-[13.5px] font-normal text-[#444cf7] group-hover/pill:underline leading-none ${
+                                    !seance.ticketing_url ? 'cursor-default' : ''
+                                  }`}
+                                >
+                                  {formatTime(seance.time)}
+                                </a>
+
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    downloadICS({
+                                      movieTitle: film.title,
+                                      cinema: cinemaName,
+                                      date: selectedIsoDate,
+                                      time: seance.time,
+                                      duree: film.duree || '2h 00min',
+                                      lang: seance.lang,
+                                      ticketUrl: seance.ticketing_url || undefined,
+                                    });
+                                  }}
+                                  className="text-neutral-400 hover:text-neutral-800 dark:hover:text-white p-0.5 transition-colors touch-manipulation"
+                                  title="Ajouter au calendrier"
+                                  aria-label="Ajouter au calendrier"
+                                >
+                                  <Calendar size={12} />
+                                </button>
+                              </div>
                             </div>
-
-                            <div className="flex items-center justify-between gap-1">
-                              <a
-                                href={seance.ticketing_url || undefined}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className={`text-[13.5px] font-normal text-[#444cf7] group-hover/pill:underline leading-none ${
-                                  !seance.ticketing_url ? 'cursor-default' : ''
-                                }`}
-                              >
-                                {formatTime(seance.time)}
-                              </a>
-
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  downloadICS({
-                                    movieTitle: film.title,
-                                    cinema: cinemaName,
-                                    date: selectedIsoDate,
-                                    time: seance.time,
-                                    duree: film.duree || '2h 00min',
-                                    lang: seance.lang,
-                                    ticketUrl: seance.ticketing_url || undefined,
-                                  });
-                                }}
-                                className="text-neutral-400 hover:text-neutral-800 dark:hover:text-white p-0.5 transition-colors"
-                                title="Ajouter au calendrier"
-                              >
-                                <Calendar size={12} />
-                              </button>
-                            </div>
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })
+              )}
             </div>
           )}
         </div>
@@ -332,4 +349,3 @@ export const FilmCard = memo(function FilmCard({
     </div>
   );
 });
-

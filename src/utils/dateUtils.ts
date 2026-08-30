@@ -1,8 +1,25 @@
 // src/utils/dateUtils.ts
-// Portage de app.py::translateDay / translateMonth et des helpers JS
+// Portage de app.py::translateDay / translateMonth et des helpers JS optimisés avec cache Intl
 
 import { DAYS_FR, MONTHS_FR } from '@/lib/constants';
 import { DateLabel } from '@/types';
+
+// Caches singleton pour les formateurs Intl et les libellés formatés
+const formatterCache = new Map<string, Intl.DateTimeFormat>();
+const weekdayCache = new Map<string, string>();
+const dayMonthCache = new Map<string, string>();
+const localizedDayLabelCache = new Map<string, string>();
+const deltaCache = new Map<string, number>();
+
+function getFormatter(locale: string, options: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
+  const key = `${locale}-${JSON.stringify(options)}`;
+  let fmt = formatterCache.get(key);
+  if (!fmt) {
+    fmt = new Intl.DateTimeFormat(locale, options);
+    formatterCache.set(key, fmt);
+  }
+  return fmt;
+}
 
 export function getTodayIso(): string {
   const d = new Date();
@@ -23,7 +40,7 @@ export function translateMonth(monthNum: number): string {
 export function buildDateLabels(isoDates: string[]): DateLabel[] {
   return isoDates.map((isoDate, index) => {
     const [year, month, day] = isoDate.split('-').map(Number);
-    const d = new Date(year, month - 1, day);
+    const d = new Date(year, (month || 1) - 1, day || 1);
 
     return {
       jour: translateDay(d.getDay()),
@@ -50,16 +67,22 @@ export function parseDuration(dureeStr: string): { hours: number; minutes: numbe
 }
 
 export function getDeltaForDate(isoDate: string): number {
+  if (!isoDate) return 0;
+  const cached = deltaCache.get(isoDate);
+  if (cached !== undefined) return cached;
+
   const [year, month, day] = isoDate.split('-').map(Number);
-  const target = new Date(year, month - 1, day);
+  const target = new Date(year, (month || 1) - 1, day || 1);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const diffMs = target.getTime() - today.getTime();
-  return Math.round(diffMs / (1000 * 60 * 60 * 24));
+  const delta = Math.round(diffMs / (1000 * 60 * 60 * 24));
+  deltaCache.set(isoDate, delta);
+  return delta;
 }
 
 export function formatTime(timeStr: string): string {
-  return timeStr.replace(':', 'h');
+  return timeStr ? timeStr.replace(':', 'h') : '';
 }
 
 export function parseIsoDateLocal(isoDate: string): Date {
@@ -68,46 +91,73 @@ export function parseIsoDateLocal(isoDate: string): Date {
 }
 
 export function formatLocalizedWeekday(isoDate: string, locale = 'fr'): string {
+  const cacheKey = `${isoDate}_${locale}`;
+  const cached = weekdayCache.get(cacheKey);
+  if (cached) return cached;
+
+  let result: string;
   try {
     const d = parseIsoDateLocal(isoDate);
-    const formatted = new Intl.DateTimeFormat(locale, { weekday: 'short' }).format(d);
+    const fmt = getFormatter(locale, { weekday: 'short' });
+    const formatted = fmt.format(d);
     const cleaned = formatted.replace(/\.$/, '');
-    return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
+    result = cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
   } catch {
     const d = parseIsoDateLocal(isoDate);
-    return translateDay(d.getDay());
+    result = translateDay(d.getDay());
   }
+
+  weekdayCache.set(cacheKey, result);
+  return result;
 }
 
 export function formatLocalizedDayMonth(isoDate: string, locale = 'fr'): string {
+  const cacheKey = `${isoDate}_${locale}`;
+  const cached = dayMonthCache.get(cacheKey);
+  if (cached) return cached;
+
+  let result: string;
   try {
     const d = parseIsoDateLocal(isoDate);
-    const formatted = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short' }).format(d);
-    return formatted
+    const fmt = getFormatter(locale, { day: 'numeric', month: 'short' });
+    const formatted = fmt.format(d);
+    result = formatted
       .split(' ')
       .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
       .join(' ');
   } catch {
     const d = parseIsoDateLocal(isoDate);
-    return `${d.getDate()} ${translateMonth(d.getMonth() + 1)}`;
+    result = `${d.getDate()} ${translateMonth(d.getMonth() + 1)}`;
   }
+
+  dayMonthCache.set(cacheKey, result);
+  return result;
 }
 
 export function formatLocalizedDayLabel(isoDate: string, locale = 'fr'): string {
+  const cacheKey = `${isoDate}_${locale}`;
+  const cached = localizedDayLabelCache.get(cacheKey);
+  if (cached) return cached;
+
+  let result: string;
   try {
     const d = parseIsoDateLocal(isoDate);
-    const formatted = new Intl.DateTimeFormat(locale, {
+    const fmt = getFormatter(locale, {
       weekday: 'short',
       day: 'numeric',
       month: 'short',
-    }).format(d);
+    });
+    const formatted = fmt.format(d);
     // Capitaliser chaque mot (ex: "dim. 30 août" -> "Dim. 30 Août")
-    return formatted
+    result = formatted
       .split(' ')
       .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
       .join(' ');
   } catch {
     const d = parseIsoDateLocal(isoDate);
-    return `${translateDay(d.getDay())} ${d.getDate()} ${translateMonth(d.getMonth() + 1)}`;
+    result = `${translateDay(d.getDay())} ${d.getDate()} ${translateMonth(d.getMonth() + 1)}`;
   }
+
+  localizedDayLabelCache.set(cacheKey, result);
+  return result;
 }

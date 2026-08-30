@@ -8,7 +8,7 @@ import { DaySelector } from '@/components/ui/DaySelector';
 import { FilterBar } from '@/components/ui/FilterBar';
 import { CineRouletteModal } from '@/components/ui/CineRouletteModal';
 import { DoubleFeatureModal } from '@/components/ui/DoubleFeatureModal';
-import { filterFilms, extractFilterOptions, hasVisibleSeances } from '@/utils/showtimes';
+import { filterFilms, extractFilterOptions, hasVisibleSeances, registerDateLabels } from '@/utils/showtimes';
 import { PAGE_SIZE } from '@/lib/constants';
 
 interface FilmsListProps {
@@ -33,10 +33,17 @@ const DEFAULT_FILTERS: FiltersState = {
 };
 
 export function FilmsList({ initialFilms = [], initialDates = [] }: FilmsListProps) {
+  // Indexer les dates pour accès O(1)
+  useEffect(() => {
+    registerDateLabels(initialDates);
+  }, [initialDates]);
+
   const [selectedDelta, setSelectedDelta] = useState<number | null>(null);
   const [visibleCount, setVisibleCount] = useState<number>(PAGE_SIZE);
   const [filters, setFilters] = useState<FiltersState>(DEFAULT_FILTERS);
   const [favorites, setFavorites] = useState<string[]>([]);
+  const [isRouletteOpen, setIsRouletteOpen] = useState(false);
+  const [isDoubleFeatureOpen, setIsDoubleFeatureOpen] = useState(false);
 
   useEffect(() => {
     try {
@@ -57,7 +64,7 @@ export function FilmsList({ initialFilms = [], initialDates = [] }: FilmsListPro
     });
   }, []);
 
-  // Filter out films that have no visible seances
+  // Filtrer les films qui ont des séances visibles
   const baseFilms = useMemo(() => {
     return initialFilms.filter((f) =>
       initialDates.some((d) => hasVisibleSeances(f, d.isoDate, initialDates, true))
@@ -124,6 +131,8 @@ export function FilmsList({ initialFilms = [], initialDates = [] }: FilmsListPro
         onFiltersChange={handleFiltersChange}
         totalCount={baseFilms.length}
         filteredCount={filteredFilms.length}
+        onOpenRoulette={() => setIsRouletteOpen(true)}
+        onOpenDoubleFeature={() => setIsDoubleFeatureOpen(true)}
       />
 
       {/* Mini-Calendrier Horizontal */}
@@ -163,16 +172,25 @@ export function FilmsList({ initialFilms = [], initialDates = [] }: FilmsListPro
           <button
             type="button"
             onClick={handleLoadMore}
-            className="px-6 py-3 rounded-2xl bg-white dark:bg-[#1c1c1e] hover:bg-neutral-50 dark:hover:bg-white/10 border border-black/10 dark:border-white/15 text-neutral-900 dark:text-white text-xs font-bold transition-all shadow-md active:scale-95"
+            className="px-6 py-3 rounded-2xl bg-white dark:bg-[#1c1c1e] hover:bg-neutral-50 dark:hover:bg-white/10 border border-black/10 dark:border-white/15 text-neutral-900 dark:text-white text-xs font-bold transition-all shadow-md active:scale-95 touch-manipulation"
           >
             Afficher plus de films ({filteredFilms.length - visibleCount} restants)
           </button>
         </div>
       )}
 
-      {/* Modales Interactives (Ciné-Roulette & Double Programme) */}
-      <CineRouletteModal films={baseFilms} />
-      <DoubleFeatureModal films={baseFilms} dates={initialDates} />
+      {/* Modales Interactives avec état contrôlé direct */}
+      <CineRouletteModal
+        films={baseFilms}
+        isOpen={isRouletteOpen}
+        onClose={() => setIsRouletteOpen(false)}
+      />
+      <DoubleFeatureModal
+        films={baseFilms}
+        dates={initialDates}
+        isOpen={isDoubleFeatureOpen}
+        onClose={() => setIsDoubleFeatureOpen(false)}
+      />
     </div>
   );
 }

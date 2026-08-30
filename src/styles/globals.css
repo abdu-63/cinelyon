@@ -145,6 +145,14 @@ optgroup {
   font-family: 'HealTheWebA', 'HealTheWebA-Regular', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
 }
 
+button,
+[role="button"],
+a {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  cursor: pointer;
+}
+
 .font-montserrat,
 .font-title {
   font-family: 'Montserrat-ExtraBold', 'MontserratExtraBold', sans-serif !important;

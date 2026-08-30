@@ -2,10 +2,10 @@
 // Layout racine — Providers, Navigation Hybride et Modales Globales
 
 import type { Metadata, Viewport } from 'next';
+import Script from 'next/script';
 import '@/styles/globals.css';
 import Footer from '@/components/layout/Footer';
-import { ChatBot } from '@/components/ui/ChatBot';
-import { SettingsModal } from '@/components/ui/SettingsModal';
+import { GlobalModals } from '@/components/layout/GlobalModals';
 import { ThemeProvider } from '@/context/ThemeContext';
 import { I18nProvider } from '@/i18n';
 import { QueryClientProvider } from '@/context/QueryClientProvider';
@@ -59,6 +59,8 @@ export default function RootLayout({
   return (
     <html lang="fr" suppressHydrationWarning>
       <head>
+        {/* Polyfills chargés avant React pour WebKit iOS 15.1 */}
+        <Script src="/polyfills.js" strategy="beforeInteractive" />
         <ThemeScript />
         <link
           rel="preload"
@@ -79,9 +81,8 @@ export default function RootLayout({
               {/* Main Content */}
               <div className="flex-1 pb-16 md:pb-0">{children}</div>
 
-              {/* ChatBot AI & Settings Modal */}
-              <ChatBot />
-              <SettingsModal />
+              {/* ChatBot AI & Settings Modal (chargés dynamiquement côté client) */}
+              <GlobalModals />
 
               {/* Footer */}
               <Footer />

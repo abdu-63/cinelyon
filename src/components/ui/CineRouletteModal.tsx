@@ -1,7 +1,7 @@
 // src/components/ui/CineRouletteModal.tsx
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Dices, ArrowRight, Star, Moon, Languages, Ticket } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -10,10 +10,14 @@ import { PopcornIcon } from '@/components/ui/PopcornIcon';
 
 interface CineRouletteModalProps {
   films?: Film[];
+  isOpen?: boolean;
+  onClose?: () => void;
 }
 
-export function CineRouletteModal({ films = [] }: CineRouletteModalProps) {
-  const [isOpen, setIsOpen] = useState(false);
+export function CineRouletteModal({ films = [], isOpen: controlledIsOpen, onClose }: CineRouletteModalProps) {
+  const [internalIsOpen, setInternalIsOpen] = useState(false);
+  const isModalOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalIsOpen;
+
   const [onlyEvening, setOnlyEvening] = useState(true);
   const [onlyVO, setOnlyVO] = useState(false);
   const [onlyTopRated, setOnlyTopRated] = useState(false);
@@ -24,16 +28,15 @@ export function CineRouletteModal({ films = [] }: CineRouletteModalProps) {
   } | null>(null);
   const router = useRouter();
 
-  useEffect(() => {
-    const handleOpen = () => {
-      setIsOpen(true);
-      roll();
-    };
-    window.addEventListener('cinelyon:open-roulette', handleOpen);
-    return () => window.removeEventListener('cinelyon:open-roulette', handleOpen);
-  }, [films, onlyEvening, onlyVO, onlyTopRated]);
+  const handleClose = useCallback(() => {
+    if (onClose) {
+      onClose();
+    } else {
+      setInternalIsOpen(false);
+    }
+  }, [onClose]);
 
-  const roll = () => {
+  const roll = useCallback(() => {
     if (!films || films.length === 0) return;
 
     let pool: { film: Film; cinema: string; seance: Seance }[] = [];
@@ -58,145 +61,138 @@ export function CineRouletteModal({ films = [] }: CineRouletteModalProps) {
       });
     });
 
-    if (pool.length === 0) {
-      // Fallback
-      const f = films[Math.floor(Math.random() * films.length)];
-      if (f) {
-        const days = Object.values(f.seancesByDay || {});
-        if (days.length > 0) {
-          const firstDay = days[0];
-          const cinemaEntries = Object.entries(firstDay);
-          if (cinemaEntries.length > 0) {
-            const [cName, sList] = cinemaEntries[0];
-            if (sList.length > 0) {
-              setSelectedResult({ film: f, cinema: cName, seance: sList[0] });
-              return;
-            }
-          }
-        }
-      }
-      return;
+    if (pool.length > 0) {
+      const chosen = pool[Math.floor(Math.random() * pool.length)];
+      setSelectedResult(chosen);
+    } else {
+      setSelectedResult(null);
     }
+  }, [films, onlyTopRated, onlyVO, onlyEvening]);
 
-    const picked = pool[Math.floor(Math.random() * pool.length)];
-    setSelectedResult(picked);
-  };
+  useEffect(() => {
+    const handleOpen = () => {
+      setInternalIsOpen(true);
+      roll();
+    };
+    window.addEventListener('cinelyon:open-roulette', handleOpen);
+    return () => window.removeEventListener('cinelyon:open-roulette', handleOpen);
+  }, [roll]);
+
+  // Si ouvert via props, lancer un roll automatiquement s'il n'y a pas de résultat
+  useEffect(() => {
+    if (controlledIsOpen && !selectedResult) {
+      roll();
+    }
+  }, [controlledIsOpen, selectedResult, roll]);
 
   return (
     <AnimatePresence>
-      {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-end justify-center pointer-events-none">
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setIsOpen(false)}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm pointer-events-auto"
+            onClick={handleClose}
+            className="fixed inset-0 bg-black/60 backdrop-blur-md"
           />
 
-          {/* Bottom Sheet Modal */}
+          {/* Modal Container */}
           <motion.div
-            initial={{ y: '100%' }}
-            animate={{ y: 0 }}
-            exit={{ y: '100%' }}
-            transition={{ type: 'spring', damping: 32, stiffness: 380 }}
-            className="pointer-events-auto relative w-full max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto bg-white dark:bg-[#1c1c1e] rounded-t-[32px] rounded-b-none border-t border-x border-black/10 dark:border-white/10 shadow-2xl z-10 flex flex-col max-h-[90vh] md:max-h-[85vh] overflow-hidden"
+            initial={{ scale: 0.95, opacity: 0, y: 15 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.95, opacity: 0, y: 15 }}
+            transition={{ type: 'spring', damping: 28, stiffness: 350 }}
+            className="relative w-full max-w-lg rounded-[28px] overflow-hidden bg-[#f5f6f8] dark:bg-[#121214] border border-black/10 dark:border-white/10 shadow-2xl z-10 flex flex-col max-h-[90vh]"
           >
-            {/* Drag Handle */}
-            <div className="w-10 h-1 rounded-full bg-neutral-300 dark:bg-neutral-700 mx-auto mt-3 mb-1 shrink-0" />
-
             {/* Header */}
-            <div className="flex items-center justify-between px-5 py-3 border-b border-black/[0.06] dark:border-white/10 shrink-0">
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-2xl bg-amber-500/15 text-amber-500 flex items-center justify-center shadow-xs">
-                  <PopcornIcon size={20} />
+            <div className="flex items-center justify-between p-4 sm:p-5 border-b border-black/[0.06] dark:border-white/10 bg-white dark:bg-[#1c1c1e]">
+              <div className="flex items-center gap-2.5">
+                <div className="w-10 h-10 rounded-2xl bg-[#444cf7]/10 text-[#444cf7] flex items-center justify-center">
+                  <Dices size={22} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-base text-neutral-900 dark:text-white leading-tight">
+                  <h3 className="text-base sm:text-lg font-title font-extrabold text-neutral-900 dark:text-white leading-tight">
                     Ciné-Roulette
                   </h3>
                   <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                    Une séance au hasard ce soir à Lyon
+                    Laisse le hasard choisir ta prochaine séance à Lyon !
                   </p>
                 </div>
               </div>
               <button
                 type="button"
-                onClick={() => setIsOpen(false)}
-                className="w-8 h-8 rounded-full bg-neutral-100 dark:bg-white/10 text-neutral-600 dark:text-white flex items-center justify-center hover:bg-neutral-200 dark:hover:bg-white/20 transition-colors"
+                onClick={handleClose}
+                className="w-8 h-8 rounded-full bg-neutral-100 dark:bg-white/10 text-neutral-500 hover:text-neutral-900 dark:hover:text-white flex items-center justify-center transition-colors active:scale-95 touch-manipulation"
               >
                 <X size={16} />
               </button>
             </div>
 
-            {/* Modal Body */}
-            <div className="flex-1 overflow-y-auto space-y-4 px-5 py-4 overscroll-contain">
-              {/* Filtres Pilules */}
-              <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-0.5">
+            {/* Corps & Filtres de la Roulette */}
+            <div className="p-4 sm:p-5 overflow-y-auto space-y-4">
+              {/* Options & Filtres rapides */}
+              <div className="grid grid-cols-3 gap-2">
                 <button
                   type="button"
-                  onClick={() => {
-                    setOnlyEvening(!onlyEvening);
-                    setTimeout(roll, 50);
-                  }}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold shrink-0 transition-all flex items-center gap-1.5 border active:scale-95 ${
+                  onClick={() => setOnlyEvening(!onlyEvening)}
+                  className={`p-2.5 rounded-2xl border text-xs font-normal flex flex-col items-center justify-center gap-1.5 transition-all active:scale-95 touch-manipulation ${
                     onlyEvening
                       ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
-                      : 'bg-white dark:bg-[#242428] border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/25'
+                      : 'bg-white dark:bg-[#1c1c1e] border-black/[0.06] dark:border-white/10 text-neutral-700 dark:text-neutral-300'
                   }`}
                 >
-                  <Moon size={12} />
-                  <span>Ce soir (&gt; 19h)</span>
+                  <Moon size={16} />
+                  <span>En soirée (&gt;19h)</span>
                 </button>
 
                 <button
                   type="button"
-                  onClick={() => {
-                    setOnlyVO(!onlyVO);
-                    setTimeout(roll, 50);
-                  }}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold shrink-0 transition-all flex items-center gap-1.5 border active:scale-95 ${
+                  onClick={() => setOnlyVO(!onlyVO)}
+                  className={`p-2.5 rounded-2xl border text-xs font-normal flex flex-col items-center justify-center gap-1.5 transition-all active:scale-95 touch-manipulation ${
                     onlyVO
                       ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
-                      : 'bg-white dark:bg-[#242428] border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/25'
+                      : 'bg-white dark:bg-[#1c1c1e] border-black/[0.06] dark:border-white/10 text-neutral-700 dark:text-neutral-300'
                   }`}
                 >
-                  <Languages size={12} />
-                  <span>VOST uniquement</span>
+                  <Languages size={16} />
+                  <span>Uniquement VO</span>
                 </button>
 
                 <button
                   type="button"
-                  onClick={() => {
-                    setOnlyTopRated(!onlyTopRated);
-                    setTimeout(roll, 50);
-                  }}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold shrink-0 transition-all flex items-center gap-1.5 border active:scale-95 ${
+                  onClick={() => setOnlyTopRated(!onlyTopRated)}
+                  className={`p-2.5 rounded-2xl border text-xs font-normal flex flex-col items-center justify-center gap-1.5 transition-all active:scale-95 touch-manipulation ${
                     onlyTopRated
                       ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
-                      : 'bg-white dark:bg-[#242428] border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/25'
+                      : 'bg-white dark:bg-[#1c1c1e] border-black/[0.06] dark:border-white/10 text-neutral-700 dark:text-neutral-300'
                   }`}
                 >
-                  <Star size={12} />
-                  <span>Film bien noté</span>
+                  <Star size={16} />
+                  <span>Bien notés (≥3.5)</span>
                 </button>
               </div>
 
-              {/* Carte Résultat */}
+              {/* Résultat Tiré au sort */}
               {selectedResult ? (
-                <div className="p-4 rounded-[24px] bg-neutral-50 dark:bg-[#161618] border border-black/[0.06] dark:border-white/10 space-y-3 shadow-sm">
+                <div className="p-4 rounded-[22px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 shadow-sm space-y-3">
                   <div className="flex items-start gap-3.5">
                     <img
                       src={selectedResult.film.affiche || '/images/nocontent.png'}
                       alt={selectedResult.film.title}
-                      className="w-20 h-28 object-cover rounded-[16px] shadow-sm border border-black/5 dark:border-white/10 shrink-0"
+                      className="w-[72px] h-[104px] object-cover rounded-xl shrink-0 bg-neutral-900 shadow-sm"
                     />
-                    <div className="space-y-1 min-w-0 flex-1">
-                      <h4 className="font-normal text-base text-neutral-900 dark:text-white line-clamp-2 leading-tight">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1.5 text-xs text-[#444cf7] font-bold">
+                        <PopcornIcon size={14} />
+                        <span>Séance Recommandée</span>
+                      </div>
+                      <h4 className="font-title font-bold text-base text-neutral-900 dark:text-white truncate mt-0.5">
                         {selectedResult.film.title}
                       </h4>
-                      <div className="flex items-center gap-1.5 pt-0.5">
+
+                      <div className="flex flex-wrap gap-1.5 mt-1.5">
                         {selectedResult.film.duree && (
                           <span className="px-2 py-0.5 rounded-full bg-neutral-200/80 dark:bg-[#242428] text-[10px] font-normal text-neutral-700 dark:text-neutral-300">
                             {selectedResult.film.duree}
@@ -224,10 +220,10 @@ export function CineRouletteModal({ films = [] }: CineRouletteModalProps) {
                   <button
                     type="button"
                     onClick={() => {
-                      setIsOpen(false);
+                      handleClose();
                       router.push(`/film/${selectedResult.film.slug}`);
                     }}
-                    className="w-full py-3 rounded-2xl bg-[#444cf7] hover:bg-[#3339c4] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md shadow-[#444cf7]/20 transition-all active:scale-98"
+                    className="w-full py-3 rounded-2xl bg-[#444cf7] hover:bg-[#3339c4] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md shadow-[#444cf7]/20 transition-all active:scale-98 touch-manipulation"
                   >
                     <Ticket size={14} />
                     <span>Voir la fiche &amp; les séances</span>
@@ -246,7 +242,7 @@ export function CineRouletteModal({ films = [] }: CineRouletteModalProps) {
               <button
                 type="button"
                 onClick={roll}
-                className="w-full py-3.5 rounded-2xl bg-[#444cf7] hover:bg-[#3339c4] text-white font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-[#444cf7]/30 transition-all active:scale-98"
+                className="w-full py-3.5 rounded-2xl bg-[#444cf7] hover:bg-[#3339c4] text-white font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-[#444cf7]/30 transition-all active:scale-98 touch-manipulation"
               >
                 <Dices size={18} />
                 <span>Relancer la roulette</span>

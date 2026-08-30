@@ -56,7 +56,7 @@ export default function Header() {
           <button
             type="button"
             onClick={openSettings}
-            className="p-2 rounded-xl bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/25 transition-colors shadow-sm active:scale-95 flex items-center justify-center"
+            className="p-2 rounded-xl bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/25 transition-colors shadow-sm active:scale-95 flex items-center justify-center touch-manipulation select-none"
             title="Réglages"
             aria-label="Ouvrir les réglages"
           >

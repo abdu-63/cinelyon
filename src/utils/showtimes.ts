@@ -1,5 +1,5 @@
 // src/utils/showtimes.ts
-// Portage de la logique métier de cinelyon-app et app.py
+// Portage de la logique métier de cinelyon-app et app.py — Version optimisée haute performance
 
 import { FilmRaw, Film, Seance, DateLabel, FiltersState, TimeSlot, FilmFilterOptions } from '@/types';
 import { slugify } from './slugify';
@@ -8,6 +8,36 @@ import { optimizePosterUrl } from './imageUtils';
 import { BRAND_ORDER, getBrand } from '@/lib/constants';
 
 export { formatTime } from './dateUtils';
+
+// ── Cache d'indexation des DateLabels pour accès O(1) ──────────────────────
+const dateByDayLabelMap = new Map<string, DateLabel>();
+const dateByIsoMap = new Map<string, DateLabel>();
+
+export function registerDateLabels(dates: DateLabel[]): void {
+  for (const d of dates) {
+    const label = formatDayLabel(d);
+    dateByDayLabelMap.set(label, d);
+    dateByIsoMap.set(d.isoDate, d);
+  }
+}
+
+export function getDateLabelByDay(dayLabel: string, dates?: DateLabel[]): DateLabel | undefined {
+  let found = dateByDayLabelMap.get(dayLabel);
+  if (!found && dates && dates.length > 0) {
+    registerDateLabels(dates);
+    found = dateByDayLabelMap.get(dayLabel);
+  }
+  return found;
+}
+
+export function getDateLabelByIso(isoDate: string, dates?: DateLabel[]): DateLabel | undefined {
+  let found = dateByIsoMap.get(isoDate);
+  if (!found && dates && dates.length > 0) {
+    registerDateLabels(dates);
+    found = dateByIsoMap.get(isoDate);
+  }
+  return found;
+}
 
 export function parseAddedAtDate(addedAtStr: string | null | undefined): Date | null {
   if (!addedAtStr || typeof addedAtStr !== 'string') return null;
@@ -88,20 +118,30 @@ export function isTimestampDayBefore(addedAtStr: string | null | undefined): boo
   return isTimestampInAgeRange(addedAtStr, 48, 72);
 }
 
-export function isPastSeance(timeStr: string, dayLabel?: string, dates?: DateLabel[]): boolean {
-  if (dayLabel && dates && dates.length > 0) {
-    const dObj = dates.find((d) => formatDayLabel(d) === dayLabel);
-    if (!dObj) return false;
+export function parseTimeToMinutes(timeStr: string): number {
+  if (!timeStr) return 0;
+  const [h, m] = timeStr.split(':').map(Number);
+  return (h || 0) * 60 + (m || 0);
+}
 
-    const delta = getDeltaForDate(dObj.isoDate);
-    if (delta < 0) return true;
-    if (delta > 0) return false;
+export function getCurrentMinutes(): number {
+  const now = new Date();
+  return now.getHours() * 60 + now.getMinutes();
+}
+
+export function isPastSeance(timeStr: string, dayLabel?: string, dates?: DateLabel[]): boolean {
+  if (dayLabel) {
+    const dObj = getDateLabelByDay(dayLabel, dates);
+    if (dObj) {
+      const delta = getDeltaForDate(dObj.isoDate);
+      if (delta < 0) return true;
+      if (delta > 0) return false;
+    }
   }
 
-  const now = new Date();
-  const currentMinutes = now.getHours() * 60 + now.getMinutes();
-  const [h, m] = timeStr.split(':').map(Number);
-  return h * 60 + (m || 0) < currentMinutes;
+  const currentMinutes = getCurrentMinutes();
+  const seanceMinutes = parseTimeToMinutes(timeStr);
+  return seanceMinutes < currentMinutes;
 }
 
 export function hasVisibleSeances(
@@ -110,19 +150,34 @@ export function hasVisibleSeances(
   dates: DateLabel[],
   hidePastSessions: boolean
 ): boolean {
-  const dObj = dates.find((d) => d.isoDate === isoDate);
+  const dObj = getDateLabelByIso(isoDate, dates);
   if (!dObj) return false;
   const dayLabel = formatDayLabel(dObj);
   const seancesForDay = film.seancesByDay[dayLabel];
   if (!seancesForDay) return false;
 
+  const cinemaArrays = Object.values(seancesForDay);
+  if (cinemaArrays.length === 0) return false;
+
   if (!hidePastSessions) {
-    return Object.values(seancesForDay).some((arr) => arr.length > 0);
+    return cinemaArrays.some((arr) => arr.length > 0);
   }
 
-  return Object.values(seancesForDay).some((seances) =>
-    seances.some((s) => !isPastSeance(s.time, dayLabel, dates))
-  );
+  const delta = getDeltaForDate(isoDate);
+  if (delta < 0) return false;
+  if (delta > 0) return cinemaArrays.some((arr) => arr.length > 0);
+
+  // Aujourd'hui : vérifier si au moins une séance est à venir
+  const currentMinutes = getCurrentMinutes();
+  for (const seances of cinemaArrays) {
+    for (const s of seances) {
+      if (parseTimeToMinutes(s.time) >= currentMinutes) {
+        return true;
+      }
+    }
+  }
+
+  return false;
 }
 
 export function buildFilmList(
@@ -132,8 +187,9 @@ export function buildFilmList(
   if (!rows.length) return { films: [], dates: [] };
 
   const dates = buildDateLabels(rows.map((r) => r.date));
-  const daysToShow = delta !== null ? [delta] : rows.map((_, i) => i);
+  registerDateLabels(dates);
 
+  const daysToShow = delta !== null ? [delta] : rows.map((_, i) => i);
   const allFilms = new Map<string, Film>();
 
   for (const dayIndex of daysToShow) {
@@ -242,14 +298,8 @@ function normalizeString(str: string): string {
     .trim();
 }
 
-function parseTimeToMinutes(timeStr: string): number {
-  const [h, m] = timeStr.split(':').map(Number);
-  return h * 60 + (m || 0);
-}
-
 export function checkTimeSlot(timeStr: string, slot: TimeSlot): boolean {
-  const [h, m] = timeStr.split(':').map(Number);
-  const total = h * 60 + (m || 0);
+  const total = parseTimeToMinutes(timeStr);
   switch (slot) {
     case 'morning':
       return total < 12 * 60; // avant 12h
@@ -296,6 +346,8 @@ export function filterFilms(
   dates: DateLabel[],
   favoriteIds: string[] = []
 ): Film[] {
+  registerDateLabels(dates);
+
   const {
     titleQuery = '',
     genres: activeGenres = [],

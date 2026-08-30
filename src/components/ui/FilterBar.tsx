@@ -167,7 +167,7 @@ export function FilterBar({
           <button
             type="button"
             onClick={openSettings}
-            className="p-2.5 rounded-xl bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/25 transition-colors shadow-sm active:scale-95 flex items-center justify-center"
+            className="p-2.5 rounded-xl bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/25 transition-colors shadow-sm active:scale-95 flex items-center justify-center touch-manipulation select-none"
             title="Paramètres"
             aria-label="Ouvrir les paramètres"
           >
@@ -195,7 +195,7 @@ export function FilterBar({
                 setLocalQuery('');
                 onFiltersChange({ titleQuery: '' });
               }}
-              className="absolute right-3 p-1 rounded-full text-neutral-400 hover:text-neutral-700 dark:hover:text-white"
+              className="absolute right-3 p-1 rounded-full text-neutral-400 hover:text-neutral-700 dark:hover:text-white touch-manipulation"
             >
               <X size={14} />
             </button>
@@ -209,7 +209,7 @@ export function FilterBar({
             if (onOpenRoulette) onOpenRoulette();
             else window.dispatchEvent(new CustomEvent('cinelyon:open-roulette'));
           }}
-          className="w-11 h-11 rounded-[16px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/25 transition-all flex items-center justify-center shrink-0 shadow-[0_2px_8px_rgba(0,0,0,0.02)] active:scale-95"
+          className="w-11 h-11 rounded-[16px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/25 transition-all flex items-center justify-center shrink-0 shadow-[0_2px_8px_rgba(0,0,0,0.02)] active:scale-95 touch-manipulation select-none"
           title="Ciné-Roulette"
         >
           <Dices size={19} />
@@ -222,7 +222,7 @@ export function FilterBar({
             if (onOpenDoubleFeature) onOpenDoubleFeature();
             else window.dispatchEvent(new CustomEvent('cinelyon:open-double-feature'));
           }}
-          className="w-11 h-11 rounded-[16px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/25 transition-all flex items-center justify-center shrink-0 shadow-[0_2px_8px_rgba(0,0,0,0.02)] active:scale-95"
+          className="w-11 h-11 rounded-[16px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/25 transition-all flex items-center justify-center shrink-0 shadow-[0_2px_8px_rgba(0,0,0,0.02)] active:scale-95 touch-manipulation select-none"
           title="Double Programme"
         >
           <Shuffle size={19} />
@@ -232,7 +232,7 @@ export function FilterBar({
         <button
           type="button"
           onClick={() => setShowFiltersModal(true)}
-          className={`relative w-11 h-11 rounded-[16px] border transition-all flex items-center justify-center shrink-0 shadow-[0_2px_8px_rgba(0,0,0,0.02)] active:scale-95 ${
+          className={`relative w-11 h-11 rounded-[16px] border transition-all flex items-center justify-center shrink-0 shadow-[0_2px_8px_rgba(0,0,0,0.02)] active:scale-95 touch-manipulation select-none ${
             activeFilterCount > 0
               ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-md shadow-[#444cf7]/25'
               : 'bg-white dark:bg-[#1c1c1e] border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/25'
