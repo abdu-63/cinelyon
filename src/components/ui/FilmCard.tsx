@@ -95,17 +95,17 @@ export const FilmCard = memo(function FilmCard({
   return (
     <div className="w-full mb-3 sm:mb-3.5">
       {/* ── 1. Carte Blanche Apple / Sombre Apple (Portage exact de cinelyon-app) ── */}
-      <div className="relative rounded-[18px] sm:rounded-[22px] overflow-hidden bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.03)] hover:shadow-lg dark:hover:border-white/20 transition-all">
+      <div className="group relative rounded-[18px] sm:rounded-[22px] overflow-hidden bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.03)] hover:shadow-lg hover:-translate-y-1 dark:hover:border-white/20 transition-all duration-200 ease-out motion-reduce:hover:translate-y-0">
         <div
           onClick={() => router.push(`/film/${film.slug}`)}
-          className="flex items-start cursor-pointer group select-none"
+          className="flex items-start cursor-pointer select-none"
         >
           {/* Affiche (100px x 144px sur mobile, 135px x 195px sur sm, 165px x 238px sur md+) */}
           <div className="relative shrink-0 w-[100px] h-[144px] sm:w-[135px] sm:h-[195px] md:w-[165px] md:h-[238px] overflow-hidden bg-neutral-900">
             <img
               src={film.affiche || '/images/nocontent.png'}
               alt={film.title}
-              className="w-full h-full object-cover rounded-l-[18px] sm:rounded-l-[22px] group-hover:scale-[1.03] transition-transform duration-300"
+              className="w-full h-full object-cover rounded-l-[18px] sm:rounded-l-[22px]"
               loading="lazy"
             />
             {film.isNew && (
