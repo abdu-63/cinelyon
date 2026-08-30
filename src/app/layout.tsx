@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     description: '19 cinémas de la métropole lyonnaise, horaires en temps réel, filtres et pauses ciné.',
     images: [
       {
-        url: '/images/icon-512.png',
+        url: '/images/icon-512x512.png',
         width: 512,
         height: 512,
         alt: 'CinéLyon',
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     site: '@cinelyon',
     title: 'CinéLyon — Séances de cinéma à Lyon',
     description: 'Découvrez toutes les séances de cinéma à Lyon et ses alentours.',
-    images: ['/images/icon-512.png'],
+    images: ['/images/icon-512x512.png'],
   },
   icons: {
     icon: '/images/favicon.png',

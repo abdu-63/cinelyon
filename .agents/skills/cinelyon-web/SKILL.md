@@ -66,21 +66,21 @@ Ce document contient l'ensemble des directives de design, dimensions, couleurs, 
   - Autres jours (`Dim 30 août`, `Lun 31 août`...) : Fond blanc, bordure fine `1px solid rgba(0,0,0,0.08)`.
 
 ### 3. Carte Film (`FilmCard.tsx`)
-- **Conteneur Supérieur** : Carte blanche `rounded-[18px] sm:rounded-[22px]`, ombre douce `0 4px 16px rgba(0,0,0,0.03)` / `hover:shadow-lg`.
-  - **Affiche à gauche** : Dimensions responsive `100px × 144px` (mobile), `135px × 195px` (tablette/sm), `165px × 238px` (desktop/md+), `rounded-l-[18px] sm:rounded-l-[22px]`, badge *NOUVEAU* violet `#444cf7` en haut à gauche.
+- **Conteneur Supérieur** : Carte blanche `rounded-[18px] sm:rounded-[20px]`, ombre douce `0 2px 8px rgba(0,0,0,0.03)` / `hover:shadow-md`.
+  - **Affiche à gauche** : Dimensions `100px × 144px`, `rounded-l-[18px] sm:rounded-l-[20px]`, badge *NOUVEAU* violet `#444cf7` en haut à gauche.
   - **Infos à droite** :
-    - Titre en gras `14px` (sm: `16px`, md: `18px`) + Année `(2021)` grisée `13px` (`15px`).
-    - Bouton cœur de favori en haut à droite (outline ou rouge `#ff6b6b` actif).
-    - Métadonnées verticales `11px` (sm: `12px`, md: `13px`) : *Réalisateur : Justin Lin*, *Genre : Action*, *Durée : 2h 23min*, *Note : 4.3/5*.
-    - Résumé synopsis compact sur 2 lignes sur desktop (`hidden md:line-clamp-2 text-[12px]`).
+    - Titre `14px` (sm: `15px`) + Année `(2021)` grisée `12px` (`13px`).
+    - Bouton cœur de favori en haut à droite (`size={20}`, rouge `#ff6b6b` si actif).
+    - Métadonnées verticales `10.5px` (sm: `11px`) : *Réalisateur*, *Genre*, *Durée*, *Note*.
+    - Résumé synopsis compact sur 2 lignes sur desktop (`hidden md:line-clamp-2 text-[11px]`).
     - Logos des plateformes de streaming (`Prime Video`, `Netflix`...).
     - Bouton « Détails › » en bas à droite.
-- **Mini-calendrier du film** sous la carte : Pilules de dates (`Lun. 14 Sept.`) avec point rouge d'avant-première.
+- **Mini-calendrier du film** sous la carte : Pilules de dates (`Dim. 30 Août`, `Lun. 31 Août`...) `px-3.5 py-1.5 rounded-[18px] text-[12px]` avec fond gris `#f0f2f5` et point rouge d'avant-première.
 - **Séances Dépliées (`DaySeances`)** :
-  - **Badge cinéma à gauche** : Bloc violet `#444cf7` fixe aligné sur l'affiche (`100px` mobile, `135px` sm, `165px` md+, `42px` à `46px` de haut, `rounded-[6px] sm:rounded-[8px]`), texte blanc centré `11px` à `13px` gras.
-  - **Pilules d'horaires à droite** : Horaires horizontaux blancs (`minWidth: 72px`, `height: 42px`, `rounded-[10px]`, bordure fine) :
-    - Ligne supérieure (`9px` / `10px` gris) : Format/langue (`VF`, `VO (EN)`, `VO (EN) IMAX`, `VF DOLBY`).
-    - Ligne inférieure : Heure en gras (`14h00`) en `#444cf7` + icône calendrier 📅 (`12px`) à droite.
+  - **Badge cinéma à gauche** : Bloc violet `#444cf7` (`82px` de large fixe, `44px` de haut, `rounded-[14px]`), texte blanc centré `11px` sur 1 ou 2 lignes.
+  - **Pilules d'horaires à droite** : Horaires horizontaux blancs (`minWidth: 66px` à `70px`, `height: 44px`, `rounded-[14px]`, bordure fine) :
+    - Ligne supérieure (`9px` gris) : Format/langue (`VF`, `VO (EN)`, `VO (EN) IMAX`, `VF DOLBY`).
+    - Ligne inférieure : Heure en `#444cf7` (`14h00`) + icône calendrier 📅 (`12px`) à droite.
 
 ---
 

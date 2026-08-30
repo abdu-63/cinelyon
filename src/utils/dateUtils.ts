@@ -82,7 +82,11 @@ export function formatLocalizedWeekday(isoDate: string, locale = 'fr'): string {
 export function formatLocalizedDayMonth(isoDate: string, locale = 'fr'): string {
   try {
     const d = parseIsoDateLocal(isoDate);
-    return new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short' }).format(d);
+    const formatted = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short' }).format(d);
+    return formatted
+      .split(' ')
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .join(' ');
   } catch {
     const d = parseIsoDateLocal(isoDate);
     return `${d.getDate()} ${translateMonth(d.getMonth() + 1)}`;
@@ -92,11 +96,16 @@ export function formatLocalizedDayMonth(isoDate: string, locale = 'fr'): string 
 export function formatLocalizedDayLabel(isoDate: string, locale = 'fr'): string {
   try {
     const d = parseIsoDateLocal(isoDate);
-    return new Intl.DateTimeFormat(locale, {
+    const formatted = new Intl.DateTimeFormat(locale, {
       weekday: 'short',
       day: 'numeric',
       month: 'short',
     }).format(d);
+    // Capitaliser chaque mot (ex: "dim. 30 août" -> "Dim. 30 Août")
+    return formatted
+      .split(' ')
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .join(' ');
   } catch {
     const d = parseIsoDateLocal(isoDate);
     return `${translateDay(d.getDay())} ${d.getDate()} ${translateMonth(d.getMonth() + 1)}`;

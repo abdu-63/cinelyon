@@ -32,6 +32,7 @@ import { ToiletBreaksSection } from '@/components/ui/ToiletBreaksSection';
 import { RottenTomatoesIcon } from '@/components/ui/RottenTomatoesIcon';
 import { JustWatchBadge } from '@/components/ui/JustWatchBadge';
 import { getStreamingProviderWebUrl } from '@/utils/streamingProviders';
+import { formatSeanceLang } from '@/utils/languageUtils';
 import { downloadICS } from '@/utils/calendarUtils';
 
 export const revalidate = 300;
@@ -491,42 +492,45 @@ export default async function FilmPage({ params }: PageProps) {
                       {dayLabel}
                     </span>
 
-                    <div className="space-y-1.5">
+                    <div className="space-y-2">
                       {Object.entries(cinemas).map(([cinemaName, seances]) => (
-                        <div key={cinemaName} className="flex items-center gap-1.5">
-                          <div className="w-[100px] min-w-[100px] h-[44px] shrink-0 rounded-[8px] bg-[#444cf7] text-white flex items-center justify-center p-1 text-center shadow-sm">
-                            <span className="text-[11px] font-normal leading-[13px] line-clamp-2">
+                        <div key={cinemaName} className="flex items-center gap-2">
+                          <div className="w-[82px] min-w-[82px] max-w-[82px] h-[44px] shrink-0 rounded-[14px] bg-[#444cf7] text-white flex items-center justify-center px-1.5 py-1 text-center shadow-xs">
+                            <span className="text-[11px] font-normal leading-[13px] line-clamp-2 text-center">
                               {cinemaName}
                             </span>
                           </div>
 
-                          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
-                            {seances.map((seance, idx) => (
-                              <div
-                                key={`${seance.time}-${idx}`}
-                                className="shrink-0 h-[44px] min-w-[76px] px-2 py-1 rounded-[12px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 flex flex-col justify-between shadow-sm"
-                              >
-                                <div className="flex items-center justify-between text-[9px] font-normal text-neutral-500 dark:text-neutral-400">
-                                  <span>{seance.lang || 'VF'}</span>
-                                  {seance.format && (
-                                    <span className="text-[8px] uppercase text-neutral-400 truncate max-w-[36px]">
-                                      {seance.format}
-                                    </span>
-                                  )}
+                          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5 pr-2">
+                            {seances.map((seance, idx) => {
+                              const langBadge = formatSeanceLang(seance.lang, film.original_language);
+                              return (
+                                <div
+                                  key={`${seance.time}-${idx}`}
+                                  className="shrink-0 h-[44px] min-w-[66px] sm:min-w-[70px] px-2.5 py-1.5 rounded-[14px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 hover:border-[#444cf7]/60 dark:hover:border-[#444cf7]/60 flex flex-col justify-between shadow-xs transition-colors"
+                                >
+                                  <div className="flex items-center justify-between gap-1 text-[9px] font-normal text-neutral-400 leading-none">
+                                    <span>{langBadge}</span>
+                                    {seance.format && (
+                                      <span className="text-[8px] uppercase text-neutral-400 truncate max-w-[40px]">
+                                        {seance.format.split(', ')[0]}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div className="flex items-center justify-between gap-1">
+                                    <a
+                                      href={seance.ticketing_url || undefined}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="text-[13.5px] font-normal text-[#444cf7] leading-none hover:underline"
+                                    >
+                                      {formatTime(seance.time)}
+                                    </a>
+                                    <Calendar size={12} className="text-neutral-400" />
+                                  </div>
                                 </div>
-                                <div className="flex items-center justify-between">
-                                  <a
-                                    href={seance.ticketing_url || undefined}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-[13px] font-normal text-[#444cf7] leading-none hover:underline"
-                                  >
-                                    {formatTime(seance.time)}
-                                  </a>
-                                  <Calendar size={12} className="text-neutral-400" />
-                                </div>
-                              </div>
-                            ))}
+                              );
+                            })}
                           </div>
                         </div>
                       ))}

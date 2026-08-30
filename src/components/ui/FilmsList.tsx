@@ -1,7 +1,7 @@
 // src/components/ui/FilmsList.tsx
 'use client';
 
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Film, DateLabel, FiltersState } from '@/types';
 import { FilmCard } from '@/components/ui/FilmCard';
 import { DaySelector } from '@/components/ui/DaySelector';
@@ -36,15 +36,16 @@ export function FilmsList({ initialFilms = [], initialDates = [] }: FilmsListPro
   const [selectedDelta, setSelectedDelta] = useState<number | null>(null);
   const [visibleCount, setVisibleCount] = useState<number>(PAGE_SIZE);
   const [filters, setFilters] = useState<FiltersState>(DEFAULT_FILTERS);
-  const [favorites, setFavorites] = useState<string[]>(() => {
-    if (typeof window === 'undefined') return [];
+  const [favorites, setFavorites] = useState<string[]>([]);
+
+  useEffect(() => {
     try {
       const stored = localStorage.getItem('cinelyon_favorites');
-      return stored ? JSON.parse(stored) : [];
-    } catch {
-      return [];
-    }
-  });
+      if (stored) {
+        setFavorites(JSON.parse(stored));
+      }
+    } catch {}
+  }, []);
 
   const toggleFavorite = useCallback((filmId: string) => {
     setFavorites((prev) => {
