@@ -193,17 +193,17 @@ export function CineRouletteModal({ films = [] }: CineRouletteModalProps) {
                       className="w-20 h-28 object-cover rounded-[16px] shadow-sm border border-black/5 dark:border-white/10 shrink-0"
                     />
                     <div className="space-y-1 min-w-0 flex-1">
-                      <h4 className="font-extrabold text-base text-neutral-900 dark:text-white line-clamp-2 leading-tight">
+                      <h4 className="font-normal text-base text-neutral-900 dark:text-white line-clamp-2 leading-tight">
                         {selectedResult.film.title}
                       </h4>
                       <div className="flex items-center gap-1.5 pt-0.5">
                         {selectedResult.film.duree && (
-                          <span className="px-2 py-0.5 rounded-full bg-neutral-200/80 dark:bg-[#242428] text-[10px] font-bold text-neutral-700 dark:text-neutral-300">
+                          <span className="px-2 py-0.5 rounded-full bg-neutral-200/80 dark:bg-[#242428] text-[10px] font-normal text-neutral-700 dark:text-neutral-300">
                             {selectedResult.film.duree}
                           </span>
                         )}
                         {selectedResult.film.rating && selectedResult.film.rating !== 'Note inconnue' && (
-                          <span className="px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 text-[10px] font-bold flex items-center gap-1">
+                          <span className="px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 text-[10px] font-normal flex items-center gap-1">
                             <Star size={10} className="fill-amber-500 text-amber-500" />
                             <span>{selectedResult.film.rating}</span>
                           </span>
@@ -211,10 +211,10 @@ export function CineRouletteModal({ films = [] }: CineRouletteModalProps) {
                       </div>
 
                       <div className="p-2.5 rounded-xl bg-white dark:bg-[#242428] border border-black/[0.06] dark:border-white/10 shadow-sm mt-2">
-                        <p className="text-xs font-semibold text-neutral-800 dark:text-neutral-200 truncate">
+                        <p className="text-xs font-normal text-neutral-800 dark:text-neutral-200 truncate">
                           {selectedResult.cinema}
                         </p>
-                        <p className="text-base font-extrabold text-[#444cf7]">
+                        <p className="text-base font-normal text-[#444cf7]">
                           {selectedResult.seance.time}
                         </p>
                       </div>

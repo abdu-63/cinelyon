@@ -219,10 +219,10 @@ export function DoubleFeatureModal({ films = [], dates = [] }: DoubleFeatureModa
                             </div>
 
                             <div className="min-w-0 space-y-0.5">
-                              <p className="text-xs font-bold text-neutral-900 dark:text-white truncate">
+                              <p className="text-xs font-normal text-neutral-900 dark:text-white truncate">
                                 1. {pair.filmA.title}
                               </p>
-                              <p className="text-xs font-bold text-neutral-900 dark:text-white truncate">
+                              <p className="text-xs font-normal text-neutral-900 dark:text-white truncate">
                                 2. {pair.filmB.title}
                               </p>
                               <p className="text-[11px] text-neutral-500 dark:text-neutral-400">
@@ -247,19 +247,19 @@ export function DoubleFeatureModal({ films = [], dates = [] }: DoubleFeatureModa
                                 key={slot.id}
                                 className="p-2.5 rounded-xl bg-neutral-50 dark:bg-[#161618] border border-black/[0.04] dark:border-white/5 space-y-1.5"
                               >
-                                <div className="flex items-center justify-between text-xs font-semibold">
+                                <div className="flex items-center justify-between text-xs font-normal">
                                   <span className="text-neutral-800 dark:text-neutral-200">
                                     {slot.first.startTimeFormatted} <ArrowRight size={11} className="inline mx-0.5 text-neutral-400" /> {slot.first.endTimeFormatted} : {slot.first.film.title}
                                   </span>
                                   <span className="text-neutral-500 dark:text-neutral-400">{slot.cinema1}</span>
                                 </div>
 
-                                <div className="text-center text-[10px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center justify-center gap-1">
+                                <div className="text-center text-[10px] font-normal text-emerald-600 dark:text-emerald-400 flex items-center justify-center gap-1">
                                   <Timer size={12} className="text-emerald-500" />
                                   <span>{slot.breakTimeMinutes} min de pause</span>
                                 </div>
 
-                                <div className="flex items-center justify-between text-xs font-semibold">
+                                <div className="flex items-center justify-between text-xs font-normal">
                                   <span className="text-neutral-800 dark:text-neutral-200">
                                     {slot.second.startTimeFormatted} <ArrowRight size={11} className="inline mx-0.5 text-neutral-400" /> {slot.second.endTimeFormatted} : {slot.second.film.title}
                                   </span>

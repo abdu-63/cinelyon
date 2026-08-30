@@ -153,8 +153,8 @@ export default function CinemaMap() {
 
             <div className="flex items-start justify-between gap-3 pr-6">
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-[#444cf7]">Cinéma Lyonnais</span>
-                <h3 className="text-base font-extrabold text-white leading-tight mt-0.5">{selectedCinema.name}</h3>
+                <span className="text-[10px] font-medium uppercase tracking-wider text-[#444cf7]">Cinéma Lyonnais</span>
+                <h3 className="text-base font-normal text-white leading-tight mt-0.5">{selectedCinema.name}</h3>
                 <p className="text-xs text-neutral-400 mt-1 flex items-start gap-1">
                   <MapPin size={13} className="shrink-0 text-neutral-500 mt-0.5" />
                   <span>{selectedCinema.address}</span>

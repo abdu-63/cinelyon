@@ -26,7 +26,7 @@ export function DaySelector({ dates = [], selectedDelta, onSelect }: DaySelector
         <button
           type="button"
           onClick={() => onSelect(null)}
-          className={`h-12 min-w-[70px] px-4 rounded-[24px] flex items-center justify-center font-bold text-xs transition-all shrink-0 border active:scale-95 ${
+          className={`h-12 min-w-[70px] px-4 rounded-[24px] flex items-center justify-center font-normal text-xs transition-all shrink-0 border active:scale-95 ${
             selectedDelta === null
               ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-md shadow-[#444cf7]/25'
               : 'bg-white dark:bg-[#1c1c1e] border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/25'
@@ -57,7 +57,7 @@ export function DaySelector({ dates = [], selectedDelta, onSelect }: DaySelector
               }`}
             >
               <span
-                className={`text-[12px] font-bold leading-tight ${
+                className={`text-[12px] font-normal leading-tight ${
                   isSelected ? 'text-white' : isToday ? 'text-[#444cf7]' : 'text-neutral-900 dark:text-white'
                 }`}
               >

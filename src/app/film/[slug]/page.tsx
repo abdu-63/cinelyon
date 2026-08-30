@@ -461,7 +461,7 @@ export default async function FilmPage({ params }: PageProps) {
                 const cinemas = film.seancesByDay[dayLabel] ?? {};
                 return (
                   <div key={dayLabel} className="space-y-2">
-                    <span className="inline-block px-3 py-1 rounded-[16px] bg-[#444cf7] text-white text-xs font-bold shadow-sm">
+                    <span className="inline-block px-3 py-1 rounded-[16px] bg-[#444cf7] text-white text-xs font-normal shadow-sm">
                       {dayLabel}
                     </span>
 
@@ -469,7 +469,7 @@ export default async function FilmPage({ params }: PageProps) {
                       {Object.entries(cinemas).map(([cinemaName, seances]) => (
                         <div key={cinemaName} className="flex items-center gap-1.5">
                           <div className="w-[100px] min-w-[100px] h-[44px] shrink-0 rounded-[8px] bg-[#444cf7] text-white flex items-center justify-center p-1 text-center shadow-sm">
-                            <span className="text-[11px] font-bold leading-[13px] line-clamp-2">
+                            <span className="text-[11px] font-normal leading-[13px] line-clamp-2">
                               {cinemaName}
                             </span>
                           </div>
@@ -480,7 +480,7 @@ export default async function FilmPage({ params }: PageProps) {
                                 key={`${seance.time}-${idx}`}
                                 className="shrink-0 h-[44px] min-w-[76px] px-2 py-1 rounded-[12px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 flex flex-col justify-between shadow-sm"
                               >
-                                <div className="flex items-center justify-between text-[9px] font-bold text-neutral-500 dark:text-neutral-400">
+                                <div className="flex items-center justify-between text-[9px] font-normal text-neutral-500 dark:text-neutral-400">
                                   <span>{seance.lang || 'VF'}</span>
                                   {seance.format && (
                                     <span className="text-[8px] uppercase text-neutral-400 truncate max-w-[36px]">
@@ -493,7 +493,7 @@ export default async function FilmPage({ params }: PageProps) {
                                     href={seance.ticketing_url || undefined}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-[13px] font-bold text-[#444cf7] leading-none hover:underline"
+                                    className="text-[13px] font-normal text-[#444cf7] leading-none hover:underline"
                                   >
                                     {formatTime(seance.time)}
                                   </a>
@@ -524,7 +524,7 @@ export default async function FilmPage({ params }: PageProps) {
                   <Sparkles size={16} className="text-[#444cf7]" />
                   <span>Films similaires à l&apos;affiche à Lyon</span>
                 </div>
-                <span className="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-950 text-[#444cf7] text-[11px] font-bold flex items-center justify-center">
+                <span className="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-950 text-[#444cf7] text-[11px] font-normal flex items-center justify-center">
                   {similarMovies.length}
                 </span>
               </div>
@@ -540,16 +540,16 @@ export default async function FilmPage({ params }: PageProps) {
                         <img src={m.poster} alt={m.title} className="w-full h-full object-cover" />
                       )}
                       {m.rating && (
-                        <div className="absolute top-1.5 right-1.5 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-sm text-white text-[10px] font-bold flex items-center gap-0.5">
+                        <div className="absolute top-1.5 right-1.5 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-sm text-white text-[10px] font-normal flex items-center gap-0.5">
                           <Star size={10} className="fill-amber-400 text-amber-400" />
                           <span>{m.rating}</span>
                         </div>
                       )}
-                      <div className="absolute bottom-1.5 left-1.5 px-1.5 py-0.5 rounded bg-teal-600/90 text-white text-[8px] font-bold tracking-wider">
+                      <div className="absolute bottom-1.5 left-1.5 px-1.5 py-0.5 rounded bg-teal-600/90 text-white text-[8px] font-normal tracking-wider">
                         À L&apos;AFFICHE
                       </div>
                     </div>
-                    <h4 className="text-xs font-bold text-neutral-900 dark:text-white truncate">
+                    <h4 className="text-xs font-normal text-neutral-900 dark:text-white truncate">
                       {m.title}
                     </h4>
                     <p className="text-[10px] text-neutral-500 dark:text-neutral-400 truncate">

@@ -109,7 +109,7 @@ export const FilmCard = memo(function FilmCard({
               loading="lazy"
             />
             {film.isNew && (
-              <div className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 px-1.5 sm:px-2 py-0.5 rounded-md bg-[#444cf7] text-[9px] sm:text-[10px] font-bold tracking-wider text-white shadow-sm">
+              <div className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 px-1.5 sm:px-2 py-0.5 rounded-md bg-[#444cf7] text-[9px] sm:text-[10px] font-normal tracking-wider text-white shadow-sm">
                 NOUVEAU
               </div>
             )}
@@ -120,7 +120,7 @@ export const FilmCard = memo(function FilmCard({
             <div>
               {/* Ligne Titre + Favori */}
               <div className="flex items-start justify-between gap-1 sm:gap-2">
-                <h3 className="font-bold text-[14px] sm:text-[16px] md:text-[18px] leading-[18px] sm:leading-[22px] md:leading-[24px] text-neutral-900 dark:text-white group-hover:text-[#444cf7] transition-colors line-clamp-2 pr-1">
+                <h3 className="font-normal text-[14px] sm:text-[16px] md:text-[18px] leading-[18px] sm:leading-[22px] md:leading-[24px] text-neutral-900 dark:text-white group-hover:text-[#444cf7] transition-colors line-clamp-2 pr-1">
                   {film.title}
                   {film.release_year && film.release_year !== 'inconnue' && (
                     <span className="font-normal text-neutral-500 dark:text-neutral-400 text-[13px] sm:text-[14px] md:text-[15px]"> ({film.release_year})</span>
@@ -162,7 +162,7 @@ export const FilmCard = memo(function FilmCard({
                   </p>
                 )}
                 {cleanRating && (
-                  <p className="truncate font-semibold text-neutral-800 dark:text-neutral-200">
+                  <p className="truncate font-normal text-neutral-800 dark:text-neutral-200">
                     <span className="text-neutral-500 dark:text-neutral-400 font-normal">Note :</span> {cleanRating}/5
                   </p>
                 )}
@@ -195,8 +195,8 @@ export const FilmCard = memo(function FilmCard({
               )}
 
               {/* Chevron nav */}
-              <div className="opacity-70 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-neutral-600 dark:text-neutral-400 flex items-center gap-1 text-xs font-semibold text-[#444cf7]">
-                <span className="hidden sm:inline text-[11px] font-bold">Détails</span>
+              <div className="opacity-70 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-neutral-600 dark:text-neutral-400 flex items-center gap-1 text-xs font-normal text-[#444cf7]">
+                <span className="hidden sm:inline text-[11px] font-normal">Détails</span>
                 <ChevronRight size={16} className="sm:w-4 sm:h-4 text-[#444cf7]" />
               </div>
             </div>
@@ -231,7 +231,7 @@ export const FilmCard = memo(function FilmCard({
                       setUserSelectedDayIdx(isActive ? null : idxInAll);
                     }
                   }}
-                  className={`relative px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-[16px] text-[11px] sm:text-[12px] font-semibold tracking-tight transition-all shrink-0 border active:scale-95 ${
+                  className={`relative px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-[16px] text-[11px] sm:text-[12px] font-normal tracking-tight transition-all shrink-0 border active:scale-95 ${
                     isActive
                       ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
                       : 'bg-white dark:bg-[#1c1c1e] border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/25'
@@ -262,7 +262,7 @@ export const FilmCard = memo(function FilmCard({
                   <div key={cinemaName} className="flex items-center gap-1.5 sm:gap-2">
                     {/* Badge Cinéma (aligné avec la largeur exacte de l'affiche: 100px mobile, 135px sm, 165px md+) */}
                     <div className="w-[100px] sm:w-[135px] md:w-[165px] min-w-[100px] sm:min-w-[135px] md:min-w-[165px] h-[42px] sm:h-[46px] shrink-0 rounded-[6px] sm:rounded-[8px] bg-[#444cf7] text-white flex items-center justify-center p-1 sm:p-2 text-center shadow-sm">
-                      <span className="text-[11px] sm:text-[12px] md:text-[13px] font-bold leading-[13px] sm:leading-[15px] line-clamp-2">
+                      <span className="text-[11px] sm:text-[12px] md:text-[13px] font-normal leading-[13px] sm:leading-[15px] line-clamp-2">
                         {cinemaName}
                       </span>
                     </div>
@@ -274,7 +274,7 @@ export const FilmCard = memo(function FilmCard({
                           key={`${seance.time}-${idx}`}
                           className="shrink-0 h-[42px] sm:h-[48px] min-w-[72px] sm:min-w-[84px] px-2 sm:px-2.5 py-1 rounded-[10px] sm:rounded-[12px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 hover:border-[#444cf7]/60 dark:hover:border-[#444cf7]/60 flex flex-col justify-between transition-colors group/pill"
                         >
-                          <div className="flex items-center justify-between gap-1 text-[9px] sm:text-[10px] font-bold text-neutral-500 dark:text-neutral-400 leading-tight">
+                          <div className="flex items-center justify-between gap-1 text-[9px] sm:text-[10px] font-normal text-neutral-500 dark:text-neutral-400 leading-tight">
                             <span>{seance.lang || 'VF'}</span>
                             {seance.format && (
                               <span className="text-[8px] sm:text-[9px] uppercase text-neutral-400 truncate max-w-[48px]">
@@ -288,7 +288,7 @@ export const FilmCard = memo(function FilmCard({
                               href={seance.ticketing_url || undefined}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className={`text-[13px] sm:text-[14px] font-bold text-[#444cf7] group-hover/pill:underline leading-none ${
+                              className={`text-[13px] sm:text-[14px] font-normal text-[#444cf7] group-hover/pill:underline leading-none ${
                                 !seance.ticketing_url ? 'cursor-default' : ''
                               }`}
                             >

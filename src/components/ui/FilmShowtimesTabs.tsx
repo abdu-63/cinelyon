@@ -92,7 +92,7 @@ export function FilmShowtimesTabs({ film, dates }: FilmShowtimesTabsProps) {
               className="p-4 sm:p-5 rounded-3xl liquid-glass border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
             >
               <div>
-                <h4 className="font-bold text-sm sm:text-base text-white">{cinemaName}</h4>
+                <h4 className="font-normal text-sm sm:text-base text-white">{cinemaName}</h4>
                 <p className="text-xs text-neutral-400 mt-0.5">{seances.length} séance{seances.length > 1 ? 's' : ''}</p>
               </div>
 
@@ -103,15 +103,15 @@ export function FilmShowtimesTabs({ film, dates }: FilmShowtimesTabsProps) {
                       href={seance.ticketing_url || '#'}
                       target={seance.ticketing_url ? '_blank' : undefined}
                       rel="noopener noreferrer"
-                      className="px-3.5 py-2 rounded-2xl bg-[#444cf7]/20 hover:bg-[#444cf7] text-white font-bold text-xs sm:text-sm border border-[#444cf7]/40 hover:border-[#444cf7] shadow-sm transition-all flex items-center gap-2 hover:scale-105 active:scale-95"
+                      className="px-3.5 py-2 rounded-2xl bg-[#444cf7]/20 hover:bg-[#444cf7] text-white font-normal text-xs sm:text-sm border border-[#444cf7]/40 hover:border-[#444cf7] shadow-sm transition-all flex items-center gap-2 hover:scale-105 active:scale-95"
                     >
                       <Ticket size={13} className="text-[#444cf7] group-hover:text-white" />
                       <span>{formatTime(seance.time)}</span>
-                      <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-white/10">
+                      <span className="text-[10px] font-normal px-1.5 py-0.5 rounded bg-white/10">
                         {seance.lang}
                       </span>
                       {seance.format && (
-                        <span className="text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-white/20">
+                        <span className="text-[9px] font-normal uppercase px-1.5 py-0.5 rounded bg-white/20">
                           {seance.format}
                         </span>
                       )}
