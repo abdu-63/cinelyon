@@ -37,9 +37,10 @@ Enchaîne automatiquement et sans interruption les étapes Spec-Kit suivantes :
 |---|---|
 | **Framework Web** | Next.js 15+ / React 19 (App Router, Server Components & Client Components) |
 | **Langage** | TypeScript strict |
-| **Styles & Design System** | Tailwind CSS, Lucide Icons, Tokens "Liquid Glass" (Apple Design System) |
+| **Styles & Design System** | Tailwind CSS v3.4 (PostCSS + Autoprefixer obligatoire pour iOS 15.1), Lucide Icons, Tokens "Liquid Glass" |
 | **Animations & Mouvement** | Framer Motion (ressorts physiques, entrées/sorties, layout transitions) |
 | **État & Données** | TanStack React Query (`@tanstack/react-query`), Supabase (`@supabase/supabase-js`) |
+| **Baseline Navigateurs** | **iOS 15.1+ (Safari / WebKit 15.1)** — Support obligatoire sans faille |
 | **Pipelines Backend & Scraping** | Python 3.11 (`scrape.py`, `legacy-flask/`), Scripts Instagram Node/TS (`scripts/instagram/`) |
 | **Déploiement & Hébergement** | Vercel (`vercel.json`) |
 
@@ -126,3 +127,33 @@ cinelyon/
    - Envelopper les composants de liste de films dans `React.memo` et mémoïser les calculs de filtrage lourds avec `useMemo`.
 4. **Accessibilité (a11y)** :
    - Renseigner systématiquement des attributs `aria-label` sur tous les boutons d'action (favoris, filtres, modales) et respecter les contrastes WCAG AA.
+
+---
+
+## 📱 5. Compatibilité Obligatoire iOS 15.1 (WebKit Legacy Support)
+
+> ⚠️ **Exigence Critique de Compatibilité Matérielle** :
+> Le site web CinéLyon Web **DOIT IMPÉRATIVEMENT** fonctionner de manière irréprochable sur les iPhone sous **iOS 15.1 (Safari / WebKit 15.1)** sans écran blanc, sans crash JavaScript fatal et sans casse de layout. Toute intervention d'un agent IA sur le codebase doit valider et respecter cette contrainte.
+
+### 1. Interdictions & Remplacements JavaScript (APIs absentes ou instables sous iOS 15.1 / Safari 15.1)
+- **`crypto.randomUUID()`** : ❌ **Interdit d'usage direct sans fallback**. `crypto.randomUUID` n'a été introduit qu'avec iOS 15.4. Toujours utiliser un helper de génération UUID compatible (`generateUUID()` dans `src/utils/textUtils.ts` ou polyfill).
+- **`Array.prototype.at()` & `String.prototype.at()`** : ❌ **Interdit d'usage direct** (apparu sous iOS 15.4). Utiliser `arr[arr.length - 1]` ou s'assurer de la présence du polyfill dans `<head>`.
+- **`Object.hasOwn()`** : ❌ **Interdit** (apparu sous iOS 15.4). Utiliser `Object.prototype.hasOwnProperty.call(obj, prop)`.
+- **`Array.prototype.findLast()` / `findLastIndex()`** : ❌ **Interdit** (apparu sous iOS 15.4). Utiliser `.slice().reverse().find()` ou des boucles classiques.
+- **`structuredClone()`** : ❌ **Interdit sans fallback** (apparu sous iOS 15.4). Préférer `JSON.parse(JSON.stringify(obj))` ou une copie par décomposition/spread.
+- **`requestIdleCallback()`** : ❌ **Interdit** (apparu sous Safari 16.4). Toujours prévoir un fallback `setTimeout(fn, 1)`.
+- **Méthodes ES2023+ (`toReversed`, `toSorted`, `toSpliced`, `with`)** : ❌ **Interdites**.
+
+- **Moteur CSS (Tailwind v3.4 obligatoire)** : ❌ **Interdiction de passer à Tailwind CSS v4**. Tailwind v4 nécessite nativement **Safari 16.4+** en raison des cascade layers `@layer` et `@property` natifs, causant l'abandon et l'ignorance totale du CSS par WebKit iOS 15.1. Utiliser impérativement **Tailwind CSS v3.4+** avec `postcss` et `autoprefixer`.
+- **Pseudo-classe `:has()`** : ❌ **Interdite** dans les sélecteurs CSS globaux et Tailwind (supportée uniquement depuis iOS 15.4 / Safari 15.4). Gérer les interactions via des classes d'état explicites sur le parent.
+- **Unités de Viewport Dynamiques (`dvh`, `svh`, `lvh`)** : ❌ **Interdites sans fallback** (apparues sous iOS 15.4). Toujours déclarer `100vh`, `100%`, `-webkit-fill-available` ou un calcul de hauteur.
+- **Translucidité & Verre Dépoli (`backdrop-filter`)** : Toujours inclure le préfixe `-webkit-backdrop-filter` en doublon de `backdrop-filter` pour assurer l'effet *Liquid Glass* sous Safari/WebKit iOS.
+- **Propriété `overflow: clip`** : ❌ **Interdite** (apparue sous iOS 16.0). Toujours utiliser `overflow: hidden`.
+- **Container Queries (`@container`) & Subgrid** : ❌ **Interdits** (apparus sous iOS 16.0+). Utiliser Flexbox / CSS Grid standard et media queries classiques.
+- **Attribut HTML `inert`** : ❌ **Interdit** nativement sans polyfill explicite (apparu sous iOS 16.0).
+
+### 3. Protocole d'Exécution & Non-Régression
+1. **Polyfills universels chargés au démarrage** : Le script inline dans `<head>` (`ThemeScript.tsx`) charge immédiatement les polyfills minimaux indispensables (`Array.prototype.at`, `Object.hasOwn`, `crypto.randomUUID`, `findLast`, `structuredClone`) avant l'exécution du bundle React.
+2. **Ciblage de compilation `browserslist`** : Le fichier `package.json` doit déclarer `iOS >= 15.1` et `Safari >= 15.1`.
+3. **Validation systématique** : Tester le build avec `npm run build` et auditer tout nouveau composant pour garantir 0 exception WebKit 15.1.
+

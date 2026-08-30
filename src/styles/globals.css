@@ -1,17 +1,6 @@
-@import "tailwindcss";
-
-@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *, .dark, .dark *));
-
-@theme {
-  --font-sans: 'HealTheWebA', 'HealTheWebA-Regular', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
-  --font-montserrat: 'Montserrat-ExtraBold', 'MontserratExtraBold', sans-serif;
-  --font-heal-a: 'HealTheWebA', 'HealTheWebA-Regular', sans-serif;
-  --font-heal-b: 'HealTheWebB', 'HealTheWebB-Regular', sans-serif;
-  --font-impact: 'Impact', Impact, fantasy, sans-serif;
-  --font-marykate: 'MarykateRegular-French', 'MarykateRegular', cursive, sans-serif;
-  --font-helvetica: 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  --font-mono: Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* ── Polices personnalisées CinéLyon (Parité intégrale Mobile & Web) ── */
 @font-face {

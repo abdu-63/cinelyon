@@ -5,6 +5,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
 import { SyncDevice, FriendFollow } from '@/types';
+import { generateUUID } from '@/utils/textUtils';
 
 interface SyncModalProps {
   isOpen: boolean;
@@ -194,7 +195,7 @@ export default function SyncModal({
   // Déconnecter cet appareil
   const unlinkDevice = () => {
     if (confirm('Voulez-vous vraiment déconnecter cet appareil ?\nVos favoris actuels resteront enregistrés ici.')) {
-      const newSyncId = crypto.randomUUID();
+      const newSyncId = generateUUID();
       localStorage.setItem('cinelyon_sync_id', newSyncId);
       localStorage.setItem('cinelyon_local_updated_at', new Date().toISOString());
       

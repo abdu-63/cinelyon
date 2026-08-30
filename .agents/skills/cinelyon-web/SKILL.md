@@ -122,6 +122,11 @@ Structure et hiérarchie exactes respectant les 6 captures d'écran de l'applica
 
 ## ⚡ 6. Règles d'Exécution & Non-Régression
 
+- **Compatibilité Obligatoire iOS 15.1 (WebKit 15.1)** :
+  - Aucun crash ni écran blanc sur iOS 15.1.
+  - Pas de `crypto.randomUUID()` direct (utiliser `generateUUID()`).
+  - Pas de `Array.prototype.at()`, `Object.hasOwn()`, `structuredClone()` sans polyfills/fallbacks.
+  - Pas de sélecteur `:has()`, pas d'unités `dvh`/`svh`/`lvh` sans fallback, toujours préfixer `backdrop-filter` avec `-webkit-backdrop-filter`.
 - Toujours valider avec `npm run build` : **0 erreur TypeScript, 0 avertissement Turbopack**.
 - Respecter scrupuleusement les 9 langues dans `src/i18n/`.
 - Ne jamais modifier les composants en réintroduisant d'anciennes grilles larges.
