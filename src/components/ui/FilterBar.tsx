@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, SlidersHorizontal, X, Dices, Shuffle, Settings, Heart, Sparkles, Check } from 'lucide-react';
+import { Search, SlidersHorizontal, X, Dices, Shuffle, Settings, Heart, Sparkles } from 'lucide-react';
 import { FiltersState, TimeSlot, FilmFilterOptions } from '@/types';
 import { useTranslation } from '@/i18n';
 import { formatLocalizedGenres } from '@/utils/filmLocalizationUtils';
@@ -18,6 +18,15 @@ interface FilterBarProps {
   onOpenRoulette?: () => void;
 }
 
+const TIME_SLOTS: { id: TimeSlot; label: string }[] = [
+  { id: 'morning', label: 'Matin (< 12h)' },
+  { id: 'afternoon', label: 'Après-midi (12h-18h)' },
+  { id: 'evening', label: 'Soirée (18h-22h)' },
+  { id: 'night', label: 'Nuit (> 22h)' },
+];
+
+const FORMAT_OPTIONS = ['IMAX', '3D', 'Dolby Cinema', '4DX', 'ScreenX', 'ICE', 'VOST', 'VF'];
+
 export function FilterBar({
   filters,
   options,
@@ -30,6 +39,14 @@ export function FilterBar({
   const { locale, t } = useTranslation();
   const [showFiltersModal, setShowFiltersModal] = useState(false);
   const [localQuery, setLocalQuery] = useState(filters.titleQuery || '');
+  const [prevQuery, setPrevQuery] = useState(filters.titleQuery || '');
+  const [directorSearch, setDirectorSearch] = useState('');
+  const [actorSearch, setActorSearch] = useState('');
+
+  if (filters.titleQuery !== prevQuery) {
+    setPrevQuery(filters.titleQuery || '');
+    setLocalQuery(filters.titleQuery || '');
+  }
 
   const openSettings = () => {
     window.dispatchEvent(new CustomEvent('cinelyon:open-settings'));
@@ -70,6 +87,7 @@ export function FilterBar({
       timeSlots: [],
       showOnlyNew: false,
       showOnlyYesterday: false,
+      showOnlyDayBefore: false,
       showOnlyFavorites: false,
     });
   };
@@ -101,6 +119,35 @@ export function FilterBar({
       : [...filters.timeSlots, slot];
     onFiltersChange({ timeSlots: next });
   };
+
+  const toggleDirector = (director: string) => {
+    const next = filters.directors.includes(director)
+      ? filters.directors.filter((d) => d !== director)
+      : [...filters.directors, director];
+    onFiltersChange({ directors: next });
+  };
+
+  const toggleActor = (actor: string) => {
+    const current = filters.actors || [];
+    const next = current.includes(actor)
+      ? current.filter((a) => a !== actor)
+      : [...current, actor];
+    onFiltersChange({ actors: next });
+  };
+
+  const filteredDirectors = useMemo(() => {
+    if (!options.directors) return [];
+    if (!directorSearch.trim()) return options.directors;
+    const q = directorSearch.toLowerCase().trim();
+    return options.directors.filter((d) => d.toLowerCase().includes(q));
+  }, [options.directors, directorSearch]);
+
+  const filteredActors = useMemo(() => {
+    if (!options.actors) return [];
+    if (!actorSearch.trim()) return options.actors;
+    const q = actorSearch.toLowerCase().trim();
+    return options.actors.filter((a) => a.toLowerCase().includes(q));
+  }, [options.actors, actorSearch]);
 
   return (
     <div className="w-full space-y-1.5 pb-1">
@@ -194,12 +241,145 @@ export function FilterBar({
         >
           <SlidersHorizontal size={19} />
           {activeFilterCount > 0 && (
-            <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-rose-500 text-[9px] font-bold text-white flex items-center justify-center border border-white">
+            <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-rose-500 text-[9px] font-medium text-white flex items-center justify-center border border-white dark:border-[#1c1c1e]">
               {activeFilterCount}
             </span>
           )}
         </button>
       </div>
+
+      {/* ── Chips des filtres actifs (Horizontal Scroll) ── */}
+      {activeFilterCount > 0 && (
+        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
+          {filters.showOnlyFavorites && (
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-medium bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 shrink-0">
+              <Heart size={11} className="fill-current" />
+              <span>Favoris</span>
+              <button
+                type="button"
+                onClick={() => onFiltersChange({ showOnlyFavorites: false })}
+                className="ml-0.5 hover:opacity-75"
+              >
+                <X size={12} />
+              </button>
+            </span>
+          )}
+          {filters.showOnlyNew && (
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-medium bg-[#444cf7]/10 text-[#444cf7] dark:text-[#7d84ff] border border-[#444cf7]/20 shrink-0">
+              <Sparkles size={11} />
+              <span>Nouveautés</span>
+              <button
+                type="button"
+                onClick={() => onFiltersChange({ showOnlyNew: false })}
+                className="ml-0.5 hover:opacity-75"
+              >
+                <X size={12} />
+              </button>
+            </span>
+          )}
+          {filters.formats.map((f) => (
+            <span
+              key={`chip-fmt-${f}`}
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-medium bg-neutral-100 dark:bg-[#2c2c2e] text-neutral-800 dark:text-neutral-200 border border-black/5 dark:border-white/10 shrink-0"
+            >
+              <span>{f}</span>
+              <button
+                type="button"
+                onClick={() => toggleFormat(f)}
+                className="ml-0.5 text-neutral-400 hover:text-neutral-700 dark:hover:text-white"
+              >
+                <X size={12} />
+              </button>
+            </span>
+          ))}
+          {filters.timeSlots.map((slot) => {
+            const label = TIME_SLOTS.find((s) => s.id === slot)?.label || slot;
+            return (
+              <span
+                key={`chip-slot-${slot}`}
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-medium bg-neutral-100 dark:bg-[#2c2c2e] text-neutral-800 dark:text-neutral-200 border border-black/5 dark:border-white/10 shrink-0"
+              >
+                <span>{label}</span>
+                <button
+                  type="button"
+                  onClick={() => toggleTimeSlot(slot)}
+                  className="ml-0.5 text-neutral-400 hover:text-neutral-700 dark:hover:text-white"
+                >
+                  <X size={12} />
+                </button>
+              </span>
+            );
+          })}
+          {filters.genres.map((g) => (
+            <span
+              key={`chip-genre-${g}`}
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-medium bg-neutral-100 dark:bg-[#2c2c2e] text-neutral-800 dark:text-neutral-200 border border-black/5 dark:border-white/10 shrink-0"
+            >
+              <span>{formatLocalizedGenres(g, locale)}</span>
+              <button
+                type="button"
+                onClick={() => toggleGenre(g)}
+                className="ml-0.5 text-neutral-400 hover:text-neutral-700 dark:hover:text-white"
+              >
+                <X size={12} />
+              </button>
+            </span>
+          ))}
+          {filters.cinemas.map((c) => (
+            <span
+              key={`chip-cinema-${c}`}
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-medium bg-neutral-100 dark:bg-[#2c2c2e] text-neutral-800 dark:text-neutral-200 border border-black/5 dark:border-white/10 shrink-0"
+            >
+              <span>{c}</span>
+              <button
+                type="button"
+                onClick={() => toggleCinema(c)}
+                className="ml-0.5 text-neutral-400 hover:text-neutral-700 dark:hover:text-white"
+              >
+                <X size={12} />
+              </button>
+            </span>
+          ))}
+          {filters.directors.map((d) => (
+            <span
+              key={`chip-dir-${d}`}
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-medium bg-neutral-100 dark:bg-[#2c2c2e] text-neutral-800 dark:text-neutral-200 border border-black/5 dark:border-white/10 shrink-0"
+            >
+              <span>Réal: {d}</span>
+              <button
+                type="button"
+                onClick={() => toggleDirector(d)}
+                className="ml-0.5 text-neutral-400 hover:text-neutral-700 dark:hover:text-white"
+              >
+                <X size={12} />
+              </button>
+            </span>
+          ))}
+          {filters.actors &&
+            filters.actors.map((a) => (
+              <span
+                key={`chip-actor-${a}`}
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-medium bg-neutral-100 dark:bg-[#2c2c2e] text-neutral-800 dark:text-neutral-200 border border-black/5 dark:border-white/10 shrink-0"
+              >
+                <span>Acteur: {a}</span>
+                <button
+                  type="button"
+                  onClick={() => toggleActor(a)}
+                  className="ml-0.5 text-neutral-400 hover:text-neutral-700 dark:hover:text-white"
+                >
+                  <X size={12} />
+                </button>
+              </span>
+            ))}
+          <button
+            type="button"
+            onClick={clearAll}
+            className="px-2.5 py-1 rounded-xl text-xs font-medium text-rose-500 hover:bg-rose-500/10 transition-colors shrink-0"
+          >
+            Effacer tout
+          </button>
+        </div>
+      )}
 
       {/* Compteur "167 films" sous la barre */}
       <div className="px-1 text-[11px] font-medium text-neutral-400">
@@ -234,14 +414,14 @@ export function FilterBar({
               <div className="flex items-center justify-between px-5 py-3 border-b border-black/[0.06] dark:border-white/10 shrink-0">
                 <div className="flex items-center gap-2">
                   <SlidersHorizontal size={18} className="text-[#444cf7]" />
-                  <h3 className="font-bold text-base text-neutral-900 dark:text-white">Filtres de Séances</h3>
+                  <h3 className="font-semibold text-base text-neutral-900 dark:text-white">Filtres de Séances</h3>
                 </div>
                 <div className="flex items-center gap-3">
                   {activeFilterCount > 0 && (
                     <button
                       type="button"
                       onClick={clearAll}
-                      className="text-xs font-semibold text-rose-500 hover:underline"
+                      className="text-xs font-medium text-rose-500 hover:underline"
                     >
                       Effacer tout ({activeFilterCount})
                     </button>
@@ -260,33 +440,33 @@ export function FilterBar({
               <div className="flex-1 overflow-y-auto space-y-6 px-5 py-5 overscroll-contain">
                 {/* 1. Statuts & Sélections Rapides */}
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-neutral-400 mb-2.5">
+                  <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 dark:text-neutral-500 mb-2.5">
                     Sélection rapide
                   </label>
                   <div className="flex flex-wrap gap-2">
                     <button
                       type="button"
                       onClick={() => onFiltersChange({ showOnlyFavorites: !filters.showOnlyFavorites })}
-                      className={`px-3.5 py-2 rounded-2xl text-xs font-semibold border flex items-center gap-1.5 transition-all ${
+                      className={`px-3 py-1.5 rounded-2xl text-xs font-medium border flex items-center gap-1.5 transition-all ${
                         filters.showOnlyFavorites
                           ? 'bg-rose-500 border-rose-500 text-white shadow-sm'
                           : 'bg-neutral-100 dark:bg-[#2c2c2e] border-transparent text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/15'
                       }`}
                     >
-                      <Heart size={14} className={filters.showOnlyFavorites ? 'fill-white' : ''} />
+                      <Heart size={13} className={filters.showOnlyFavorites ? 'fill-white' : ''} />
                       <span>Favoris uniquement</span>
                     </button>
 
                     <button
                       type="button"
                       onClick={() => onFiltersChange({ showOnlyNew: !filters.showOnlyNew })}
-                      className={`px-3.5 py-2 rounded-2xl text-xs font-semibold border flex items-center gap-1.5 transition-all ${
+                      className={`px-3 py-1.5 rounded-2xl text-xs font-medium border flex items-center gap-1.5 transition-all ${
                         filters.showOnlyNew
                           ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
                           : 'bg-neutral-100 dark:bg-[#2c2c2e] border-transparent text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/15'
                       }`}
                     >
-                      <Sparkles size={14} />
+                      <Sparkles size={13} />
                       <span>Nouveautés de la semaine</span>
                     </button>
                   </div>
@@ -294,16 +474,16 @@ export function FilterBar({
 
                 {/* 2. Formats & Expériences */}
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-neutral-400 mb-2.5">
+                  <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 dark:text-neutral-500 mb-2.5">
                     Formats &amp; Expériences
                   </label>
                   <div className="flex flex-wrap gap-2">
-                    {['IMAX', '3D', 'Dolby Cinema', '4DX', 'ScreenX', 'ICE', 'VOST', 'VF'].map((fmt) => (
+                    {FORMAT_OPTIONS.map((fmt) => (
                       <button
                         key={fmt}
                         type="button"
                         onClick={() => toggleFormat(fmt)}
-                        className={`px-3.5 py-2 rounded-2xl text-xs font-semibold border transition-all ${
+                        className={`px-3 py-1.5 rounded-2xl text-xs font-medium border transition-all ${
                           filters.formats.includes(fmt)
                             ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
                             : 'bg-neutral-100 dark:bg-[#2c2c2e] border-transparent text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/15'
@@ -317,22 +497,17 @@ export function FilterBar({
 
                 {/* 3. Créneaux Horaires */}
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-neutral-400 mb-2.5">
+                  <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 dark:text-neutral-500 mb-2.5">
                     Créneau Horaire
                   </label>
-                  <div className="grid grid-cols-2 gap-2">
-                    {[
-                      { id: 'morning', label: 'Matin (avant 12h)' },
-                      { id: 'afternoon', label: 'Après-midi (12h-18h)' },
-                      { id: 'evening', label: 'Soirée (18h-22h)' },
-                      { id: 'night', label: 'Nuit (après 22h)' },
-                    ].map((slot) => (
+                  <div className="flex flex-wrap gap-2">
+                    {TIME_SLOTS.map((slot) => (
                       <button
                         key={slot.id}
                         type="button"
-                        onClick={() => toggleTimeSlot(slot.id as TimeSlot)}
-                        className={`p-3 rounded-2xl text-xs font-semibold text-left border transition-all ${
-                          filters.timeSlots.includes(slot.id as TimeSlot)
+                        onClick={() => toggleTimeSlot(slot.id)}
+                        className={`px-3 py-1.5 rounded-2xl text-xs font-medium border transition-all ${
+                          filters.timeSlots.includes(slot.id)
                             ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
                             : 'bg-neutral-100 dark:bg-[#2c2c2e] border-transparent text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/15'
                         }`}
@@ -343,10 +518,10 @@ export function FilterBar({
                   </div>
                 </div>
 
-                {/* 4. Genres (Affichage continu sans sous-scrolls) */}
+                {/* 4. Genres */}
                 {options.genres && options.genres.length > 0 && (
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-neutral-400 mb-2.5">
+                    <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 dark:text-neutral-500 mb-2.5">
                       Genres
                     </label>
                     <div className="flex flex-wrap gap-2">
@@ -368,10 +543,10 @@ export function FilterBar({
                   </div>
                 )}
 
-                {/* 5. Cinémas Lyonnais (Affichage continu sans sous-scrolls) */}
+                {/* 5. Cinémas Lyonnais */}
                 {options.cinemas && options.cinemas.length > 0 && (
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-neutral-400 mb-2.5">
+                    <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 dark:text-neutral-500 mb-2.5">
                       Cinémas Lyonnais
                     </label>
                     <div className="flex flex-wrap gap-2">
@@ -392,6 +567,78 @@ export function FilterBar({
                     </div>
                   </div>
                 )}
+
+                {/* 6. Réalisateurs */}
+                {options.directors && options.directors.length > 0 && (
+                  <div>
+                    <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 dark:text-neutral-500 mb-2.5">
+                      Réalisateurs
+                    </label>
+                    {options.directors.length > 8 && (
+                      <div className="mb-2.5">
+                        <input
+                          type="text"
+                          value={directorSearch}
+                          onChange={(e) => setDirectorSearch(e.target.value)}
+                          placeholder="Rechercher un réalisateur..."
+                          className="w-full px-3 py-1.5 rounded-xl bg-neutral-100 dark:bg-[#2c2c2e] border border-black/5 dark:border-white/10 text-xs text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-none focus:border-[#444cf7]"
+                        />
+                      </div>
+                    )}
+                    <div className="flex flex-wrap gap-2">
+                      {filteredDirectors.map((d) => (
+                        <button
+                          key={d}
+                          type="button"
+                          onClick={() => toggleDirector(d)}
+                          className={`px-3 py-1.5 rounded-2xl text-xs font-medium border transition-all ${
+                            filters.directors.includes(d)
+                              ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
+                              : 'bg-neutral-100 dark:bg-[#2c2c2e] border-transparent text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/15'
+                          }`}
+                        >
+                          {d}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* 7. Acteurs & Casting */}
+                {options.actors && options.actors.length > 0 && (
+                  <div>
+                    <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 dark:text-neutral-500 mb-2.5">
+                      Acteurs &amp; Casting
+                    </label>
+                    {options.actors.length > 8 && (
+                      <div className="mb-2.5">
+                        <input
+                          type="text"
+                          value={actorSearch}
+                          onChange={(e) => setActorSearch(e.target.value)}
+                          placeholder="Rechercher un acteur..."
+                          className="w-full px-3 py-1.5 rounded-xl bg-neutral-100 dark:bg-[#2c2c2e] border border-black/5 dark:border-white/10 text-xs text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-none focus:border-[#444cf7]"
+                        />
+                      </div>
+                    )}
+                    <div className="flex flex-wrap gap-2">
+                      {filteredActors.map((a) => (
+                        <button
+                          key={a}
+                          type="button"
+                          onClick={() => toggleActor(a)}
+                          className={`px-3 py-1.5 rounded-2xl text-xs font-medium border transition-all ${
+                            filters.actors?.includes(a)
+                              ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
+                              : 'bg-neutral-100 dark:bg-[#2c2c2e] border-transparent text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/15'
+                          }`}
+                        >
+                          {a}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Footer */}
@@ -402,7 +649,7 @@ export function FilterBar({
                 <button
                   type="button"
                   onClick={() => setShowFiltersModal(false)}
-                  className="px-6 py-2.5 rounded-2xl bg-[#444cf7] hover:bg-[#3339c4] text-white font-bold text-xs shadow-md shadow-[#444cf7]/25 transition-all active:scale-95"
+                  className="px-6 py-2.5 rounded-2xl bg-[#444cf7] hover:bg-[#3339c4] text-white font-medium text-xs shadow-md shadow-[#444cf7]/25 transition-all active:scale-95"
                 >
                   Afficher les séances
                 </button>

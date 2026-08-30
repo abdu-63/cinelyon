@@ -3,15 +3,27 @@
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *, .dark, .dark *));
 
 @theme {
-  --font-sans: 'HealTheWebA', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
-  --font-montserrat: 'MontserratExtraBold', sans-serif;
-  --font-heal-a: 'HealTheWebA', sans-serif;
-  --font-heal-b: 'HealTheWebB', sans-serif;
+  --font-sans: 'HealTheWebA', 'HealTheWebA-Regular', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+  --font-montserrat: 'Montserrat-ExtraBold', 'MontserratExtraBold', sans-serif;
+  --font-heal-a: 'HealTheWebA', 'HealTheWebA-Regular', sans-serif;
+  --font-heal-b: 'HealTheWebB', 'HealTheWebB-Regular', sans-serif;
+  --font-impact: 'Impact', Impact, fantasy, sans-serif;
+  --font-marykate: 'MarykateRegular-French', 'MarykateRegular', cursive, sans-serif;
+  --font-helvetica: 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-mono: Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 }
 
-/* ── Polices personnalisées CinéLyon ── */
+/* ── Polices personnalisées CinéLyon (Parité intégrale Mobile & Web) ── */
 @font-face {
   font-family: 'HealTheWebA';
+  src: url('/font/HealTheWebA-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HealTheWebA-Regular';
   src: url('/font/HealTheWebA-Regular.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
@@ -27,10 +39,74 @@
 }
 
 @font-face {
+  font-family: 'HealTheWebB-Regular';
+  src: url('/font/HealTheWebB-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'MontserratExtraBold';
   src: url('/font/montserrat_extrabold.ttf') format('truetype');
   font-weight: 800;
   font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Montserrat-ExtraBold';
+  src: url('/font/montserrat_extrabold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Impact';
+  src: url('/font/impact.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MarykateRegular-French';
+  src: url('/font/MarykateRegular-French.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MarykateRegular';
+  src: url('/font/MarykateRegular-French.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HelveticaNeue';
+  src: url('/font/HelveticaNeue_Helvetica Neue_Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HelveticaNeue';
+  src: url('/font/HelveticaNeue_Helvetica Neue_Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HelveticaNeue';
+  src: url('/font/HelveticaNeue_Helvetica Neue_Bold Italic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
   font-display: swap;
 }
 
@@ -77,20 +153,32 @@ button,
 select,
 textarea,
 optgroup {
-  font-family: 'HealTheWebA', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+  font-family: 'HealTheWebA', 'HealTheWebA-Regular', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
 }
 
 .font-montserrat,
 .font-title {
-  font-family: 'MontserratExtraBold', sans-serif !important;
+  font-family: 'Montserrat-ExtraBold', 'MontserratExtraBold', sans-serif !important;
 }
 
 .font-heal-a {
-  font-family: 'HealTheWebA', sans-serif !important;
+  font-family: 'HealTheWebA', 'HealTheWebA-Regular', sans-serif !important;
 }
 
 .font-heal-b {
-  font-family: 'HealTheWebB', sans-serif !important;
+  font-family: 'HealTheWebB', 'HealTheWebB-Regular', sans-serif !important;
+}
+
+.font-impact {
+  font-family: 'Impact', Impact, sans-serif !important;
+}
+
+.font-marykate {
+  font-family: 'MarykateRegular-French', 'MarykateRegular', cursive, sans-serif !important;
+}
+
+.font-helvetica {
+  font-family: 'HelveticaNeue', 'Helvetica Neue', sans-serif !important;
 }
 
 body {

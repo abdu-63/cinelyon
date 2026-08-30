@@ -23,20 +23,28 @@ export default function Footer() {
         </p>
 
         {/* Liens & Réseaux */}
-        <div className="flex items-center justify-center gap-4 text-xs font-semibold">
-          <Link href="/" className="text-neutral-700 dark:text-neutral-300 hover:text-[#444cf7]">
+        <div className="flex flex-wrap items-center justify-center gap-x-3.5 gap-y-1.5 text-xs font-medium">
+          <Link href="/" className="text-neutral-700 dark:text-neutral-300 hover:text-[#444cf7] transition-colors">
             Séances
           </Link>
-          <span>•</span>
-          <Link href="/suggestions" className="text-neutral-700 dark:text-neutral-300 hover:text-[#444cf7]">
+          <span className="text-neutral-400 dark:text-neutral-600">•</span>
+          <Link href="/suggestions" className="text-neutral-700 dark:text-neutral-300 hover:text-[#444cf7] transition-colors">
             Suggestions & Bugs
           </Link>
-          <span>•</span>
+          <span className="text-neutral-400 dark:text-neutral-600">•</span>
+          <Link href="/politique-de-confidentialite" className="text-neutral-700 dark:text-neutral-300 hover:text-[#444cf7] transition-colors">
+            Politique de confidentialité
+          </Link>
+          <span className="text-neutral-400 dark:text-neutral-600">•</span>
+          <Link href="/cgu" className="text-neutral-700 dark:text-neutral-300 hover:text-[#444cf7] transition-colors">
+            Conditions d&apos;utilisation
+          </Link>
+          <span className="text-neutral-400 dark:text-neutral-600">•</span>
           <a
             href="https://www.instagram.com/cinelyon.fr/"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-neutral-700 dark:text-neutral-300 hover:text-[#e1306c]"
+            className="flex items-center gap-1.5 text-neutral-700 dark:text-neutral-300 hover:text-[#e1306c] transition-colors"
           >
             <InstagramIcon size={14} />
             <span>@cinelyon.fr</span>

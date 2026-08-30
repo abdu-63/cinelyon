@@ -64,16 +64,21 @@ export const STREAMING_PROVIDERS: Record<string, StreamingProviderConfig> = {
   },
 };
 
-export function openStreamingProvider(providerName: string, movieTitle: string): void {
+export function getStreamingProviderWebUrl(providerName: string, movieTitle: string): string {
   const normalized = providerName.toLowerCase();
   const matchedKey = Object.keys(STREAMING_PROVIDERS).find((key) => normalized.includes(key));
   const config = matchedKey ? STREAMING_PROVIDERS[matchedKey] : null;
 
   if (config) {
-    const webUrl = config.getWebUrl(movieTitle);
+    return config.getWebUrl(movieTitle);
+  }
+  return `https://www.justwatch.com/fr/recherche?q=${encodeURIComponent(movieTitle)}`;
+}
+
+export function openStreamingProvider(providerName: string, movieTitle: string): void {
+  const webUrl = getStreamingProviderWebUrl(providerName, movieTitle);
+  if (typeof window !== 'undefined') {
     window.open(webUrl, '_blank', 'noopener,noreferrer');
-  } else {
-    const fallbackUrl = `https://www.justwatch.com/fr/recherche?q=${encodeURIComponent(movieTitle)}`;
-    window.open(fallbackUrl, '_blank', 'noopener,noreferrer');
   }
 }
+

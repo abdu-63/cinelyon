@@ -247,19 +247,47 @@ function parseTimeToMinutes(timeStr: string): number {
   return h * 60 + (m || 0);
 }
 
-function matchesTimeSlot(timeStr: string, slot: TimeSlot): boolean {
-  const mins = parseTimeToMinutes(timeStr);
+export function checkTimeSlot(timeStr: string, slot: TimeSlot): boolean {
+  const [h, m] = timeStr.split(':').map(Number);
+  const total = h * 60 + (m || 0);
   switch (slot) {
     case 'morning':
-      return mins < 12 * 60;
+      return total < 12 * 60; // avant 12h
     case 'afternoon':
-      return mins >= 12 * 60 && mins < 18 * 60;
+      return total >= 12 * 60 && total < 18 * 60; // 12h-18h
     case 'evening':
+      return total >= 18 * 60 && total < 22 * 60; // 18h-22h
     case 'night':
-      return mins >= 18 * 60;
+      return total >= 22 * 60; // après 22h
     default:
       return false;
   }
+}
+
+function matchesFormatOrLang(s: Seance, formatFilter: string): boolean {
+  const lowerF = formatFilter.toLowerCase().trim();
+  if (lowerF === 'vost' || lowerF === 'vo') {
+    return s.lang === 'VO' || (!!s.format && s.format.toLowerCase().includes('vost'));
+  }
+  if (lowerF === 'vf') {
+    return s.lang === 'VF' || (!!s.format && s.format.toLowerCase().includes('vf'));
+  }
+  if (lowerF.includes('dolby')) {
+    return !!s.format && s.format.toLowerCase().includes('dolby');
+  }
+  return !!s.format && s.format.toLowerCase().includes(lowerF);
+}
+
+function matchesCinema(cinemaName: string, cinemaFilter: string): boolean {
+  const lowerQuery = cinemaFilter.toLowerCase().trim();
+  if (lowerQuery.startsWith('group:')) {
+    const group = lowerQuery.split(':')[1];
+    const lc = cinemaName.toLowerCase();
+    if (group === 'pathe') return lc.includes('pathé') || lc.includes('pathe');
+    if (group === 'ugc') return lc.includes('ugc');
+    if (group === 'lumiere') return lc.includes('lumière') || lc.includes('lumiere') || lc.includes('institut lumière');
+  }
+  return cinemaName.toLowerCase().includes(lowerQuery);
 }
 
 export function filterFilms(
@@ -269,38 +297,62 @@ export function filterFilms(
   favoriteIds: string[] = []
 ): Film[] {
   const {
-    titleQuery,
-    genres: activeGenres,
-    directors: activeDirectors,
-    cinemas: activeCinemas,
-    formats: activeFormats,
-    timeSlots: activeTimeSlots,
-    showOnlyFavorites,
-    showOnlyNew,
-    showOnlyYesterday,
-    showOnlyDayBefore,
-    dayIndex,
+    titleQuery = '',
+    genres: activeGenres = [],
+    directors: activeDirectors = [],
+    actors: activeActors = [],
+    cinemas: activeCinemas = [],
+    formats: activeFormats = [],
+    timeSlots: activeTimeSlots = [],
+    showOnlyFavorites = false,
+    showOnlyNew = false,
+    showOnlyYesterday = false,
+    showOnlyDayBefore = false,
+    dayIndex = null,
   } = filters;
 
   const normalizedTitleQuery = normalizeString(titleQuery);
 
-  return films.filter((film) => {
-    if (showOnlyFavorites && !favoriteIds.includes(film.filmId || film.slug)) {
-      return false;
+  let filtered = films;
+
+  // 1. Filtrage nouveautés
+  if (showOnlyNew) {
+    filtered = filtered.filter((f) => f.isNew || isTimestampInAgeRange(f.added_at, 0, 7 * 24));
+  } else if (showOnlyYesterday) {
+    filtered = filtered.filter((f) => f.isYesterday);
+  } else if (showOnlyDayBefore) {
+    filtered = filtered.filter((f) => f.isDayBefore);
+  }
+
+  // 2. Filtres attributs généraux du film
+  filtered = filtered.filter((film) => {
+    // Favoris
+    if (showOnlyFavorites) {
+      const isFav = favoriteIds.includes(film.filmId) || favoriteIds.includes(film.slug);
+      if (!isFav) return false;
     }
 
-    if (showOnlyNew && !film.isNew) return false;
-    if (showOnlyYesterday && !film.isYesterday) return false;
-    if (showOnlyDayBefore && !film.isDayBefore) return false;
-
+    // Recherche titre / réalisateur / casting
     if (normalizedTitleQuery) {
       const matchTitle = normalizeString(film.title).includes(normalizedTitleQuery);
       const matchDirector = normalizeString(film.director || film.realisateur || '').includes(
         normalizedTitleQuery
       );
-      if (!matchTitle && !matchDirector) return false;
+      const matchCast =
+        (film.cast &&
+          Array.isArray(film.cast) &&
+          film.cast.some((m) => {
+            const name = typeof m === 'string' ? m : m?.name;
+            return name && normalizeString(name).includes(normalizedTitleQuery);
+          })) ||
+        (film.actors &&
+          Array.isArray(film.actors) &&
+          film.actors.some((a) => a && normalizeString(a).includes(normalizedTitleQuery)));
+
+      if (!matchTitle && !matchDirector && !matchCast) return false;
     }
 
+    // Genres (OU logique entre les genres sélectionnés)
     if (activeGenres.length > 0) {
       const hasGenre = activeGenres.some((g) =>
         normalizeString(film.genres).includes(normalizeString(g))
@@ -308,6 +360,7 @@ export function filterFilms(
       if (!hasGenre) return false;
     }
 
+    // Réalisateurs (OU logique)
     if (activeDirectors.length > 0) {
       const hasDirector = activeDirectors.some((d) =>
         normalizeString(film.director || film.realisateur || '').includes(normalizeString(d))
@@ -315,44 +368,131 @@ export function filterFilms(
       if (!hasDirector) return false;
     }
 
-    if (dayIndex !== null && dates[dayIndex]) {
-      const selectedDayLabel = formatDayLabel(dates[dayIndex]);
-      const seancesThisDay = film.seancesByDay[selectedDayLabel];
-      if (!seancesThisDay || Object.keys(seancesThisDay).length === 0) return false;
-    }
-
-    if (activeCinemas.length > 0) {
-      const playsInCinema = Object.values(film.seancesByDay).some((cinemaMap) =>
-        activeCinemas.some((c) => cinemaMap[c] && cinemaMap[c].length > 0)
-      );
-      if (!playsInCinema) return false;
-    }
-
-    if (activeFormats.length > 0) {
-      const hasFormat = activeFormats.some((fmt) =>
-        film.formats.toLowerCase().includes(fmt.toLowerCase())
-      );
-      if (!hasFormat) return false;
-    }
-
-    if (activeTimeSlots.length > 0) {
-      const hasSlot = Object.values(film.seancesByDay).some((cinemaMap) =>
-        Object.values(cinemaMap).some((seances) =>
-          seances.some((s) => activeTimeSlots.some((slot) => matchesTimeSlot(s.time, slot)))
-        )
-      );
-      if (!hasSlot) return false;
+    // Acteurs (OU logique)
+    if (activeActors.length > 0) {
+      const hasActor = activeActors.some((targetActor) => {
+        const normTarget = normalizeString(targetActor);
+        const inCast =
+          film.cast &&
+          Array.isArray(film.cast) &&
+          film.cast.some((m) => {
+            const name = typeof m === 'string' ? m : m?.name;
+            return name && normalizeString(name).includes(normTarget);
+          });
+        const inActors =
+          film.actors &&
+          Array.isArray(film.actors) &&
+          film.actors.some((a) => a && normalizeString(a).includes(normTarget));
+        return inCast || inActors;
+      });
+      if (!hasActor) return false;
     }
 
     return true;
   });
+
+  // 3. Filtres séances & cinémas (Cinémas, Formats, Créneaux horaires, Jour spécifique)
+  const hasScreeningFilters =
+    activeCinemas.length > 0 ||
+    activeFormats.length > 0 ||
+    activeTimeSlots.length > 0 ||
+    dayIndex !== null;
+
+  if (hasScreeningFilters) {
+    const selectedDayLabel =
+      dayIndex !== null && dates[dayIndex] ? formatDayLabel(dates[dayIndex]) : null;
+
+    filtered = filtered
+      .map((film) => {
+        const newSeancesByDay: Record<string, Record<string, Seance[]>> = {};
+
+        for (const [dayLabel, cinemas] of Object.entries(film.seancesByDay)) {
+          if (selectedDayLabel && dayLabel !== selectedDayLabel) {
+            continue;
+          }
+
+          const filteredCinemas: Record<string, Seance[]> = {};
+
+          for (const [cinemaName, seances] of Object.entries(cinemas)) {
+            // Filtrage cinéma
+            if (activeCinemas.length > 0) {
+              const cinemaMatches = activeCinemas.some((c) => matchesCinema(cinemaName, c));
+              if (!cinemaMatches) continue;
+            }
+
+            // Filtrage séance par format et créneau horaire
+            const filteredSeances = seances.filter((s) => {
+              if (activeFormats.length > 0) {
+                const formatMatches = activeFormats.some((f) => matchesFormatOrLang(s, f));
+                if (!formatMatches) return false;
+              }
+
+              if (activeTimeSlots.length > 0) {
+                const timeMatches = activeTimeSlots.some((slot) => checkTimeSlot(s.time, slot));
+                if (!timeMatches) return false;
+              }
+
+              return true;
+            });
+
+            if (filteredSeances.length > 0) {
+              filteredCinemas[cinemaName] = filteredSeances;
+            }
+          }
+
+          if (Object.keys(filteredCinemas).length > 0) {
+            newSeancesByDay[dayLabel] = filteredCinemas;
+          }
+        }
+
+        // Reconstituer seancesByDayGrouped et formats
+        const newSeancesByDayGrouped: Film['seancesByDayGrouped'] = {};
+        const filmFormats = new Set<string>();
+
+        for (const [dayLabel, cinemas] of Object.entries(newSeancesByDay)) {
+          const brands: Record<string, Record<string, Seance[]>> = {};
+
+          for (const [cinemaName, seances] of Object.entries(cinemas)) {
+            const brand = getBrand(cinemaName);
+            if (!brands[brand]) brands[brand] = {};
+            brands[brand][cinemaName] = seances;
+
+            for (const seance of seances) {
+              if (seance.format) {
+                seance.format.split(', ').forEach((f) => filmFormats.add(f.trim()));
+              }
+            }
+          }
+
+          newSeancesByDayGrouped[dayLabel] = {};
+          for (const brand of BRAND_ORDER) {
+            if (brands[brand]) newSeancesByDayGrouped[dayLabel][brand] = brands[brand];
+          }
+          for (const brand of Object.keys(brands)) {
+            if (!newSeancesByDayGrouped[dayLabel][brand]) {
+              newSeancesByDayGrouped[dayLabel][brand] = brands[brand];
+            }
+          }
+        }
+
+        return {
+          ...film,
+          seancesByDay: newSeancesByDay,
+          seancesByDayGrouped: newSeancesByDayGrouped,
+          formats: Array.from(filmFormats).join(',').toLowerCase(),
+        };
+      })
+      .filter((film) => Object.keys(film.seancesByDay).length > 0);
+  }
+
+  return filtered;
 }
 
 export function extractFilterOptions(films: Film[]): FilmFilterOptions {
   const genres = new Set<string>();
   const directors = new Set<string>();
+  const actors = new Set<string>();
   const cinemas = new Set<string>();
-  const formats = new Set<string>();
 
   for (const film of films) {
     if (film.genres) {
@@ -361,8 +501,19 @@ export function extractFilterOptions(films: Film[]): FilmFilterOptions {
     if (film.director && film.director !== 'Inconnu') {
       directors.add(film.director);
     }
-    if (film.formats) {
-      film.formats.split(',').forEach((f) => f.trim() && formats.add(f.trim()));
+    if (film.realisateur && film.realisateur !== 'Inconnu' && film.realisateur !== film.director) {
+      directors.add(film.realisateur);
+    }
+    if (film.cast && Array.isArray(film.cast)) {
+      film.cast.forEach((m) => {
+        const name = typeof m === 'string' ? m : m?.name;
+        if (name && name.trim()) actors.add(name.trim());
+      });
+    }
+    if (film.actors && Array.isArray(film.actors)) {
+      film.actors.forEach((a) => {
+        if (a && a.trim()) actors.add(a.trim());
+      });
     }
     for (const cinemaMap of Object.values(film.seancesByDay)) {
       Object.keys(cinemaMap).forEach((c) => cinemas.add(c));
@@ -372,8 +523,8 @@ export function extractFilterOptions(films: Film[]): FilmFilterOptions {
   return {
     genres: Array.from(genres).sort((a, b) => a.localeCompare(b, 'fr')),
     directors: Array.from(directors).sort((a, b) => a.localeCompare(b, 'fr')),
+    actors: Array.from(actors).sort((a, b) => a.localeCompare(b, 'fr')),
     cinemas: Array.from(cinemas).sort((a, b) => a.localeCompare(b, 'fr')),
-    formats: Array.from(formats).sort(),
-    actors: [],
+    formats: ['IMAX', '3D', 'Dolby Cinema', '4DX', 'ScreenX', 'ICE', 'VOST', 'VF'],
   };
 }

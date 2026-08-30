@@ -21,6 +21,7 @@ import {
   MessageSquare,
   Sparkles,
   Calendar,
+  MapPin,
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { findFilmBySlug } from '@/utils/showtimes';
@@ -29,6 +30,8 @@ import { getTodayIso, formatDayLabel, formatLocalizedDayLabel, formatTime } from
 import { PostCreditsBadge } from '@/components/ui/PostCreditsBadge';
 import { ToiletBreaksSection } from '@/components/ui/ToiletBreaksSection';
 import { RottenTomatoesIcon } from '@/components/ui/RottenTomatoesIcon';
+import { JustWatchBadge } from '@/components/ui/JustWatchBadge';
+import { getStreamingProviderWebUrl } from '@/utils/streamingProviders';
 import { downloadICS } from '@/utils/calendarUtils';
 
 export const revalidate = 300;
@@ -390,26 +393,49 @@ export default async function FilmPage({ params }: PageProps) {
 
         {/* ── 10. Disponible sur (Streaming) ── */}
         {film.watch_providers && film.watch_providers.length > 0 && (
-          <div className="space-y-2 px-1">
+          <div className="space-y-3 px-1">
             <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-bold text-sm">
               <Tv size={16} className="text-[#444cf7]" />
               <span>Disponible sur</span>
             </div>
-            <div className="flex items-center gap-3">
-              {film.watch_providers.map((p, i) => (
-                <div key={i} className="flex flex-col items-center text-center">
-                  {p.logo_path && (
-                    <img
-                      src={p.logo_path}
-                      alt={p.name}
-                      className="w-11 h-11 rounded-[14px] object-cover border border-black/10 dark:border-white/10 shadow-sm"
-                    />
-                  )}
-                  <span className="text-[10px] text-neutral-500 dark:text-neutral-400 mt-1 max-w-[70px] truncate">
-                    {p.name}
-                  </span>
-                </div>
-              ))}
+
+            <div className="flex items-center gap-3 overflow-x-auto no-scrollbar py-1">
+              {film.watch_providers.map((p, i) => {
+                const streamUrl = getStreamingProviderWebUrl(p.name, film.title);
+                return (
+                  <a
+                    key={i}
+                    href={streamUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={`Voir ${film.title} sur ${p.name}`}
+                    aria-label={`Voir ${film.title} sur ${p.name} (ouvre dans un nouvel onglet)`}
+                    className="flex flex-col items-center text-center group cursor-pointer transition-transform hover:-translate-y-0.5 active:scale-95 shrink-0"
+                  >
+                    {p.logo_path && (
+                      <div className="relative">
+                        <img
+                          src={p.logo_path}
+                          alt={p.name}
+                          className="w-11 h-11 rounded-[14px] object-cover border border-black/10 dark:border-white/10 shadow-sm group-hover:shadow-md group-hover:border-[#444cf7]/50 transition-all"
+                        />
+                      </div>
+                    )}
+                    <span className="text-[10px] text-neutral-600 dark:text-neutral-400 group-hover:text-[#444cf7] dark:group-hover:text-[#444cf7] mt-1 max-w-[72px] truncate font-medium transition-colors">
+                      {p.name}
+                    </span>
+                  </a>
+                );
+              })}
+            </div>
+
+            {/* Ligne inférieure : Pays à gauche & Source JustWatch à droite (comme Serializd) */}
+            <div className="flex items-center justify-between pt-1 text-xs">
+              <div className="flex items-center gap-1 text-[#00c2cb] font-medium text-xs">
+                <MapPin size={13} className="shrink-0" />
+                <span>France</span>
+              </div>
+              <JustWatchBadge movieTitle={film.title} />
             </div>
           </div>
         )}

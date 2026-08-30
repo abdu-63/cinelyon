@@ -60,6 +60,13 @@ export default function RootLayout({
     <html lang="fr" suppressHydrationWarning>
       <head>
         <ThemeScript />
+        <link
+          rel="preload"
+          href="/font/HealTheWebA-Regular.otf"
+          as="font"
+          type="font/otf"
+          crossOrigin="anonymous"
+        />
         <link rel="preconnect" href="https://wsrv.nl" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://fr.web.img4.acsta.net" />
         <link rel="dns-prefetch" href="https://fr.web.img6.acsta.net" />

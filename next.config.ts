@@ -19,6 +19,26 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  // Redirections d'alias et compatibilité URLs
+  async redirects() {
+    return [
+      {
+        source: '/privacy',
+        destination: '/politique-de-confidentialite',
+        permanent: true,
+      },
+      {
+        source: '/terms',
+        destination: '/cgu',
+        permanent: true,
+      },
+      {
+        source: '/support',
+        destination: '/suggestions',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
