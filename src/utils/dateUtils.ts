@@ -123,7 +123,13 @@ export function formatLocalizedDayMonth(isoDate: string, locale = 'fr'): string 
     const formatted = fmt.format(d);
     result = formatted
       .split(' ')
-      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .map((part) => {
+        const lower = part.toLowerCase().replace(/\.$/, '');
+        if (locale === 'fr' && (lower === 'sep' || lower === 'sept')) {
+          return 'Sept.';
+        }
+        return part.charAt(0).toUpperCase() + part.slice(1);
+      })
       .join(' ');
   } catch {
     const d = parseIsoDateLocal(isoDate);
@@ -148,10 +154,16 @@ export function formatLocalizedDayLabel(isoDate: string, locale = 'fr'): string 
       month: 'short',
     });
     const formatted = fmt.format(d);
-    // Capitaliser chaque mot (ex: "dim. 30 août" -> "Dim. 30 Août")
+    // Capitaliser chaque mot et uniformiser (ex: "dim. 30 août" -> "Dim. 30 Août", "mer. 2 sep." -> "Mer. 2 Sept.")
     result = formatted
       .split(' ')
-      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .map((part) => {
+        const lower = part.toLowerCase().replace(/\.$/, '');
+        if (locale === 'fr' && (lower === 'sep' || lower === 'sept')) {
+          return 'Sept.';
+        }
+        return part.charAt(0).toUpperCase() + part.slice(1);
+      })
       .join(' ');
   } catch {
     const d = parseIsoDateLocal(isoDate);

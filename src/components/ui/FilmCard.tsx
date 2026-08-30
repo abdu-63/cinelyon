@@ -27,7 +27,7 @@ export const FilmCard = memo(function FilmCard({
   onToggleFavorite,
   dates = [],
   selectedDelta = null,
-  hidePastSessions = true,
+  hidePastSessions = false,
 }: FilmCardProps) {
   const { locale } = useTranslation();
   const router = useRouter();
@@ -127,7 +127,7 @@ export const FilmCard = memo(function FilmCard({
               loading="lazy"
             />
             {film.isNew && (
-              <div className="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded-md bg-[#444cf7] text-[8.5px] font-normal tracking-wider text-white shadow-sm">
+              <div className="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded-md bg-[#4f5af6] text-[8.5px] font-normal tracking-wider text-white shadow-sm">
                 NOUVEAU
               </div>
             )}
@@ -138,7 +138,7 @@ export const FilmCard = memo(function FilmCard({
             <div>
               {/* Ligne Titre + Favori */}
               <div className="flex items-start justify-between gap-1">
-                <h3 className="font-normal text-[14px] sm:text-[15px] leading-[18px] text-neutral-900 dark:text-white group-hover:text-[#444cf7] transition-colors line-clamp-2 pr-0.5">
+                <h3 className="font-normal text-[14px] sm:text-[15px] leading-[18px] text-neutral-900 dark:text-white group-hover:text-[#4f5af6] transition-colors line-clamp-2 pr-0.5">
                   {film.title}
                   {film.release_year && film.release_year !== 'inconnue' && (
                     <span className="font-normal text-neutral-500 dark:text-neutral-400 text-[12px] sm:text-[13px]"> ({film.release_year})</span>
@@ -163,7 +163,7 @@ export const FilmCard = memo(function FilmCard({
               </div>
 
               {/* Métadonnées */}
-              <div className="space-y-0.5 text-[10.5px] sm:text-[11px] leading-[15px] text-neutral-700 dark:text-neutral-300 mt-1">
+              <div className="space-y-0.5 text-[10.5px] sm:text-[11px] leading-[15px] text-neutral-700 dark:text-neutral-300 mt-1 font-normal">
                 {film.director && film.director !== 'Inconnu' && (
                   <p className="truncate">
                     <span className="text-neutral-500 dark:text-neutral-400">Réalisateur :</span> <span className="text-neutral-800 dark:text-neutral-200">{film.director}</span>
@@ -188,7 +188,7 @@ export const FilmCard = memo(function FilmCard({
 
               {/* Synopsis Teaser sur Desktop (2 lignes nettes) */}
               {film.synopsis && film.synopsis !== 'Synopsis non disponible' && (
-                <p className="hidden md:line-clamp-2 text-[11px] text-neutral-500 dark:text-neutral-400 mt-1 leading-relaxed">
+                <p className="hidden md:line-clamp-2 text-[11px] font-normal text-neutral-500 dark:text-neutral-400 mt-1 leading-relaxed">
                   {film.synopsis}
                 </p>
               )}
@@ -213,9 +213,9 @@ export const FilmCard = memo(function FilmCard({
               )}
 
               {/* Chevron nav */}
-              <div className="opacity-70 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-neutral-600 dark:text-neutral-400 flex items-center gap-0.5 text-xs font-normal text-[#444cf7]">
+              <div className="opacity-70 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-neutral-600 dark:text-neutral-400 flex items-center gap-0.5 text-xs font-normal text-[#4f5af6]">
                 <span className="hidden sm:inline text-[11px] font-normal">Détails</span>
-                <ChevronRight size={15} className="text-[#444cf7]" />
+                <ChevronRight size={15} className="text-[#4f5af6]" />
               </div>
             </div>
           </div>
@@ -224,7 +224,7 @@ export const FilmCard = memo(function FilmCard({
 
       {/* ── 2. Bouton Jour & Séances dépliables sous la carte ── */}
       {visibleDayLabels.length > 0 && (
-        <div className="mt-2 pl-0.5 sm:pl-1">
+        <div className="mt-1.5 pl-0.5 sm:pl-1">
           {/* Mini-calendrier du film */}
           <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1">
             {visibleDayLabels.map((dayLabel) => {
@@ -244,7 +244,7 @@ export const FilmCard = memo(function FilmCard({
                   onClick={() => handleDayClick(dayLabel)}
                   className={`relative px-3.5 py-1.5 rounded-[18px] text-[12px] font-normal tracking-tight transition-all shrink-0 active:scale-95 touch-manipulation select-none ${
                     isActive
-                      ? 'bg-[#444cf7] text-white shadow-xs'
+                      ? 'bg-[#4f5af6] text-white shadow-xs'
                       : 'bg-[#f0f2f5] dark:bg-[#252528] text-neutral-800 dark:text-neutral-200 hover:bg-neutral-200/80 dark:hover:bg-[#2e2e32]'
                   }`}
                 >
@@ -259,9 +259,9 @@ export const FilmCard = memo(function FilmCard({
 
           {/* Déploiement des séances */}
           {activeDayLabel && (
-            <div className="mt-2 space-y-2 animate-in fade-in duration-150">
+            <div className="mt-1.5 space-y-[6px] animate-in fade-in duration-150">
               {totalVisibleSeances === 0 ? (
-                <div className="py-2.5 px-3.5 rounded-[14px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 text-center text-xs text-neutral-500 dark:text-neutral-400 shadow-2xs">
+                <div className="py-2.5 px-3.5 rounded-[14px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 text-center text-xs font-normal text-neutral-500 dark:text-neutral-400 shadow-2xs">
                   Toutes les séances de cette journée sont passées.
                 </div>
               ) : (
@@ -275,27 +275,27 @@ export const FilmCard = memo(function FilmCard({
                   if (visibleSeances.length === 0) return null;
 
                   return (
-                    <div key={cinemaName} className="flex items-center gap-2">
-                      {/* Badge Cinéma compact (identique à l'application mobile : 82px, h-[44px], rounded-[14px]) */}
-                      <div className="w-[82px] min-w-[82px] max-w-[82px] h-[44px] shrink-0 rounded-[14px] bg-[#444cf7] text-white flex items-center justify-center px-1.5 py-1 text-center shadow-xs">
-                        <span className="text-[11px] font-normal leading-[13px] line-clamp-2 text-center">
+                    <div key={cinemaName} className="flex items-center gap-1.5">
+                      {/* Badge Cinéma (Portage exact mobile : width 100px, height 42px, borderRadius 5px, font-normal) */}
+                      <div className="w-[100px] min-w-[100px] max-w-[100px] h-[42px] shrink-0 rounded-[5px] bg-[#4f5af6] text-white flex items-center justify-center px-1.5 py-1 text-center shadow-xs">
+                        <span className="text-[12px] font-normal leading-[14px] line-clamp-3 text-center">
                           {cinemaName}
                         </span>
                       </div>
 
                       {/* Horaires horizontaux */}
-                      <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5 pr-2">
+                      <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 pr-2">
                         {visibleSeances.map((seance, idx) => {
                           const langBadge = formatSeanceLang(seance.lang, film.original_language);
                           return (
                             <div
                               key={`${seance.time}-${idx}`}
-                              className="shrink-0 h-[44px] min-w-[66px] sm:min-w-[70px] px-2.5 py-1.5 rounded-[14px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 hover:border-[#444cf7]/60 dark:hover:border-[#444cf7]/60 flex flex-col justify-between transition-colors group/pill"
+                              className="shrink-0 h-[42px] min-w-[72px] px-2 py-1 rounded-[10px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 hover:border-[#4f5af6]/60 dark:hover:border-[#4f5af6]/60 flex flex-col justify-between transition-colors group/pill"
                             >
-                              <div className="flex items-center justify-between gap-1 text-[9px] font-normal text-neutral-400 leading-none">
+                              <div className="flex items-center justify-between gap-1 text-[9px] font-normal text-[#999] leading-none pt-0.5">
                                 <span>{langBadge}</span>
                                 {seance.format && (
-                                  <span className="text-[8px] uppercase text-neutral-400 truncate max-w-[40px]">
+                                  <span className="text-[8px] font-normal uppercase text-[#999] truncate max-w-[42px]">
                                     {seance.format.split(', ')[0]}
                                   </span>
                                 )}
@@ -306,7 +306,7 @@ export const FilmCard = memo(function FilmCard({
                                   href={seance.ticketing_url || undefined}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className={`text-[13.5px] font-normal text-[#444cf7] group-hover/pill:underline leading-none ${
+                                  className={`text-[13px] font-normal text-[#4f5af6] group-hover/pill:underline leading-none ${
                                     !seance.ticketing_url ? 'cursor-default' : ''
                                   }`}
                                 >
@@ -327,11 +327,11 @@ export const FilmCard = memo(function FilmCard({
                                       ticketUrl: seance.ticketing_url || undefined,
                                     });
                                   }}
-                                  className="text-neutral-400 hover:text-neutral-800 dark:hover:text-white p-0.5 transition-colors touch-manipulation"
+                                  className="text-[#999] hover:text-neutral-800 dark:hover:text-white p-0.5 transition-colors touch-manipulation"
                                   title="Ajouter au calendrier"
                                   aria-label="Ajouter au calendrier"
                                 >
-                                  <Calendar size={12} />
+                                  <Calendar size={13} />
                                 </button>
                               </div>
                             </div>

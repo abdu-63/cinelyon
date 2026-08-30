@@ -123,7 +123,7 @@ export function ChatBot() {
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.92 }}
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#444cf7] text-white shadow-xl shadow-[#444cf7]/40 hover:shadow-2xl flex items-center justify-center border border-white/20 transition-transform"
+        className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#4f5af6] text-white shadow-xl shadow-[#4f5af6]/40 hover:shadow-2xl flex items-center justify-center border border-white/20 transition-transform"
         aria-label="Discuter avec CinéBot"
       >
         <Sparkles size={22} className="text-white" />
@@ -156,7 +156,7 @@ export function ChatBot() {
               {/* Header */}
               <div className="p-4 border-b border-black/[0.06] dark:border-white/10 flex items-center justify-between shrink-0">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-full bg-[#444cf7] text-white flex items-center justify-center shadow-sm">
+                  <div className="w-8 h-8 rounded-full bg-[#4f5af6] text-white flex items-center justify-center shadow-sm">
                     <Sparkles size={16} />
                   </div>
                   <div>
@@ -192,7 +192,7 @@ export function ChatBot() {
                 {/* Hero CinéBot IA si aucun message utilisateur */}
                 {messages.length <= 1 && (
                   <div className="text-center space-y-3 pt-2 pb-2">
-                    <div className="w-16 h-16 rounded-full bg-[#444cf7] text-white flex items-center justify-center mx-auto shadow-lg shadow-[#444cf7]/25">
+                    <div className="w-16 h-16 rounded-full bg-[#4f5af6] text-white flex items-center justify-center mx-auto shadow-lg shadow-[#4f5af6]/25">
                       <Sparkles size={28} />
                     </div>
                     <h2 className="text-xl font-extrabold text-neutral-900 dark:text-white">
@@ -211,12 +211,12 @@ export function ChatBot() {
                             key={i}
                             type="button"
                             onClick={() => sendMessage(card.query)}
-                            className="p-3.5 rounded-[20px] bg-neutral-50 dark:bg-[#242428] border border-black/[0.06] dark:border-white/10 hover:border-[#444cf7] transition-all text-left shadow-sm group"
+                            className="p-3.5 rounded-[20px] bg-neutral-50 dark:bg-[#242428] border border-black/[0.06] dark:border-white/10 hover:border-[#4f5af6] transition-all text-left shadow-sm group"
                           >
-                            <div className="w-8 h-8 rounded-xl bg-[#444cf7]/10 text-[#444cf7] flex items-center justify-center mb-2">
+                            <div className="w-8 h-8 rounded-xl bg-[#4f5af6]/10 text-[#4f5af6] flex items-center justify-center mb-2">
                               <IconComponent size={17} />
                             </div>
-                            <h4 className="text-xs font-bold text-neutral-900 dark:text-white group-hover:text-[#444cf7] transition-colors">
+                            <h4 className="text-xs font-bold text-neutral-900 dark:text-white group-hover:text-[#4f5af6] transition-colors">
                               {card.title}
                             </h4>
                             <p className="text-[10px] text-neutral-500 dark:text-neutral-400 mt-0.5 line-clamp-1">
@@ -238,14 +238,14 @@ export function ChatBot() {
                     }`}
                   >
                     {m.role === 'bot' && (
-                      <div className="w-7 h-7 rounded-full bg-[#444cf7] text-white flex items-center justify-center shrink-0 mt-0.5">
+                      <div className="w-7 h-7 rounded-full bg-[#4f5af6] text-white flex items-center justify-center shrink-0 mt-0.5">
                         <Sparkles size={13} />
                       </div>
                     )}
                     <div
                       className={`max-w-[82%] px-4 py-3 rounded-[20px] text-xs sm:text-sm leading-relaxed shadow-sm ${
                         m.role === 'user'
-                          ? 'bg-[#444cf7] text-white rounded-br-none'
+                          ? 'bg-[#4f5af6] text-white rounded-br-none'
                           : 'bg-neutral-100 dark:bg-[#242428] text-neutral-900 dark:text-white rounded-bl-none border border-transparent dark:border-white/5'
                       }`}
                     >

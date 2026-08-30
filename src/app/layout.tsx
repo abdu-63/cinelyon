@@ -2,7 +2,6 @@
 // Layout racine — Providers, Navigation Hybride et Modales Globales
 
 import type { Metadata, Viewport } from 'next';
-import Script from 'next/script';
 import '@/styles/globals.css';
 import Footer from '@/components/layout/Footer';
 import { GlobalModals } from '@/components/layout/GlobalModals';
@@ -59,8 +58,7 @@ export default function RootLayout({
   return (
     <html lang="fr" suppressHydrationWarning>
       <head>
-        {/* Polyfills chargés avant React pour WebKit iOS 15.1 */}
-        <Script src="/polyfills.js" strategy="beforeInteractive" />
+        {/* Polyfills universels WebKit iOS 15.1 & Initialisation du thème FOUC-free */}
         <ThemeScript />
         <link
           rel="preload"
@@ -74,7 +72,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://fr.web.img6.acsta.net" />
         <link rel="dns-prefetch" href="https://image.tmdb.org" />
       </head>
-      <body className="min-h-screen flex flex-col bg-[#f5f6f8] dark:bg-[#121214] text-neutral-900 dark:text-white selection:bg-[#444cf7] selection:text-white antialiased transition-colors duration-150">
+      <body className="min-h-screen flex flex-col bg-[#f5f6f8] dark:bg-[#121214] text-neutral-900 dark:text-white selection:bg-[#4f5af6] selection:text-white antialiased transition-colors duration-150">
         <QueryClientProvider>
           <ThemeProvider>
             <I18nProvider>

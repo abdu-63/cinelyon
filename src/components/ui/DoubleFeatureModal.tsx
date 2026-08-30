@@ -85,7 +85,7 @@ export function DoubleFeatureModal({
             {/* Header */}
             <div className="flex items-center justify-between p-4 sm:p-5 border-b border-black/[0.06] dark:border-white/10 bg-white dark:bg-[#1c1c1e]">
               <div className="flex items-center gap-2.5">
-                <div className="w-10 h-10 rounded-2xl bg-[#444cf7]/10 text-[#444cf7] flex items-center justify-center">
+                <div className="w-10 h-10 rounded-2xl bg-[#4f5af6]/10 text-[#4f5af6] flex items-center justify-center">
                   <Timer size={22} />
                 </div>
                 <div>
@@ -116,7 +116,7 @@ export function DoubleFeatureModal({
                     onClick={() => setSelectedDayIdx(idx)}
                     className={`px-3 py-1.5 rounded-xl text-xs font-normal transition-all shrink-0 active:scale-95 touch-manipulation ${
                       selectedDayIdx === idx
-                        ? 'bg-[#444cf7] text-white shadow-xs'
+                        ? 'bg-[#4f5af6] text-white shadow-xs'
                         : 'bg-neutral-100 dark:bg-[#252528] text-neutral-700 dark:text-neutral-300'
                     }`}
                   >
@@ -132,7 +132,7 @@ export function DoubleFeatureModal({
                     onClick={() => setSameCinemaOnly(!sameCinemaOnly)}
                     className={`px-3 py-1.5 rounded-xl text-xs font-normal border transition-all active:scale-95 touch-manipulation ${
                       sameCinemaOnly
-                        ? 'bg-[#444cf7] border-[#444cf7] text-white'
+                        ? 'bg-[#4f5af6] border-[#4f5af6] text-white'
                         : 'bg-neutral-100 dark:bg-[#252528] border-black/5 dark:border-white/10 text-neutral-700 dark:text-neutral-300'
                     }`}
                   >

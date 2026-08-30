@@ -84,7 +84,7 @@ export function FilmShowtimesTabs({ film, dates = [] }: FilmShowtimesTabsProps) 
               onClick={() => setSelectedDayLabel(dayLabel)}
               className={`px-4 py-2 rounded-2xl text-xs font-semibold whitespace-nowrap border transition-all touch-manipulation select-none active:scale-95 ${
                 isSelected
-                  ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-lg shadow-[#444cf7]/25'
+                  ? 'bg-[#4f5af6] border-[#4f5af6] text-white shadow-lg shadow-[#4f5af6]/25'
                   : 'liquid-glass-subtle text-neutral-300 hover:text-white border-white/10 hover:border-white/20'
               }`}
             >
@@ -116,9 +116,9 @@ export function FilmShowtimesTabs({ film, dates = [] }: FilmShowtimesTabsProps) 
                       href={seance.ticketing_url || '#'}
                       target={seance.ticketing_url ? '_blank' : undefined}
                       rel="noopener noreferrer"
-                      className="px-3.5 py-2 rounded-2xl bg-[#444cf7]/20 hover:bg-[#444cf7] text-white font-normal text-xs sm:text-sm border border-[#444cf7]/40 hover:border-[#444cf7] shadow-sm transition-all flex items-center gap-2 hover:scale-105 active:scale-95"
+                      className="px-3.5 py-2 rounded-2xl bg-[#4f5af6]/20 hover:bg-[#4f5af6] text-white font-normal text-xs sm:text-sm border border-[#4f5af6]/40 hover:border-[#4f5af6] shadow-sm transition-all flex items-center gap-2 hover:scale-105 active:scale-95"
                     >
-                      <Ticket size={13} className="text-[#444cf7] group-hover:text-white" />
+                      <Ticket size={13} className="text-[#4f5af6] group-hover:text-white" />
                       <span>{formatTime(seance.time)}</span>
                       <span className="text-[10px] font-normal px-1.5 py-0.5 rounded bg-white/10">
                         {seance.lang}

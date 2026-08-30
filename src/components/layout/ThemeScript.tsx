@@ -208,7 +208,21 @@ export function ThemeScript() {
       }
     } catch(e) {}
 
-    // 8. MediaQueryList addEventListener fallback pour anciens WebKit
+    // 8. Polyfill Promise.withResolvers (React 19 / ES2024)
+    try {
+      if (typeof Promise.withResolvers !== 'function') {
+        Promise.withResolvers = function() {
+          var resolve, reject;
+          var promise = new Promise(function(res, rej) {
+            resolve = res;
+            reject = rej;
+          });
+          return { promise: promise, resolve: resolve, reject: reject };
+        };
+      }
+    } catch(e) {}
+
+    // 9. MediaQueryList addEventListener fallback pour anciens WebKit
     try {
       if (typeof window !== 'undefined' && window.matchMedia) {
         var mqlProto = Object.getPrototypeOf(window.matchMedia('(min-width: 0px)'));
@@ -223,7 +237,7 @@ export function ThemeScript() {
       }
     } catch(e) {}
 
-    // 9. Initialisation du thème sans flash (FOUC)
+    // 10. Initialisation du thème sans flash (FOUC)
     try {
       var t = localStorage.getItem('cinelyon_theme_mode');
       var p = localStorage.getItem('cinelyon_theme_primary') || 'violet';

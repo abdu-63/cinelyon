@@ -52,7 +52,7 @@ export function SettingsModal() {
   const [syncCode, setSyncCode] = useState('a0cc4a');
   const [showCode, setShowCode] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [hidePast, setHidePast] = useState(true);
+  const [hidePast, setHidePast] = useState(false);
   const [notifications, setNotifications] = useState(true);
   const [glassEffect, setGlassEffect] = useState<'disabled' | 'blur' | 'crystal'>('crystal');
   const [isLinkingDeviceOpen, setIsLinkingDeviceOpen] = useState(false);
@@ -60,6 +60,15 @@ export function SettingsModal() {
   const [isAddingFriendOpen, setIsAddingFriendOpen] = useState(false);
   const [newFriendCode, setNewFriendCode] = useState('');
   const [newFriendName, setNewFriendName] = useState('');
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('cinelyon_hide_past_sessions');
+      if (stored !== null) {
+        setHidePast(stored === 'true');
+      }
+    } catch {}
+  }, []);
 
   const [friends, setFriends] = useState<FriendItem[]>([
     { id: '1', name: 'ilhan', code: '2c62f2', favoritesCount: 0, isHidden: false },
@@ -153,7 +162,7 @@ export function SettingsModal() {
                     <div className="w-14 h-14 rounded-full bg-amber-500 text-white font-extrabold text-lg flex items-center justify-center shadow-md select-none">
                       <span>{username.slice(0, 2).toUpperCase()}</span>
                     </div>
-                    <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-[#444cf7] border-2 border-white dark:border-[#1c1c1e] text-white flex items-center justify-center shadow-xs">
+                    <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-[#4f5af6] border-2 border-white dark:border-[#1c1c1e] text-white flex items-center justify-center shadow-xs">
                       <Camera size={10} />
                     </div>
                   </div>
@@ -167,7 +176,7 @@ export function SettingsModal() {
                           onChange={(e) => setUsername(e.target.value)}
                           onBlur={() => setIsEditingUsername(false)}
                           autoFocus
-                          className="font-bold text-base text-neutral-900 dark:text-white bg-transparent border-b border-[#444cf7] focus:outline-none"
+                          className="font-bold text-base text-neutral-900 dark:text-white bg-transparent border-b border-[#4f5af6] focus:outline-none"
                         />
                       ) : (
                         <h4 className="font-bold text-base text-neutral-900 dark:text-white">
@@ -202,11 +211,11 @@ export function SettingsModal() {
                     {/* Display box avec pastilles bleues ou code clair */}
                     <div className="flex-1 h-10 px-3.5 rounded-xl bg-neutral-100 dark:bg-[#242428] border border-black/[0.06] dark:border-white/10 flex items-center font-mono text-xs text-neutral-800 dark:text-neutral-200">
                       {showCode ? (
-                        <span className="font-bold tracking-widest text-[#444cf7]">{syncCode}</span>
+                        <span className="font-bold tracking-widest text-[#4f5af6]">{syncCode}</span>
                       ) : (
                         <div className="flex items-center gap-1.5">
                           {[...Array(6)].map((_, i) => (
-                            <span key={i} className="w-2 h-2 rounded-full bg-[#444cf7]" />
+                            <span key={i} className="w-2 h-2 rounded-full bg-[#4f5af6]" />
                           ))}
                         </div>
                       )}
@@ -233,7 +242,7 @@ export function SettingsModal() {
                     <button
                       type="button"
                       onClick={handleCopyCode}
-                      className="h-10 px-4 rounded-xl bg-[#444cf7] hover:bg-[#3339c4] text-white font-bold text-xs flex items-center gap-1.5 shadow-sm shadow-[#444cf7]/25 transition-all active:scale-95"
+                      className="h-10 px-4 rounded-xl bg-[#4f5af6] hover:bg-[#3d49e6] text-white font-bold text-xs flex items-center gap-1.5 shadow-sm shadow-[#4f5af6]/25 transition-all active:scale-95"
                     >
                       <Copy size={13} />
                       <span>{copied ? 'Copié !' : 'Copier'}</span>
@@ -249,10 +258,10 @@ export function SettingsModal() {
                     className="w-full flex items-center justify-between text-left py-1 group select-none"
                   >
                     <div className="flex items-center gap-2.5">
-                      <div className="w-6 h-6 rounded-md bg-blue-500/10 text-[#444cf7] flex items-center justify-center">
+                      <div className="w-6 h-6 rounded-md bg-blue-500/10 text-[#4f5af6] flex items-center justify-center">
                         <Smartphone size={14} />
                       </div>
-                      <span className="text-xs font-semibold text-neutral-900 dark:text-white group-hover:text-[#444cf7] transition-colors">
+                      <span className="text-xs font-semibold text-neutral-900 dark:text-white group-hover:text-[#4f5af6] transition-colors">
                         Lier un appareil existant
                       </span>
                     </div>
@@ -271,7 +280,7 @@ export function SettingsModal() {
                           placeholder="Ex: ABC123"
                           value={linkCodeInput}
                           onChange={(e) => setLinkCodeInput(e.target.value.toUpperCase())}
-                          className="flex-1 px-3 py-2 rounded-xl bg-neutral-100 dark:bg-[#242428] border border-black/[0.06] dark:border-white/10 text-xs text-neutral-900 dark:text-white font-mono placeholder-neutral-400 focus:outline-none focus:border-[#444cf7]"
+                          className="flex-1 px-3 py-2 rounded-xl bg-neutral-100 dark:bg-[#242428] border border-black/[0.06] dark:border-white/10 text-xs text-neutral-900 dark:text-white font-mono placeholder-neutral-400 focus:outline-none focus:border-[#4f5af6]"
                         />
                         <button
                           type="button"
@@ -282,7 +291,7 @@ export function SettingsModal() {
                               setIsLinkingDeviceOpen(false);
                             }
                           }}
-                          className="px-4 py-2 rounded-xl bg-[#444cf7] text-white text-xs font-bold shadow-sm active:scale-95"
+                          className="px-4 py-2 rounded-xl bg-[#4f5af6] text-white text-xs font-bold shadow-sm active:scale-95"
                         >
                           Lier
                         </button>
@@ -302,7 +311,7 @@ export function SettingsModal() {
                   {/* Ligne Ajouter un ami */}
                   <div className="p-3.5 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-xl bg-[#444cf7] text-white flex items-center justify-center shadow-sm">
+                      <div className="w-8 h-8 rounded-xl bg-[#4f5af6] text-white flex items-center justify-center shadow-sm">
                         <UserPlus size={16} />
                       </div>
                       <span className="text-xs font-bold text-neutral-900 dark:text-white">
@@ -313,7 +322,7 @@ export function SettingsModal() {
                     <button
                       type="button"
                       onClick={() => setIsAddingFriendOpen(!isAddingFriendOpen)}
-                      className="w-6 h-6 rounded-full bg-[#444cf7] text-white flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-xs"
+                      className="w-6 h-6 rounded-full bg-[#4f5af6] text-white flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-xs"
                       title="Ajouter un ami"
                     >
                       <Plus size={14} />
@@ -330,20 +339,20 @@ export function SettingsModal() {
                           placeholder="Code (6 lettres)"
                           value={newFriendCode}
                           onChange={(e) => setNewFriendCode(e.target.value.toUpperCase())}
-                          className="w-32 px-3 py-2 rounded-xl bg-white dark:bg-[#242428] border border-black/[0.06] dark:border-white/10 text-xs text-neutral-900 dark:text-white font-mono placeholder-neutral-400 focus:outline-none focus:border-[#444cf7]"
+                          className="w-32 px-3 py-2 rounded-xl bg-white dark:bg-[#242428] border border-black/[0.06] dark:border-white/10 text-xs text-neutral-900 dark:text-white font-mono placeholder-neutral-400 focus:outline-none focus:border-[#4f5af6]"
                         />
                         <input
                           type="text"
                           placeholder="Prénom"
                           value={newFriendName}
                           onChange={(e) => setNewFriendName(e.target.value)}
-                          className="flex-1 px-3 py-2 rounded-xl bg-white dark:bg-[#242428] border border-black/[0.06] dark:border-white/10 text-xs text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-none focus:border-[#444cf7]"
+                          className="flex-1 px-3 py-2 rounded-xl bg-white dark:bg-[#242428] border border-black/[0.06] dark:border-white/10 text-xs text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-none focus:border-[#4f5af6]"
                         />
                       </div>
                       <button
                         type="button"
                         onClick={handleAddFriend}
-                        className="w-full py-2 rounded-xl bg-[#444cf7] text-white text-xs font-bold shadow-sm active:scale-95"
+                        className="w-full py-2 rounded-xl bg-[#4f5af6] text-white text-xs font-bold shadow-sm active:scale-95"
                       >
                         Valider l&apos;ami
                       </button>
@@ -456,7 +465,7 @@ export function SettingsModal() {
                       type="button"
                       onClick={() => setNotifications(!notifications)}
                       className={`w-11 h-6 rounded-full transition-colors relative shrink-0 ${
-                        notifications ? 'bg-[#444cf7]' : 'bg-neutral-300 dark:bg-neutral-700'
+                        notifications ? 'bg-[#4f5af6]' : 'bg-neutral-300 dark:bg-neutral-700'
                       }`}
                     >
                       <span
@@ -485,9 +494,20 @@ export function SettingsModal() {
 
                     <button
                       type="button"
-                      onClick={() => setHidePast(!hidePast)}
+                      onClick={() => {
+                        const nextVal = !hidePast;
+                        setHidePast(nextVal);
+                        try {
+                          localStorage.setItem('cinelyon_hide_past_sessions', nextVal ? 'true' : 'false');
+                          window.dispatchEvent(
+                            new CustomEvent('cinelyon:settings-changed', {
+                              detail: { hidePastSessions: nextVal },
+                            })
+                          );
+                        } catch {}
+                      }}
                       className={`w-11 h-6 rounded-full transition-colors relative shrink-0 ${
-                        hidePast ? 'bg-[#444cf7]' : 'bg-neutral-300 dark:bg-neutral-700'
+                        hidePast ? 'bg-[#4f5af6]' : 'bg-neutral-300 dark:bg-neutral-700'
                       }`}
                     >
                       <span
@@ -518,7 +538,7 @@ export function SettingsModal() {
                         onClick={() => setMode('system')}
                         className={`py-2 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all ${
                           mode === 'system'
-                            ? 'bg-white dark:bg-[#1c1c1e] text-[#444cf7] shadow-sm font-bold'
+                            ? 'bg-white dark:bg-[#1c1c1e] text-[#4f5af6] shadow-sm font-bold'
                             : 'text-neutral-600 dark:text-neutral-400'
                         }`}
                       >
@@ -530,7 +550,7 @@ export function SettingsModal() {
                         onClick={() => setMode('light')}
                         className={`py-2 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all ${
                           mode === 'light'
-                            ? 'bg-white dark:bg-[#1c1c1e] text-[#444cf7] shadow-sm font-bold'
+                            ? 'bg-white dark:bg-[#1c1c1e] text-[#4f5af6] shadow-sm font-bold'
                             : 'text-neutral-600 dark:text-neutral-400'
                         }`}
                       >
@@ -542,7 +562,7 @@ export function SettingsModal() {
                         onClick={() => setMode('dark')}
                         className={`py-2 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all ${
                           mode === 'dark'
-                            ? 'bg-white dark:bg-[#1c1c1e] text-[#444cf7] shadow-sm font-bold'
+                            ? 'bg-white dark:bg-[#1c1c1e] text-[#4f5af6] shadow-sm font-bold'
                             : 'text-neutral-600 dark:text-neutral-400'
                         }`}
                       >
@@ -559,7 +579,7 @@ export function SettingsModal() {
                     </label>
                     <div className="flex items-center gap-6">
                       {[
-                        { id: 'violet', label: 'Violet', color: 'bg-[#444cf7]' },
+                        { id: 'violet', label: 'Violet', color: 'bg-[#4f5af6]' },
                         { id: 'blue', label: 'Bleu', color: 'bg-[#0161a7]' },
                         { id: 'white', label: 'Blanc', color: 'bg-white border border-black/10' },
                         { id: 'black', label: 'Noir', color: 'bg-[#1c1c1e] border border-white/20' },
@@ -604,7 +624,7 @@ export function SettingsModal() {
                         onClick={() => setGlassEffect('disabled')}
                         className={`py-2 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all ${
                           glassEffect === 'disabled'
-                            ? 'bg-white dark:bg-[#1c1c1e] text-[#444cf7] shadow-sm font-bold'
+                            ? 'bg-white dark:bg-[#1c1c1e] text-[#4f5af6] shadow-sm font-bold'
                             : 'text-neutral-600 dark:text-neutral-400'
                         }`}
                       >
@@ -616,7 +636,7 @@ export function SettingsModal() {
                         onClick={() => setGlassEffect('blur')}
                         className={`py-2 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all ${
                           glassEffect === 'blur'
-                            ? 'bg-white dark:bg-[#1c1c1e] text-[#444cf7] shadow-sm font-bold'
+                            ? 'bg-white dark:bg-[#1c1c1e] text-[#4f5af6] shadow-sm font-bold'
                             : 'text-neutral-600 dark:text-neutral-400'
                         }`}
                       >
@@ -628,7 +648,7 @@ export function SettingsModal() {
                         onClick={() => setGlassEffect('crystal')}
                         className={`py-2 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all ${
                           glassEffect === 'crystal'
-                            ? 'bg-white dark:bg-[#1c1c1e] text-[#444cf7] shadow-sm font-bold'
+                            ? 'bg-white dark:bg-[#1c1c1e] text-[#4f5af6] shadow-sm font-bold'
                             : 'text-neutral-600 dark:text-neutral-400'
                         }`}
                       >
@@ -660,7 +680,7 @@ export function SettingsModal() {
                         Politique de confidentialité
                       </span>
                     </div>
-                    <ChevronRight size={14} className="text-neutral-400 group-hover:text-[#444cf7] transition-colors" />
+                    <ChevronRight size={14} className="text-neutral-400 group-hover:text-[#4f5af6] transition-colors" />
                   </Link>
 
                   <Link
@@ -676,7 +696,7 @@ export function SettingsModal() {
                         Conditions d&apos;utilisation
                       </span>
                     </div>
-                    <ChevronRight size={14} className="text-neutral-400 group-hover:text-[#444cf7] transition-colors" />
+                    <ChevronRight size={14} className="text-neutral-400 group-hover:text-[#4f5af6] transition-colors" />
                   </Link>
                 </div>
               </div>

@@ -37,14 +37,14 @@ export default function Header() {
       <div className="max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto px-3 sm:px-4 flex items-center justify-between">
         {/* Logo CinéLyon */}
         <Link href="/" className="flex items-center gap-2.5 group select-none">
-          <div className="w-8 h-8 rounded-xl bg-[#444cf7] flex items-center justify-center shadow-md shadow-[#444cf7]/20 group-hover:scale-105 transition-transform">
+          <div className="w-8 h-8 rounded-xl bg-[#4f5af6] flex items-center justify-center shadow-md shadow-[#4f5af6]/20 group-hover:scale-105 transition-transform">
             <Film className="w-4 h-4 text-white" />
           </div>
           <div className="flex items-center gap-1.5">
             <span className="font-extrabold text-lg tracking-tight text-neutral-900 dark:text-white">
               CinéLyon
             </span>
-            <span className="px-1.5 py-0.2 rounded-md text-[10px] font-bold bg-[#444cf7]/15 text-[#444cf7]">
+            <span className="px-1.5 py-0.2 rounded-md text-[10px] font-bold bg-[#4f5af6]/15 text-[#4f5af6]">
               69
             </span>
           </div>

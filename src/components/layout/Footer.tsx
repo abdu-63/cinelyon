@@ -12,7 +12,7 @@ export default function Footer() {
       <div className="max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto px-4 text-center space-y-4">
         {/* Brand */}
         <div className="flex items-center justify-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-[#444cf7] flex items-center justify-center text-white shadow-sm">
+          <div className="w-7 h-7 rounded-lg bg-[#4f5af6] flex items-center justify-center text-white shadow-sm">
             <Film size={15} />
           </div>
           <span className="font-bold text-base text-neutral-900 dark:text-white">CinéLyon</span>
@@ -24,19 +24,19 @@ export default function Footer() {
 
         {/* Liens & Réseaux */}
         <div className="flex flex-wrap items-center justify-center gap-x-3.5 gap-y-1.5 text-xs font-medium">
-          <Link href="/" className="text-neutral-700 dark:text-neutral-300 hover:text-[#444cf7] transition-colors">
+          <Link href="/" className="text-neutral-700 dark:text-neutral-300 hover:text-[#4f5af6] transition-colors">
             Séances
           </Link>
           <span className="text-neutral-400 dark:text-neutral-600">•</span>
-          <Link href="/suggestions" className="text-neutral-700 dark:text-neutral-300 hover:text-[#444cf7] transition-colors">
+          <Link href="/suggestions" className="text-neutral-700 dark:text-neutral-300 hover:text-[#4f5af6] transition-colors">
             Suggestions & Bugs
           </Link>
           <span className="text-neutral-400 dark:text-neutral-600">•</span>
-          <Link href="/politique-de-confidentialite" className="text-neutral-700 dark:text-neutral-300 hover:text-[#444cf7] transition-colors">
+          <Link href="/politique-de-confidentialite" className="text-neutral-700 dark:text-neutral-300 hover:text-[#4f5af6] transition-colors">
             Politique de confidentialité
           </Link>
           <span className="text-neutral-400 dark:text-neutral-600">•</span>
-          <Link href="/cgu" className="text-neutral-700 dark:text-neutral-300 hover:text-[#444cf7] transition-colors">
+          <Link href="/cgu" className="text-neutral-700 dark:text-neutral-300 hover:text-[#4f5af6] transition-colors">
             Conditions d&apos;utilisation
           </Link>
           <span className="text-neutral-400 dark:text-neutral-600">•</span>

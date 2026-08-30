@@ -42,6 +42,7 @@ export function FilmsList({ initialFilms = [], initialDates = [] }: FilmsListPro
   const [visibleCount, setVisibleCount] = useState<number>(PAGE_SIZE);
   const [filters, setFilters] = useState<FiltersState>(DEFAULT_FILTERS);
   const [favorites, setFavorites] = useState<string[]>([]);
+  const [hidePastSessions, setHidePastSessions] = useState<boolean>(false);
   const [isRouletteOpen, setIsRouletteOpen] = useState(false);
   const [isDoubleFeatureOpen, setIsDoubleFeatureOpen] = useState(false);
 
@@ -51,7 +52,21 @@ export function FilmsList({ initialFilms = [], initialDates = [] }: FilmsListPro
       if (stored) {
         setFavorites(JSON.parse(stored));
       }
+      const storedHidePast = localStorage.getItem('cinelyon_hide_past_sessions');
+      if (storedHidePast !== null) {
+        setHidePastSessions(storedHidePast === 'true');
+      }
     } catch {}
+
+    const handleSettingsChange = (e: Event) => {
+      const customEvent = e as CustomEvent<{ hidePastSessions?: boolean }>;
+      if (customEvent.detail && typeof customEvent.detail.hidePastSessions === 'boolean') {
+        setHidePastSessions(customEvent.detail.hidePastSessions);
+      }
+    };
+
+    window.addEventListener('cinelyon:settings-changed', handleSettingsChange);
+    return () => window.removeEventListener('cinelyon:settings-changed', handleSettingsChange);
   }, []);
 
   const toggleFavorite = useCallback((filmId: string) => {
@@ -67,9 +82,9 @@ export function FilmsList({ initialFilms = [], initialDates = [] }: FilmsListPro
   // Filtrer les films qui ont des séances visibles
   const baseFilms = useMemo(() => {
     return initialFilms.filter((f) =>
-      initialDates.some((d) => hasVisibleSeances(f, d.isoDate, initialDates, true))
+      initialDates.some((d) => hasVisibleSeances(f, d.isoDate, initialDates, hidePastSessions))
     );
-  }, [initialFilms, initialDates]);
+  }, [initialFilms, initialDates, hidePastSessions]);
 
   const filterOptions = useMemo(() => extractFilterOptions(baseFilms), [baseFilms]);
 
@@ -81,9 +96,9 @@ export function FilmsList({ initialFilms = [], initialDates = [] }: FilmsListPro
   // Jours ayant au moins une séance visible parmi les films filtrés
   const availableDates = useMemo(() => {
     return initialDates.filter((d) =>
-      filmsMatchingFilters.some((f) => hasVisibleSeances(f, d.isoDate, initialDates, true))
+      filmsMatchingFilters.some((f) => hasVisibleSeances(f, d.isoDate, initialDates, hidePastSessions))
     );
-  }, [initialDates, filmsMatchingFilters]);
+  }, [initialDates, filmsMatchingFilters, hidePastSessions]);
 
   // Si le jour sélectionné n'est plus disponible, retomber sur null ("Tous")
   const activeDelta = useMemo(() => {
@@ -99,9 +114,9 @@ export function FilmsList({ initialFilms = [], initialDates = [] }: FilmsListPro
     if (!selectedDateObj) return filmsMatchingFilters;
 
     return filmsMatchingFilters.filter((f) =>
-      hasVisibleSeances(f, selectedDateObj.isoDate, initialDates, true)
+      hasVisibleSeances(f, selectedDateObj.isoDate, initialDates, hidePastSessions)
     );
-  }, [filmsMatchingFilters, activeDelta, initialDates]);
+  }, [filmsMatchingFilters, activeDelta, initialDates, hidePastSessions]);
 
   const paginatedFilms = useMemo(
     () => filteredFilms.slice(0, visibleCount),
@@ -160,7 +175,7 @@ export function FilmsList({ initialFilms = [], initialDates = [] }: FilmsListPro
               onToggleFavorite={toggleFavorite}
               dates={initialDates}
               selectedDelta={activeDelta}
-              hidePastSessions={true}
+              hidePastSessions={hidePastSessions}
             />
           ))
         )}

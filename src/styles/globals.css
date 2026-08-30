@@ -107,8 +107,8 @@
   --text-main: #111111;
   --text-muted: #666666;
   --text-subtle: #888888;
-  --primary: #444cf7;
-  --primary-hover: #3339c4;
+  --primary: #4f5af6;
+  --primary-hover: #3d49e6;
   --primary-contrast: #ffffff;
   --border-color: rgba(0, 0, 0, 0.08);
   --border-light: rgba(0, 0, 0, 0.05);
@@ -125,8 +125,8 @@
   --text-main: #ffffff;
   --text-muted: #8e8e93;
   --text-subtle: #636366;
-  --primary: #444cf7;
-  --primary-hover: #3339c4;
+  --primary: #4f5af6;
+  --primary-hover: #3d49e6;
   --primary-contrast: #ffffff;
   --border-color: rgba(255, 255, 255, 0.08);
   --border-light: rgba(255, 255, 255, 0.05);

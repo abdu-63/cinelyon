@@ -148,7 +148,7 @@ export function hasVisibleSeances(
   film: Film,
   isoDate: string,
   dates: DateLabel[],
-  hidePastSessions: boolean
+  hidePastSessions: boolean = false
 ): boolean {
   const dObj = getDateLabelByIso(isoDate, dates);
   if (!dObj) return false;

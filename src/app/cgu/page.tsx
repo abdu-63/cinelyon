@@ -40,7 +40,7 @@ export default function CGUPage() {
         <div className="flex items-center justify-between">
           <Link
             href="/"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-600 dark:text-neutral-400 hover:text-[#444cf7] dark:hover:text-[#444cf7] transition-colors py-1 px-2.5 rounded-full bg-white/60 dark:bg-white/5 border border-black/[0.06] dark:border-white/10 backdrop-blur-md shadow-2xs"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-600 dark:text-neutral-400 hover:text-[#4f5af6] dark:hover:text-[#4f5af6] transition-colors py-1 px-2.5 rounded-full bg-white/60 dark:bg-white/5 border border-black/[0.06] dark:border-white/10 backdrop-blur-md shadow-2xs"
           >
             <ChevronLeft size={14} />
             <span>Retour aux séances</span>
@@ -52,10 +52,10 @@ export default function CGUPage() {
 
         {/* En-tête de la page */}
         <div className="rounded-[28px] p-6 sm:p-8 bg-white/70 dark:bg-[#18181b]/80 border border-black/[0.06] dark:border-white/10 shadow-sm backdrop-blur-xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-[#444cf7]/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
+          <div className="absolute top-0 right-0 w-64 h-64 bg-[#4f5af6]/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
 
           <div className="relative space-y-3">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#444cf7]/10 dark:bg-[#444cf7]/20 text-[#444cf7] border border-[#444cf7]/20 text-xs font-bold">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#4f5af6]/10 dark:bg-[#4f5af6]/20 text-[#4f5af6] border border-[#4f5af6]/20 text-xs font-bold">
               <FileText size={14} />
               <span>Conditions d&apos;Utilisation</span>
             </div>

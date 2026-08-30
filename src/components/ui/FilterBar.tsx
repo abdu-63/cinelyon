@@ -186,7 +186,7 @@ export function FilterBar({
             value={localQuery}
             onChange={(e) => setLocalQuery(e.target.value)}
             placeholder="Recherche"
-            className="w-full pl-10 pr-9 py-2.5 rounded-[18px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-sm text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-none focus:border-[#444cf7] shadow-[0_2px_8px_rgba(0,0,0,0.02)] transition-all"
+            className="w-full pl-10 pr-9 py-2.5 rounded-[18px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-sm text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-none focus:border-[#4f5af6] shadow-[0_2px_8px_rgba(0,0,0,0.02)] transition-all"
           />
           {localQuery && (
             <button
@@ -234,7 +234,7 @@ export function FilterBar({
           onClick={() => setShowFiltersModal(true)}
           className={`relative w-11 h-11 rounded-[16px] border transition-all flex items-center justify-center shrink-0 shadow-[0_2px_8px_rgba(0,0,0,0.02)] active:scale-95 touch-manipulation select-none ${
             activeFilterCount > 0
-              ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-md shadow-[#444cf7]/25'
+              ? 'bg-[#4f5af6] border-[#4f5af6] text-white shadow-md shadow-[#4f5af6]/25'
               : 'bg-white dark:bg-[#1c1c1e] border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/25'
           }`}
           title="Tous les filtres"
@@ -265,7 +265,7 @@ export function FilterBar({
             </span>
           )}
           {filters.showOnlyNew && (
-            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-medium bg-[#444cf7]/10 text-[#444cf7] dark:text-[#7d84ff] border border-[#444cf7]/20 shrink-0">
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-medium bg-[#4f5af6]/10 text-[#4f5af6] dark:text-[#7d84ff] border border-[#4f5af6]/20 shrink-0">
               <Sparkles size={11} />
               <span>Nouveautés</span>
               <button
@@ -413,7 +413,7 @@ export function FilterBar({
               {/* Header Modale */}
               <div className="flex items-center justify-between px-5 py-3 border-b border-black/[0.06] dark:border-white/10 shrink-0">
                 <div className="flex items-center gap-2">
-                  <SlidersHorizontal size={18} className="text-[#444cf7]" />
+                  <SlidersHorizontal size={18} className="text-[#4f5af6]" />
                   <h3 className="font-semibold text-base text-neutral-900 dark:text-white">Filtres de Séances</h3>
                 </div>
                 <div className="flex items-center gap-3">
@@ -462,7 +462,7 @@ export function FilterBar({
                       onClick={() => onFiltersChange({ showOnlyNew: !filters.showOnlyNew })}
                       className={`px-3 py-1.5 rounded-2xl text-xs font-medium border flex items-center gap-1.5 transition-all ${
                         filters.showOnlyNew
-                          ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
+                          ? 'bg-[#4f5af6] border-[#4f5af6] text-white shadow-sm'
                           : 'bg-neutral-100 dark:bg-[#2c2c2e] border-transparent text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/15'
                       }`}
                     >
@@ -485,7 +485,7 @@ export function FilterBar({
                         onClick={() => toggleFormat(fmt)}
                         className={`px-3 py-1.5 rounded-2xl text-xs font-medium border transition-all ${
                           filters.formats.includes(fmt)
-                            ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
+                            ? 'bg-[#4f5af6] border-[#4f5af6] text-white shadow-sm'
                             : 'bg-neutral-100 dark:bg-[#2c2c2e] border-transparent text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/15'
                         }`}
                       >
@@ -508,7 +508,7 @@ export function FilterBar({
                         onClick={() => toggleTimeSlot(slot.id)}
                         className={`px-3 py-1.5 rounded-2xl text-xs font-medium border transition-all ${
                           filters.timeSlots.includes(slot.id)
-                            ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
+                            ? 'bg-[#4f5af6] border-[#4f5af6] text-white shadow-sm'
                             : 'bg-neutral-100 dark:bg-[#2c2c2e] border-transparent text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/15'
                         }`}
                       >
@@ -532,7 +532,7 @@ export function FilterBar({
                           onClick={() => toggleGenre(g)}
                           className={`px-3 py-1.5 rounded-2xl text-xs font-medium border transition-all ${
                             filters.genres.includes(g)
-                              ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
+                              ? 'bg-[#4f5af6] border-[#4f5af6] text-white shadow-sm'
                               : 'bg-neutral-100 dark:bg-[#2c2c2e] border-transparent text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/15'
                           }`}
                         >
@@ -557,7 +557,7 @@ export function FilterBar({
                           onClick={() => toggleCinema(c)}
                           className={`px-3 py-1.5 rounded-2xl text-xs font-medium border transition-all ${
                             filters.cinemas.includes(c)
-                              ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
+                              ? 'bg-[#4f5af6] border-[#4f5af6] text-white shadow-sm'
                               : 'bg-neutral-100 dark:bg-[#2c2c2e] border-transparent text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/15'
                           }`}
                         >
@@ -581,7 +581,7 @@ export function FilterBar({
                           value={directorSearch}
                           onChange={(e) => setDirectorSearch(e.target.value)}
                           placeholder="Rechercher un réalisateur..."
-                          className="w-full px-3 py-1.5 rounded-xl bg-neutral-100 dark:bg-[#2c2c2e] border border-black/5 dark:border-white/10 text-xs text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-none focus:border-[#444cf7]"
+                          className="w-full px-3 py-1.5 rounded-xl bg-neutral-100 dark:bg-[#2c2c2e] border border-black/5 dark:border-white/10 text-xs text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-none focus:border-[#4f5af6]"
                         />
                       </div>
                     )}
@@ -593,7 +593,7 @@ export function FilterBar({
                           onClick={() => toggleDirector(d)}
                           className={`px-3 py-1.5 rounded-2xl text-xs font-medium border transition-all ${
                             filters.directors.includes(d)
-                              ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
+                              ? 'bg-[#4f5af6] border-[#4f5af6] text-white shadow-sm'
                               : 'bg-neutral-100 dark:bg-[#2c2c2e] border-transparent text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/15'
                           }`}
                         >
@@ -617,7 +617,7 @@ export function FilterBar({
                           value={actorSearch}
                           onChange={(e) => setActorSearch(e.target.value)}
                           placeholder="Rechercher un acteur..."
-                          className="w-full px-3 py-1.5 rounded-xl bg-neutral-100 dark:bg-[#2c2c2e] border border-black/5 dark:border-white/10 text-xs text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-none focus:border-[#444cf7]"
+                          className="w-full px-3 py-1.5 rounded-xl bg-neutral-100 dark:bg-[#2c2c2e] border border-black/5 dark:border-white/10 text-xs text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-none focus:border-[#4f5af6]"
                         />
                       </div>
                     )}
@@ -629,7 +629,7 @@ export function FilterBar({
                           onClick={() => toggleActor(a)}
                           className={`px-3 py-1.5 rounded-2xl text-xs font-medium border transition-all ${
                             filters.actors?.includes(a)
-                              ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
+                              ? 'bg-[#4f5af6] border-[#4f5af6] text-white shadow-sm'
                               : 'bg-neutral-100 dark:bg-[#2c2c2e] border-transparent text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/15'
                           }`}
                         >
@@ -649,7 +649,7 @@ export function FilterBar({
                 <button
                   type="button"
                   onClick={() => setShowFiltersModal(false)}
-                  className="px-6 py-2.5 rounded-2xl bg-[#444cf7] hover:bg-[#3339c4] text-white font-medium text-xs shadow-md shadow-[#444cf7]/25 transition-all active:scale-95"
+                  className="px-6 py-2.5 rounded-2xl bg-[#4f5af6] hover:bg-[#3d49e6] text-white font-medium text-xs shadow-md shadow-[#4f5af6]/25 transition-all active:scale-95"
                 >
                   Afficher les séances
                 </button>
