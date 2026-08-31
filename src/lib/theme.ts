@@ -40,12 +40,12 @@ export const DARK_COLORS = {
 
 export const PRIMARY_VARIANTS = {
   violet: {
-    primary: '#4f5af6',
-    primaryHover: '#3d49e6',
-    primaryDark: '#3d49e6',
+    primary: '#444cf7',
+    primaryHover: '#3339c4',
+    primaryDark: '#3339c4',
     primaryContrast: '#ffffff',
-    voBadge: '#4f5af6',
-    vfBadge: '#4f5af6',
+    voBadge: '#444cf7',
+    vfBadge: '#444cf7',
   },
   blue: {
     primary: '#0161A7',

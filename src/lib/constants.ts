@@ -224,9 +224,9 @@ export const CINEMA_MAP: Record<string, CinemaInfo> = Object.fromEntries(
 // ── Couleurs de l'application ─────────────────────────────────────────────────
 
 export const COLORS = {
-  primary: '#4f5af6', // Identique au site web (--primary)
-  primaryHover: '#3d49e6', // --primary-hover
-  primaryDark: '#3d49e6',
+  primary: '#444cf7', // Identique au site web (--primary)
+  primaryHover: '#3339c4', // --primary-hover
+  primaryDark: '#3339c4',
   background: '#f5f6f8', // --bg-main identique au site
   surface: '#ffffff', // --card-solid
   surfaceElevated: '#f8f9fa', // légèrement surélevé
@@ -240,8 +240,8 @@ export const COLORS = {
   shadowSm: 'rgba(0,0,0,0.05)',
   shadowMd: 'rgba(0,0,0,0.15)',
   shadowLg: 'rgba(0,0,0,0.1)',
-  voBadge: '#4f5af6', // Bleu primary comme le site
-  vfBadge: '#4f5af6', // Bleu primary comme le site
+  voBadge: '#444cf7', // Bleu primary comme le site
+  vfBadge: '#444cf7', // Bleu primary comme le site
   favActive: '#ff6b6b', // Rouge favori comme le site (#ff6b6b)
   success: '#3ecf8e',
   warning: '#f59e0b',

@@ -109,7 +109,7 @@ export function CineRouletteModal({ films = [], isOpen: controlledIsOpen, onClos
             {/* Header */}
             <div className="flex items-center justify-between p-4 sm:p-5 border-b border-black/[0.06] dark:border-white/10 bg-white dark:bg-[#1c1c1e]">
               <div className="flex items-center gap-2.5">
-                <div className="w-10 h-10 rounded-2xl bg-[#4f5af6]/10 text-[#4f5af6] flex items-center justify-center">
+                <div className="w-10 h-10 rounded-2xl bg-[#444cf7]/10 text-[#444cf7] flex items-center justify-center">
                   <Dices size={22} />
                 </div>
                 <div>
@@ -139,7 +139,7 @@ export function CineRouletteModal({ films = [], isOpen: controlledIsOpen, onClos
                   onClick={() => setOnlyEvening(!onlyEvening)}
                   className={`p-2.5 rounded-2xl border text-xs font-normal flex flex-col items-center justify-center gap-1.5 transition-all active:scale-95 touch-manipulation ${
                     onlyEvening
-                      ? 'bg-[#4f5af6] border-[#4f5af6] text-white shadow-sm'
+                      ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
                       : 'bg-white dark:bg-[#1c1c1e] border-black/[0.06] dark:border-white/10 text-neutral-700 dark:text-neutral-300'
                   }`}
                 >
@@ -152,7 +152,7 @@ export function CineRouletteModal({ films = [], isOpen: controlledIsOpen, onClos
                   onClick={() => setOnlyVO(!onlyVO)}
                   className={`p-2.5 rounded-2xl border text-xs font-normal flex flex-col items-center justify-center gap-1.5 transition-all active:scale-95 touch-manipulation ${
                     onlyVO
-                      ? 'bg-[#4f5af6] border-[#4f5af6] text-white shadow-sm'
+                      ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
                       : 'bg-white dark:bg-[#1c1c1e] border-black/[0.06] dark:border-white/10 text-neutral-700 dark:text-neutral-300'
                   }`}
                 >
@@ -165,7 +165,7 @@ export function CineRouletteModal({ films = [], isOpen: controlledIsOpen, onClos
                   onClick={() => setOnlyTopRated(!onlyTopRated)}
                   className={`p-2.5 rounded-2xl border text-xs font-normal flex flex-col items-center justify-center gap-1.5 transition-all active:scale-95 touch-manipulation ${
                     onlyTopRated
-                      ? 'bg-[#4f5af6] border-[#4f5af6] text-white shadow-sm'
+                      ? 'bg-[#444cf7] border-[#444cf7] text-white shadow-sm'
                       : 'bg-white dark:bg-[#1c1c1e] border-black/[0.06] dark:border-white/10 text-neutral-700 dark:text-neutral-300'
                   }`}
                 >
@@ -184,7 +184,7 @@ export function CineRouletteModal({ films = [], isOpen: controlledIsOpen, onClos
                       className="w-[72px] h-[104px] object-cover rounded-xl shrink-0 bg-neutral-900 shadow-sm"
                     />
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-1.5 text-xs text-[#4f5af6] font-bold">
+                      <div className="flex items-center gap-1.5 text-xs text-[#444cf7] font-bold">
                         <PopcornIcon size={14} />
                         <span>Séance Recommandée</span>
                       </div>
@@ -210,7 +210,7 @@ export function CineRouletteModal({ films = [], isOpen: controlledIsOpen, onClos
                         <p className="text-xs font-normal text-neutral-800 dark:text-neutral-200 truncate">
                           {selectedResult.cinema}
                         </p>
-                        <p className="text-base font-normal text-[#4f5af6]">
+                        <p className="text-base font-normal text-[#444cf7]">
                           {selectedResult.seance.time}
                         </p>
                       </div>
@@ -223,7 +223,7 @@ export function CineRouletteModal({ films = [], isOpen: controlledIsOpen, onClos
                       handleClose();
                       router.push(`/film/${selectedResult.film.slug}`);
                     }}
-                    className="w-full py-3 rounded-2xl bg-[#4f5af6] hover:bg-[#3339c4] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md shadow-[#4f5af6]/20 transition-all active:scale-98 touch-manipulation"
+                    className="w-full py-3 rounded-2xl bg-[#444cf7] hover:bg-[#3339c4] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md shadow-[#444cf7]/20 transition-all active:scale-98 touch-manipulation"
                   >
                     <Ticket size={14} />
                     <span>Voir la fiche &amp; les séances</span>
@@ -242,7 +242,7 @@ export function CineRouletteModal({ films = [], isOpen: controlledIsOpen, onClos
               <button
                 type="button"
                 onClick={roll}
-                className="w-full py-3.5 rounded-2xl bg-[#4f5af6] hover:bg-[#3339c4] text-white font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-[#4f5af6]/30 transition-all active:scale-98 touch-manipulation"
+                className="w-full py-3.5 rounded-2xl bg-[#444cf7] hover:bg-[#3339c4] text-white font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-[#444cf7]/30 transition-all active:scale-98 touch-manipulation"
               >
                 <Dices size={18} />
                 <span>Relancer la roulette</span>

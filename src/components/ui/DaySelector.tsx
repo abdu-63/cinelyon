@@ -28,7 +28,7 @@ export function DaySelector({ dates = [], selectedDelta, onSelect }: DaySelector
           onClick={() => onSelect(null)}
           className={`h-12 min-w-[70px] px-4 rounded-[24px] flex items-center justify-center font-normal text-xs transition-all shrink-0 border active:scale-95 touch-manipulation select-none ${
             selectedDelta === null
-              ? 'bg-[#4f5af6] border-[#4f5af6] text-white shadow-md shadow-[#4f5af6]/25'
+              ? 'bg-primary border-primary text-primary-contrast shadow-md shadow-primary/25'
               : 'bg-white dark:bg-[#1c1c1e] border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/25'
           }`}
         >
@@ -50,15 +50,15 @@ export function DaySelector({ dates = [], selectedDelta, onSelect }: DaySelector
               onClick={() => onSelect(date.index)}
               className={`h-12 min-w-[70px] px-3.5 rounded-[24px] flex flex-col items-center justify-center transition-all shrink-0 border active:scale-95 touch-manipulation select-none ${
                 isSelected
-                  ? 'bg-[#4f5af6] border-[#4f5af6] text-white shadow-md shadow-[#4f5af6]/25'
+                  ? 'bg-primary border-primary text-primary-contrast shadow-md shadow-primary/25'
                   : isToday
-                  ? 'bg-white dark:bg-[#1c1c1e] border-2 border-[#4f5af6] text-neutral-900 dark:text-white shadow-sm'
+                  ? 'bg-white dark:bg-[#1c1c1e] border-2 border-primary text-neutral-900 dark:text-white shadow-sm'
                   : 'bg-white dark:bg-[#1c1c1e] border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/25'
               }`}
             >
               <span
                 className={`text-[12px] font-normal leading-tight ${
-                  isSelected ? 'text-white' : isToday ? 'text-[#4f5af6]' : 'text-neutral-900 dark:text-white'
+                  isSelected ? 'text-primary-contrast' : isToday ? 'text-primary' : 'text-neutral-900 dark:text-white'
                 }`}
               >
                 {label}
@@ -66,7 +66,7 @@ export function DaySelector({ dates = [], selectedDelta, onSelect }: DaySelector
               {sublabel && (
                 <span
                   className={`text-[10px] font-normal leading-tight mt-0.5 ${
-                    isSelected ? 'text-white/90' : 'text-neutral-500 dark:text-neutral-400'
+                    isSelected ? 'text-primary-contrast/90' : 'text-neutral-500 dark:text-neutral-400'
                   }`}
                 >
                   {sublabel}

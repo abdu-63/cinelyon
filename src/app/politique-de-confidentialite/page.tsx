@@ -43,7 +43,7 @@ export default function PrivacyPolicyPage() {
         <div className="flex items-center justify-between">
           <Link
             href="/"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-600 dark:text-neutral-400 hover:text-[#4f5af6] dark:hover:text-[#4f5af6] transition-colors py-1 px-2.5 rounded-full bg-white/60 dark:bg-white/5 border border-black/[0.06] dark:border-white/10 backdrop-blur-md shadow-2xs"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-600 dark:text-neutral-400 hover:text-[#444cf7] dark:hover:text-[#444cf7] transition-colors py-1 px-2.5 rounded-full bg-white/60 dark:bg-white/5 border border-black/[0.06] dark:border-white/10 backdrop-blur-md shadow-2xs"
           >
             <ChevronLeft size={14} />
             <span>Retour aux séances</span>
@@ -55,10 +55,10 @@ export default function PrivacyPolicyPage() {
 
         {/* En-tête de la page */}
         <div className="rounded-[28px] p-6 sm:p-8 bg-white/70 dark:bg-[#18181b]/80 border border-black/[0.06] dark:border-white/10 shadow-sm backdrop-blur-xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-[#4f5af6]/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
+          <div className="absolute top-0 right-0 w-64 h-64 bg-[#444cf7]/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
 
           <div className="relative space-y-3">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#4f5af6]/10 dark:bg-[#4f5af6]/20 text-[#4f5af6] border border-[#4f5af6]/20 text-xs font-bold">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#444cf7]/10 dark:bg-[#444cf7]/20 text-[#444cf7] border border-[#444cf7]/20 text-xs font-bold">
               <ShieldCheck size={14} />
               <span>Conformité RGPD & Apple Guidelines</span>
             </div>
@@ -74,8 +74,8 @@ export default function PrivacyPolicyPage() {
             </p>
 
             {/* Encadré Principe Fondamental */}
-            <div className="p-4 rounded-2xl bg-gradient-to-r from-[#4f5af6]/10 via-[#4f5af6]/5 to-transparent border border-[#4f5af6]/20 flex items-start gap-3 mt-4">
-              <EyeOff size={20} className="text-[#4f5af6] shrink-0 mt-0.5" />
+            <div className="p-4 rounded-2xl bg-gradient-to-r from-[#444cf7]/10 via-[#444cf7]/5 to-transparent border border-[#444cf7]/20 flex items-start gap-3 mt-4">
+              <EyeOff size={20} className="text-[#444cf7] shrink-0 mt-0.5" />
               <div className="text-xs text-neutral-700 dark:text-neutral-300 space-y-1">
                 <p className="font-bold text-neutral-900 dark:text-white">
                   Principe fondamental : Privacy by Design
@@ -106,21 +106,21 @@ export default function PrivacyPolicyPage() {
 
           <ul className="space-y-2.5 text-xs sm:text-sm text-neutral-600 dark:text-neutral-300">
             <li className="flex items-start gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#444cf7] mt-1.5 shrink-0" />
+              <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
               <span>
                 <strong className="text-neutral-900 dark:text-white">Identifiant de Synchronisation (Sync ID) & Pseudo :</strong>{' '}
                 Un code aléatoire anonyme (ex: 6 caractères) et un pseudonyme facultatif choisi par l&apos;utilisateur pour synchroniser vos films favoris, cinémas préférés et partager vos séances avec des amis sans nécessiter d&apos;email obligatoire.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#444cf7] mt-1.5 shrink-0" />
+              <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
               <span>
                 <strong className="text-neutral-900 dark:text-white">Favoris & Réservations :</strong>{' '}
                 Vos cinémas et films favoris ainsi que vos séances programmées sont enregistrés localement sur votre appareil (cache persistant) et sauvegardés de façon sécurisée avec votre Sync ID.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#444cf7] mt-1.5 shrink-0" />
+              <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
               <span>
                 <strong className="text-neutral-900 dark:text-white">Avatar / Photo de profil :</strong>{' '}
                 Si vous choisissez de personnaliser votre avatar, celui-ci est stocké localement ou associé à votre identifiant sécurisé sans aucune transmission à des tiers.
@@ -147,7 +147,7 @@ export default function PrivacyPolicyPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
             <div className="p-3.5 rounded-2xl bg-neutral-50 dark:bg-white/[0.03] border border-black/[0.04] dark:border-white/5 space-y-1">
               <div className="flex items-center gap-2 text-xs font-bold text-neutral-900 dark:text-white">
-                <Calendar size={14} className="text-[#444cf7]" />
+                <Calendar size={14} className="text-primary" />
                 <span>Calendrier personnel</span>
               </div>
               <p className="text-[11px] text-neutral-500 dark:text-neutral-400 leading-normal">
@@ -157,7 +157,7 @@ export default function PrivacyPolicyPage() {
 
             <div className="p-3.5 rounded-2xl bg-neutral-50 dark:bg-white/[0.03] border border-black/[0.04] dark:border-white/5 space-y-1">
               <div className="flex items-center gap-2 text-xs font-bold text-neutral-900 dark:text-white">
-                <Bell size={14} className="text-[#444cf7]" />
+                <Bell size={14} className="text-primary" />
                 <span>Notifications & Rappels</span>
               </div>
               <p className="text-[11px] text-neutral-500 dark:text-neutral-400 leading-normal">
@@ -168,80 +168,45 @@ export default function PrivacyPolicyPage() {
         </section>
 
         {/* ── 3. Conservation et Sécurité ── */}
-        <section className="rounded-[24px] p-6 bg-white/60 dark:bg-[#18181b]/60 border border-black/[0.06] dark:border-white/10 shadow-2xs backdrop-blur-md space-y-4">
+        <section className="rounded-[24px] p-6 bg-white/60 dark:bg-[#18181b]/60 border border-black/[0.06] dark:border-white/10 shadow-2xs backdrop-blur-md space-y-3">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center">
               <Lock size={16} />
             </div>
             <h2 className="text-base font-bold text-neutral-900 dark:text-white">
-              3. Conservation des données et Sécurité
+              3. Durée de Conservation & Sécurité
             </h2>
           </div>
 
           <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
-            Vos données sont protégées par les standards de sécurité les plus stricts de l&apos;industrie :
+            Vos données synchronisées restent associées à votre Sync ID anonyme. Vous pouvez à tout moment réinitialiser vos données ou supprimer votre Sync ID en effaçant les données du cache local de l&apos;application dans les réglages de votre navigateur ou de votre téléphone. Les communications avec notre base de données Supabase sont chiffrées via TLS/HTTPS selon les standards les plus stricts de l&apos;industrie.
           </p>
-
-          <ul className="space-y-2 text-xs sm:text-sm text-neutral-600 dark:text-neutral-300">
-            <li className="flex items-start gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 shrink-0" />
-              <span>Stockage local chiffré et sécurisé sur votre terminal (LocalStorage / MMKV / Keychain).</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 shrink-0" />
-              <span>Base de données Supabase protégée par des politiques de sécurité au niveau des lignes (Row-Level Security / RLS).</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 shrink-0" />
-              <span>Chiffrement SSL/TLS de bout en bout pour tous les échanges réseau.</span>
-            </li>
-          </ul>
         </section>
 
-        {/* ── 4. Vos Droits et Suppression Définitive ── */}
-        <section className="rounded-[24px] p-6 bg-white/60 dark:bg-[#18181b]/60 border border-black/[0.06] dark:border-white/10 shadow-2xs backdrop-blur-md space-y-4">
+        {/* ── 4. Aucun Traceur & Aucune Vente de Données ── */}
+        <section className="rounded-[24px] p-6 bg-white/60 dark:bg-[#18181b]/60 border border-black/[0.06] dark:border-white/10 shadow-2xs backdrop-blur-md space-y-3">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center">
-              <Trash2 size={16} />
+              <EyeOff size={16} />
             </div>
             <h2 className="text-base font-bold text-neutral-900 dark:text-white">
-              4. Vos Droits & Suppression Définitive (RGPD)
+              4. Aucun Traceur & Aucune Vente de Données
             </h2>
           </div>
 
           <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
-            Conformément au Règlement Général sur la Protection des Données (RGPD) et aux exigences Apple Guideline 5.1.1(v), vous disposez d&apos;un contrôle total et direct sur vos informations :
+            CinéLyon est un service indépendant et non lucratif dédié aux cinéphiles lyonnais. <strong className="text-neutral-900 dark:text-white">Nous ne vendons, ne louons et ne partageons aucune donnée personnelle</strong> à des annonceurs publicitaires ou des courtiers de données (data brokers). Aucun SDK de pistage publicitaire tiers n&apos;est intégré.
           </p>
-
-          <div className="space-y-3 pt-1">
-            <div className="p-3.5 rounded-2xl bg-neutral-50 dark:bg-white/[0.03] border border-black/[0.04] dark:border-white/5 space-y-1">
-              <span className="text-xs font-bold text-neutral-900 dark:text-white block">
-                Droit d&apos;accès et d&apos;exportation :
-              </span>
-              <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                Vous pouvez exporter l&apos;intégralité de vos données (favoris, amis, préférences) au format JSON directement depuis la modale des réglages du site ou de l&apos;application.
-              </p>
-            </div>
-
-            <div className="p-3.5 rounded-2xl bg-neutral-50 dark:bg-white/[0.03] border border-black/[0.04] dark:border-white/5 space-y-1">
-              <span className="text-xs font-bold text-neutral-900 dark:text-white block">
-                Droit à l&apos;effacement immédiat (Droit à l&apos;oubli) :
-              </span>
-              <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                Vous pouvez supprimer définitivement et instantanément toutes vos données locales et distantes en un seul clic depuis l&apos;option « Supprimer mes données » dans les réglages.
-              </p>
-            </div>
-          </div>
         </section>
 
-        {/* ── 5. Services Tiers et Liens Externes ── */}
+        {/* ── 5. Billetteries Officielles & Services Tiers ── */}
         <section className="rounded-[24px] p-6 bg-white/60 dark:bg-[#18181b]/60 border border-black/[0.06] dark:border-white/10 shadow-2xs backdrop-blur-md space-y-3">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center">
               <ExternalLink size={16} />
             </div>
             <h2 className="text-base font-bold text-neutral-900 dark:text-white">
-              5. Services Tiers et Liens Externes
+              5. Billetteries Officielles & Services Tiers
             </h2>
           </div>
 
@@ -251,7 +216,7 @@ export default function PrivacyPolicyPage() {
         </section>
 
         {/* ── 6. Contact & Support ── */}
-        <section className="rounded-[28px] p-6 sm:p-8 bg-gradient-to-br from-[#444cf7]/10 via-transparent to-purple-500/10 border border-[#444cf7]/20 shadow-sm space-y-4 text-center">
+        <section className="rounded-[28px] p-6 sm:p-8 bg-gradient-to-br from-primary/10 via-transparent to-primary/5 border border-primary/20 shadow-sm space-y-4 text-center">
           <h2 className="text-base sm:text-lg font-bold text-neutral-900 dark:text-white">
             Une question ou une demande concernant vos données ?
           </h2>
@@ -261,7 +226,7 @@ export default function PrivacyPolicyPage() {
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <a
               href="mailto:cinelyon.fr@gmail.com?subject=[RGPD%20CinéLyon]%20Demande%20de%20renseignements"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#444cf7] text-white text-xs font-bold shadow-sm hover:opacity-95 active:scale-95 transition-all"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary text-white text-xs font-bold shadow-sm hover:opacity-95 active:scale-95 transition-all"
             >
               <Mail size={15} />
               <span>Contacter le DPO (cinelyon.fr@gmail.com)</span>

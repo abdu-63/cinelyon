@@ -3,14 +3,14 @@
 
 import React, { memo, useState, useMemo, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Heart, ChevronRight, Calendar } from 'lucide-react';
+import { Heart, ChevronRight } from 'lucide-react';
 import { Film, DateLabel } from '@/types';
 import { useTranslation } from '@/i18n';
 import { formatDayLabel, formatLocalizedDayLabel, formatTime, getDeltaForDate } from '@/utils/dateUtils';
 import { isPastSeance, hasVisibleSeances, getDateLabelByDay } from '@/utils/showtimes';
 import { formatLocalizedGenres, formatLocalizedDuration } from '@/utils/filmLocalizationUtils';
 import { formatSeanceLang } from '@/utils/languageUtils';
-import { downloadICS } from '@/utils/calendarUtils';
+import { DaySeances } from '@/components/ui/DaySeances';
 
 interface FilmCardProps {
   film: Film;
@@ -116,10 +116,10 @@ export const FilmCard = memo(function FilmCard({
       <div className="group relative rounded-[18px] sm:rounded-[20px] overflow-hidden bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:shadow-md transition-all duration-200 ease-out">
         <div
           onClick={() => router.push(`/film/${film.slug}`)}
-          className="flex items-start cursor-pointer select-none"
+          className="flex items-start md:items-stretch cursor-pointer select-none"
         >
-          {/* Affiche (100px x 144px identique au mobile) */}
-          <div className="relative shrink-0 w-[100px] h-[144px] overflow-hidden bg-neutral-900">
+          {/* Affiche (Mobile: 100x144px strict / Desktop: agrandie & étirée pour combler la hauteur) */}
+          <div className="relative shrink-0 w-[100px] h-[144px] md:w-[155px] md:h-auto md:self-stretch md:min-h-[175px] overflow-hidden bg-neutral-900">
             <img
               src={film.affiche || '/images/nocontent.png'}
               alt={film.title}
@@ -127,18 +127,18 @@ export const FilmCard = memo(function FilmCard({
               loading="lazy"
             />
             {film.isNew && (
-              <div className="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded-md bg-[#4f5af6] text-[8.5px] font-normal tracking-wider text-white shadow-sm">
+              <div className="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded-md bg-primary text-[8.5px] font-normal tracking-wider text-primary-contrast shadow-sm z-10">
                 NOUVEAU
               </div>
             )}
           </div>
 
           {/* Info Film */}
-          <div className="flex-1 min-w-0 p-2.5 sm:p-3 flex flex-col justify-between self-stretch">
+          <div className="flex-1 min-w-0 p-2.5 sm:p-3 md:p-3.5 flex flex-col justify-between self-stretch">
             <div>
               {/* Ligne Titre + Favori */}
               <div className="flex items-start justify-between gap-1">
-                <h3 className="font-normal text-[14px] sm:text-[15px] leading-[18px] text-neutral-900 dark:text-white group-hover:text-[#4f5af6] transition-colors line-clamp-2 pr-0.5">
+                <h3 className="font-normal text-[14px] sm:text-[15px] leading-[18px] text-neutral-900 dark:text-white group-hover:text-primary transition-colors line-clamp-2 pr-0.5">
                   {film.title}
                   {film.release_year && film.release_year !== 'inconnue' && (
                     <span className="font-normal text-neutral-500 dark:text-neutral-400 text-[12px] sm:text-[13px]"> ({film.release_year})</span>
@@ -213,9 +213,9 @@ export const FilmCard = memo(function FilmCard({
               )}
 
               {/* Chevron nav */}
-              <div className="opacity-70 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-neutral-600 dark:text-neutral-400 flex items-center gap-0.5 text-xs font-normal text-[#4f5af6]">
+              <div className="opacity-70 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-neutral-600 dark:text-neutral-400 flex items-center gap-0.5 text-xs font-normal text-primary">
                 <span className="hidden sm:inline text-[11px] font-normal">Détails</span>
-                <ChevronRight size={15} className="text-[#4f5af6]" />
+                <ChevronRight size={15} className="text-primary" />
               </div>
             </div>
           </div>
@@ -224,7 +224,7 @@ export const FilmCard = memo(function FilmCard({
 
       {/* ── 2. Bouton Jour & Séances dépliables sous la carte ── */}
       {visibleDayLabels.length > 0 && (
-        <div className="mt-1.5 pl-0.5 sm:pl-1">
+        <div className="mt-3 pl-0.5 sm:pl-1">
           {/* Mini-calendrier du film */}
           <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1">
             {visibleDayLabels.map((dayLabel) => {
@@ -244,7 +244,7 @@ export const FilmCard = memo(function FilmCard({
                   onClick={() => handleDayClick(dayLabel)}
                   className={`relative px-3.5 py-1.5 rounded-[18px] text-[12px] font-normal tracking-tight transition-all shrink-0 active:scale-95 touch-manipulation select-none ${
                     isActive
-                      ? 'bg-[#4f5af6] text-white shadow-xs'
+                      ? 'bg-primary text-primary-contrast shadow-xs'
                       : 'bg-[#f0f2f5] dark:bg-[#252528] text-neutral-800 dark:text-neutral-200 hover:bg-neutral-200/80 dark:hover:bg-[#2e2e32]'
                   }`}
                 >
@@ -259,88 +259,23 @@ export const FilmCard = memo(function FilmCard({
 
           {/* Déploiement des séances */}
           {activeDayLabel && (
-            <div className="mt-1.5 space-y-[6px] animate-in fade-in duration-150">
+            <div className="mt-1.5 animate-in fade-in duration-150">
               {totalVisibleSeances === 0 ? (
                 <div className="py-2.5 px-3.5 rounded-[14px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 text-center text-xs font-normal text-neutral-500 dark:text-neutral-400 shadow-2xs">
                   Toutes les séances de cette journée sont passées.
                 </div>
               ) : (
-                Object.entries(seancesForDay).map(([cinemaName, seances]) => {
-                  const isToday = getDeltaForDate(selectedIsoDate) === 0;
-                  const visibleSeances =
-                    isToday && hidePastSessions
-                      ? seances.filter((s) => !isPastSeance(s.time))
-                      : seances;
-
-                  if (visibleSeances.length === 0) return null;
-
-                  return (
-                    <div key={cinemaName} className="flex items-center gap-1.5">
-                      {/* Badge Cinéma (Portage exact mobile : width 100px, height 42px, borderRadius 5px, font-normal) */}
-                      <div className="w-[100px] min-w-[100px] max-w-[100px] h-[42px] shrink-0 rounded-[5px] bg-[#4f5af6] text-white flex items-center justify-center px-1.5 py-1 text-center shadow-xs">
-                        <span className="text-[12px] font-normal leading-[14px] line-clamp-3 text-center">
-                          {cinemaName}
-                        </span>
-                      </div>
-
-                      {/* Horaires horizontaux */}
-                      <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 pr-2">
-                        {visibleSeances.map((seance, idx) => {
-                          const langBadge = formatSeanceLang(seance.lang, film.original_language);
-                          return (
-                            <div
-                              key={`${seance.time}-${idx}`}
-                              className="shrink-0 h-[42px] min-w-[72px] px-2 py-1 rounded-[10px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 hover:border-[#4f5af6]/60 dark:hover:border-[#4f5af6]/60 flex flex-col justify-between transition-colors group/pill"
-                            >
-                              <div className="flex items-center justify-between gap-1 text-[9px] font-normal text-[#999] leading-none pt-0.5">
-                                <span>{langBadge}</span>
-                                {seance.format && (
-                                  <span className="text-[8px] font-normal uppercase text-[#999] truncate max-w-[42px]">
-                                    {seance.format.split(', ')[0]}
-                                  </span>
-                                )}
-                              </div>
-
-                              <div className="flex items-center justify-between gap-1">
-                                <a
-                                  href={seance.ticketing_url || undefined}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className={`text-[13px] font-normal text-[#4f5af6] group-hover/pill:underline leading-none ${
-                                    !seance.ticketing_url ? 'cursor-default' : ''
-                                  }`}
-                                >
-                                  {formatTime(seance.time)}
-                                </a>
-
-                                <button
-                                  type="button"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    downloadICS({
-                                      movieTitle: film.title,
-                                      cinema: cinemaName,
-                                      date: selectedIsoDate,
-                                      time: seance.time,
-                                      duree: film.duree || '2h 00min',
-                                      lang: seance.lang,
-                                      ticketUrl: seance.ticketing_url || undefined,
-                                    });
-                                  }}
-                                  className="text-[#999] hover:text-neutral-800 dark:hover:text-white p-0.5 transition-colors touch-manipulation"
-                                  title="Ajouter au calendrier"
-                                  aria-label="Ajouter au calendrier"
-                                >
-                                  <Calendar size={13} />
-                                </button>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  );
-                })
+                <DaySeances
+                  cinemas={seancesForDay}
+                  isoDate={selectedIsoDate}
+                  filmTitle={film.title}
+                  filmDuree={film.duree}
+                  filmUrl={film.url}
+                  filmYear={film.release_year}
+                  originalLanguage={film.original_language}
+                  hidePastSessions={hidePastSessions}
+                  groupByBrand={false}
+                />
               )}
             </div>
           )}

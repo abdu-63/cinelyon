@@ -37,7 +37,7 @@ export function ToiletBreaksSection({ info, film }: ToiletBreaksSectionProps) {
           Pauses Toilettes
         </h3>
         <div className="flex items-center gap-2">
-          <span className="px-3 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950/50 text-[#4f5af6] border border-blue-200 dark:border-blue-800 text-xs font-semibold">
+          <span className="px-3 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950/50 text-[#444cf7] border border-blue-200 dark:border-blue-800 text-xs font-semibold">
             {timesSummary}
           </span>
           {isSectionOpen ? (
@@ -76,8 +76,8 @@ export function ToiletBreaksSection({ info, film }: ToiletBreaksSectionProps) {
                           <span>Idéal</span>
                         </span>
                       ) : (
-                        <span className="font-semibold text-[#4f5af6] flex items-center gap-1">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#4f5af6]" />
+                        <span className="font-semibold text-[#444cf7] flex items-center gap-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#444cf7]" />
                           <span>Secondaire</span>
                         </span>
                       )}
@@ -86,7 +86,7 @@ export function ToiletBreaksSection({ info, film }: ToiletBreaksSectionProps) {
                     <button
                       type="button"
                       onClick={() => setExpandedBreakId(isExpanded ? null : breakId)}
-                      className="text-xs font-semibold text-[#4f5af6] hover:underline flex items-center gap-0.5"
+                      className="text-xs font-semibold text-[#444cf7] hover:underline flex items-center gap-0.5"
                     >
                       <span>{isExpanded ? 'Masquer' : `Résumé ${b.durationMinutes} min`}</span>
                       {isExpanded ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
@@ -102,7 +102,7 @@ export function ToiletBreaksSection({ info, film }: ToiletBreaksSectionProps) {
                   {isExpanded && (
                     <div className="p-3.5 rounded-[18px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm space-y-1 animate-in fade-in duration-150">
                       <div className="flex items-center gap-1.5 text-xs font-bold text-neutral-900 dark:text-white">
-                        <Sparkles size={13} className="text-[#4f5af6]" />
+                        <Sparkles size={13} className="text-[#444cf7]" />
                         <span>Pendant les {b.durationMinutes} min :</span>
                       </div>
                       <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">

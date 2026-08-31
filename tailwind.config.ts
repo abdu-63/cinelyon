@@ -14,8 +14,9 @@ const config: Config = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#444cf7',
-          hover: '#3339c4',
+          DEFAULT: 'var(--primary, #444cf7)',
+          hover: 'var(--primary-hover, #3339c4)',
+          contrast: 'var(--primary-contrast, #ffffff)',
         },
       },
       fontFamily: {

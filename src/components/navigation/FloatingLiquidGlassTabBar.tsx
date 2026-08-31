@@ -74,11 +74,11 @@ export function FloatingLiquidGlassTabBar() {
               {isActive && (
                 <motion.div
                   layoutId="activeTabIndicator"
-                  className="absolute inset-0 bg-[#4f5af6]/20 border border-[#4f5af6]/40 rounded-full shadow-inner"
+                  className="absolute inset-0 bg-primary/20 border border-primary/40 rounded-full shadow-inner"
                   transition={{ type: 'spring', stiffness: 450, damping: 32 }}
                 />
               )}
-              <Icon size={20} className={`stroke-[2.2] relative z-10 ${isActive ? 'text-[#4f5af6] drop-shadow-sm' : ''}`} />
+              <Icon size={20} className={`stroke-[2.2] relative z-10 ${isActive ? 'text-primary drop-shadow-sm' : ''}`} />
               <span className={`text-[10px] font-medium tracking-tight mt-0.5 relative z-10 ${isActive ? 'text-white font-semibold' : 'opacity-80'}`}>
                 {t(item.labelKey)}
               </span>

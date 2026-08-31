@@ -19,7 +19,10 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://cinelyon.fr'),
-  title: 'CinéLyon — Toutes les séances de cinéma à Lyon',
+  title: {
+    default: 'CinéLyon',
+    template: '%s — CinéLyon',
+  },
   description:
     'Découvrez toutes les séances de cinéma à Lyon et sa métropole. Horaires, films à l\'affiche, formats IMAX/3D/Dolby, avis et itinéraires TCL.',
   manifest: '/manifest.json',
@@ -72,7 +75,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://fr.web.img6.acsta.net" />
         <link rel="dns-prefetch" href="https://image.tmdb.org" />
       </head>
-      <body className="min-h-screen flex flex-col bg-[#f5f6f8] dark:bg-[#121214] text-neutral-900 dark:text-white selection:bg-[#4f5af6] selection:text-white antialiased transition-colors duration-150">
+      <body className="min-h-screen flex flex-col bg-[#f5f6f8] dark:bg-[#121214] text-neutral-900 dark:text-white selection:bg-[#444cf7] selection:text-white antialiased transition-colors duration-150">
         <QueryClientProvider>
           <ThemeProvider>
             <I18nProvider>

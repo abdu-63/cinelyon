@@ -9,7 +9,7 @@ const CinemaMap = dynamic(() => import('@/components/map/CinemaMap'), {
   loading: () => (
     <div className="w-full h-[calc(100vh-140px)] min-h-[550px] rounded-3xl liquid-glass border border-white/10 flex items-center justify-center text-neutral-400 text-sm">
       <div className="flex flex-col items-center gap-3">
-        <div className="w-10 h-10 rounded-2xl bg-[#444cf7]/20 border border-[#444cf7]/30 flex items-center justify-center text-[#444cf7] animate-pulse">
+        <div className="w-10 h-10 rounded-2xl bg-primary/20 border border-primary/30 flex items-center justify-center text-primary animate-pulse">
           <MapPin size={20} />
         </div>
         <p>Chargement de la carte des cinémas de Lyon...</p>
@@ -25,7 +25,7 @@ export default function MapPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2">
         <div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2.5">
-            <MapPin className="text-[#444cf7]" size={26} />
+            <MapPin className="text-primary" size={26} />
             <span>Carte des Cinémas & Réseau TCL</span>
           </h1>
           <p className="text-xs sm:text-sm text-neutral-400 mt-0.5">

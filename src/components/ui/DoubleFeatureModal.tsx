@@ -3,9 +3,19 @@
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Search, ChevronDown, MapPin, Building2, Timer, ArrowRight } from 'lucide-react';
+import {
+  X,
+  ChevronDown,
+  Timer,
+  ArrowRight,
+  ExternalLink,
+  Calendar,
+  Building2,
+  Ticket,
+} from 'lucide-react';
 import { Film, DateLabel } from '@/types';
 import { findDoubleFeaturePairs, DoubleFeaturePair } from '@/utils/doubleFeature';
+import { downloadICS } from '@/utils/calendarUtils';
 
 interface DoubleFeatureModalProps {
   films?: Film[];
@@ -26,6 +36,7 @@ export function DoubleFeatureModal({
   const [selectedDayIdx, setSelectedDayIdx] = useState<number>(0);
   const [timePeriod, setTimePeriod] = useState<'all' | 'afternoon' | 'evening'>('all');
   const [sameCinemaOnly, setSameCinemaOnly] = useState(true);
+  const [selectedCinema, setSelectedCinema] = useState<string>('all');
   const [priorityFilmQuery, setPriorityFilmQuery] = useState('');
   const [expandedPairId, setExpandedPairId] = useState<string | null>(null);
 
@@ -50,8 +61,23 @@ export function DoubleFeatureModal({
     return findDoubleFeaturePairs(films, currentDateObj, {
       allowCrossCinema: !sameCinemaOnly,
       timeSlot: timePeriod,
+      targetCinemas: selectedCinema !== 'all' ? [selectedCinema] : undefined,
     });
-  }, [films, currentDateObj, sameCinemaOnly, timePeriod]);
+  }, [films, currentDateObj, sameCinemaOnly, timePeriod, selectedCinema]);
+
+  // Extraire la liste des cinémas disponibles pour ce jour
+  const availableCinemas = useMemo(() => {
+    if (!films || films.length === 0 || !currentDateObj) return [];
+    const set = new Set<string>();
+    const allPairs = findDoubleFeaturePairs(films, currentDateObj, {
+      allowCrossCinema: true,
+      timeSlot: 'all',
+    });
+    allPairs.forEach((p) => {
+      p.cinemas.forEach((c) => set.add(c));
+    });
+    return Array.from(set).sort((a, b) => a.localeCompare(b, 'fr'));
+  }, [films, currentDateObj]);
 
   const filteredPairs = useMemo(() => {
     if (!priorityFilmQuery.trim()) return pairs;
@@ -62,6 +88,25 @@ export function DoubleFeatureModal({
         p.filmB.title.toLowerCase().includes(q)
     );
   }, [pairs, priorityFilmQuery]);
+
+  const handleCalendar = (
+    filmTitle: string,
+    cinema: string,
+    time: string,
+    duree: string,
+    lang?: string,
+    ticketUrl?: string
+  ) => {
+    downloadICS({
+      movieTitle: filmTitle,
+      cinema,
+      date: currentDateObj?.fullDate || currentDateObj?.jour || '',
+      time,
+      duree: duree || '2h 00min',
+      lang,
+      ticketUrl,
+    });
+  };
 
   return (
     <AnimatePresence>
@@ -85,14 +130,14 @@ export function DoubleFeatureModal({
             {/* Header */}
             <div className="flex items-center justify-between p-4 sm:p-5 border-b border-black/[0.06] dark:border-white/10 bg-white dark:bg-[#1c1c1e]">
               <div className="flex items-center gap-2.5">
-                <div className="w-10 h-10 rounded-2xl bg-[#4f5af6]/10 text-[#4f5af6] flex items-center justify-center">
+                <div className="w-10 h-10 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
                   <Timer size={22} />
                 </div>
                 <div>
-                  <h3 className="text-base sm:text-lg font-title font-extrabold text-neutral-900 dark:text-white leading-tight">
+                  <h3 className="text-base sm:text-lg font-title font-semibold text-neutral-900 dark:text-white leading-tight">
                     Double Programme
                   </h3>
-                  <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                  <p className="text-xs text-neutral-500 dark:text-neutral-400 font-normal">
                     Enchaîne deux séances compatibles sans temps mort
                   </p>
                 </div>
@@ -108,15 +153,16 @@ export function DoubleFeatureModal({
 
             {/* Filtres & Contrôles */}
             <div className="p-4 bg-white dark:bg-[#1c1c1e] border-b border-black/[0.06] dark:border-white/10 space-y-3">
+              {/* Sélecteur de jour */}
               <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5">
                 {dates.map((d, idx) => (
                   <button
                     key={d.isoDate}
                     type="button"
                     onClick={() => setSelectedDayIdx(idx)}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-normal transition-all shrink-0 active:scale-95 touch-manipulation ${
+                    className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all shrink-0 active:scale-95 touch-manipulation ${
                       selectedDayIdx === idx
-                        ? 'bg-[#4f5af6] text-white shadow-xs'
+                        ? 'bg-primary text-primary-contrast shadow-xs'
                         : 'bg-neutral-100 dark:bg-[#252528] text-neutral-700 dark:text-neutral-300'
                     }`}
                   >
@@ -125,19 +171,39 @@ export function DoubleFeatureModal({
                 ))}
               </div>
 
+              {/* Ligne filtres : Même cinéma, Choix cinéma, Période */}
               <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-2 flex-wrap">
                   <button
                     type="button"
                     onClick={() => setSameCinemaOnly(!sameCinemaOnly)}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-normal border transition-all active:scale-95 touch-manipulation ${
+                    className={`px-3 py-1.5 rounded-xl text-xs font-medium border transition-all active:scale-95 touch-manipulation ${
                       sameCinemaOnly
-                        ? 'bg-[#4f5af6] border-[#4f5af6] text-white'
+                        ? 'bg-primary border-primary text-primary-contrast'
                         : 'bg-neutral-100 dark:bg-[#252528] border-black/5 dark:border-white/10 text-neutral-700 dark:text-neutral-300'
                     }`}
                   >
                     Même cinéma uniquement
                   </button>
+
+                  {/* Sélecteur de cinéma */}
+                  {availableCinemas.length > 0 && (
+                    <div className="flex items-center gap-1">
+                      <Building2 size={14} className="text-neutral-400" />
+                      <select
+                        value={selectedCinema}
+                        onChange={(e) => setSelectedCinema(e.target.value)}
+                        className="px-2.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-[#252528] text-xs font-medium text-neutral-800 dark:text-neutral-200 border border-black/5 dark:border-white/10 focus:outline-none cursor-pointer"
+                      >
+                        <option value="all">Tous les cinémas</option>
+                        {availableCinemas.map((c) => (
+                          <option key={c} value={c}>
+                            {c}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex items-center gap-1">
@@ -146,9 +212,9 @@ export function DoubleFeatureModal({
                       key={period}
                       type="button"
                       onClick={() => setTimePeriod(period)}
-                      className={`px-2.5 py-1 rounded-lg text-xs transition-all active:scale-95 touch-manipulation ${
+                      className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all active:scale-95 touch-manipulation ${
                         timePeriod === period
-                          ? 'bg-neutral-800 dark:bg-white text-white dark:text-neutral-900 font-bold'
+                          ? 'bg-neutral-800 dark:bg-white text-white dark:text-neutral-900 font-semibold'
                           : 'text-neutral-500 hover:text-neutral-800 dark:hover:text-white'
                       }`}
                     >
@@ -162,7 +228,7 @@ export function DoubleFeatureModal({
             {/* Liste des Combos */}
             <div className="p-4 sm:p-5 overflow-y-auto space-y-3 flex-1">
               {filteredPairs.length === 0 ? (
-                <div className="py-12 text-center text-xs text-neutral-400">
+                <div className="py-12 text-center text-xs text-neutral-400 font-normal">
                   Aucun duo compatible trouvé pour ce jour avec ces filtres.
                 </div>
               ) : (
@@ -196,14 +262,14 @@ export function DoubleFeatureModal({
                           </div>
 
                           <div className="min-w-0 space-y-0.5">
-                            <p className="text-xs font-normal text-neutral-900 dark:text-white truncate">
+                            <p className="text-xs font-medium text-neutral-900 dark:text-white truncate">
                               1. {pair.filmA.title}
                             </p>
-                            <p className="text-xs font-normal text-neutral-900 dark:text-white truncate">
+                            <p className="text-xs font-medium text-neutral-900 dark:text-white truncate">
                               2. {pair.filmB.title}
                             </p>
-                            <p className="text-[11px] text-neutral-500 dark:text-neutral-400">
-                              Dès {firstSlot.first.startTimeFormatted} · {pair.slots.length} options
+                            <p className="text-[11px] text-neutral-500 dark:text-neutral-400 font-normal">
+                              Dès {firstSlot.first.startTimeFormatted} · {pair.slots.length} option{pair.slots.length > 1 ? 's' : ''}
                             </p>
                           </div>
                         </div>
@@ -218,32 +284,123 @@ export function DoubleFeatureModal({
 
                       {/* Détail des créneaux */}
                       {isExpanded && (
-                        <div className="pt-2 border-t border-black/[0.06] dark:border-white/10 space-y-2 text-xs">
-                          {pair.slots.slice(0, 3).map((slot) => (
-                            <div
-                              key={slot.id}
-                              className="p-2.5 rounded-xl bg-neutral-50 dark:bg-[#161618] border border-black/[0.04] dark:border-white/5 space-y-1.5"
-                            >
-                              <div className="flex items-center justify-between text-xs font-normal">
-                                <span className="text-neutral-800 dark:text-neutral-200">
-                                  {slot.first.startTimeFormatted} <ArrowRight size={11} className="inline mx-0.5 text-neutral-400" /> {slot.first.endTimeFormatted} : {slot.first.film.title}
-                                </span>
-                                <span className="text-neutral-500 dark:text-neutral-400">{slot.cinema1}</span>
-                              </div>
+                        <div className="pt-2 border-t border-black/[0.06] dark:border-white/10 space-y-2.5 text-xs">
+                          {pair.slots.slice(0, 4).map((slot) => {
+                            const hours = Math.floor(slot.totalDurationMinutes / 60);
+                            const mins = slot.totalDurationMinutes % 60;
+                            const durationStr = `${hours}h${String(mins).padStart(2, '0')}`;
 
-                              <div className="text-center text-[10px] font-normal text-emerald-600 dark:text-emerald-400 flex items-center justify-center gap-1">
-                                <Timer size={12} className="text-emerald-500" />
-                                <span>{slot.breakTimeMinutes} min de pause</span>
-                              </div>
+                            return (
+                              <div
+                                key={slot.id}
+                                className="p-3 rounded-2xl bg-neutral-50 dark:bg-[#161618] border border-black/[0.04] dark:border-white/5 space-y-2"
+                              >
+                                {/* En-tête : Durée totale */}
+                                <div className="flex items-center justify-between text-[11px] text-neutral-500 dark:text-neutral-400 pb-1 border-b border-black/[0.04] dark:border-white/5">
+                                  <span>{slot.isSameCinema ? slot.cinema1 : `${slot.cinema1} ➔ ${slot.cinema2}`}</span>
+                                  <span className="font-medium text-neutral-700 dark:text-neutral-300">
+                                    {durationStr} au total
+                                  </span>
+                                </div>
 
-                              <div className="flex items-center justify-between text-xs font-normal">
-                                <span className="text-neutral-800 dark:text-neutral-200">
-                                  {slot.second.startTimeFormatted} <ArrowRight size={11} className="inline mx-0.5 text-neutral-400" /> {slot.second.endTimeFormatted} : {slot.second.film.title}
-                                </span>
-                                <span className="text-neutral-500 dark:text-neutral-400">{slot.cinema2}</span>
+                                {/* Film 1 */}
+                                <div className="flex items-center justify-between text-xs font-normal gap-2">
+                                  <div className="min-w-0">
+                                    <span className="font-medium text-neutral-900 dark:text-white block truncate">
+                                      1. {slot.first.film.title}
+                                    </span>
+                                    <span className="text-[11px] text-neutral-500 dark:text-neutral-400">
+                                      {slot.first.startTimeFormatted} ➔ {slot.first.endTimeFormatted} · {slot.cinema1}
+                                    </span>
+                                  </div>
+
+                                  <div className="flex items-center gap-1.5 shrink-0">
+                                    {slot.first.seance.ticketing_url && (
+                                      <a
+                                        href={slot.first.seance.ticketing_url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="p-1.5 rounded-lg bg-blue-50 dark:bg-blue-950/40 text-primary hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors"
+                                        title="Réserver"
+                                        aria-label="Réserver"
+                                      >
+                                        <Ticket size={13} />
+                                      </a>
+                                    )}
+                                    <button
+                                      type="button"
+                                      onClick={() =>
+                                        handleCalendar(
+                                          slot.first.film.title,
+                                          slot.cinema1,
+                                          slot.first.startTimeFormatted,
+                                          slot.first.film.duree || '2h',
+                                          slot.first.seance.lang,
+                                          slot.first.seance.ticketing_url || undefined
+                                        )
+                                      }
+                                      className="p-1.5 rounded-lg bg-neutral-200/60 dark:bg-white/10 text-neutral-600 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white transition-colors"
+                                      title="Ajouter au calendrier"
+                                      aria-label="Ajouter au calendrier"
+                                    >
+                                      <Calendar size={13} />
+                                    </button>
+                                  </div>
+                                </div>
+
+                                {/* Pause indicator */}
+                                <div className="text-center text-[10px] font-normal text-emerald-600 dark:text-emerald-400 flex items-center justify-center gap-1 py-0.5">
+                                  <Timer size={12} className="text-emerald-500" />
+                                  <span>{slot.breakTimeMinutes} min de pause</span>
+                                </div>
+
+                                {/* Film 2 */}
+                                <div className="flex items-center justify-between text-xs font-normal gap-2">
+                                  <div className="min-w-0">
+                                    <span className="font-medium text-neutral-900 dark:text-white block truncate">
+                                      2. {slot.second.film.title}
+                                    </span>
+                                    <span className="text-[11px] text-neutral-500 dark:text-neutral-400">
+                                      {slot.second.startTimeFormatted} ➔ {slot.second.endTimeFormatted} · {slot.cinema2}
+                                    </span>
+                                  </div>
+
+                                  <div className="flex items-center gap-1.5 shrink-0">
+                                    {slot.second.seance.ticketing_url && (
+                                      <a
+                                        href={slot.second.seance.ticketing_url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="p-1.5 rounded-lg bg-blue-50 dark:bg-blue-950/40 text-primary hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors"
+                                        title="Réserver"
+                                        aria-label="Réserver"
+                                      >
+                                        <Ticket size={13} />
+                                      </a>
+                                    )}
+                                    <button
+                                      type="button"
+                                      onClick={() =>
+                                        handleCalendar(
+                                          slot.second.film.title,
+                                          slot.cinema2,
+                                          slot.second.startTimeFormatted,
+                                          slot.second.film.duree || '2h',
+                                          slot.second.seance.lang,
+                                          slot.second.seance.ticketing_url || undefined
+                                        )
+                                      }
+                                      className="p-1.5 rounded-lg bg-neutral-200/60 dark:bg-white/10 text-neutral-600 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white transition-colors"
+                                      title="Ajouter au calendrier"
+                                      aria-label="Ajouter au calendrier"
+                                    >
+                                      <Calendar size={13} />
+                                    </button>
+                                  </div>
+                                </div>
                               </div>
-                            </div>
-                          ))}
+                            );
+                          })}
                         </div>
                       )}
                     </div>

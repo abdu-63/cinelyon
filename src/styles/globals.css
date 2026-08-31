@@ -107,8 +107,8 @@
   --text-main: #111111;
   --text-muted: #666666;
   --text-subtle: #888888;
-  --primary: #4f5af6;
-  --primary-hover: #3d49e6;
+  --primary: #444cf7;
+  --primary-hover: #3339c4;
   --primary-contrast: #ffffff;
   --border-color: rgba(0, 0, 0, 0.08);
   --border-light: rgba(0, 0, 0, 0.05);
@@ -125,14 +125,75 @@
   --text-main: #ffffff;
   --text-muted: #8e8e93;
   --text-subtle: #636366;
-  --primary: #4f5af6;
-  --primary-hover: #3d49e6;
+  --primary: #444cf7;
+  --primary-hover: #3339c4;
   --primary-contrast: #ffffff;
   --border-color: rgba(255, 255, 255, 0.08);
   --border-light: rgba(255, 255, 255, 0.05);
   --card-bg: #1c1c1e;
   --card-border: rgba(255, 255, 255, 0.08);
   --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+[data-primary='violet'] {
+  --primary: #444cf7;
+  --primary-hover: #3339c4;
+  --primary-contrast: #ffffff;
+}
+
+[data-primary='blue'] {
+  --primary: #0161a7;
+  --primary-hover: #014a80;
+  --primary-contrast: #ffffff;
+}
+
+/* Mode Clair avec blanc -> adaptatif pour rester visible (noir élégant) */
+[data-primary='white'],
+[data-theme='light'][data-primary='white'],
+:root:not(.dark)[data-primary='white'] {
+  --primary: #1c1c1e;
+  --primary-hover: #2c2c2e;
+  --primary-contrast: #ffffff;
+}
+
+/* Mode Sombre avec blanc -> blanc éclatant avec texte contrasté sombre */
+[data-theme='dark'][data-primary='white'],
+.dark[data-primary='white'] {
+  --primary: #ffffff;
+  --primary-hover: #f0f0f0;
+  --primary-contrast: #121214;
+}
+
+/* Mode Clair avec noir -> noir élégant avec texte blanc */
+[data-primary='black'],
+[data-theme='light'][data-primary='black'],
+:root:not(.dark)[data-primary='black'] {
+  --primary: #1c1c1e;
+  --primary-hover: #2c2c2e;
+  --primary-contrast: #ffffff;
+}
+
+/* Mode Sombre avec noir -> adaptatif pour rester visible sur fond sombre (blanc éclatant) */
+[data-theme='dark'][data-primary='black'],
+.dark[data-primary='black'] {
+  --primary: #ffffff;
+  --primary-hover: #f0f0f0;
+  --primary-contrast: #121214;
+}
+
+/* Mode ClearDark -> blanc en mode sombre, noir en mode clair */
+[data-primary='cleardark'],
+[data-theme='light'][data-primary='cleardark'],
+:root:not(.dark)[data-primary='cleardark'] {
+  --primary: #1c1c1e;
+  --primary-hover: #2c2c2e;
+  --primary-contrast: #ffffff;
+}
+[data-theme='dark'][data-primary='cleardark'],
+.dark[data-primary='cleardark'] {
+  --primary: #ffffff;
+  --primary-hover: #f0f0f0;
+  --primary-contrast: #121214;
 }
 
 html,

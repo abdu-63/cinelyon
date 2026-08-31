@@ -31,9 +31,10 @@ import { PostCreditsBadge } from '@/components/ui/PostCreditsBadge';
 import { ToiletBreaksSection } from '@/components/ui/ToiletBreaksSection';
 import { RottenTomatoesIcon } from '@/components/ui/RottenTomatoesIcon';
 import { JustWatchBadge } from '@/components/ui/JustWatchBadge';
+import { LetterboxdLogo, AllocineLogo } from '@/components/ui/BrandIcons';
+import { FilmReviewsSection } from '@/components/ui/FilmReviewsSection';
+import { DaySeances } from '@/components/ui/DaySeances';
 import { getStreamingProviderWebUrl } from '@/utils/streamingProviders';
-import { formatSeanceLang } from '@/utils/languageUtils';
-import { downloadICS } from '@/utils/calendarUtils';
 
 export const revalidate = 300;
 
@@ -63,11 +64,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { film } = await getFilmData(slug);
 
   if (!film) {
-    return { title: 'Film non trouvé — CinéLyon' };
+    return { title: 'Film non trouvé' };
   }
 
   return {
-    title: `${film.title} (${film.release_year || 'Séances'}) — CinéLyon`,
+    title: `${film.title} (${film.release_year || 'Séances'})`,
     description: film.synopsis?.slice(0, 160) || `Séances et horaires pour ${film.title} à Lyon.`,
     openGraph: {
       title: `${film.title} — Séances et Horaires à Lyon`,
@@ -255,9 +256,9 @@ export default async function FilmPage({ params }: PageProps) {
               href={film.url || `https://letterboxd.com/search/${encodeURIComponent(film.title)}/`}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3.5 py-1.5 rounded-full bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-xs font-semibold text-neutral-800 dark:text-white flex items-center gap-1.5 shadow-sm hover:border-neutral-400 dark:hover:border-white/25 transition-colors"
+              className="px-3.5 py-1.5 rounded-full bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-xs font-medium text-neutral-800 dark:text-white flex items-center gap-1.5 shadow-sm hover:border-neutral-400 dark:hover:border-white/25 transition-colors"
             >
-              <span className="text-emerald-500 text-sm leading-none">●●●</span>
+              <LetterboxdLogo width={16} height={16} />
               <span>Letterboxd</span>
               <ExternalLink size={11} className="text-neutral-400 ml-0.5" />
             </a>
@@ -266,9 +267,9 @@ export default async function FilmPage({ params }: PageProps) {
               href={film.allocine_url || `https://www.allocine.fr/recherche/?q=${encodeURIComponent(film.title)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3.5 py-1.5 rounded-full bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-xs font-semibold text-neutral-800 dark:text-white flex items-center gap-1.5 shadow-sm hover:border-neutral-400 dark:hover:border-white/25 transition-colors"
+              className="px-3.5 py-1.5 rounded-full bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-xs font-medium text-neutral-800 dark:text-white flex items-center gap-1.5 shadow-sm hover:border-neutral-400 dark:hover:border-white/25 transition-colors"
             >
-              <span className="text-amber-500 font-bold text-xs">A</span>
+              <AllocineLogo width={16} height={16} />
               <span>AlloCiné</span>
               <ExternalLink size={11} className="text-neutral-400 ml-0.5" />
             </a>
@@ -277,14 +278,14 @@ export default async function FilmPage({ params }: PageProps) {
 
         <div className="border-t border-black/[0.06] dark:border-white/10 pt-3" />
 
-        {/* ── 4. Synopsis (Screenshot 3 Exact) ── */}
+        {/* ── 4. Synopsis ── */}
         {film.synopsis && film.synopsis !== 'Synopsis non disponible' && (
           <div className="space-y-2 px-1">
-            <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-bold text-sm">
-              <BookOpen size={16} className="text-[#4f5af6]" />
+            <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-semibold text-sm">
+              <BookOpen size={16} className="text-primary" />
               <span>Synopsis</span>
             </div>
-            <p className="text-xs sm:text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed">
+            <p className="text-xs sm:text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed font-normal">
               {film.synopsis}
             </p>
           </div>
@@ -292,36 +293,36 @@ export default async function FilmPage({ params }: PageProps) {
 
         <div className="border-t border-black/[0.06] dark:border-white/10 pt-3" />
 
-        {/* ── 5. Classification & Sensibilité (Screenshot 3 Exact) ── */}
+        {/* ── 5. Classification & Sensibilité ── */}
         <div className="space-y-1.5 px-1">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-bold text-sm">
-              <ShieldCheck size={16} className="text-[#4f5af6]" />
+            <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-semibold text-sm">
+              <ShieldCheck size={16} className="text-primary" />
               <span>Classification &amp; Sensibilité</span>
             </div>
-            <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 text-[11px] font-semibold">
+            <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 text-[11px] font-medium">
               Tous publics
             </span>
           </div>
-          <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
+          <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal">
             Ce film ne comporte aucun avertissement particulier et convient à tous les publics.
           </p>
         </div>
 
         <div className="border-t border-black/[0.06] dark:border-white/10 pt-3" />
 
-        {/* ── 6. Scènes Post-Générique (Screenshot 3 Exact) ── */}
+        {/* ── 6. Scènes Post-Générique ── */}
         <div className="space-y-1.5 px-1">
           <div className="flex items-center justify-between">
-            <h3 className="font-bold text-sm text-neutral-900 dark:text-white">
+            <h3 className="font-semibold text-sm text-neutral-900 dark:text-white">
               Scènes Post-Générique
             </h3>
-            <span className="px-2.5 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800/60 text-[11px] font-semibold flex items-center gap-1">
+            <span className="px-2.5 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800/60 text-[11px] font-medium flex items-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
               <span>1 Scène milieu</span>
             </span>
           </div>
-          <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
+          <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal">
             Une scène bonus est diffusée au milieu du générique. Vous n&apos;aurez pas besoin d&apos;attendre la toute fin.
           </p>
         </div>
@@ -336,8 +337,8 @@ export default async function FilmPage({ params }: PageProps) {
         {/* ── 8. Casting & Distribution ── */}
         {cast.length > 0 && (
           <div className="space-y-3 px-1">
-            <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-bold text-sm">
-              <Users size={16} className="text-[#4f5af6]" />
+            <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-semibold text-sm">
+              <Users size={16} className="text-primary" />
               <span>Casting</span>
             </div>
             <div className="flex items-center gap-4 overflow-x-auto no-scrollbar pb-1">
@@ -352,15 +353,15 @@ export default async function FilmPage({ params }: PageProps) {
                         loading="lazy"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-neutral-500 font-bold text-sm">
+                      <div className="w-full h-full flex items-center justify-center text-neutral-500 font-semibold text-sm">
                         {actor.name.charAt(0)}
                       </div>
                     )}
                   </div>
-                  <span className="text-xs font-bold text-neutral-900 dark:text-white line-clamp-1 leading-tight">
+                  <span className="text-xs font-semibold text-neutral-900 dark:text-white line-clamp-1 leading-tight">
                     {actor.name}
                   </span>
-                  <span className="text-[10px] text-neutral-500 dark:text-neutral-400 line-clamp-1 mt-0.5 leading-tight">
+                  <span className="text-[10px] text-neutral-500 dark:text-neutral-400 line-clamp-1 mt-0.5 leading-tight font-normal">
                     {actor.character}
                   </span>
                 </div>
@@ -374,8 +375,8 @@ export default async function FilmPage({ params }: PageProps) {
         {/* ── 9. Bande-Annonce Officielle ── */}
         {youtubeId && (
           <div className="space-y-2 px-1">
-            <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-bold text-sm">
-              <PlayCircle size={16} className="text-[#4f5af6]" />
+            <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-semibold text-sm">
+              <PlayCircle size={16} className="text-primary" />
               <span>Bande-annonce</span>
             </div>
             <div className="relative w-full aspect-video rounded-[20px] overflow-hidden shadow-md border border-black/10 dark:border-white/10 bg-neutral-900">
@@ -395,8 +396,8 @@ export default async function FilmPage({ params }: PageProps) {
         {/* ── 10. Disponible sur (Streaming) ── */}
         {film.watch_providers && film.watch_providers.length > 0 && (
           <div className="space-y-3 px-1">
-            <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-bold text-sm">
-              <Tv size={16} className="text-[#4f5af6]" />
+            <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-semibold text-sm">
+              <Tv size={16} className="text-primary" />
               <span>Disponible sur</span>
             </div>
 
@@ -418,11 +419,11 @@ export default async function FilmPage({ params }: PageProps) {
                         <img
                           src={p.logo_path}
                           alt={p.name}
-                          className="w-11 h-11 rounded-[14px] object-cover border border-black/10 dark:border-white/10 shadow-sm group-hover:shadow-md group-hover:border-[#4f5af6]/50 transition-all"
+                          className="w-11 h-11 rounded-[14px] object-cover border border-black/10 dark:border-white/10 shadow-sm group-hover:shadow-md group-hover:border-primary/50 transition-all"
                         />
                       </div>
                     )}
-                    <span className="text-[10px] text-neutral-600 dark:text-neutral-400 group-hover:text-[#4f5af6] dark:group-hover:text-[#4f5af6] mt-1 max-w-[72px] truncate font-medium transition-colors">
+                    <span className="text-[10px] text-neutral-600 dark:text-neutral-400 group-hover:text-primary dark:group-hover:text-primary mt-1 max-w-[72px] truncate font-medium transition-colors">
                       {p.name}
                     </span>
                   </a>
@@ -443,124 +444,44 @@ export default async function FilmPage({ params }: PageProps) {
 
         <div className="border-t border-black/[0.06] dark:border-white/10 pt-3" />
 
-        {/* ── 11. Critiques Spectateurs ── */}
-        <div className="space-y-2 px-1">
-          <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-bold text-sm">
-            <MessageSquare size={16} className="text-[#4f5af6]" />
-            <span>Critiques Spectateurs</span>
-          </div>
-
-          <div className="p-4 rounded-[20px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm space-y-2">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/50 text-[#4f5af6] flex items-center justify-center font-bold text-xs">
-                  A
-                </div>
-                <div>
-                  <h4 className="font-bold text-xs text-neutral-900 dark:text-white">anonyme</h4>
-                  <span className="text-[10px] text-neutral-400">31 juillet 2021</span>
-                </div>
-              </div>
-              <div className="flex items-center text-amber-400">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={12} className={i < 3 ? 'fill-amber-400' : 'text-neutral-300 dark:text-neutral-600'} />
-                ))}
-              </div>
-            </div>
-            <p className="text-xs text-neutral-700 dark:text-neutral-300 leading-relaxed">
-              De loin un divertissement intense et rythmé. Cascades spectaculaires et scènes d&apos;action toujours plus impressionnantes !
-            </p>
-          </div>
-        </div>
+        {/* ── 11. Critiques Spectateurs Dynamiques ── */}
+        <FilmReviewsSection reviews={film.reviews} rating={film.rating} />
 
         <div className="border-t border-black/[0.06] dark:border-white/10 pt-3" />
 
         {/* ── 12. Séances & Horaires ── */}
         <div className="space-y-3 px-1">
-          <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-bold text-sm">
-            <Clock size={16} className="text-[#4f5af6]" />
+          <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-semibold text-sm">
+            <Clock size={16} className="text-primary" />
             <span>Séances</span>
           </div>
 
           {validDays.length > 0 ? (
-            <div className="space-y-3">
+            <div className="space-y-4">
               {validDays.map((dayLabel) => {
                 const cinemas = film.seancesByDay[dayLabel] ?? {};
                 return (
-                  <div key={dayLabel} className="space-y-1.5">
-                    <span className="inline-block px-3 py-1 rounded-[16px] bg-[#4f5af6] text-white text-xs font-normal shadow-sm">
+                  <div key={dayLabel} className="space-y-2">
+                    <span className="inline-block px-3 py-1 rounded-[16px] bg-primary text-primary-contrast text-xs font-semibold shadow-xs">
                       {dayLabel}
                     </span>
 
-                    <div className="space-y-[6px]">
-                      {Object.entries(cinemas).map(([cinemaName, seances]) => (
-                        <div key={cinemaName} className="flex items-center gap-1.5">
-                          {/* Badge Cinéma (Portage exact mobile : width 100px, height 42px, borderRadius 5px, font-normal) */}
-                          <div className="w-[100px] min-w-[100px] max-w-[100px] h-[42px] shrink-0 rounded-[5px] bg-[#4f5af6] text-white flex items-center justify-center px-1.5 py-1 text-center shadow-xs">
-                            <span className="text-[12px] font-normal leading-[14px] line-clamp-3 text-center">
-                              {cinemaName}
-                            </span>
-                          </div>
-
-                          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 pr-2">
-                            {seances.map((seance, idx) => {
-                              const langBadge = formatSeanceLang(seance.lang, film.original_language);
-                              return (
-                                <div
-                                  key={`${seance.time}-${idx}`}
-                                  className="shrink-0 h-[42px] min-w-[72px] px-2 py-1 rounded-[10px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 hover:border-[#4f5af6]/60 dark:hover:border-[#4f5af6]/60 flex flex-col justify-between shadow-xs transition-colors"
-                                >
-                                  <div className="flex items-center justify-between gap-1 text-[9px] font-normal text-[#999] leading-none pt-0.5">
-                                    <span>{langBadge}</span>
-                                    {seance.format && (
-                                      <span className="text-[8px] font-normal uppercase text-[#999] truncate max-w-[42px]">
-                                        {seance.format.split(', ')[0]}
-                                      </span>
-                                    )}
-                                  </div>
-                                  <div className="flex items-center justify-between gap-1">
-                                    <a
-                                      href={seance.ticketing_url || undefined}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      className="text-[13px] font-normal text-[#4f5af6] leading-none hover:underline"
-                                    >
-                                      {formatTime(seance.time)}
-                                    </a>
-                                    <button
-                                      type="button"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        downloadICS({
-                                          movieTitle: film.title,
-                                          cinema: cinemaName,
-                                          date: dayLabel,
-                                          time: seance.time,
-                                          duree: film.duree || '2h 00min',
-                                          lang: seance.lang,
-                                          ticketUrl: seance.ticketing_url || undefined,
-                                        });
-                                      }}
-                                      className="text-[#999] hover:text-neutral-800 dark:hover:text-white p-0.5 transition-colors touch-manipulation"
-                                      title="Ajouter au calendrier"
-                                      aria-label="Ajouter au calendrier"
-                                    >
-                                      <Calendar size={13} />
-                                    </button>
-                                  </div>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+                    <DaySeances
+                      cinemas={cinemas}
+                      isoDate={dayLabel}
+                      filmTitle={film.title}
+                      filmDuree={film.duree}
+                      filmUrl={film.url}
+                      filmYear={film.release_year}
+                      originalLanguage={film.original_language}
+                      groupByBrand={true}
+                    />
                   </div>
                 );
               })}
             </div>
           ) : (
-            <p className="text-xs text-neutral-500">Aucune séance restante programmée pour ce film.</p>
+            <p className="text-xs text-neutral-500 font-normal">Aucune séance restante programmée pour ce film.</p>
           )}
         </div>
 
@@ -570,15 +491,15 @@ export default async function FilmPage({ params }: PageProps) {
             <div className="border-t border-black/[0.06] dark:border-white/10 pt-3" />
             <div className="space-y-3 px-1">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-bold text-sm">
-                  <Sparkles size={16} className="text-[#4f5af6]" />
+                <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-semibold text-sm">
+                  <Sparkles size={16} className="text-primary" />
                   <span>Films similaires à l&apos;affiche à Lyon</span>
                 </div>
-                <span className="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-950 text-[#4f5af6] text-[11px] font-normal flex items-center justify-center">
+                <span className="w-5 h-5 rounded-full bg-primary/10 text-primary text-[11px] font-medium flex items-center justify-center">
                   {similarMovies.length}
                 </span>
               </div>
-              <p className="text-[11px] text-neutral-500 dark:text-neutral-400 -mt-1">
+              <p className="text-[11px] text-neutral-500 dark:text-neutral-400 -mt-1 font-normal">
                 Actuellement en salle cette semaine
               </p>
 

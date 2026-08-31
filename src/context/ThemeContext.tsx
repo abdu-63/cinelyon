@@ -54,13 +54,79 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     return mode === 'dark';
   }, [mode, systemIsDark]);
 
+  const colors = useMemo(() => {
+    const baseColors = isDark ? DARK_COLORS : LIGHT_COLORS;
+    let primary = PRIMARY_VARIANTS[primaryColor] || PRIMARY_VARIANTS.violet;
+
+    if (primaryColor === 'white') {
+      primary = isDark
+        ? {
+            ...PRIMARY_VARIANTS.white,
+            primary: '#ffffff',
+            primaryHover: '#f0f0f0',
+            primaryContrast: '#121214',
+          }
+        : {
+            ...PRIMARY_VARIANTS.black,
+            primary: '#1c1c1e',
+            primaryHover: '#2c2c2e',
+            primaryContrast: '#ffffff',
+          };
+    } else if (primaryColor === 'black') {
+      primary = isDark
+        ? {
+            ...PRIMARY_VARIANTS.white,
+            primary: '#ffffff',
+            primaryHover: '#f0f0f0',
+            primaryContrast: '#121214',
+          }
+        : {
+            ...PRIMARY_VARIANTS.black,
+            primary: '#1c1c1e',
+            primaryHover: '#2c2c2e',
+            primaryContrast: '#ffffff',
+          };
+    } else if (primaryColor === 'cleardark') {
+      primary = isDark ? PRIMARY_VARIANTS.white : PRIMARY_VARIANTS.black;
+    }
+
+    let showtimeText = primary.primary;
+    if (isDark) {
+      if (primaryColor === 'violet') {
+        showtimeText = '#a2a7ff';
+      } else if (primaryColor === 'blue') {
+        showtimeText = '#63b3ed';
+      } else if (primaryColor === 'white' || primaryColor === 'cleardark' || primaryColor === 'black') {
+        showtimeText = '#ffffff';
+      }
+    } else {
+      if (primaryColor === 'violet') {
+        showtimeText = '#444cf7';
+      } else if (primaryColor === 'blue') {
+        showtimeText = '#0161A7';
+      } else if (primaryColor === 'white' || primaryColor === 'cleardark' || primaryColor === 'black') {
+        showtimeText = '#111111';
+      }
+    }
+
+    return {
+      ...baseColors,
+      ...primary,
+      showtimeText,
+    };
+  }, [isDark, primaryColor]);
+
   useEffect(() => {
     if (!mounted) return;
     const root = document.documentElement;
     root.setAttribute('data-theme', isDark ? 'dark' : 'light');
     root.setAttribute('data-primary', primaryColor);
     root.classList.toggle('dark', isDark);
-  }, [isDark, primaryColor, mounted]);
+    root.style.setProperty('--primary', colors.primary);
+    root.style.setProperty('--primary-hover', colors.primaryHover);
+    root.style.setProperty('--primary-contrast', colors.primaryContrast);
+    root.style.setProperty('--showtime-text', colors.showtimeText);
+  }, [isDark, primaryColor, colors, mounted]);
 
   const setMode = (newMode: ThemeMode) => {
     setModeState(newMode);
@@ -88,15 +154,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       // Ignorer
     }
   };
-
-  const colors = useMemo(() => {
-    const baseColors = isDark ? DARK_COLORS : LIGHT_COLORS;
-    const primary = PRIMARY_VARIANTS[primaryColor] || PRIMARY_VARIANTS.violet;
-    return {
-      ...baseColors,
-      ...primary,
-    };
-  }, [isDark, primaryColor]);
 
   return (
     <ThemeContext.Provider

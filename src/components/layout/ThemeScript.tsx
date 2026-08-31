@@ -1,6 +1,8 @@
 // src/components/layout/ThemeScript.tsx
 // Script inline pour polyfills universels (WebKit iOS 15.1) et prévention du flash de thème au chargement
-// Server Component — rendu côté serveur en HTML
+// Chargé via next/script avant l'hydratation React
+
+import Script from 'next/script';
 
 export function ThemeScript() {
   const script = `(function(){
@@ -250,13 +252,25 @@ export function ThemeScript() {
         document.documentElement.classList.remove('dark');
       }
       document.documentElement.setAttribute('data-primary', p);
+
+      var primaryMap = {
+        violet: { p: '#444cf7', h: '#3339c4', c: '#ffffff' },
+        blue: { p: '#0161a7', h: '#014a80', c: '#ffffff' },
+        white: { p: isDark ? '#ffffff' : '#1c1c1e', h: isDark ? '#f0f0f0' : '#2c2c2e', c: isDark ? '#121214' : '#ffffff' },
+        black: { p: isDark ? '#ffffff' : '#1c1c1e', h: isDark ? '#f0f0f0' : '#2c2c2e', c: isDark ? '#121214' : '#ffffff' },
+        cleardark: { p: isDark ? '#ffffff' : '#1c1c1e', h: isDark ? '#f0f0f0' : '#2c2c2e', c: isDark ? '#121214' : '#ffffff' }
+      };
+      var sel = primaryMap[p] || primaryMap.violet;
+      document.documentElement.style.setProperty('--primary', sel.p);
+      document.documentElement.style.setProperty('--primary-hover', sel.h);
+      document.documentElement.style.setProperty('--primary-contrast', sel.c);
     } catch(e) {}
   })();`;
 
   return (
-    <script
+    <Script
       id="cinelyon-legacy-polyfills"
-      suppressHydrationWarning
+      strategy="beforeInteractive"
       dangerouslySetInnerHTML={{ __html: script }}
     />
   );

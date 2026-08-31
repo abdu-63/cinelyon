@@ -22,7 +22,7 @@ export default function SuggestionsPage() {
 
       <div className="space-y-2">
         <h1 className="text-3xl font-extrabold text-white tracking-tight flex items-center gap-2.5">
-          <MessageSquare className="text-[#4f5af6]" size={28} />
+          <MessageSquare className="text-primary" size={28} />
           <span>Suggestions & Contact</span>
         </h1>
         <p className="text-sm text-neutral-400 leading-relaxed">
@@ -58,7 +58,7 @@ export default function SuggestionsPage() {
                 id="sugg-type"
                 name="type"
                 required
-                className="w-full px-4 py-3 rounded-2xl bg-black/40 border border-white/15 text-sm text-white focus:outline-none focus:border-[#4f5af6]"
+                className="w-full px-4 py-3 rounded-2xl bg-black/40 border border-white/15 text-sm text-white focus:outline-none focus:border-primary"
               >
                 <option value="erreur">Erreur dans les horaires ou une salle</option>
                 <option value="film-manquant">Film ou séance manquante</option>
@@ -77,7 +77,7 @@ export default function SuggestionsPage() {
                 rows={5}
                 required
                 placeholder="Décrivez votre idée, le cinéma concerné, ou le problème rencontré..."
-                className="w-full px-4 py-3 rounded-2xl bg-black/40 border border-white/15 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-[#4f5af6] resize-vertical"
+                className="w-full px-4 py-3 rounded-2xl bg-black/40 border border-white/15 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-primary resize-vertical"
               />
             </div>
 
@@ -90,13 +90,13 @@ export default function SuggestionsPage() {
                 id="sugg-email"
                 name="email"
                 placeholder="Pour qu'on puisse vous répondre si besoin"
-                className="w-full px-4 py-3 rounded-2xl bg-black/40 border border-white/15 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-[#4f5af6]"
+                className="w-full px-4 py-3 rounded-2xl bg-black/40 border border-white/15 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-primary"
               />
             </div>
 
             <button
               type="submit"
-              className="px-6 py-3 rounded-2xl bg-[#4f5af6] hover:bg-[#3339c4] text-white font-bold text-sm shadow-lg shadow-[#4f5af6]/25 transition-all flex items-center gap-2 active:scale-95"
+              className="px-6 py-3 rounded-2xl bg-primary hover:bg-primary/90 text-primary-contrast font-bold text-sm shadow-lg shadow-primary/25 transition-all flex items-center gap-2 active:scale-95"
             >
               <Send size={15} />
               <span>Envoyer le message</span>
