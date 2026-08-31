@@ -8,6 +8,7 @@ import { DaySelector } from '@/components/ui/DaySelector';
 import { FilterBar } from '@/components/ui/FilterBar';
 import { CineRouletteModal } from '@/components/ui/CineRouletteModal';
 import { DoubleFeatureModal } from '@/components/ui/DoubleFeatureModal';
+import { FilmDetailModal } from '@/components/ui/FilmDetailModal';
 import { filterFilms, extractFilterOptions, hasVisibleSeances, registerDateLabels } from '@/utils/showtimes';
 import { PAGE_SIZE } from '@/lib/constants';
 
@@ -28,6 +29,7 @@ const DEFAULT_FILTERS: FiltersState = {
   showOnlyNew: false,
   showOnlyYesterday: false,
   showOnlyDayBefore: false,
+  showOnlyWeek: false,
   showFriendFavorites: false,
   favTab: 'perso',
 };
@@ -45,6 +47,7 @@ export function FilmsList({ initialFilms = [], initialDates = [] }: FilmsListPro
   const [hidePastSessions, setHidePastSessions] = useState<boolean>(false);
   const [isRouletteOpen, setIsRouletteOpen] = useState(false);
   const [isDoubleFeatureOpen, setIsDoubleFeatureOpen] = useState(false);
+  const [selectedFilmForDetail, setSelectedFilmForDetail] = useState<Film | null>(null);
 
   useEffect(() => {
     try {
@@ -55,6 +58,23 @@ export function FilmsList({ initialFilms = [], initialDates = [] }: FilmsListPro
       const storedHidePast = localStorage.getItem('cinelyon_hide_past_sessions');
       if (storedHidePast !== null) {
         setHidePastSessions(storedHidePast === 'true');
+      }
+      if (typeof window !== 'undefined') {
+        const params = new URLSearchParams(window.location.search);
+        const q = params.get('search') || params.get('q');
+        if (q) {
+          setFilters((prev) => ({ ...prev, titleQuery: q }));
+        }
+
+        // Si l'utilisateur a atterri sur /film/[slug]
+        const match = window.location.pathname.match(/^\/film\/([^/]+)/);
+        if (match && match[1]) {
+          const slug = match[1];
+          const found = initialFilms.find((f) => f.slug === slug);
+          if (found) {
+            setSelectedFilmForDetail(found);
+          }
+        }
       }
     } catch {}
 
@@ -176,6 +196,7 @@ export function FilmsList({ initialFilms = [], initialDates = [] }: FilmsListPro
               dates={initialDates}
               selectedDelta={activeDelta}
               hidePastSessions={hidePastSessions}
+              onOpenDetail={(f) => setSelectedFilmForDetail(f)}
             />
           ))
         )}
@@ -193,6 +214,15 @@ export function FilmsList({ initialFilms = [], initialDates = [] }: FilmsListPro
           </button>
         </div>
       )}
+
+      {/* Modale Fiche Film Instantanée (0ms ouverture & fermeture) */}
+      <FilmDetailModal
+        film={selectedFilmForDetail}
+        allFilms={baseFilms}
+        isOpen={!!selectedFilmForDetail}
+        onClose={() => setSelectedFilmForDetail(null)}
+        onSelectFilm={(f) => setSelectedFilmForDetail(f)}
+      />
 
       {/* Modales Interactives avec état contrôlé direct */}
       <CineRouletteModal

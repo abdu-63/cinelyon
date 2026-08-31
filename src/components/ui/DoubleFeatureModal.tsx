@@ -17,7 +17,7 @@ import { Film, DateLabel } from '@/types';
 import { findDoubleFeaturePairs, DoubleFeaturePair } from '@/utils/doubleFeature';
 import { downloadICS } from '@/utils/calendarUtils';
 import { useTranslation } from '@/i18n';
-import { formatLocalizedWeekday, formatLocalizedDayMonth } from '@/utils/dateUtils';
+import { formatLocalizedWeekday, formatLocalizedDayMonth, formatDayLabel } from '@/utils/dateUtils';
 
 interface DoubleFeatureModalProps {
   films?: Film[];
@@ -69,17 +69,19 @@ export function DoubleFeatureModal({
     });
   }, [films, currentDateObj, sameCinemaOnly, timePeriod, selectedCinema]);
 
-  // Extraire la liste des cinémas disponibles pour ce jour
+  // Extraire la liste des cinémas disponibles pour ce jour de manière ultra-rapide O(N)
   const availableCinemas = useMemo(() => {
     if (!films || films.length === 0 || !currentDateObj) return [];
+    const dayLabel = formatDayLabel(currentDateObj);
     const set = new Set<string>();
-    const allPairs = findDoubleFeaturePairs(films, currentDateObj, {
-      allowCrossCinema: true,
-      timeSlot: 'all',
-    });
-    allPairs.forEach((p) => {
-      p.cinemas.forEach((c) => set.add(c));
-    });
+    for (const f of films) {
+      const seancesForDay = f.seancesByDay?.[dayLabel];
+      if (seancesForDay) {
+        for (const cinemaName of Object.keys(seancesForDay)) {
+          set.add(cinemaName);
+        }
+      }
+    }
     return Array.from(set).sort((a, b) => a.localeCompare(b, 'fr'));
   }, [films, currentDateObj]);
 

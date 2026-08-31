@@ -118,6 +118,10 @@ export function isTimestampDayBefore(addedAtStr: string | null | undefined): boo
   return isTimestampInAgeRange(addedAtStr, 48, 72);
 }
 
+export function isTimestampThisWeek(addedAtStr: string | null | undefined): boolean {
+  return isTimestampInAgeRange(addedAtStr, 0, 168);
+}
+
 export function parseTimeToMinutes(timeStr: string): number {
   if (!timeStr) return 0;
   const [h, m] = timeStr.split(':').map(Number);
@@ -210,6 +214,7 @@ export function buildFilmList(
           isNew: false,
           isYesterday: false,
           isDayBefore: false,
+          isThisWeek: false,
           addedAtByDay: {},
         });
       }
@@ -227,6 +232,7 @@ export function buildFilmList(
       if (isTimestampToday(raw.added_at)) film.isNew = true;
       if (isTimestampYesterday(raw.added_at)) film.isYesterday = true;
       if (isTimestampDayBefore(raw.added_at)) film.isDayBefore = true;
+      if (isTimestampThisWeek(raw.added_at)) film.isThisWeek = true;
 
       for (const [cinema, seances] of Object.entries(raw.seances)) {
         if (!film.seancesByDay[dayLabel][cinema]) {
@@ -277,7 +283,12 @@ export function buildFilmList(
     };
   });
 
-  filmList.sort((a, b) => b.wantToSee - a.wantToSee);
+  filmList.sort((a, b) => {
+    const wantA = typeof a.wantToSee === 'number' && !isNaN(a.wantToSee) ? a.wantToSee : 0;
+    const wantB = typeof b.wantToSee === 'number' && !isNaN(b.wantToSee) ? b.wantToSee : 0;
+    if (wantB !== wantA) return wantB - wantA;
+    return a.title.localeCompare(b.title, 'fr');
+  });
 
   return { films: filmList, dates };
 }
@@ -365,6 +376,7 @@ export function filterFilms(
     showOnlyNew = false,
     showOnlyYesterday = false,
     showOnlyDayBefore = false,
+    showOnlyWeek = false,
     dayIndex = null,
   } = filters;
 
@@ -372,13 +384,104 @@ export function filterFilms(
 
   let filtered = films;
 
-  // 1. Filtrage nouveautés
+  // 1. Filtrage nouveautés (portage exact de cinelyon-app)
   if (showOnlyNew) {
-    filtered = filtered.filter((f) => f.isNew || isTimestampInAgeRange(f.added_at, 0, 7 * 24));
+    filtered = filtered
+      .filter((film) => film.isNew)
+      .map((film) => {
+        const newSeancesByDay: Record<string, Record<string, Seance[]>> = {};
+        const newSeancesByDayGrouped: Record<string, Record<string, Record<string, Seance[]>>> = {};
+
+        for (const [dayLabel, cinemas] of Object.entries(film.seancesByDay)) {
+          const addedAt = film.addedAtByDay?.[dayLabel] || film.added_at;
+          if (isTimestampToday(addedAt)) {
+            newSeancesByDay[dayLabel] = cinemas;
+            if (film.seancesByDayGrouped[dayLabel]) {
+              newSeancesByDayGrouped[dayLabel] = film.seancesByDayGrouped[dayLabel];
+            }
+          }
+        }
+
+        return {
+          ...film,
+          seancesByDay: newSeancesByDay,
+          seancesByDayGrouped: newSeancesByDayGrouped,
+        };
+      });
   } else if (showOnlyYesterday) {
-    filtered = filtered.filter((f) => f.isYesterday);
+    filtered = filtered
+      .filter((film) => film.isYesterday)
+      .map((film) => {
+        const newSeancesByDay: Record<string, Record<string, Seance[]>> = {};
+        const newSeancesByDayGrouped: Record<string, Record<string, Record<string, Seance[]>>> = {};
+
+        for (const [dayLabel, cinemas] of Object.entries(film.seancesByDay)) {
+          const addedAt = film.addedAtByDay?.[dayLabel] || film.added_at;
+          if (isTimestampYesterday(addedAt)) {
+            newSeancesByDay[dayLabel] = cinemas;
+            if (film.seancesByDayGrouped[dayLabel]) {
+              newSeancesByDayGrouped[dayLabel] = film.seancesByDayGrouped[dayLabel];
+            }
+          }
+        }
+
+        return {
+          ...film,
+          seancesByDay: newSeancesByDay,
+          seancesByDayGrouped: newSeancesByDayGrouped,
+        };
+      });
   } else if (showOnlyDayBefore) {
-    filtered = filtered.filter((f) => f.isDayBefore);
+    filtered = filtered
+      .filter((film) => film.isDayBefore)
+      .map((film) => {
+        const newSeancesByDay: Record<string, Record<string, Seance[]>> = {};
+        const newSeancesByDayGrouped: Record<string, Record<string, Record<string, Seance[]>>> = {};
+
+        for (const [dayLabel, cinemas] of Object.entries(film.seancesByDay)) {
+          const addedAt = film.addedAtByDay?.[dayLabel] || film.added_at;
+          if (isTimestampDayBefore(addedAt)) {
+            newSeancesByDay[dayLabel] = cinemas;
+            if (film.seancesByDayGrouped[dayLabel]) {
+              newSeancesByDayGrouped[dayLabel] = film.seancesByDayGrouped[dayLabel];
+            }
+          }
+        }
+
+        return {
+          ...film,
+          seancesByDay: newSeancesByDay,
+          seancesByDayGrouped: newSeancesByDayGrouped,
+        };
+      });
+  } else if (showOnlyWeek) {
+    filtered = filtered
+      .filter((film) => film.isThisWeek || film.isNew || film.isYesterday || film.isDayBefore)
+      .map((film) => {
+        const newSeancesByDay: Record<string, Record<string, Seance[]>> = {};
+        const newSeancesByDayGrouped: Record<string, Record<string, Record<string, Seance[]>>> = {};
+
+        for (const [dayLabel, cinemas] of Object.entries(film.seancesByDay)) {
+          const addedAt = film.addedAtByDay?.[dayLabel] || film.added_at;
+          if (
+            isTimestampThisWeek(addedAt) ||
+            isTimestampToday(addedAt) ||
+            isTimestampYesterday(addedAt) ||
+            isTimestampDayBefore(addedAt)
+          ) {
+            newSeancesByDay[dayLabel] = cinemas;
+            if (film.seancesByDayGrouped[dayLabel]) {
+              newSeancesByDayGrouped[dayLabel] = film.seancesByDayGrouped[dayLabel];
+            }
+          }
+        }
+
+        return {
+          ...film,
+          seancesByDay: newSeancesByDay,
+          seancesByDayGrouped: newSeancesByDayGrouped,
+        };
+      });
   }
 
   // 2. Filtres attributs généraux du film

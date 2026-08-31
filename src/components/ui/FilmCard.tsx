@@ -1,8 +1,8 @@
 // src/components/ui/FilmCard.tsx
 'use client';
 
-import React, { memo, useState, useMemo, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { memo, useState, useEffect, useMemo, useCallback } from 'react';
+import Link from 'next/link';
 import { Heart, ChevronRight } from 'lucide-react';
 import { Film, DateLabel } from '@/types';
 import { useTranslation } from '@/i18n';
@@ -19,6 +19,7 @@ interface FilmCardProps {
   dates: DateLabel[];
   selectedDelta?: number | null;
   hidePastSessions?: boolean;
+  onOpenDetail?: (film: Film) => void;
 }
 
 export const FilmCard = memo(function FilmCard({
@@ -28,9 +29,9 @@ export const FilmCard = memo(function FilmCard({
   dates = [],
   selectedDelta = null,
   hidePastSessions = false,
+  onOpenDetail,
 }: FilmCardProps) {
   const { locale } = useTranslation();
-  const router = useRouter();
 
   const localizedGenres = useMemo(
     () => formatLocalizedGenres(film.genres, locale),
@@ -45,64 +46,59 @@ export const FilmCard = memo(function FilmCard({
   const validDayLabels = useMemo(() => {
     const seancesDays = Object.keys(film.seancesByDay || {});
     return seancesDays.filter((dayLabel) => {
-      const dObj = getDateLabelByDay(dayLabel, dates);
-      if (!dObj) return false;
-      return hasVisibleSeances(film, dObj.isoDate, dates, hidePastSessions);
+      const seancesThisDay = film.seancesByDay[dayLabel];
+      if (!seancesThisDay) return false;
+      const count = Object.values(seancesThisDay).reduce((acc, arr) => acc + arr.length, 0);
+      return count > 0;
     });
-  }, [film, dates, hidePastSessions]);
+  }, [film.seancesByDay]);
 
-  const selectedDayLabelFromDelta = useMemo(() => {
-    if (selectedDelta === null || selectedDelta === undefined) return null;
-    const dObj = dates.find((d) => d.index === selectedDelta);
-    return dObj ? formatDayLabel(dObj) : null;
-  }, [selectedDelta, dates]);
+  // Si on a un delta sélectionné (ex: jour J+1), on active cet onglet
+  const initialActiveDay = useMemo(() => {
+    if (selectedDelta !== null) {
+      const targetDate = dates.find((d) => d.index === selectedDelta);
+      if (targetDate) {
+        const label = formatDayLabel(targetDate);
+        if (validDayLabels.includes(label)) return label;
+      }
+    }
+    return validDayLabels[0] || '';
+  }, [selectedDelta, dates, validDayLabels]);
+
+  const [activeDayLabel, setActiveDayLabel] = useState<string>(initialActiveDay);
+
+  useEffect(() => {
+    if (initialActiveDay) {
+      setActiveDayLabel(initialActiveDay);
+    }
+  }, [initialActiveDay]);
 
   const visibleDayLabels = useMemo(() => {
-    if (!selectedDayLabelFromDelta) return validDayLabels;
-    return validDayLabels.filter((label) => label === selectedDayLabelFromDelta);
-  }, [validDayLabels, selectedDayLabelFromDelta]);
-
-  // État local du jour déplié par l'utilisateur
-  const [expandedDayLabel, setExpandedDayLabel] = useState<string | null>(null);
-
-  // Jour actif effectif pour l'affichage des séances
-  const activeDayLabel = useMemo(() => {
-    if (selectedDayLabelFromDelta !== null) {
-      // Si un jour spécifique est sélectionné au niveau supérieur
-      return expandedDayLabel === selectedDayLabelFromDelta ? selectedDayLabelFromDelta : null;
+    if (selectedDelta !== null) {
+      const targetDate = dates.find((d) => d.index === selectedDelta);
+      if (targetDate) {
+        const label = formatDayLabel(targetDate);
+        if (validDayLabels.includes(label)) return [label];
+      }
+      return [];
     }
-    // Si "Tous" est sélectionné, le jour cliqué par l'utilisateur est affiché
-    return expandedDayLabel && validDayLabels.includes(expandedDayLabel) ? expandedDayLabel : null;
-  }, [selectedDayLabelFromDelta, expandedDayLabel, validDayLabels]);
+    return validDayLabels;
+  }, [validDayLabels, selectedDelta, dates]);
 
-  const handleDayClick = useCallback((dayLabel: string) => {
-    setExpandedDayLabel((prev) => (prev === dayLabel ? null : dayLabel));
-  }, []);
+  const seancesForDay = film.seancesByDay[activeDayLabel] ?? {};
 
-  const seancesForDay = useMemo(() => {
-    if (!activeDayLabel) return {};
-    return film.seancesByDay[activeDayLabel] ?? {};
-  }, [film.seancesByDay, activeDayLabel]);
-
+  // Date ISO correspondant au jour actif sélectionné
   const selectedIsoDate = useMemo(() => {
-    if (!activeDayLabel) return '';
     const dObj = getDateLabelByDay(activeDayLabel, dates);
     return dObj?.isoDate || '';
   }, [activeDayLabel, dates]);
 
-  const cleanRating = useMemo(() => {
-    if (!film.rating || film.rating === 'Note inconnue') return null;
-    return film.rating.replace(/\/5$/, '');
-  }, [film.rating]);
-
-  // Calcul du nombre total de séances visibles
-  const totalVisibleSeances = useMemo(() => {
-    if (!activeDayLabel) return 0;
-    const isToday = getDeltaForDate(selectedIsoDate) === 0;
+  // Calcul du nombre de séances visibles pour le jour actif
+  const activeDayVisibleCount = useMemo(() => {
     let count = 0;
-    for (const seances of Object.values(seancesForDay)) {
-      for (const s of seances) {
-        if (!isToday || !hidePastSessions || !isPastSeance(s.time)) {
+    for (const sList of Object.values(seancesForDay)) {
+      for (const s of sList) {
+        if (!hidePastSessions || !isPastSeance(s.time, activeDayLabel, dates)) {
           count++;
         }
       }
@@ -110,12 +106,24 @@ export const FilmCard = memo(function FilmCard({
     return count;
   }, [activeDayLabel, seancesForDay, selectedIsoDate, hidePastSessions]);
 
+  const cleanRating = useMemo(() => {
+    if (!film.rating || film.rating === 'Note inconnue') return null;
+    return film.rating.replace(/\/5$/, '');
+  }, [film.rating]);
+
   return (
     <div className="w-full mb-3">
       {/* ── 1. Carte Blanche Apple / Sombre Apple (Portage exact de cinelyon-app) ── */}
       <div className="group relative rounded-[18px] sm:rounded-[20px] overflow-hidden bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:shadow-md transition-all duration-200 ease-out">
-        <div
-          onClick={() => router.push(`/film/${film.slug}`)}
+        <Link
+          href={`/film/${film.slug}`}
+          prefetch={true}
+          onClick={(e) => {
+            if (onOpenDetail && !e.metaKey && !e.ctrlKey && !e.shiftKey && e.button === 0) {
+              e.preventDefault();
+              onOpenDetail(film);
+            }
+          }}
           className="flex items-start md:items-stretch cursor-pointer select-none"
         >
           {/* Affiche (Mobile: 100x144px strict / Desktop: agrandie & étirée pour combler la hauteur) */}
@@ -149,10 +157,11 @@ export const FilmCard = memo(function FilmCard({
                 <button
                   type="button"
                   onClick={(e) => {
+                    e.preventDefault();
                     e.stopPropagation();
                     onToggleFavorite(film.filmId);
                   }}
-                  className="p-1 -mr-1 -mt-0.5 text-neutral-400 hover:text-rose-500 transition-transform active:scale-90 touch-manipulation"
+                  className="p-1 -mr-1 -mt-0.5 text-neutral-400 hover:text-rose-500 transition-transform active:scale-90 touch-manipulation z-10"
                   aria-label={isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'}
                 >
                   <Heart
@@ -219,7 +228,7 @@ export const FilmCard = memo(function FilmCard({
               </div>
             </div>
           </div>
-        </div>
+        </Link>
       </div>
 
       {/* ── 2. Bouton Jour & Séances dépliables sous la carte ── */}
@@ -241,7 +250,7 @@ export const FilmCard = memo(function FilmCard({
                 <button
                   key={dayLabel}
                   type="button"
-                  onClick={() => handleDayClick(dayLabel)}
+                  onClick={() => setActiveDayLabel((prev) => (prev === dayLabel ? '' : dayLabel))}
                   className={`relative px-3.5 py-1.5 rounded-[18px] text-[12px] font-normal tracking-tight transition-all shrink-0 active:scale-95 touch-manipulation select-none ${
                     isActive
                       ? 'bg-primary text-primary-contrast shadow-xs'
@@ -260,7 +269,7 @@ export const FilmCard = memo(function FilmCard({
           {/* Déploiement des séances */}
           {activeDayLabel && (
             <div className="mt-1.5 animate-in fade-in duration-150">
-              {totalVisibleSeances === 0 ? (
+              {activeDayVisibleCount === 0 ? (
                 <div className="py-2.5 px-3.5 rounded-[14px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 text-center text-xs font-normal text-neutral-500 dark:text-neutral-400 shadow-2xs">
                   Toutes les séances de cette journée sont passées.
                 </div>

@@ -137,6 +137,7 @@ export interface Film extends Omit<FilmRaw, 'seances'> {
   isNew: boolean; // Récemment ajouté (<= 24h)
   isYesterday: boolean; // Ajouté hier (24h - 48h)
   isDayBefore: boolean; // Ajouté avant-hier (48h - 72h)
+  isThisWeek: boolean; // Nouveautés de la semaine (<= 7 jours)
   addedAtByDay?: Record<string, string | null>; // Date d'ajout par jour
 }
 
@@ -249,6 +250,7 @@ export interface FiltersState {
   showOnlyNew: boolean;
   showOnlyYesterday: boolean;
   showOnlyDayBefore: boolean;
+  showOnlyWeek: boolean;
   showFriendFavorites: boolean;
   favTab: FavTab;
 }

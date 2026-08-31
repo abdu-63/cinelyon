@@ -71,6 +71,8 @@ export function FilterBar({
     count += filters.timeSlots.length;
     if (filters.showOnlyNew) count += 1;
     if (filters.showOnlyYesterday) count += 1;
+    if (filters.showOnlyDayBefore) count += 1;
+    if (filters.showOnlyWeek) count += 1;
     if (filters.showOnlyFavorites) count += 1;
     return count;
   }, [filters]);
@@ -88,6 +90,7 @@ export function FilterBar({
       showOnlyNew: false,
       showOnlyYesterday: false,
       showOnlyDayBefore: false,
+      showOnlyWeek: false,
       showOnlyFavorites: false,
     });
   };
@@ -267,10 +270,49 @@ export function FilterBar({
           {filters.showOnlyNew && (
             <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-medium bg-primary/10 text-primary border border-primary/20 shrink-0">
               <Sparkles size={11} />
-              <span>Nouveautés</span>
+              <span>{t('filters.today')}</span>
               <button
                 type="button"
                 onClick={() => onFiltersChange({ showOnlyNew: false })}
+                className="ml-0.5 hover:opacity-75"
+              >
+                <X size={12} />
+              </button>
+            </span>
+          )}
+          {filters.showOnlyYesterday && (
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-medium bg-primary/10 text-primary border border-primary/20 shrink-0">
+              <Sparkles size={11} />
+              <span>{t('filters.yesterday')}</span>
+              <button
+                type="button"
+                onClick={() => onFiltersChange({ showOnlyYesterday: false })}
+                className="ml-0.5 hover:opacity-75"
+              >
+                <X size={12} />
+              </button>
+            </span>
+          )}
+          {filters.showOnlyDayBefore && (
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-medium bg-primary/10 text-primary border border-primary/20 shrink-0">
+              <Sparkles size={11} />
+              <span>{t('filters.dayBefore')}</span>
+              <button
+                type="button"
+                onClick={() => onFiltersChange({ showOnlyDayBefore: false })}
+                className="ml-0.5 hover:opacity-75"
+              >
+                <X size={12} />
+              </button>
+            </span>
+          )}
+          {filters.showOnlyWeek && (
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-medium bg-primary/10 text-primary border border-primary/20 shrink-0">
+              <Sparkles size={11} />
+              <span>Nouveautés de la semaine</span>
+              <button
+                type="button"
+                onClick={() => onFiltersChange({ showOnlyWeek: false })}
                 className="ml-0.5 hover:opacity-75"
               >
                 <X size={12} />
@@ -438,12 +480,91 @@ export function FilterBar({
 
               {/* Contenu : Défilement Général Unique — Tous les filtres déployés directement sans sous-scrolls */}
               <div className="flex-1 overflow-y-auto space-y-6 px-5 py-5 overscroll-contain">
-                {/* 1. Nouveautés & Sélections Rapides */}
+                {/* 1. Nouveaux films à l'affiche (Section Nouveautés - Identique à l'app mobile) */}
                 <div>
-                  <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 dark:text-neutral-500 mb-2.5">
-                    Sélection rapide
-                  </label>
+                  <div className="flex items-center gap-2 mb-2.5">
+                    <Sparkles size={14} className="text-primary" />
+                    <label className="text-xs font-medium uppercase tracking-wider text-neutral-400 dark:text-neutral-500">
+                      {t('filters.newMovies')}
+                    </label>
+                  </div>
                   <div className="flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        onFiltersChange({
+                          showOnlyNew: !filters.showOnlyNew,
+                          showOnlyYesterday: false,
+                          showOnlyDayBefore: false,
+                          showOnlyWeek: false,
+                        })
+                      }
+                      className={`px-3 py-1.5 rounded-2xl text-xs font-medium border flex items-center gap-1.5 transition-all ${
+                        filters.showOnlyNew
+                          ? 'bg-primary border-primary text-primary-contrast shadow-sm'
+                          : 'bg-neutral-100 dark:bg-[#2c2c2e] border-transparent text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/15'
+                      }`}
+                    >
+                      <span>{t('filters.today')}</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        onFiltersChange({
+                          showOnlyYesterday: !filters.showOnlyYesterday,
+                          showOnlyNew: false,
+                          showOnlyDayBefore: false,
+                          showOnlyWeek: false,
+                        })
+                      }
+                      className={`px-3 py-1.5 rounded-2xl text-xs font-medium border flex items-center gap-1.5 transition-all ${
+                        filters.showOnlyYesterday
+                          ? 'bg-primary border-primary text-primary-contrast shadow-sm'
+                          : 'bg-neutral-100 dark:bg-[#2c2c2e] border-transparent text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/15'
+                      }`}
+                    >
+                      <span>{t('filters.yesterday')}</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        onFiltersChange({
+                          showOnlyDayBefore: !filters.showOnlyDayBefore,
+                          showOnlyNew: false,
+                          showOnlyYesterday: false,
+                          showOnlyWeek: false,
+                        })
+                      }
+                      className={`px-3 py-1.5 rounded-2xl text-xs font-medium border flex items-center gap-1.5 transition-all ${
+                        filters.showOnlyDayBefore
+                          ? 'bg-primary border-primary text-primary-contrast shadow-sm'
+                          : 'bg-neutral-100 dark:bg-[#2c2c2e] border-transparent text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/15'
+                      }`}
+                    >
+                      <span>{t('filters.dayBefore')}</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        onFiltersChange({
+                          showOnlyWeek: !filters.showOnlyWeek,
+                          showOnlyNew: false,
+                          showOnlyYesterday: false,
+                          showOnlyDayBefore: false,
+                        })
+                      }
+                      className={`px-3 py-1.5 rounded-2xl text-xs font-medium border flex items-center gap-1.5 transition-all ${
+                        filters.showOnlyWeek
+                          ? 'bg-primary border-primary text-primary-contrast shadow-sm'
+                          : 'bg-neutral-100 dark:bg-[#2c2c2e] border-transparent text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/15'
+                      }`}
+                    >
+                      <span>Cette semaine</span>
+                    </button>
+
                     <button
                       type="button"
                       onClick={() => onFiltersChange({ showOnlyFavorites: !filters.showOnlyFavorites })}
@@ -455,19 +576,6 @@ export function FilterBar({
                     >
                       <Heart size={13} className={filters.showOnlyFavorites ? 'fill-white' : ''} />
                       <span>Favoris uniquement</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => onFiltersChange({ showOnlyNew: !filters.showOnlyNew })}
-                      className={`px-3 py-1.5 rounded-2xl text-xs font-medium border flex items-center gap-1.5 transition-all ${
-                        filters.showOnlyNew
-                          ? 'bg-primary border-primary text-primary-contrast shadow-sm'
-                          : 'bg-neutral-100 dark:bg-[#2c2c2e] border-transparent text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/15'
-                      }`}
-                    >
-                      <Sparkles size={13} />
-                      <span>Nouveautés de la semaine</span>
                     </button>
                   </div>
                 </div>

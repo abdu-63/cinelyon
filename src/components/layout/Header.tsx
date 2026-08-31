@@ -41,7 +41,7 @@ export default function Header() {
             <Film className="w-4 h-4 text-primary-contrast" />
           </div>
           <div className="flex items-center gap-1.5">
-            <span className="font-extrabold text-lg tracking-tight text-neutral-900 dark:text-white">
+            <span className="font-montserrat font-extrabold text-lg tracking-tight text-neutral-900 dark:text-white">
               CinéLyon
             </span>
             <span className="px-1.5 py-0.2 rounded-md text-[10px] font-bold bg-primary/15 text-primary">

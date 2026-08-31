@@ -70,6 +70,13 @@ export default function RootLayout({
           type="font/otf"
           crossOrigin="anonymous"
         />
+        <link
+          rel="preload"
+          href="/font/montserrat_extrabold.ttf"
+          as="font"
+          type="font/ttf"
+          crossOrigin="anonymous"
+        />
         <link rel="preconnect" href="https://wsrv.nl" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://fr.web.img4.acsta.net" />
         <link rel="dns-prefetch" href="https://fr.web.img6.acsta.net" />
