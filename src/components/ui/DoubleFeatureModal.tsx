@@ -16,6 +16,8 @@ import {
 import { Film, DateLabel } from '@/types';
 import { findDoubleFeaturePairs, DoubleFeaturePair } from '@/utils/doubleFeature';
 import { downloadICS } from '@/utils/calendarUtils';
+import { useTranslation } from '@/i18n';
+import { formatLocalizedWeekday, formatLocalizedDayMonth } from '@/utils/dateUtils';
 
 interface DoubleFeatureModalProps {
   films?: Film[];
@@ -32,6 +34,8 @@ export function DoubleFeatureModal({
 }: DoubleFeatureModalProps) {
   const [internalIsOpen, setInternalIsOpen] = useState(false);
   const isModalOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalIsOpen;
+
+  const { locale } = useTranslation();
 
   const [selectedDayIdx, setSelectedDayIdx] = useState<number>(0);
   const [timePeriod, setTimePeriod] = useState<'all' | 'afternoon' | 'evening'>('all');
@@ -153,22 +157,53 @@ export function DoubleFeatureModal({
 
             {/* Filtres & Contrôles */}
             <div className="p-4 bg-white dark:bg-[#1c1c1e] border-b border-black/[0.06] dark:border-white/10 space-y-3">
-              {/* Sélecteur de jour */}
-              <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5">
-                {dates.map((d, idx) => (
-                  <button
-                    key={d.isoDate}
-                    type="button"
-                    onClick={() => setSelectedDayIdx(idx)}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all shrink-0 active:scale-95 touch-manipulation ${
-                      selectedDayIdx === idx
-                        ? 'bg-primary text-primary-contrast shadow-xs'
-                        : 'bg-neutral-100 dark:bg-[#252528] text-neutral-700 dark:text-neutral-300'
-                    }`}
-                  >
-                    {d.jour} {d.chiffre} {d.mois}
-                  </button>
-                ))}
+              {/* Sélecteur de jour (Identique au DaySelector de la page d'accueil) */}
+              <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 px-0.5">
+                {dates.map((d, idx) => {
+                  const isSelected = selectedDayIdx === idx;
+                  const isToday = idx === 0;
+
+                  const label = isToday ? 'Auj.' : formatLocalizedWeekday(d.isoDate, locale);
+                  const sublabel = formatLocalizedDayMonth(d.isoDate, locale);
+
+                  return (
+                    <button
+                      key={d.isoDate}
+                      type="button"
+                      onClick={() => setSelectedDayIdx(idx)}
+                      className={`h-12 min-w-[70px] px-3.5 rounded-[24px] flex flex-col items-center justify-center transition-all shrink-0 border active:scale-95 touch-manipulation select-none ${
+                        isSelected
+                          ? 'bg-primary border-primary text-primary-contrast shadow-md shadow-primary/25'
+                          : isToday
+                          ? 'bg-white dark:bg-[#1c1c1e] border-2 border-primary text-neutral-900 dark:text-white shadow-sm'
+                          : 'bg-white dark:bg-[#1c1c1e] border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/25'
+                      }`}
+                    >
+                      <span
+                        className={`text-[12px] font-normal leading-tight ${
+                          isSelected
+                            ? 'text-primary-contrast'
+                            : isToday
+                            ? 'text-primary'
+                            : 'text-neutral-900 dark:text-white'
+                        }`}
+                      >
+                        {label}
+                      </span>
+                      {sublabel && (
+                        <span
+                          className={`text-[10px] font-normal leading-tight mt-0.5 ${
+                            isSelected
+                              ? 'text-primary-contrast/90'
+                              : 'text-neutral-500 dark:text-neutral-400'
+                          }`}
+                        >
+                          {sublabel}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
               </div>
 
               {/* Ligne filtres : Même cinéma, Choix cinéma, Période */}

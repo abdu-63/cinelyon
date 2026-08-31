@@ -287,7 +287,12 @@ export function findFilmBySlug(
   slug: string
 ): Film | null {
   const result = buildFilmList(rows, null);
-  return result.films.find((f) => f.slug === slug) ?? null;
+  return (
+    result.films.find((f) => f.slug === slug) ??
+    result.films.find((f) => slugify(f.title) === slug) ??
+    result.films.find((f) => f.slug.startsWith(`${slug}-`)) ??
+    null
+  );
 }
 
 function normalizeString(str: string): string {

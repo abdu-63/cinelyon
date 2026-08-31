@@ -42,23 +42,23 @@ export const CinemaBrand = React.memo(function CinemaBrand({
   const renderLogo = () => {
     switch (brand) {
       case 'Pathé':
-        return <PatheLogo width={compact ? 36 : 50} height={compact ? 28 : 38} isDark={isDark} />;
+        return <PatheLogo width={compact ? 36 : 50} height={compact ? 28 : 38} textColor={textColor} isDark={isDark} />;
       case 'UGC':
         return <UgcLogo width={compact ? 36 : 50} height={compact ? 24 : 33} isDark={isDark} />;
       case 'Institut Lumière':
-        return <InstitutLumiereLogo width={compact ? 22 : 30} height={compact ? 22 : 30} isDark={isDark} />;
+        return <InstitutLumiereLogo width={compact ? 22 : 30} height={compact ? 22 : 30} color={textColor} isDark={isDark} />;
       case 'Lumière':
         return <LumiereLogo width={compact ? 32 : 44} height={compact ? 22 : 30} isDark={isDark} />;
       case 'CGR':
-        return <CgrLogo width={compact ? 26 : 36} height={compact ? 22 : 30} isDark={isDark} />;
+        return <CgrLogo width={compact ? 26 : 36} height={compact ? 22 : 30} textColor={textColor} isDark={isDark} />;
       case 'Ciné Meyzieu':
-        return <CineMeyzieuLogo width={compact ? 20 : 28} height={compact ? 24 : 32} isDark={isDark} />;
+        return <CineMeyzieuLogo width={compact ? 20 : 28} height={compact ? 24 : 32} textColor={textColor} isDark={isDark} />;
       case 'Ciné Toboggan':
-        return <CineTobogganLogo width={compact ? 26 : 36} height={compact ? 20 : 26} isDark={isDark} />;
+        return <CineTobogganLogo width={compact ? 26 : 36} height={compact ? 20 : 26} color={textColor} isDark={isDark} />;
       case 'Cinéma Saint-Denis':
         return <CinemaSaintDenisLogo width={compact ? 32 : 45} height={compact ? 16 : 22} color="#9B0000" isDark={isDark} />;
       case 'Comoedia':
-        return <ComoediaLogo width={compact ? 36 : 50} height={compact ? 16 : 20} isDark={isDark} />;
+        return <ComoediaLogo width={compact ? 36 : 50} height={compact ? 16 : 20} color={textColor} isDark={isDark} />;
       case 'Cinéma Les Amphis':
         return <LesAmphisLogo width={compact ? 42 : 60} height={compact ? 16 : 20} isDark={isDark} />;
       case 'Gérard-Philipe':
@@ -71,7 +71,7 @@ export const CinemaBrand = React.memo(function CinemaBrand({
   const logo = renderLogo();
 
   if (hideText) {
-    return <div className={`flex items-center justify-center ${className}`}>{logo}</div>;
+    return logo ? <div className={`flex items-center justify-center ${className}`}>{logo}</div> : null;
   }
 
   return (

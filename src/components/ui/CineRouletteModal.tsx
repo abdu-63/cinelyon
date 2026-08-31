@@ -3,10 +3,9 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Dices, ArrowRight, Star, Moon, Languages, Ticket } from 'lucide-react';
+import { X, Popcorn, ArrowRight, Star, Moon, Languages, Ticket } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Film, Seance } from '@/types';
-import { PopcornIcon } from '@/components/ui/PopcornIcon';
 
 interface CineRouletteModalProps {
   films?: Film[];
@@ -110,7 +109,7 @@ export function CineRouletteModal({ films = [], isOpen: controlledIsOpen, onClos
             <div className="flex items-center justify-between p-4 sm:p-5 border-b border-black/[0.06] dark:border-white/10 bg-white dark:bg-[#1c1c1e]">
               <div className="flex items-center gap-2.5">
                 <div className="w-10 h-10 rounded-2xl bg-[#444cf7]/10 text-[#444cf7] flex items-center justify-center">
-                  <Dices size={22} />
+                  <Popcorn size={22} />
                 </div>
                 <div>
                   <h3 className="text-base sm:text-lg font-title font-extrabold text-neutral-900 dark:text-white leading-tight">
@@ -185,7 +184,7 @@ export function CineRouletteModal({ films = [], isOpen: controlledIsOpen, onClos
                     />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-1.5 text-xs text-[#444cf7] font-bold">
-                        <PopcornIcon size={14} />
+                        <Popcorn size={14} />
                         <span>Séance Recommandée</span>
                       </div>
                       <h4 className="font-title font-bold text-base text-neutral-900 dark:text-white truncate mt-0.5">
@@ -244,7 +243,7 @@ export function CineRouletteModal({ films = [], isOpen: controlledIsOpen, onClos
                 onClick={roll}
                 className="w-full py-3.5 rounded-2xl bg-[#444cf7] hover:bg-[#3339c4] text-white font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-[#444cf7]/30 transition-all active:scale-98 touch-manipulation"
               >
-                <Dices size={18} />
+                <Popcorn size={18} />
                 <span>Relancer la roulette</span>
               </button>
             </div>

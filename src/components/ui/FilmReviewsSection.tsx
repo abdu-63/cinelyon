@@ -33,7 +33,12 @@ export function FilmReviewsSection({ reviews, rating }: FilmReviewsSectionProps)
         );
       } else if (i === fullStars + 1 && hasHalf) {
         stars.push(
-          <Star key={i} size={12} className="fill-[#fecc00]/50 text-[#fecc00]" />
+          <div key={i} className="relative inline-flex items-center justify-center w-3 h-3">
+            <Star size={12} className="text-neutral-300 dark:text-neutral-700" />
+            <div className="absolute inset-0 overflow-hidden w-[50%]">
+              <Star size={12} className="fill-[#fecc00] text-[#fecc00]" />
+            </div>
+          </div>
         );
       } else {
         stars.push(

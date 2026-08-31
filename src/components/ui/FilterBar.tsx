@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, SlidersHorizontal, X, Dices, Shuffle, Settings, Heart, Sparkles } from 'lucide-react';
+import { Search, SlidersHorizontal, X, Popcorn, Shuffle, Settings, Heart, Sparkles } from 'lucide-react';
 import { FiltersState, TimeSlot, FilmFilterOptions } from '@/types';
 import { useTranslation } from '@/i18n';
 import { formatLocalizedGenres } from '@/utils/filmLocalizationUtils';
@@ -212,7 +212,7 @@ export function FilterBar({
           className="w-11 h-11 rounded-[16px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/25 transition-all flex items-center justify-center shrink-0 shadow-[0_2px_8px_rgba(0,0,0,0.02)] active:scale-95 touch-manipulation select-none"
           title="Ciné-Roulette"
         >
-          <Dices size={19} />
+          <Popcorn size={19} />
         </button>
 
         {/* Bouton Double Programme */}

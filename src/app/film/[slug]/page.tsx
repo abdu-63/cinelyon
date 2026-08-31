@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { findFilmBySlug } from '@/utils/showtimes';
+import { slugify } from '@/utils/slugify';
 import { FilmRaw, CastMember, Film } from '@/types';
 import { getTodayIso, formatDayLabel, formatLocalizedDayLabel, formatTime } from '@/utils/dateUtils';
 import { PostCreditsBadge } from '@/components/ui/PostCreditsBadge';
@@ -34,6 +35,7 @@ import { JustWatchBadge } from '@/components/ui/JustWatchBadge';
 import { LetterboxdLogo, AllocineLogo } from '@/components/ui/BrandIcons';
 import { FilmReviewsSection } from '@/components/ui/FilmReviewsSection';
 import { DaySeances } from '@/components/ui/DaySeances';
+import { CinemaBrand } from '@/components/ui/CinemaBrand';
 import { getStreamingProviderWebUrl } from '@/utils/streamingProviders';
 
 export const revalidate = 300;
@@ -87,11 +89,12 @@ export default async function FilmPage({ params }: PageProps) {
   }
 
   // Fetch TMDB Cast & Similar
+  const TMDB_API_KEY = process.env.TMDB_API_KEY || '3e65b4de9b4b9b054166b0f906d6fb37';
   let cast: CastMember[] = [];
-  let similarMovies: any[] = [];
+  let rawSimilarMovies: any[] = [];
   try {
     const tmdbRes = await fetch(
-      `https://api.themoviedb.org/3/search/movie?api_key=33866d86db49b119159d3aa4ff2f9547&query=${encodeURIComponent(
+      `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(
         film.title
       )}&language=fr-FR`,
       { next: { revalidate: 86400 } }
@@ -101,11 +104,11 @@ export default async function FilmPage({ params }: PageProps) {
       const movieId = tmdbData.results[0].id;
       const [creditsRes, similarRes] = await Promise.all([
         fetch(
-          `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=33866d86db49b119159d3aa4ff2f9547&language=fr-FR`,
+          `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${TMDB_API_KEY}&language=fr-FR`,
           { next: { revalidate: 86400 } }
         ),
         fetch(
-          `https://api.themoviedb.org/3/movie/${movieId}/similar?api_key=33866d86db49b119159d3aa4ff2f9547&language=fr-FR`,
+          `https://api.themoviedb.org/3/movie/${movieId}/similar?api_key=${TMDB_API_KEY}&language=fr-FR`,
           { next: { revalidate: 86400 } }
         ),
       ]);
@@ -119,15 +122,94 @@ export default async function FilmPage({ params }: PageProps) {
         profile_path: c.profile_path ? `https://image.tmdb.org/t/p/w185${c.profile_path}` : null,
       }));
 
-      similarMovies = (similarData.results || []).slice(0, 6).map((m: any) => ({
+      rawSimilarMovies = (similarData.results || []).slice(0, 8).map((m: any) => ({
         id: m.id,
         title: m.title,
         rating: m.vote_average ? m.vote_average.toFixed(1) : null,
         poster: m.poster_path ? `https://image.tmdb.org/t/p/w342${m.poster_path}` : null,
-        cinema: 'Cinémas de Lyon',
       }));
     }
   } catch {}
+
+  // Extraire tous les films actuellement à l'affiche à Lyon depuis rows
+  const allFilmsInLyon: { slug: string; title: string; cinema: string; poster?: string; rating?: string; genres?: string }[] = [];
+  const seenSlugs = new Set<string>();
+  if (rows && rows.length > 0) {
+    for (const row of rows) {
+      for (const m of (row.movies || [])) {
+        const mSlug = slugify(m.title, m.release_year);
+        if (mSlug && mSlug !== film.slug && !seenSlugs.has(mSlug)) {
+          seenSlugs.add(mSlug);
+          const cinemaNames = Object.keys(m.seances || {});
+          const primaryCinema = cinemaNames[0] || 'Cinémas de Lyon';
+          allFilmsInLyon.push({
+            slug: mSlug,
+            title: m.title,
+            cinema: primaryCinema,
+            poster: m.affiche,
+            rating: m.rating && m.rating !== 'Note inconnue' ? m.rating.replace(/\/5$/, '') : undefined,
+            genres: typeof m.genres === 'string' ? m.genres : Array.isArray(m.genres) ? m.genres.join(', ') : undefined,
+          });
+        }
+      }
+    }
+  }
+
+  // Croiser les films similaires TMDB avec les films en salle à Lyon
+  const similarMovies: { id: number | string; title: string; rating?: string | null; poster?: string | null; cinema?: string; slug?: string; isInTheaters: boolean }[] = [];
+  
+  if (rawSimilarMovies.length > 0) {
+    for (const tmdbSimilar of rawSimilarMovies) {
+      const match = allFilmsInLyon.find(
+        (lf) =>
+          lf.title.toLowerCase() === tmdbSimilar.title.toLowerCase() ||
+          lf.slug.includes(tmdbSimilar.title.toLowerCase().replace(/[^a-z0-9]+/g, '-'))
+      );
+      if (match) {
+        similarMovies.push({
+          id: tmdbSimilar.id,
+          title: match.title,
+          rating: tmdbSimilar.rating || match.rating,
+          poster: match.poster || tmdbSimilar.poster,
+          cinema: match.cinema,
+          slug: match.slug,
+          isInTheaters: true,
+        });
+      } else {
+        similarMovies.push({
+          id: tmdbSimilar.id,
+          title: tmdbSimilar.title,
+          rating: tmdbSimilar.rating,
+          poster: tmdbSimilar.poster,
+          cinema: 'Recommandation',
+          isInTheaters: false,
+        });
+      }
+    }
+  }
+
+  // Compléter avec d'autres films à l'affiche partageant des genres si nécessaire
+  if (similarMovies.filter((f) => f.isInTheaters).length < 4 && allFilmsInLyon.length > 0) {
+    const currentGenres = typeof film.genres === 'string' ? film.genres.toLowerCase() : '';
+    const candidates = allFilmsInLyon.filter((lf) => !similarMovies.some((sm) => sm.slug === lf.slug));
+    const genreMatched = candidates.filter((lf) => {
+      if (!lf.genres || !currentGenres) return false;
+      const gList = lf.genres.toLowerCase().split(',');
+      return gList.some((g) => currentGenres.includes(g.trim()));
+    });
+    const pool = genreMatched.length >= 3 ? genreMatched : candidates;
+    for (const addFilm of pool.slice(0, 6 - similarMovies.length)) {
+      similarMovies.push({
+        id: addFilm.slug,
+        title: addFilm.title,
+        rating: addFilm.rating,
+        poster: addFilm.poster,
+        cinema: addFilm.cinema,
+        slug: addFilm.slug,
+        isInTheaters: true,
+      });
+    }
+  }
 
   const metaParts: string[] = [];
   if (film.release_year && film.release_year !== 'inconnue') metaParts.push(film.release_year);
@@ -500,15 +582,22 @@ export default async function FilmPage({ params }: PageProps) {
                 </span>
               </div>
               <p className="text-[11px] text-neutral-500 dark:text-neutral-400 -mt-1 font-normal">
-                Actuellement en salle cette semaine
+                {similarMovies.some((f) => f.isInTheaters)
+                  ? 'Actuellement en salle cette semaine'
+                  : 'Recommandations cinématographiques'}
               </p>
 
               <div className="flex items-start gap-3 overflow-x-auto no-scrollbar pb-2">
-                {similarMovies.map((m) => (
-                  <div key={m.id} className="shrink-0 w-32 space-y-1.5">
-                    <div className="relative aspect-[2/3] rounded-[18px] overflow-hidden shadow-sm border border-black/10 dark:border-white/10 bg-neutral-200 dark:bg-[#1c1c1e]">
+                {similarMovies.map((m, idx) => {
+                  const cardContent = (
+                    <div className="relative aspect-[2/3] rounded-[18px] overflow-hidden shadow-sm border border-black/10 dark:border-white/10 bg-neutral-200 dark:bg-[#1c1c1e] transition-all">
                       {m.poster && (
-                        <img src={m.poster} alt={m.title} className="w-full h-full object-cover" />
+                        <img
+                          src={m.poster}
+                          alt={m.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          loading="lazy"
+                        />
                       )}
                       {m.rating && (
                         <div className="absolute top-1.5 right-1.5 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-sm text-white text-[10px] font-normal flex items-center gap-0.5">
@@ -516,18 +605,40 @@ export default async function FilmPage({ params }: PageProps) {
                           <span>{m.rating}</span>
                         </div>
                       )}
-                      <div className="absolute bottom-1.5 left-1.5 px-1.5 py-0.5 rounded bg-teal-600/90 text-white text-[8px] font-normal tracking-wider">
-                        À L&apos;AFFICHE
-                      </div>
+                      {m.isInTheaters && (
+                        <div className="absolute bottom-1.5 left-1.5 px-1.5 py-0.5 rounded bg-primary text-primary-contrast text-[8px] font-normal tracking-wider shadow-sm">
+                          À L&apos;AFFICHE
+                        </div>
+                      )}
                     </div>
-                    <h4 className="text-xs font-normal text-neutral-900 dark:text-white truncate">
-                      {m.title}
-                    </h4>
-                    <p className="text-[10px] text-neutral-500 dark:text-neutral-400 truncate">
-                      {m.cinema}
-                    </p>
-                  </div>
-                ))}
+                  );
+
+                  return (
+                    <div key={m.slug || m.id || idx} className="shrink-0 w-32 space-y-1.5">
+                      {m.slug ? (
+                        <Link
+                          href={`/film/${m.slug}`}
+                          className="group block select-none active:scale-95 transition-transform"
+                        >
+                          {cardContent}
+                        </Link>
+                      ) : (
+                        <div className="group block select-none">{cardContent}</div>
+                      )}
+                      <h4 className="text-xs font-normal text-neutral-900 dark:text-white line-clamp-1 leading-tight">
+                        {m.title}
+                      </h4>
+                      {m.cinema && (
+                        <div className="flex items-center gap-1">
+                          <CinemaBrand cinemaName={m.cinema} hideText compact className="scale-75 origin-left shrink-0" />
+                          <p className="text-[10px] text-neutral-500 dark:text-neutral-400 truncate leading-tight font-normal">
+                            {m.cinema}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </>
