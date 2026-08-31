@@ -4,11 +4,12 @@
 import React from 'react';
 import { ChatBot } from '@/components/ui/ChatBot';
 import { SettingsModal } from '@/components/ui/SettingsModal';
+import { FEATURES } from '@/lib/features';
 
 export function GlobalModals() {
   return (
     <>
-      <ChatBot />
+      {FEATURES.enableCineBot && <ChatBot />}
       <SettingsModal />
     </>
   );

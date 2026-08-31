@@ -27,6 +27,7 @@ import {
   Download,
   Upload,
   AlertTriangle,
+  Languages,
 } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
 import { useTranslation, SUPPORTED_LANGUAGES, SupportedLocale } from '@/i18n';
@@ -50,6 +51,7 @@ export function SettingsModal() {
   const [showCode, setShowCode] = useState(false);
   const [copied, setCopied] = useState(false);
   const [hidePast, setHidePast] = useState(false);
+  const [useOriginalTitleLogo, setUseOriginalTitleLogo] = useState(false);
   const [notifications, setNotifications] = useState(true);
   const [glassEffect, setGlassEffect] = useState<'disabled' | 'blur' | 'crystal'>('crystal');
   const [isLinkingDeviceOpen, setIsLinkingDeviceOpen] = useState(false);
@@ -81,6 +83,10 @@ export function SettingsModal() {
       const stored = localStorage.getItem('cinelyon_hide_past_sessions');
       if (stored !== null) {
         setHidePast(stored === 'true');
+      }
+      const storedOrigLogo = localStorage.getItem('cinelyon_useOriginalTitleLogo');
+      if (storedOrigLogo !== null) {
+        setUseOriginalTitleLogo(storedOrigLogo === 'true');
       }
       const storedUsername = localStorage.getItem('cinelyon_user_name');
       if (storedUsername) setUsername(storedUsername);
@@ -751,6 +757,48 @@ export function SettingsModal() {
                       <span
                         className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-transform shadow-xs ${
                           hidePast ? 'left-6' : 'left-1'
+                        }`}
+                      />
+                    </button>
+                  </div>
+
+                  {/* Préférer les logos originaux (VO) */}
+                  <div className="p-3.5 flex items-center justify-between">
+                    <div className="flex items-center gap-3 pr-2">
+                      <div className="w-8 h-8 rounded-lg bg-[#007AFF] text-white flex items-center justify-center shadow-sm shrink-0">
+                        <Languages size={16} />
+                      </div>
+                      <div>
+                        <span className="text-xs font-semibold text-neutral-900 dark:text-white block">
+                          Préférer les logos originaux (VO)
+                        </span>
+                        <span className="text-[10px] text-neutral-500 dark:text-neutral-400 font-normal">
+                          Afficher les logos des films en version originale (ex : Toy Story) plutôt que les versions traduites.
+                        </span>
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const nextVal = !useOriginalTitleLogo;
+                        setUseOriginalTitleLogo(nextVal);
+                        try {
+                          localStorage.setItem('cinelyon_useOriginalTitleLogo', nextVal ? 'true' : 'false');
+                          window.dispatchEvent(
+                            new CustomEvent('cinelyon:settings-changed', {
+                              detail: { useOriginalTitleLogo: nextVal },
+                            })
+                          );
+                        } catch {}
+                      }}
+                      className={`w-11 h-6 rounded-full transition-colors relative shrink-0 ${
+                        useOriginalTitleLogo ? 'bg-primary' : 'bg-neutral-300 dark:bg-neutral-700'
+                      }`}
+                    >
+                      <span
+                        className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-transform shadow-xs ${
+                          useOriginalTitleLogo ? 'left-6' : 'left-1'
                         }`}
                       />
                     </button>

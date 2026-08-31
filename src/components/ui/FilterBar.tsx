@@ -7,6 +7,7 @@ import { Search, SlidersHorizontal, X, Popcorn, Shuffle, Settings, Heart, Sparkl
 import { FiltersState, TimeSlot, FilmFilterOptions } from '@/types';
 import { useTranslation } from '@/i18n';
 import { formatLocalizedGenres } from '@/utils/filmLocalizationUtils';
+import { FEATURES } from '@/lib/features';
 
 interface FilterBarProps {
   filters: FiltersState;
@@ -206,30 +207,34 @@ export function FilterBar({
         </div>
 
         {/* Bouton Ciné-Roulette */}
-        <button
-          type="button"
-          onClick={() => {
-            if (onOpenRoulette) onOpenRoulette();
-            else window.dispatchEvent(new CustomEvent('cinelyon:open-roulette'));
-          }}
-          className="w-11 h-11 rounded-[16px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/25 transition-all flex items-center justify-center shrink-0 shadow-[0_2px_8px_rgba(0,0,0,0.02)] active:scale-95 touch-manipulation select-none"
-          title="Ciné-Roulette"
-        >
-          <Popcorn size={19} />
-        </button>
+        {FEATURES.enableRoulette && (
+          <button
+            type="button"
+            onClick={() => {
+              if (onOpenRoulette) onOpenRoulette();
+              else window.dispatchEvent(new CustomEvent('cinelyon:open-roulette'));
+            }}
+            className="w-11 h-11 rounded-[16px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/25 transition-all flex items-center justify-center shrink-0 shadow-[0_2px_8px_rgba(0,0,0,0.02)] active:scale-95 touch-manipulation select-none"
+            title="Ciné-Roulette"
+          >
+            <Popcorn size={19} />
+          </button>
+        )}
 
         {/* Bouton Double Programme */}
-        <button
-          type="button"
-          onClick={() => {
-            if (onOpenDoubleFeature) onOpenDoubleFeature();
-            else window.dispatchEvent(new CustomEvent('cinelyon:open-double-feature'));
-          }}
-          className="w-11 h-11 rounded-[16px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/25 transition-all flex items-center justify-center shrink-0 shadow-[0_2px_8px_rgba(0,0,0,0.02)] active:scale-95 touch-manipulation select-none"
-          title="Double Programme"
-        >
-          <Shuffle size={19} />
-        </button>
+        {FEATURES.enableDoubleFeature && (
+          <button
+            type="button"
+            onClick={() => {
+              if (onOpenDoubleFeature) onOpenDoubleFeature();
+              else window.dispatchEvent(new CustomEvent('cinelyon:open-double-feature'));
+            }}
+            className="w-11 h-11 rounded-[16px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/25 transition-all flex items-center justify-center shrink-0 shadow-[0_2px_8px_rgba(0,0,0,0.02)] active:scale-95 touch-manipulation select-none"
+            title="Double Programme"
+          >
+            <Shuffle size={19} />
+          </button>
+        )}
 
         {/* Bouton Modale de Filtres */}
         <button

@@ -2,7 +2,7 @@
 // Composant d'affichage détaillé complet d'un film (partagé entre la vue modale 0ms et la page SSR /film/[slug])
 'use client';
 
-import React, { memo, useState, useEffect } from 'react';
+import React, { memo, useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import {
   ChevronLeft,
@@ -30,8 +30,11 @@ import { FilmReviewsSection } from '@/components/ui/FilmReviewsSection';
 import { DaySeances } from '@/components/ui/DaySeances';
 import { CinemaBrand } from '@/components/ui/CinemaBrand';
 import { FilmCastSection } from '@/components/ui/FilmCastSection';
+import { FilmLogo } from '@/components/ui/FilmLogo';
 import { getStreamingProviderWebUrl } from '@/utils/streamingProviders';
 import { getLetterboxdDeepLink } from '@/utils/letterboxdUtils';
+import { getDateLabelByDay } from '@/utils/showtimes';
+import { getTodayIso } from '@/utils/dateUtils';
 
 export interface SimilarMovieItem {
   id: number | string;
@@ -67,6 +70,38 @@ export const FilmDetailView = memo(function FilmDetailView({
 }: FilmDetailViewProps) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [copiedShare, setCopiedShare] = useState(false);
+  const [hasLogo, setHasLogo] = useState(false);
+  const [hidePastSessions, setHidePastSessions] = useState(false);
+
+  const validDays = useMemo(() => Object.keys(film.seancesByDay || {}), [film.seancesByDay]);
+  const [selectedDayLabel, setSelectedDayLabel] = useState<string>(() => validDays[0] || '');
+
+  useEffect(() => {
+    if (validDays.length > 0 && (!selectedDayLabel || !validDays.includes(selectedDayLabel))) {
+      setSelectedDayLabel(validDays[0]);
+    }
+  }, [validDays, selectedDayLabel]);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('cinelyon_hide_past_sessions');
+      if (stored !== null) {
+        setHidePastSessions(stored === 'true');
+      }
+    } catch {}
+
+    const handleSettingsChange = () => {
+      try {
+        const stored = localStorage.getItem('cinelyon_hide_past_sessions');
+        if (stored !== null) {
+          setHidePastSessions(stored === 'true');
+        }
+      } catch {}
+    };
+
+    window.addEventListener('cinelyon:settings-changed', handleSettingsChange);
+    return () => window.removeEventListener('cinelyon:settings-changed', handleSettingsChange);
+  }, []);
 
   // Synchronisation des favoris
   useEffect(() => {
@@ -136,72 +171,95 @@ export const FilmDetailView = memo(function FilmDetailView({
     : [];
 
   const youtubeId = film.trailer_url ? extractYoutubeId(film.trailer_url) : null;
-  const validDays = Object.keys(film.seancesByDay || {});
 
   return (
     <div className={`w-full pb-24 bg-[#f5f6f8] dark:bg-[#121214] text-neutral-900 dark:text-white ${isModal ? 'pt-0' : 'min-h-screen'}`}>
       <div className="max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto px-3 sm:px-4 space-y-4">
-        {/* ── 1. Hero Backdrop Banner avec Boutons Flottants ── */}
-        <div className="relative w-full h-[280px] sm:h-[320px] rounded-[24px] overflow-hidden shadow-md mt-2 bg-neutral-900">
-          <img
-            src={film.backdrop || film.affiche || '/images/nocontent.png'}
-            alt={film.title}
-            className="w-full h-full object-cover"
-          />
-          {/* Gradient fade to bottom */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#f5f6f8] dark:from-[#121214] via-transparent to-black/50" />
+        {/* ── Floating Action Bar (Sticky top) ── */}
+        <div className="sticky top-3 sm:top-4 z-40 flex items-center justify-between pointer-events-none -mb-12 sm:-mb-14 pt-1 px-1">
+          {isModal && onClose ? (
+            <button
+              type="button"
+              onClick={onClose}
+              className="pointer-events-auto px-3.5 py-1.5 rounded-full bg-black/50 hover:bg-black/70 backdrop-blur-xl text-white text-xs font-semibold flex items-center gap-1 border border-white/20 transition-all duration-150 active:scale-95 shadow-lg shadow-black/25 touch-manipulation cursor-pointer"
+            >
+              <ChevronLeft size={16} />
+              <span>Retour</span>
+            </button>
+          ) : (
+            <Link
+              href="/"
+              className="pointer-events-auto px-3.5 py-1.5 rounded-full bg-black/50 hover:bg-black/70 backdrop-blur-xl text-white text-xs font-semibold flex items-center gap-1 border border-white/20 transition-all duration-150 active:scale-95 shadow-lg shadow-black/25 touch-manipulation cursor-pointer"
+            >
+              <ChevronLeft size={16} />
+              <span>Retour</span>
+            </Link>
+          )}
 
-          {/* Navigation Bar over Hero */}
-          <div className="absolute top-4 inset-x-4 flex items-center justify-between z-10">
-            {isModal && onClose ? (
-              <button
-                type="button"
-                onClick={onClose}
-                className="px-3.5 py-1.5 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md text-white text-xs font-semibold flex items-center gap-1 border border-white/20 transition-transform active:scale-95 shadow-sm"
-              >
-                <ChevronLeft size={16} />
-                <span>Retour</span>
-              </button>
-            ) : (
-              <Link
-                href="/"
-                className="px-3.5 py-1.5 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md text-white text-xs font-semibold flex items-center gap-1 border border-white/20 transition-transform active:scale-95 shadow-sm"
-              >
-                <ChevronLeft size={16} />
-                <span>Retour</span>
-              </Link>
-            )}
-
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={handleShare}
-                className="w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md text-white flex items-center justify-center shadow-sm border border-white/20 hover:scale-105 active:scale-95 transition-all"
-                title="Partager"
-                aria-label="Partager ce film"
-              >
-                {copiedShare ? <Check size={16} className="text-emerald-400" /> : <Share2 size={16} />}
-              </button>
-              <button
-                type="button"
-                onClick={toggleFavorite}
-                className="w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md text-white flex items-center justify-center shadow-sm border border-white/20 hover:scale-105 active:scale-95 transition-all"
-                title="Favori"
-                aria-label={isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'}
-              >
-                <Heart
-                  size={16}
-                  className={`transition-colors ${isFavorite ? 'fill-[#ff6b6b] text-[#ff6b6b]' : 'text-white'}`}
-                />
-              </button>
-            </div>
+          <div className="flex items-center gap-2 pointer-events-auto">
+            <button
+              type="button"
+              onClick={handleShare}
+              className="w-9 h-9 rounded-full bg-black/50 hover:bg-black/70 backdrop-blur-xl text-white flex items-center justify-center shadow-lg shadow-black/25 border border-white/20 hover:scale-105 active:scale-95 transition-all duration-150 touch-manipulation cursor-pointer"
+              title="Partager"
+              aria-label="Partager ce film"
+            >
+              {copiedShare ? <Check size={16} className="text-emerald-400" /> : <Share2 size={16} />}
+            </button>
+            <button
+              type="button"
+              onClick={toggleFavorite}
+              className="w-9 h-9 rounded-full bg-black/50 hover:bg-black/70 backdrop-blur-xl text-white flex items-center justify-center shadow-lg shadow-black/25 border border-white/20 hover:scale-105 active:scale-95 transition-all duration-150 touch-manipulation cursor-pointer"
+              title="Favori"
+              aria-label={isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'}
+            >
+              <Heart
+                size={16}
+                className={`transition-colors ${isFavorite ? 'fill-[#ff6b6b] text-[#ff6b6b]' : 'text-white'}`}
+              />
+            </button>
           </div>
+        </div>
 
-          {/* Titre superposé en bas du banner */}
-          <div className="absolute bottom-3 left-4 right-4">
-            <h1 className="text-2xl sm:text-3xl font-montserrat font-extrabold text-white tracking-tight drop-shadow-md">
-              {film.title}
-            </h1>
+        {/* ── 1. Hero Backdrop Banner (Letterboxd Style on Desktop / Full-Width on Mobile) ── */}
+        <div className="relative -mx-3 sm:mx-0 w-[calc(100%+1.5rem)] sm:w-full h-[270px] sm:h-[340px] md:h-[390px] rounded-none sm:rounded-[24px] overflow-hidden shadow-md sm:shadow-lg mt-0 sm:mt-2 bg-neutral-950 group">
+          <img
+            src={
+              film.backdrop
+                ? film.backdrop
+                : youtubeId
+                ? `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`
+                : film.affiche || '/images/nocontent.png'
+            }
+            alt={film.title}
+            className="w-full h-full object-cover sm:object-center select-none"
+            loading="eager"
+          />
+
+          {/* Letterboxd-style soft lateral vignettes / gradients on desktop */}
+          <div className="hidden sm:block absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#f5f6f8] dark:from-[#121214] via-[#f5f6f8]/40 dark:via-[#121214]/40 to-transparent pointer-events-none" />
+          <div className="hidden sm:block absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#f5f6f8] dark:from-[#121214] via-[#f5f6f8]/40 dark:via-[#121214]/40 to-transparent pointer-events-none" />
+
+          {/* Top dark subtle gradient for buttons readability */}
+          <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/60 via-black/20 to-transparent pointer-events-none" />
+
+          {/* Bottom gradient fade into page background */}
+          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#f5f6f8] dark:from-[#121214] via-[#f5f6f8]/60 dark:via-[#121214]/60 to-transparent pointer-events-none" />
+
+          {/* ClearLogo / Titre superposé en bas de la bannière */}
+          <div className="absolute bottom-3 left-4 right-4 z-20 flex flex-col items-start">
+            <FilmLogo
+              title={film.title}
+              releaseYear={film.release_year}
+              afficheUrl={film.affiche}
+              onLogoLoaded={setHasLogo}
+              className="mb-1"
+            />
+            {!hasLogo && (
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-montserrat font-extrabold text-white tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)]">
+                {film.title}
+              </h1>
+            )}
           </div>
         </div>
 
@@ -432,39 +490,65 @@ export const FilmDetailView = memo(function FilmDetailView({
 
         <div className="border-t border-black/[0.06] dark:border-white/10 pt-3" />
 
-        {/* ── 12. Séances & Horaires ── */}
+        {/* ── 12. Séances & Horaires (Mini-Calendrier Interactif Issue #143) ── */}
         <div className="space-y-3 px-1">
           <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-semibold text-sm">
             <Clock size={16} className="text-primary" />
             <span>Séances</span>
           </div>
 
-          {validDays.length > 0 ? (
-            <div className="space-y-4">
-              {validDays.map((dayLabel) => {
-                const cinemas = film.seancesByDay[dayLabel] ?? {};
-                return (
-                  <div key={dayLabel} className="space-y-2">
-                    <span className="inline-block px-3 py-1 rounded-[16px] bg-primary text-primary-contrast text-xs font-semibold shadow-xs">
-                      {dayLabel}
-                    </span>
-
-                    <DaySeances
-                      cinemas={cinemas}
-                      isoDate={dayLabel}
-                      filmTitle={film.title}
-                      filmDuree={film.duree}
-                      filmUrl={film.url}
-                      filmYear={film.release_year}
-                      originalLanguage={film.original_language}
-                      groupByBrand={true}
-                    />
-                  </div>
-                );
-              })}
+          {validDays.length === 0 ? (
+            <div className="py-6 px-4 rounded-[18px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 text-center text-xs text-neutral-500 dark:text-neutral-400 shadow-2xs font-normal">
+              Aucune séance restante programmée pour ce film.
             </div>
           ) : (
-            <p className="text-xs text-neutral-500 font-normal">Aucune séance restante programmée pour ce film.</p>
+            <div className="space-y-3">
+              {/* Mini-calendrier du film (défilement horizontal de pilules de dates) */}
+              <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
+                {validDays.map((dayLabel) => {
+                  const cinemasForDay = film.seancesByDay[dayLabel] ?? {};
+                  const hasAvantPremiere = Object.values(cinemasForDay).some((seances) =>
+                    seances.some((s) => s.format && s.format.toLowerCase().includes('première'))
+                  );
+                  const isSelected = selectedDayLabel === dayLabel;
+
+                  return (
+                    <button
+                      key={dayLabel}
+                      type="button"
+                      onClick={() => setSelectedDayLabel(dayLabel)}
+                      className={`relative px-3.5 py-1.5 rounded-[18px] text-[12px] font-normal tracking-tight transition-all shrink-0 active:scale-95 touch-manipulation select-none border ${
+                        isSelected
+                          ? 'bg-primary border-primary text-primary-contrast shadow-xs font-semibold'
+                          : 'bg-white dark:bg-[#1c1c1e] border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-300 hover:border-neutral-300 dark:hover:border-white/25'
+                      }`}
+                    >
+                      {hasAvantPremiere && (
+                        <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-rose-500 border border-white dark:border-[#1c1c1e]" />
+                      )}
+                      <span>{dayLabel}</span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Séances pour le jour actif avec logos officiels SVG */}
+              {selectedDayLabel && (
+                <div className="mt-1 animate-in fade-in duration-150">
+                  <DaySeances
+                    cinemas={film.seancesByDay[selectedDayLabel] ?? {}}
+                    isoDate={getDateLabelByDay(selectedDayLabel)?.isoDate || getTodayIso()}
+                    filmTitle={film.title}
+                    filmDuree={film.duree}
+                    filmUrl={film.url}
+                    filmYear={film.release_year}
+                    originalLanguage={film.original_language}
+                    hidePastSessions={hidePastSessions}
+                    groupByBrand={true}
+                  />
+                </div>
+              )}
+            </div>
           )}
         </div>
 

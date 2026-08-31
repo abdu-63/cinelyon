@@ -1,9 +1,10 @@
 // src/components/layout/Footer.tsx
+// Pied de page officiel CinéLyon — Liquid Glass & Design Apple
 'use client';
 
 import React from 'react';
 import Link from 'next/link';
-import { Film, Heart, MessageSquare } from 'lucide-react';
+import { Film, Heart, MessageSquare, MapPin, Shield, FileText } from 'lucide-react';
 import {
   LetterboxdLogo,
   SerializdLogo,
@@ -13,20 +14,23 @@ import {
 
 export default function Footer() {
   return (
-    <footer className="w-full border-t border-black/[0.06] dark:border-white/10 bg-white/60 dark:bg-black/50 backdrop-blur-xl pt-10 pb-14 mt-16 text-neutral-500">
-      <div className="max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto px-4 text-center space-y-6">
+    <footer className="w-full border-t border-black/[0.06] dark:border-white/10 bg-white/70 dark:bg-[#121214]/80 backdrop-blur-2xl pt-12 pb-24 sm:pb-14 mt-16 text-neutral-500 transition-colors">
+      <div className="max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto px-4 text-center space-y-7">
         {/* Brand & Tagline */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center text-primary-contrast shadow-md shadow-primary/20">
-              <Film size={17} />
+        <div className="space-y-2.5">
+          <Link
+            href="/"
+            className="inline-flex items-center justify-center gap-2.5 group select-none cursor-pointer"
+          >
+            <div className="w-9 h-9 rounded-2xl bg-primary flex items-center justify-center text-primary-contrast shadow-md shadow-primary/25 group-hover:scale-105 transition-transform duration-200">
+              <Film size={18} />
             </div>
-            <span className="font-bold text-lg text-neutral-900 dark:text-white tracking-tight">
+            <span className="font-montserrat font-extrabold text-xl text-neutral-900 dark:text-white tracking-tight group-hover:text-primary transition-colors">
               CinéLyon
             </span>
-          </div>
+          </Link>
 
-          <p className="text-xs leading-relaxed text-neutral-500 dark:text-neutral-400 max-w-md mx-auto font-normal">
+          <p className="text-xs leading-relaxed text-neutral-600 dark:text-neutral-400 max-w-lg mx-auto font-normal">
             Toutes les séances, horaires en temps réel, scènes post-génériques et pauses RunPee des 19 cinémas de la métropole lyonnaise.
           </p>
         </div>
@@ -38,11 +42,11 @@ export default function Footer() {
             href="https://boxd.it/6GBU5"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-10 h-10 rounded-xl bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 flex items-center justify-center text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/30 hover:scale-105 active:scale-95 transition-all shadow-xs"
-            title="Letterboxd"
-            aria-label="Letterboxd"
+            className="w-11 h-11 rounded-[16px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 flex items-center justify-center text-neutral-700 dark:text-neutral-200 hover:border-primary/40 dark:hover:border-primary/40 hover:text-primary hover:scale-105 active:scale-95 transition-all shadow-xs"
+            title="Letterboxd @CineLyon"
+            aria-label="Profil Letterboxd de CinéLyon"
           >
-            <LetterboxdLogo width={18} height={18} />
+            <LetterboxdLogo width={19} height={19} />
           </a>
 
           {/* Serializd */}
@@ -50,11 +54,11 @@ export default function Footer() {
             href="https://srlzd.com/u/skyfear"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-10 h-10 rounded-xl bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 flex items-center justify-center text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/30 hover:scale-105 active:scale-95 transition-all shadow-xs"
+            className="w-11 h-11 rounded-[16px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 flex items-center justify-center text-neutral-700 dark:text-neutral-200 hover:border-primary/40 dark:hover:border-primary/40 hover:text-primary hover:scale-105 active:scale-95 transition-all shadow-xs"
             title="Serializd"
-            aria-label="Serializd"
+            aria-label="Profil Serializd"
           >
-            <SerializdLogo size={18} />
+            <SerializdLogo size={19} />
           </a>
 
           {/* Twitter / X */}
@@ -62,11 +66,11 @@ export default function Footer() {
             href="https://x.com/abduplt?s=21"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-10 h-10 rounded-xl bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 flex items-center justify-center text-neutral-800 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/30 hover:scale-105 active:scale-95 transition-all shadow-xs"
-            title="Twitter / X"
-            aria-label="Twitter / X"
+            className="w-11 h-11 rounded-[16px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 flex items-center justify-center text-neutral-800 dark:text-neutral-200 hover:border-primary/40 dark:hover:border-primary/40 hover:text-primary hover:scale-105 active:scale-95 transition-all shadow-xs"
+            title="Twitter / X @abduplt"
+            aria-label="Compte Twitter de CinéLyon"
           >
-            <TwitterLogo size={15} />
+            <TwitterLogo size={16} />
           </a>
 
           {/* Instagram */}
@@ -74,16 +78,16 @@ export default function Footer() {
             href="https://www.instagram.com/cinelyon.fr/"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-10 h-10 rounded-xl bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 flex items-center justify-center text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/30 hover:scale-105 active:scale-95 transition-all shadow-xs"
+            className="w-11 h-11 rounded-[16px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 flex items-center justify-center text-neutral-700 dark:text-neutral-200 hover:border-primary/40 dark:hover:border-primary/40 hover:text-primary hover:scale-105 active:scale-95 transition-all shadow-xs"
             title="Instagram @cinelyon.fr"
-            aria-label="Instagram"
+            aria-label="Page Instagram officielle de CinéLyon"
           >
-            <InstagramLogo size={17} />
+            <InstagramLogo size={18} />
           </a>
         </div>
 
         {/* Navigation & Liens Légaux */}
-        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs font-medium">
+        <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2.5 text-xs font-medium pt-1">
           <Link
             href="/"
             className="text-neutral-700 dark:text-neutral-300 hover:text-primary transition-colors"
@@ -92,32 +96,42 @@ export default function Footer() {
           </Link>
           <span className="text-neutral-300 dark:text-neutral-700">•</span>
           <Link
+            href="/map"
+            className="flex items-center gap-1 text-neutral-700 dark:text-neutral-300 hover:text-primary transition-colors"
+          >
+            <MapPin size={12} className="text-primary" />
+            <span>Carte des cinémas</span>
+          </Link>
+          <span className="text-neutral-300 dark:text-neutral-700">•</span>
+          <Link
             href="/suggestions"
             className="flex items-center gap-1 text-neutral-700 dark:text-neutral-300 hover:text-primary transition-colors"
           >
-            <MessageSquare size={13} className="text-primary" />
+            <MessageSquare size={12} className="text-primary" />
             <span>Suggestions & Retours</span>
           </Link>
           <span className="text-neutral-300 dark:text-neutral-700">•</span>
           <Link
             href="/politique-de-confidentialite"
-            className="text-neutral-700 dark:text-neutral-300 hover:text-primary transition-colors"
+            className="flex items-center gap-1 text-neutral-700 dark:text-neutral-300 hover:text-primary transition-colors"
           >
-            Politique de confidentialité
+            <Shield size={12} className="text-neutral-400" />
+            <span>Politique de confidentialité</span>
           </Link>
           <span className="text-neutral-300 dark:text-neutral-700">•</span>
           <Link
             href="/cgu"
-            className="text-neutral-700 dark:text-neutral-300 hover:text-primary transition-colors"
+            className="flex items-center gap-1 text-neutral-700 dark:text-neutral-300 hover:text-primary transition-colors"
           >
-            Conditions d&apos;utilisation
+            <FileText size={12} className="text-neutral-400" />
+            <span>CGU</span>
           </Link>
         </div>
 
         {/* Copyright & Mentions */}
-        <div className="pt-5 border-t border-black/[0.06] dark:border-white/10 flex items-center justify-center text-[11px] text-neutral-400 gap-1.5 font-normal">
+        <div className="pt-6 border-t border-black/[0.06] dark:border-white/10 flex items-center justify-center text-[11px] text-neutral-400 dark:text-neutral-500 gap-1.5 font-normal">
           <span>© {new Date().getFullYear()} CinéLyon. Fait avec</span>
-          <Heart size={11} className="text-rose-500 fill-rose-500 inline mx-0.5" />
+          <Heart size={12} className="text-rose-500 fill-rose-500 inline mx-0.5" />
           <span>pour les cinéphiles lyonnais.</span>
         </div>
       </div>

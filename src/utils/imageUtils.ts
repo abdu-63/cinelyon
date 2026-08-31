@@ -28,3 +28,8 @@ export function toYoutubeEmbedUrl(url: string): string | null {
   if (!id) return null;
   return `https://www.youtube.com/embed/${id}`;
 }
+
+export function buildLogoUrl(filePath: string, size = 'w500'): string {
+  if (!filePath) return '';
+  return `https://image.tmdb.org/t/p/${size}${filePath}`;
+}

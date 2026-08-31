@@ -11,6 +11,7 @@ import { DoubleFeatureModal } from '@/components/ui/DoubleFeatureModal';
 import { FilmDetailModal } from '@/components/ui/FilmDetailModal';
 import { filterFilms, extractFilterOptions, hasVisibleSeances, registerDateLabels } from '@/utils/showtimes';
 import { PAGE_SIZE } from '@/lib/constants';
+import { FEATURES } from '@/lib/features';
 
 interface FilmsListProps {
   initialFilms: Film[];
@@ -224,18 +225,22 @@ export function FilmsList({ initialFilms = [], initialDates = [] }: FilmsListPro
         onSelectFilm={(f) => setSelectedFilmForDetail(f)}
       />
 
-      {/* Modales Interactives avec état contrôlé direct */}
-      <CineRouletteModal
-        films={baseFilms}
-        isOpen={isRouletteOpen}
-        onClose={() => setIsRouletteOpen(false)}
-      />
-      <DoubleFeatureModal
-        films={baseFilms}
-        dates={initialDates}
-        isOpen={isDoubleFeatureOpen}
-        onClose={() => setIsDoubleFeatureOpen(false)}
-      />
+      {/* Modales Interactives avec état contrôlé direct (conditionnées par Feature Flags) */}
+      {FEATURES.enableRoulette && (
+        <CineRouletteModal
+          films={baseFilms}
+          isOpen={isRouletteOpen}
+          onClose={() => setIsRouletteOpen(false)}
+        />
+      )}
+      {FEATURES.enableDoubleFeature && (
+        <DoubleFeatureModal
+          films={baseFilms}
+          dates={initialDates}
+          isOpen={isDoubleFeatureOpen}
+          onClose={() => setIsDoubleFeatureOpen(false)}
+        />
+      )}
     </div>
   );
 }
