@@ -10,6 +10,7 @@ import { CineRouletteModal } from '@/components/ui/CineRouletteModal';
 import { DoubleFeatureModal } from '@/components/ui/DoubleFeatureModal';
 import { FilmDetailModal } from '@/components/ui/FilmDetailModal';
 import { filterFilms, extractFilterOptions, hasVisibleSeances, registerDateLabels } from '@/utils/showtimes';
+import { preloadFilmLogo } from '@/hooks/useFilmLogo';
 import { PAGE_SIZE } from '@/lib/constants';
 import { FEATURES } from '@/lib/features';
 
@@ -143,6 +144,18 @@ export function FilmsList({ initialFilms = [], initialDates = [] }: FilmsListPro
     () => filteredFilms.slice(0, visibleCount),
     [filteredFilms, visibleCount]
   );
+
+  // Préchargement discret des logos des films visibles (0ms lors de l'ouverture ultérieure)
+  useEffect(() => {
+    if (paginatedFilms.length > 0) {
+      const timer = setTimeout(() => {
+        paginatedFilms.slice(0, 6).forEach((f) => {
+          preloadFilmLogo(f.title, f.release_year, f.affiche);
+        });
+      }, 600);
+      return () => clearTimeout(timer);
+    }
+  }, [paginatedFilms]);
 
   const handleDayChange = useCallback((delta: number | null) => {
     setSelectedDelta(delta);

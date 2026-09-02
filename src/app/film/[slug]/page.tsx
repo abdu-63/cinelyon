@@ -10,6 +10,7 @@ import { slugify } from '@/utils/slugify';
 import { FilmRaw } from '@/types';
 import { getTodayIso } from '@/utils/dateUtils';
 import { FilmDetailView, SimilarMovieItem } from '@/components/ui/FilmDetailView';
+import { fetchFilmLogo } from '@/hooks/useFilmLogo';
 
 export const revalidate = 300;
 
@@ -104,12 +105,25 @@ export default async function FilmPage({ params }: PageProps) {
       isInTheaters: true,
     }));
 
+  // Préchargement immédiat du ClearLogo côté serveur pour affichage direct dans le HTML (0ms, 0 flash)
+  const initialLogo = await fetchFilmLogo(film.title, film.release_year, film.affiche, false);
+
   return (
     <main>
+      {initialLogo?.logoUrl && (
+        <link
+          rel="preload"
+          as="image"
+          href={initialLogo.logoUrl}
+          // @ts-ignore
+          fetchPriority="high"
+        />
+      )}
       <FilmDetailView
         film={film}
         similarMovies={similarMovies}
         isModal={false}
+        initialLogo={initialLogo}
       />
     </main>
   );

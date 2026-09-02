@@ -8,7 +8,7 @@ import { GlobalModals } from '@/components/layout/GlobalModals';
 import { ThemeProvider } from '@/context/ThemeContext';
 import { I18nProvider } from '@/i18n';
 import { QueryClientProvider } from '@/context/QueryClientProvider';
-import { ThemeScript } from '@/components/layout/ThemeScript';
+import { THEME_SCRIPT_CODE } from '@/components/layout/ThemeScript';
 
 export const viewport: Viewport = {
   themeColor: '#121214',
@@ -62,7 +62,11 @@ export default function RootLayout({
     <html lang="fr" suppressHydrationWarning>
       <head>
         {/* Polyfills universels WebKit iOS 15.1 & Initialisation du thème FOUC-free */}
-        <ThemeScript />
+        <script
+          id="cinelyon-legacy-polyfills"
+          dangerouslySetInnerHTML={{ __html: THEME_SCRIPT_CODE }}
+          suppressHydrationWarning
+        />
         <link
           rel="preload"
           href="/font/HealTheWebA-Regular.otf"
@@ -78,6 +82,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <link rel="preconnect" href="https://wsrv.nl" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://image.tmdb.org" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://fr.web.img4.acsta.net" />
         <link rel="dns-prefetch" href="https://fr.web.img6.acsta.net" />
         <link rel="dns-prefetch" href="https://image.tmdb.org" />

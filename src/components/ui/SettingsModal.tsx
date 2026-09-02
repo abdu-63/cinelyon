@@ -2,6 +2,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   X,
@@ -1026,13 +1027,41 @@ export function SettingsModal() {
               </div>
 
               {/* ── 6. À PROPOS ── */}
-              <div className="p-4 rounded-[22px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm text-center space-y-1 pb-6">
-                <p className="text-xs font-semibold text-neutral-900 dark:text-white">
-                  CinéLyon Web v2.0
-                </p>
-                <p className="text-[10px] text-neutral-500 dark:text-neutral-400 font-normal">
-                  Plateforme indépendante développée pour les passionnés de cinéma à Lyon.
-                </p>
+              <div className="p-4 rounded-[22px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm text-center space-y-3 pb-6">
+                <div className="space-y-1">
+                  <p className="text-xs font-semibold text-neutral-900 dark:text-white">
+                    CinéLyon Web v2.0
+                  </p>
+                  <p className="text-[10px] text-neutral-500 dark:text-neutral-400 font-normal">
+                    Plateforme indépendante développée pour les passionnés de cinéma à Lyon.
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap items-center justify-center gap-2.5 pt-1 text-[11px] font-medium text-neutral-600 dark:text-neutral-400">
+                  <Link
+                    href="/mentions-legales"
+                    onClick={() => setIsOpen(false)}
+                    className="hover:text-primary transition-colors underline underline-offset-2"
+                  >
+                    Mentions légales
+                  </Link>
+                  <span>•</span>
+                  <Link
+                    href="/politique-de-confidentialite"
+                    onClick={() => setIsOpen(false)}
+                    className="hover:text-primary transition-colors underline underline-offset-2"
+                  >
+                    Confidentialité
+                  </Link>
+                  <span>•</span>
+                  <Link
+                    href="/cgu"
+                    onClick={() => setIsOpen(false)}
+                    className="hover:text-primary transition-colors underline underline-offset-2"
+                  >
+                    CGU
+                  </Link>
+                </div>
               </div>
             </div>
           </motion.div>

@@ -1,5 +1,6 @@
 // src/hooks/useFilmLogo.ts
 // Hook React Query pour charger le ClearLogo transparent d'un film depuis l'API TMDB.
+// Cache persistant instantané (localStorage) & préchargement pour éliminer toute latence / flash.
 // Portage exact de cinelyon-app — gestion du match affiche et des priorités linguistiques (VO / VF).
 
 import { useQuery } from '@tanstack/react-query';
@@ -10,15 +11,85 @@ export interface FilmLogoResult {
   aspectRatio: number | null;
 }
 
+/** Cache en mémoire vive pour accès synchrone ultra-rapide (0ms) */
+const memoryLogoCache = new Map<string, FilmLogoResult>();
+
 /**
  * Normalise une chaîne pour comparaison (lettres minuscules, sans accents, sans ponctuation)
  */
-function normalizeTitle(str: string): string {
+export function normalizeLogoTitle(str: string): string {
   return str
     .toLowerCase()
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z0-9]/g, '');
+}
+
+/** Génère une clé de cache déterministe */
+export function getLogoCacheKey(
+  title: string,
+  releaseYear: string | null,
+  useOriginalLogo: boolean
+): string {
+  const norm = normalizeLogoTitle(title);
+  const yr = releaseYear && /^\d{4}$/.test(releaseYear) ? releaseYear : 'any';
+  const mode = useOriginalLogo ? 'orig' : 'std';
+  return `cinelyon_logo_v2_${norm}_${yr}_${mode}`;
+}
+
+/**
+ * Récupère le logo en cache de manière synchrone (Mémoire vive puis LocalStorage).
+ * Permet un affichage direct dès la première frame de rendu sans flash ni requête.
+ */
+export function getCachedLogo(
+  title: string,
+  releaseYear: string | null,
+  useOriginalLogo: boolean
+): FilmLogoResult | null {
+  if (!title) return null;
+  const key = getLogoCacheKey(title, releaseYear, useOriginalLogo);
+
+  // 1. Vérification en mémoire vive (0ms)
+  if (memoryLogoCache.has(key)) {
+    return memoryLogoCache.get(key)!;
+  }
+
+  // 2. Vérification dans le LocalStorage du navigateur
+  if (typeof window !== 'undefined') {
+    try {
+      const stored = localStorage.getItem(key);
+      if (stored) {
+        const parsed = JSON.parse(stored) as FilmLogoResult;
+        memoryLogoCache.set(key, parsed);
+        return parsed;
+      }
+    } catch {
+      // Ignorer les erreurs d'accès au localStorage (ex: navigation privée stricte)
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Enregistre le résultat du logo en cache (mémoire + localStorage)
+ */
+function setCachedLogo(
+  title: string,
+  releaseYear: string | null,
+  useOriginalLogo: boolean,
+  result: FilmLogoResult
+): void {
+  const key = getLogoCacheKey(title, releaseYear, useOriginalLogo);
+  memoryLogoCache.set(key, result);
+
+  if (typeof window !== 'undefined') {
+    try {
+      localStorage.setItem(key, JSON.stringify(result));
+    } catch {
+      // Quota dépassé ou stockage restreint
+    }
+  }
 }
 
 /**
@@ -60,7 +131,14 @@ export async function fetchFilmLogo(
   afficheUrl: string | null,
   useOriginalLogo: boolean
 ): Promise<FilmLogoResult> {
-  const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY || '3e65b4de9b4b9b054166b0f906d6fb37';
+  // 1. Retour immédiat si déjà en cache
+  const cached = getCachedLogo(title, releaseYear, useOriginalLogo);
+  if (cached) return cached;
+
+  const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY || process.env.TMDB_API_KEY || '';
+  if (!apiKey) {
+    return { logoUrl: null, aspectRatio: null };
+  }
 
   try {
     // ── 1. Recherche du film sur TMDB ──────────────────────────────────────────
@@ -77,7 +155,11 @@ export async function fetchFilmLogo(
     let searchResponse = await fetch(
       `https://api.themoviedb.org/3/search/movie?${searchParams.toString()}`
     );
-    if (!searchResponse.ok) return { logoUrl: null, aspectRatio: null };
+    if (!searchResponse.ok) {
+      const empty = { logoUrl: null, aspectRatio: null };
+      setCachedLogo(title, releaseYear, useOriginalLogo, empty);
+      return empty;
+    }
     let searchData = await searchResponse.json();
 
     // Fallback sans l'année si aucun résultat
@@ -94,7 +176,9 @@ export async function fetchFilmLogo(
     }
 
     if (!searchData.results || searchData.results.length === 0) {
-      return { logoUrl: null, aspectRatio: null };
+      const empty = { logoUrl: null, aspectRatio: null };
+      setCachedLogo(title, releaseYear, useOriginalLogo, empty);
+      return empty;
     }
 
     // ── 2. Match sur l'affiche pour identifier le bon film ─────────────────────
@@ -114,7 +198,11 @@ export async function fetchFilmLogo(
     // ── 3. Récupération des images (sans filtre de langue pour avoir tous les logos) ──
     const imagesUrl = `https://api.themoviedb.org/3/movie/${matchedMovie.id}/images?api_key=${apiKey}`;
     const imagesResponse = await fetch(imagesUrl);
-    if (!imagesResponse.ok) return { logoUrl: null, aspectRatio: null };
+    if (!imagesResponse.ok) {
+      const empty = { logoUrl: null, aspectRatio: null };
+      setCachedLogo(title, releaseYear, useOriginalLogo, empty);
+      return empty;
+    }
 
     const imagesData = await imagesResponse.json();
     const logos: any[] = imagesData.logos ?? [];
@@ -123,34 +211,75 @@ export async function fetchFilmLogo(
     const franceTitle = matchedMovie.title ?? '';
     const originalTitle = matchedMovie.original_title ?? '';
     const shouldPrioritizeEnglish =
-      useOriginalLogo || normalizeTitle(franceTitle) === normalizeTitle(originalTitle);
+      useOriginalLogo || normalizeLogoTitle(franceTitle) === normalizeLogoTitle(originalTitle);
 
     const bestLogo = pickBestLogo(logos, shouldPrioritizeEnglish);
-    if (!bestLogo) return { logoUrl: null, aspectRatio: null };
+    if (!bestLogo) {
+      const empty = { logoUrl: null, aspectRatio: null };
+      setCachedLogo(title, releaseYear, useOriginalLogo, empty);
+      return empty;
+    }
 
-    return {
+    const result: FilmLogoResult = {
       logoUrl: buildLogoUrl(bestLogo.file_path, 'w500'),
       aspectRatio: bestLogo.aspect_ratio ?? null,
     };
+
+    setCachedLogo(title, releaseYear, useOriginalLogo, result);
+
+    // Préchargement immédiat de l'image en mémoire navigateur
+    if (typeof window !== 'undefined' && result.logoUrl) {
+      const img = new Image();
+      img.src = result.logoUrl;
+    }
+
+    return result;
   } catch {
-    return { logoUrl: null, aspectRatio: null };
+    const empty = { logoUrl: null, aspectRatio: null };
+    setCachedLogo(title, releaseYear, useOriginalLogo, empty);
+    return empty;
   }
 }
 
 /**
  * Hook pour récupérer le ClearLogo transparent d'un film depuis TMDB.
- * Cache infini car les logos sont statiques.
+ * Utilise initialData depuis le cache local synchrone (0ms de latence si déjà vu).
  */
 export function useFilmLogo(
   title: string,
   releaseYear: string | null,
   afficheUrl: string | null,
-  useOriginalLogo: boolean
+  useOriginalLogo: boolean,
+  initialLogo?: FilmLogoResult | null
 ) {
   return useQuery<FilmLogoResult>({
     queryKey: ['filmLogo', title, releaseYear, useOriginalLogo],
     queryFn: () => fetchFilmLogo(title, releaseYear, afficheUrl, useOriginalLogo),
+    initialData: () => (initialLogo || getCachedLogo(title, releaseYear, useOriginalLogo)) ?? undefined,
     staleTime: Infinity,
+    gcTime: 1000 * 60 * 60 * 24 * 7, // 7 jours
     enabled: !!title,
+  });
+}
+
+/**
+ * Précharge le logo d'un film en tâche de fond (compatible iOS 15.1 sans requestIdleCallback natif)
+ */
+export function preloadFilmLogo(
+  title: string,
+  releaseYear: string | null,
+  afficheUrl: string | null,
+  useOriginalLogo: boolean = false
+): void {
+  if (typeof window === 'undefined' || !title) return;
+  if (getCachedLogo(title, releaseYear, useOriginalLogo)) return;
+
+  const scheduleTask =
+    typeof (window as any).requestIdleCallback === 'function'
+      ? (window as any).requestIdleCallback
+      : (fn: () => void) => setTimeout(fn, 200);
+
+  scheduleTask(() => {
+    fetchFilmLogo(title, releaseYear, afficheUrl, useOriginalLogo);
   });
 }

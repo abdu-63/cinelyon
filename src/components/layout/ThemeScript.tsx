@@ -1,11 +1,7 @@
 // src/components/layout/ThemeScript.tsx
 // Script inline pour polyfills universels (WebKit iOS 15.1) et prévention du flash de thème au chargement
-// Chargé via next/script avant l'hydratation React
 
-import Script from 'next/script';
-
-export function ThemeScript() {
-  const script = `(function(){
+export const THEME_SCRIPT_CODE = `(function(){
     // 1. Polyfill Array.prototype.at & String.prototype.at & TypedArrays
     try {
       if (typeof Array.prototype.at !== 'function') {
@@ -267,11 +263,12 @@ export function ThemeScript() {
     } catch(e) {}
   })();`;
 
+export function ThemeScript() {
   return (
-    <Script
+    <script
       id="cinelyon-legacy-polyfills"
-      strategy="beforeInteractive"
-      dangerouslySetInnerHTML={{ __html: script }}
+      dangerouslySetInnerHTML={{ __html: THEME_SCRIPT_CODE }}
+      suppressHydrationWarning
     />
   );
 }

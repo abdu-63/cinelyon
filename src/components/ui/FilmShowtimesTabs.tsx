@@ -124,7 +124,13 @@ export function FilmShowtimesTabs({ film, dates = [] }: FilmShowtimesTabsProps) 
                         {seance.lang}
                       </span>
                       {seance.format && (
-                        <span className="text-[9px] font-normal uppercase px-1.5 py-0.5 rounded bg-white/20">
+                        <span
+                          className={`text-[9px] font-normal uppercase px-1.5 py-0.5 rounded ${
+                            seance.format.toLowerCase().includes('35mm')
+                              ? 'bg-amber-500/25 text-amber-300 border border-amber-500/30'
+                              : 'bg-white/20'
+                          }`}
+                        >
                           {seance.format}
                         </span>
                       )}

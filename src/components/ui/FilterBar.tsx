@@ -26,7 +26,7 @@ const TIME_SLOTS: { id: TimeSlot; label: string }[] = [
   { id: 'night', label: 'Nuit (> 22h)' },
 ];
 
-const FORMAT_OPTIONS = ['IMAX', '3D', 'Dolby Cinema', '4DX', 'ScreenX', 'ICE', 'VOST', 'VF'];
+const FORMAT_OPTIONS = ['IMAX', '3D', 'Dolby Cinema', '4DX', 'ScreenX', 'ICE', '35mm', 'VOST', 'VF'];
 
 export function FilterBar({
   filters,

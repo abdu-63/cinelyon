@@ -5,7 +5,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Film, Heart, MapPin, Sparkles, Settings } from 'lucide-react';
+import { Film, Heart, Sparkles, Settings } from 'lucide-react';
 import { useTranslation } from '@/i18n';
 
 interface NavItem {
@@ -20,7 +20,6 @@ interface NavItem {
 const NAV_ITEMS: NavItem[] = [
   { key: 'films', href: '/', labelKey: 'navigation.films', icon: Film },
   { key: 'favorites', href: '/#favorites', labelKey: 'navigation.favorites', icon: Heart },
-  { key: 'map', href: '/map', labelKey: 'navigation.map', icon: MapPin },
   { key: 'cinebot', href: '#cinebot', labelKey: 'cinebot.title', icon: Sparkles, isAction: true, actionId: 'open-cinebot' },
   { key: 'settings', href: '#settings', labelKey: 'navigation.settings', icon: Settings, isAction: true, actionId: 'open-settings' },
 ];

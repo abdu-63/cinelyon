@@ -341,6 +341,15 @@ function matchesFormatOrLang(s: Seance, formatFilter: string): boolean {
   if (lowerF.includes('dolby')) {
     return !!s.format && s.format.toLowerCase().includes('dolby');
   }
+  if (lowerF === '35mm' || lowerF === '35 mm') {
+    return (
+      !!s.format &&
+      (s.format.toLowerCase().includes('35mm') ||
+        s.format.toLowerCase().includes('35 mm') ||
+        s.format.toLowerCase().includes('pellicule') ||
+        s.format.toLowerCase().includes('argentique'))
+    );
+  }
   return !!s.format && s.format.toLowerCase().includes(lowerF);
 }
 
@@ -685,6 +694,6 @@ export function extractFilterOptions(films: Film[]): FilmFilterOptions {
     directors: Array.from(directors).sort((a, b) => a.localeCompare(b, 'fr')),
     actors: Array.from(actors).sort((a, b) => a.localeCompare(b, 'fr')),
     cinemas: Array.from(cinemas).sort((a, b) => a.localeCompare(b, 'fr')),
-    formats: ['IMAX', '3D', 'Dolby Cinema', '4DX', 'ScreenX', 'ICE', 'VOST', 'VF'],
+    formats: ['IMAX', '3D', 'Dolby Cinema', '4DX', 'ScreenX', 'ICE', '35mm', 'VOST', 'VF'],
   };
 }

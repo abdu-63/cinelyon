@@ -199,7 +199,13 @@ export const SeancePill = React.memo(function SeancePill({
       <div className="flex items-center justify-between gap-1 text-[9px] font-normal text-[#999] leading-none pt-0.5">
         <span>{langLabel}</span>
         {formatLabel && (
-          <span className="text-[8px] font-normal uppercase text-[#999] truncate max-w-[42px]">
+          <span
+            className={`text-[8px] font-normal uppercase truncate max-w-[42px] ${
+              formatLabel.toLowerCase().includes('35mm')
+                ? 'text-amber-500 font-bold'
+                : 'text-[#999]'
+            }`}
+          >
             {formatLabel}
           </span>
         )}

@@ -4,7 +4,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Film, Heart, MessageSquare, MapPin, Shield, FileText } from 'lucide-react';
+import { Film, Heart, MessageSquare, Scale, Shield, FileText } from 'lucide-react';
 import {
   LetterboxdLogo,
   SerializdLogo,
@@ -96,19 +96,19 @@ export default function Footer() {
           </Link>
           <span className="text-neutral-300 dark:text-neutral-700">•</span>
           <Link
-            href="/map"
-            className="flex items-center gap-1 text-neutral-700 dark:text-neutral-300 hover:text-primary transition-colors"
-          >
-            <MapPin size={12} className="text-primary" />
-            <span>Carte des cinémas</span>
-          </Link>
-          <span className="text-neutral-300 dark:text-neutral-700">•</span>
-          <Link
             href="/suggestions"
             className="flex items-center gap-1 text-neutral-700 dark:text-neutral-300 hover:text-primary transition-colors"
           >
             <MessageSquare size={12} className="text-primary" />
             <span>Suggestions & Retours</span>
+          </Link>
+          <span className="text-neutral-300 dark:text-neutral-700">•</span>
+          <Link
+            href="/mentions-legales"
+            className="flex items-center gap-1 text-neutral-700 dark:text-neutral-300 hover:text-primary transition-colors"
+          >
+            <Scale size={12} className="text-neutral-400" />
+            <span>Mentions légales</span>
           </Link>
           <span className="text-neutral-300 dark:text-neutral-700">•</span>
           <Link

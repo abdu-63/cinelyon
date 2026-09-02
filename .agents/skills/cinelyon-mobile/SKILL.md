@@ -79,7 +79,7 @@ Ce document contient l'ensemble des directives de design, dimensions, couleurs, 
 
 ### 5. Fonctionnalités Exclusives Mobiles
 - **Barre Flottante Basse (`FloatingLiquidGlassTabBar.tsx`)** : Navigation fluide avec flou liquide et retours haptiques.
-- **Réservations & Scans de Billets** : Stockage local et affichage des billets avec horaires et QR code.
+- **Réservations & Liens Directs** : Liens directs vers les billetteries officielles des exploitants.
 - **Carte Interactive & TCL** : 19 cinémas avec stations et lignes TCL (`tclData.ts`).
 - **Synchronisation Sociale** : Code de partage `syncCode` et suivi d'amis.
 - **Widget iOS Natif** : Affichage en direct de la prochaine séance sur l'écran d'accueil.

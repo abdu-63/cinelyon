@@ -16,7 +16,7 @@ export interface ShowtimeRow {
 export interface Seance {
   time: string; // "HH:MM"
   lang: 'VF' | 'VO';
-  format: string | null; // "IMAX", "3D", "4DX", "Dolby", "ICE", "Avant-première", "Live" ou null
+  format: string | null; // "IMAX", "3D", "4DX", "Dolby", "ICE", "35mm", "Avant-première", "Live" ou null
   ticketing_url: string | null;
 }
 

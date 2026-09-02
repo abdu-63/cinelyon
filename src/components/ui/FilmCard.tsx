@@ -11,6 +11,7 @@ import { isPastSeance, hasVisibleSeances, getDateLabelByDay } from '@/utils/show
 import { formatLocalizedGenres, formatLocalizedDuration } from '@/utils/filmLocalizationUtils';
 import { formatSeanceLang } from '@/utils/languageUtils';
 import { DaySeances } from '@/components/ui/DaySeances';
+import { preloadFilmLogo } from '@/hooks/useFilmLogo';
 
 interface FilmCardProps {
   film: Film;
@@ -118,6 +119,8 @@ export const FilmCard = memo(function FilmCard({
         <Link
           href={`/film/${film.slug}`}
           prefetch={true}
+          onMouseEnter={() => preloadFilmLogo(film.title, film.release_year, film.affiche)}
+          onTouchStart={() => preloadFilmLogo(film.title, film.release_year, film.affiche)}
           onClick={(e) => {
             if (onOpenDetail && !e.metaKey && !e.ctrlKey && !e.shiftKey && e.button === 0) {
               e.preventDefault();

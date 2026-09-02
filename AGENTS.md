@@ -157,3 +157,23 @@ cinelyon/
 2. **Ciblage de compilation `browserslist`** : Le fichier `package.json` doit déclarer `iOS >= 15.1` et `Safari >= 15.1`.
 3. **Validation systématique** : Tester le build avec `npm run build` et auditer tout nouveau composant pour garantir 0 exception WebKit 15.1.
 
+---
+
+## 🛡️ 6. Maintenance Obligatoire de la Politique de Confidentialité & Conformité RGPD
+
+> 🔒 **Règle Permanente de Conformité Juridique & Éthique** :
+> Toute intervention technique (IA ou humaine) impactant le traitement des données des utilisateurs doit impérativement préserver et maintenir à jour la **Politique de Confidentialité** (`src/app/politique-de-confidentialite/page.tsx`).
+
+### Règles d'Actualisation Obligatoire :
+1. **Périmètre Déclenchant une Mise à Jour Immédiate** :
+   - Ajout, modification ou suppression d'un stockage local (`localStorage`, cookies, cache, MMKV).
+   - Modification de la synchronisation Supabase (champs synchronisés, Sync ID).
+   - Ajout ou modification d'une permission d'appareil (Calendrier, Notifications, Géolocalisation).
+   - Intégration ou changement d'un service/API tiers (TMDB, RunPee, JustWatch, Allociné, TCL/Sytral, billetteries).
+2. **Standards Apple Privacy & RGPD** :
+   - Maintenir la parité stricte entre CinéLyon Web et CinéLyon Mobile (iOS/Android).
+   - Respecter le principe *Privacy by Design* : aucun traceur publicitaire tiers, aucune revente de données.
+   - Présenter les données sous forme d'étiquettes de confidentialité limpides (*Apple Privacy Nutrition Labels*).
+   - Conserver l'accès direct aux textes légaux dans la section *À propos* des Réglages (`SettingsModal.tsx`) et dans le pied de page (`Footer.tsx`).
+
+

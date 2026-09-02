@@ -31,6 +31,7 @@ import { DaySeances } from '@/components/ui/DaySeances';
 import { CinemaBrand } from '@/components/ui/CinemaBrand';
 import { FilmCastSection } from '@/components/ui/FilmCastSection';
 import { FilmLogo } from '@/components/ui/FilmLogo';
+import { getCachedLogo, FilmLogoResult } from '@/hooks/useFilmLogo';
 import { getStreamingProviderWebUrl } from '@/utils/streamingProviders';
 import { getLetterboxdDeepLink } from '@/utils/letterboxdUtils';
 import { getDateLabelByDay } from '@/utils/showtimes';
@@ -50,6 +51,7 @@ interface FilmDetailViewProps {
   film: Film;
   similarMovies?: SimilarMovieItem[];
   isModal?: boolean;
+  initialLogo?: FilmLogoResult | null;
   onClose?: () => void;
   onSelectFilm?: (slugOrTitle: string) => void;
 }
@@ -65,12 +67,27 @@ export const FilmDetailView = memo(function FilmDetailView({
   film,
   similarMovies = [],
   isModal = false,
+  initialLogo,
   onClose,
   onSelectFilm,
 }: FilmDetailViewProps) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [copiedShare, setCopiedShare] = useState(false);
-  const [hasLogo, setHasLogo] = useState(false);
+  // hasLogo: true (logo prêt), false (aucun logo sur TMDB -> titre brut), null (en cours)
+  // Ne JAMAIS afficher le titre brut par défaut pour éliminer tout flash à l'ouverture
+  const [hasLogo, setHasLogo] = useState<boolean | null>(() => {
+    if (initialLogo) {
+      return !!initialLogo.logoUrl;
+    }
+    if (typeof window !== 'undefined') {
+      try {
+        const useOrig = localStorage.getItem('cinelyon_useOriginalTitleLogo') === 'true';
+        const cached = getCachedLogo(film.title, film.release_year, useOrig);
+        if (cached) return !!cached.logoUrl;
+      } catch {}
+    }
+    return null;
+  });
   const [hidePastSessions, setHidePastSessions] = useState(false);
 
   const validDays = useMemo(() => Object.keys(film.seancesByDay || {}), [film.seancesByDay]);
@@ -247,15 +264,17 @@ export const FilmDetailView = memo(function FilmDetailView({
           <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#f5f6f8] dark:from-[#121214] via-[#f5f6f8]/60 dark:via-[#121214]/60 to-transparent pointer-events-none" />
 
           {/* ClearLogo / Titre superposé en bas de la bannière */}
-          <div className="absolute bottom-3 left-4 right-4 z-20 flex flex-col items-start">
+          <div className="absolute bottom-3 left-4 right-4 z-20 flex flex-col items-start min-h-[48px] justify-end">
             <FilmLogo
               title={film.title}
               releaseYear={film.release_year}
               afficheUrl={film.affiche}
-              onLogoLoaded={setHasLogo}
+              initialLogo={initialLogo}
+              onLogoLoaded={(found) => setHasLogo(found)}
               className="mb-1"
             />
-            {!hasLogo && (
+            {/* Le titre brut ne s'affiche STRICTEMENT que si le film n'a AUCUN logo sur TMDB (hasLogo === false) */}
+            {hasLogo === false && (
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-montserrat font-extrabold text-white tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)]">
                 {film.title}
               </h1>

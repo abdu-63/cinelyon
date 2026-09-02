@@ -9,7 +9,8 @@ export async function fetchFilmCast(
   releaseYear: string | null,
   afficheUrl: string | null
 ): Promise<CastMember[]> {
-  const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY || '3e65b4de9b4b9b054166b0f906d6fb37';
+  const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY || process.env.TMDB_API_KEY || '';
+  if (!apiKey) return [];
 
   // 1. Recherche du film sur TMDB
   const searchParams = new URLSearchParams({

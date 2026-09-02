@@ -1,33 +1,36 @@
 // src/app/politique-de-confidentialite/page.tsx
+// Politique de Confidentialité CinéLyon — Conforme RGPD (UE 2016/679), Loi Informatique & Libertés et Apple Privacy Guidelines
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import {
   ChevronLeft,
   ShieldCheck,
-  Lock,
-  Database,
-  Trash2,
   ExternalLink,
   Mail,
-  UserCheck,
   EyeOff,
   Bell,
   Calendar,
   Sparkles,
+  Globe,
+  MapPin,
+  Trash2,
+  Scale,
+  Database,
+  CheckCircle2,
 } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Politique de Confidentialité — CinéLyon',
   description:
-    'Politique de confidentialité et protection des données personnelles de CinéLyon. Conformité RGPD et Apple Guidelines.',
+    'Politique de confidentialité et protection des données personnelles de CinéLyon. Conformité stricte RGPD, CNIL et Apple Privacy Guidelines.',
   alternates: {
     canonical: 'https://cinelyon.fr/politique-de-confidentialite',
   },
   openGraph: {
     title: 'Politique de Confidentialité — CinéLyon',
     description:
-      'Découvrez comment CinéLyon protège vos données personnelles avec une approche 100% respectueuse de la vie privée (Privacy by Design).',
+      'Découvrez comment CinéLyon protège votre vie privée : aucun compte nominatif, zéro traceur publicitaire, stockage local et chiffrement intégral.',
     url: 'https://cinelyon.fr/politique-de-confidentialite',
     siteName: 'CinéLyon',
     locale: 'fr_FR',
@@ -37,205 +40,238 @@ export const metadata: Metadata = {
 
 export default function PrivacyPolicyPage() {
   return (
-    <main className="min-h-screen pt-4 pb-16 px-4 sm:px-6">
-      <div className="max-w-3xl mx-auto space-y-6">
+    <main className="min-h-screen pt-4 pb-20 px-4 sm:px-6">
+      <div className="max-w-2xl mx-auto space-y-8 text-neutral-800 dark:text-neutral-200">
         {/* Navigation retour */}
         <div className="flex items-center justify-between">
           <Link
             href="/"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-600 dark:text-neutral-400 hover:text-[#444cf7] dark:hover:text-[#444cf7] transition-colors py-1 px-2.5 rounded-full bg-white/60 dark:bg-white/5 border border-black/[0.06] dark:border-white/10 backdrop-blur-md shadow-2xs"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-700 dark:text-neutral-300 hover:text-primary transition-colors py-1.5 px-3 rounded-full bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 shadow-xs"
           >
             <ChevronLeft size={14} />
             <span>Retour aux séances</span>
           </Link>
           <span className="text-[11px] text-neutral-400 dark:text-neutral-500 font-medium">
-            Mise à jour : Août 2026
+            Mise à jour : Mars 2026
           </span>
         </div>
 
-        {/* En-tête de la page */}
-        <div className="rounded-[28px] p-6 sm:p-8 bg-white/70 dark:bg-[#18181b]/80 border border-black/[0.06] dark:border-white/10 shadow-sm backdrop-blur-xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-[#444cf7]/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
+        {/* ── En-tête principal épuré ── */}
+        <header className="space-y-3 pt-2">
+          <div className="inline-flex items-center gap-1.5 text-xs font-bold text-primary">
+            <ShieldCheck size={16} />
+            <span>Protection de votre vie privée</span>
+          </div>
 
-          <div className="relative space-y-3">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#444cf7]/10 dark:bg-[#444cf7]/20 text-[#444cf7] border border-[#444cf7]/20 text-xs font-bold">
-              <ShieldCheck size={14} />
-              <span>Conformité RGPD & Apple Guidelines</span>
+          <h1 className="text-2xl sm:text-3xl font-montserrat font-extrabold text-neutral-900 dark:text-white tracking-tight">
+            Politique de Confidentialité
+          </h1>
+
+          <p className="text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+            CinéLyon est une initiative indépendante dédiée aux cinéphiles de la métropole de Lyon.
+            La plateforme web (<strong className="text-neutral-900 dark:text-white font-medium">cinelyon.fr</strong>)
+            {' '}et l&apos;application mobile (<strong className="text-neutral-900 dark:text-white font-medium">CinéLyon App</strong>)
+            {' '}sont conçues selon le principe fondamental du <em>Privacy by Design</em> : nous ne collectons que le strict minimum utile,
+            sans compte obligatoire, sans profilage publicitaire et sans revente de données.
+          </p>
+        </header>
+
+        {/* ── 1. Les 3 engagements fondamentaux ── */}
+        <section className="border-t border-black/[0.08] dark:border-white/10 pt-6 space-y-4">
+          <h2 className="text-base font-montserrat font-extrabold text-neutral-900 dark:text-white flex items-center gap-2">
+            <EyeOff size={18} className="text-primary shrink-0" />
+            <span>1. Nos trois engagements fondamentaux</span>
+          </h2>
+
+          <div className="space-y-3.5 text-xs sm:text-sm text-neutral-600 dark:text-neutral-300">
+            <div className="flex items-start gap-3">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 shrink-0" />
+              <div>
+                <strong className="text-neutral-900 dark:text-white block font-semibold">
+                  Aucune donnée nominative obligatoire
+                </strong>
+                <span>
+                  Vous pouvez parcourir l&apos;intégralité des séances et sauvegarder vos films favoris sans renseigner de nom, prénom, numéro de téléphone, adresse e-mail ou mot de passe.
+                </span>
+              </div>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 dark:text-white tracking-tight">
-              Politique de Confidentialité
-            </h1>
+            <div className="flex items-start gap-3">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 shrink-0" />
+              <div>
+                <strong className="text-neutral-900 dark:text-white block font-semibold">
+                  Zéro traceur publicitaire ou cookie tiers
+                </strong>
+                <span>
+                  Aucun cookie de ciblage marketing, aucun pixel Meta/Facebook, aucun tracker Google Ads ou régie publicitaire n&apos;est intégré. CinéLyon ne vend ni ne loue la moindre donnée.
+                </span>
+              </div>
+            </div>
 
-            <p className="text-sm leading-relaxed text-neutral-600 dark:text-neutral-300">
-              La présente Politique de Confidentialité décrit la manière dont l&apos;application et la plateforme web{' '}
-              <strong className="text-neutral-900 dark:text-white font-semibold">CinéLyon</strong> (« nous », « notre »)
-              traitent et protègent les données de ses utilisateurs (« vous »).
-            </p>
-
-            {/* Encadré Principe Fondamental */}
-            <div className="p-4 rounded-2xl bg-gradient-to-r from-[#444cf7]/10 via-[#444cf7]/5 to-transparent border border-[#444cf7]/20 flex items-start gap-3 mt-4">
-              <EyeOff size={20} className="text-[#444cf7] shrink-0 mt-0.5" />
-              <div className="text-xs text-neutral-700 dark:text-neutral-300 space-y-1">
-                <p className="font-bold text-neutral-900 dark:text-white">
-                  Principe fondamental : Privacy by Design
-                </p>
-                <p className="leading-relaxed">
-                  CinéLyon est conçue selon le principe de minimisation des données. Nous ne vendons aucune donnée personnelle,
-                  n&apos;intégrons aucun traceur publicitaire tiers et ne collectons que le strict minimum nécessaire au fonctionnement du service.
-                </p>
+            <div className="flex items-start gap-3">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 shrink-0" />
+              <div>
+                <strong className="text-neutral-900 dark:text-white block font-semibold">
+                  Synchronisation anonyme via Sync ID
+                </strong>
+                <span>
+                  Pour synchroniser vos cinémas et films favoris entre votre ordinateur et votre smartphone, un identifiant aléatoire et anonyme à 6 caractères (ex.{' '}<code>a0cc4a</code>) vous est attribué, sans lien avec votre identité civile.
+                </span>
               </div>
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* ── 1. Données collectées et finalités ── */}
-        <section className="rounded-[24px] p-6 bg-white/60 dark:bg-[#18181b]/60 border border-black/[0.06] dark:border-white/10 shadow-2xs backdrop-blur-md space-y-4">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center">
-              <UserCheck size={16} />
-            </div>
-            <h2 className="text-base font-bold text-neutral-900 dark:text-white">
-              1. Données collectées et finalités
-            </h2>
-          </div>
+        {/* ── 2. Données et stockage local ── */}
+        <section className="border-t border-black/[0.08] dark:border-white/10 pt-6 space-y-3">
+          <h2 className="text-base font-montserrat font-extrabold text-neutral-900 dark:text-white flex items-center gap-2">
+            <Globe size={18} className="text-primary shrink-0" />
+            <span>2. Données traitées & Stockage local</span>
+          </h2>
 
           <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
-            CinéLyon peut traiter les données suivantes uniquement pour assurer la bonne exécution des fonctionnalités proposées :
+            Vos préférences d&apos;utilisation (cinémas favoris, films likés, thème clair/sombre, masquage des séances passées) sont hébergées prioritairement sur votre propre appareil :
           </p>
 
-          <ul className="space-y-2.5 text-xs sm:text-sm text-neutral-600 dark:text-neutral-300">
-            <li className="flex items-start gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
-              <span>
-                <strong className="text-neutral-900 dark:text-white">Identifiant de Synchronisation (Sync ID) & Pseudo :</strong>{' '}
-                Un code aléatoire anonyme (ex: 6 caractères) et un pseudonyme facultatif choisi par l&apos;utilisateur pour synchroniser vos films favoris, cinémas préférés et partager vos séances avec des amis sans nécessiter d&apos;email obligatoire.
-              </span>
+          <ul className="list-disc list-inside space-y-2 text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 pl-1">
+            <li>
+              <strong className="text-neutral-900 dark:text-white font-medium">Sur le Web (cinelyon.fr) :</strong> Sauvegarde directe dans le <code>localStorage</code> de votre navigateur.
             </li>
-            <li className="flex items-start gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
-              <span>
-                <strong className="text-neutral-900 dark:text-white">Favoris & Réservations :</strong>{' '}
-                Vos cinémas et films favoris ainsi que vos séances programmées sont enregistrés localement sur votre appareil (cache persistant) et sauvegardés de façon sécurisée avec votre Sync ID.
-              </span>
+            <li>
+              <strong className="text-neutral-900 dark:text-white font-medium">Sur l&apos;Application Mobile :</strong> Stockage local chiffré haute performance (MMKV) en mode <em>Offline-First</em>.
             </li>
-            <li className="flex items-start gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
-              <span>
-                <strong className="text-neutral-900 dark:text-white">Avatar / Photo de profil :</strong>{' '}
-                Si vous choisissez de personnaliser votre avatar, celui-ci est stocké localement ou associé à votre identifiant sécurisé sans aucune transmission à des tiers.
-              </span>
+            <li>
+              <strong className="text-neutral-900 dark:text-white font-medium">Synchronisation distante :</strong> Lorsque vous activez la synchronisation, la liste de vos identifiants de films et cinémas favoris est associée de manière sécurisée à votre Sync ID sur notre base de données Supabase, avec chiffrement TLS 1.3 / HTTPS de bout en bout.
             </li>
           </ul>
         </section>
 
-        {/* ── 2. Permissions de l'appareil ── */}
-        <section className="rounded-[24px] p-6 bg-white/60 dark:bg-[#18181b]/60 border border-black/[0.06] dark:border-white/10 shadow-2xs backdrop-blur-md space-y-4">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center">
-              <Calendar size={16} />
-            </div>
-            <h2 className="text-base font-bold text-neutral-900 dark:text-white">
-              2. Permissions & Accès
-            </h2>
-          </div>
-
-          <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
-            Selon votre utilisation sur mobile ou sur le web, certaines fonctionnalités peuvent solliciter votre autorisation explicite :
-          </p>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-            <div className="p-3.5 rounded-2xl bg-neutral-50 dark:bg-white/[0.03] border border-black/[0.04] dark:border-white/5 space-y-1">
-              <div className="flex items-center gap-2 text-xs font-bold text-neutral-900 dark:text-white">
-                <Calendar size={14} className="text-primary" />
-                <span>Calendrier personnel</span>
-              </div>
-              <p className="text-[11px] text-neutral-500 dark:text-neutral-400 leading-normal">
-                Permet d&apos;exporter un fichier ICS ou d&apos;ajouter une séance dans votre agenda. Aucune lecture de vos événements existants n&apos;est effectuée.
-              </p>
-            </div>
-
-            <div className="p-3.5 rounded-2xl bg-neutral-50 dark:bg-white/[0.03] border border-black/[0.04] dark:border-white/5 space-y-1">
-              <div className="flex items-center gap-2 text-xs font-bold text-neutral-900 dark:text-white">
-                <Bell size={14} className="text-primary" />
-                <span>Notifications & Rappels</span>
-              </div>
-              <p className="text-[11px] text-neutral-500 dark:text-neutral-400 leading-normal">
-                Utilisées uniquement pour vous avertir avant le début d&apos;une séance que vous avez vous-même programmée.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* ── 3. Conservation et Sécurité ── */}
-        <section className="rounded-[24px] p-6 bg-white/60 dark:bg-[#18181b]/60 border border-black/[0.06] dark:border-white/10 shadow-2xs backdrop-blur-md space-y-3">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center">
-              <Lock size={16} />
-            </div>
-            <h2 className="text-base font-bold text-neutral-900 dark:text-white">
-              3. Durée de Conservation & Sécurité
-            </h2>
-          </div>
-
-          <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
-            Vos données synchronisées restent associées à votre Sync ID anonyme. Vous pouvez à tout moment réinitialiser vos données ou supprimer votre Sync ID en effaçant les données du cache local de l&apos;application dans les réglages de votre navigateur ou de votre téléphone. Les communications avec notre base de données Supabase sont chiffrées via TLS/HTTPS selon les standards les plus stricts de l&apos;industrie.
-          </p>
-        </section>
-
-        {/* ── 4. Aucun Traceur & Aucune Vente de Données ── */}
-        <section className="rounded-[24px] p-6 bg-white/60 dark:bg-[#18181b]/60 border border-black/[0.06] dark:border-white/10 shadow-2xs backdrop-blur-md space-y-3">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center">
-              <EyeOff size={16} />
-            </div>
-            <h2 className="text-base font-bold text-neutral-900 dark:text-white">
-              4. Aucun Traceur & Aucune Vente de Données
-            </h2>
-          </div>
-
-          <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
-            CinéLyon est un service indépendant et non lucratif dédié aux cinéphiles lyonnais. <strong className="text-neutral-900 dark:text-white">Nous ne vendons, ne louons et ne partageons aucune donnée personnelle</strong> à des annonceurs publicitaires ou des courtiers de données (data brokers). Aucun SDK de pistage publicitaire tiers n&apos;est intégré.
-          </p>
-        </section>
-
-        {/* ── 5. Billetteries Officielles & Services Tiers ── */}
-        <section className="rounded-[24px] p-6 bg-white/60 dark:bg-[#18181b]/60 border border-black/[0.06] dark:border-white/10 shadow-2xs backdrop-blur-md space-y-3">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center">
-              <ExternalLink size={16} />
-            </div>
-            <h2 className="text-base font-bold text-neutral-900 dark:text-white">
-              5. Billetteries Officielles & Services Tiers
-            </h2>
-          </div>
-
-          <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
-            CinéLyon propose des liens vers les billetteries officielles des cinémas de la métropole lyonnaise (Pathé, UGC, Comoedia, Cinémas Lumière, etc.) ainsi que des sources de données d&apos;attribution cinématographique (TMDB, JustWatch, RunPee). Ces plateformes tierces disposent de leurs propres politiques de confidentialité que nous vous invitons à consulter.
-          </p>
-        </section>
-
-        {/* ── 6. Contact & Support ── */}
-        <section className="rounded-[28px] p-6 sm:p-8 bg-gradient-to-br from-primary/10 via-transparent to-primary/5 border border-primary/20 shadow-sm space-y-4 text-center">
-          <h2 className="text-base sm:text-lg font-bold text-neutral-900 dark:text-white">
-            Une question ou une demande concernant vos données ?
+        {/* ── 3. Base légale du traitement ── */}
+        <section className="border-t border-black/[0.08] dark:border-white/10 pt-6 space-y-3">
+          <h2 className="text-base font-montserrat font-extrabold text-neutral-900 dark:text-white flex items-center gap-2">
+            <Scale size={18} className="text-primary shrink-0" />
+            <span>3. Base légale des traitements (RGPD Art. 6)</span>
           </h2>
-          <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 max-w-lg mx-auto leading-relaxed">
-            Notre équipe de développement est à votre disposition pour toute précision ou exercice de vos droits RGPD.
+
+          <div className="space-y-2.5 text-xs sm:text-sm text-neutral-600 dark:text-neutral-300">
+            <p>
+              <strong className="text-neutral-900 dark:text-white font-medium">Intérêt légitime (Art. 6.1.f RGPD) :</strong> Le stockage local de vos préférences sur votre navigateur ou appareil mobile permet d&apos;assurer le fonctionnement ergonomique du service (conservation du thème d&apos;affichage, filtrage des séances, mise en cache hors-ligne).
+            </p>
+            <p>
+              <strong className="text-neutral-900 dark:text-white font-medium">Consentement explicite (Art. 6.1.a RGPD) :</strong> La synchronisation distante de vos favoris via Sync ID, l&apos;activation des rappels de séance locaux et la géolocalisation reposent exclusivement sur votre démarche volontaire et peuvent être désactivées à tout moment.
+            </p>
+          </div>
+        </section>
+
+        {/* ── 4. Permissions de l'appareil ── */}
+        <section className="border-t border-black/[0.08] dark:border-white/10 pt-6 space-y-3">
+          <h2 className="text-base font-montserrat font-extrabold text-neutral-900 dark:text-white flex items-center gap-2">
+            <Calendar size={18} className="text-primary shrink-0" />
+            <span>4. Permissions de l&apos;appareil</span>
+          </h2>
+
+          <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
+            Certaines fonctionnalités interactives nécessitent votre autorisation explicite :
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+
+          <div className="space-y-2.5 text-xs sm:text-sm text-neutral-600 dark:text-neutral-300">
+            <div className="flex items-start gap-2.5">
+              <Calendar size={16} className="text-primary shrink-0 mt-0.5" />
+              <div>
+                <strong className="text-neutral-900 dark:text-white font-medium">Calendrier :</strong> Permet d&apos;exporter un fichier standard <code>.ics</code> (sur le Web) ou d&apos;ajouter un rappel dans votre application d&apos;agenda natif (sur mobile). CinéLyon n&apos;accède à aucun de vos événements privés.
+              </div>
+            </div>
+
+            <div className="flex items-start gap-2.5">
+              <Bell size={16} className="text-primary shrink-0 mt-0.5" />
+              <div>
+                <strong className="text-neutral-900 dark:text-white font-medium">Rappels de séances (Mobile) :</strong> Notifications programmées localement sur votre téléphone pour vous avertir avant le début d&apos;une séance choisie. Aucun serveur distant ne conserve d&apos;historique de vos rappels.
+              </div>
+            </div>
+
+            <div className="flex items-start gap-2.5">
+              <MapPin size={16} className="text-primary shrink-0 mt-0.5" />
+              <div>
+                <strong className="text-neutral-900 dark:text-white font-medium">Géolocalisation (optionnelle) :</strong> Utilisée uniquement si vous demandez à centrer la carte des cinémas ou à afficher les cinémas et arrêts TCL les plus proches de vous. Votre localisation GPS n&apos;est jamais transmise à nos serveurs ni conservée dans un historique.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── 5. Billetteries officielles et partenaires ── */}
+        <section className="border-t border-black/[0.08] dark:border-white/10 pt-6 space-y-3">
+          <h2 className="text-base font-montserrat font-extrabold text-neutral-900 dark:text-white flex items-center gap-2">
+            <ExternalLink size={18} className="text-primary shrink-0" />
+            <span>5. Billetteries des exploitants & Services tiers</span>
+          </h2>
+
+          <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
+            CinéLyon vous redirige vers les billetteries officielles des exploitants (Pathé, UGC, Comoedia, Cinémas Lumière, Ciné Mourguet...). Dès lors que vous quittez CinéLyon pour réserver une place, la politique de confidentialité de l&apos;exploitant de la salle s&apos;applique à vos opérations d&apos;achat.
+          </p>
+          <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
+            Les visuels, synopsis, bandes-annonces et métadonnées de films proviennent des API culturelles de TMDB, AlloCiné, RunPee et JustWatch. Les données cartographiques et d&apos;arrêts de transport proviennent des flux publics Open Data de la Métropole de Lyon (TCL / Sytral Mobilités).
+          </p>
+        </section>
+
+        {/* ── 6. Conservation des données ── */}
+        <section className="border-t border-black/[0.08] dark:border-white/10 pt-6 space-y-3">
+          <h2 className="text-base font-montserrat font-extrabold text-neutral-900 dark:text-white flex items-center gap-2">
+            <Database size={18} className="text-primary shrink-0" />
+            <span>6. Durée de conservation des données</span>
+          </h2>
+
+          <ul className="list-disc list-inside space-y-1.5 text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 pl-1">
+            <li>
+              <strong className="text-neutral-900 dark:text-white font-medium">Données stockées localement :</strong> Conservées jusqu&apos;à l&apos;effacement manuel des données du navigateur ou la réinitialisation de l&apos;application mobile.
+            </li>
+            <li>
+              <strong className="text-neutral-900 dark:text-white font-medium">Données de synchronisation distante :</strong> Associées au Sync ID jusqu&apos;à ce que vous déclenchiez la suppression via le bouton dédié dans les réglages.
+            </li>
+          </ul>
+        </section>
+
+        {/* ── 7. Vos droits RGPD, suppression en 1 clic & CNIL ── */}
+        <section className="border-t border-black/[0.08] dark:border-white/10 pt-6 space-y-4">
+          <h2 className="text-base font-montserrat font-extrabold text-neutral-900 dark:text-white flex items-center gap-2">
+            <Trash2 size={18} className="text-rose-500 shrink-0" />
+            <span>7. Vos droits RGPD & Suppression en 1 clic</span>
+          </h2>
+
+          <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
+            Conformément aux articles 15 à 21 du Règlement Général sur la Protection des Données (RGPD), vous disposez à tout moment d&apos;un droit d&apos;accès, de rectification et d&apos;effacement de vos données.
+          </p>
+
+          <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
+            Vous pouvez réinitialiser votre Sync ID et effacer l&apos;intégralité de vos données locales et distantes en un seul clic depuis l&apos;interface dans :<br />
+            <span className="font-semibold text-neutral-900 dark:text-white">Réglages › Données personnelles & Confidentialité › Supprimer mes données</span>.
+          </p>
+
+          <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
+            Si vous estimez, après nous avoir contactés, que vos droits ne sont pas respectés, vous disposez du droit d&apos;introduire une réclamation auprès de la Commission Nationale de l&apos;Informatique et des Libertés (CNIL) sur son site officiel{' '}
+            <a
+              href="https://www.cnil.fr"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary font-medium hover:underline inline-flex items-center gap-0.5"
+            >
+              <span>cnil.fr</span>
+              <ExternalLink size={11} />
+            </a>.
+          </p>
+
+          <div className="pt-2 flex flex-wrap items-center gap-3">
             <a
               href="mailto:cinelyon.fr@gmail.com?subject=[RGPD%20CinéLyon]%20Demande%20de%20renseignements"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary text-white text-xs font-bold shadow-sm hover:opacity-95 active:scale-95 transition-all"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary text-white text-xs font-bold shadow-sm hover:opacity-95 active:scale-95 transition-all"
             >
-              <Mail size={15} />
-              <span>Contacter le DPO (cinelyon.fr@gmail.com)</span>
+              <Mail size={14} />
+              <span>Contacter l&apos;équipe (cinelyon.fr@gmail.com)</span>
             </a>
             <Link
               href="/suggestions"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white dark:bg-[#242428] text-neutral-800 dark:text-neutral-200 border border-black/10 dark:border-white/10 text-xs font-bold hover:bg-neutral-50 active:scale-95 transition-all"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-neutral-100 dark:bg-white/10 text-neutral-800 dark:text-neutral-200 text-xs font-bold hover:bg-neutral-200 dark:hover:bg-white/15 active:scale-95 transition-all"
             >
-              <Sparkles size={15} />
+              <Sparkles size={14} />
               <span>Suggestions & Retours</span>
             </Link>
           </div>
