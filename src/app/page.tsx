@@ -29,7 +29,7 @@ export default async function HomePage() {
   const { films, dates } = await getShowtimesData();
 
   return (
-    <main className="min-h-screen pb-24">
+    <main className="pb-8 sm:pb-12">
       <FilmsList initialFilms={films} initialDates={dates} />
     </main>
   );

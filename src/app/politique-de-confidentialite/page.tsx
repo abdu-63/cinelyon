@@ -40,7 +40,7 @@ export const metadata: Metadata = {
 
 export default function PrivacyPolicyPage() {
   return (
-    <main className="min-h-screen pt-4 pb-20 px-4 sm:px-6">
+    <main className="pt-4 pb-10 sm:pb-14 px-4 sm:px-6">
       <div className="max-w-2xl mx-auto space-y-8 text-neutral-800 dark:text-neutral-200">
         {/* Navigation retour */}
         <div className="flex items-center justify-between">

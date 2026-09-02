@@ -92,7 +92,7 @@ export default function RootLayout({
           <ThemeProvider>
             <I18nProvider>
               {/* Main Content */}
-              <div className="flex-1 pb-16 md:pb-0">{children}</div>
+              <div className="flex-1">{children}</div>
 
               {/* ChatBot AI & Settings Modal (chargés dynamiquement côté client) */}
               <GlobalModals />
