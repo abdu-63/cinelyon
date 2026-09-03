@@ -46,5 +46,9 @@ scripts/instagram/*.js
 # AI Instructions
 claude.md
 
-# Screenshots
+# Screenshots & MCP testing
 screenshots/
+.playwright-mcp/
+
+# TypeScript Build Info
+*.tsbuildinfo

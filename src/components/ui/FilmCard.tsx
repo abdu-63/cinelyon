@@ -115,14 +115,14 @@ export const FilmCard = memo(function FilmCard({
               onOpenDetail(film);
             }
           }}
-          className="flex items-start md:items-stretch cursor-pointer select-none"
+          className="flex items-stretch cursor-pointer select-none"
         >
-          {/* Affiche (Mobile: 100x144px strict / Desktop: agrandie & étirée pour combler la hauteur) */}
-          <div className="relative shrink-0 w-[100px] h-[144px] md:w-[155px] md:h-auto md:self-stretch md:min-h-[175px] overflow-hidden bg-neutral-900">
+          {/* Affiche (s'étire naturellement sur toute la hauteur de la carte avec min-height préservée) */}
+          <div className="relative shrink-0 w-[100px] md:w-[155px] self-stretch min-h-[144px] md:min-h-[175px] overflow-hidden bg-neutral-100 dark:bg-neutral-800/40">
             <img
               src={film.affiche || '/images/nocontent.png'}
               alt={film.title}
-              className="w-full h-full object-cover rounded-l-[18px] sm:rounded-l-[20px]"
+              className="w-full h-full object-cover"
               loading="lazy"
             />
             {film.isNew && (
