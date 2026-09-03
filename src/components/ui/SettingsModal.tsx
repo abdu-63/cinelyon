@@ -2,7 +2,6 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   X,
@@ -18,6 +17,7 @@ import {
   UserPlus,
   Smartphone,
   ChevronDown,
+  ChevronRight,
   Check,
   Plus,
   Sun,
@@ -26,9 +26,11 @@ import {
   Droplets,
   Sparkles,
   Download,
-  Upload,
+  Share2,
   AlertTriangle,
   Languages,
+  Palette,
+  Paintbrush,
 } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
 import { useTranslation, SUPPORTED_LANGUAGES, SupportedLocale } from '@/i18n';
@@ -349,7 +351,7 @@ export function SettingsModal() {
             )}
 
             {/* Contenu Réglages Scrollable */}
-            <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 overscroll-contain">
+            <div className="flex-1 overflow-y-auto p-4 sm:p-5 pb-8 space-y-4 overscroll-contain">
               {/* ── 1. Carte Profil & Code de Sync ── */}
               <div className="p-4 rounded-[22px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm space-y-3.5">
                 {/* Profil Header */}
@@ -371,7 +373,7 @@ export function SettingsModal() {
                               if (e.key === 'Enter') handleSaveUsername(username);
                             }}
                             autoFocus
-                            className="font-semibold text-sm text-neutral-900 dark:text-white bg-transparent border-b border-primary focus:outline-none"
+                            className="font-medium text-[15px] text-neutral-900 dark:text-white bg-transparent border-b border-primary focus:outline-none"
                           />
                           <button
                             type="button"
@@ -382,7 +384,7 @@ export function SettingsModal() {
                           </button>
                         </div>
                       ) : (
-                        <h4 className="font-semibold text-sm text-neutral-900 dark:text-white">
+                        <h4 className="font-medium text-[15px] text-neutral-900 dark:text-white">
                           {username}
                         </h4>
                       )}
@@ -395,7 +397,7 @@ export function SettingsModal() {
                         <Edit2 size={13} />
                       </button>
                     </div>
-                    <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mt-0.5 font-normal">
+                    <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5 font-normal">
                       Vos amis pourront vous trouver via ce pseudo.
                     </p>
                   </div>
@@ -403,10 +405,10 @@ export function SettingsModal() {
 
                 {/* Section Code de sync */}
                 <div className="pt-3 border-t border-black/[0.06] dark:border-white/10 space-y-1.5">
-                  <span className="text-xs font-semibold text-neutral-900 dark:text-white block">
+                  <span className="text-[15px] font-medium text-neutral-900 dark:text-white block leading-tight">
                     Votre code de sync
                   </span>
-                  <p className="text-[11px] text-neutral-500 dark:text-neutral-400 leading-relaxed font-normal">
+                  <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-snug font-normal">
                     Partagez ce code avec un autre appareil pour synchroniser vos favoris.
                   </p>
 
@@ -460,18 +462,18 @@ export function SettingsModal() {
                   <button
                     type="button"
                     onClick={() => setIsLinkingDeviceOpen(!isLinkingDeviceOpen)}
-                    className="w-full flex items-center justify-between text-left py-1 group select-none"
+                    className="w-full flex items-center justify-between text-left py-1.5 group select-none"
                   >
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-6 h-6 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
-                        <Smartphone size={14} />
+                    <div className="flex items-center gap-3">
+                      <div className="w-[30px] h-[30px] rounded-[7px] bg-[#007AFF]/15 text-[#007AFF] flex items-center justify-center shrink-0">
+                        <Smartphone size={16} />
                       </div>
-                      <span className="text-xs font-medium text-neutral-900 dark:text-white group-hover:text-primary transition-colors">
+                      <span className="text-[15px] font-medium text-neutral-900 dark:text-white group-hover:text-primary transition-colors">
                         Lier un appareil existant
                       </span>
                     </div>
                     <ChevronDown
-                      size={15}
+                      size={16}
                       className={`text-neutral-400 transition-transform ${isLinkingDeviceOpen ? 'rotate-180' : ''}`}
                     />
                   </button>
@@ -513,35 +515,35 @@ export function SettingsModal() {
 
               {/* ── 2. Section AMIS SUIVIS ── */}
               <div className="space-y-1.5">
-                <span className="text-[11px] font-medium uppercase tracking-wider text-neutral-500 dark:text-neutral-400 px-1">
-                  Amis suivis
+                <span className="text-[13px] font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400 px-3">
+                  {t('settings.friends')} ({friends.length})
                 </span>
 
                 <div className="rounded-[22px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm divide-y divide-black/[0.06] dark:divide-white/10 overflow-hidden">
                   {/* Ligne Ajouter un ami */}
-                  <div className="p-3.5 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-primary text-primary-contrast flex items-center justify-center shadow-sm">
+                  <div className="px-4 py-3 flex items-center justify-between">
+                    <div className="flex items-center gap-3.5">
+                      <div className="w-[30px] h-[30px] rounded-[7px] bg-[#5856D6] text-white flex items-center justify-center shrink-0 shadow-sm">
                         <UserPlus size={16} />
                       </div>
-                      <span className="text-xs font-semibold text-neutral-900 dark:text-white">
-                        Ajouter un ami
+                      <span className="text-[15px] font-medium text-neutral-900 dark:text-white">
+                        {t('settings.addFriend')}
                       </span>
                     </div>
 
                     <button
                       type="button"
                       onClick={() => setIsAddingFriendOpen(!isAddingFriendOpen)}
-                      className="w-6 h-6 rounded-full bg-primary text-primary-contrast flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-xs"
-                      title="Ajouter un ami"
+                      className="w-7 h-7 rounded-full bg-primary text-primary-contrast flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-xs"
+                      title={t('settings.addFriend')}
                     >
-                      <Plus size={14} />
+                      <Plus size={16} />
                     </button>
                   </div>
 
                   {/* Formulaire dépliable Ajouter un ami */}
                   {isAddingFriendOpen && (
-                    <div className="p-3.5 bg-neutral-50 dark:bg-black/20 space-y-2 animate-in fade-in duration-150">
+                    <div className="p-4 bg-neutral-50 dark:bg-black/20 space-y-2.5 animate-in fade-in duration-150">
                       <div className="flex gap-2">
                         <input
                           type="text"
@@ -575,7 +577,7 @@ export function SettingsModal() {
                     const isEditing = editingFriendId === friend.id;
 
                     return (
-                      <div key={friend.id} className="p-3.5 flex items-center justify-between">
+                      <div key={friend.id} className="px-4 py-3 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-white/[0.02] transition-colors text-left group">
                         {isEditing ? (
                           <div className="flex-1 flex items-center gap-2 mr-2">
                             <input
@@ -603,15 +605,15 @@ export function SettingsModal() {
                             </button>
                           </div>
                         ) : (
-                          <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-full bg-blue-950/80 border border-blue-800 text-blue-400 flex items-center justify-center font-medium text-xs">
+                          <div className="flex items-center gap-3.5">
+                            <div className="w-[30px] h-[30px] rounded-full bg-blue-500/15 text-blue-600 dark:text-blue-400 flex items-center justify-center font-medium text-xs shrink-0">
                               {friend.name.slice(0, 2).toUpperCase()}
                             </div>
                             <div>
-                              <span className="text-xs font-medium block text-neutral-900 dark:text-white">
+                              <span className="text-[15px] font-medium block text-neutral-900 dark:text-white leading-tight">
                                 {friend.name}
                               </span>
-                              <span className="text-[11px] text-neutral-500 dark:text-neutral-400 font-mono">
+                              <span className="text-xs text-neutral-500 dark:text-neutral-400 font-normal block mt-0.5 leading-snug">
                                 Code : {isCodeRevealed ? friend.code.toUpperCase() : '••••••'} •{' '}
                                 {friend.favoritesCount} favori{friend.favoritesCount > 1 ? 's' : ''}
                               </span>
@@ -651,26 +653,26 @@ export function SettingsModal() {
                   })}
                 </div>
 
-                <p className="text-[11px] text-neutral-500 dark:text-neutral-400 px-1 leading-relaxed font-normal">
-                  Les favoris de vos amis s&apos;affichent automatiquement dans l&apos;onglet Favoris et Réservations.
+                <p className="text-xs text-neutral-500 dark:text-neutral-400 px-3 pt-1.5 leading-relaxed font-normal">
+                  {t('settings.friendsFooter')}
                 </p>
               </div>
 
               {/* ── 3. Section GÉNÉRAL ── */}
               <div className="space-y-1.5">
-                <span className="text-[11px] font-medium uppercase tracking-wider text-neutral-500 dark:text-neutral-400 px-1">
-                  Général
+                <span className="text-[13px] font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400 px-3">
+                  {t('settings.generalHeader')}
                 </span>
 
                 <div className="rounded-[22px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm divide-y divide-black/[0.06] dark:divide-white/10 overflow-hidden">
                   {/* Langue avec drapeau SVG */}
-                  <div className="p-3.5 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-blue-500 text-white flex items-center justify-center shadow-sm">
+                  <div className="w-full px-4 py-3 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-white/[0.02] transition-colors text-left group">
+                    <div className="flex items-center gap-3.5">
+                      <div className="w-[30px] h-[30px] rounded-[7px] bg-[#007AFF] text-white flex items-center justify-center shadow-sm shrink-0">
                         <Globe size={16} />
                       </div>
-                      <span className="text-xs font-semibold text-neutral-900 dark:text-white">
-                        Langue
+                      <span className="text-[15px] font-medium text-neutral-900 dark:text-white">
+                        {t('settings.language')}
                       </span>
                     </div>
 
@@ -691,17 +693,17 @@ export function SettingsModal() {
                   </div>
 
                   {/* Afficher les notifications */}
-                  <div className="p-3.5 flex items-center justify-between">
-                    <div className="flex items-center gap-3 pr-2">
-                      <div className="w-8 h-8 rounded-lg bg-rose-500 text-white flex items-center justify-center shadow-sm shrink-0">
+                  <div className="w-full px-4 py-3 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-white/[0.02] transition-colors text-left group">
+                    <div className="flex items-center gap-3.5 pr-2 min-w-0">
+                      <div className="w-[30px] h-[30px] rounded-[7px] bg-[#FF3B30] text-white flex items-center justify-center shadow-sm shrink-0">
                         <Bell size={16} />
                       </div>
-                      <div>
-                        <span className="text-xs font-semibold text-neutral-900 dark:text-white block">
-                          Afficher les notifications
+                      <div className="min-w-0">
+                        <span className="text-[15px] font-medium text-neutral-900 dark:text-white block leading-tight">
+                          {t('settings.notifTitle')}
                         </span>
-                        <span className="text-[10px] text-neutral-500 dark:text-neutral-400 font-normal">
-                          Recevoir des rappels pour vos séances réservées dans votre calendrier.
+                        <span className="text-xs text-neutral-500 dark:text-neutral-400 font-normal block mt-0.5 leading-snug">
+                          {t('settings.notifDesc')}
                         </span>
                       </div>
                     </div>
@@ -722,17 +724,17 @@ export function SettingsModal() {
                   </div>
 
                   {/* Masquer les séances passées */}
-                  <div className="p-3.5 flex items-center justify-between">
-                    <div className="flex items-center gap-3 pr-2">
-                      <div className="w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center shadow-sm shrink-0">
+                  <div className="w-full px-4 py-3 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-white/[0.02] transition-colors text-left group">
+                    <div className="flex items-center gap-3.5 pr-2 min-w-0">
+                      <div className="w-[30px] h-[30px] rounded-[7px] bg-[#FF9500] text-white flex items-center justify-center shadow-sm shrink-0">
                         <Clock size={16} />
                       </div>
-                      <div>
-                        <span className="text-xs font-semibold text-neutral-900 dark:text-white block">
-                          Masquer les séances passées
+                      <div className="min-w-0">
+                        <span className="text-[15px] font-medium text-neutral-900 dark:text-white block leading-tight">
+                          {t('settings.hidePastTitle')}
                         </span>
-                        <span className="text-[10px] text-neutral-500 dark:text-neutral-400 font-normal">
-                          Ne plus afficher les films dont les horaires sont dépassés
+                        <span className="text-xs text-neutral-500 dark:text-neutral-400 font-normal block mt-0.5 leading-snug">
+                          {t('settings.hidePastDesc')}
                         </span>
                       </div>
                     </div>
@@ -764,17 +766,17 @@ export function SettingsModal() {
                   </div>
 
                   {/* Préférer les logos originaux (VO) */}
-                  <div className="p-3.5 flex items-center justify-between">
-                    <div className="flex items-center gap-3 pr-2">
-                      <div className="w-8 h-8 rounded-lg bg-[#007AFF] text-white flex items-center justify-center shadow-sm shrink-0">
+                  <div className="w-full px-4 py-3 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-white/[0.02] transition-colors text-left group">
+                    <div className="flex items-center gap-3.5 pr-2 min-w-0">
+                      <div className="w-[30px] h-[30px] rounded-[7px] bg-[#5856D6] text-white flex items-center justify-center shadow-sm shrink-0">
                         <Languages size={16} />
                       </div>
-                      <div>
-                        <span className="text-xs font-semibold text-neutral-900 dark:text-white block">
-                          Préférer les logos originaux (VO)
+                      <div className="min-w-0">
+                        <span className="text-[15px] font-medium text-neutral-900 dark:text-white block leading-tight">
+                          {t('settings.voLogosTitle')}
                         </span>
-                        <span className="text-[10px] text-neutral-500 dark:text-neutral-400 font-normal">
-                          Afficher les logos des films en version originale (ex : Toy Story) plutôt que les versions traduites.
+                        <span className="text-xs text-neutral-500 dark:text-neutral-400 font-normal block mt-0.5 leading-snug">
+                          {t('settings.voLogosDesc')}
                         </span>
                       </div>
                     </div>
@@ -809,16 +811,22 @@ export function SettingsModal() {
 
               {/* ── 4. Section APPARENCE ── */}
               <div className="space-y-1.5">
-                <span className="text-[11px] font-medium uppercase tracking-wider text-neutral-500 dark:text-neutral-400 px-1">
-                  Apparence
+                <span className="text-[13px] font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400 px-3">
+                  {t('settings.appearanceHeader')}
                 </span>
 
-                <div className="p-4 rounded-[22px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm space-y-4">
+                <div className="rounded-[22px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm divide-y divide-black/[0.06] dark:divide-white/10 overflow-hidden">
                   {/* Mode Sombre / Clair / Système */}
-                  <div>
-                    <label className="text-xs font-semibold text-neutral-900 dark:text-white block mb-2">
-                      Mode d&apos;affichage
-                    </label>
+                  <div className="px-4 py-3.5 space-y-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-[30px] h-[30px] rounded-[7px] bg-[#007AFF] text-white flex items-center justify-center shrink-0 shadow-sm">
+                        <Palette size={16} />
+                      </div>
+                      <span className="text-[15px] font-medium text-neutral-900 dark:text-white leading-tight">
+                        {t('settings.themeMode')}
+                      </span>
+                    </div>
+
                     <div className="grid grid-cols-3 gap-2 p-1 bg-neutral-100 dark:bg-[#242428] rounded-xl">
                       <button
                         type="button"
@@ -830,7 +838,7 @@ export function SettingsModal() {
                         }`}
                       >
                         <Smartphone size={14} />
-                        <span>Système</span>
+                        <span>{t('settings.themeSystem')}</span>
                       </button>
                       <button
                         type="button"
@@ -842,7 +850,7 @@ export function SettingsModal() {
                         }`}
                       >
                         <Sun size={14} />
-                        <span>Clair</span>
+                        <span>{t('settings.themeLight')}</span>
                       </button>
                       <button
                         type="button"
@@ -854,29 +862,35 @@ export function SettingsModal() {
                         }`}
                       >
                         <Moon size={14} />
-                        <span>Sombre</span>
+                        <span>{t('settings.themeDark')}</span>
                       </button>
                     </div>
                   </div>
 
                   {/* Couleur Principale */}
-                  <div>
-                    <label className="text-xs font-semibold text-neutral-900 dark:text-white block mb-2">
-                      Couleur Principale
-                    </label>
-                    <div className="flex items-center gap-6">
+                  <div className="px-4 py-3.5 space-y-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-[30px] h-[30px] rounded-[7px] bg-[#AF52DE] text-white flex items-center justify-center shrink-0 shadow-sm">
+                        <Paintbrush size={16} />
+                      </div>
+                      <span className="text-[15px] font-medium text-neutral-900 dark:text-white leading-tight">
+                        {t('settings.primaryColor')}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-around py-1">
                       {[
-                        { id: 'violet', label: 'Violet', color: 'bg-[#444cf7]' },
-                        { id: 'blue', label: 'Bleu', color: 'bg-[#0161a7]' },
-                        { id: 'white', label: 'Blanc', color: 'bg-white border border-neutral-300 dark:border-white/20' },
-                        { id: 'black', label: 'Noir', color: 'bg-[#1c1c1e] border border-neutral-300 dark:border-white/20' },
+                        { id: 'violet', label: t('settings.colorViolet'), color: 'bg-[#444cf7]' },
+                        { id: 'blue', label: t('settings.colorBlue'), color: 'bg-[#0161a7]' },
+                        { id: 'white', label: t('settings.colorWhite'), color: 'bg-white border border-neutral-300 dark:border-white/20' },
+                        { id: 'black', label: t('settings.colorBlack'), color: 'bg-[#1c1c1e] border border-neutral-300 dark:border-white/20' },
                       ].map((c) => {
                         const isSelected = primaryColor === c.id;
                         return (
                           <div
                             key={c.id}
                             onClick={() => setPrimaryColor(c.id as any)}
-                            className="flex flex-col items-center gap-1 cursor-pointer select-none group"
+                            className="flex flex-col items-center gap-1.5 cursor-pointer select-none group"
                           >
                             <div
                               className={`w-9 h-9 rounded-full ${c.color} flex items-center justify-center shadow-sm relative transition-transform active:scale-95 ${
@@ -890,8 +904,8 @@ export function SettingsModal() {
                                 />
                               )}
                             </div>
-                            <span className={`text-[11px] font-medium transition-colors ${
-                              isSelected ? 'text-primary font-semibold' : 'text-neutral-600 dark:text-neutral-400'
+                            <span className={`text-xs transition-colors ${
+                              isSelected ? 'text-neutral-900 dark:text-white font-semibold' : 'text-neutral-500 dark:text-neutral-400 font-normal'
                             }`}>
                               {c.label}
                             </span>
@@ -902,14 +916,19 @@ export function SettingsModal() {
                   </div>
 
                   {/* Effet Liquid Glass */}
-                  <div>
-                    <div className="mb-2">
-                      <label className="text-xs font-semibold text-neutral-900 dark:text-white block">
-                        Effet Liquid Glass (Verre dépoli)
-                      </label>
-                      <span className="text-[10px] text-neutral-500 dark:text-neutral-400 font-normal">
-                        Ajuster l&apos;intensité de translucidité et de flou liquide.
-                      </span>
+                  <div className="px-4 py-3.5 space-y-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-[30px] h-[30px] rounded-[7px] bg-[#5856D6] text-white flex items-center justify-center shrink-0 shadow-sm">
+                        <Sparkles size={16} />
+                      </div>
+                      <div>
+                        <span className="text-[15px] font-medium text-neutral-900 dark:text-white block leading-tight">
+                          {t('settings.liquidGlassTitle')}
+                        </span>
+                        <span className="text-xs text-neutral-500 dark:text-neutral-400 font-normal block mt-0.5 leading-snug">
+                          {t('settings.liquidGlassDesc')}
+                        </span>
+                      </div>
                     </div>
 
                     <div className="grid grid-cols-3 gap-2 p-1 bg-neutral-100 dark:bg-[#242428] rounded-xl">
@@ -923,7 +942,7 @@ export function SettingsModal() {
                         }`}
                       >
                         <CircleOff size={14} />
-                        <span>Désactivé</span>
+                        <span>{t('settings.liquidGlassDisabled')}</span>
                       </button>
                       <button
                         type="button"
@@ -935,7 +954,7 @@ export function SettingsModal() {
                         }`}
                       >
                         <Droplets size={14} />
-                        <span>Dépoli</span>
+                        <span>{t('settings.liquidGlassMedium')}</span>
                       </button>
                       <button
                         type="button"
@@ -947,7 +966,7 @@ export function SettingsModal() {
                         }`}
                       >
                         <Sparkles size={14} />
-                        <span>Cristallin</span>
+                        <span>{t('settings.liquidGlassHigh')}</span>
                       </button>
                     </div>
                   </div>
@@ -956,112 +975,82 @@ export function SettingsModal() {
 
               {/* ── 5. DONNÉES PERSONNELLES & CONFIDENTIALITÉ (RGPD) ── */}
               <div className="space-y-1.5">
-                <span className="text-[11px] font-medium uppercase tracking-wider text-neutral-500 dark:text-neutral-400 px-1">
-                  Données personnelles
+                <span className="text-[13px] font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400 px-3">
+                  {t('settings.gdprHeader')}
                 </span>
 
                 <div className="rounded-[22px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm divide-y divide-black/[0.06] dark:divide-white/10 overflow-hidden">
-                  {/* Exporter mes données */}
+                  {/* Exporter */}
                   <button
                     type="button"
                     onClick={handleExportData}
-                    className="w-full p-3.5 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-white/[0.02] transition-colors text-left group"
+                    className="w-full px-4 py-3 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-white/[0.02] transition-colors text-left group"
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-blue-500 text-white flex items-center justify-center shadow-sm">
-                        <Download size={16} />
+                    <div className="flex items-center gap-3.5 min-w-0">
+                      <div className="w-[30px] h-[30px] rounded-[7px] bg-[#007AFF] text-white flex items-center justify-center shrink-0 shadow-sm">
+                        <Share2 size={16} />
                       </div>
-                      <div>
-                        <span className="text-xs font-semibold text-neutral-900 dark:text-white block">
-                          Exporter mes données
+                      <div className="min-w-0">
+                        <span className="text-[15px] font-medium text-neutral-900 dark:text-white block leading-tight">
+                          {t('settings.exportData')}
                         </span>
-                        <span className="text-[10px] text-neutral-500 dark:text-neutral-400 font-normal">
-                          Télécharger une sauvegarde JSON de vos favoris et réglages
+                        <span className="text-xs text-neutral-500 dark:text-neutral-400 font-normal block mt-0.5 leading-snug">
+                          {t('settings.exportDataSubtitle')}
                         </span>
                       </div>
                     </div>
+                    <ChevronRight size={18} className="text-neutral-400/80 dark:text-neutral-500/80 shrink-0 ml-2" />
                   </button>
 
-                  {/* Importer des données */}
+                  {/* Importer */}
                   <button
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="w-full p-3.5 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-white/[0.02] transition-colors text-left group"
+                    className="w-full px-4 py-3 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-white/[0.02] transition-colors text-left group"
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-emerald-500 text-white flex items-center justify-center shadow-sm">
-                        <Upload size={16} />
+                    <div className="flex items-center gap-3.5 min-w-0">
+                      <div className="w-[30px] h-[30px] rounded-[7px] bg-[#34C759] text-white flex items-center justify-center shrink-0 shadow-sm">
+                        <Download size={16} />
                       </div>
-                      <div>
-                        <span className="text-xs font-semibold text-neutral-900 dark:text-white block">
-                          Importer des données
+                      <div className="min-w-0">
+                        <span className="text-[15px] font-medium text-neutral-900 dark:text-white block leading-tight">
+                          {t('settings.importData')}
                         </span>
-                        <span className="text-[10px] text-neutral-500 dark:text-neutral-400 font-normal">
-                          Restaurer une sauvegarde depuis un fichier JSON
+                        <span className="text-xs text-neutral-500 dark:text-neutral-400 font-normal block mt-0.5 leading-snug">
+                          {t('settings.importDataSubtitle')}
                         </span>
                       </div>
                     </div>
+                    <ChevronRight size={18} className="text-neutral-400/80 dark:text-neutral-500/80 shrink-0 ml-2" />
                   </button>
 
                   {/* Supprimer mes données */}
                   <button
                     type="button"
                     onClick={() => setShowDeleteConfirm(true)}
-                    className="w-full p-3.5 flex items-center justify-between hover:bg-rose-50 dark:hover:bg-rose-950/20 transition-colors text-left group"
+                    className="w-full px-4 py-3 flex items-center justify-between hover:bg-rose-50/50 dark:hover:bg-rose-950/20 transition-colors text-left group"
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-rose-500 text-white flex items-center justify-center shadow-sm">
+                    <div className="flex items-center gap-3.5 min-w-0">
+                      <div className="w-[30px] h-[30px] rounded-[7px] bg-[#FF3B30] text-white flex items-center justify-center shrink-0 shadow-sm">
                         <Trash2 size={16} />
                       </div>
-                      <div>
-                        <span className="text-xs font-semibold text-rose-600 dark:text-rose-400 block">
-                          Supprimer mes données
+                      <div className="min-w-0">
+                        <span className="text-[15px] font-medium text-[#FF3B30] dark:text-[#FF453A] block leading-tight">
+                          {t('settings.deleteData')}
                         </span>
-                        <span className="text-[10px] text-neutral-500 dark:text-neutral-400 font-normal">
-                          Effacer définitivement vos favoris, amis et préférences
+                        <span className="text-xs text-neutral-500 dark:text-neutral-400 font-normal block mt-0.5 leading-snug">
+                          {t('settings.deleteDataSubtitle')}
                         </span>
                       </div>
                     </div>
+                    <ChevronRight size={18} className="text-neutral-400/80 dark:text-neutral-500/80 shrink-0 ml-2" />
                   </button>
                 </div>
-              </div>
 
-              {/* ── 6. À PROPOS ── */}
-              <div className="p-4 rounded-[22px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm text-center space-y-3 pb-6">
-                <div className="space-y-1">
-                  <p className="text-xs font-semibold text-neutral-900 dark:text-white">
-                    CinéLyon Web v2.0
-                  </p>
-                  <p className="text-[10px] text-neutral-500 dark:text-neutral-400 font-normal">
-                    Plateforme indépendante développée pour les passionnés de cinéma à Lyon.
-                  </p>
-                </div>
-
-                <div className="flex flex-wrap items-center justify-center gap-2.5 pt-1 text-[11px] font-medium text-neutral-600 dark:text-neutral-400">
-                  <Link
-                    href="/mentions-legales"
-                    onClick={() => setIsOpen(false)}
-                    className="hover:text-primary transition-colors underline underline-offset-2"
-                  >
-                    Mentions légales
-                  </Link>
-                  <span>•</span>
-                  <Link
-                    href="/politique-de-confidentialite"
-                    onClick={() => setIsOpen(false)}
-                    className="hover:text-primary transition-colors underline underline-offset-2"
-                  >
-                    Confidentialité
-                  </Link>
-                  <span>•</span>
-                  <Link
-                    href="/cgu"
-                    onClick={() => setIsOpen(false)}
-                    className="hover:text-primary transition-colors underline underline-offset-2"
-                  >
-                    CGU
-                  </Link>
-                </div>
+                {/* Note explicative RGPD */}
+                <p className="text-xs text-neutral-500 dark:text-neutral-400 px-3 pt-1.5 leading-relaxed font-normal">
+                  {t('settings.gdprDesc')}
+                </p>
               </div>
             </div>
           </motion.div>
