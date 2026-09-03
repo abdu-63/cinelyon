@@ -43,8 +43,25 @@ interface FriendItem {
 
 export function SettingsModal() {
   const [isOpen, setIsOpen] = useState(false);
-  const { mode, setMode, primaryColor, setPrimaryColor, liquidGlassMode, setLiquidGlassMode } = useTheme();
+  const { mode, setMode, primaryColor, setPrimaryColor, liquidGlassMode, setLiquidGlassMode, isDark } = useTheme();
   const { locale, setLocale, t } = useTranslation();
+
+  const isWhiteLight = primaryColor === 'white' && !isDark;
+  const isBlackDark = primaryColor === 'black' && isDark;
+
+  const switchActiveTrack = isWhiteLight
+    ? 'bg-neutral-900'
+    : isBlackDark
+    ? 'bg-white'
+    : 'bg-primary';
+
+  const switchActiveThumb = isBlackDark ? 'bg-neutral-900' : 'bg-white';
+
+  const themeModeActiveText = isWhiteLight
+    ? 'text-neutral-900'
+    : isBlackDark
+    ? 'text-white'
+    : 'text-primary';
 
   const [username, setUsername] = useState('Abdu');
   const [isEditingUsername, setIsEditingUsername] = useState(false);
@@ -419,13 +436,30 @@ export function SettingsModal() {
                     {/* Display box avec pastilles ou code clair en majuscules */}
                     <div className="flex-1 h-10 px-3.5 rounded-lg bg-neutral-100 dark:bg-[#242428] border border-black/[0.06] dark:border-white/10 flex items-center font-mono text-xs text-neutral-800 dark:text-neutral-200">
                       {showCode ? (
-                        <span className="font-semibold tracking-widest text-primary">
+                        <span
+                          className={`font-semibold tracking-widest ${
+                            isWhiteLight
+                              ? 'text-neutral-900'
+                              : isBlackDark
+                              ? 'text-white'
+                              : 'text-primary'
+                          }`}
+                        >
                           {syncCode.toUpperCase()}
                         </span>
                       ) : (
                         <div className="flex items-center gap-1.5">
                           {[...Array(6)].map((_, i) => (
-                            <span key={i} className="w-2 h-2 rounded-full bg-primary" />
+                            <span
+                              key={i}
+                              className={`w-2 h-2 rounded-full ${
+                                isWhiteLight
+                                  ? 'bg-neutral-900'
+                                  : isBlackDark
+                                  ? 'bg-white'
+                                  : 'bg-primary'
+                              }`}
+                            />
                           ))}
                         </div>
                       )}
@@ -715,12 +749,12 @@ export function SettingsModal() {
                       type="button"
                       onClick={() => setNotifications(!notifications)}
                       className={`w-11 h-6 rounded-full transition-colors relative shrink-0 ${
-                        notifications ? 'bg-primary' : 'bg-neutral-300 dark:bg-neutral-700'
+                        notifications ? switchActiveTrack : 'bg-neutral-300 dark:bg-neutral-700'
                       }`}
                     >
                       <span
-                        className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-transform shadow-xs ${
-                          notifications ? 'left-6' : 'left-1'
+                        className={`absolute top-1 w-4 h-4 rounded-full transition-transform shadow-xs ${
+                          notifications ? `left-6 ${switchActiveThumb}` : 'left-1 bg-white'
                         }`}
                       />
                     </button>
@@ -757,12 +791,12 @@ export function SettingsModal() {
                         } catch {}
                       }}
                       className={`w-11 h-6 rounded-full transition-colors relative shrink-0 ${
-                        hidePast ? 'bg-primary' : 'bg-neutral-300 dark:bg-neutral-700'
+                        hidePast ? switchActiveTrack : 'bg-neutral-300 dark:bg-neutral-700'
                       }`}
                     >
                       <span
-                        className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-transform shadow-xs ${
-                          hidePast ? 'left-6' : 'left-1'
+                        className={`absolute top-1 w-4 h-4 rounded-full transition-transform shadow-xs ${
+                          hidePast ? `left-6 ${switchActiveThumb}` : 'left-1 bg-white'
                         }`}
                       />
                     </button>
@@ -799,12 +833,12 @@ export function SettingsModal() {
                         } catch {}
                       }}
                       className={`w-11 h-6 rounded-full transition-colors relative shrink-0 ${
-                        useOriginalTitleLogo ? 'bg-primary' : 'bg-neutral-300 dark:bg-neutral-700'
+                        useOriginalTitleLogo ? switchActiveTrack : 'bg-neutral-300 dark:bg-neutral-700'
                       }`}
                     >
                       <span
-                        className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-transform shadow-xs ${
-                          useOriginalTitleLogo ? 'left-6' : 'left-1'
+                        className={`absolute top-1 w-4 h-4 rounded-full transition-transform shadow-xs ${
+                          useOriginalTitleLogo ? `left-6 ${switchActiveThumb}` : 'left-1 bg-white'
                         }`}
                       />
                     </button>
@@ -836,7 +870,7 @@ export function SettingsModal() {
                         onClick={() => setMode('system')}
                         className={`py-2 rounded-lg text-xs font-medium flex items-center justify-center gap-1.5 transition-all ${
                           mode === 'system'
-                            ? 'bg-white dark:bg-[#1c1c1e] text-primary shadow-sm font-semibold'
+                            ? `bg-white dark:bg-[#1c1c1e] ${themeModeActiveText} shadow-sm font-semibold`
                             : 'text-neutral-600 dark:text-neutral-400'
                         }`}
                       >
@@ -848,7 +882,7 @@ export function SettingsModal() {
                         onClick={() => setMode('light')}
                         className={`py-2 rounded-lg text-xs font-medium flex items-center justify-center gap-1.5 transition-all ${
                           mode === 'light'
-                            ? 'bg-white dark:bg-[#1c1c1e] text-primary shadow-sm font-semibold'
+                            ? `bg-white dark:bg-[#1c1c1e] ${themeModeActiveText} shadow-sm font-semibold`
                             : 'text-neutral-600 dark:text-neutral-400'
                         }`}
                       >
@@ -860,7 +894,7 @@ export function SettingsModal() {
                         onClick={() => setMode('dark')}
                         className={`py-2 rounded-lg text-xs font-medium flex items-center justify-center gap-1.5 transition-all ${
                           mode === 'dark'
-                            ? 'bg-white dark:bg-[#1c1c1e] text-primary shadow-sm font-semibold'
+                            ? `bg-white dark:bg-[#1c1c1e] ${themeModeActiveText} shadow-sm font-semibold`
                             : 'text-neutral-600 dark:text-neutral-400'
                         }`}
                       >
@@ -885,10 +919,18 @@ export function SettingsModal() {
                       {[
                         { id: 'violet', label: t('settings.colorViolet'), color: 'bg-[#444cf7]' },
                         { id: 'blue', label: t('settings.colorBlue'), color: 'bg-[#0161a7]' },
-                        { id: 'white', label: t('settings.colorWhite'), color: 'bg-white border border-neutral-300 dark:border-white/20' },
-                        { id: 'black', label: t('settings.colorBlack'), color: 'bg-[#1c1c1e] border border-neutral-300 dark:border-white/20' },
+                        { id: 'white', label: t('settings.colorWhite'), color: 'bg-white border-2 border-neutral-300 dark:border-white/30' },
+                        { id: 'black', label: t('settings.colorBlack'), color: 'bg-[#1c1c1e] border-2 border-neutral-300 dark:border-white/30' },
                       ].map((c) => {
                         const isSelected = primaryColor === c.id;
+                        const isWhiteOption = c.id === 'white';
+                        const checkColor = isWhiteOption ? 'text-[#121212]' : 'text-white';
+                        const ringColor = isSelected
+                          ? isWhiteOption && !isDark
+                            ? 'ring-neutral-800'
+                            : 'ring-primary'
+                          : '';
+
                         return (
                           <div
                             key={c.id}
@@ -897,13 +939,14 @@ export function SettingsModal() {
                           >
                             <div
                               className={`w-9 h-9 rounded-full ${c.color} flex items-center justify-center shadow-sm relative transition-transform active:scale-95 ${
-                                isSelected ? 'ring-2 ring-offset-2 ring-primary ring-offset-white dark:ring-offset-[#1c1c1e]' : ''
+                                isSelected ? `ring-2 ring-offset-2 ${ringColor} ring-offset-white dark:ring-offset-[#1c1c1e] scale-105` : ''
                               }`}
                             >
                               {isSelected && (
                                 <Check
                                   size={16}
-                                  className={c.id === 'white' ? 'text-black' : 'text-white'}
+                                  strokeWidth={2.8}
+                                  className={checkColor}
                                 />
                               )}
                             </div>

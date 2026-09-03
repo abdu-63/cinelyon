@@ -292,16 +292,24 @@ export const THEME_SCRIPT_CODE = `(function(){
       document.documentElement.setAttribute('data-liquid-glass', glassMode);
 
       var primaryMap = {
-        violet: { p: '#444cf7', h: '#3339c4', c: '#ffffff' },
-        blue: { p: '#0161a7', h: '#014a80', c: '#ffffff' },
-        white: { p: isDark ? '#ffffff' : '#1c1c1e', h: isDark ? '#f0f0f0' : '#2c2c2e', c: isDark ? '#121214' : '#ffffff' },
-        black: { p: isDark ? '#ffffff' : '#1c1c1e', h: isDark ? '#f0f0f0' : '#2c2c2e', c: isDark ? '#121214' : '#ffffff' },
-        cleardark: { p: isDark ? '#ffffff' : '#1c1c1e', h: isDark ? '#f0f0f0' : '#2c2c2e', c: isDark ? '#121214' : '#ffffff' }
+        violet: { p: '#444cf7', h: '#3339c4', c: '#ffffff', st: isDark ? '#a2a7ff' : '#444cf7' },
+        blue: { p: '#0161a7', h: '#014a80', c: '#ffffff', st: isDark ? '#63b3ed' : '#0161a7' },
+        white: { p: '#ffffff', h: isDark ? '#f0f0f0' : '#121212', c: '#121212', st: isDark ? '#ffffff' : '#111111' },
+        black: { p: '#1c1c1e', h: isDark ? '#ffffff' : '#2c2c2e', c: '#ffffff', st: isDark ? '#e5e5e5' : '#1c1c1e' },
+        cleardark: {
+          p: isDark ? '#ffffff' : '#1c1c1e',
+          h: isDark ? '#f0f0f0' : '#2c2c2e',
+          c: isDark ? '#121212' : '#ffffff',
+          st: isDark ? '#ffffff' : '#1c1c1e'
+        }
       };
       var sel = primaryMap[p] || primaryMap.violet;
       document.documentElement.style.setProperty('--primary', sel.p);
       document.documentElement.style.setProperty('--primary-hover', sel.h);
       document.documentElement.style.setProperty('--primary-contrast', sel.c);
+      document.documentElement.style.setProperty('--showtime-text', sel.st);
+      var tabColor = (p === 'white' || p === 'black' || p === 'cleardark') ? (isDark ? '#ffffff' : '#121212') : sel.p;
+      document.documentElement.style.setProperty('--active-tab-color', tabColor);
     } catch(e) {}
   })();`;
 

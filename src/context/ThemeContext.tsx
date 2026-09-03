@@ -14,7 +14,7 @@ interface ThemeContextType {
   isDark: boolean;
   liquidGlassEnabled: boolean;
   liquidGlassMode: LiquidGlassMode;
-  colors: typeof LIGHT_COLORS & typeof PRIMARY_VARIANTS.violet;
+  colors: typeof LIGHT_COLORS & typeof PRIMARY_VARIANTS.violet & { showtimeText: string };
   setMode: (mode: ThemeMode) => void;
   setPrimaryColor: (color: PrimaryColorVariant) => void;
   setLiquidGlassEnabled: (enabled: boolean) => void;
@@ -64,62 +64,43 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   const colors = useMemo(() => {
     const baseColors = isDark ? DARK_COLORS : LIGHT_COLORS;
-    let primary = PRIMARY_VARIANTS[primaryColor] || PRIMARY_VARIANTS.violet;
+    let primaryColors = PRIMARY_VARIANTS[primaryColor] || PRIMARY_VARIANTS.violet;
 
-    if (primaryColor === 'white') {
-      primary = isDark
-        ? {
-            ...PRIMARY_VARIANTS.white,
-            primary: '#ffffff',
-            primaryHover: '#f0f0f0',
-            primaryContrast: '#121214',
-          }
-        : {
-            ...PRIMARY_VARIANTS.black,
-            primary: '#1c1c1e',
-            primaryHover: '#2c2c2e',
-            primaryContrast: '#ffffff',
-          };
-    } else if (primaryColor === 'black') {
-      primary = isDark
-        ? {
-            ...PRIMARY_VARIANTS.white,
-            primary: '#ffffff',
-            primaryHover: '#f0f0f0',
-            primaryContrast: '#121214',
-          }
-        : {
-            ...PRIMARY_VARIANTS.black,
-            primary: '#1c1c1e',
-            primaryHover: '#2c2c2e',
-            primaryContrast: '#ffffff',
-          };
-    } else if (primaryColor === 'cleardark') {
-      primary = isDark ? PRIMARY_VARIANTS.white : PRIMARY_VARIANTS.black;
+    if (primaryColor === 'cleardark') {
+      primaryColors = isDark ? PRIMARY_VARIANTS.white : PRIMARY_VARIANTS.black;
     }
 
-    let showtimeText = primary.primary;
+    // Soften fluorescent colors for showtimes in dark mode, and set dark text in light mode for white
+    let showtimeText = primaryColors.primary;
     if (isDark) {
       if (primaryColor === 'violet') {
-        showtimeText = '#a2a7ff';
-      } else if (primaryColor === 'blue') {
-        showtimeText = '#63b3ed';
-      } else if (primaryColor === 'white' || primaryColor === 'cleardark' || primaryColor === 'black') {
+        showtimeText = '#a2a7ff'; // Softer, legible violet
+      } else if (primaryColor === 'white' || (primaryColor === 'cleardark' && isDark)) {
         showtimeText = '#ffffff';
+      } else if (primaryColor === 'blue') {
+        showtimeText = '#63b3ed'; // Softer blue
+      } else if (primaryColor === 'black') {
+        showtimeText = '#e5e5e5';
       }
     } else {
-      if (primaryColor === 'violet') {
-        showtimeText = '#444cf7';
-      } else if (primaryColor === 'blue') {
-        showtimeText = '#0161A7';
-      } else if (primaryColor === 'white' || primaryColor === 'cleardark' || primaryColor === 'black') {
+      if (primaryColor === 'white') {
         showtimeText = '#111111';
+      } else if (primaryColor === 'black' || (primaryColor === 'cleardark' && !isDark)) {
+        showtimeText = '#1c1c1e';
       }
+    }
+
+    let primaryHover = primaryColors.primaryHover;
+    if (primaryColor === 'white' && !isDark) {
+      primaryHover = '#121212';
+    } else if (primaryColor === 'black' && isDark) {
+      primaryHover = '#ffffff';
     }
 
     return {
       ...baseColors,
-      ...primary,
+      ...primaryColors,
+      primaryHover,
       showtimeText,
     };
   }, [isDark, primaryColor]);
@@ -137,6 +118,17 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     root.style.setProperty('--primary-hover', colors.primaryHover);
     root.style.setProperty('--primary-contrast', colors.primaryContrast);
     root.style.setProperty('--showtime-text', colors.showtimeText);
+
+    const activeTabColor =
+      primaryColor === 'white' ||
+      primaryColor === 'black' ||
+      primaryColor === 'cleardark' ||
+      colors.primary === '#ffffff' ||
+      colors.primary === '#1c1c1e' ||
+      colors.primary === '#2c2c2e'
+        ? (isDark ? '#ffffff' : '#121212')
+        : colors.primary;
+    root.style.setProperty('--active-tab-color', activeTabColor);
 
     if (liquidGlassMode === 'disabled') {
       root.style.setProperty('--glass-blur', '0px');

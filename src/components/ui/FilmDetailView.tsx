@@ -33,6 +33,7 @@ import { FilmCastSection } from '@/components/ui/FilmCastSection';
 import { FilmLogo } from '@/components/ui/FilmLogo';
 import { getCachedLogo, FilmLogoResult } from '@/hooks/useFilmLogo';
 import { getStreamingProviderWebUrl } from '@/utils/streamingProviders';
+import { useTheme } from '@/context/ThemeContext';
 import { getLetterboxdDeepLink } from '@/utils/letterboxdUtils';
 import { getDateLabelByDay } from '@/utils/showtimes';
 import { getTodayIso } from '@/utils/dateUtils';
@@ -71,6 +72,16 @@ export const FilmDetailView = memo(function FilmDetailView({
   onClose,
   onSelectFilm,
 }: FilmDetailViewProps) {
+  const { primaryColor, isDark } = useTheme();
+  const isWhiteLight = primaryColor === 'white' && !isDark;
+  const isBlackDark = primaryColor === 'black' && isDark;
+
+  const accentTextClass = isWhiteLight
+    ? 'text-neutral-900'
+    : isBlackDark
+    ? 'text-white'
+    : 'text-primary';
+
   const [isFavorite, setIsFavorite] = useState(false);
   const [copiedShare, setCopiedShare] = useState(false);
   // hasLogo: true (logo prêt), false (aucun logo sur TMDB -> titre brut), null (en cours)
@@ -371,7 +382,7 @@ export const FilmDetailView = memo(function FilmDetailView({
         {film.synopsis && film.synopsis !== 'Synopsis non disponible' && (
           <div className="space-y-2 px-1">
             <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-semibold text-sm">
-              <BookOpen size={16} className="text-primary" />
+              <BookOpen size={16} className={accentTextClass} />
               <span>Synopsis</span>
             </div>
             <p className="text-xs sm:text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed font-normal">
@@ -386,7 +397,7 @@ export const FilmDetailView = memo(function FilmDetailView({
         <div className="space-y-1.5 px-1">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-semibold text-sm">
-              <ShieldCheck size={16} className="text-primary" />
+              <ShieldCheck size={16} className={accentTextClass} />
               <span>Classification &amp; Sensibilité</span>
             </div>
             <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 text-[11px] font-medium">
@@ -436,7 +447,7 @@ export const FilmDetailView = memo(function FilmDetailView({
         {youtubeId && (
           <div className="space-y-2 px-1">
             <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-semibold text-sm">
-              <PlayCircle size={16} className="text-primary" />
+              <PlayCircle size={16} className={accentTextClass} />
               <span>Bande-annonce</span>
             </div>
             <div className="relative w-full aspect-video rounded-[20px] overflow-hidden shadow-md border border-black/10 dark:border-white/10 bg-neutral-900">
@@ -457,7 +468,7 @@ export const FilmDetailView = memo(function FilmDetailView({
         {film.watch_providers && film.watch_providers.length > 0 && (
           <div className="space-y-3 px-1">
             <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-semibold text-sm">
-              <Tv size={16} className="text-primary" />
+              <Tv size={16} className={accentTextClass} />
               <span>Disponible sur</span>
             </div>
 
@@ -578,10 +589,18 @@ export const FilmDetailView = memo(function FilmDetailView({
             <div className="space-y-3 px-1">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-neutral-900 dark:text-white font-semibold text-sm">
-                  <Sparkles size={16} className="text-primary" />
+                  <Sparkles size={16} className={accentTextClass} />
                   <span>Films similaires à l&apos;affiche à Lyon</span>
                 </div>
-                <span className="w-5 h-5 rounded-full bg-primary/10 text-primary text-[11px] font-medium flex items-center justify-center">
+                <span
+                  className={`w-5 h-5 rounded-full text-[11px] font-medium flex items-center justify-center ${
+                    isWhiteLight
+                      ? 'bg-black/10 text-neutral-900'
+                      : isBlackDark
+                      ? 'bg-white/15 text-white'
+                      : 'bg-primary/10 text-primary'
+                  }`}
+                >
                   {similarMovies.length}
                 </span>
               </div>

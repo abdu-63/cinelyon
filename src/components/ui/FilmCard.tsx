@@ -12,6 +12,7 @@ import { formatLocalizedGenres, formatLocalizedDuration } from '@/utils/filmLoca
 import { formatSeanceLang } from '@/utils/languageUtils';
 import { DaySeances } from '@/components/ui/DaySeances';
 import { preloadFilmLogo } from '@/hooks/useFilmLogo';
+import { useTheme } from '@/context/ThemeContext';
 
 interface FilmCardProps {
   film: Film;
@@ -33,6 +34,22 @@ export const FilmCard = memo(function FilmCard({
   onOpenDetail,
 }: FilmCardProps) {
   const { locale } = useTranslation();
+  const { primaryColor, isDark } = useTheme();
+
+  const isWhiteLight = primaryColor === 'white' && !isDark;
+  const isBlackDark = primaryColor === 'black' && isDark;
+
+  const arrowColorClass = isWhiteLight
+    ? 'text-neutral-900'
+    : isBlackDark
+    ? 'text-white'
+    : 'text-primary';
+
+  const titleHoverClass = isWhiteLight
+    ? 'group-hover:text-neutral-950'
+    : isBlackDark
+    ? 'group-hover:text-white'
+    : 'group-hover:text-primary';
 
   const localizedGenres = useMemo(
     () => formatLocalizedGenres(film.genres, locale),
@@ -126,7 +143,7 @@ export const FilmCard = memo(function FilmCard({
               loading="lazy"
             />
             {film.isNew && (
-              <div className="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded-md bg-primary text-[8.5px] font-normal tracking-wider text-primary-contrast shadow-sm z-10">
+              <div className="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded-md bg-primary text-[8.5px] font-normal tracking-wider text-primary-contrast shadow-sm z-10 border border-black/10 dark:border-white/10">
                 NOUVEAU
               </div>
             )}
@@ -137,7 +154,7 @@ export const FilmCard = memo(function FilmCard({
             <div>
               {/* Ligne Titre + Favori */}
               <div className="flex items-start justify-between gap-1">
-                <h3 className="font-normal text-[14px] sm:text-[15px] leading-[18px] text-neutral-900 dark:text-white group-hover:text-primary transition-colors line-clamp-2 pr-0.5">
+                <h3 className={`font-normal text-[14px] sm:text-[15px] leading-[18px] text-neutral-900 dark:text-white ${titleHoverClass} transition-colors line-clamp-2 pr-0.5`}>
                   {film.title}
                   {film.release_year && film.release_year !== 'inconnue' && (
                     <span className="font-normal text-neutral-500 dark:text-neutral-400 text-[12px] sm:text-[13px]"> ({film.release_year})</span>
@@ -213,9 +230,9 @@ export const FilmCard = memo(function FilmCard({
               )}
 
               {/* Chevron nav */}
-              <div className="opacity-70 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-neutral-600 dark:text-neutral-400 flex items-center gap-0.5 text-xs font-normal text-primary">
+              <div className={`opacity-70 group-hover:opacity-100 group-hover:translate-x-1 transition-all flex items-center gap-0.5 text-xs font-normal ${arrowColorClass}`}>
                 <span className="hidden sm:inline text-[11px] font-normal">Détails</span>
-                <ChevronRight size={15} className="text-primary" />
+                <ChevronRight size={15} className={arrowColorClass} />
               </div>
             </div>
           </div>
@@ -244,7 +261,7 @@ export const FilmCard = memo(function FilmCard({
                   onClick={() => setActiveDayLabel((prev) => (prev === dayLabel ? '' : dayLabel))}
                   className={`relative px-3.5 py-1.5 rounded-[18px] text-[12px] font-normal tracking-tight transition-all shrink-0 active:scale-95 touch-manipulation select-none ${
                     isActive
-                      ? 'bg-primary text-primary-contrast shadow-xs'
+                      ? 'bg-primary text-primary-contrast shadow-xs border border-black/10 dark:border-white/10'
                       : 'bg-[#f0f2f5] dark:bg-[#252528] text-neutral-800 dark:text-neutral-200 hover:bg-neutral-200/80 dark:hover:bg-[#2e2e32]'
                   }`}
                 >

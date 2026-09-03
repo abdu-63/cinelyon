@@ -5,10 +5,14 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Film, Settings } from 'lucide-react';
+import { useTheme } from '@/context/ThemeContext';
 
 export default function Header() {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
+  const { isDark, primaryColor } = useTheme();
+
+  const isWhiteLight = primaryColor === 'white' && !isDark;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,14 +41,20 @@ export default function Header() {
       <div className="max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto px-3 sm:px-4 flex items-center justify-between">
         {/* Logo CinéLyon */}
         <Link href="/" className="flex items-center gap-2.5 group select-none">
-          <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center shadow-md shadow-primary/20 group-hover:scale-105 transition-transform">
+          <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center shadow-md shadow-primary/20 group-hover:scale-105 transition-transform border border-black/10 dark:border-white/10">
             <Film className="w-4 h-4 text-primary-contrast" />
           </div>
           <div className="flex items-center gap-1.5">
             <span className="font-montserrat font-extrabold text-lg tracking-tight text-neutral-900 dark:text-white">
               CinéLyon
             </span>
-            <span className="px-1.5 py-0.2 rounded-md text-[10px] font-bold bg-primary/15 text-primary">
+            <span
+              className={`px-1.5 py-0.2 rounded-md text-[10px] font-bold ${
+                isWhiteLight
+                  ? 'bg-black/10 text-neutral-900 border border-black/10'
+                  : 'bg-primary/15 text-primary'
+              }`}
+            >
               69
             </span>
           </div>

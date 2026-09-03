@@ -123,7 +123,7 @@ export function ChatBot() {
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.92 }}
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-primary text-primary-contrast shadow-xl shadow-primary/40 hover:shadow-2xl flex items-center justify-center border border-white/20 transition-transform"
+        className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-primary text-primary-contrast shadow-xl shadow-primary/40 hover:shadow-2xl flex items-center justify-center border border-black/10 dark:border-white/20 transition-transform"
         aria-label="Discuter avec CinéBot"
       >
         <Sparkles size={22} className="text-primary-contrast" />
@@ -238,14 +238,14 @@ export function ChatBot() {
                     }`}
                   >
                     {m.role === 'bot' && (
-                      <div className="w-7 h-7 rounded-full bg-primary text-primary-contrast flex items-center justify-center shrink-0 mt-0.5">
+                      <div className="w-7 h-7 rounded-full bg-primary text-primary-contrast flex items-center justify-center shrink-0 mt-0.5 border border-black/10 dark:border-white/10">
                         <Sparkles size={13} />
                       </div>
                     )}
                     <div
                       className={`max-w-[82%] px-4 py-3 rounded-[20px] text-xs sm:text-sm leading-relaxed shadow-sm ${
                         m.role === 'user'
-                          ? 'bg-primary text-primary-contrast rounded-br-none'
+                          ? 'bg-primary text-primary-contrast rounded-br-none border border-black/10 dark:border-white/10'
                           : 'bg-neutral-100 dark:bg-[#242428] text-neutral-900 dark:text-white rounded-bl-none border border-transparent dark:border-white/5'
                       }`}
                     >

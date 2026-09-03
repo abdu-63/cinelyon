@@ -7,12 +7,13 @@ import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Film, Heart, Sparkles, Settings } from 'lucide-react';
 import { useTranslation } from '@/i18n';
+import { useTheme } from '@/context/ThemeContext';
 
 interface NavItem {
   key: string;
   href: string;
   labelKey: string;
-  icon: React.ComponentType<{ className?: string; size?: number }>;
+  icon: React.ComponentType<{ className?: string; size?: number; style?: React.CSSProperties }>;
   isAction?: boolean;
   actionId?: string;
 }
@@ -27,6 +28,18 @@ const NAV_ITEMS: NavItem[] = [
 export function FloatingLiquidGlassTabBar() {
   const pathname = usePathname();
   const { t } = useTranslation();
+  const { isDark, primaryColor, colors } = useTheme();
+
+  const isMonochrome =
+    primaryColor === 'white' ||
+    primaryColor === 'black' ||
+    primaryColor === 'cleardark';
+
+  const activeIconColor = isMonochrome
+    ? isDark
+      ? '#ffffff'
+      : '#121212'
+    : colors.primary;
 
   const handleAction = (actionId?: string) => {
     if (actionId === 'open-cinebot') {
@@ -66,19 +79,32 @@ export function FloatingLiquidGlassTabBar() {
               key={item.key}
               href={item.href}
               aria-label={t(item.labelKey)}
-              className={`relative flex flex-col items-center justify-center w-14 h-12 rounded-full transition-transform active:scale-95 ${
-                isActive ? 'text-white' : 'text-neutral-400 hover:text-neutral-200'
-              }`}
+              className="relative flex flex-col items-center justify-center w-14 h-12 rounded-full transition-transform active:scale-95 text-neutral-400 hover:text-neutral-200"
             >
               {isActive && (
                 <motion.div
                   layoutId="activeTabIndicator"
-                  className="absolute inset-0 bg-primary/20 border border-primary/40 rounded-full shadow-inner"
+                  className={`absolute inset-0 rounded-full shadow-inner ${
+                    isMonochrome
+                      ? isDark
+                        ? 'bg-white/15 border border-white/25'
+                        : 'bg-black/10 border border-black/15'
+                      : 'bg-primary/20 border border-primary/40'
+                  }`}
                   transition={{ type: 'spring', stiffness: 450, damping: 32 }}
                 />
               )}
-              <Icon size={20} className={`stroke-[2.2] relative z-10 ${isActive ? 'text-primary drop-shadow-sm' : ''}`} />
-              <span className={`text-[10px] font-medium tracking-tight mt-0.5 relative z-10 ${isActive ? 'text-white font-semibold' : 'opacity-80'}`}>
+              <Icon
+                size={20}
+                className="stroke-[2.2] relative z-10 drop-shadow-sm"
+                style={{ color: isActive ? activeIconColor : undefined }}
+              />
+              <span
+                className={`text-[10px] font-medium tracking-tight mt-0.5 relative z-10 ${
+                  isActive ? 'font-semibold' : 'opacity-80'
+                }`}
+                style={{ color: isActive ? activeIconColor : undefined }}
+              >
                 {t(item.labelKey)}
               </span>
             </Link>

@@ -4,6 +4,7 @@
 import React, { useRef } from 'react';
 import { DateLabel } from '@/types';
 import { useTranslation } from '@/i18n';
+import { useTheme } from '@/context/ThemeContext';
 import { formatLocalizedWeekday, formatLocalizedDayMonth } from '@/utils/dateUtils';
 
 interface DaySelectorProps {
@@ -12,9 +13,42 @@ interface DaySelectorProps {
   onSelect: (delta: number | null) => void;
 }
 
+function hexToRgba(hex: string, alpha: number): string {
+  const clean = hex.replace('#', '');
+  if (clean.length === 6) {
+    const r = parseInt(clean.substring(0, 2), 16);
+    const g = parseInt(clean.substring(2, 4), 16);
+    const b = parseInt(clean.substring(4, 6), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  }
+  return hex;
+}
+
 export function DaySelector({ dates = [], selectedDelta, onSelect }: DaySelectorProps) {
   const { locale } = useTranslation();
+  const { primaryColor, isDark, colors } = useTheme();
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const isWhite = primaryColor === 'white';
+  const isWhiteLight = primaryColor === 'white' && !isDark;
+  const isBlackDark = primaryColor === 'black' && isDark;
+
+  const todayBorderColor = isWhiteLight
+    ? '#121212'
+    : isBlackDark
+    ? '#ffffff'
+    : colors.primary || 'var(--primary)';
+
+  // Effet teinté identique à l'application mobile (backgroundColor: colors.primary + '10')
+  const todayTint = isWhiteLight
+    ? 'rgba(0, 0, 0, 0.04)'
+    : isBlackDark
+    ? 'rgba(255, 255, 255, 0.08)'
+    : hexToRgba(colors.primary || '#444cf7', isDark ? 0.12 : 0.08);
+
+  const todayBackground = isDark
+    ? `linear-gradient(${todayTint}, ${todayTint}), rgba(28, 28, 30, 0.75)`
+    : `linear-gradient(${todayTint}, ${todayTint}), rgba(255, 255, 255, 0.85)`;
 
   return (
     <div className="w-full pt-1 pb-2">
@@ -28,7 +62,7 @@ export function DaySelector({ dates = [], selectedDelta, onSelect }: DaySelector
           onClick={() => onSelect(null)}
           className={`h-12 min-w-[70px] px-4 rounded-[24px] flex items-center justify-center font-normal text-xs transition-all shrink-0 border active:scale-95 touch-manipulation select-none ${
             selectedDelta === null
-              ? 'bg-primary border-primary text-primary-contrast shadow-md shadow-primary/25'
+              ? 'bg-primary border-primary text-primary-contrast shadow-md shadow-primary/25 border-black/10 dark:border-white/10'
               : 'liquid-glass text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/25'
           }`}
         >
@@ -48,17 +82,29 @@ export function DaySelector({ dates = [], selectedDelta, onSelect }: DaySelector
               key={date.isoDate}
               type="button"
               onClick={() => onSelect(date.index)}
-              className={`h-12 min-w-[70px] px-3.5 rounded-[24px] flex flex-col items-center justify-center transition-all shrink-0 border active:scale-95 touch-manipulation select-none ${
+              style={
+                isToday && !isSelected
+                  ? {
+                      borderColor: todayBorderColor,
+                      borderWidth: '1px',
+                      borderStyle: 'solid',
+                      background: todayBackground,
+                    }
+                  : undefined
+              }
+              className={`h-12 min-w-[70px] px-3.5 rounded-[24px] flex flex-col items-center justify-center transition-all shrink-0 active:scale-95 touch-manipulation select-none ${
                 isSelected
-                  ? 'bg-primary border-primary text-primary-contrast shadow-md shadow-primary/25'
+                  ? 'bg-primary border-primary text-primary-contrast shadow-md shadow-primary/25 border border-black/10 dark:border-white/10'
                   : isToday
-                  ? 'liquid-glass border-2 border-primary text-neutral-900 dark:text-white shadow-sm'
-                  : 'liquid-glass text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/25'
+                  ? 'liquid-glass mini-cal-today text-neutral-900 dark:text-white shadow-sm'
+                  : 'liquid-glass border text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/25'
               }`}
             >
               <span
                 className={`text-[12px] font-normal leading-tight ${
-                  isSelected ? 'text-primary-contrast' : isToday ? 'text-primary' : 'text-neutral-900 dark:text-white'
+                  isSelected
+                    ? 'text-primary-contrast'
+                    : 'text-neutral-900 dark:text-white'
                 }`}
               >
                 {label}
@@ -66,7 +112,11 @@ export function DaySelector({ dates = [], selectedDelta, onSelect }: DaySelector
               {sublabel && (
                 <span
                   className={`text-[10px] font-normal leading-tight mt-0.5 ${
-                    isSelected ? 'text-primary-contrast/90' : 'text-neutral-500 dark:text-neutral-400'
+                    isSelected
+                      ? isWhite
+                        ? 'text-[#333333] font-semibold'
+                        : 'text-primary-contrast/90'
+                      : 'text-neutral-500 dark:text-neutral-400'
                   }`}
                 >
                   {sublabel}

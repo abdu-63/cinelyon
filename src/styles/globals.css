@@ -110,6 +110,8 @@
   --primary: #444cf7;
   --primary-hover: #3339c4;
   --primary-contrast: #ffffff;
+  --showtime-text: #444cf7;
+  --active-tab-color: #444cf7;
   --border-color: rgba(0, 0, 0, 0.08);
   --border-light: rgba(0, 0, 0, 0.05);
   --card-bg: #ffffff;
@@ -133,6 +135,8 @@
   --primary: #444cf7;
   --primary-hover: #3339c4;
   --primary-contrast: #ffffff;
+  --showtime-text: #a2a7ff;
+  --active-tab-color: #444cf7;
   --border-color: rgba(255, 255, 255, 0.08);
   --border-light: rgba(255, 255, 255, 0.05);
   --card-bg: #1c1c1e;
@@ -149,61 +153,134 @@
   --primary: #444cf7;
   --primary-hover: #3339c4;
   --primary-contrast: #ffffff;
+  --showtime-text: #444cf7;
+  --active-tab-color: #444cf7;
+}
+[data-theme='dark'][data-primary='violet'],
+.dark[data-primary='violet'] {
+  --showtime-text: #a2a7ff;
 }
 
 [data-primary='blue'] {
   --primary: #0161a7;
   --primary-hover: #014a80;
   --primary-contrast: #ffffff;
+  --showtime-text: #0161a7;
+  --active-tab-color: #0161a7;
+}
+[data-theme='dark'][data-primary='blue'],
+.dark[data-primary='blue'] {
+  --showtime-text: #63b3ed;
 }
 
-/* Mode Clair avec blanc -> adaptatif pour rester visible (noir élégant) */
-[data-primary='white'],
-[data-theme='light'][data-primary='white'],
-:root:not(.dark)[data-primary='white'] {
-  --primary: #1c1c1e;
-  --primary-hover: #2c2c2e;
-  --primary-contrast: #ffffff;
+/* Thème Blanc officiel CinéLyon : primary blanc pur, texte contraste sombre #121212 */
+[data-primary='white'] {
+  --primary: #ffffff;
+  --primary-hover: #121212;
+  --primary-contrast: #121212;
+  --showtime-text: #111111;
+  --active-tab-color: #121212;
 }
-
-/* Mode Sombre avec blanc -> blanc éclatant avec texte contrasté sombre */
 [data-theme='dark'][data-primary='white'],
 .dark[data-primary='white'] {
-  --primary: #ffffff;
   --primary-hover: #f0f0f0;
-  --primary-contrast: #121214;
+  --showtime-text: #ffffff;
+  --active-tab-color: #ffffff;
 }
 
-/* Mode Clair avec noir -> noir élégant avec texte blanc */
-[data-primary='black'],
-[data-theme='light'][data-primary='black'],
-:root:not(.dark)[data-primary='black'] {
+/* Thème Noir officiel CinéLyon : primary noir #1c1c1e, texte contraste blanc #ffffff */
+[data-primary='black'] {
   --primary: #1c1c1e;
   --primary-hover: #2c2c2e;
   --primary-contrast: #ffffff;
+  --showtime-text: #1c1c1e;
+  --active-tab-color: #121212;
 }
-
-/* Mode Sombre avec noir -> adaptatif pour rester visible sur fond sombre (blanc éclatant) */
 [data-theme='dark'][data-primary='black'],
 .dark[data-primary='black'] {
-  --primary: #ffffff;
-  --primary-hover: #f0f0f0;
-  --primary-contrast: #121214;
+  --primary-hover: #ffffff;
+  --showtime-text: #e5e5e5;
+  --active-tab-color: #ffffff;
 }
 
-/* Mode ClearDark -> blanc en mode sombre, noir en mode clair */
-[data-primary='cleardark'],
-[data-theme='light'][data-primary='cleardark'],
-:root:not(.dark)[data-primary='cleardark'] {
+/* Mode Blanc + Clair : règles de contraste pour hovers, badges et SVGs */
+:root:not(.dark)[data-primary='white'] .hover\:text-primary:hover,
+[data-theme='light'][data-primary='white'] .hover\:text-primary:hover,
+:root:not(.dark)[data-primary='white'] .group:hover .group-hover\:text-primary,
+[data-theme='light'][data-primary='white'] .group:hover .group-hover\:text-primary {
+  color: #121212 !important;
+}
+
+:root:not(.dark)[data-primary='white'] svg.text-primary,
+[data-theme='light'][data-primary='white'] svg.text-primary,
+:root:not(.dark)[data-primary='white'] .text-primary svg,
+[data-theme='light'][data-primary='white'] .text-primary svg {
+  color: #121212 !important;
+}
+
+:root:not(.dark)[data-primary='white'] .bg-primary\/10,
+[data-theme='light'][data-primary='white'] .bg-primary\/10,
+:root:not(.dark)[data-primary='white'] .bg-primary\/15,
+[data-theme='light'][data-primary='white'] .bg-primary\/15 {
+  background-color: rgba(0, 0, 0, 0.08) !important;
+  color: #121212 !important;
+}
+
+/* Mode Noir + Sombre : règles de contraste pour hovers, badges et SVGs */
+.dark[data-primary='black'] .hover\:text-primary:hover,
+[data-theme='dark'][data-primary='black'] .hover\:text-primary:hover,
+.dark[data-primary='black'] .group:hover .group-hover\:text-primary,
+[data-theme='dark'][data-primary='black'] .group:hover .group-hover\:text-primary {
+  color: #ffffff !important;
+}
+
+.dark[data-primary='black'] svg.text-primary,
+[data-theme='dark'][data-primary='black'] svg.text-primary,
+.dark[data-primary='black'] .text-primary svg,
+[data-theme='dark'][data-primary='black'] .text-primary svg {
+  color: #ffffff !important;
+}
+
+.dark[data-primary='black'] .bg-primary\/10,
+[data-theme='dark'][data-primary='black'] .bg-primary\/10,
+.dark[data-primary='black'] .bg-primary\/15,
+[data-theme='dark'][data-primary='black'] .bg-primary\/15 {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
+}
+
+/* Bouton "Auj." du calendrier général avec bordure de couleur identique à l'app mobile */
+.mini-cal-today {
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-color: var(--primary) !important;
+}
+
+:root:not(.dark)[data-primary='white'] .mini-cal-today,
+[data-theme='light'][data-primary='white'] .mini-cal-today {
+  border-color: #121212 !important;
+}
+
+.dark[data-primary='black'] .mini-cal-today,
+[data-theme='dark'][data-primary='black'] .mini-cal-today {
+  border-color: #ffffff !important;
+}
+
+/* Thème ClearDark (variante adaptative) */
+[data-primary='cleardark'] {
   --primary: #1c1c1e;
   --primary-hover: #2c2c2e;
   --primary-contrast: #ffffff;
+  --showtime-text: #1c1c1e;
+  --active-tab-color: #121212;
 }
 [data-theme='dark'][data-primary='cleardark'],
 .dark[data-primary='cleardark'] {
   --primary: #ffffff;
   --primary-hover: #f0f0f0;
-  --primary-contrast: #121214;
+  --primary-contrast: #121212;
+  --showtime-text: #ffffff;
+  --active-tab-color: #ffffff;
 }
 
 html,

@@ -145,7 +145,7 @@ const CinemaSeanceRow = React.memo(function CinemaSeanceRow({
   return (
     <div className="flex items-center gap-1.5">
       {/* Badge Cinéma (100px x 42px bg-primary text-primary-contrast) */}
-      <div className="w-[100px] min-w-[100px] max-w-[100px] h-[42px] shrink-0 rounded-[5px] bg-primary text-primary-contrast flex items-center justify-center px-1.5 py-1 text-center shadow-xs">
+      <div className="w-[100px] min-w-[100px] max-w-[100px] h-[42px] shrink-0 rounded-[5px] bg-primary text-primary-contrast border border-black/[0.08] dark:border-white/10 flex items-center justify-center px-1.5 py-1 text-center shadow-xs">
         <span className="text-[12px] font-normal leading-[14px] line-clamp-3 text-center">
           {cinemaName}
         </span>
@@ -213,7 +213,10 @@ export const SeancePill = React.memo(function SeancePill({
 
       {/* Bottom : Time + Calendar */}
       <div className="flex items-center justify-between gap-1">
-        <span className="text-[13px] font-normal text-primary leading-none group-hover/pill:underline">
+        <span
+          className="text-[13px] font-normal leading-none group-hover/pill:underline"
+          style={{ color: 'var(--showtime-text)' }}
+        >
           {formatTime(seance.time)}
         </span>
         <div onClick={(e) => e.stopPropagation()}>

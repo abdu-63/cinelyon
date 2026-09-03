@@ -59,7 +59,7 @@ export const PRIMARY_VARIANTS = {
     primary: '#ffffff',
     primaryHover: '#f0f0f0',
     primaryDark: '#e5e5e5',
-    primaryContrast: '#121214',
+    primaryContrast: '#121212',
     voBadge: '#ffffff',
     vfBadge: '#ffffff',
   },
