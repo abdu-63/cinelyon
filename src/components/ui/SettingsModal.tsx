@@ -22,8 +22,6 @@ import {
   Plus,
   Sun,
   Moon,
-  CircleOff,
-  Droplets,
   Sparkles,
   Download,
   Share2,
@@ -45,7 +43,7 @@ interface FriendItem {
 
 export function SettingsModal() {
   const [isOpen, setIsOpen] = useState(false);
-  const { mode, setMode, primaryColor, setPrimaryColor } = useTheme();
+  const { mode, setMode, primaryColor, setPrimaryColor, liquidGlassMode, setLiquidGlassMode } = useTheme();
   const { locale, setLocale, t } = useTranslation();
 
   const [username, setUsername] = useState('Abdu');
@@ -56,7 +54,6 @@ export function SettingsModal() {
   const [hidePast, setHidePast] = useState(false);
   const [useOriginalTitleLogo, setUseOriginalTitleLogo] = useState(false);
   const [notifications, setNotifications] = useState(true);
-  const [glassEffect, setGlassEffect] = useState<'disabled' | 'blur' | 'crystal'>('crystal');
   const [isLinkingDeviceOpen, setIsLinkingDeviceOpen] = useState(false);
   const [linkCodeInput, setLinkCodeInput] = useState('');
   const [isAddingFriendOpen, setIsAddingFriendOpen] = useState(false);
@@ -211,7 +208,7 @@ export function SettingsModal() {
           primaryColor,
           hidePast,
           notifications,
-          glassEffect,
+          liquidGlassMode,
         },
       };
 
@@ -269,6 +266,12 @@ export function SettingsModal() {
           if (parsed.settings.mode) setMode(parsed.settings.mode);
           if (parsed.settings.primaryColor) setPrimaryColor(parsed.settings.primaryColor);
           if (parsed.settings.locale) setLocale(parsed.settings.locale);
+          if (parsed.settings.liquidGlassMode) {
+            setLiquidGlassMode(parsed.settings.liquidGlassMode);
+          } else if (parsed.settings.glassEffect) {
+            const ge = parsed.settings.glassEffect;
+            setLiquidGlassMode(ge === 'blur' ? 'medium' : ge === 'crystal' ? 'high' : ge);
+          }
         }
 
         window.dispatchEvent(new CustomEvent('cinelyon:data-restored'));
@@ -303,7 +306,7 @@ export function SettingsModal() {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-end justify-center pointer-events-none">
+        <div className="fixed inset-0 z-50 flex items-end justify-center pointer-events-none pt-14 pb-[env(safe-area-inset-bottom,0px)]">
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -319,7 +322,7 @@ export function SettingsModal() {
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 32, stiffness: 380 }}
-            className="pointer-events-auto relative w-full max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto bg-[#f5f6f8] dark:bg-[#121214] rounded-t-[32px] rounded-b-none border-t border-x border-black/10 dark:border-white/10 shadow-2xl z-10 flex flex-col max-h-[90vh] md:max-h-[85vh] overflow-hidden"
+            className="pointer-events-auto relative w-full max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto bg-[#f5f6f8] dark:bg-[#121214] rounded-t-[32px] rounded-b-none border-t border-x border-black/10 dark:border-white/10 shadow-2xl z-10 flex flex-col max-h-[78vh] md:max-h-[85vh] overflow-hidden"
           >
             {/* Input file caché pour l'import JSON */}
             <input
@@ -351,7 +354,7 @@ export function SettingsModal() {
             )}
 
             {/* Contenu Réglages Scrollable */}
-            <div className="flex-1 overflow-y-auto p-4 sm:p-5 pb-8 space-y-4 overscroll-contain">
+            <div className="flex-1 overflow-y-auto p-4 sm:p-5 pb-20 sm:pb-8 space-y-4 overscroll-contain">
               {/* ── 1. Carte Profil & Code de Sync ── */}
               <div className="p-4 rounded-[22px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm space-y-3.5">
                 {/* Profil Header */}
@@ -912,62 +915,6 @@ export function SettingsModal() {
                           </div>
                         );
                       })}
-                    </div>
-                  </div>
-
-                  {/* Effet Liquid Glass */}
-                  <div className="px-4 py-3.5 space-y-3">
-                    <div className="flex items-center gap-3">
-                      <div className="w-[30px] h-[30px] rounded-[7px] bg-[#5856D6] text-white flex items-center justify-center shrink-0 shadow-sm">
-                        <Sparkles size={16} />
-                      </div>
-                      <div>
-                        <span className="text-[15px] font-medium text-neutral-900 dark:text-white block leading-tight">
-                          {t('settings.liquidGlassTitle')}
-                        </span>
-                        <span className="text-xs text-neutral-500 dark:text-neutral-400 font-normal block mt-0.5 leading-snug">
-                          {t('settings.liquidGlassDesc')}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-3 gap-2 p-1 bg-neutral-100 dark:bg-[#242428] rounded-xl">
-                      <button
-                        type="button"
-                        onClick={() => setGlassEffect('disabled')}
-                        className={`py-2 rounded-lg text-xs font-medium flex items-center justify-center gap-1.5 transition-all ${
-                          glassEffect === 'disabled'
-                            ? 'bg-white dark:bg-[#1c1c1e] text-primary shadow-sm font-semibold'
-                            : 'text-neutral-600 dark:text-neutral-400'
-                        }`}
-                      >
-                        <CircleOff size={14} />
-                        <span>{t('settings.liquidGlassDisabled')}</span>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setGlassEffect('blur')}
-                        className={`py-2 rounded-lg text-xs font-medium flex items-center justify-center gap-1.5 transition-all ${
-                          glassEffect === 'blur'
-                            ? 'bg-white dark:bg-[#1c1c1e] text-primary shadow-sm font-semibold'
-                            : 'text-neutral-600 dark:text-neutral-400'
-                        }`}
-                      >
-                        <Droplets size={14} />
-                        <span>{t('settings.liquidGlassMedium')}</span>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setGlassEffect('crystal')}
-                        className={`py-2 rounded-lg text-xs font-medium flex items-center justify-center gap-1.5 transition-all ${
-                          glassEffect === 'crystal'
-                            ? 'bg-white dark:bg-[#1c1c1e] text-primary shadow-sm font-semibold'
-                            : 'text-neutral-600 dark:text-neutral-400'
-                        }`}
-                      >
-                        <Sparkles size={14} />
-                        <span>{t('settings.liquidGlassHigh')}</span>
-                      </button>
                     </div>
                   </div>
                 </div>

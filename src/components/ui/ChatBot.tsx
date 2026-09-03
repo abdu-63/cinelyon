@@ -132,7 +132,7 @@ export function ChatBot() {
       {/* Modal Chat Bottom Sheet */}
       <AnimatePresence>
         {isOpen && (
-          <div className="fixed inset-0 z-50 flex items-end justify-center pointer-events-none">
+          <div className="fixed inset-0 z-50 flex items-end justify-center pointer-events-none pt-14 pb-[env(safe-area-inset-bottom,0px)]">
             {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
@@ -148,7 +148,7 @@ export function ChatBot() {
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 32, stiffness: 380 }}
-              className="pointer-events-auto relative w-full max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto h-[680px] max-h-[90vh] md:max-h-[85vh] bg-white dark:bg-[#1c1c1e] rounded-t-[32px] rounded-b-none border-t border-x border-black/10 dark:border-white/10 shadow-2xl z-10 flex flex-col overflow-hidden"
+              className="pointer-events-auto relative w-full max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto h-[680px] max-h-[78vh] md:max-h-[85vh] bg-white dark:bg-[#1c1c1e] rounded-t-[32px] rounded-b-none border-t border-x border-black/10 dark:border-white/10 shadow-2xl z-10 flex flex-col overflow-hidden"
             >
               {/* Drag Handle */}
               <div className="w-10 h-1 rounded-full bg-neutral-300 dark:bg-neutral-700 mx-auto mt-3 mb-1 shrink-0" />

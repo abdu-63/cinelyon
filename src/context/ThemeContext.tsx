@@ -6,16 +6,19 @@ import { LIGHT_COLORS, DARK_COLORS, PRIMARY_VARIANTS } from '@/lib/theme';
 
 export type ThemeMode = 'light' | 'dark' | 'system';
 export type PrimaryColorVariant = 'violet' | 'blue' | 'white' | 'black' | 'cleardark';
+export type LiquidGlassMode = 'disabled' | 'medium' | 'high';
 
 interface ThemeContextType {
   mode: ThemeMode;
   primaryColor: PrimaryColorVariant;
   isDark: boolean;
   liquidGlassEnabled: boolean;
+  liquidGlassMode: LiquidGlassMode;
   colors: typeof LIGHT_COLORS & typeof PRIMARY_VARIANTS.violet;
   setMode: (mode: ThemeMode) => void;
   setPrimaryColor: (color: PrimaryColorVariant) => void;
   setLiquidGlassEnabled: (enabled: boolean) => void;
+  setLiquidGlassMode: (mode: LiquidGlassMode) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -23,7 +26,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [mode, setModeState] = useState<ThemeMode>('light');
   const [primaryColor, setPrimaryColorState] = useState<PrimaryColorVariant>('violet');
-  const [liquidGlassEnabled, setLiquidGlassEnabledState] = useState<boolean>(true);
+  const [liquidGlassMode, setLiquidGlassModeState] = useState<LiquidGlassMode>('medium');
   const [systemIsDark, setSystemIsDark] = useState<boolean>(false);
   const [mounted, setMounted] = useState(false);
 
@@ -32,11 +35,16 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     try {
       const storedMode = localStorage.getItem('cinelyon_theme_mode') as ThemeMode | null;
       const storedColor = localStorage.getItem('cinelyon_theme_primary') as PrimaryColorVariant | null;
-      const storedGlass = localStorage.getItem('cinelyon_liquid_glass');
+      const storedGlassMode = localStorage.getItem('cinelyon_liquid_glass_mode') as LiquidGlassMode | null;
 
       if (storedMode) setModeState(storedMode);
       if (storedColor) setPrimaryColorState(storedColor);
-      if (storedGlass !== null) setLiquidGlassEnabledState(storedGlass === 'true');
+
+      if (storedGlassMode === 'medium' || storedGlassMode === 'high') {
+        setLiquidGlassModeState(storedGlassMode);
+      } else {
+        setLiquidGlassModeState('medium');
+      }
 
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
       setSystemIsDark(mediaQuery.matches);
@@ -116,17 +124,41 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     };
   }, [isDark, primaryColor]);
 
+  const liquidGlassEnabled = useMemo(() => liquidGlassMode !== 'disabled', [liquidGlassMode]);
+
   useEffect(() => {
     if (!mounted) return;
     const root = document.documentElement;
     root.setAttribute('data-theme', isDark ? 'dark' : 'light');
     root.setAttribute('data-primary', primaryColor);
+    root.setAttribute('data-liquid-glass', liquidGlassMode);
     root.classList.toggle('dark', isDark);
     root.style.setProperty('--primary', colors.primary);
     root.style.setProperty('--primary-hover', colors.primaryHover);
     root.style.setProperty('--primary-contrast', colors.primaryContrast);
     root.style.setProperty('--showtime-text', colors.showtimeText);
-  }, [isDark, primaryColor, colors, mounted]);
+
+    if (liquidGlassMode === 'disabled') {
+      root.style.setProperty('--glass-blur', '0px');
+      root.style.setProperty('--glass-saturate', '100%');
+      root.style.setProperty('--glass-card-bg', isDark ? '#1c1c1e' : '#ffffff');
+      root.style.setProperty('--glass-card-border', isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)');
+      root.style.setProperty('--glass-card-shadow', isDark ? '0 8px 24px rgba(0, 0, 0, 0.45)' : '0 4px 16px rgba(0, 0, 0, 0.04)');
+    } else if (liquidGlassMode === 'medium') {
+      root.style.setProperty('--glass-blur', '14px');
+      root.style.setProperty('--glass-saturate', '150%');
+      root.style.setProperty('--glass-card-bg', isDark ? 'rgba(28, 28, 30, 0.84)' : 'rgba(255, 255, 255, 0.86)');
+      root.style.setProperty('--glass-card-border', isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.07)');
+      root.style.setProperty('--glass-card-shadow', isDark ? '0 8px 28px rgba(0, 0, 0, 0.45)' : '0 4px 18px rgba(0, 0, 0, 0.05)');
+    } else {
+      // high / crystal
+      root.style.setProperty('--glass-blur', '22px');
+      root.style.setProperty('--glass-saturate', '190%');
+      root.style.setProperty('--glass-card-bg', isDark ? 'rgba(28, 28, 30, 0.65)' : 'rgba(255, 255, 255, 0.75)');
+      root.style.setProperty('--glass-card-border', isDark ? 'rgba(255, 255, 255, 0.16)' : 'rgba(0, 0, 0, 0.09)');
+      root.style.setProperty('--glass-card-shadow', isDark ? '0 12px 36px rgba(0, 0, 0, 0.55)' : '0 6px 24px rgba(0, 0, 0, 0.06)');
+    }
+  }, [isDark, primaryColor, liquidGlassMode, colors, mounted]);
 
   const setMode = (newMode: ThemeMode) => {
     setModeState(newMode);
@@ -146,13 +178,18 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const setLiquidGlassEnabled = (enabled: boolean) => {
-    setLiquidGlassEnabledState(enabled);
+  const setLiquidGlassMode = (newMode: LiquidGlassMode) => {
+    setLiquidGlassModeState(newMode);
     try {
-      localStorage.setItem('cinelyon_liquid_glass', String(enabled));
+      localStorage.setItem('cinelyon_liquid_glass_mode', newMode);
+      localStorage.setItem('cinelyon_liquid_glass', String(newMode !== 'disabled'));
     } catch {
       // Ignorer
     }
+  };
+
+  const setLiquidGlassEnabled = (enabled: boolean) => {
+    setLiquidGlassMode(enabled ? 'high' : 'disabled');
   };
 
   return (
@@ -162,10 +199,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         primaryColor,
         isDark,
         liquidGlassEnabled,
+        liquidGlassMode,
         colors,
         setMode,
         setPrimaryColor,
         setLiquidGlassEnabled,
+        setLiquidGlassMode,
       }}
     >
       {children}

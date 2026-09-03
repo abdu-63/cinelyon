@@ -115,6 +115,11 @@
   --card-bg: #ffffff;
   --card-border: rgba(0, 0, 0, 0.06);
   --card-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  --glass-blur: 22px;
+  --glass-saturate: 190%;
+  --glass-card-bg: rgba(255, 255, 255, 0.75);
+  --glass-card-border: rgba(0, 0, 0, 0.08);
+  --glass-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 }
 
 [data-theme='dark'],
@@ -133,6 +138,11 @@
   --card-bg: #1c1c1e;
   --card-border: rgba(255, 255, 255, 0.08);
   --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --glass-blur: 22px;
+  --glass-saturate: 190%;
+  --glass-card-bg: rgba(28, 28, 30, 0.65);
+  --glass-card-border: rgba(255, 255, 255, 0.14);
+  --glass-card-shadow: 0 12px 36px rgba(0, 0, 0, 0.55);
 }
 
 [data-primary='violet'] {
@@ -250,25 +260,39 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ── Utilitaires UI Liquid Glass (Apple Design & WebKit iOS 15.1) ── */
-.liquid-glass {
-  background: rgba(255, 255, 255, 0.78);
-  backdrop-filter: blur(18px) saturate(180%);
-  -webkit-backdrop-filter: blur(18px) saturate(180%);
-  border: 1px solid rgba(0, 0, 0, 0.07);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+:is(.dark, [data-theme="dark"]) body {
+  background-color: #121214;
+  background-image:
+    radial-gradient(ellipse 75% 50% at 50% -10%, rgba(130, 44, 247, 0.16), transparent 70%),
+    radial-gradient(circle 380px at 92% 20%, rgba(68, 76, 247, 0.08), transparent 70%),
+    radial-gradient(circle 420px at 8% 60%, rgba(130, 44, 247, 0.06), transparent 70%);
+  background-attachment: fixed;
 }
 
-:is(.dark, [data-theme="dark"]) .liquid-glass {
-  background: rgba(28, 28, 30, 0.72);
-  backdrop-filter: blur(20px) saturate(190%);
-  -webkit-backdrop-filter: blur(20px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+:is(.light, [data-theme="light"]) body {
+  background-color: #f5f6f8;
+  background-image:
+    radial-gradient(ellipse 75% 50% at 50% -10%, rgba(68, 76, 247, 0.06), transparent 70%),
+    radial-gradient(circle 400px at 85% 15%, rgba(130, 44, 247, 0.04), transparent 70%);
+  background-attachment: fixed;
+}
+
+[data-liquid-glass="disabled"] body {
+  background-image: none !important;
+}
+
+/* ── Utilitaires UI Liquid Glass (Apple Design & WebKit iOS 15.1) ── */
+.liquid-glass {
+  background: var(--glass-card-bg);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border: 1px solid var(--glass-card-border);
+  box-shadow: var(--glass-card-shadow);
+  transition: background-color 0.2s ease, border-color 0.2s ease, backdrop-filter 0.2s ease, -webkit-backdrop-filter 0.2s ease;
 }
 
 .liquid-glass-subtle {
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.45);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(0, 0, 0, 0.05);
@@ -283,25 +307,119 @@ body {
 
 .liquid-glass-dock {
   background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(24px) saturate(var(--glass-saturate));
   border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 :is(.dark, [data-theme="dark"]) .liquid-glass-dock {
-  background: rgba(28, 28, 30, 0.85);
-  backdrop-filter: blur(24px) saturate(190%);
-  -webkit-backdrop-filter: blur(24px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(28, 28, 30, 0.82);
+  backdrop-filter: blur(24px) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(24px) saturate(var(--glass-saturate));
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+/* Carte adaptative Liquid Glass (pour FilmCard et conteneurs d'information) */
+.liquid-glass-card {
+  background: var(--glass-card-bg);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border: 1px solid var(--glass-card-border);
+  box-shadow: var(--glass-card-shadow);
+  transition: background-color 0.2s ease, border-color 0.2s ease, backdrop-filter 0.2s ease, -webkit-backdrop-filter 0.2s ease;
+}
+
+/* ── Comportement explicite par mode Liquid Glass ── */
+
+/* 1. Mode Désactivé : Surfaces 100% opaques sans aucun flou ni translucidité */
+[data-liquid-glass="disabled"] .liquid-glass,
+[data-liquid-glass="disabled"] .liquid-glass-subtle,
+[data-liquid-glass="disabled"] .liquid-glass-dock,
+[data-liquid-glass="disabled"] .liquid-glass-card {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: var(--card-bg) !important;
+  border-color: var(--card-border) !important;
+  box-shadow: var(--card-shadow) !important;
+}
+
+[data-liquid-glass="disabled"] header {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background-color: var(--card-bg) !important;
+}
+
+/* 2. Mode Dépoli (Medium) : Flou satiné laiteux */
+[data-liquid-glass="medium"] .liquid-glass,
+[data-liquid-glass="medium"] .liquid-glass-card {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  border: 1px solid rgba(0, 0, 0, 0.07);
+}
+:is(.dark, [data-theme="dark"])[data-liquid-glass="medium"] .liquid-glass,
+:is(.dark, [data-theme="dark"])[data-liquid-glass="medium"] .liquid-glass-card {
+  background: rgba(28, 28, 30, 0.84);
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+[data-liquid-glass="medium"] .liquid-glass-dock {
+  background: rgba(255, 255, 255, 0.90);
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+:is(.dark, [data-theme="dark"])[data-liquid-glass="medium"] .liquid-glass-dock {
+  background: rgba(28, 28, 30, 0.88);
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* 3. Mode Cristallin (High) : Réfraction liquide cristalline ultra-translucide */
+[data-liquid-glass="high"] .liquid-glass,
+[data-liquid-glass="high"] .liquid-glass-card {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(22px) saturate(190%);
+  -webkit-backdrop-filter: blur(22px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+}
+:is(.dark, [data-theme="dark"])[data-liquid-glass="high"] .liquid-glass,
+:is(.dark, [data-theme="dark"])[data-liquid-glass="high"] .liquid-glass-card {
+  background: rgba(28, 28, 30, 0.65);
+  backdrop-filter: blur(22px) saturate(190%);
+  -webkit-backdrop-filter: blur(22px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55);
+}
+
+[data-liquid-glass="high"] .liquid-glass-dock {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(26px) saturate(200%);
+  -webkit-backdrop-filter: blur(26px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+}
+:is(.dark, [data-theme="dark"])[data-liquid-glass="high"] .liquid-glass-dock {
+  background: rgba(28, 28, 30, 0.72);
+  backdrop-filter: blur(26px) saturate(200%);
+  -webkit-backdrop-filter: blur(26px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.65);
 }
 
 @media (prefers-reduced-transparency: reduce) {
   .liquid-glass,
   .liquid-glass-subtle,
-  .liquid-glass-dock {
+  .liquid-glass-dock,
+  .liquid-glass-card {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     background: var(--card-bg) !important;
+    border-color: var(--card-border) !important;
   }
 }
 

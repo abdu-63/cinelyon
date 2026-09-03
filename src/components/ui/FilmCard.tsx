@@ -54,25 +54,13 @@ export const FilmCard = memo(function FilmCard({
     });
   }, [film.seancesByDay]);
 
-  // Si on a un delta sélectionné (ex: jour J+1), on active cet onglet
-  const initialActiveDay = useMemo(() => {
-    if (selectedDelta !== null) {
-      const targetDate = dates.find((d) => d.index === selectedDelta);
-      if (targetDate) {
-        const label = formatDayLabel(targetDate);
-        if (validDayLabels.includes(label)) return label;
-      }
-    }
-    return validDayLabels[0] || '';
-  }, [selectedDelta, dates, validDayLabels]);
+  // Par défaut, aucun jour n'est déplié (calendriers de séances fermés par défaut)
+  const [activeDayLabel, setActiveDayLabel] = useState<string>('');
 
-  const [activeDayLabel, setActiveDayLabel] = useState<string>(initialActiveDay);
-
+  // Si le filtre de jour sélectionné change au niveau global, on referme le calendrier
   useEffect(() => {
-    if (initialActiveDay) {
-      setActiveDayLabel(initialActiveDay);
-    }
-  }, [initialActiveDay]);
+    setActiveDayLabel('');
+  }, [selectedDelta]);
 
   const visibleDayLabels = useMemo(() => {
     if (selectedDelta !== null) {
@@ -115,7 +103,7 @@ export const FilmCard = memo(function FilmCard({
   return (
     <div className="w-full mb-3">
       {/* ── 1. Carte Blanche Apple / Sombre Apple (Portage exact de cinelyon-app) ── */}
-      <div className="group relative rounded-[18px] sm:rounded-[20px] overflow-hidden bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:shadow-md transition-all duration-200 ease-out">
+      <div className="group relative rounded-[18px] sm:rounded-[20px] overflow-hidden liquid-glass-card hover:shadow-md transition-all duration-200 ease-out">
         <Link
           href={`/film/${film.slug}`}
           prefetch={true}

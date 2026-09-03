@@ -40,7 +40,7 @@ export function FloatingLiquidGlassTabBar() {
     <div className="fixed bottom-4 left-0 right-0 z-50 flex justify-center pointer-events-none md:hidden px-4">
       <nav
         aria-label="Navigation mobile principale"
-        className="pointer-events-auto liquid-glass-dock rounded-full px-2 py-2 flex items-center gap-1 max-w-md w-full justify-around shadow-2xl border border-white/10 dark:border-white/10"
+        className="pointer-events-auto liquid-glass-dock rounded-full px-2 py-2 flex items-center gap-1 max-w-md w-full justify-around shadow-2xl"
       >
         {NAV_ITEMS.map((item) => {
           const isActive = item.href === '/' ? pathname === '/' : !item.isAction && pathname.startsWith(item.href);

@@ -220,7 +220,24 @@ export const THEME_SCRIPT_CODE = `(function(){
       }
     } catch(e) {}
 
-    // 9. MediaQueryList addEventListener fallback pour anciens WebKit
+    // 9. Polyfill Object.groupBy (ES2024 / WebKit iOS 15.1)
+    try {
+      if (typeof Object.groupBy !== 'function') {
+        Object.groupBy = function(items, callback) {
+          var result = Object.create(null);
+          var i = 0;
+          for (var idx = 0; idx < items.length; idx++) {
+            var item = items[idx];
+            var key = callback(item, i++);
+            if (!result[key]) result[key] = [];
+            result[key].push(item);
+          }
+          return result;
+        };
+      }
+    } catch(e) {}
+
+    // 10. MediaQueryList addEventListener fallback pour anciens WebKit
     try {
       if (typeof window !== 'undefined' && window.matchMedia) {
         var mqlProto = Object.getPrototypeOf(window.matchMedia('(min-width: 0px)'));
@@ -232,6 +249,27 @@ export const THEME_SCRIPT_CODE = `(function(){
             if (type === 'change') this.removeListener(listener);
           };
         }
+      }
+    } catch(e) {}
+
+    // 11. Captateur d'erreurs d'exécution pour diagnostic mobile iOS
+    try {
+      if (typeof window !== 'undefined') {
+        window.addEventListener('error', function(ev) {
+          if (!ev || !ev.message) return;
+          console.error('[CinéLyon WebKit Error]', ev.message, ev.filename, ev.lineno);
+          // Si une erreur de syntaxe ou d'exécution bloque la page, l'afficher pour faciliter le diagnostic
+          if (ev.message.indexOf('SyntaxError') !== -1 || ev.message.indexOf('is not defined') !== -1) {
+            var b = document.getElementById('cinelyon-error-banner');
+            if (!b) {
+              b = document.createElement('div');
+              b.id = 'cinelyon-error-banner';
+              b.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:999999;background:#e11d48;color:#fff;padding:8px 12px;font-size:11px;font-family:monospace;word-break:break-all;line-height:1.4;box-shadow:0 4px 12px rgba(0,0,0,0.5);';
+              (document.body || document.documentElement).appendChild(b);
+            }
+            b.innerText = '⚠️ Erreur iOS 15.1 : ' + ev.message + ' (' + (ev.filename ? ev.filename.split('/').pop() : '') + ':' + ev.lineno + ')';
+          }
+        });
       }
     } catch(e) {}
 
@@ -248,6 +286,10 @@ export const THEME_SCRIPT_CODE = `(function(){
         document.documentElement.classList.remove('dark');
       }
       document.documentElement.setAttribute('data-primary', p);
+
+      var g = localStorage.getItem('cinelyon_liquid_glass_mode');
+      var glassMode = (g === 'medium' || g === 'high') ? g : 'medium';
+      document.documentElement.setAttribute('data-liquid-glass', glassMode);
 
       var primaryMap = {
         violet: { p: '#444cf7', h: '#3339c4', c: '#ffffff' },

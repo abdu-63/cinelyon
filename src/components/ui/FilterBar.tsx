@@ -190,7 +190,7 @@ export function FilterBar({
             value={localQuery}
             onChange={(e) => setLocalQuery(e.target.value)}
             placeholder="Recherche"
-            className="w-full pl-10 pr-9 py-2.5 rounded-[18px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-sm text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-none focus:border-primary shadow-[0_2px_8px_rgba(0,0,0,0.02)] transition-all"
+            className="w-full pl-10 pr-9 py-2.5 rounded-[18px] liquid-glass text-sm text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-none focus:border-primary transition-all"
           />
           {localQuery && (
             <button
@@ -214,7 +214,7 @@ export function FilterBar({
               if (onOpenRoulette) onOpenRoulette();
               else window.dispatchEvent(new CustomEvent('cinelyon:open-roulette'));
             }}
-            className="w-11 h-11 rounded-[16px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/25 transition-all flex items-center justify-center shrink-0 shadow-[0_2px_8px_rgba(0,0,0,0.02)] active:scale-95 touch-manipulation select-none"
+            className="w-11 h-11 rounded-[16px] liquid-glass text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/25 transition-all flex items-center justify-center shrink-0 active:scale-95 touch-manipulation select-none"
             title="Ciné-Roulette"
           >
             <Popcorn size={19} />
@@ -229,7 +229,7 @@ export function FilterBar({
               if (onOpenDoubleFeature) onOpenDoubleFeature();
               else window.dispatchEvent(new CustomEvent('cinelyon:open-double-feature'));
             }}
-            className="w-11 h-11 rounded-[16px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/25 transition-all flex items-center justify-center shrink-0 shadow-[0_2px_8px_rgba(0,0,0,0.02)] active:scale-95 touch-manipulation select-none"
+            className="w-11 h-11 rounded-[16px] liquid-glass text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/25 transition-all flex items-center justify-center shrink-0 active:scale-95 touch-manipulation select-none"
             title="Double Programme"
           >
             <Shuffle size={19} />
@@ -240,10 +240,10 @@ export function FilterBar({
         <button
           type="button"
           onClick={() => setShowFiltersModal(true)}
-          className={`relative w-11 h-11 rounded-[16px] border transition-all flex items-center justify-center shrink-0 shadow-[0_2px_8px_rgba(0,0,0,0.02)] active:scale-95 touch-manipulation select-none ${
+          className={`relative w-11 h-11 rounded-[16px] border transition-all flex items-center justify-center shrink-0 active:scale-95 touch-manipulation select-none ${
             activeFilterCount > 0
               ? 'bg-primary border-primary text-primary-contrast shadow-md shadow-primary/25'
-              : 'bg-white dark:bg-[#1c1c1e] border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/25'
+              : 'liquid-glass text-neutral-700 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-white/25'
           }`}
           title="Tous les filtres"
         >
@@ -436,7 +436,7 @@ export function FilterBar({
       {/* ── 3. Modale Complète de Filtres (Bottom Sheet Apple : pleine largeur, ancrée en bas) ── */}
       <AnimatePresence>
         {showFiltersModal && (
-          <div className="fixed inset-0 z-50 flex items-end justify-center pointer-events-none">
+          <div className="fixed inset-0 z-50 flex items-end justify-center pointer-events-none pt-14 pb-[env(safe-area-inset-bottom,0px)]">
             {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
@@ -452,7 +452,7 @@ export function FilterBar({
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 32, stiffness: 380 }}
-              className="pointer-events-auto relative w-full max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto bg-white dark:bg-[#1c1c1e] rounded-t-[32px] rounded-b-none border-t border-x border-black/10 dark:border-white/10 shadow-2xl z-10 flex flex-col max-h-[90vh] md:max-h-[85vh] overflow-hidden"
+              className="pointer-events-auto relative w-full max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto bg-white dark:bg-[#1c1c1e] rounded-t-[32px] rounded-b-none border-t border-x border-black/10 dark:border-white/10 shadow-2xl z-10 flex flex-col max-h-[78vh] md:max-h-[85vh] overflow-hidden"
             >
               {/* Drag Handle Indicator */}
               <div className="w-10 h-1 rounded-full bg-neutral-300 dark:bg-neutral-700 mx-auto mt-3 mb-1 shrink-0" />
@@ -755,7 +755,7 @@ export function FilterBar({
               </div>
 
               {/* Footer */}
-              <div className="p-4 border-t border-black/[0.06] dark:border-white/10 flex items-center justify-between shrink-0 bg-white dark:bg-[#1c1c1e] pb-6 sm:pb-6">
+              <div className="p-4 border-t border-black/[0.06] dark:border-white/10 flex items-center justify-between shrink-0 bg-white dark:bg-[#1c1c1e] pb-8 sm:pb-6">
                 <span className="text-xs font-medium text-neutral-500 dark:text-neutral-400">
                   {filteredCount} film{filteredCount > 1 ? 's' : ''} disponible{filteredCount > 1 ? 's' : ''}
                 </span>

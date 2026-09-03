@@ -30,7 +30,7 @@ export default function Header() {
     <header
       className={`sticky top-0 z-40 w-full transition-all duration-200 ${
         isScrolled
-          ? 'bg-white/85 dark:bg-[#121214]/85 backdrop-blur-xl border-b border-black/[0.06] dark:border-white/10 shadow-sm py-2.5'
+          ? 'liquid-glass border-b border-black/[0.06] dark:border-white/10 shadow-sm py-2.5'
           : 'bg-transparent py-3'
       }`}
     >

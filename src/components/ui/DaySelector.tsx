@@ -29,7 +29,7 @@ export function DaySelector({ dates = [], selectedDelta, onSelect }: DaySelector
           className={`h-12 min-w-[70px] px-4 rounded-[24px] flex items-center justify-center font-normal text-xs transition-all shrink-0 border active:scale-95 touch-manipulation select-none ${
             selectedDelta === null
               ? 'bg-primary border-primary text-primary-contrast shadow-md shadow-primary/25'
-              : 'bg-white dark:bg-[#1c1c1e] border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/25'
+              : 'liquid-glass text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/25'
           }`}
         >
           Tous
@@ -52,8 +52,8 @@ export function DaySelector({ dates = [], selectedDelta, onSelect }: DaySelector
                 isSelected
                   ? 'bg-primary border-primary text-primary-contrast shadow-md shadow-primary/25'
                   : isToday
-                  ? 'bg-white dark:bg-[#1c1c1e] border-2 border-primary text-neutral-900 dark:text-white shadow-sm'
-                  : 'bg-white dark:bg-[#1c1c1e] border-black/[0.08] dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/25'
+                  ? 'liquid-glass border-2 border-primary text-neutral-900 dark:text-white shadow-sm'
+                  : 'liquid-glass text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 dark:hover:border-white/25'
               }`}
             >
               <span
