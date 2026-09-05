@@ -40,29 +40,68 @@ export const CinemaBrand = React.memo(function CinemaBrand({
   const brand = explicitBrand || (cinemaName ? getBrand(cinemaName) : 'Autre');
 
   const renderLogo = () => {
+    if (compact) {
+      switch (brand) {
+        case 'Pathé':
+          return <PatheLogo width={30} height={22} textColor={textColor} isDark={isDark} />;
+        case 'UGC':
+          return <UgcLogo width={30} height={20} isDark={isDark} />;
+        case 'Institut Lumière':
+          return <InstitutLumiereLogo width={20} height={20} color={textColor} isDark={isDark} />;
+        case 'Lumière':
+          return <LumiereLogo width={28} height={19} isDark={isDark} />;
+        case 'CGR':
+          return <CgrLogo width={24} height={20} textColor={textColor} isDark={isDark} />;
+        case 'Ciné Meyzieu':
+          return <CineMeyzieuLogo width={20} height={22} textColor={textColor} isDark={isDark} />;
+        case 'Ciné Toboggan':
+          return <CineTobogganLogo width={24} height={18} color={textColor} isDark={isDark} />;
+        case 'Cinéma Saint-Denis':
+          return <CinemaSaintDenisLogo width={30} height={15} color="#9B0000" />;
+        case 'Comoedia':
+          return <ComoediaLogo width={34} height={14} color={textColor} isDark={isDark} />;
+        case 'Cinéma Les Amphis':
+          return <LesAmphisLogo width={38} height={13} isDark={isDark} />;
+        case 'Gérard-Philipe':
+          return <GerardPhilipeLogo width={38} height={14} isDark={isDark} />;
+        case 'Cinéma-Opéra':
+        case 'Cinéma Opéra':
+        case 'Cinema Opera':
+        case 'Opéra':
+        case 'Autre':
+        default:
+          return null;
+      }
+    }
+
     switch (brand) {
       case 'Pathé':
-        return <PatheLogo width={compact ? 36 : 50} height={compact ? 28 : 38} textColor={textColor} isDark={isDark} />;
+        return <PatheLogo width={50} height={38} textColor={textColor} isDark={isDark} />;
       case 'UGC':
-        return <UgcLogo width={compact ? 36 : 50} height={compact ? 24 : 33} isDark={isDark} />;
+        return <UgcLogo width={50} height={33} isDark={isDark} />;
       case 'Institut Lumière':
-        return <InstitutLumiereLogo width={compact ? 22 : 30} height={compact ? 22 : 30} color={textColor} isDark={isDark} />;
+        return <InstitutLumiereLogo width={30} height={30} color={textColor} isDark={isDark} />;
       case 'Lumière':
-        return <LumiereLogo width={compact ? 32 : 44} height={compact ? 22 : 30} isDark={isDark} />;
+        return <LumiereLogo width={44} height={30} isDark={isDark} />;
       case 'CGR':
-        return <CgrLogo width={compact ? 26 : 36} height={compact ? 22 : 30} textColor={textColor} isDark={isDark} />;
+        return <CgrLogo width={36} height={30} textColor={textColor} isDark={isDark} />;
       case 'Ciné Meyzieu':
-        return <CineMeyzieuLogo width={compact ? 20 : 28} height={compact ? 24 : 32} textColor={textColor} isDark={isDark} />;
+        return <CineMeyzieuLogo width={28} height={32} textColor={textColor} isDark={isDark} />;
       case 'Ciné Toboggan':
-        return <CineTobogganLogo width={compact ? 26 : 36} height={compact ? 20 : 26} color={textColor} isDark={isDark} />;
+        return <CineTobogganLogo width={36} height={26} color={textColor} isDark={isDark} />;
       case 'Cinéma Saint-Denis':
-        return <CinemaSaintDenisLogo width={compact ? 32 : 45} height={compact ? 16 : 22} color="#9B0000" isDark={isDark} />;
+        return <CinemaSaintDenisLogo width={45} height={22} color="#9B0000" />;
       case 'Comoedia':
-        return <ComoediaLogo width={compact ? 36 : 50} height={compact ? 16 : 20} color={textColor} isDark={isDark} />;
+        return <ComoediaLogo width={50} height={20} color={textColor} isDark={isDark} />;
       case 'Cinéma Les Amphis':
-        return <LesAmphisLogo width={compact ? 42 : 60} height={compact ? 16 : 20} isDark={isDark} />;
+        return <LesAmphisLogo width={60} height={20} isDark={isDark} />;
       case 'Gérard-Philipe':
-        return <GerardPhilipeLogo width={compact ? 42 : 60} height={compact ? 16 : 22} isDark={isDark} />;
+        return <GerardPhilipeLogo width={60} height={22} isDark={isDark} />;
+      case 'Cinéma-Opéra':
+      case 'Cinéma Opéra':
+      case 'Cinema Opera':
+      case 'Opéra':
+      case 'Autre':
       default:
         return null;
     }
@@ -70,16 +109,17 @@ export const CinemaBrand = React.memo(function CinemaBrand({
 
   const logo = renderLogo();
 
+  if (!logo) {
+    return null;
+  }
+
   if (hideText) {
-    return logo ? <div className={`flex items-center justify-center ${className}`}>{logo}</div> : null;
+    return <div className={`flex items-center justify-center ${className}`}>{logo}</div>;
   }
 
   return (
-    <div className={`flex items-center gap-2 mb-2 px-1 ${className}`}>
-      {logo && <div className="shrink-0 flex items-center justify-center">{logo}</div>}
-      <span className="text-xs font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-wider font-heading">
-        {brand}
-      </span>
+    <div className={`flex items-center mb-2 px-1 ${className}`}>
+      <div className="shrink-0 flex items-center justify-center">{logo}</div>
     </div>
   );
 });
