@@ -4,32 +4,35 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  X,
-  Globe,
-  Bell,
-  Clock,
-  Eye,
-  EyeOff,
-  Copy,
-  RefreshCw,
-  Edit2,
-  Trash2,
-  UserPlus,
-  Smartphone,
-  ChevronDown,
-  ChevronRight,
-  Check,
-  Plus,
-  Sun,
-  Moon,
-  Sparkles,
-  Download,
-  Share2,
-  AlertTriangle,
-  Languages,
-  Palette,
-  Paintbrush,
-} from 'lucide-react';
+  SettingsIconBadge,
+  RefreshOutlineIcon,
+  EyeOutlineIcon,
+  EyeOffOutlineIcon,
+  CopyOutlineIcon,
+  PencilIcon,
+  PhonePortraitIcon,
+  PersonAddIcon,
+  NotificationsIcon,
+  TimeIcon,
+  LanguageIcon,
+  ShareSocialIcon,
+  DownloadOutlineIcon,
+  TrashOutlineIcon,
+  ShieldCheckmarkIcon,
+  DocumentTextIcon,
+  HelpCircleIcon,
+  ColorPaletteIcon,
+  BrushIcon,
+  MoonOutlineIcon,
+  SunnyOutlineIcon,
+  ChevronForwardIcon,
+  ChevronDownIcon,
+  CloseIcon,
+  CheckmarkIcon,
+  WarningOutlineIcon,
+  AddCircleIcon,
+  InformationCircleIcon,
+} from '@/components/ui/IonIcons';
 import { useTheme } from '@/context/ThemeContext';
 import { useTranslation, SUPPORTED_LANGUAGES, SupportedLocale } from '@/i18n';
 import { FlagIcon } from '@/components/ui/FlagIcon';
@@ -365,7 +368,7 @@ export function SettingsModal() {
                 className="absolute right-4 top-2.5 w-7 h-7 rounded-full bg-neutral-200/70 dark:bg-white/10 text-neutral-600 dark:text-neutral-300 flex items-center justify-center hover:bg-neutral-300 dark:hover:bg-white/20 transition-colors"
                 aria-label="Fermer"
               >
-                <X size={14} />
+                <CloseIcon size={14} />
               </button>
             </div>
 
@@ -406,7 +409,7 @@ export function SettingsModal() {
                             onClick={() => handleSaveUsername(username)}
                             className="p-1 rounded-md bg-primary text-primary-contrast"
                           >
-                            <Check size={12} />
+                            <CheckmarkIcon size={12} />
                           </button>
                         </div>
                       ) : (
@@ -420,7 +423,7 @@ export function SettingsModal() {
                         className="w-7 h-7 rounded-lg bg-neutral-100 dark:bg-white/10 text-neutral-500 dark:text-neutral-300 hover:text-neutral-800 dark:hover:text-white flex items-center justify-center transition-colors"
                         aria-label="Modifier le pseudo"
                       >
-                        <Edit2 size={13} />
+                        <PencilIcon size={13} />
                       </button>
                     </div>
                     <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5 font-normal">
@@ -474,19 +477,19 @@ export function SettingsModal() {
                     <button
                       type="button"
                       onClick={() => setShowCode(!showCode)}
-                      className="w-10 h-10 rounded-lg bg-neutral-100 dark:bg-[#242428] hover:bg-neutral-200 dark:hover:bg-white/10 border border-black/[0.06] dark:border-white/10 text-neutral-600 dark:text-neutral-300 flex items-center justify-center transition-colors"
+                      className={`w-10 h-10 rounded-lg bg-neutral-100 dark:bg-[#242428] hover:bg-neutral-200 dark:hover:bg-white/10 border border-black/[0.06] dark:border-white/10 ${themeModeActiveText} flex items-center justify-center transition-colors active:scale-95`}
                       title={showCode ? 'Masquer' : 'Afficher'}
                     >
-                      {showCode ? <EyeOff size={15} /> : <Eye size={15} />}
+                      {showCode ? <EyeOffOutlineIcon size={18} /> : <EyeOutlineIcon size={18} />}
                     </button>
 
                     <button
                       type="button"
                       onClick={generateNewCode}
-                      className="w-10 h-10 rounded-lg bg-neutral-100 dark:bg-[#242428] hover:bg-neutral-200 dark:hover:bg-white/10 border border-black/[0.06] dark:border-white/10 text-neutral-600 dark:text-neutral-300 flex items-center justify-center transition-colors"
+                      className={`w-10 h-10 rounded-lg bg-neutral-100 dark:bg-[#242428] hover:bg-neutral-200 dark:hover:bg-white/10 border border-black/[0.06] dark:border-white/10 ${themeModeActiveText} flex items-center justify-center transition-colors active:scale-95`}
                       title="Générer un nouveau code"
                     >
-                      <RefreshCw size={15} />
+                      <RefreshOutlineIcon size={18} />
                     </button>
 
                     <button
@@ -494,7 +497,7 @@ export function SettingsModal() {
                       onClick={handleCopyCode}
                       className="h-10 px-4 rounded-lg bg-primary hover:bg-primary/90 text-primary-contrast font-medium text-xs flex items-center gap-1.5 shadow-sm shadow-primary/25 transition-all active:scale-95"
                     >
-                      <Copy size={13} />
+                      <CopyOutlineIcon size={14} />
                       <span>{copied ? 'Copié !' : 'Copier'}</span>
                     </button>
                   </div>
@@ -508,14 +511,12 @@ export function SettingsModal() {
                     className="w-full flex items-center justify-between text-left py-1.5 group select-none"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-[30px] h-[30px] rounded-[7px] bg-[#007AFF]/15 text-[#007AFF] flex items-center justify-center shrink-0">
-                        <Smartphone size={16} />
-                      </div>
+                      <SettingsIconBadge backgroundColor="#007AFF" icon={PhonePortraitIcon} size={16} />
                       <span className="text-[15px] font-medium text-neutral-900 dark:text-white group-hover:text-primary transition-colors">
                         Lier un appareil existant
                       </span>
                     </div>
-                    <ChevronDown
+                    <ChevronDownIcon
                       size={16}
                       className={`text-neutral-400 transition-transform ${isLinkingDeviceOpen ? 'rotate-180' : ''}`}
                     />
@@ -566,9 +567,7 @@ export function SettingsModal() {
                   {/* Ligne Ajouter un ami */}
                   <div className="px-4 py-3 flex items-center justify-between">
                     <div className="flex items-center gap-3.5">
-                      <div className="w-[30px] h-[30px] rounded-[7px] bg-[#5856D6] text-white flex items-center justify-center shrink-0 shadow-sm">
-                        <UserPlus size={16} />
-                      </div>
+                      <SettingsIconBadge backgroundColor="#5856D6" icon={PersonAddIcon} size={16} />
                       <span className="text-[15px] font-medium text-neutral-900 dark:text-white">
                         {t('settings.addFriend')}
                       </span>
@@ -577,10 +576,10 @@ export function SettingsModal() {
                     <button
                       type="button"
                       onClick={() => setIsAddingFriendOpen(!isAddingFriendOpen)}
-                      className="w-7 h-7 rounded-full bg-primary text-primary-contrast flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-xs"
+                      className="text-primary hover:opacity-80 active:scale-95 transition-all p-1"
                       title={t('settings.addFriend')}
                     >
-                      <Plus size={16} />
+                      <AddCircleIcon size={22} />
                     </button>
                   </div>
 
@@ -644,7 +643,7 @@ export function SettingsModal() {
                               className="p-1 rounded-md bg-primary text-primary-contrast"
                               title="Valider"
                             >
-                              <Check size={13} />
+                              <CheckmarkIcon size={13} />
                             </button>
                           </div>
                         ) : (
@@ -672,7 +671,7 @@ export function SettingsModal() {
                             className="w-7 h-7 rounded-lg bg-neutral-100 dark:bg-white/5 hover:bg-neutral-200 dark:hover:bg-white/10 text-neutral-500 dark:text-neutral-300 flex items-center justify-center transition-colors"
                             title={isCodeRevealed ? 'Masquer le code' : 'Afficher le code'}
                           >
-                            {isCodeRevealed ? <EyeOff size={13} /> : <Eye size={13} />}
+                            {isCodeRevealed ? <EyeOffOutlineIcon size={14} /> : <EyeOutlineIcon size={14} />}
                           </button>
                           <button
                             type="button"
@@ -680,7 +679,7 @@ export function SettingsModal() {
                             className="w-7 h-7 rounded-lg bg-neutral-100 dark:bg-white/5 hover:bg-neutral-200 dark:hover:bg-white/10 text-neutral-500 dark:text-neutral-300 flex items-center justify-center transition-colors"
                             title="Modifier l'ami"
                           >
-                            <Edit2 size={13} />
+                            <PencilIcon size={13} />
                           </button>
                           <button
                             type="button"
@@ -688,7 +687,7 @@ export function SettingsModal() {
                             className="w-7 h-7 rounded-lg bg-rose-50 dark:bg-rose-950/30 hover:bg-rose-100 dark:hover:bg-rose-900/40 text-rose-500 flex items-center justify-center transition-colors"
                             title="Supprimer l'ami"
                           >
-                            <Trash2 size={13} />
+                            <TrashOutlineIcon size={13} />
                           </button>
                         </div>
                       </div>
@@ -711,9 +710,7 @@ export function SettingsModal() {
                   {/* Langue avec drapeau SVG */}
                   <div className="w-full px-4 py-3 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-white/[0.02] transition-colors text-left group">
                     <div className="flex items-center gap-3.5">
-                      <div className="w-[30px] h-[30px] rounded-[7px] bg-[#007AFF] text-white flex items-center justify-center shadow-sm shrink-0">
-                        <Globe size={16} />
-                      </div>
+                      <SettingsIconBadge backgroundColor="#007AFF" icon={LanguageIcon} size={17} />
                       <span className="text-[15px] font-medium text-neutral-900 dark:text-white">
                         {t('settings.language')}
                       </span>
@@ -738,9 +735,7 @@ export function SettingsModal() {
                   {/* Afficher les notifications */}
                   <div className="w-full px-4 py-3 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-white/[0.02] transition-colors text-left group">
                     <div className="flex items-center gap-3.5 pr-2 min-w-0">
-                      <div className="w-[30px] h-[30px] rounded-[7px] bg-[#FF3B30] text-white flex items-center justify-center shadow-sm shrink-0">
-                        <Bell size={16} />
-                      </div>
+                      <SettingsIconBadge backgroundColor="#FF3B30" icon={NotificationsIcon} size={17} />
                       <div className="min-w-0">
                         <span className="text-[15px] font-medium text-neutral-900 dark:text-white block leading-tight">
                           {t('settings.notifTitle')}
@@ -769,9 +764,7 @@ export function SettingsModal() {
                   {/* Masquer les séances passées */}
                   <div className="w-full px-4 py-3 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-white/[0.02] transition-colors text-left group">
                     <div className="flex items-center gap-3.5 pr-2 min-w-0">
-                      <div className="w-[30px] h-[30px] rounded-[7px] bg-[#FF9500] text-white flex items-center justify-center shadow-sm shrink-0">
-                        <Clock size={16} />
-                      </div>
+                      <SettingsIconBadge backgroundColor="#FF9500" icon={TimeIcon} size={17} />
                       <div className="min-w-0">
                         <span className="text-[15px] font-medium text-neutral-900 dark:text-white block leading-tight">
                           {t('settings.hidePastTitle')}
@@ -811,9 +804,7 @@ export function SettingsModal() {
                   {/* Préférer les logos originaux (VO) */}
                   <div className="w-full px-4 py-3 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-white/[0.02] transition-colors text-left group">
                     <div className="flex items-center gap-3.5 pr-2 min-w-0">
-                      <div className="w-[30px] h-[30px] rounded-[7px] bg-[#5856D6] text-white flex items-center justify-center shadow-sm shrink-0">
-                        <Languages size={16} />
-                      </div>
+                      <SettingsIconBadge backgroundColor="#5856D6" icon={LanguageIcon} size={17} />
                       <div className="min-w-0">
                         <span className="text-[15px] font-medium text-neutral-900 dark:text-white block leading-tight">
                           {t('settings.voLogosTitle')}
@@ -862,9 +853,7 @@ export function SettingsModal() {
                   {/* Mode Sombre / Clair / Système */}
                   <div className="px-4 py-3.5 space-y-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-[30px] h-[30px] rounded-[7px] bg-[#007AFF] text-white flex items-center justify-center shrink-0 shadow-sm">
-                        <Palette size={16} />
-                      </div>
+                      <SettingsIconBadge backgroundColor="#AF52DE" icon={ColorPaletteIcon} size={17} />
                       <span className="text-[15px] font-medium text-neutral-900 dark:text-white leading-tight">
                         {t('settings.themeMode')}
                       </span>
@@ -880,7 +869,7 @@ export function SettingsModal() {
                             : 'text-neutral-600 dark:text-neutral-400'
                         }`}
                       >
-                        <Smartphone size={14} />
+                        <PhonePortraitIcon size={14} />
                         <span>{t('settings.themeSystem')}</span>
                       </button>
                       <button
@@ -892,7 +881,7 @@ export function SettingsModal() {
                             : 'text-neutral-600 dark:text-neutral-400'
                         }`}
                       >
-                        <Sun size={14} />
+                        <SunnyOutlineIcon size={14} />
                         <span>{t('settings.themeLight')}</span>
                       </button>
                       <button
@@ -904,7 +893,7 @@ export function SettingsModal() {
                             : 'text-neutral-600 dark:text-neutral-400'
                         }`}
                       >
-                        <Moon size={14} />
+                        <MoonOutlineIcon size={14} />
                         <span>{t('settings.themeDark')}</span>
                       </button>
                     </div>
@@ -913,9 +902,7 @@ export function SettingsModal() {
                   {/* Couleur Principale */}
                   <div className="px-4 py-3.5 space-y-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-[30px] h-[30px] rounded-[7px] bg-[#AF52DE] text-white flex items-center justify-center shrink-0 shadow-sm">
-                        <Paintbrush size={16} />
-                      </div>
+                      <SettingsIconBadge backgroundColor="#5856D6" icon={BrushIcon} size={17} />
                       <span className="text-[15px] font-medium text-neutral-900 dark:text-white leading-tight">
                         {t('settings.primaryColor')}
                       </span>
@@ -930,7 +917,7 @@ export function SettingsModal() {
                       ].map((c) => {
                         const isSelected = primaryColor === c.id;
                         const isWhiteOption = c.id === 'white';
-                        const checkColor = isWhiteOption ? 'text-[#121212]' : 'text-white';
+                        const checkColor = isWhiteOption ? '#121212' : '#ffffff';
                         const ringColor = isSelected
                           ? isWhiteOption && !isDark
                             ? 'ring-neutral-800'
@@ -949,10 +936,9 @@ export function SettingsModal() {
                               }`}
                             >
                               {isSelected && (
-                                <Check
+                                <CheckmarkIcon
                                   size={16}
-                                  strokeWidth={2.8}
-                                  className={checkColor}
+                                  color={checkColor}
                                 />
                               )}
                             </div>
@@ -983,9 +969,7 @@ export function SettingsModal() {
                     className="w-full px-4 py-3 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-white/[0.02] transition-colors text-left group"
                   >
                     <div className="flex items-center gap-3.5 min-w-0">
-                      <div className="w-[30px] h-[30px] rounded-[7px] bg-[#007AFF] text-white flex items-center justify-center shrink-0 shadow-sm">
-                        <Share2 size={16} />
-                      </div>
+                      <SettingsIconBadge backgroundColor="#007AFF" icon={ShareSocialIcon} size={17} />
                       <div className="min-w-0">
                         <span className="text-[15px] font-medium text-neutral-900 dark:text-white block leading-tight">
                           {t('settings.exportData')}
@@ -995,7 +979,7 @@ export function SettingsModal() {
                         </span>
                       </div>
                     </div>
-                    <ChevronRight size={18} className="text-neutral-400/80 dark:text-neutral-500/80 shrink-0 ml-2" />
+                    <ChevronForwardIcon size={18} className="text-neutral-400/80 dark:text-neutral-500/80 shrink-0 ml-2" />
                   </button>
 
                   {/* Importer */}
@@ -1005,9 +989,7 @@ export function SettingsModal() {
                     className="w-full px-4 py-3 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-white/[0.02] transition-colors text-left group"
                   >
                     <div className="flex items-center gap-3.5 min-w-0">
-                      <div className="w-[30px] h-[30px] rounded-[7px] bg-[#34C759] text-white flex items-center justify-center shrink-0 shadow-sm">
-                        <Download size={16} />
-                      </div>
+                      <SettingsIconBadge backgroundColor="#34C759" icon={DownloadOutlineIcon} size={17} />
                       <div className="min-w-0">
                         <span className="text-[15px] font-medium text-neutral-900 dark:text-white block leading-tight">
                           {t('settings.importData')}
@@ -1017,7 +999,7 @@ export function SettingsModal() {
                         </span>
                       </div>
                     </div>
-                    <ChevronRight size={18} className="text-neutral-400/80 dark:text-neutral-500/80 shrink-0 ml-2" />
+                    <ChevronForwardIcon size={18} className="text-neutral-400/80 dark:text-neutral-500/80 shrink-0 ml-2" />
                   </button>
 
                   {/* Supprimer mes données */}
@@ -1027,9 +1009,7 @@ export function SettingsModal() {
                     className="w-full px-4 py-3 flex items-center justify-between hover:bg-rose-50/50 dark:hover:bg-rose-950/20 transition-colors text-left group"
                   >
                     <div className="flex items-center gap-3.5 min-w-0">
-                      <div className="w-[30px] h-[30px] rounded-[7px] bg-[#FF3B30] text-white flex items-center justify-center shrink-0 shadow-sm">
-                        <Trash2 size={16} />
-                      </div>
+                      <SettingsIconBadge backgroundColor="#FF3B30" icon={TrashOutlineIcon} size={17} />
                       <div className="min-w-0">
                         <span className="text-[15px] font-medium text-[#FF3B30] dark:text-[#FF453A] block leading-tight">
                           {t('settings.deleteData')}
@@ -1039,7 +1019,7 @@ export function SettingsModal() {
                         </span>
                       </div>
                     </div>
-                    <ChevronRight size={18} className="text-neutral-400/80 dark:text-neutral-500/80 shrink-0 ml-2" />
+                    <ChevronForwardIcon size={18} className="text-neutral-400/80 dark:text-neutral-500/80 shrink-0 ml-2" />
                   </button>
                 </div>
 
@@ -1047,6 +1027,91 @@ export function SettingsModal() {
                 <p className="text-xs text-neutral-500 dark:text-neutral-400 px-3 pt-1.5 leading-relaxed font-normal">
                   {t('settings.gdprDesc')}
                 </p>
+              </div>
+
+              {/* ── 6. ASSISTANCE & INFORMATIONS LÉGALES (Identique à CinéLyon App) ── */}
+              <div className="space-y-1.5">
+                <span className="text-[13px] font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400 px-3">
+                  Assistance &amp; À propos
+                </span>
+
+                <div className="rounded-[22px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm divide-y divide-black/[0.06] dark:divide-white/10 overflow-hidden">
+                  {/* Suggestions & Retours */}
+                  <a
+                    href="/suggestions"
+                    className="w-full px-4 py-3 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-white/[0.02] transition-colors text-left group"
+                  >
+                    <div className="flex items-center gap-3.5 min-w-0">
+                      <SettingsIconBadge backgroundColor="#007AFF" icon={HelpCircleIcon} size={17} />
+                      <div className="min-w-0">
+                        <span className="text-[15px] font-medium text-neutral-900 dark:text-white block leading-tight">
+                          Suggestions &amp; Retours
+                        </span>
+                        <span className="text-xs text-neutral-500 dark:text-neutral-400 font-normal block mt-0.5 leading-snug">
+                          Partagez vos idées pour améliorer CinéLyon
+                        </span>
+                      </div>
+                    </div>
+                    <ChevronForwardIcon size={18} className="text-neutral-400/80 dark:text-neutral-500/80 shrink-0 ml-2" />
+                  </a>
+
+                  {/* Politique de confidentialité */}
+                  <a
+                    href="/politique-de-confidentialite"
+                    className="w-full px-4 py-3 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-white/[0.02] transition-colors text-left group"
+                  >
+                    <div className="flex items-center gap-3.5 min-w-0">
+                      <SettingsIconBadge backgroundColor="#34C759" icon={ShieldCheckmarkIcon} size={17} />
+                      <div className="min-w-0">
+                        <span className="text-[15px] font-medium text-neutral-900 dark:text-white block leading-tight">
+                          {t('settings.privacyPolicy')}
+                        </span>
+                        <span className="text-xs text-neutral-500 dark:text-neutral-400 font-normal block mt-0.5 leading-snug">
+                          Protection des données &amp; vie privée
+                        </span>
+                      </div>
+                    </div>
+                    <ChevronForwardIcon size={18} className="text-neutral-400/80 dark:text-neutral-500/80 shrink-0 ml-2" />
+                  </a>
+
+                  {/* Conditions Générales d'Utilisation (CGU) */}
+                  <a
+                    href="/cgu"
+                    className="w-full px-4 py-3 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-white/[0.02] transition-colors text-left group"
+                  >
+                    <div className="flex items-center gap-3.5 min-w-0">
+                      <SettingsIconBadge backgroundColor="#8E8E93" icon={DocumentTextIcon} size={17} />
+                      <div className="min-w-0">
+                        <span className="text-[15px] font-medium text-neutral-900 dark:text-white block leading-tight">
+                          {t('settings.termsOfService')}
+                        </span>
+                        <span className="text-xs text-neutral-500 dark:text-neutral-400 font-normal block mt-0.5 leading-snug">
+                          Conditions d&apos;utilisation et mentions
+                        </span>
+                      </div>
+                    </div>
+                    <ChevronForwardIcon size={18} className="text-neutral-400/80 dark:text-neutral-500/80 shrink-0 ml-2" />
+                  </a>
+
+                  {/* Mentions Légales */}
+                  <a
+                    href="/mentions-legales"
+                    className="w-full px-4 py-3 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-white/[0.02] transition-colors text-left group"
+                  >
+                    <div className="flex items-center gap-3.5 min-w-0">
+                      <SettingsIconBadge backgroundColor="#5AC8FA" icon={InformationCircleIcon} size={17} />
+                      <div className="min-w-0">
+                        <span className="text-[15px] font-medium text-neutral-900 dark:text-white block leading-tight">
+                          {t('settings.legalNotices') || 'Mentions Légales'}
+                        </span>
+                        <span className="text-xs text-neutral-500 dark:text-neutral-400 font-normal block mt-0.5 leading-snug">
+                          Édition, hébergement &amp; crédits
+                        </span>
+                      </div>
+                    </div>
+                    <ChevronForwardIcon size={18} className="text-neutral-400/80 dark:text-neutral-500/80 shrink-0 ml-2" />
+                  </a>
+                </div>
               </div>
 
               {/* ── 6. RÉSEAUX SOCIAUX & LIENS OFFICIELS (CinéLyon App Style) ── */}
@@ -1081,7 +1146,7 @@ export function SettingsModal() {
                     href="https://x.com/abduplt?s=21"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-11 h-11 rounded-full bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 flex items-center justify-center text-neutral-800 dark:text-neutral-200 hover:border-primary/40 dark:hover:border-primary/40 hover:text-primary hover:scale-105 active:scale-95 transition-all shadow-sm"
+                    className="w-11 h-11 rounded-full bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 flex items-center justify-center text-neutral-700 dark:text-neutral-200 hover:border-primary/40 dark:hover:border-primary/40 hover:text-black dark:hover:text-white hover:scale-105 active:scale-95 transition-all shadow-sm"
                     title="Twitter / X @abduplt"
                     aria-label="Compte Twitter de CinéLyon"
                   >
@@ -1104,7 +1169,7 @@ export function SettingsModal() {
                 {/* Footer App Version & Craft */}
                 <div className="text-center space-y-0.5">
                   <p className="text-xs text-neutral-500 dark:text-neutral-400 font-medium">
-                    CinéLyon Web · v2.0
+                    CinéLyon Web · v3.0
                   </p>
                   <p className="text-[11px] text-neutral-400 dark:text-neutral-500">
                     {t('settings.craftedWithLove')}
@@ -1125,7 +1190,7 @@ export function SettingsModal() {
                   className="w-full max-w-sm bg-white dark:bg-[#1c1c1e] rounded-[24px] p-5 shadow-2xl border border-black/10 dark:border-white/10 text-center space-y-3"
                 >
                   <div className="w-12 h-12 rounded-full bg-rose-500/10 text-rose-500 flex items-center justify-center mx-auto">
-                    <AlertTriangle size={24} />
+                    <WarningOutlineIcon size={24} />
                   </div>
                   <h3 className="text-sm font-semibold text-neutral-900 dark:text-white">
                     Supprimer toutes vos données ?

@@ -47,7 +47,7 @@ export default function Footer() {
             href="https://x.com/abduplt?s=21"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-10 h-10 rounded-full bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 flex items-center justify-center text-neutral-800 dark:text-neutral-200 hover:border-primary/40 dark:hover:border-primary/40 hover:text-primary hover:scale-105 active:scale-95 transition-all shadow-xs"
+            className="w-10 h-10 rounded-full bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 flex items-center justify-center text-neutral-700 dark:text-neutral-200 hover:border-primary/40 dark:hover:border-primary/40 hover:text-black dark:hover:text-white hover:scale-105 active:scale-95 transition-all shadow-xs"
             title="Twitter / X @abduplt"
             aria-label="Compte Twitter de CinéLyon"
           >

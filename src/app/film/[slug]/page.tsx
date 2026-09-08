@@ -122,6 +122,7 @@ export default async function FilmPage({ params }: PageProps) {
       <FilmDetailView
         film={film}
         similarMovies={similarMovies}
+        allFilms={allFilmsInLyon}
         isModal={false}
         initialLogo={initialLogo}
       />

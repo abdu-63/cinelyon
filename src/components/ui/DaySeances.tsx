@@ -11,7 +11,6 @@ import { isPastSeance } from '@/utils/showtimes';
 import { BRAND_ORDER, getBrand } from '@/lib/constants';
 import { CinemaBrand } from './CinemaBrand';
 import { CalendarDownloadButton } from './CalendarDownloadButton';
-import { FormatBadge } from './FormatBadge';
 
 export interface DaySeancesProps {
   cinemas: Record<string, Seance[]>;
@@ -192,19 +191,27 @@ export const SeancePill = React.memo(function SeancePill({
 
   const content = (
     <div
-      className={`shrink-0 h-[42px] min-w-[72px] px-2 py-1 rounded-[10px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 hover:border-primary/60 dark:hover:border-primary/60 flex flex-col justify-between shadow-xs transition-colors group/pill ${
+      className={`shrink-0 h-[46px] min-w-[74px] px-2.5 py-1.5 rounded-[10px] bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 hover:border-primary/60 dark:hover:border-primary/60 flex flex-col justify-between shadow-xs transition-colors group/pill ${
         seance.ticketing_url ? 'cursor-pointer' : ''
       }`}
     >
-      {/* Top : Lang + Format (avec pt-0.5 pour descendre le badge VF/VO) */}
-      <div className="flex items-center justify-between gap-1 text-[9px] font-normal text-[#999] leading-none pt-0.5">
-        <span>{langLabel}</span>
+      {/* Top : Lang + Format (abaissé légèrement avec pt-0.5) */}
+      <div className="flex items-center gap-1.5 text-[9px] font-normal text-[#999] leading-none pt-0.5 overflow-hidden">
+        <span className="shrink-0">{langLabel}</span>
         {formatLabel && (
-          <FormatBadge format={formatLabel} height={13} />
+          <span
+            className={`text-[8px] font-normal uppercase truncate max-w-[42px] ${
+              formatLabel.toLowerCase().includes('35mm')
+                ? 'text-amber-500 font-bold'
+                : 'text-[#999]'
+            }`}
+          >
+            {formatLabel}
+          </span>
         )}
       </div>
 
-      {/* Bottom : Time + Calendar */}
+      {/* Bottom : Time + Calendar (séparé avec espace naturel) */}
       <div className="flex items-center justify-between gap-1">
         <span
           className="text-[13px] font-normal leading-none group-hover/pill:underline"
@@ -212,7 +219,7 @@ export const SeancePill = React.memo(function SeancePill({
         >
           {formatTime(seance.time)}
         </span>
-        <div onClick={(e) => e.stopPropagation()}>
+        <div onClick={(e) => e.stopPropagation()} className="flex items-center">
           <CalendarDownloadButton
             movieTitle={filmTitle}
             cinema={cinemaName}

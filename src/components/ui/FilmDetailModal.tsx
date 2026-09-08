@@ -122,6 +122,7 @@ export function FilmDetailModal({
           <FilmDetailView
             film={film}
             similarMovies={similarMovies}
+            allFilms={allFilms}
             isModal={true}
             onClose={handleClose}
             onSelectFilm={handleSelectSimilar}

@@ -4,6 +4,15 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, SlidersHorizontal, X, Popcorn, Shuffle, Settings, Heart, Sparkles } from 'lucide-react';
+import {
+  SparklesOutlineIcon,
+  TimeOutlineIcon,
+  FilmOutlineIcon,
+  BusinessOutlineIcon,
+  PricetagsOutlineIcon,
+  PersonOutlineIcon,
+  PeopleOutlineIcon,
+} from '@/components/ui/IonIcons';
 import { FiltersState, TimeSlot, FilmFilterOptions } from '@/types';
 import { useTranslation } from '@/i18n';
 import { formatLocalizedGenres } from '@/utils/filmLocalizationUtils';
@@ -488,8 +497,10 @@ export function FilterBar({
                 {/* 1. Nouveaux films à l'affiche (Section Nouveautés - Identique à l'app mobile) */}
                 <div>
                   <div className="flex items-center gap-2 mb-2.5">
-                    <Sparkles size={14} className="text-primary" />
-                    <label className="text-xs font-medium uppercase tracking-wider text-neutral-400 dark:text-neutral-500">
+                    <div className="w-[26px] h-[26px] rounded-[8px] bg-black/[0.04] dark:bg-white/[0.08] flex items-center justify-center text-primary shrink-0">
+                      <SparklesOutlineIcon size={15} />
+                    </div>
+                    <label className="text-xs font-semibold uppercase tracking-wider text-neutral-600 dark:text-neutral-300">
                       {t('filters.newMovies')}
                     </label>
                   </div>
@@ -587,9 +598,14 @@ export function FilterBar({
 
                 {/* 2. Créneaux Horaires */}
                 <div>
-                  <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 dark:text-neutral-500 mb-2.5">
-                    Créneau Horaire
-                  </label>
+                  <div className="flex items-center gap-2 mb-2.5">
+                    <div className="w-[26px] h-[26px] rounded-[8px] bg-black/[0.04] dark:bg-white/[0.08] flex items-center justify-center text-primary shrink-0">
+                      <TimeOutlineIcon size={15} />
+                    </div>
+                    <label className="text-xs font-semibold uppercase tracking-wider text-neutral-600 dark:text-neutral-300">
+                      {t('filters.timeSlots')}
+                    </label>
+                  </div>
                   <div className="flex flex-wrap gap-2">
                     {TIME_SLOTS.map((slot) => (
                       <button
@@ -610,9 +626,14 @@ export function FilterBar({
 
                 {/* 3. Formats & Expériences */}
                 <div>
-                  <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 dark:text-neutral-500 mb-2.5">
-                    Formats &amp; Expériences
-                  </label>
+                  <div className="flex items-center gap-2 mb-2.5">
+                    <div className="w-[26px] h-[26px] rounded-[8px] bg-black/[0.04] dark:bg-white/[0.08] flex items-center justify-center text-primary shrink-0">
+                      <FilmOutlineIcon size={15} />
+                    </div>
+                    <label className="text-xs font-semibold uppercase tracking-wider text-neutral-600 dark:text-neutral-300">
+                      {t('filters.formats')}
+                    </label>
+                  </div>
                   <div className="flex flex-wrap gap-2">
                     {FORMAT_OPTIONS.map((fmt) => (
                       <button
@@ -634,9 +655,14 @@ export function FilterBar({
                 {/* 4. Cinémas Lyonnais */}
                 {options.cinemas && options.cinemas.length > 0 && (
                   <div>
-                    <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 dark:text-neutral-500 mb-2.5">
-                      Cinémas Lyonnais
-                    </label>
+                    <div className="flex items-center gap-2 mb-2.5">
+                      <div className="w-[26px] h-[26px] rounded-[8px] bg-black/[0.04] dark:bg-white/[0.08] flex items-center justify-center text-primary shrink-0">
+                        <BusinessOutlineIcon size={15} />
+                      </div>
+                      <label className="text-xs font-semibold uppercase tracking-wider text-neutral-600 dark:text-neutral-300">
+                        {t('filters.cinemas')}
+                      </label>
+                    </div>
                     <div className="flex flex-wrap gap-2">
                       {options.cinemas.map((c) => (
                         <button
@@ -659,9 +685,14 @@ export function FilterBar({
                 {/* 5. Genres */}
                 {options.genres && options.genres.length > 0 && (
                   <div>
-                    <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 dark:text-neutral-500 mb-2.5">
-                      Genres
-                    </label>
+                    <div className="flex items-center gap-2 mb-2.5">
+                      <div className="w-[26px] h-[26px] rounded-[8px] bg-black/[0.04] dark:bg-white/[0.08] flex items-center justify-center text-primary shrink-0">
+                        <PricetagsOutlineIcon size={15} />
+                      </div>
+                      <label className="text-xs font-semibold uppercase tracking-wider text-neutral-600 dark:text-neutral-300">
+                        {t('filters.genres')}
+                      </label>
+                    </div>
                     <div className="flex flex-wrap gap-2">
                       {options.genres.map((g) => (
                         <button
@@ -684,9 +715,14 @@ export function FilterBar({
                 {/* 6. Réalisateurs */}
                 {options.directors && options.directors.length > 0 && (
                   <div>
-                    <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 dark:text-neutral-500 mb-2.5">
-                      Réalisateurs
-                    </label>
+                    <div className="flex items-center gap-2 mb-2.5">
+                      <div className="w-[26px] h-[26px] rounded-[8px] bg-black/[0.04] dark:bg-white/[0.08] flex items-center justify-center text-primary shrink-0">
+                        <PersonOutlineIcon size={15} />
+                      </div>
+                      <label className="text-xs font-semibold uppercase tracking-wider text-neutral-600 dark:text-neutral-300">
+                        {t('filters.directors')}
+                      </label>
+                    </div>
                     {options.directors.length > 8 && (
                       <div className="mb-2.5">
                         <input
@@ -720,9 +756,14 @@ export function FilterBar({
                 {/* 7. Acteurs & Casting */}
                 {options.actors && options.actors.length > 0 && (
                   <div>
-                    <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 dark:text-neutral-500 mb-2.5">
-                      Acteurs &amp; Casting
-                    </label>
+                    <div className="flex items-center gap-2 mb-2.5">
+                      <div className="w-[26px] h-[26px] rounded-[8px] bg-black/[0.04] dark:bg-white/[0.08] flex items-center justify-center text-primary shrink-0">
+                        <PeopleOutlineIcon size={15} />
+                      </div>
+                      <label className="text-xs font-semibold uppercase tracking-wider text-neutral-600 dark:text-neutral-300">
+                        {t('filters.actorsAndCasting')}
+                      </label>
+                    </div>
                     {options.actors.length > 8 && (
                       <div className="mb-2.5">
                         <input

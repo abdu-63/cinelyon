@@ -25,11 +25,12 @@ import { PostCreditsBadge } from '@/components/ui/PostCreditsBadge';
 import { ToiletBreaksSection } from '@/components/ui/ToiletBreaksSection';
 import { RottenTomatoesIcon } from '@/components/ui/RottenTomatoesIcon';
 import { JustWatchBadge } from '@/components/ui/JustWatchBadge';
-import { LetterboxdLogo, AllocineLogo, TmdbLogo } from '@/components/ui/BrandIcons';
+import { LetterboxdLogo, AllocineLogo } from '@/components/ui/BrandIcons';
 import { FilmReviewsSection } from '@/components/ui/FilmReviewsSection';
 import { DaySeances } from '@/components/ui/DaySeances';
 import { CinemaBrand } from '@/components/ui/CinemaBrand';
 import { FilmCastSection } from '@/components/ui/FilmCastSection';
+import { FilmCollectionSection, InTheaterFilmCandidate } from '@/components/ui/FilmCollectionSection';
 import { FilmLogo } from '@/components/ui/FilmLogo';
 import { getCachedLogo, FilmLogoResult } from '@/hooks/useFilmLogo';
 import { getStreamingProviderWebUrl } from '@/utils/streamingProviders';
@@ -51,6 +52,7 @@ export interface SimilarMovieItem {
 interface FilmDetailViewProps {
   film: Film;
   similarMovies?: SimilarMovieItem[];
+  allFilms?: InTheaterFilmCandidate[] | Film[];
   isModal?: boolean;
   initialLogo?: FilmLogoResult | null;
   onClose?: () => void;
@@ -67,6 +69,7 @@ function extractYoutubeId(url: string): string | null {
 export const FilmDetailView = memo(function FilmDetailView({
   film,
   similarMovies = [],
+  allFilms = [],
   isModal = false,
   initialLogo,
   onClose,
@@ -81,6 +84,28 @@ export const FilmDetailView = memo(function FilmDetailView({
     : isBlackDark
     ? 'text-white'
     : 'text-primary';
+
+  const formattedAllFilms = useMemo<InTheaterFilmCandidate[]>(() => {
+    return (allFilms as any[]).map((f) => {
+      let cinema = f.cinema;
+      if (!cinema && f.seancesByDay) {
+        const days = Object.keys(f.seancesByDay);
+        if (days.length > 0) {
+          const firstDay = f.seancesByDay[days[0]];
+          const cNames = firstDay ? Object.keys(firstDay) : [];
+          cinema = cNames[0];
+        }
+      }
+      return {
+        slug: f.slug,
+        title: f.title,
+        release_year: f.release_year,
+        cinema: cinema || 'Cinémas de Lyon',
+        poster: f.affiche || f.poster,
+        rating: typeof f.rating === 'string' ? f.rating : undefined,
+      };
+    });
+  }, [allFilms]);
 
   const [isFavorite, setIsFavorite] = useState(false);
   const [copiedShare, setCopiedShare] = useState(false);
@@ -340,12 +365,12 @@ export const FilmDetailView = memo(function FilmDetailView({
 
             {/* TMDB */}
             <div className="p-3 rounded-[18px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm text-center flex flex-col justify-center items-center">
-              <div className="flex items-center gap-1 font-bold text-sm text-[#01B4E4]">
+              <div className="flex items-center gap-1 font-bold text-sm text-neutral-900 dark:text-white">
                 <Star size={14} className="fill-[#01B4E4] text-[#01B4E4]" />
                 <span>{film.tmdb_score || '7'}</span>
               </div>
-              <span className="text-[10px] text-neutral-500 dark:text-neutral-400 mt-1 font-medium flex items-center justify-center">
-                <TmdbLogo width={38} height={10} />
+              <span className="text-[10px] text-neutral-500 dark:text-neutral-400 mt-0.5 font-medium">
+                TMDB
               </span>
             </div>
           </div>
@@ -582,7 +607,18 @@ export const FilmDetailView = memo(function FilmDetailView({
           )}
         </div>
 
-        {/* ── 13. Films similaires à l'affiche à Lyon ── */}
+        {/* ── 13. Films liés / Dans la même saga (Issue #23) ── */}
+        <FilmCollectionSection
+          filmTitle={film.title}
+          releaseYear={film.release_year}
+          affiche={film.affiche}
+          currentFilmSlug={film.slug}
+          allFilms={formattedAllFilms}
+          isModal={isModal}
+          onSelectFilm={onSelectFilm}
+        />
+
+        {/* ── 14. Films similaires à l'affiche à Lyon ── */}
         {similarMovies.length > 0 && (
           <>
             <div className="border-t border-black/[0.06] dark:border-white/10 pt-3" />
@@ -626,11 +662,6 @@ export const FilmDetailView = memo(function FilmDetailView({
                         <div className="absolute top-1.5 right-1.5 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-sm text-white text-[10px] font-normal flex items-center gap-0.5">
                           <Star size={10} className="fill-amber-400 text-amber-400" />
                           <span>{m.rating}</span>
-                        </div>
-                      )}
-                      {m.isInTheaters && (
-                        <div className="absolute bottom-1.5 left-1.5 px-1.5 py-0.5 rounded bg-primary text-primary-contrast text-[8px] font-normal tracking-wider shadow-sm">
-                          À L&apos;AFFICHE
                         </div>
                       )}
                     </div>
