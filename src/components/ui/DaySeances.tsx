@@ -11,6 +11,7 @@ import { isPastSeance } from '@/utils/showtimes';
 import { BRAND_ORDER, getBrand } from '@/lib/constants';
 import { CinemaBrand } from './CinemaBrand';
 import { CalendarDownloadButton } from './CalendarDownloadButton';
+import { FormatBadge } from './FormatBadge';
 
 export interface DaySeancesProps {
   cinemas: Record<string, Seance[]>;
@@ -199,15 +200,7 @@ export const SeancePill = React.memo(function SeancePill({
       <div className="flex items-center justify-between gap-1 text-[9px] font-normal text-[#999] leading-none pt-0.5">
         <span>{langLabel}</span>
         {formatLabel && (
-          <span
-            className={`text-[8px] font-normal uppercase truncate max-w-[42px] ${
-              formatLabel.toLowerCase().includes('35mm')
-                ? 'text-amber-500 font-bold'
-                : 'text-[#999]'
-            }`}
-          >
-            {formatLabel}
-          </span>
+          <FormatBadge format={formatLabel} height={13} />
         )}
       </div>
 

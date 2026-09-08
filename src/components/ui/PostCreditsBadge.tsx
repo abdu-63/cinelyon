@@ -2,7 +2,8 @@
 'use client';
 
 import React from 'react';
-import { Sparkles, Film, HelpCircle } from 'lucide-react';
+import { CineBotSparkIcon } from '@/components/ui/BrandIcons';
+import { ClapperboardSolid } from '@/components/ui/AppIcons';
 import { PostCreditsInfo } from '@/types';
 
 interface PostCreditsBadgeProps {
@@ -27,7 +28,7 @@ export function PostCreditsBadge({ info }: PostCreditsBadgeProps) {
           isPositive ? 'bg-amber-500/20 text-amber-500' : 'bg-neutral-100 dark:bg-white/10 text-neutral-500 dark:text-neutral-400'
         }`}
       >
-        {isPositive ? <Sparkles size={18} /> : <Film size={18} />}
+        {isPositive ? <CineBotSparkIcon size={18} /> : <ClapperboardSolid size={18} />}
       </div>
       <div>
         <div className="flex items-center gap-2">

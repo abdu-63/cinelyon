@@ -4,8 +4,8 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Film, Settings } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
+import { ClapperboardSolid, SettingsStroke } from '@/components/ui/AppIcons';
 
 export default function Header() {
   const pathname = usePathname();
@@ -26,10 +26,6 @@ export default function Header() {
     window.dispatchEvent(new CustomEvent('cinelyon:open-settings'));
   };
 
-  const openCineBot = () => {
-    window.dispatchEvent(new CustomEvent('cinelyon:open-cinebot'));
-  };
-
   return (
     <header
       className={`sticky top-0 z-40 w-full transition-all duration-200 ${
@@ -42,7 +38,7 @@ export default function Header() {
         {/* Logo CinéLyon */}
         <Link href="/" className="flex items-center gap-2.5 group select-none">
           <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center shadow-md shadow-primary/20 group-hover:scale-105 transition-transform border border-black/10 dark:border-white/10">
-            <Film className="w-4 h-4 text-primary-contrast" />
+            <ClapperboardSolid size={18} className="text-primary-contrast" />
           </div>
           <div className="flex items-center gap-1.5">
             <span className="font-montserrat font-extrabold text-lg tracking-tight text-neutral-900 dark:text-white">
@@ -70,7 +66,7 @@ export default function Header() {
             title="Réglages"
             aria-label="Ouvrir les réglages"
           >
-            <Settings size={17} />
+            <SettingsStroke size={18} />
           </button>
         </div>
       </div>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44">
+  <circle cx="22" cy="22" r="21.5" fill="#1E1E1E" stroke="#333333" stroke-width="1"/>
+  <g transform="translate(11, 11) scale(0.044)">
+    <defs>
+      <rect id="lb-btn-d-path-1" x="0" y="0" width="129.8" height="141.4"/>
+      <rect id="lb-btn-d-path-3" x="0" y="0" width="129.8" height="141.4"/>
+    </defs>
+    <g transform="translate(61, 180)">
+      <ellipse fill="#00E054" cx="189" cy="70" rx="70" ry="70"/>
+      <g transform="translate(248, 0)">
+        <mask id="lb-btn-d-mask-2" fill="white">
+          <rect x="0" y="0" width="129.8" height="141.4"/>
+        </mask>
+        <ellipse fill="#40BCF4" mask="url(#lb-btn-d-mask-2)" cx="60" cy="70" rx="70" ry="70"/>
+      </g>
+      <g>
+        <mask id="lb-btn-d-mask-4" fill="white">
+          <rect x="0" y="0" width="129.8" height="141.4"/>
+        </mask>
+        <ellipse fill="#FF8000" mask="url(#lb-btn-d-mask-4)" cx="70" cy="70" rx="70" ry="70"/>
+      </g>
+      <path d="M129.5,107 C122.8,96.3 118.9,83.6 118.9,70 C118.9,56.4 122.8,43.7 129.5,33 C136.3,43.7 140.2,56.4 140.2,70 C140.2,83.6 136.3,96.3 129.5,107 Z" fill="#556677"/>
+      <path d="M248.5,33 C255.2,43.7 259.1,56.4 259.1,70 C259.1,83.6 255.2,96.3 248.5,107 C241.7,96.3 237.8,83.6 237.8,70 C237.8,56.4 241.7,43.7 248.5,33 Z" fill="#556677"/>
+    </g>
+  </g>
+</svg>

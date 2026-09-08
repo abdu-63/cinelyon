@@ -25,7 +25,7 @@ import { PostCreditsBadge } from '@/components/ui/PostCreditsBadge';
 import { ToiletBreaksSection } from '@/components/ui/ToiletBreaksSection';
 import { RottenTomatoesIcon } from '@/components/ui/RottenTomatoesIcon';
 import { JustWatchBadge } from '@/components/ui/JustWatchBadge';
-import { LetterboxdLogo, AllocineLogo } from '@/components/ui/BrandIcons';
+import { LetterboxdLogo, AllocineLogo, TmdbLogo } from '@/components/ui/BrandIcons';
 import { FilmReviewsSection } from '@/components/ui/FilmReviewsSection';
 import { DaySeances } from '@/components/ui/DaySeances';
 import { CinemaBrand } from '@/components/ui/CinemaBrand';
@@ -344,8 +344,8 @@ export const FilmDetailView = memo(function FilmDetailView({
                 <Star size={14} className="fill-[#01B4E4] text-[#01B4E4]" />
                 <span>{film.tmdb_score || '7'}</span>
               </div>
-              <span className="text-[10px] text-neutral-500 dark:text-neutral-400 mt-0.5 font-medium">
-                TMDB
+              <span className="text-[10px] text-neutral-500 dark:text-neutral-400 mt-1 font-medium flex items-center justify-center">
+                <TmdbLogo width={38} height={10} />
               </span>
             </div>
           </div>

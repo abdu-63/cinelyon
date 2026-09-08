@@ -1,4 +1,5 @@
 // src/components/ui/RottenTomatoesIcon.tsx
+// Logo Rotten Tomatoes vectoriel officiel de CinéLyon App
 import React from 'react';
 
 interface RottenTomatoesIconProps {
@@ -16,19 +17,23 @@ export function RottenTomatoesIcon({ size = 16, className = '' }: RottenTomatoes
       xmlns="http://www.w3.org/2000/svg"
       className={className}
     >
-      {/* Tomato Body */}
-      <circle cx="12" cy="14" r="8" fill="#FA320A" />
       <path
-        d="M12 7C9.5 7 5 9 5 14C5 18.5 8.5 21 12 21C15.5 21 19 18.5 19 14C19 9 14.5 7 12 7Z"
+        d="M12 5.5C7.2 5.5 3.5 8.6 3.5 13.8C3.5 18.2 7.2 21.2 12 21.2C16.8 21.2 20.5 18.2 20.5 13.8C20.5 8.6 16.8 5.5 12 5.5Z"
         fill="#FA320A"
       />
-      {/* Tomato Green Leaf / Stem */}
       <path
-        d="M12 4V7M12 7L9 5M12 7L15 5M12 7L8 8M12 7L16 8"
-        stroke="#469632"
-        strokeWidth="1.8"
+        d="M7 10.5C6.5 12 6.5 14 7.2 15.5"
+        stroke="#FF6B4A"
+        strokeWidth="1.2"
         strokeLinecap="round"
-        strokeLinejoin="round"
+      />
+      <path
+        d="M12 5.8C11.2 3.8 12.2 2.2 12.6 1.8C12.4 2.8 13.2 3.4 14.2 3.2C15.2 3 16 2 16.5 1.5C16.2 3 14.8 4.2 13.5 4.8C14.8 4.7 16.5 4.2 17.5 3.8C16.5 5.2 14.5 5.8 12.8 6L12 5.8Z"
+        fill="#4E9E28"
+      />
+      <path
+        d="M11.5 5.8C10 4.2 8 3.8 7 3.8C8 4.8 9.5 5.2 10.5 5.8C9 5.8 7.5 6.2 6.5 7.2C8 7 9.5 6.8 11 6.5L11.5 5.8Z"
+        fill="#4E9E28"
       />
     </svg>
   );

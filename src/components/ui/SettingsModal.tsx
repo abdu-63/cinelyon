@@ -33,6 +33,12 @@ import {
 import { useTheme } from '@/context/ThemeContext';
 import { useTranslation, SUPPORTED_LANGUAGES, SupportedLocale } from '@/i18n';
 import { FlagIcon } from '@/components/ui/FlagIcon';
+import {
+  LetterboxdLogo,
+  SerializdLogo,
+  TwitterLogo,
+  InstagramLogo,
+} from '@/components/ui/BrandIcons';
 
 interface FriendItem {
   id: string;
@@ -1041,6 +1047,69 @@ export function SettingsModal() {
                 <p className="text-xs text-neutral-500 dark:text-neutral-400 px-3 pt-1.5 leading-relaxed font-normal">
                   {t('settings.gdprDesc')}
                 </p>
+              </div>
+
+              {/* ── 6. RÉSEAUX SOCIAUX & LIENS OFFICIELS (CinéLyon App Style) ── */}
+              <div className="pt-5 pb-3 flex flex-col items-center gap-4">
+                <div className="flex items-center justify-center gap-3">
+                  {/* Letterboxd */}
+                  <a
+                    href="https://boxd.it/6GBU5"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-11 h-11 rounded-full bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 flex items-center justify-center text-neutral-700 dark:text-neutral-200 hover:border-primary/40 dark:hover:border-primary/40 hover:text-primary hover:scale-105 active:scale-95 transition-all shadow-sm"
+                    title="Letterboxd @CineLyon"
+                    aria-label="Profil Letterboxd de CinéLyon"
+                  >
+                    <LetterboxdLogo width={20} height={20} />
+                  </a>
+
+                  {/* Serializd */}
+                  <a
+                    href="https://srlzd.com/u/skyfear"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-11 h-11 rounded-full bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 flex items-center justify-center text-neutral-700 dark:text-neutral-200 hover:border-primary/40 dark:hover:border-primary/40 hover:text-primary hover:scale-105 active:scale-95 transition-all shadow-sm"
+                    title="Serializd"
+                    aria-label="Profil Serializd"
+                  >
+                    <SerializdLogo size={20} />
+                  </a>
+
+                  {/* Twitter / X */}
+                  <a
+                    href="https://x.com/abduplt?s=21"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-11 h-11 rounded-full bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 flex items-center justify-center text-neutral-800 dark:text-neutral-200 hover:border-primary/40 dark:hover:border-primary/40 hover:text-primary hover:scale-105 active:scale-95 transition-all shadow-sm"
+                    title="Twitter / X @abduplt"
+                    aria-label="Compte Twitter de CinéLyon"
+                  >
+                    <TwitterLogo size={17} />
+                  </a>
+
+                  {/* Instagram */}
+                  <a
+                    href="https://www.instagram.com/cinelyon.fr/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-11 h-11 rounded-full bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/10 flex items-center justify-center text-neutral-700 dark:text-neutral-200 hover:border-primary/40 dark:hover:border-primary/40 hover:text-primary hover:scale-105 active:scale-95 transition-all shadow-sm"
+                    title="Instagram @cinelyon.fr"
+                    aria-label="Page Instagram officielle de CinéLyon"
+                  >
+                    <InstagramLogo size={20} />
+                  </a>
+                </div>
+
+                {/* Footer App Version & Craft */}
+                <div className="text-center space-y-0.5">
+                  <p className="text-xs text-neutral-500 dark:text-neutral-400 font-medium">
+                    CinéLyon Web · v2.0
+                  </p>
+                  <p className="text-[11px] text-neutral-400 dark:text-neutral-500">
+                    {t('settings.craftedWithLove')}
+                  </p>
+                </div>
               </div>
             </div>
           </motion.div>

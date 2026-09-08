@@ -5,24 +5,29 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Film, Heart, Sparkles, Settings } from 'lucide-react';
 import { useTranslation } from '@/i18n';
 import { useTheme } from '@/context/ThemeContext';
+import {
+  ClapperboardIcon,
+  HeartNavIcon,
+  SettingsNavIcon,
+} from '@/components/ui/AppIcons';
+import { CineBotSparkIcon } from '@/components/ui/BrandIcons';
 
 interface NavItem {
   key: string;
   href: string;
   labelKey: string;
-  icon: React.ComponentType<{ className?: string; size?: number; style?: React.CSSProperties }>;
+  icon: React.ComponentType<{ className?: string; size?: number; style?: React.CSSProperties; isActive?: boolean }>;
   isAction?: boolean;
   actionId?: string;
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { key: 'films', href: '/', labelKey: 'navigation.films', icon: Film },
-  { key: 'favorites', href: '/#favorites', labelKey: 'navigation.favorites', icon: Heart },
-  { key: 'cinebot', href: '#cinebot', labelKey: 'cinebot.title', icon: Sparkles, isAction: true, actionId: 'open-cinebot' },
-  { key: 'settings', href: '#settings', labelKey: 'navigation.settings', icon: Settings, isAction: true, actionId: 'open-settings' },
+  { key: 'films', href: '/', labelKey: 'navigation.films', icon: ClapperboardIcon },
+  { key: 'favorites', href: '/#favorites', labelKey: 'navigation.favorites', icon: HeartNavIcon },
+  { key: 'cinebot', href: '#cinebot', labelKey: 'cinebot.title', icon: CineBotSparkIcon, isAction: true, actionId: 'open-cinebot' },
+  { key: 'settings', href: '#settings', labelKey: 'navigation.settings', icon: SettingsNavIcon, isAction: true, actionId: 'open-settings' },
 ];
 
 export function FloatingLiquidGlassTabBar() {
@@ -68,7 +73,7 @@ export function FloatingLiquidGlassTabBar() {
                 aria-label={t(item.labelKey)}
                 className="relative flex flex-col items-center justify-center w-14 h-12 rounded-full transition-transform active:scale-95 text-neutral-400 hover:text-white"
               >
-                <Icon size={20} className="stroke-[2.2]" />
+                <Icon size={20} className="transition-transform active:scale-90" />
                 <span className="text-[10px] font-medium tracking-tight mt-0.5 opacity-80">{t(item.labelKey)}</span>
               </button>
             );
@@ -96,7 +101,8 @@ export function FloatingLiquidGlassTabBar() {
               )}
               <Icon
                 size={20}
-                className="stroke-[2.2] relative z-10 drop-shadow-sm"
+                isActive={isActive}
+                className="relative z-10 drop-shadow-sm transition-all"
                 style={{ color: isActive ? activeIconColor : undefined }}
               />
               <span
