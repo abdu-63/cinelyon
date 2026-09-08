@@ -179,10 +179,8 @@ export const FilmCollectionSection = memo(function FilmCollectionSection({
 
           const cardContent = (
             <div
-              className={`relative aspect-[2/3] rounded-[18px] overflow-hidden shadow-sm border bg-neutral-200 dark:bg-[#1c1c1e] transition-all ${
-                isCurrent
-                  ? 'border-primary ring-2 ring-primary/40'
-                  : 'border-black/10 dark:border-white/10 group-hover:border-primary/40'
+              className={`relative aspect-[2/3] rounded-[18px] overflow-hidden shadow-sm border border-black/10 dark:border-white/10 bg-neutral-200 dark:bg-[#1c1c1e] transition-all ${
+                isCurrent ? '' : 'group-hover:border-primary/40'
               }`}
             >
               {part.posterUrl ? (
@@ -211,11 +209,11 @@ export const FilmCollectionSection = memo(function FilmCollectionSection({
 
               {/* Badges d'état */}
               {isCurrent ? (
-                <div className="absolute bottom-1.5 left-1.5 px-1.5 py-0.5 rounded bg-primary text-primary-contrast text-[8px] font-bold tracking-wider shadow-sm">
+                <div className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded-full bg-primary text-primary-contrast text-[8px] font-bold tracking-wider shadow-sm">
                   {t('filmDetail.currentMovie') || 'CE FILM'}
                 </div>
               ) : isUpcoming ? (
-                <div className="absolute bottom-1.5 left-1.5 px-1.5 py-0.5 rounded bg-black/65 backdrop-blur-xs text-white text-[8px] font-normal tracking-wider">
+                <div className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded-full bg-black/65 backdrop-blur-xs text-white text-[8px] font-normal tracking-wider">
                   {t('filmDetail.upcoming') || 'À VENIR'}
                 </div>
               ) : null}
