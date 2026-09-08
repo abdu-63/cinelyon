@@ -12,8 +12,9 @@
   - [x] Ajouter l'option dans `src/components/ui/SettingsModal.tsx` ("Préférer les logos originaux (VO)")
 
 - [x] **Tâche 3 : Bannière de scène de film format Letterboxd / Mobile Full-Width** (Issue #123)
-  - [x] Mettre à jour le hero dans `src/components/ui/FilmDetailView.tsx` avec effet Letterboxd dégradé latéral sur desktop et pleine largeur immersive sur mobile
-  - [x] Intégrer `FilmLogo` avec transition fluide au chargement
+  - [x] Mettre à jour le hero dans `src/components/ui/FilmDetailView.tsx` avec effet Letterboxd dégradé latéral doux + flou sur desktop et pleine largeur immersive sans bordures arrondies ni ombres
+  - [x] Réduire la hauteur de l'image sur mobile (de 270px à 185px) pour un affichage compact et équilibré
+  - [x] Intégrer `FilmLogo` avec transition fluide au chargement et dimensionnement adapté mobile
 
 - [x] **Tâche 4 : Refonte du calendrier de séances dans la fiche film** (Issue #143)
   - [x] Implémenter le mini-calendrier horizontal interactif dans `src/components/ui/FilmDetailView.tsx`

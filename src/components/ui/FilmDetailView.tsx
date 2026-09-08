@@ -225,11 +225,16 @@ export const FilmDetailView = memo(function FilmDetailView({
 
   const youtubeId = film.trailer_url ? extractYoutubeId(film.trailer_url) : null;
 
+  const displayRating = React.useMemo(() => {
+    if (!film.rating || film.rating === 'Note inconnue') return null;
+    return film.rating.includes('/5') ? film.rating : `${film.rating}/5`;
+  }, [film.rating]);
+
   return (
     <div className={`w-full pb-24 bg-[#f5f6f8] dark:bg-[#121214] text-neutral-900 dark:text-white ${isModal ? 'pt-0' : 'min-h-screen'}`}>
-      <div className="max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto px-3 sm:px-4 space-y-4">
-        {/* ── Floating Action Bar (Sticky top) ── */}
-        <div className="sticky top-3 sm:top-4 z-40 flex items-center justify-between pointer-events-none -mb-12 sm:-mb-14 pt-1 px-1">
+      {/* ── Floating Action Bar (Sticky top) ── */}
+      <div className="sticky top-3 sm:top-4 z-40 w-full pointer-events-none -mb-12 sm:-mb-14 pt-1 px-3 sm:px-4">
+        <div className="max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto flex items-center justify-between">
           {isModal && onClose ? (
             <button
               type="button"
@@ -273,9 +278,12 @@ export const FilmDetailView = memo(function FilmDetailView({
             </button>
           </div>
         </div>
+      </div>
 
-        {/* ── 1. Hero Backdrop Banner (Letterboxd Style on Desktop / Full-Width on Mobile) ── */}
-        <div className="relative -mx-3 sm:mx-0 w-[calc(100%+1.5rem)] sm:w-full h-[270px] sm:h-[340px] md:h-[390px] rounded-none sm:rounded-[24px] overflow-hidden shadow-md sm:shadow-lg mt-0 sm:mt-2 bg-neutral-950 group">
+      {/* ── 1. Hero Backdrop Banner (Letterboxd Style on Desktop / 265px on Mobile matching cinelyon-app) ── */}
+      <div className="relative w-full h-[265px] sm:h-[300px] md:h-[340px] lg:h-[370px] xl:h-[390px] overflow-hidden bg-[#f5f6f8] dark:bg-[#121214] select-none">
+        {/* Centered Backdrop Area on Desktop (de-zoomed 16:9 ratio preservation), Full Width on Mobile */}
+        <div className="relative w-full h-full max-w-[960px] lg:max-w-[1020px] xl:max-w-[1080px] mx-auto overflow-hidden">
           <img
             src={
               film.backdrop
@@ -285,38 +293,65 @@ export const FilmDetailView = memo(function FilmDetailView({
                 : film.affiche || '/images/nocontent.png'
             }
             alt={film.title}
-            className="w-full h-full object-cover sm:object-center select-none"
+            className="w-full h-full object-cover object-[center_20%] select-none"
             loading="eager"
           />
 
-          {/* Letterboxd-style soft lateral vignettes / gradients on desktop */}
-          <div className="hidden sm:block absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#f5f6f8] dark:from-[#121214] via-[#f5f6f8]/40 dark:via-[#121214]/40 to-transparent pointer-events-none" />
-          <div className="hidden sm:block absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#f5f6f8] dark:from-[#121214] via-[#f5f6f8]/40 dark:via-[#121214]/40 to-transparent pointer-events-none" />
+          {/* Letterboxd-style narrow edge fade on desktop (subtle transition, no blurry milk effect) */}
+          <div
+            className="hidden sm:block absolute inset-y-0 left-0 w-12 sm:w-16 md:w-20 pointer-events-none z-10"
+            style={{
+              background: isDark
+                ? 'linear-gradient(to right, #121214 0%, rgba(18, 18, 20, 0.75) 25%, rgba(18, 18, 20, 0.2) 65%, transparent 100%)'
+                : 'linear-gradient(to right, #f5f6f8 0%, rgba(245, 246, 248, 0.75) 25%, rgba(245, 246, 248, 0.2) 65%, transparent 100%)',
+            }}
+          />
+          <div
+            className="hidden sm:block absolute inset-y-0 right-0 w-12 sm:w-16 md:w-20 pointer-events-none z-10"
+            style={{
+              background: isDark
+                ? 'linear-gradient(to left, #121214 0%, rgba(18, 18, 20, 0.75) 25%, rgba(18, 18, 20, 0.2) 65%, transparent 100%)'
+                : 'linear-gradient(to left, #f5f6f8 0%, rgba(245, 246, 248, 0.75) 25%, rgba(245, 246, 248, 0.2) 65%, transparent 100%)',
+            }}
+          />
 
           {/* Top dark subtle gradient for buttons readability */}
-          <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/60 via-black/20 to-transparent pointer-events-none" />
+          <div className="absolute inset-x-0 top-0 h-16 sm:h-20 bg-gradient-to-b from-black/60 via-black/20 to-transparent pointer-events-none z-10" />
 
           {/* Bottom gradient fade into page background */}
-          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#f5f6f8] dark:from-[#121214] via-[#f5f6f8]/60 dark:via-[#121214]/60 to-transparent pointer-events-none" />
+          <div
+            className="absolute inset-x-0 bottom-0 h-20 sm:h-24 md:h-28 pointer-events-none z-10"
+            style={{
+              background: isDark
+                ? 'linear-gradient(to top, #121214 0%, rgba(18, 18, 20, 0.85) 30%, rgba(18, 18, 20, 0.3) 65%, transparent 100%)'
+                : 'linear-gradient(to top, #f5f6f8 0%, rgba(245, 246, 248, 0.85) 30%, rgba(245, 246, 248, 0.3) 65%, transparent 100%)',
+            }}
+          />
+        </div>
 
-          {/* ClearLogo / Titre superposé en bas de la bannière */}
-          <div className="absolute bottom-3 left-4 right-4 z-20 flex flex-col items-start min-h-[48px] justify-end">
+        {/* ClearLogo / Titre superposé en bas de la bannière (aligné avec la colonne de contenu) */}
+        <div className="absolute bottom-2.5 sm:bottom-4 inset-x-0 z-20 pointer-events-none">
+          <div className="max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto px-3 sm:px-4 flex flex-col items-start justify-end min-h-[44px] sm:min-h-[48px]">
             <FilmLogo
               title={film.title}
               releaseYear={film.release_year}
               afficheUrl={film.affiche}
               initialLogo={initialLogo}
               onLogoLoaded={(found) => setHasLogo(found)}
-              className="mb-1"
+              className="mb-1 pointer-events-auto"
             />
             {/* Le titre brut ne s'affiche STRICTEMENT que si le film n'a AUCUN logo sur TMDB (hasLogo === false) */}
             {hasLogo === false && (
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-montserrat font-extrabold text-white tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)]">
+              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-montserrat font-extrabold text-white tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)] pointer-events-auto">
                 {film.title}
               </h1>
             )}
           </div>
         </div>
+      </div>
+
+      {/* ── Content Container ── */}
+      <div className="max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto px-3 sm:px-4 space-y-4 pt-2 sm:pt-3">
 
         {/* ── 2. Métadonnées & Genres ── */}
         <div className="space-y-2 px-1">
@@ -339,37 +374,37 @@ export const FilmDetailView = memo(function FilmDetailView({
             </div>
           )}
 
-          {/* ── 3. Scorecards ── */}
-          <div className="grid grid-cols-3 gap-2 pt-2">
+          {/* ── 3. Scorecards (Fidèle à l'application mobile CinéLyon — 14px radius, compact padding) ── */}
+          <div className="grid grid-cols-3 gap-2 pt-1.5">
             {/* Note Spectateurs */}
-            <div className="p-3 rounded-[18px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm text-center flex flex-col justify-center items-center">
-              <div className="flex items-center gap-1 font-bold text-sm text-neutral-900 dark:text-white">
-                <Star size={14} className="fill-amber-400 text-amber-400" />
-                <span>{film.rating && film.rating !== 'Note inconnue' ? `${film.rating}/5` : '2.3/5'}</span>
+            <div className="py-2 px-1.5 sm:py-2 sm:px-2.5 rounded-[14px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm text-center flex flex-col justify-center items-center h-[50px] sm:h-[54px]">
+              <div className="flex items-center gap-1 font-extrabold text-[13px] sm:text-sm text-neutral-900 dark:text-white">
+                <Star size={13} className="fill-amber-400 text-amber-400 shrink-0" />
+                <span>{displayRating || '2.3/5'}</span>
               </div>
-              <span className="text-[10px] text-neutral-500 dark:text-neutral-400 mt-0.5 font-medium">
+              <span className="text-[9.5px] sm:text-[10px] font-semibold text-neutral-500 dark:text-neutral-400 mt-0.5 truncate max-w-full px-0.5">
                 Critiques Spectateurs
               </span>
             </div>
 
             {/* Rotten Tomatoes */}
-            <div className="p-3 rounded-[18px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm text-center flex flex-col justify-center items-center">
-              <div className="flex items-center gap-1.5 font-bold text-sm text-neutral-900 dark:text-white">
-                <RottenTomatoesIcon size={16} />
+            <div className="py-2 px-1.5 sm:py-2 sm:px-2.5 rounded-[14px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm text-center flex flex-col justify-center items-center h-[50px] sm:h-[54px]">
+              <div className="flex items-center gap-1 font-extrabold text-[13px] sm:text-sm text-neutral-900 dark:text-white">
+                <RottenTomatoesIcon size={14} className="shrink-0" />
                 <span>{film.rt_score || '59%'}</span>
               </div>
-              <span className="text-[10px] text-neutral-500 dark:text-neutral-400 mt-0.5 font-medium">
+              <span className="text-[9.5px] sm:text-[10px] font-semibold text-neutral-500 dark:text-neutral-400 mt-0.5 truncate max-w-full px-0.5">
                 Rotten Tomatoes
               </span>
             </div>
 
             {/* TMDB */}
-            <div className="p-3 rounded-[18px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm text-center flex flex-col justify-center items-center">
-              <div className="flex items-center gap-1 font-bold text-sm text-neutral-900 dark:text-white">
-                <Star size={14} className="fill-[#01B4E4] text-[#01B4E4]" />
+            <div className="py-2 px-1.5 sm:py-2 sm:px-2.5 rounded-[14px] bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/10 shadow-sm text-center flex flex-col justify-center items-center h-[50px] sm:h-[54px]">
+              <div className="flex items-center gap-1 font-extrabold text-[13px] sm:text-sm text-neutral-900 dark:text-white">
+                <Star size={13} className="fill-[#01B4E4] text-[#01B4E4] shrink-0" />
                 <span>{film.tmdb_score || '7'}</span>
               </div>
-              <span className="text-[10px] text-neutral-500 dark:text-neutral-400 mt-0.5 font-medium">
+              <span className="text-[9.5px] sm:text-[10px] font-semibold text-neutral-500 dark:text-neutral-400 mt-0.5 truncate max-w-full px-0.5">
                 TMDB
               </span>
             </div>

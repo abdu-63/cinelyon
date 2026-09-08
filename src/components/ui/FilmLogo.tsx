@@ -101,7 +101,7 @@ export const FilmLogo = React.memo(function FilmLogo({
       <img
         src={logoUrl}
         alt={`${title} Logo`}
-        className="max-h-[64px] sm:max-h-[80px] md:max-h-[96px] max-w-[75%] sm:max-w-[65%] object-contain drop-shadow-[0_4px_16px_rgba(0,0,0,0.7)]"
+        className="max-h-[56px] sm:max-h-[80px] md:max-h-[96px] max-w-[75%] sm:max-w-[65%] object-contain drop-shadow-[0_4px_16px_rgba(0,0,0,0.7)]"
         style={aspectRatio ? { aspectRatio: `${aspectRatio}` } : undefined}
         loading="eager"
         decoding="async"
